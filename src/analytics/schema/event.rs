@@ -43,11 +43,11 @@ impl Provider {
     }
 
     fn update_event(&self, event: &Event) -> Result<Event> {}
-    fn get_event_by_id(&self, id: u64) -> Result<Event> {}
-    fn get_event_by_name(&self, project_id: u64, name: String) -> Result<Event> {}
+    fn get_event_by_id(&self, id: u64) -> Result<Option<Event>> {} // option for not found
+    fn get_event_by_name(&self, project_id: u64, name: String) -> Result<Option<Event>> {}
     fn delete_event(&self, id: u64) -> Result<()> {}
     fn enable_event(&self, id: u64) -> Result<()> {}
     fn disable_event(&self, id: u64) -> Result<()> {}
-    fn list_events(&self, project_id: u64) -> Result<Vec<Event>> {}
+    fn list_events(&self, project_id: u64) -> Result<Option<Vec<Event>>> {}
     fn event_table_provider(&self) -> Arc<dyn TableProvider> {}
 }
