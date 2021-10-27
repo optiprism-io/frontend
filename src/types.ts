@@ -1,3 +1,5 @@
+import {numberToPos} from "vite/dist/node/utils";
+
 export enum DataType {
     String,
     Float64,
@@ -22,6 +24,11 @@ export enum PropertyType {
     EventCustom,
     User,
     UserCustom
+}
+
+export type PropertyRef = {
+    type: PropertyType;
+    id: number;
 }
 
 export enum EventStatus {

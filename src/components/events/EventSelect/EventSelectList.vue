@@ -52,10 +52,10 @@
 </template>
 
 <script setup lang="ts">
-import {lexiconStore} from '../../stores/lexicon'
-import {CustomEvent, Event, EventRef, EventType, eventRef, customEventRef} from '../../types'
+import {lexiconStore} from '../../../stores/lexicon'
+import {CustomEvent, Event, EventRef, EventType, eventRef, customEventRef} from '../../../types'
 import {computed, ref} from "vue";
-import {eventSegmentationStore} from "../../stores/eventSegmentation";
+import {eventSegmentationStore} from "../../../stores/eventSegmentation";
 import EventSelectListItem from "./EventSelectListItem.vue";
 
 const lexicon = lexiconStore();
@@ -134,18 +134,4 @@ const eventName = (ref: EventRef): string => {
   }
   throw new Error("unhandled");
 };
-
-const handleDeleteEvent = (idx: number): void => {
-  eventSegmentation.deleteEvent(idx)
-}
 </script>
-
-<style scoped>
-.pf-c-menu__list-manual-item {
-
-}
-
-.pf-c-menu__list-manual-item--selected {
-  background-color: var(--pf-c-menu__list-item--hover--BackgroundColor);
-}
-</style>
