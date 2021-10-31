@@ -4,10 +4,10 @@
     <template #content={close}>
       <div class="pf-c-card pf-m-compact pf-u-min-width" style="--pf-u-min-width--MinWidth: 700px;">
         <div class="pf-l-grid pf-m-all-6-col">
-          <div class="pf-l-grid__item event-select__select">
-            <EventSelectList @select="selectEvent($event,close)" @hover="hoverEvent" :selected="selected"/>
+          <div class="pf-l-grid__item property-select__select">
+            <PropertySelectList @select="selectProperty($event,close)" @hover="hoverProperty" :selected="selected" :event-ref="eventRef"/>
           </div>
-          <div class="pf-l-grid__item event-select__description">
+          <div class="pf-l-grid__item property-select__description">
             <div class="pf-c-card__body">df</div>
           </div>
         </div>
@@ -18,32 +18,33 @@
 
 <script setup lang="ts">
 import Popper from "../../../vue3-popper";
-import EventSelectList from "./EventSelectList.vue";
-import {EventRef} from "../../../types";
+import PropertySelectList from "./PropertySelectList.vue";
+import {EventRef, PropertyRef} from "../../../types";
 import {onMounted, proxyRefs, ref, toRefs, useSlots, withDefaults} from "vue";
 
 const emit = defineEmits<{
-  (e: 'select', ref: EventRef): void
+  (e: 'select', ref: PropertyRef): void
 }>()
 
 const props = defineProps<{
-  selected?: EventRef;
+  eventRef: EventRef;
+  selected?: PropertyRef;
 }>();
 
 let key = ref(0);
 
-const selectEvent = (ref: EventRef, close: () => void): void => {
+const selectProperty = (ref: PropertyRef, close: () => void): void => {
   close();
   key.value++;
   emit('select', ref);
 }
 
-const hoverEvent = (ref: EventRef): void => {
+const hoverProperty = (ref: PropertyRef): void => {
 }
 </script>
 
 <style scoped>
-.event-select__description {
+.property-select__description {
   border-left: 1px solid #d2d2d2;
 }
 </style>

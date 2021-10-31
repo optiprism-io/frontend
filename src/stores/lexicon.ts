@@ -7,7 +7,7 @@ import {
     Event,
     EventCustomProperty,
     EventStatus,
-    UserProperty, EventType,
+    UserProperty, EventType, EventRef,
 } from '../types'
 
 type Lexicon = {
@@ -355,14 +355,50 @@ export const lexiconStore = defineStore('lexicon', {
                 throw new Error(`undefined custom event id: {$id}`)
             }
         },
-        filterEventProperties(state: Lexicon) {
+        findEventProperties(state: Lexicon) {
             return (eventId: number): EventProperty[] => {
                 return state.eventProperties.filter((prop): boolean => prop.eventId === eventId)
             }
         },
-        filterEventCustomProperties(state: Lexicon) {
+        findEventCustomProperties(state: Lexicon) {
             return (eventId: number): EventCustomProperty[] => {
                 return state.eventCustomProperties.filter((prop): boolean => prop.eventId === eventId)
+            }
+        },
+        findEventPropertyById(state: Lexicon) {
+            return (id: number): EventProperty => {
+                let e = state.eventProperties.find((prop): boolean => prop.id === id)
+                if (e) {
+                    return e
+                }
+                throw new Error(`undefined property id: {$id}`)
+            }
+        },
+        findEventCustomPropertyById(state: Lexicon) {
+            return (id: number): EventCustomProperty => {
+                let e = state.eventCustomProperties.find((prop): boolean => prop.id === id)
+                if (e) {
+                    return e
+                }
+                throw new Error(`undefined custom property id: {$id}`)
+            }
+        },
+        findUserPropertyById(state: Lexicon) {
+            return (id: number): UserProperty => {
+                let e = state.userProperties.find((prop): boolean => prop.id === id)
+                if (e) {
+                    return e
+                }
+                throw new Error(`undefined user property id: {$id}`)
+            }
+        },
+        findUserCustomPropertyById(state: Lexicon) {
+            return (id: number): UserCustomProperty => {
+                let e = state.userCustomProperties.find((prop): boolean => prop.id === id)
+                if (e) {
+                    return e
+                }
+                throw new Error(`undefined user custom property id: {$id}`)
             }
         },
     },

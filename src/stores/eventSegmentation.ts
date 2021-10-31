@@ -70,6 +70,9 @@ export const eventSegmentationStore = defineStore('eventSegmentation', {
             this.events.splice(idx, 1);
         },
         addFilter(idx: number): void {
+            if (this.events[idx].filters.find((filter): boolean => filter.op === undefined)) {
+                return
+            }
             this.events[idx].filters.push(<EventFilter>{step: FilterStep.SelectPropertyPop});
         },
         removeFilter(idx: number): void {

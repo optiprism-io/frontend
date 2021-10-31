@@ -1,4 +1,5 @@
 import {numberToPos} from "vite/dist/node/utils";
+import {Prop} from "vue";
 
 export enum DataType {
     String,
@@ -49,6 +50,23 @@ export function customEventRef(e: CustomEvent): EventRef {
     return <EventRef>{type: EventType.Custom, id: e.id}
 }
 
+export function eventPropertyRef(e: EventProperty): PropertyRef {
+    return <PropertyRef>{type: PropertyType.Event, id: e.id}
+}
+
+export function eventCustomPropertyRef(e: EventCustomProperty): PropertyRef {
+    return <PropertyRef>{type: PropertyType.EventCustom, id: e.id}
+}
+
+export function userPropertyRef(e: UserProperty): PropertyRef {
+    return <PropertyRef>{type: PropertyType.User, id: e.id}
+}
+
+export function userCustomPropertyRef(e: UserCustomProperty): PropertyRef {
+    return <PropertyRef>{type: PropertyType.UserCustom, id: e.id}
+}
+
+
 export interface CustomEvent {
     id: number;
     createdAt: Date;
@@ -90,6 +108,7 @@ export interface EventProperty {
     is_dictionary: boolean;
     dictionary_type?: DataType;
 }
+
 
 export interface EventCustomProperty {
     id: number;

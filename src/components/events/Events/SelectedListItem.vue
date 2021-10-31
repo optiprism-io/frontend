@@ -4,8 +4,8 @@
       <div class="pf-l-flex__item selected-list-item__identifier">{{ identifier }}.</div>
       <div class="pf-c-action-list">
         <div class="pf-c-action-list__item">
-          <EventSelect @select="changeEvent" :selected="event.ref">
-            <button class="pf-c-button pf-m-secondary" type="button">{{ eventName(event.ref) }}</button>
+          <EventSelect @select="changeEvent" :selected="eventRef">
+            <button class="pf-c-button pf-m-secondary" type="button">{{ eventName(eventRef) }}</button>
           </EventSelect>
         </div>
         <div class="pf-c-action-list__item" v-show="showControls">
@@ -20,12 +20,13 @@
         </div>
       </div>
     </div>
-    <FilterItem v-for="(filter,index) in event.filters" :filter="filter" :index="index" @remove-filter="removeFilter"/>
+    <FilterItem v-for="(filter,index) in filters" :event-ref="eventRef" :filter="filter" :index="index"
+                @remove-filter="removeFilter"/>
   </div>
 </template>
 
 <script setup lang="ts">
-import {eventSegmentationStore, Event} from "../../../stores/eventSegmentation";
+import {eventSegmentationStore, Event, EventFilter} from "../../../stores/eventSegmentation";
 import EventSelect from '../EventSelect/EventSelect.vue';
 import {EventRef, EventType} from "../../../types";
 import {lexiconStore} from "../../../stores/lexicon";
@@ -36,7 +37,8 @@ const eventSegmentation = eventSegmentationStore();
 const events = eventSegmentation.events;
 
 const props = defineProps<{
-  event: Event;
+  eventRef: EventRef;
+  filters: EventFilter[]
   index: number;
 }>()
 

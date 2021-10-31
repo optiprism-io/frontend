@@ -17,8 +17,8 @@
         <ul class="pf-c-menu__list">
           <EventSelectListItem v-for="ref in popularEvents" :eventRef="ref" :text="eventName(ref)"
                                :selected="selected"
-                               @hover="onHoverEvent"
-                               @click="onClickEvent"
+                               @hover="hoverEvent"
+                               @click="selectEvent"
 
           ></EventSelectListItem>
         </ul>
@@ -29,8 +29,8 @@
         <ul class="pf-c-menu__list">
           <EventSelectListItem v-for="event in customEvents" :eventRef="customEventRef(event)" :text="event.name"
                                :selected="selected"
-                               @hover="onHoverEvent"
-                               @click="onClickEvent"
+                               @hover="hoverEvent"
+                               @click="selectEvent"
           ></EventSelectListItem>
         </ul>
       </section>
@@ -42,8 +42,8 @@
         <ul class="pf-c-menu__list">
           <EventSelectListItem v-for="event in tag.events" :eventRef="eventRef(event)" :text="event.name"
                                :selected="selected"
-                               @hover="onHoverEvent"
-                               @click="onClickEvent"
+                               @hover="hoverEvent"
+                               @click="selectEvent"
           ></EventSelectListItem>
         </ul>
       </section>
@@ -108,20 +108,20 @@ if (selected.value === undefined) {
   if (popular.length > 0) {
     selected.value = popular[0];
   } else if (lexicon.customEvents.length > 0) {
-    selected.value = <EventRef>{id: lexicon.customEvents[0].id, type: EventType.Custom}
+    selected.value = customEventRef(lexicon.customEvents[0])
   } else if (eventsByTag.value.length > 0 && eventsByTag.value[0].events.length > 0) {
-    selected.value = <EventRef>{id: eventsByTag.value[0].events[0].id, type: EventType.Custom}
+    selected.value = eventRef(eventsByTag.value[0].events[0])
   } else {
     throw new Error("unhandled");
   }
 }
 
-const onHoverEvent = (ref: EventRef): void => {
+const hoverEvent = (ref: EventRef): void => {
   selected.value = ref;
   emit('hover', ref);
 }
 
-const onClickEvent = (ref: EventRef): void => {
+const selectEvent = (ref: EventRef): void => {
   emit('select', ref);
 }
 

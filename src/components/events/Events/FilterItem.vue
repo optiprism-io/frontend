@@ -3,12 +3,12 @@
     <div class="pf-c-action-list">
       <div class="pf-c-action-list__item filter__caption">with</div>
       <div class="pf-c-action-list__item">
-        <EventSelect @select="addEvent" v-if="filter.ref">
+        <PropertySelect @select="selectProperty" :event-ref="eventRef" v-if="filter.ref">
           <button class="pf-c-button pf-m-secondary" type="button">
-            Add Event
+            {{ propertyName(filter.ref) }}
           </button>
-        </EventSelect>
-        <EventSelect @select="addEvent" v-else>
+        </PropertySelect>
+        <PropertySelect @select="selectProperty" :event-ref="eventRef" v-else>
           <button class="pf-c-button pf-m-primary" type="button">
                         <span class="pf-c-button__icon pf-m-start">
     <i class="fas fa-plus-circle" aria-hidden="true"></i>
@@ -17,7 +17,7 @@
             Select property
 
           </button>
-        </EventSelect>
+        </PropertySelect>
       </div>
       <div class="pf-c-action-list__item" v-show="showControls">
         <button class="pf-c-button pf-m-plain" type="button" aria-label="Remove" @click="removeFilter">
@@ -31,13 +31,14 @@
 <script setup lang="ts">
 import {EventFilter, eventSegmentationStore, FilterStep} from "../../../stores/eventSegmentation";
 import {lexiconStore} from "../../../stores/lexicon";
-import EventSelect from "../EventSelect/EventSelect.vue";
-import {EventRef} from "../../../types";
+import PropertySelect from "../PropertySelect/PropertySelect.vue";
+import {EventRef, EventType, PropertyRef, PropertyType} from "../../../types";
 import {onMounted, onUpdated, ref} from "vue";
 
 const eventSegmentation = eventSegmentationStore();
 const events = eventSegmentation.events;
 const props = defineProps<{
+  eventRef: EventRef;
   filter: EventFilter;
   index: number;
 }>()
@@ -51,6 +52,20 @@ const lexicon = lexiconStore();
 
 const removeFilter = (): void => {
   emit('removeFilter', props.index);
+}
+
+const propertyName = (ref: PropertyRef): string => {
+  switch (ref.type) {
+    case PropertyType.Event:
+      return lexicon.findPropertyById(ref.id).name;
+    case EventType.Custom:
+      return lexicon.findCustomEventById(ref.id).name;
+  }
+  throw new Error("unhandled");
+};
+
+const selectProperty = (ref: PropertyRef): void => {
+
 }
 </script>
 

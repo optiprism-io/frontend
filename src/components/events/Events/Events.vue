@@ -2,7 +2,8 @@
   <div class="pf-l-flex pf-m-column">
     <SelectedListItem
         v-for="(event,index) in events"
-        :event="event"
+        :event-ref="event.ref"
+        :filters="event.filters"
         :index="index"
         @changeEvent="changeEvent"
         @removeEvent="removeEvent"
@@ -25,13 +26,15 @@
 <script setup lang="ts">
 import {EventRef} from '../../../types'
 import {eventSegmentationStore} from "../../../stores/eventSegmentation";
-import EventSelect from "../EventSelect/EventSelect.vue";
+import EventSelect from "./EventSelect.vue";
 import SelectedListItem from "./SelectedListItem.vue";
 
 const eventSegmentation = eventSegmentationStore();
 const events = eventSegmentation.events;
 
+
 const addEvent = (ref: EventRef) => {
+  console.log(ref.type)
   eventSegmentation.addEventByRef(ref);
 };
 
