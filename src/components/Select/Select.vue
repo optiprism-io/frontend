@@ -6,7 +6,7 @@
         <div class="pf-l-grid pf-m-all-6-col">
           <div class="pf-l-grid__item event-select__select">
             <SelectList :groupedItems="groupedItems" @select="select($event,close)" @hover="hover"
-                             :selected="selected"/>
+                        :selected="selectedItem"/>
           </div>
           <div class="pf-l-grid__item event-select__description">
             <div class="pf-c-card__body">df</div>
@@ -43,6 +43,9 @@ const props = defineProps<{
 
 let key = ref(0);
 
+// this way we're able te change initially selected item on hover
+let selectedItem = ref(props.selected)
+
 const select = (item: any, close: () => void): void => {
   close();
   key.value++;
@@ -50,6 +53,7 @@ const select = (item: any, close: () => void): void => {
 }
 
 const hover = (item: any): void => {
+  selectedItem.value = item
 }
 </script>
 

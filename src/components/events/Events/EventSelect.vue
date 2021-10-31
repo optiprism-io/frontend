@@ -1,11 +1,6 @@
 <template>
-  <Select @select="addEvent" :grouped-items="groupedEvents">
-    <button class="pf-c-button pf-m-primary" type="button">
-          <span class="pf-c-button__icon pf-m-start">
-            <i class="fas fa-plus-circle" aria-hidden="true"></i>
-          </span>
-      Add Event
-    </button>
+  <Select @select="select" :grouped-items="groupedEvents" :selected="selectedItem">
+    <slot></slot>
   </Select>
 </template>
 
@@ -13,12 +8,16 @@
 import {CustomEvent, Event, EventRef, customEventRef, eventRef} from '../../../types'
 import {eventSegmentationStore} from "../../../stores/eventSegmentation";
 import Select, {Group, Item} from "../../Select/Select.vue";
-import {computed} from "vue";
 import {lexiconStore} from "../../../stores/lexicon";
+import {ref} from "vue";
 
 const eventSegmentation = eventSegmentationStore();
 const events = eventSegmentation.events;
 const lexicon = lexiconStore();
+
+const props = defineProps<{
+  selected?: EventRef;
+}>()
 
 const emit = defineEmits<{
   (e: 'select', ref: EventRef): void
@@ -46,9 +45,16 @@ lexicon.events.forEach((e: Event) => {
   });
 });
 
-const addEvent = (item: any) => {
-  console.log(item as EventRef)
-  emit('select', item as EventRef)
+// make default selection if nothing is initially selected
+let selectedItem = ref<EventRef | undefined>(undefined);
+if (props.selected) {
+  selectedItem.value = props.selected
+} else {
+  selectedItem.value = groupedEvents[0].items[0].item;
+}
+
+const select = (item: EventRef) => {
+  emit('select', item)
 };
 
 

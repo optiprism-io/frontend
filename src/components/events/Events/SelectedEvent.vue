@@ -1,4 +1,5 @@
 <template>
+  <transition name="slide-fade">
   <div class="pf-l-flex pf-m-column" @mouseenter="showControls=true" @mouseleave="showControls=false">
     <div class="pf-l-flex">
       <div class="pf-l-flex__item selected-list-item__identifier">{{ identifier }}.</div>
@@ -20,18 +21,25 @@
         </div>
       </div>
     </div>
-    <FilterItem v-for="(filter,index) in filters" :event-ref="eventRef" :filter="filter" :index="index"
-                @remove-filter="removeFilter"/>
+    <Filter
+        v-for="(filter,index) in filters"
+        :event-ref="eventRef"
+        :filter="filter"
+        :index="index"
+        @removeFilter="removeFilter"
+        @changeFilterProperty="changeFilterProperty"
+    />
   </div>
+  </transition>
 </template>
 
 <script setup lang="ts">
 import {eventSegmentationStore, Event, EventFilter} from "../../../stores/eventSegmentation";
-import EventSelect from '../EventSelect/EventSelect.vue';
-import {EventRef, EventType} from "../../../types";
+import EventSelect from './EventSelect.vue';
+import {EventRef, EventType, PropertyRef} from "../../../types";
 import {lexiconStore} from "../../../stores/lexicon";
 import {computed, ref} from "vue";
-import FilterItem from "./FilterItem.vue";
+import Filter from "./Filter.vue";
 
 const eventSegmentation = eventSegmentationStore();
 const events = eventSegmentation.events;
@@ -47,6 +55,7 @@ const emit = defineEmits<{
   (e: 'removeEvent', index: number): void
   (e: 'addFilter', index: number): void
   (e: 'removeFilter', index: number): void
+  (e: 'changeFilterProperty', eventIdx: number, filterIdx: number, propRef: PropertyRef): void
 }>()
 
 let showControls = ref(false);
@@ -67,6 +76,10 @@ const removeFilter = (): void => {
 
 const addFilter = (): void => {
   emit('addFilter', props.index);
+}
+
+const changeFilterProperty = (filterIdx: number, propRef: PropertyRef): void => {
+  emit('changeFilterProperty', props.index, filterIdx, propRef);
 }
 
 const eventName = (ref: EventRef): string => {

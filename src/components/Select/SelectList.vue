@@ -60,10 +60,8 @@ const emit = defineEmits<{
   (e: 'hover', item: any): void
 }>()
 
-let selected = ref(props.selected);
 
 const hover = (item: any): void => {
-  selected.value = item;
   emit('hover', item);
 }
 

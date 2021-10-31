@@ -274,7 +274,7 @@ export const lexiconStore = defineStore('lexicon', {
                 dictionary_type: DataType.UInt64,
             },
             {
-                id: 1,
+                id: 2,
                 schema_id: 0,
                 createdAt: new Date(),
                 createdBy: 0,
@@ -286,7 +286,7 @@ export const lexiconStore = defineStore('lexicon', {
                 is_dictionary: false,
             },
             {
-                id: 1,
+                id: 3,
                 schema_id: 0,
                 createdAt: new Date(),
                 createdBy: 0,
@@ -299,7 +299,7 @@ export const lexiconStore = defineStore('lexicon', {
                 dictionary_type: DataType.UInt8,
             },
             {
-                id: 1,
+                id: 4,
                 schema_id: 0,
                 createdAt: new Date(),
                 createdBy: 0,

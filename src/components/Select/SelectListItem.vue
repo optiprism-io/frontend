@@ -27,7 +27,7 @@ const isSelected = () => {
     return false
   }
 
-  return props.item === props.selected;
+  return JSON.stringify(props.item) === JSON.stringify(props.selected);
 }
 </script>
 

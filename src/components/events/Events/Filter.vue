@@ -3,19 +3,17 @@
     <div class="pf-c-action-list">
       <div class="pf-c-action-list__item filter__caption">with</div>
       <div class="pf-c-action-list__item">
-        <PropertySelect @select="selectProperty" :event-ref="eventRef" v-if="filter.ref">
+        <PropertySelect @select="changeProperty" :event-ref="eventRef" v-if="filter.ref">
           <button class="pf-c-button pf-m-secondary" type="button">
             {{ propertyName(filter.ref) }}
           </button>
         </PropertySelect>
-        <PropertySelect @select="selectProperty" :event-ref="eventRef" v-else>
+        <PropertySelect @select="changeProperty" :event-ref="eventRef" v-else>
           <button class="pf-c-button pf-m-primary" type="button">
                         <span class="pf-c-button__icon pf-m-start">
     <i class="fas fa-plus-circle" aria-hidden="true"></i>
   </span>
-
             Select property
-
           </button>
         </PropertySelect>
       </div>
@@ -31,7 +29,7 @@
 <script setup lang="ts">
 import {EventFilter, eventSegmentationStore, FilterStep} from "../../../stores/eventSegmentation";
 import {lexiconStore} from "../../../stores/lexicon";
-import PropertySelect from "../PropertySelect/PropertySelect.vue";
+import PropertySelect from "./PropertySelect.vue";
 import {EventRef, EventType, PropertyRef, PropertyType} from "../../../types";
 import {onMounted, onUpdated, ref} from "vue";
 
@@ -47,6 +45,7 @@ let showControls = ref(false);
 
 const emit = defineEmits<{
   (e: 'removeFilter', index: number): void
+  (e: 'changeFilterProperty', filterIdx: number, propRef: PropertyRef): void
 }>()
 const lexicon = lexiconStore();
 
@@ -57,16 +56,21 @@ const removeFilter = (): void => {
 const propertyName = (ref: PropertyRef): string => {
   switch (ref.type) {
     case PropertyType.Event:
-      return lexicon.findPropertyById(ref.id).name;
-    case EventType.Custom:
-      return lexicon.findCustomEventById(ref.id).name;
+      return lexicon.findEventPropertyById(ref.id).name;
+    case PropertyType.EventCustom:
+      return lexicon.findEventCustomPropertyById(ref.id).name;
+    case PropertyType.User:
+      return lexicon.findUserPropertyById(ref.id).name;
+    case PropertyType.UserCustom:
+      return lexicon.findUserCustomPropertyById(ref.id).name;
   }
   throw new Error("unhandled");
 };
 
-const selectProperty = (ref: PropertyRef): void => {
-
+const changeProperty = (propRef: PropertyRef): void => {
+  emit('changeFilterProperty', props.index, propRef)
 }
+
 </script>
 
 <style scoped>

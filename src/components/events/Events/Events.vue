@@ -1,6 +1,6 @@
 <template>
   <div class="pf-l-flex pf-m-column">
-    <SelectedListItem
+    <SelectedEvent
         v-for="(event,index) in events"
         :event-ref="event.ref"
         :filters="event.filters"
@@ -9,6 +9,7 @@
         @removeEvent="removeEvent"
         @addFilter="addFilter"
         @removeFilter="removeFilter"
+        @changeFilterProperty="changeFilterProperty"
     />
     <div class="pf-l-flex">
       <EventSelect @select="addEvent">
@@ -24,17 +25,17 @@
 </template>
 
 <script setup lang="ts">
-import {EventRef} from '../../../types'
+import {EventRef, PropertyRef} from '../../../types'
 import {eventSegmentationStore} from "../../../stores/eventSegmentation";
 import EventSelect from "./EventSelect.vue";
-import SelectedListItem from "./SelectedListItem.vue";
+import SelectedEvent from "./SelectedEvent.vue";
+import {computed} from "vue";
 
 const eventSegmentation = eventSegmentationStore();
 const events = eventSegmentation.events;
 
 
 const addEvent = (ref: EventRef) => {
-  console.log(ref.type)
   eventSegmentation.addEventByRef(ref);
 };
 
@@ -52,6 +53,11 @@ const addFilter = (idx: number): void => {
 
 const removeFilter = (idx: number): void => {
   eventSegmentation.removeFilter(idx)
+}
+
+
+const changeFilterProperty = (eventIdx: number, filterIdx: number, propRef: PropertyRef) => {
+  eventSegmentation.changeFilterProperty(eventIdx, filterIdx, propRef)
 }
 
 </script>

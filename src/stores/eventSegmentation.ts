@@ -29,7 +29,6 @@ export enum FilterStep {
 }
 
 export interface EventFilter {
-    step: FilterStep;
     ref?: PropertyRef;
     op?: Op;
     values?: FilterValue[]
@@ -61,15 +60,16 @@ export const eventSegmentationStore = defineStore('eventSegmentation', {
             }
         },
         addEvent(id: number): void {
-            this.events.push(<Event>{ref: <EventRef>{id: id, type: types.EventType.Regular}, filters: []})
+            this.events.push(<Event>{ref: <EventRef>{type: types.EventType.Regular, id: id}, filters: []})
         },
         addCustomEvent(id: number): void {
-            this.events.push(<Event>{ref: <EventRef>{id: id, type: types.EventType.Custom}, filters: []})
+            this.events.push(<Event>{ref: <EventRef>{type: types.EventType.Custom, id: id}, filters: []})
         },
         deleteEvent(idx: number): void {
             this.events.splice(idx, 1);
         },
         addFilter(idx: number): void {
+            // duplicates check
             if (this.events[idx].filters.find((filter): boolean => filter.op === undefined)) {
                 return
             }
@@ -77,6 +77,9 @@ export const eventSegmentationStore = defineStore('eventSegmentation', {
         },
         removeFilter(idx: number): void {
             this.events[idx].filters.splice(idx, 1);
-        }
+        },
+        changeFilterProperty(eventIdx: number, filterIdx: number, propRef: PropertyRef): void {
+            this.events[eventIdx].filters[filterIdx] = <EventFilter>{ref: propRef};
+        },
     }
 })
