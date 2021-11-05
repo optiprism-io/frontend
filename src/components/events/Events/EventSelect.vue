@@ -1,5 +1,5 @@
 <template>
-  <Select @select="select" :grouped-items="groupedEvents" :selected="selectedItem">
+  <Select @select="select" :items="items" grouped :selected="selectedItem">
     <slot></slot>
   </Select>
 </template>
@@ -9,7 +9,7 @@ import {CustomEvent, Event, EventRef, customEventRef, eventRef} from '../../../t
 import {eventSegmentationStore} from "../../../stores/eventSegmentation";
 import Select, {Group, Item} from "../../Select/Select.vue";
 import {lexiconStore} from "../../../stores/lexicon";
-import {ref} from "vue";
+import {computed, ref} from "vue";
 
 const eventSegmentation = eventSegmentationStore();
 const events = eventSegmentation.events;
@@ -23,34 +23,38 @@ const emit = defineEmits<{
   (e: 'select', ref: EventRef): void
 }>()
 
-let groupedEvents: Group[] = []
+const items = computed((): Group[] => {
+  let ret: Group[] = []
 
-if (lexicon.customEvents.length > 0) {
-  let items: Item[] = [];
-  lexicon.customEvents.forEach((e: CustomEvent) => {
-    items.push(<Item>{item: customEventRef(e), name: e.name})
-  })
-  groupedEvents.push(<Group>{name: "Custom Events", items: items})
-}
+  if (lexicon.customEvents.length > 0) {
+    let items: Item[] = [];
+    lexicon.customEvents.forEach((e: CustomEvent) => {
+      items.push(<Item>{item: customEventRef(e), name: e.name})
+    })
+    ret.push(<Group>{name: "Custom Events", items: items})
+  }
 
-lexicon.events.forEach((e: Event) => {
-  e.tags.forEach((tag: string) => {
-    let dst = groupedEvents.find((g: Group) => g.name == tag)
-    let item = <Item>{item: eventRef(e), name: e.name}
-    if (!dst) {
-      groupedEvents.push(<Group>{name: tag, items: [item]});
-    } else {
-      dst.items.push(item);
-    }
+  lexicon.events.forEach((e: Event) => {
+    e.tags.forEach((tag: string) => {
+      let dst = ret.find((g: Group) => g.name == tag)
+      let item = <Item>{item: eventRef(e), name: e.name}
+      if (!dst) {
+        ret.push(<Group>{name: tag, items: [item]});
+      } else {
+        dst.items.push(item);
+      }
+    });
   });
-});
+
+  return ret;
+})
 
 // make default selection if nothing is initially selected
 let selectedItem = ref<EventRef | undefined>(undefined);
 if (props.selected) {
   selectedItem.value = props.selected
 } else {
-  selectedItem.value = groupedEvents[0].items[0].item;
+  selectedItem.value = items.value[0].items[0].item;
 }
 
 const select = (item: EventRef) => {

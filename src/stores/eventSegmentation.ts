@@ -2,35 +2,14 @@ import {defineStore} from 'pinia'
 import * as types from "../types";
 import {EventRef, EventType, PropertyRef} from "../types";
 
-enum Op {
-    Eq,
-    Neq,
-    Gt,
-    Gte,
-    Lt,
-    Lte,
-    Null,
-    NotNull,
-    Any,
-    All,
-    Regex
-}
-
 type FilterValue = {
     type: types.DataType;
     value: number | string | boolean;
 }
 
-export enum FilterStep {
-    SelectPropertyPop,
-    SelectProperty,
-    SelectValuePop,
-    SelectValue
-}
-
 export interface EventFilter {
-    ref?: PropertyRef;
-    op?: Op;
+    propRef?: PropertyRef;
+    opId?: types.OperationId;
     values?: FilterValue[]
 }
 
@@ -70,16 +49,19 @@ export const eventSegmentationStore = defineStore('eventSegmentation', {
         },
         addFilter(idx: number): void {
             // duplicates check
-            if (this.events[idx].filters.find((filter): boolean => filter.op === undefined)) {
+            if (this.events[idx].filters.find((filter): boolean => filter.opId === undefined)) {
                 return
             }
-            this.events[idx].filters.push(<EventFilter>{step: FilterStep.SelectPropertyPop});
+            this.events[idx].filters.push(<EventFilter>{});
         },
         removeFilter(idx: number): void {
             this.events[idx].filters.splice(idx, 1);
         },
         changeFilterProperty(eventIdx: number, filterIdx: number, propRef: PropertyRef): void {
-            this.events[eventIdx].filters[filterIdx] = <EventFilter>{ref: propRef};
+            this.events[eventIdx].filters[filterIdx] = <EventFilter>{propRef: propRef, opId: types.OperationId.Eq};
+        },
+        changeFilterOperation(eventIdx: number, filterIdx: number, opId: types.OperationId): void {
+            this.events[eventIdx].filters[filterIdx].opId = opId;
         },
     }
 })

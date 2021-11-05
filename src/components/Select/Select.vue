@@ -5,8 +5,14 @@
       <div class="pf-c-card pf-m-compact pf-u-min-width" style="--pf-u-min-width--MinWidth: 700px;">
         <div class="pf-l-grid pf-m-all-6-col">
           <div class="pf-l-grid__item event-select__select">
-            <SelectList :groupedItems="groupedItems" @select="select($event,close)" @hover="hover"
-                        :selected="selectedItem"/>
+            <SelectList
+                :items="items"
+                :grouped="grouped"
+                :multi="multi"
+                :selected="selectedItem"
+                @select="select($event,close)"
+                @hover="hover"
+            />
           </div>
           <div class="pf-l-grid__item event-select__description">
             <div class="pf-c-card__body">df</div>
@@ -36,10 +42,15 @@ const emit = defineEmits<{
   (e: 'select', item: any): void
 }>()
 
-const props = defineProps<{
-  groupedItems: Group[];
+const props = withDefaults(defineProps<{
+  items: Item[] | Group[];
+  grouped?: boolean;
+  multi?: boolean;
   selected?: any;
-}>();
+}>(), {
+  grouped: false,
+  multi: false,
+});
 
 let key = ref(0);
 

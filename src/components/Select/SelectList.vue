@@ -12,46 +12,65 @@
       </div>
     </div>
     <div class="pf-c-menu__content">
-      <template v-for="(group,index) in groupedItems">
-        <template v-if="group.name">
-          <section class="pf-c-menu__group">
-            <hr class="pf-c-divider" v-if="index>0"/>
-            <h1 class="pf-c-menu__group-title">{{ group.name }}</h1>
+      <template v-if="grouped">
+        <template v-for="(group,index) in items">
+          <template v-if="group.name">
+            <section class="pf-c-menu__group">
+              <hr class="pf-c-divider" v-if="index>0"/>
+              <h1 class="pf-c-menu__group-title">{{ group.name }}</h1>
+              <ul class="pf-c-menu__list">
+                <SelectListItem v-for="item in group.items"
+                                :item="item.item"
+                                :text="item.name"
+                                :multi="multi"
+                                :selected="selected"
+                                @hover="hover"
+                                @click="select"
+                ></SelectListItem>
+              </ul>
+            </section>
+          </template>
+          <template v-else>
             <ul class="pf-c-menu__list">
               <SelectListItem v-for="item in group.items"
                               :item="item.item"
                               :text="item.name"
+                              :multi="multi"
                               :selected="selected"
                               @hover="hover"
                               @click="select"
+
               ></SelectListItem>
             </ul>
-          </section>
+          </template>
         </template>
-        <template v-else>
-          <ul class="pf-c-menu__list">
-            <SelectListItem v-for="item in group.items"
-                            :item="item"
-                            :text="item.name"
-                            :selected="selected"
-                            @hover="hover"
-                            @click="select"
+      </template>
+      <template v-else>
+        <ul class="pf-c-menu__list">
+          <SelectListItem v-for="item in items"
+                          :item="item.item"
+                          :text="item.name"
+                          :multi="multi"
+                          :selected="selected"
+                          @hover="hover"
+                          @click="select"
 
-            ></SelectListItem>
-          </ul>
-        </template>
+          ></SelectListItem>
+        </ul>
       </template>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import {Group} from "./Select.vue";
+import {Group, Item} from "./Select.vue";
 import SelectListItem from "./SelectListItem.vue"
 import {ref} from "vue";
 
 const props = defineProps<{
-  groupedItems: Group[];
+  items: Item[] | Group[];
+  grouped: boolean;
+  multi: boolean;
   selected?: any;
 }>()
 

@@ -10,6 +10,7 @@
         @addFilter="addFilter"
         @removeFilter="removeFilter"
         @changeFilterProperty="changeFilterProperty"
+        @changeFilterOperation="changeFilterOperation"
     />
     <div class="pf-l-flex">
       <EventSelect @select="addEvent">
@@ -25,7 +26,7 @@
 </template>
 
 <script setup lang="ts">
-import {EventRef, PropertyRef} from '../../../types'
+import {EventRef, OperationId, PropertyRef} from '../../../types'
 import {eventSegmentationStore} from "../../../stores/eventSegmentation";
 import EventSelect from "./EventSelect.vue";
 import SelectedEvent from "./SelectedEvent.vue";
@@ -55,9 +56,11 @@ const removeFilter = (idx: number): void => {
   eventSegmentation.removeFilter(idx)
 }
 
-
 const changeFilterProperty = (eventIdx: number, filterIdx: number, propRef: PropertyRef) => {
   eventSegmentation.changeFilterProperty(eventIdx, filterIdx, propRef)
 }
 
+const changeFilterOperation = (eventIdx: number, filterIdx: number, opId: OperationId) => {
+  eventSegmentation.changeFilterOperation(eventIdx, filterIdx, opId)
+}
 </script>

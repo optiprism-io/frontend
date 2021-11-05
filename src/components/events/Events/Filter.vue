@@ -3,9 +3,9 @@
     <div class="pf-c-action-list">
       <div class="pf-c-action-list__item filter__caption">with</div>
       <div class="pf-c-action-list__item">
-        <PropertySelect @select="changeProperty" :event-ref="eventRef" v-if="filter.ref">
+        <PropertySelect @select="changeProperty" :event-ref="eventRef" v-if="filter.propRef" :selected="filter.propRef">
           <button class="pf-c-button pf-m-secondary" type="button">
-            {{ propertyName(filter.ref) }}
+            {{ propertyName(filter.propRef) }}
           </button>
         </PropertySelect>
         <PropertySelect @select="changeProperty" :event-ref="eventRef" v-else>
@@ -17,6 +17,15 @@
           </button>
         </PropertySelect>
       </div>
+
+      <div class="pf-c-action-list__item" v-if="filter.propRef">
+        <OperationSelect @select="changeOperation" :property-ref="filter.propRef" :selected="filter.opId">
+          <button class="pf-c-button pf-m-secondary" type="button">
+            {{ operationById.get(filter.opId).name }}
+          </button>
+        </OperationSelect>
+      </div>
+
       <div class="pf-c-action-list__item" v-show="showControls">
         <button class="pf-c-button pf-m-plain" type="button" aria-label="Remove" @click="removeFilter">
           <i class="fas fa-times" aria-hidden="true"></i>
@@ -27,11 +36,13 @@
 </template>
 
 <script setup lang="ts">
-import {EventFilter, eventSegmentationStore, FilterStep} from "../../../stores/eventSegmentation";
+import {EventFilter, eventSegmentationStore} from "../../../stores/eventSegmentation";
 import {lexiconStore} from "../../../stores/lexicon";
 import PropertySelect from "./PropertySelect.vue";
-import {EventRef, EventType, PropertyRef, PropertyType} from "../../../types";
+import OperationSelect from "./OperationSelect.vue";
+import {EventRef, EventType, PropertyRef, PropertyType, operationById, OperationId} from "../../../types";
 import {onMounted, onUpdated, ref} from "vue";
+
 
 const eventSegmentation = eventSegmentationStore();
 const events = eventSegmentation.events;
@@ -46,11 +57,20 @@ let showControls = ref(false);
 const emit = defineEmits<{
   (e: 'removeFilter', index: number): void
   (e: 'changeFilterProperty', filterIdx: number, propRef: PropertyRef): void
+  (e: 'changeFilterOperation', filterIdx: number, opId: OperationId): void
 }>()
 const lexicon = lexiconStore();
 
 const removeFilter = (): void => {
   emit('removeFilter', props.index);
+}
+
+const changeProperty = (propRef: PropertyRef): void => {
+  emit('changeFilterProperty', props.index, propRef)
+}
+
+const changeOperation = (opId: OperationId): void => {
+  emit('changeFilterOperation', props.index, opId)
 }
 
 const propertyName = (ref: PropertyRef): string => {
@@ -66,11 +86,6 @@ const propertyName = (ref: PropertyRef): string => {
   }
   throw new Error("unhandled");
 };
-
-const changeProperty = (propRef: PropertyRef): void => {
-  emit('changeFilterProperty', props.index, propRef)
-}
-
 </script>
 
 <style scoped>
