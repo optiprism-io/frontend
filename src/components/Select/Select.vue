@@ -8,7 +8,6 @@
             <SelectList
                 :items="items"
                 :grouped="grouped"
-                :multi="multi"
                 :selected="selectedItem"
                 @select="select($event,close)"
                 @hover="hover"
@@ -45,11 +44,9 @@ const emit = defineEmits<{
 const props = withDefaults(defineProps<{
   items: Item[] | Group[];
   grouped?: boolean;
-  multi?: boolean;
   selected?: any;
 }>(), {
   grouped: false,
-  multi: false,
 });
 
 let key = ref(0);

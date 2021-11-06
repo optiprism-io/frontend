@@ -22,7 +22,6 @@
                 <SelectListItem v-for="item in group.items"
                                 :item="item.item"
                                 :text="item.name"
-                                :multi="multi"
                                 :selected="selected"
                                 @hover="hover"
                                 @click="select"
@@ -35,7 +34,6 @@
               <SelectListItem v-for="item in group.items"
                               :item="item.item"
                               :text="item.name"
-                              :multi="multi"
                               :selected="selected"
                               @hover="hover"
                               @click="select"
@@ -50,7 +48,6 @@
           <SelectListItem v-for="item in items"
                           :item="item.item"
                           :text="item.name"
-                          :multi="multi"
                           :selected="selected"
                           @hover="hover"
                           @click="select"
@@ -70,7 +67,6 @@ import {ref} from "vue";
 const props = defineProps<{
   items: Item[] | Group[];
   grouped: boolean;
-  multi: boolean;
   selected?: any;
 }>()
 

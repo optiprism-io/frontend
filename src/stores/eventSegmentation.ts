@@ -1,16 +1,11 @@
 import {defineStore} from 'pinia'
 import * as types from "../types";
-import {EventRef, EventType, PropertyRef} from "../types";
-
-type FilterValue = {
-    type: types.DataType;
-    value: number | string | boolean;
-}
+import {EventRef, EventType, OperationId, PropertyRef, Value} from "../types";
 
 export interface EventFilter {
     propRef?: PropertyRef;
-    opId?: types.OperationId;
-    values?: FilterValue[]
+    opId: types.OperationId;
+    values: Value[];
 }
 
 export type Event = {
@@ -52,16 +47,28 @@ export const eventSegmentationStore = defineStore('eventSegmentation', {
             if (this.events[idx].filters.find((filter): boolean => filter.opId === undefined)) {
                 return
             }
-            this.events[idx].filters.push(<EventFilter>{});
+            this.events[idx].filters.push(<EventFilter>{opId: OperationId.Eq, values: []});
         },
         removeFilter(idx: number): void {
             this.events[idx].filters.splice(idx, 1);
         },
         changeFilterProperty(eventIdx: number, filterIdx: number, propRef: PropertyRef): void {
-            this.events[eventIdx].filters[filterIdx] = <EventFilter>{propRef: propRef, opId: types.OperationId.Eq};
+            this.events[eventIdx].filters[filterIdx] = <EventFilter>{
+                propRef: propRef,
+                opId: types.OperationId.Eq,
+                values: []
+            };
         },
         changeFilterOperation(eventIdx: number, filterIdx: number, opId: types.OperationId): void {
             this.events[eventIdx].filters[filterIdx].opId = opId;
+        },
+        addFilterValue(eventIdx: number, filterIdx: number, value: Value): void {
+            this.events[eventIdx].filters[filterIdx].values.push(value);
+        },
+        removeFilterValue(eventIdx: number, filterIdx: number, value: Value): void {
+            this.events[eventIdx].filters[filterIdx].values = this.events[eventIdx].filters[filterIdx].values.filter((v) => {
+                console.log(v,value);
+                return v !== value})
         },
     }
 })
