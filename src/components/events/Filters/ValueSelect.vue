@@ -11,9 +11,10 @@ import {
 } from '../../../types'
 import MultiSelect, {Item} from "../../MultiSelect/MultiSelect.vue";
 import {computed} from "vue";
+import {FilterRef} from "../../../stores/eventSegmentation/filters";
 
 const props = withDefaults(defineProps<{
-  propertyRef: PropertyRef;
+  filterRef: FilterRef;
   selected?: Value[];
 }>(), {
   selected: () => [],

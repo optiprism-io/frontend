@@ -3,23 +3,30 @@
     <div class="pf-l-flex__item selected-list-item__identifier">{{ identifier }}.</div>
     <div class="pf-c-action-list">
       <div class="pf-c-action-list__item">
-        <PropertySelect @select="changeProperty" :selected="filter.propRef">
-          <button class="pf-c-button pf-m-secondary" type="button">
-            {{ propertyName(filter.propRef) }}
+        <RefSelect @select="changeRef" :selected="filter.ref">
+          <button class="pf-c-button pf-m-secondary" type="button" v-if="filter.ref.type===filterType.Cohort">
+            <span class="pf-c-button__icon pf-m-start">
+                <i class="fas fa-user-friends" aria-hidden="true"
+                   @click.stop="removeValueButton(value)"></i>
+              </span>
+            {{ refName(filter.ref) }}
           </button>
-        </PropertySelect>
+          <button class="pf-c-button pf-m-secondary" type="button" v-else>
+            {{ refName(filter.ref) }}
+          </button>
+        </RefSelect>
       </div>
 
-      <div class="pf-c-action-list__item" v-if="filter.propRef">
-        <OperationSelect @select="changeOperation" :property-ref="filter.propRef" :selected="filter.opId">
+      <div class="pf-c-action-list__item">
+        <OperationSelect @select="changeOperation" :filter-ref="filter.ref" :selected="filter.opId">
           <button class="pf-c-button pf-m-secondary" type="button">
             {{ operationById.get(filter.opId).name }}
           </button>
         </OperationSelect>
       </div>
 
-      <div class="pf-c-action-list__item" v-if="filter.propRef">
-        <ValueSelect @select="addValue" @deselect="removeValue" :property-ref="filter.propRef"
+      <div class="pf-c-action-list__item">
+        <ValueSelect @select="addValue" @deselect="removeValue" :filter-ref="filter.ref"
                      :selected="filter.values">
           <template v-if="filter.values.length>0">
             <div class="pf-c-action-list">
@@ -56,13 +63,13 @@
 </template>
 
 <script setup lang="ts">
-import {Filter} from "../../../stores/eventSegmentation/filters";
+import {Filter, FilterRef, FilterType} from "../../../stores/eventSegmentation/filters";
 import {lexiconStore} from "../../../stores/lexicon";
-import PropertySelect from "./PropertySelect.vue";
+import RefSelect from "./RefSelect.vue";
 import OperationSelect from "./OperationSelect.vue";
 import ValueSelect from "./ValueSelect.vue";
-import {EventRef, EventType, PropertyRef, PropertyType, operationById, OperationId, Value} from "../../../types";
-import {computed, onMounted, onUpdated, ref} from "vue";
+import {operationById, OperationId, PropertyRef, PropertyType, Value} from "../../../types";
+import {computed, ref} from "vue";
 
 const props = defineProps<{
   filter: Filter;
@@ -70,10 +77,11 @@ const props = defineProps<{
 }>()
 
 let showControls = ref(false);
+let filterType = ref(FilterType);
 
 const emit = defineEmits<{
   (e: 'removeFilter', index: number): void
-  (e: 'changeFilterProperty', filterIdx: number, propRef: PropertyRef): void
+  (e: 'changeFilterRef', filterIdx: number, propRef: PropertyRef): void
   (e: 'changeFilterOperation', filterIdx: number, opId: OperationId): void
   (e: 'addFilterValue', filterIdx: number, value: Value): void
   (e: 'removeFilterValue', filterIdx: number, value: Value): void
@@ -84,8 +92,8 @@ const removeFilter = (): void => {
   emit('removeFilter', props.index);
 }
 
-const changeProperty = (propRef: PropertyRef): void => {
-  emit('changeFilterProperty', props.index, propRef)
+const changeRef = (propRef: PropertyRef): void => {
+  emit('changeFilterRef', props.index, propRef)
 }
 
 const changeOperation = (opId: OperationId): void => {
@@ -103,17 +111,15 @@ const removeValue = (value: Value) => {
 const removeValueButton = (value: Value) => {
   emit('removeFilterValue', props.index, value)
 }
-const propertyName = (ref: PropertyRef): string => {
-  switch (ref.type) {
-    case PropertyType.Event:
-      return lexicon.findEventPropertyById(ref.id).name;
-    case PropertyType.EventCustom:
-      return lexicon.findEventCustomPropertyById(ref.id).name;
-    case PropertyType.User:
-      return lexicon.findUserPropertyById(ref.id).name;
-    case PropertyType.UserCustom:
-      return lexicon.findUserCustomPropertyById(ref.id).name;
+const refName = (ref: FilterRef): string => {
+  if (ref.type === FilterType.UserProperty && ref.id) {
+    return lexicon.findUserPropertyById(ref.id).name;
+  } else if (ref.type === FilterType.UserCustomProperty && ref.id) {
+    return lexicon.findUserCustomPropertyById(ref.id).name;
+  } else if (ref.type === FilterType.Cohort) {
+    return 'Cohort'
   }
+
   throw new Error("unhandled");
 };
 

@@ -3,8 +3,20 @@ import * as types from "../../types";
 import {OperationId, PropertyRef, Value} from "../../types";
 import {Prop} from "vue";
 
+
+export enum FilterType {
+    UserProperty,
+    UserCustomProperty,
+    Cohort
+}
+
+export interface FilterRef {
+    type: FilterType
+    id?: number;
+}
+
 export interface Filter {
-    propRef: PropertyRef;
+    ref: FilterRef;
     opId: OperationId;
     values: Value[];
 }
@@ -16,19 +28,15 @@ type Filters = {
 export const filtersStore = defineStore('filters', {
     state: (): Filters => ({filters: []}),
     actions: {
-        addFilter(propRef: PropertyRef): void {
-            // duplicates check
-            if (this.filters.find((filter): boolean => filter.opId === undefined)) {
-                return
-            }
-            this.filters.push(<Filter>{propRef: propRef, opId: OperationId.Eq, values: []});
+        addFilter(ref: FilterRef): void {
+            this.filters.push(<Filter>{ref: ref, opId: OperationId.Eq, values: []});
         },
         removeFilter(idx: number): void {
             this.filters.splice(idx, 1);
         },
-        changeFilterProperty(filterIdx: number, propRef: PropertyRef): void {
+        changeFilterRef(filterIdx: number, ref: FilterRef): void {
             this.filters[filterIdx] = <Filter>{
-                propRef: propRef,
+                ref: ref,
                 opId: types.OperationId.Eq,
                 values: []
             };

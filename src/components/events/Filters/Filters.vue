@@ -5,43 +5,43 @@
         :filter="filter"
         :index="index"
         @removeFilter="removeFilter"
-        @changeFilterProperty="changeFilterProperty"
+        @changeFilterRef="changeFilterRef"
         @changeFilterOperation="changeFilterOperation"
         @addFilterValue="addFilterValue"
         @removeFilterValue="removeFilterValue"
     />
     <div class="pf-l-flex">
-      <PropertySelect @select="addFilter">
+      <RefSelect @select="addFilter">
         <button class="pf-c-button pf-m-primary" type="button">
           <span class="pf-c-button__icon pf-m-start">
             <i class="fas fa-plus-circle" aria-hidden="true"></i>
           </span>
           Add Filter
         </button>
-      </PropertySelect>
+      </RefSelect>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import {OperationId, PropertyRef, Value} from '../../../types'
-import PropertySelect from "./PropertySelect.vue";
+import RefSelect from "./RefSelect.vue";
 import Filter from "./Filter.vue";
-import {filtersStore} from "../../../stores/eventSegmentation/filters";
+import {FilterRef, filtersStore} from "../../../stores/eventSegmentation/filters";
 
 const filters = filtersStore();
 const filtersFilters = filters.filters;
 
-const addFilter = (propRef:PropertyRef): void => {
-  filters.addFilter(propRef);
+const addFilter = (ref:FilterRef): void => {
+  filters.addFilter(ref);
 }
 
 const removeFilter = (idx: number): void => {
   filters.removeFilter(idx);
 }
 
-const changeFilterProperty = (filterIdx: number, propRef: PropertyRef) => {
-  filters.changeFilterProperty(filterIdx, propRef);
+const changeFilterRef = (filterIdx: number, ref: FilterRef) => {
+  filters.changeFilterRef(filterIdx, ref);
 }
 
 const changeFilterOperation = (filterIdx: number, opId: OperationId) => {

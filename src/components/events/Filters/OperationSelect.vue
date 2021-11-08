@@ -5,19 +5,16 @@
 </template>
 
 <script setup lang="ts">
-import {
-  findOperations, OperationId,
-  PropertyRef,
-  PropertyType
-} from '../../../types'
+import {findOperations, OperationId} from '../../../types'
 import Select, {Group, Item} from "../../Select/Select.vue";
 import {lexiconStore} from "../../../stores/lexicon";
 import {computed, ref} from "vue";
+import {FilterRef, FilterType} from "../../../stores/eventSegmentation/filters";
 
 const lexicon = lexiconStore();
 
 const props = defineProps<{
-  propertyRef: PropertyRef;
+  filterRef: FilterRef;
   selected?: OperationId;
 }>()
 
@@ -28,26 +25,15 @@ const emit = defineEmits<{
 const items = computed((): Item[] => {
   let ret: Item[] = []
 
-  if (props.propertyRef.type === PropertyType.Event) {
-    const prop = lexicon.findEventPropertyById(props.propertyRef.id)
+
+  if (props.filterRef.type === FilterType.UserProperty && props.filterRef.id) {
+    const prop = lexicon.findUserPropertyById(props.filterRef.id)
     findOperations(prop.type, prop.nullable, prop.is_array).forEach((op) => ret.push(<Item>{
       item: op.id,
       name: op.name
     }))
-  } else if (props.propertyRef.type === PropertyType.EventCustom) {
-    const prop = lexicon.findEventCustomPropertyById(props.propertyRef.id)
-    findOperations(prop.type, prop.nullable, prop.is_array).forEach((op) => ret.push(<Item>{
-      item: op.id,
-      name: op.name
-    }))
-  } else if (props.propertyRef.type === PropertyType.User) {
-    const prop = lexicon.findUserPropertyById(props.propertyRef.id)
-    findOperations(prop.type, prop.nullable, prop.is_array).forEach((op) => ret.push(<Item>{
-      item: op.id,
-      name: op.name
-    }))
-  } else if (props.propertyRef.type === PropertyType.UserCustom) {
-    const prop = lexicon.findUserCustomPropertyById(props.propertyRef.id)
+  } else if (props.filterRef.type === FilterType.UserCustomProperty && props.filterRef.id) {
+    const prop = lexicon.findUserCustomPropertyById(props.filterRef.id)
     findOperations(prop.type, prop.nullable, prop.isArray).forEach((op) => ret.push(<Item>{
       item: op.id,
       name: op.name

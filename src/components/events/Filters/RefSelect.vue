@@ -17,6 +17,7 @@ import {eventSegmentationStore} from "../../../stores/eventSegmentation";
 import Select, {Group, Item} from "../../Select/Select.vue";
 import {lexiconStore} from "../../../stores/lexicon";
 import {computed, ref} from "vue";
+import {FilterRef, FilterType} from "../../../stores/eventSegmentation/filters";
 
 const lexicon = lexiconStore();
 
@@ -31,12 +32,27 @@ const emit = defineEmits<{
 
 let items = computed((): Group[] => {
   let ret: Group[] = []
+
+  {
+    let items: Item[] = [];
+    items.push(<Item>{item: <FilterRef>{type: FilterType.Cohort}, name: 'Cohort'});
+    ret.push(<Group>{name: '', items: items});
+  }
+  
   if (lexicon.userProperties.length > 0) {
     let items: Item[] = [];
     lexicon.userProperties.forEach((prop: UserProperty): void => {
-      items.push(<Item>{item: <PropertyRef>{type: PropertyType.User, id: prop.id}, name: prop.name});
+      items.push(<Item>{item: <FilterRef>{type: FilterType.UserProperty, id: prop.id}, name: prop.name});
     })
     ret.push(<Group>{name: "User Properties", items: items});
+  }
+
+  if (lexicon.userCustomProperties.length > 0) {
+    let items: Item[] = [];
+    lexicon.userCustomProperties.forEach((prop: UserCustomProperty): void => {
+      items.push(<Item>{item: <FilterRef>{type: FilterType.UserCustomProperty, id: prop.id}, name: prop.name});
+    })
+    ret.push(<Group>{name: "User Custom Properties", items: items});
   }
 
   return ret;
