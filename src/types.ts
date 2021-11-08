@@ -22,7 +22,6 @@ export enum DataType {
 }
 
 export type Value = string | number | boolean;
-export type Values = string[] | number[] | boolean[];
 
 export const dataTypeKinds: Map<DataType, DataTypeKind> = new Map([
     [DataType.String, DataTypeKind.String],

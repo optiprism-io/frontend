@@ -1,10 +1,10 @@
 import {defineStore} from 'pinia'
-import * as types from "../types";
-import {EventRef, EventType, OperationId, PropertyRef, Value} from "../types";
+import * as types from "../../types";
+import {EventRef, EventType, OperationId, PropertyRef, Value} from "../../types";
 
 export interface EventFilter {
     propRef?: PropertyRef;
-    opId: types.OperationId;
+    opId: OperationId;
     values: Value[];
 }
 
@@ -13,12 +13,12 @@ export type Event = {
     filters: EventFilter[]
 }
 
-type EventSegmentation = {
+type Events = {
     events: Event[]
 }
 
-export const eventSegmentationStore = defineStore('eventSegmentation', {
-    state: (): EventSegmentation => ({events: []}),
+export const eventsStore = defineStore('events', {
+    state: (): Events => ({events: []}),
     actions: {
         changeEvent(index: number, ref: EventRef): void {
             this.events[index] = <Event>{ref: ref, filters: []}
@@ -49,8 +49,8 @@ export const eventSegmentationStore = defineStore('eventSegmentation', {
             }
             this.events[idx].filters.push(<EventFilter>{opId: OperationId.Eq, values: []});
         },
-        removeFilter(idx: number): void {
-            this.events[idx].filters.splice(idx, 1);
+        removeFilter(eventIdx: number, filterIdx: number): void {
+            this.events[eventIdx].filters.splice(filterIdx, 1);
         },
         changeFilterProperty(eventIdx: number, filterIdx: number, propRef: PropertyRef): void {
             this.events[eventIdx].filters[filterIdx] = <EventFilter>{
@@ -67,8 +67,8 @@ export const eventSegmentationStore = defineStore('eventSegmentation', {
         },
         removeFilterValue(eventIdx: number, filterIdx: number, value: Value): void {
             this.events[eventIdx].filters[filterIdx].values = this.events[eventIdx].filters[filterIdx].values.filter((v) => {
-                console.log(v,value);
-                return v !== value})
+                return v !== value;
+            })
         },
     }
 })

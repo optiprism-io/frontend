@@ -1,7 +1,7 @@
 <template>
   <div class="pf-l-flex pf-m-column">
     <SelectedEvent
-        v-for="(event,index) in events"
+        v-for="(event,index) in eventsEvents"
         :event-ref="event.ref"
         :filters="event.filters"
         :index="index"
@@ -29,48 +29,46 @@
 
 <script setup lang="ts">
 import {EventRef, OperationId, PropertyRef, Value} from '../../../types'
-import {eventSegmentationStore} from "../../../stores/eventSegmentation";
+import {eventsStore} from "../../../stores/eventSegmentation/events";
 import EventSelect from "./EventSelect.vue";
 import SelectedEvent from "./SelectedEvent.vue";
-import {computed} from "vue";
 
-const eventSegmentation = eventSegmentationStore();
-const events = eventSegmentation.events;
-
+const events = eventsStore();
+const eventsEvents = events.events;
 
 const addEvent = (ref: EventRef) => {
-  eventSegmentation.addEventByRef(ref);
+  events.addEventByRef(ref);
 };
 
 const changeEvent = (index: number, ref: EventRef) => {
-  eventSegmentation.changeEvent(index, ref);
+  events.changeEvent(index, ref);
 }
 
 const removeEvent = (idx: number): void => {
-  eventSegmentation.deleteEvent(idx)
+  events.deleteEvent(idx)
 }
 
 const addFilter = (idx: number): void => {
-  eventSegmentation.addFilter(idx)
+  events.addFilter(idx)
 }
 
-const removeFilter = (idx: number): void => {
-  eventSegmentation.removeFilter(idx)
+const removeFilter = (eventIdx: number, filterIdx: number): void => {
+  events.removeFilter(eventIdx, filterIdx)
 }
 
 const changeFilterProperty = (eventIdx: number, filterIdx: number, propRef: PropertyRef) => {
-  eventSegmentation.changeFilterProperty(eventIdx, filterIdx, propRef)
+  events.changeFilterProperty(eventIdx, filterIdx, propRef)
 }
 
 const changeFilterOperation = (eventIdx: number, filterIdx: number, opId: OperationId) => {
-  eventSegmentation.changeFilterOperation(eventIdx, filterIdx, opId)
+  events.changeFilterOperation(eventIdx, filterIdx, opId)
 }
 
 const addFilterValue = (eventIdx: number, filterIdx: number, value: Value) => {
-  eventSegmentation.addFilterValue(eventIdx, filterIdx, value)
+  events.addFilterValue(eventIdx, filterIdx, value)
 }
 
 const removeFilterValue = (eventIdx: number, filterIdx: number, value: Value) => {
-  eventSegmentation.removeFilterValue(eventIdx, filterIdx, value)
+  events.removeFilterValue(eventIdx, filterIdx, value)
 }
 </script>

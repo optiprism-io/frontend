@@ -6,13 +6,10 @@
 
 <script setup lang="ts">
 import {CustomEvent, Event, EventRef, customEventRef, eventRef} from '../../../types'
-import {eventSegmentationStore} from "../../../stores/eventSegmentation";
 import Select, {Group, Item} from "../../Select/Select.vue";
 import {lexiconStore} from "../../../stores/lexicon";
 import {computed, ref} from "vue";
 
-const eventSegmentation = eventSegmentationStore();
-const events = eventSegmentation.events;
 const lexicon = lexiconStore();
 
 const props = defineProps<{

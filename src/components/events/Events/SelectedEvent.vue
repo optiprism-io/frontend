@@ -35,15 +35,13 @@
 </template>
 
 <script setup lang="ts">
-import {eventSegmentationStore, Event, EventFilter} from "../../../stores/eventSegmentation";
+import {EventFilter} from "../../../stores/eventSegmentation/events";
 import EventSelect from './EventSelect.vue';
 import {EventRef, EventType, OperationId, PropertyRef, Value} from "../../../types";
 import {lexiconStore} from "../../../stores/lexicon";
 import {computed, ref} from "vue";
 import Filter from "./Filter.vue";
 
-const eventSegmentation = eventSegmentationStore();
-const events = eventSegmentation.events;
 
 const props = defineProps<{
   eventRef: EventRef;
@@ -55,7 +53,7 @@ const emit = defineEmits<{
   (e: 'changeEvent', index: number, ref: EventRef): void
   (e: 'removeEvent', index: number): void
   (e: 'addFilter', index: number): void
-  (e: 'removeFilter', index: number): void
+  (e: 'removeFilter', eventIdx: number, filterIdx: number): void
   (e: 'changeFilterProperty', eventIdx: number, filterIdx: number, propRef: PropertyRef): void
   (e: 'changeFilterOperation', eventIdx: number, filterIdx: number, opId: OperationId): void
   (e: 'addFilterValue', eventIdx: number, filterIdx: number, value: Value): void
@@ -74,8 +72,8 @@ const removeEvent = (): void => {
   emit('removeEvent', props.index);
 }
 
-const removeFilter = (): void => {
-  emit('removeFilter', props.index);
+const removeFilter = (filterIdx: number): void => {
+  emit('removeFilter', props.index, filterIdx);
 }
 
 const addFilter = (): void => {

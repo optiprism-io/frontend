@@ -1,19 +1,11 @@
 <template>
   <div class="pf-l-flex" @mouseenter="showControls=true" @mouseleave="showControls=false">
+    <div class="pf-l-flex__item selected-list-item__identifier">{{ identifier }}.</div>
     <div class="pf-c-action-list">
-      <div class="pf-c-action-list__item filter__caption">with</div>
       <div class="pf-c-action-list__item">
-        <PropertySelect @select="changeProperty" :event-ref="eventRef" v-if="filter.propRef" :selected="filter.propRef">
+        <PropertySelect @select="changeProperty" :selected="filter.propRef">
           <button class="pf-c-button pf-m-secondary" type="button">
             {{ propertyName(filter.propRef) }}
-          </button>
-        </PropertySelect>
-        <PropertySelect @select="changeProperty" :event-ref="eventRef" v-else>
-          <button class="pf-c-button pf-m-primary" type="button">
-                        <span class="pf-c-button__icon pf-m-start">
-    <i class="fas fa-plus-circle" aria-hidden="true"></i>
-  </span>
-            Select property
           </button>
         </PropertySelect>
       </div>
@@ -64,17 +56,16 @@
 </template>
 
 <script setup lang="ts">
-import {EventFilter, eventSegmentationStore} from "../../../stores/eventSegmentation";
+import {Filter} from "../../../stores/eventSegmentation/filters";
 import {lexiconStore} from "../../../stores/lexicon";
 import PropertySelect from "./PropertySelect.vue";
 import OperationSelect from "./OperationSelect.vue";
 import ValueSelect from "./ValueSelect.vue";
 import {EventRef, EventType, PropertyRef, PropertyType, operationById, OperationId, Value} from "../../../types";
-import {onMounted, onUpdated, ref} from "vue";
+import {computed, onMounted, onUpdated, ref} from "vue";
 
 const props = defineProps<{
-  eventRef: EventRef;
-  filter: EventFilter;
+  filter: Filter;
   index: number;
 }>()
 
@@ -125,10 +116,6 @@ const propertyName = (ref: PropertyRef): string => {
   }
   throw new Error("unhandled");
 };
-</script>
 
-<style scoped>
-.filter__caption {
-  margin-left: 56px;
-}
-</style>
+const identifier = computed((): number => props.index + 1)
+</script>
