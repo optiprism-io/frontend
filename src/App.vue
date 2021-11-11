@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import Events from "./components/events/Events/Events.vue";
+// import Breakdowns from "./components/events/Breakdowns/Breakdowns.vue";
 import Filters from "./components/events/Filters/Filters.vue";
 import Header from './components/Header.vue'
 </script>
@@ -47,7 +48,16 @@ import Header from './components/Header.vue'
               </div>
             </div>
           </div>
-          <div class="pf-l-grid__item pf-m-6-col">6 col</div>
+          <div class="pf-l-grid__item pf-m-6-col">
+            <div class="pf-c-card pf-m-hoverable pf-m-compact">
+              <div class="pf-c-card__title">
+                <p>Breakdowns</p>
+              </div>
+              <div class="pf-c-card__body">
+<!--                <Breakdowns/>-->
+              </div>
+            </div>
+          </div>
           <div class="pf-l-grid__item pf-m-12-col">12 col</div>
         </div>
 

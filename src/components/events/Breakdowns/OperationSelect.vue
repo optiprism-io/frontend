@@ -5,16 +5,11 @@
 </template>
 
 <script setup lang="ts">
-import {findOperations, OperationId, UserCustomProperty} from '../../../types'
+import {findOperations, OperationId} from '../../../types'
 import Select, {Group, Item} from "../../Select/Select.vue";
 import {lexiconStore} from "../../../stores/lexicon";
 import {computed, ref} from "vue";
-import {
-  FilterRef,
-  FilterUserProperty,
-  isFilterUserCustomProperty,
-  isFilterUserProperty
-} from "../../../stores/eventSegmentation/filters";
+import {FilterRef, FilterType} from "../../../stores/eventSegmentation/filters";
 
 const lexicon = lexiconStore();
 
@@ -31,14 +26,14 @@ const items = computed((): Item[] => {
   let ret: Item[] = []
 
 
-  if (isFilterUserProperty(props.filterRef)) {
-    const prop = lexicon.findUserPropertyById((props.filterRef as FilterUserProperty).id)
+  if (props.filterRef.type === FilterType.UserProperty && props.filterRef.id) {
+    const prop = lexicon.findUserPropertyById(props.filterRef.id)
     findOperations(prop.type, prop.nullable, prop.is_array).forEach((op) => ret.push(<Item>{
       item: op.id,
       name: op.name
     }))
-  } else if (isFilterUserCustomProperty(props.filterRef)) {
-    const prop = lexicon.findUserCustomPropertyById((props.filterRef as FilterUserProperty).id)
+  } else if (props.filterRef.type === FilterType.UserCustomProperty && props.filterRef.id) {
+    const prop = lexicon.findUserCustomPropertyById(props.filterRef.id)
     findOperations(prop.type, prop.nullable, prop.isArray).forEach((op) => ret.push(<Item>{
       item: op.id,
       name: op.name

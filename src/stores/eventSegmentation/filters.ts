@@ -3,16 +3,44 @@ import * as types from "../../types";
 import {OperationId, PropertyRef, Value} from "../../types";
 import {Prop} from "vue";
 
-
-export enum FilterType {
-    UserProperty,
-    UserCustomProperty,
-    Cohort
+export type FilterUserProperty = {
+    type: string;
+    id: number;
 }
 
-export interface FilterRef {
-    type: FilterType
-    id?: number;
+export type FilterUserCustomProperty = {
+    type: string;
+    id: number;
+}
+
+export type FilterCohort = {
+    type: string;
+}
+
+export type FilterRef = FilterUserProperty | FilterUserCustomProperty | FilterCohort
+
+export const newFilterCohort = () => {
+    return <FilterCohort>{type: "Cohort"}
+}
+
+export const newFilterUserProperty = (id: number) => {
+    return <FilterUserProperty>{type: "UserProperty", id: id}
+}
+
+export const newFilterUserCustomProperty = (id: number) => {
+    return <FilterUserCustomProperty>{type: "UserCustomProperty", id: id}
+}
+
+export const isFilterUserProperty = (ref: FilterRef): boolean => {
+    return ref.type === 'UserProperty'
+}
+
+export const isFilterUserCustomProperty = (ref: FilterRef): boolean => {
+    return ref.type === 'FilterUserCustomProperty'
+}
+
+export const isFilterCohort = (ref: FilterRef): boolean => {
+    return ref.type === 'FilterCohort'
 }
 
 export interface Filter {

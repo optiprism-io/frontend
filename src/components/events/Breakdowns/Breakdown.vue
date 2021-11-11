@@ -4,7 +4,7 @@
     <div class="pf-c-action-list">
       <div class="pf-c-action-list__item">
         <RefSelect @select="changeRef" :selected="filter.ref">
-          <button class="pf-c-button pf-m-secondary" type="button" v-if="isFilterCohort(filter.ref)">
+          <button class="pf-c-button pf-m-secondary" type="button" v-if="filter.ref.type===filterType.Cohort">
             <span class="pf-c-button__icon pf-m-start">
                 <i class="fas fa-user-friends" aria-hidden="true"
                    @click.stop="removeValueButton(value)"></i>
@@ -63,18 +63,12 @@
 </template>
 
 <script setup lang="ts">
-import {
-  Filter,
-  FilterRef, FilterUserCustomProperty,
-  FilterUserProperty, isFilterCohort,
-  isFilterUserCustomProperty,
-  isFilterUserProperty
-} from "../../../stores/eventSegmentation/filters";
+import {Filter, FilterRef, FilterType} from "../../../stores/eventSegmentation/filters";
 import {lexiconStore} from "../../../stores/lexicon";
 import RefSelect from "./RefSelect.vue";
 import OperationSelect from "./OperationSelect.vue";
 import ValueSelect from "./ValueSelect.vue";
-import {operationById, OperationId, PropertyRef, PropertyType, UserProperty, Value} from "../../../types";
+import {operationById, OperationId, PropertyRef, PropertyType, Value} from "../../../types";
 import {computed, ref} from "vue";
 
 const props = defineProps<{
@@ -83,10 +77,11 @@ const props = defineProps<{
 }>()
 
 let showControls = ref(false);
+let filterType = ref(FilterType);
 
 const emit = defineEmits<{
   (e: 'removeFilter', index: number): void
-  (e: 'changeFilterRef', filterIdx: number, propRef: FilterRef): void
+  (e: 'changeFilterRef', filterIdx: number, propRef: PropertyRef): void
   (e: 'changeFilterOperation', filterIdx: number, opId: OperationId): void
   (e: 'addFilterValue', filterIdx: number, value: Value): void
   (e: 'removeFilterValue', filterIdx: number, value: Value): void
@@ -97,7 +92,7 @@ const removeFilter = (): void => {
   emit('removeFilter', props.index);
 }
 
-const changeRef = (propRef: FilterRef): void => {
+const changeRef = (propRef: PropertyRef): void => {
   emit('changeFilterRef', props.index, propRef)
 }
 
@@ -117,11 +112,11 @@ const removeValueButton = (value: Value) => {
   emit('removeFilterValue', props.index, value)
 }
 const refName = (ref: FilterRef): string => {
-  if (isFilterUserProperty(ref)) {
-    return lexicon.findUserPropertyById((ref as FilterUserProperty).id).name;
-  } else if (isFilterUserCustomProperty(ref)) {
-    return lexicon.findUserCustomPropertyById((ref as FilterUserProperty).id).name;
-  } else if (isFilterCohort(ref)) {
+  if (ref.type === FilterType.UserProperty && ref.id) {
+    return lexicon.findUserPropertyById(ref.id).name;
+  } else if (ref.type === FilterType.UserCustomProperty && ref.id) {
+    return lexicon.findUserCustomPropertyById(ref.id).name;
+  } else if (ref.type === FilterType.Cohort) {
     return 'Cohort'
   }
 

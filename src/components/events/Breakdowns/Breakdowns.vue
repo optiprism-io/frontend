@@ -1,7 +1,7 @@
 <template>
   <div class="pf-l-flex pf-m-column">
     <Filter
-        v-for="(filter,index) in filters"
+        v-for="(filter,index) in filtersFilters"
         :filter="filter"
         :index="index"
         @removeFilter="removeFilter"
@@ -26,33 +26,33 @@
 <script setup lang="ts">
 import {OperationId, PropertyRef, Value} from '../../../types'
 import RefSelect from "./RefSelect.vue";
-import Filter from "./Filter.vue";
-import {FilterRef, filtersStore as newFiltersStore} from "../../../stores/eventSegmentation/filters";
+import Filter from "./Breakdown.vue";
+import {FilterRef, filtersStore} from "../../../stores/eventSegmentation/filters";
 
-const filtersStore = newFiltersStore();
-const filters = filtersStore.filters;
+const filters = filtersStore();
+const filtersFilters = filters.filters;
 
-const addFilter = (ref: FilterRef): void => {
-  filtersStore.addFilter(ref);
+const addFilter = (ref:FilterRef): void => {
+  filters.addFilter(ref);
 }
 
 const removeFilter = (idx: number): void => {
-  filtersStore.removeFilter(idx);
+  filters.removeFilter(idx);
 }
 
 const changeFilterRef = (filterIdx: number, ref: FilterRef) => {
-  filtersStore.changeFilterRef(filterIdx, ref);
+  filters.changeFilterRef(filterIdx, ref);
 }
 
 const changeFilterOperation = (filterIdx: number, opId: OperationId) => {
-  filtersStore.changeFilterOperation(filterIdx, opId);
+  filters.changeFilterOperation(filterIdx, opId);
 }
 
 const addFilterValue = (filterIdx: number, value: Value) => {
-  filtersStore.addFilterValue(filterIdx, value);
+  filters.addFilterValue(filterIdx, value);
 }
 
 const removeFilterValue = (filterIdx: number, value: Value) => {
-  filtersStore.removeFilterValue(filterIdx, value);
+  filters.removeFilterValue(filterIdx, value);
 }
 </script>
