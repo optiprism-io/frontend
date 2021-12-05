@@ -88,6 +88,11 @@ export function userCustomPropertyRef(e: UserCustomProperty): PropertyRef {
     return <PropertyRef>{type: PropertyType.UserCustom, id: e.id}
 }
 
+export interface Cohort {
+    id: number;
+    name: string;
+}
+
 export interface CustomEvent {
     id: number;
     createdAt: Date;

@@ -17,7 +17,7 @@ import Select, {Group, Item} from "../../Select/Select.vue";
 import {lexiconStore} from "../../../stores/lexicon";
 import {computed, ref} from "vue";
 import {
-  FilterCohort,
+  FilterRefCohort,
   FilterRef,
   newFilterCohort, newFilterUserCustomProperty,
   newFilterUserProperty

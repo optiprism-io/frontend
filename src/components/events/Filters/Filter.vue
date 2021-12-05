@@ -65,8 +65,8 @@
 <script setup lang="ts">
 import {
   Filter,
-  FilterRef, FilterUserCustomProperty,
-  FilterUserProperty, isFilterCohort,
+  FilterRef, FilterRefUserCustomProperty,
+  FilterRefUserProperty, isFilterCohort,
   isFilterUserCustomProperty,
   isFilterUserProperty
 } from "../../../stores/eventSegmentation/filters";
@@ -118,9 +118,9 @@ const removeValueButton = (value: Value) => {
 }
 const refName = (ref: FilterRef): string => {
   if (isFilterUserProperty(ref)) {
-    return lexicon.findUserPropertyById((ref as FilterUserProperty).id).name;
+    return lexicon.findUserPropertyById((ref as FilterRefUserProperty).id).name;
   } else if (isFilterUserCustomProperty(ref)) {
-    return lexicon.findUserCustomPropertyById((ref as FilterUserProperty).id).name;
+    return lexicon.findUserCustomPropertyById((ref as FilterRefUserProperty).id).name;
   } else if (isFilterCohort(ref)) {
     return 'Cohort'
   }

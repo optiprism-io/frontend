@@ -11,7 +11,7 @@ import {lexiconStore} from "../../../stores/lexicon";
 import {computed, ref} from "vue";
 import {
   FilterRef,
-  FilterUserProperty,
+  FilterRefUserProperty,
   isFilterUserCustomProperty,
   isFilterUserProperty
 } from "../../../stores/eventSegmentation/filters";
@@ -32,13 +32,13 @@ const items = computed((): Item[] => {
 
 
   if (isFilterUserProperty(props.filterRef)) {
-    const prop = lexicon.findUserPropertyById((props.filterRef as FilterUserProperty).id)
+    const prop = lexicon.findUserPropertyById((props.filterRef as FilterRefUserProperty).id)
     findOperations(prop.type, prop.nullable, prop.is_array).forEach((op) => ret.push(<Item>{
       item: op.id,
       name: op.name
     }))
   } else if (isFilterUserCustomProperty(props.filterRef)) {
-    const prop = lexicon.findUserCustomPropertyById((props.filterRef as FilterUserProperty).id)
+    const prop = lexicon.findUserCustomPropertyById((props.filterRef as FilterRefUserProperty).id)
     findOperations(prop.type, prop.nullable, prop.isArray).forEach((op) => ret.push(<Item>{
       item: op.id,
       name: op.name

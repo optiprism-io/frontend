@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import Events from "./components/events/Events/Events.vue";
-// import Breakdowns from "./components/events/Breakdowns/Breakdowns.vue";
+import Breakdowns from "./components/events/Breakdowns/Breakdowns.vue";
 import Filters from "./components/events/Filters/Filters.vue";
 import Header from './components/Header.vue'
 </script>
@@ -35,8 +35,7 @@ import Header from './components/Header.vue'
               </div>
             </div>
           </div>
-          <div class="pf-l-grid__item pf-m-6-col">
-
+          <div class="pf-l-grid__item pf-m-6-col pf-m-4-row">
           </div>
           <div class="pf-l-grid__item pf-m-6-col">
             <div class="pf-c-card pf-m-hoverable pf-m-compact">
@@ -54,7 +53,18 @@ import Header from './components/Header.vue'
                 <p>Breakdowns</p>
               </div>
               <div class="pf-c-card__body">
-<!--                <Breakdowns/>-->
+                <Breakdowns/>
+              </div>
+            </div>
+          </div>
+
+          <div class="pf-l-grid__item pf-m-6-col">
+            <div class="pf-c-card pf-m-hoverable pf-m-compact">
+              <div class="pf-c-card__title">
+                <p>Breakdowns</p>
+              </div>
+              <div class="pf-c-card__body">
+                <Breakdowns/>
               </div>
             </div>
           </div>
@@ -69,4 +79,10 @@ import Header from './components/Header.vue'
 </template>
 
 <style>
+:root {
+  --pf-global--spacer--md: .7rem;
+  --pf-global--FontSize--md: 0.9rem;
+  --pf-c-page__main-section--PaddingTop: 1rem;
+  --pf-global--gutter: .7rem;
+}
 </style>

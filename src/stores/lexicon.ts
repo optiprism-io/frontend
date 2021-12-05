@@ -7,10 +7,11 @@ import {
     Event,
     EventCustomProperty,
     EventStatus,
-    UserProperty, EventType, EventRef,
+    UserProperty, EventType, EventRef, Cohort,
 } from '../types'
 
 type Lexicon = {
+    cohorts: Cohort[],
     events: Event[],
     customEvents: CustomEvent[],
     eventProperties: EventProperty[],
@@ -21,6 +22,20 @@ type Lexicon = {
 
 export const lexiconStore = defineStore('lexicon', {
     state: (): Lexicon => ({
+        cohorts: [
+            {
+                id: 1,
+                name: 'Active users'
+            },
+            {
+                id: 2,
+                name: 'iOS users'
+            },
+            {
+                id: 3,
+                name: 'Profitable users'
+            }
+        ],
         eventProperties: [
             {
                 id: 1,
@@ -417,6 +432,15 @@ export const lexiconStore = defineStore('lexicon', {
                     return e
                 }
                 throw new Error(`undefined user custom property id: {$id}`)
+            }
+        },
+        findCohortById(state: Lexicon) {
+            return (id: number): Cohort => {
+                let e = state.cohorts.find((cohort): boolean => cohort.id === id)
+                if (e) {
+                    return e
+                }
+                throw new Error(`undefined cohort id: {$id}`)
             }
         },
     },

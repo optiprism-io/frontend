@@ -3,32 +3,32 @@ import * as types from "../../types";
 import {OperationId, PropertyRef, Value} from "../../types";
 import {Prop} from "vue";
 
-export type FilterUserProperty = {
+export type FilterRefUserProperty = {
     type: string;
     id: number;
 }
 
-export type FilterUserCustomProperty = {
+export type FilterRefUserCustomProperty = {
     type: string;
     id: number;
 }
 
-export type FilterCohort = {
+export type FilterRefCohort = {
     type: string;
 }
 
-export type FilterRef = FilterUserProperty | FilterUserCustomProperty | FilterCohort
+export type FilterRef = FilterRefUserProperty | FilterRefUserCustomProperty | FilterRefCohort
 
 export const newFilterCohort = () => {
-    return <FilterCohort>{type: "Cohort"}
+    return <FilterRefCohort>{type: "Cohort"}
 }
 
 export const newFilterUserProperty = (id: number) => {
-    return <FilterUserProperty>{type: "UserProperty", id: id}
+    return <FilterRefUserProperty>{type: "UserProperty", id: id}
 }
 
 export const newFilterUserCustomProperty = (id: number) => {
-    return <FilterUserCustomProperty>{type: "UserCustomProperty", id: id}
+    return <FilterRefUserCustomProperty>{type: "UserCustomProperty", id: id}
 }
 
 export const isFilterUserProperty = (ref: FilterRef): boolean => {
@@ -36,11 +36,11 @@ export const isFilterUserProperty = (ref: FilterRef): boolean => {
 }
 
 export const isFilterUserCustomProperty = (ref: FilterRef): boolean => {
-    return ref.type === 'FilterUserCustomProperty'
+    return ref.type === 'UserCustomProperty'
 }
 
 export const isFilterCohort = (ref: FilterRef): boolean => {
-    return ref.type === 'FilterCohort'
+    return ref.type === 'Cohort'
 }
 
 export interface Filter {

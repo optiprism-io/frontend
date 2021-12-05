@@ -1,58 +1,48 @@
 <template>
   <div class="pf-l-flex pf-m-column">
-    <Filter
-        v-for="(filter,index) in filtersFilters"
-        :filter="filter"
+    <Breakdown
+        v-for="(breakdown,index) in breakdowns"
+        :breakdown="breakdown"
         :index="index"
-        @removeFilter="removeFilter"
-        @changeFilterRef="changeFilterRef"
-        @changeFilterOperation="changeFilterOperation"
-        @addFilterValue="addFilterValue"
-        @removeFilterValue="removeFilterValue"
+        @removeBreakdown="removeBreakdown"
+        @changeBreakdown="changeBreakdown"
     />
     <div class="pf-l-flex">
-      <RefSelect @select="addFilter">
-        <button class="pf-c-button pf-m-primary" type="button">
+      <BreakdownSelect @select="addBreakdown">
+        <slot>
+          <button class="pf-c-button pf-m-primary" type="button">
           <span class="pf-c-button__icon pf-m-start">
             <i class="fas fa-plus-circle" aria-hidden="true"></i>
           </span>
-          Add Filter
-        </button>
-      </RefSelect>
+            Add Breakdown
+          </button>
+        </slot>
+      </BreakdownSelect>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import {OperationId, PropertyRef, Value} from '../../../types'
-import RefSelect from "./RefSelect.vue";
-import Filter from "./Breakdown.vue";
-import {FilterRef, filtersStore} from "../../../stores/eventSegmentation/filters";
+import BreakdownSelect from './BreakdownSelect.vue'
+import Breakdown from './Breakdown.vue';
+import {
+  breakdownsStore as newBreakdownsStore,
+  Breakdown as StoreBreakdown
+} from '../../../stores/eventSegmentation/breakdowns';
 
-const filters = filtersStore();
-const filtersFilters = filters.filters;
+const breakdownsStore = newBreakdownsStore();
+const breakdowns = breakdownsStore.breakdowns;
 
-const addFilter = (ref:FilterRef): void => {
-  filters.addFilter(ref);
+const addBreakdown = (breakdown: StoreBreakdown): void => {
+  breakdownsStore.addBreakdown(breakdown);
 }
 
-const removeFilter = (idx: number): void => {
-  filters.removeFilter(idx);
+const removeBreakdown = (idx: number): void => {
+  breakdownsStore.removeBreakdown(idx);
 }
 
-const changeFilterRef = (filterIdx: number, ref: FilterRef) => {
-  filters.changeFilterRef(filterIdx, ref);
+const changeBreakdown = (idx: number, breakdown: StoreBreakdown): void => {
+  breakdownsStore.changeBreakdown(idx, breakdown);
 }
 
-const changeFilterOperation = (filterIdx: number, opId: OperationId) => {
-  filters.changeFilterOperation(filterIdx, opId);
-}
-
-const addFilterValue = (filterIdx: number, value: Value) => {
-  filters.addFilterValue(filterIdx, value);
-}
-
-const removeFilterValue = (filterIdx: number, value: Value) => {
-  filters.removeFilterValue(filterIdx, value);
-}
 </script>
