@@ -1,10 +1,7 @@
-import {numberToPos} from "vite/dist/node/utils";
-import {Prop} from "vue";
-
 export enum DataTypeKind {
     String,
     Number,
-    Boolean
+    Boolean,
 }
 
 export enum DataType {
@@ -55,8 +52,8 @@ export type PropertyRef = {
 }
 
 export enum EventStatus {
-    Enabled = "enabled",
-    Disabled = "disabled",
+    Enabled = 'enabled',
+    Disabled = 'disabled',
 }
 
 export type EventRef = {
@@ -65,27 +62,27 @@ export type EventRef = {
 }
 
 export function eventRef(e: Event): EventRef {
-    return <EventRef>{type: EventType.Regular, id: e.id}
+    return <EventRef>{ type: EventType.Regular, id: e.id }
 }
 
 export function customEventRef(e: CustomEvent): EventRef {
-    return <EventRef>{type: EventType.Custom, id: e.id}
+    return <EventRef>{ type: EventType.Custom, id: e.id }
 }
 
 export function eventPropertyRef(e: EventProperty): PropertyRef {
-    return <PropertyRef>{type: PropertyType.Event, id: e.id}
+    return <PropertyRef>{ type: PropertyType.Event, id: e.id }
 }
 
 export function eventCustomPropertyRef(e: EventCustomProperty): PropertyRef {
-    return <PropertyRef>{type: PropertyType.EventCustom, id: e.id}
+    return <PropertyRef>{ type: PropertyType.EventCustom, id: e.id }
 }
 
 export function userPropertyRef(e: UserProperty): PropertyRef {
-    return <PropertyRef>{type: PropertyType.User, id: e.id}
+    return <PropertyRef>{ type: PropertyType.User, id: e.id }
 }
 
 export function userCustomPropertyRef(e: UserCustomProperty): PropertyRef {
-    return <PropertyRef>{type: PropertyType.UserCustom, id: e.id}
+    return <PropertyRef>{ type: PropertyType.UserCustom, id: e.id }
 }
 
 export interface Cohort {
