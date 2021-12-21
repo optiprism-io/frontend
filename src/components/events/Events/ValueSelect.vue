@@ -1,45 +1,44 @@
 <template>
-  <MultiSelect @select="add" @deselect="remove" :items="items" :selected="selected">
-    <slot></slot>
-  </MultiSelect>
+    <MultiSelect :items="items" :selected="selected" @select="add" @deselect="remove">
+        <slot></slot>
+    </MultiSelect>
 </template>
 
 <script setup lang="ts">
-import {
-  PropertyRef,
-  Value
-} from '../../../types'
-import MultiSelect, {Item} from "../../MultiSelect/MultiSelect.vue";
-import {computed} from "vue";
+import { PropertyRef, Value } from "../../../types";
+import MultiSelect, { Item } from "../../MultiSelect/MultiSelect.vue";
+import { computed } from "vue";
 
-const props = withDefaults(defineProps<{
-  propertyRef: PropertyRef;
-  selected?: Value[];
-}>(), {
-  selected: () => [],
-});
+withDefaults(
+    defineProps<{
+        propertyRef: PropertyRef;
+        selected?: Value[];
+    }>(),
+    {
+        selected: () => []
+    }
+);
 
 const emit = defineEmits<{
-  (e: 'add', value: Value): void
-  (e: 'remove', value: Value): void
-}>()
+    (e: "add", value: Value): void;
+    (e: "remove", value: Value): void;
+}>();
 
 const items = computed((): Item[] => {
-  let ret: Item[] = []
+    let ret: Item[] = [];
 
-  for (let i = 0; i < 100; i++) {
-    ret.push(<Item>{item: i, name: i.toString()});
-  }
+    for (let i = 0; i < 100; i++) {
+        ret.push({ item: i, name: i.toString() });
+    }
 
-  return ret;
-})
+    return ret;
+});
 
 const add = (value: Value) => {
-  emit('add', value)
+    emit("add", value);
 };
 
 const remove = (value: Value) => {
-  emit('remove', value)
+    emit("remove", value);
 };
-
 </script>

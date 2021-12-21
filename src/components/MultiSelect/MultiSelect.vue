@@ -1,10 +1,10 @@
 <template>
-    <Popper placement="bottom-start" :key="key" ref="popper">
+    <Popper :key="key" ref="popper" placement="bottom-start">
         <slot></slot>
-        <template #content="{ close }">
+        <template #content>
             <div
                 class="pf-c-card pf-m-compact pf-u-min-width"
-                style="--pf-u-min-width--MinWidth: 350px;"
+                style="--pf-u-min-width--MinWidth: 350px"
             >
                 <MultiSelectList
                     :items="items"
@@ -18,35 +18,34 @@
 </template>
 
 <script setup lang="ts">
-import Popper from 'vue3-popper'
-import MultiSelectList from './MultiSelectList.vue'
-import { ref } from 'vue'
+import Popper from "vue3-popper";
+import MultiSelectList from "./MultiSelectList.vue";
+import { ref } from "vue";
 
 export interface Item {
     item: any;
-    name: string
+    name: string;
 }
 
 const emit = defineEmits<{
-    (e: 'select', item: any): void
-    (e: 'deselect', item: any): void
-}>()
+    (e: "select", item: any): void;
+    (e: "deselect", item: any): void;
+}>();
 
-const props = withDefaults(defineProps<{
+defineProps<{
     items: Item[];
     selected?: any;
-}>(), {
-});
+}>();
 
 let key = ref(0);
 
 const select = (item: any): void => {
-    emit('select', item);
-}
+    emit("select", item);
+};
 
 const deselect = (item: any): void => {
-    emit('deselect', item);
-}
+    emit("deselect", item);
+};
 </script>
 
 <style scoped>

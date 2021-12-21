@@ -1,10 +1,10 @@
 <template>
-    <Popper placement="bottom-start" :key="key" ref="popper">
+    <Popper :key="key" ref="popper" placement="bottom-start">
         <slot></slot>
         <template #content="{ close }">
             <div
                 class="pf-c-card pf-m-compact pf-u-min-width"
-                style="--pf-u-min-width--MinWidth: 700px;"
+                style="--pf-u-min-width--MinWidth: 700px"
             >
                 <div class="pf-l-grid pf-m-all-6-col">
                     <div class="pf-l-grid__item event-select__select">
@@ -26,13 +26,13 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-import Popper from 'vue3-popper'
-import SelectList from './SelectList.vue'
+import { ref } from "vue";
+import Popper from "vue3-popper";
+import SelectList from "./SelectList.vue";
 
 export interface Item {
-    item: any
-    name: string
+    item: any;
+    name: string;
 }
 
 export interface Group {
@@ -41,31 +41,35 @@ export interface Group {
 }
 
 const emit = defineEmits<{
-    (e: 'select', item: any): void
-}>()
+    (e: "select", item: any): void;
+}>();
 
-const props = withDefaults(defineProps<{
-    items: Item[] | Group[];
-    grouped?: boolean;
-    selected?: any;
-}>(), {
-    grouped: false,
-});
+const props = withDefaults(
+    defineProps<{
+        items: Item[] | Group[];
+        grouped?: boolean;
+        selected?: any;
+    }>(),
+    {
+        grouped: false,
+        selected: false
+    }
+);
 
 let key = ref(0);
 
 // this way we're able te change initially selected item on hover
-let selectedItem = ref(props.selected)
+let selectedItem = ref(props.selected);
 
 const select = (item: any, close: () => void): void => {
     close();
     key.value++;
-    emit('select', item);
-}
+    emit("select", item);
+};
 
 const hover = (item: any): void => {
-    selectedItem.value = item
-}
+    selectedItem.value = item;
+};
 </script>
 
 <style scoped>

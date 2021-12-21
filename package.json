@@ -1,23 +1,33 @@
 {
-  "name": "analytics-frontend-vue",
-  "version": "0.0.0",
-  "scripts": {
-    "dev": "vite",
-    "build": "vue-tsc --noEmit && vite build",
-    "serve": "vite preview"
-  },
-  "dependencies": {
-    "@patternfly/patternfly": "^4.164.2",
-    "@vue-patternfly/core": "^0.1.0-alpha.12",
-    "lodash": "^4.17.21",
-    "pinia": "^2.0.8",
-    "vue": "^3.2.26",
-    "vue3-popper": "^1.4.1"
-  },
-  "devDependencies": {
-    "@vitejs/plugin-vue": "^1.10.2",
-    "typescript": "^4.5.4",
-    "vite": "^2.7.4",
-    "vue-tsc": "^0.3.0"
-  }
+    "name": "analytics-frontend-vue",
+    "version": "0.0.0",
+    "scripts": {
+        "dev": "vite",
+        "lint": "eslint --ext .ts,vue --ignore-path .gitignore . --fix",
+        "build": "vue-tsc --noEmit && vite build",
+        "serve": "vite preview"
+    },
+    "dependencies": {
+        "@patternfly/patternfly": "^4.164.2",
+        "@vue-patternfly/core": "^0.1.0-alpha.12",
+        "lodash": "^4.17.21",
+        "pinia": "^2.0.8",
+        "vue": "^3.2.26",
+        "vue3-popper": "^1.4.1"
+    },
+    "devDependencies": {
+        "@typescript-eslint/eslint-plugin": "^5.8.0",
+        "@typescript-eslint/parser": "^5.8.0",
+        "@vitejs/plugin-vue": "^1.10.2",
+        "@vue/compiler-sfc": "^3.2.26",
+        "@vue/eslint-config-prettier": "^6.0.0",
+        "@vue/eslint-config-typescript": "^9.1.0",
+        "eslint": "^8.5.0",
+        "eslint-plugin-prettier": "^4.0.0",
+        "eslint-plugin-vue": "^8.2.0",
+        "prettier": "^2.5.1",
+        "typescript": "^4.5.4",
+        "vite": "^2.7.4",
+        "vue-tsc": "^0.3.0"
+    }
 }
