@@ -1,0 +1,50 @@
+:root {
+    --op-base-color: #3d4a58;
+    --op-base-light: #bdcbd5;
+    --op-base-background: #fafafa;
+
+    --pf-global--base-light-color--100: #d0d5d9;
+    --pf-global--base-light-color--200: #99a1a9;
+    --pf-global--base-light-color--light-100: #495664;
+    --pf-global--base-light-color--dark-100: #475261;
+
+    --pf-c-button--m-base-light--BackgroundColor: transparent;
+    --pf-c-button--m-base-light--Color: var(--op-base-light);
+    --pf-c-button--m-base-light--hover--BackgroundColor: transparent;
+    --pf-c-button--m-base-light--hover--Color: var(--pf-global--Color--light-200);
+    --pf-c-button--m-base-light--focus--BackgroundColor: transparent;
+    --pf-c-button--m-base-light--focus--Color: var(--pf-global--Color--light-200);
+    --pf-c-button--m-base-light--active--BackgroundColor: transparent;
+    --pf-c-button--m-base-light--active--Color: var(--pf-global--Color--light-200);
+    --pf-c-button--m-base-light--disabled--Color: var(--pf-global--disabled-color--200);
+    --pf-c-button--m-base-light--disabled--BackgroundColor: transparent;
+
+    --pf-c-button--m-bright--BackgroundColor: var(--pf-global--base-light-color--light-100);
+    --pf-c-button--m-bright--Color: var(--pf-global--base-light-color--200);
+    --pf-c-button--m-bright--hover--BackgroundColor: var(--pf-global--base-light-color--dark-100);
+    --pf-c-button--m-bright--hover--Color: var(--pf-global--base-light-color--200);
+    --pf-c-button--m-bright--focus--BackgroundColor: var(--pf-global--base-light-color--dark-100);
+    --pf-c-button--m-bright--focus--Color: var(--pf-global--base-light-color--200);
+    --pf-c-button--m-bright--active--BackgroundColor: var(--pf-global--base-light-color--dark-100);
+    --pf-c-button--m-bright--active--Color: var(--pf-global--base-light-color--200);
+    --pf-c-button--m-bright--disabled--Color: var(--pf-global--disabled-color--200);
+    --pf-c-button--m-bright--disabled--BackgroundColor: transparent;
+}
+
+.pf-icon {
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    display: inline-block;
+    font-style: normal;
+    font-variant: normal;
+    text-rendering: auto;
+    line-height: 1;
+}
+
+#app {
+    min-height: 100vh;
+}
+
+.pf-c-page {
+    height: 100%;
+}

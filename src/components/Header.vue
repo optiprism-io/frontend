@@ -1,126 +1,33 @@
 <template>
-    <header class="pf-c-page__header">
-        <div class="pf-c-page__header-brand">
-            <div class="pf-c-page__header-brand-toggle">
-                <button
-                    id="card-view-example-nav-toggle"
-                    class="pf-c-button pf-m-plain"
-                    type="button"
-                    aria-label="Global navigation"
-                    aria-expanded="true"
-                    aria-controls="card-view-example-primary-nav"
-                >
-                    <i class="fas fa-bars" aria-hidden="true"></i>
-                </button>
-            </div>
-            <a href="#" class="pf-c-page__header-brand-link"></a>
-        </div>
-
-        <div class="pf-c-page__header-tools">
-            <div class="pf-c-page__header-tools-group">
-                <div class="pf-c-page__header-tools-item pf-m-hidden pf-m-visible-on-lg">
-                    <button class="pf-c-button pf-m-plain" type="button" aria-label="Settings">
-                        <i class="fas fa-cog" aria-hidden="true"></i>
-                    </button>
-                </div>
-                <div class="pf-c-page__header-tools-item pf-m-hidden pf-m-visible-on-lg">
-                    <button class="pf-c-button pf-m-plain" type="button" aria-label="Help">
-                        <i class="pf-icon pf-icon-help" aria-hidden="true"></i>
-                    </button>
+    <header class="op-header">
+        <div class="pf-l-flex pf-m-justify-content-space-between">
+            <div class="pf-l-flex__item">
+                <div class="op-header__menu">
+                    <UiDropdown :value="'MyShop'" />
                 </div>
             </div>
-            <div class="pf-c-page__header-tools-group">
-                <div class="pf-c-page__header-tools-item pf-m-hidden-on-lg">
-                    <div class="pf-c-dropdown">
-                        <button
-                            id="card-view-example-dropdown-kebab-1-button"
-                            class="pf-c-dropdown__toggle pf-m-plain"
-                            aria-expanded="false"
-                            type="button"
-                            aria-label="Actions"
-                        >
-                            <i class="fas fa-ellipsis-v" aria-hidden="true"></i>
-                        </button>
-                        <ul
-                            class="pf-c-dropdown__menu pf-m-align-right"
-                            aria-labelledby="card-view-example-dropdown-kebab-1-button"
-                            hidden
-                        >
-                            <li>
-                                <a class="pf-c-dropdown__menu-item" href="#">Link</a>
-                            </li>
-                            <li>
-                                <button class="pf-c-dropdown__menu-item" type="button">
-                                    Action
-                                </button>
-                            </li>
-                            <li>
-                                <a
-                                    class="pf-c-dropdown__menu-item pf-m-disabled"
-                                    href="#"
-                                    aria-disabled="true"
-                                    tabindex="-1"
-                                    >Disabled link</a
-                                >
-                            </li>
-                            <li>
-                                <button class="pf-c-dropdown__menu-item" type="button" disabled>
-                                    Disabled action
-                                </button>
-                            </li>
-                            <li class="pf-c-divider" role="separator"></li>
-                            <li>
-                                <a class="pf-c-dropdown__menu-item" href="#">Separated link</a>
-                            </li>
-                        </ul>
+            <div class="pf-l-flex__item">
+                <div class="op-header__tools">
+                    <div class="pf-c-page__header-tools-group">
+                        <div class="pf-c-page__header-tools-item">
+                            <UiButton
+                                :icon="'fas fa-cog'"
+                                class="pf-m-base-light"
+                                aria-label="Settings"
+                            />
+                        </div>
+                        <div class="pf-c-page__header-tools-item">
+                            <UiButton
+                                :icon="'pf-icon pf-icon-help'"
+                                class="pf-m-base-light"
+                                aria-label="Help"
+                            />
+                        </div>
                     </div>
-                </div>
-                <div class="pf-c-page__header-tools-item pf-m-hidden pf-m-visible-on-md">
-                    <div class="pf-c-dropdown">
-                        <button
-                            id="card-view-example-dropdown-kebab-2-button"
-                            class="pf-c-dropdown__toggle pf-m-plain"
-                            aria-expanded="false"
-                            type="button"
-                        >
-                            <span class="pf-c-dropdown__toggle-text">John Smith</span>
-                            <span class="pf-c-dropdown__toggle-icon">
-                                <i class="fas fa-caret-down" aria-hidden="true"></i>
-                            </span>
-                        </button>
-                        <ul
-                            class="pf-c-dropdown__menu"
-                            aria-labelledby="card-view-example-dropdown-kebab-2-button"
-                            hidden
-                        >
-                            <li>
-                                <a class="pf-c-dropdown__menu-item" href="#">Link</a>
-                            </li>
-                            <li>
-                                <button class="pf-c-dropdown__menu-item" type="button">
-                                    Action
-                                </button>
-                            </li>
-                            <li>
-                                <a
-                                    class="pf-c-dropdown__menu-item pf-m-disabled"
-                                    href="#"
-                                    aria-disabled="true"
-                                    tabindex="-1"
-                                >
-                                    Disabled link
-                                </a>
-                            </li>
-                            <li>
-                                <button class="pf-c-dropdown__menu-item" type="button" disabled>
-                                    Disabled action
-                                </button>
-                            </li>
-                            <li class="pf-c-divider" role="separator"></li>
-                            <li>
-                                <a class="pf-c-dropdown__menu-item" href="#">Separated link</a>
-                            </li>
-                        </ul>
+                    <div class="pf-c-page__header-tools-group">
+                        <div class="pf-c-page__header-tools-item">
+                            <UiDropdown :value="'Jone Smith'" />
+                        </div>
                     </div>
                 </div>
             </div>
@@ -129,7 +36,20 @@
 </template>
 
 <script setup lang="ts">
-const x = "header";
+import UiButton from "./uikit/UiButton.vue";
+import UiDropdown from "./uikit/UiDropdown.vue";
 </script>
 
-<style scoped></style>
+<style scoped lang="scss">
+.op-header {
+    padding: 8px 15px;
+    grid-area: header;
+    background-color: var(--op-base-color);
+
+    &__tools {
+        margin-left: auto;
+        display: flex;
+        color: #fff;
+    }
+}
+</style>

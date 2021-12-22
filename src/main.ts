@@ -1,14 +1,12 @@
 import "@patternfly/patternfly/patternfly.css";
+import "./assets/styles/main.scss";
 
 import { createApp } from "vue";
 import App from "./App.vue";
-import VuePatternfly4 from "@vue-patternfly/core";
-
 import { createPinia } from "pinia";
 
 const app = createApp(App);
 app.use(createPinia());
-app.use(VuePatternfly4);
 app.mount("#app");
 app.config.errorHandler = (err, vm, info) => {
     console.log(err, vm, info);

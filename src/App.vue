@@ -6,15 +6,9 @@ import Header from "./components/Header.vue";
 </script>
 
 <template>
-    <div id="card-view-example" class="pf-c-page">
+    <div class="pf-c-page">
         <Header />
-        <main id="main-content-card-view-example" class="pf-c-page__main" tabindex="-1">
-            <section class="pf-c-page__main-section pf-m-light">
-                <div class="pf-c-content">
-                    <h1>Untitled query</h1>
-                    <p>This is a demo that showcases PatternFly cards.</p>
-                </div>
-            </section>
+        <main class="pf-c-page__main">
             <section class="pf-c-page__main-section">
                 <div class="pf-l-grid pf-m-gutter">
                     <div class="pf-l-grid__item pf-m-6-col">
@@ -27,7 +21,14 @@ import Header from "./components/Header.vue";
                             </div>
                         </div>
                     </div>
-                    <div class="pf-l-grid__item pf-m-6-col pf-m-4-row"></div>
+                    <div class="pf-l-grid__item pf-m-6-col">
+                        <div class="pf-c-card pf-m-hoverable pf-m-compact">
+                            <div class="pf-c-card__title"><p>Segments</p></div>
+                            <div class="pf-c-card__body">
+                                <Breakdowns />
+                            </div>
+                        </div>
+                    </div>
                     <div class="pf-l-grid__item pf-m-6-col">
                         <div class="pf-c-card pf-m-hoverable pf-m-compact">
                             <div class="pf-c-card__title">
@@ -38,15 +39,6 @@ import Header from "./components/Header.vue";
                             </div>
                         </div>
                     </div>
-                    <div class="pf-l-grid__item pf-m-6-col">
-                        <div class="pf-c-card pf-m-hoverable pf-m-compact">
-                            <div class="pf-c-card__title"><p>Breakdowns</p></div>
-                            <div class="pf-c-card__body">
-                                <Breakdowns />
-                            </div>
-                        </div>
-                    </div>
-
                     <div class="pf-l-grid__item pf-m-6-col">
                         <div class="pf-c-card pf-m-hoverable pf-m-compact">
                             <div class="pf-c-card__title">
@@ -63,11 +55,20 @@ import Header from "./components/Header.vue";
     </div>
 </template>
 
-<style>
+<style lang="scss">
 :root {
     --pf-global--spacer--md: 0.7rem;
     --pf-global--FontSize--md: 0.9rem;
     --pf-c-page__main-section--PaddingTop: 1rem;
     --pf-global--gutter: 0.7rem;
+}
+
+.pf-c-page {
+    background-color: var(--op-base-background);
+    height: 100vh;
+
+    &__main-section {
+        padding: var(--pf-global--spacer--md);
+    }
 }
 </style>

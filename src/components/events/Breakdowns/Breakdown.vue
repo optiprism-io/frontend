@@ -4,9 +4,9 @@
         <div class="pf-c-action-list">
             <div class="pf-c-action-list__item">
                 <template v-if="isBreakdownCohort(breakdown)">
-                    <CohortSelect :selected="breakdown.cohortId" @select="changeCohort">
+                    <CohortSelect :selected="breakdownCohort.cohortId" @select="changeCohort">
                         <button
-                            v-if="breakdown.cohortId"
+                            v-if="breakdownCohort.cohortId"
                             class="pf-c-button pf-m-secondary"
                             type="button"
                         >
@@ -80,6 +80,11 @@ const lexicon = lexiconStore();
 const removeBreakdown = (): void => {
     emit("removeBreakdown", props.index);
 };
+
+const breakdownCohort = computed(
+    (): BreakdownCohort =>
+        isBreakdownCohort(props.breakdown) ? (props.breakdown as BreakdownCohort) : props.breakdown
+);
 
 const changeBreakdown = (breakdown: Breakdown): void => {
     emit("changeBreakdown", props.index, breakdown);

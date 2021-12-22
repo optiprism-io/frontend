@@ -13,7 +13,7 @@
                             <i
                                 class="fas fa-user-friends"
                                 aria-hidden="true"
-                                @click.stop="removeValueButton(value)"
+                                @click.stop="removeValueButton(filter.opId)"
                             ></i>
                         </span>
                         {{ refName(filter.ref) }}
