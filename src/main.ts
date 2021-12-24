@@ -4,6 +4,11 @@ import "./assets/styles/main.scss";
 import { createApp } from "vue";
 import App from "./App.vue";
 import { createPinia } from "pinia";
+import makeServer from "./server";
+
+if (typeof makeServer === "function") {
+    makeServer();
+}
 
 const app = createApp(App);
 app.use(createPinia());

@@ -4,7 +4,7 @@ const client = axios.create({
     baseURL: "/api"
 });
 
-const getUrl = (endpoint = "/api", path?: string): string => {
+const getUrl = (endpoint = "/", path?: string): string => {
     return path ? `${endpoint}/${path}` : endpoint;
 };
 
@@ -12,7 +12,7 @@ const getResponse = (responseClient: any) => {
     return responseClient && responseClient.data ? responseClient.data : false;
 };
 
-export const get = async (endpoint = "/api", path: string, params: any, settings = {}) => {
+export const get = async (endpoint = "/", path: string, params: any, settings = {}) => {
     const response = await client.get(getUrl(endpoint, path), {
         params,
         ...settings

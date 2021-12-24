@@ -1,4 +1,5 @@
 import { defineStore } from "pinia";
+import schemaService from "../api/services/schema.service";
 import {
     CustomEvent,
     EventProperty,
@@ -15,8 +16,11 @@ import {
 
 type Lexicon = {
     cohorts: Cohort[];
+
     events: Event[];
     customEvents: CustomEvent[];
+    eventsLoading: boolean;
+
     eventProperties: EventProperty[];
     eventCustomProperties: EventCustomProperty[];
     userProperties: UserProperty[];
@@ -218,80 +222,9 @@ export const lexiconStore = defineStore("lexicon", {
                 is_dictionary: false
             }
         ],
-        events: [
-            {
-                id: 1,
-                createdAt: new Date(),
-                createdBy: 0,
-                updatedBy: 0,
-                projectId: 0,
-                tags: ["Onboarding"],
-                name: "Sign Up",
-                description: "When user signs up",
-                status: EventStatus.Enabled
-            },
-            {
-                id: 2,
-                createdAt: new Date(),
-                createdBy: 0,
-                updatedBy: 0,
-                projectId: 0,
-                tags: ["General"],
-                name: "Search",
-                description: "Search",
-                status: EventStatus.Enabled,
-                properties: [1]
-            },
-            {
-                id: 3,
-                createdAt: new Date(),
-                createdBy: 0,
-                updatedBy: 0,
-                projectId: 0,
-                tags: ["General"],
-                name: "View Product",
-                description: "View product",
-                status: EventStatus.Enabled,
-                properties: [2, 3, 4]
-            },
-            {
-                id: 4,
-                createdAt: new Date(),
-                createdBy: 0,
-                updatedBy: 0,
-                projectId: 0,
-                tags: ["Revenue"],
-                name: "Add Product to Cart",
-                description: "Add Product to Cart",
-                status: EventStatus.Enabled,
-                properties: [5, 6, 7]
-            },
-            {
-                id: 5,
-                createdAt: new Date(),
-                createdBy: 0,
-                updatedBy: 0,
-                projectId: 0,
-                tags: ["Revenue"],
-                name: "Purchase Product",
-                description: "When product was purchased",
-                status: EventStatus.Enabled,
-                properties: [8, 9, 10, 11, 12]
-            }
-        ],
-        customEvents: [
-            {
-                id: 5,
-                createdAt: new Date(),
-                createdBy: 0,
-                updatedBy: 0,
-                projectId: 0,
-                tags: ["1"],
-                name: "Custom event",
-                description: "This is custom event",
-                status: EventStatus.Enabled
-            }
-        ],
+        eventsLoading: false,
+        events: [],
+        customEvents: [],
         userProperties: [
             {
                 id: 1,
@@ -366,6 +299,18 @@ export const lexiconStore = defineStore("lexicon", {
             }
         ]
     }),
+    actions: {
+        async getEvents() {
+            this.eventsLoading = true;
+            try {
+                this.events = await schemaService.events();
+                this.customEvents = await schemaService.customEvents();
+            } catch (error) {
+                console.log(error);
+            }
+            this.eventsLoading = false;
+        }
+    },
     getters: {
         eventName(state: Lexicon) {
             return (type: EventType, id: number): string => {

@@ -110,11 +110,14 @@ export interface Event {
     createdBy: number;
     updatedBy: number;
     projectId: number;
+    isSystyem: boolean;
     tags: string[];
     name: string;
+    displayName: string;
     description?: string;
     status: EventStatus;
     properties?: number[];
+    custom_properties?: number[];
 }
 
 export interface EventProperty {

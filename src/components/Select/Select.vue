@@ -3,11 +3,12 @@
         <slot></slot>
         <template #content="{ close }">
             <div
-                class="pf-c-card pf-m-compact pf-u-min-width"
+                class="select pf-c-card pf-m-display-lg pf-u-min-width"
                 style="--pf-u-min-width--MinWidth: 700px"
             >
-                <div class="pf-l-grid pf-m-all-6-col">
-                    <div class="pf-l-grid__item event-select__select">
+                <UiSpinner v-if="loading" class="select__loader" />
+                <div v-else class="pf-l-grid pf-m-all-6-col">
+                    <div class="pf-l-grid__item select__box">
                         <SelectList
                             :items="items"
                             :grouped="grouped"
@@ -16,7 +17,7 @@
                             @hover="hover"
                         />
                     </div>
-                    <div class="pf-l-grid__item event-select__description">
+                    <div class="pf-l-grid__items select__description">
                         <div class="pf-c-card__body">df</div>
                     </div>
                 </div>
@@ -29,6 +30,7 @@
 import { ref } from "vue";
 import Popper from "vue3-popper";
 import SelectList from "./SelectList.vue";
+import UiSpinner from "../uikit/UiSpinner.vue";
 
 export interface Item {
     item: any;
@@ -49,6 +51,7 @@ const props = withDefaults(
         items: Item[] | Group[];
         grouped?: boolean;
         selected?: any;
+        loading?: boolean;
     }>(),
     {
         grouped: false,
@@ -72,8 +75,21 @@ const hover = (item: any): void => {
 };
 </script>
 
-<style scoped>
-.event-select__description {
-    border-left: 1px solid #d2d2d2;
+<style scoped lang="scss">
+.select {
+    position: relative;
+    min-width: 34rem;
+    min-height: 16rem;
+
+    &__loader {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    &__description {
+        border-left: 1px solid #d2d2d2;
+    }
 }
 </style>

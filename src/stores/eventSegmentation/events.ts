@@ -18,7 +18,9 @@ type Events = {
 };
 
 export const eventsStore = defineStore("events", {
-    state: (): Events => ({ events: [] }),
+    state: (): Events => ({
+        events: []
+    }),
     actions: {
         changeEvent(index: number, ref: EventRef): void {
             this.events[index] = <Event>{ ref: ref, filters: [] };

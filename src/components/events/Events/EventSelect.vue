@@ -1,5 +1,5 @@
 <template>
-    <Select :items="items" grouped :selected="selectedItem" @select="select">
+    <Select :loading="isLoading" :items="items" grouped :selected="selectedItem" @select="select">
         <slot></slot>
     </Select>
 </template>
@@ -8,7 +8,7 @@
 import { CustomEvent, Event, EventRef, customEventRef, eventRef } from "../../../types";
 import Select, { Group, Item } from "../../Select/Select.vue";
 import { lexiconStore } from "../../../stores/lexicon";
-import { computed, ref } from "vue";
+import { computed } from "vue";
 
 const lexicon = lexiconStore();
 
@@ -19,6 +19,10 @@ const props = defineProps<{
 const emit = defineEmits<{
     (e: "select", ref: EventRef): void;
 }>();
+
+const isLoading = computed((): boolean => {
+    return lexicon.eventsLoading;
+});
 
 const items = computed((): Group[] => {
     let ret: Group[] = [];

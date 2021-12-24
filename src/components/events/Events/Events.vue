@@ -17,7 +17,7 @@
         />
         <div class="pf-l-flex">
             <EventSelect @select="addEvent">
-                <button class="pf-c-button pf-m-primary" type="button">
+                <button class="pf-c-button pf-m-primary" type="button" @click="getEvents">
                     <span class="pf-c-button__icon pf-m-start">
                         <i class="fas fa-plus-circle" aria-hidden="true"></i>
                     </span>
@@ -31,8 +31,16 @@
 <script setup lang="ts">
 import { EventRef, OperationId, PropertyRef, Value } from "../../../types";
 import { eventsStore as newEventsStore } from "../../../stores/eventSegmentation/events";
+import { lexiconStore } from "../../../stores/lexicon";
 import EventSelect from "./EventSelect.vue";
 import SelectedEvent from "./SelectedEvent.vue";
+
+const lexicon = lexiconStore();
+const getEvents = () => {
+    if (!lexicon.events.length) {
+        lexicon.getEvents();
+    }
+};
 
 const eventsStore = newEventsStore();
 const events = eventsStore.events;
