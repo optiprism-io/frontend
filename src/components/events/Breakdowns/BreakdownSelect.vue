@@ -89,8 +89,8 @@ const items = computed((): Group[] => {
                     for (let curProp of props) {
                         if (
                             firstProp.name === curProp.name &&
-                            firstProp.is_array === curProp.is_array &&
-                            firstProp.is_dictionary === curProp.is_dictionary
+                            firstProp.isArray === curProp.isArray &&
+                            firstProp.isDictionary === curProp.isDictionary
                         ) {
                             found = true;
                             break;
@@ -114,8 +114,7 @@ const items = computed((): Group[] => {
                         for (let curProp of props) {
                             if (
                                 firstProp.name === curProp.name &&
-                                firstProp.is_array === curProp.is_array &&
-                                firstProp.is_dictionary === curProp.is_dictionary
+                                firstProp.isArray === curProp.isArray
                             ) {
                                 found = true;
                                 break;

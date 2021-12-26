@@ -50,6 +50,7 @@ const items = computed((): Group[] => {
             }
             items.push({ item: customEventRef(e), name: e.name });
         });
+        // Other group
 
         if (items.length) {
             ret.push({ name: "Custom Events", items });

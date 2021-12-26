@@ -26,7 +26,7 @@ const items = computed((): Item[] => {
 
     if (props.propertyRef.type === PropertyType.Event) {
         const prop = lexicon.findEventPropertyById(props.propertyRef.id);
-        findOperations(prop.type, prop.nullable, prop.is_array).forEach(op =>
+        findOperations(prop.type, prop.nullable, prop.isArray).forEach(op =>
             ret.push({
                 item: op.id,
                 name: op.name
@@ -34,7 +34,7 @@ const items = computed((): Item[] => {
         );
     } else if (props.propertyRef.type === PropertyType.EventCustom) {
         const prop = lexicon.findEventCustomPropertyById(props.propertyRef.id);
-        findOperations(prop.type, prop.nullable, prop.is_array).forEach(op =>
+        findOperations(prop.type, prop.nullable, prop.isArray).forEach(op =>
             ret.push({
                 item: op.id,
                 name: op.name
