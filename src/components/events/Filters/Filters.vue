@@ -13,12 +13,9 @@
         />
         <div class="pf-l-flex">
             <RefSelect @select="addFilter">
-                <button class="pf-c-button pf-m-primary" type="button">
-                    <span class="pf-c-button__icon pf-m-start">
-                        <i class="fas fa-plus-circle" aria-hidden="true"></i>
-                    </span>
+                <UiButton class="pf-m-main" :is-link="true" :before-icon="'fas fa-plus'">
                     Add Filter
-                </button>
+                </UiButton>
             </RefSelect>
         </div>
     </div>
@@ -32,6 +29,7 @@ import {
     FilterRef,
     filtersStore as newFiltersStore
 } from "../../../stores/eventSegmentation/filters";
+import UiButton from "@/components/uikit/UiButton.vue";
 
 const filtersStore = newFiltersStore();
 const filters = filtersStore.filters;

@@ -6,8 +6,12 @@
         :selected="selectedItem"
         @select="select"
         @on-search="onSearch"
+        @on-hover="onHover"
     >
         <slot></slot>
+        <template v-if="description" #description>
+            {{ description }}
+        </template>
     </Select>
 </template>
 
@@ -18,6 +22,8 @@ import { lexiconStore } from "../../../stores/lexicon";
 import { computed, ref } from "vue";
 
 const search = ref("");
+const description = ref("");
+
 const lexicon = lexiconStore();
 
 const props = defineProps<{
@@ -90,5 +96,18 @@ const select = (item: EventRef) => {
 
 const onSearch = (payload: string) => {
     search.value = payload;
+};
+
+const onHover = (item: any) => {
+    let storeItem: Event | CustomEvent | undefined;
+
+    if (item.type === 0) {
+        storeItem = lexicon.events.find(event => event.id === item.id);
+    }
+    if (item.type === 1) {
+        storeItem = lexicon.customEvents.find(event => event.id === item.id);
+    }
+
+    description.value = storeItem?.description || "";
 };
 </script>

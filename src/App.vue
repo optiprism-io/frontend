@@ -12,7 +12,7 @@ import Header from "./components/Header.vue";
             <section class="pf-c-page__main-section">
                 <div class="pf-l-grid pf-m-gutter">
                     <div class="pf-l-grid__item pf-m-6-col">
-                        <div class="pf-c-card pf-m-hoverable pf-m-compact">
+                        <div class="pf-c-card pf-m-compact">
                             <div class="pf-c-card__title">
                                 <p>Events</p>
                             </div>
@@ -22,7 +22,7 @@ import Header from "./components/Header.vue";
                         </div>
                     </div>
                     <div class="pf-l-grid__item pf-m-6-col">
-                        <div class="pf-c-card pf-m-hoverable pf-m-compact">
+                        <div class="pf-c-card pf-m-compact">
                             <div class="pf-c-card__title"><p>Segments</p></div>
                             <div class="pf-c-card__body">
                                 <Breakdowns />
@@ -30,7 +30,7 @@ import Header from "./components/Header.vue";
                         </div>
                     </div>
                     <div class="pf-l-grid__item pf-m-6-col">
-                        <div class="pf-c-card pf-m-hoverable pf-m-compact">
+                        <div class="pf-c-card pf-m-compact">
                             <div class="pf-c-card__title">
                                 <p>Filters</p>
                             </div>
@@ -40,7 +40,7 @@ import Header from "./components/Header.vue";
                         </div>
                     </div>
                     <div class="pf-l-grid__item pf-m-6-col">
-                        <div class="pf-c-card pf-m-hoverable pf-m-compact">
+                        <div class="pf-c-card pf-m-compact">
                             <div class="pf-c-card__title">
                                 <p>Breakdowns</p>
                             </div>
@@ -56,11 +56,44 @@ import Header from "./components/Header.vue";
 </template>
 
 <style lang="scss">
-:root {
-    --pf-global--spacer--md: 0.7rem;
-    --pf-global--FontSize--md: 0.9rem;
-    --pf-c-page__main-section--PaddingTop: 1rem;
-    --pf-global--gutter: 0.7rem;
+@mixin styled-scroll {
+    scrollbar-width: thin;
+    scrollbar-color: var(--pf-global--palette--black-150) transparent;
+
+    &::-webkit-scrollbar {
+        margin-top: 1rem;
+        display: block;
+        width: 0.6rem;
+        height: 0.6rem;
+    }
+
+    &::-webkit-scrollbar-track {
+        background-color: var(--pf-global--BackgroundColor--200);
+        border-radius: 0.4rem;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background-color: #979da3;
+        border-radius: 0.4rem;
+    }
+}
+
+.pf-icon {
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    display: inline-block;
+    font-style: normal;
+    font-variant: normal;
+    text-rendering: auto;
+    line-height: 1;
+}
+
+#app {
+    min-height: 100vh;
+}
+
+.pf-c-page {
+    height: 100%;
 }
 
 .pf-c-page {
@@ -69,6 +102,12 @@ import Header from "./components/Header.vue";
 
     &__main-section {
         padding: var(--pf-global--spacer--md);
+    }
+}
+
+.pf-c-menu.pf-m-scrollable {
+    .pf-c-menu__content {
+        @include styled-scroll();
     }
 }
 </style>

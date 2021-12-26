@@ -20,7 +20,7 @@
                 <UiButton
                     class="pf-m-main"
                     :is-link="true"
-                    :before-icon="'fas fa-plus-circle'"
+                    :before-icon="'fas fa-plus'"
                     @click="getEvents"
                 >
                     Add Event

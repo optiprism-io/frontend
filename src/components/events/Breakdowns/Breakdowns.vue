@@ -11,12 +11,9 @@
         <div class="pf-l-flex">
             <BreakdownSelect @select="addBreakdown">
                 <slot>
-                    <button class="pf-c-button pf-m-primary" type="button">
-                        <span class="pf-c-button__icon pf-m-start">
-                            <i class="fas fa-plus-circle" aria-hidden="true"></i>
-                        </span>
+                    <UiButton class="pf-m-main" :is-link="true" :before-icon="'fas fa-plus'">
                         Add Breakdown
-                    </button>
+                    </UiButton>
                 </slot>
             </BreakdownSelect>
         </div>
@@ -30,6 +27,7 @@ import {
     breakdownsStore as newBreakdownsStore,
     Breakdown as StoreBreakdown
 } from "../../../stores/eventSegmentation/breakdowns";
+import UiButton from "@/components/uikit/UiButton.vue";
 
 const breakdownsStore = newBreakdownsStore();
 const breakdowns = breakdownsStore.breakdowns;

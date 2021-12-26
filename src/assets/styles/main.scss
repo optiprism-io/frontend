@@ -1,4 +1,9 @@
 :root {
+    --pf-global--spacer--md: 0.7rem;
+    --pf-global--FontSize--md: 0.9rem;
+    --pf-c-page__main-section--PaddingTop: 1rem;
+    --pf-global--gutter: 0.7rem;
+
     --op-base-color: #3d4a58;
     --op-base-light: #bdcbd5;
     --op-base-background: #fafafa;
@@ -12,22 +17,4 @@
     --pf-global--base-light-color--200: #99a1a9;
     --pf-global--base-light-color--light-100: #495664;
     --pf-global--base-light-color--dark-100: #475261;
-}
-
-.pf-icon {
-    -moz-osx-font-smoothing: grayscale;
-    -webkit-font-smoothing: antialiased;
-    display: inline-block;
-    font-style: normal;
-    font-variant: normal;
-    text-rendering: auto;
-    line-height: 1;
-}
-
-#app {
-    min-height: 100vh;
-}
-
-.pf-c-page {
-    height: 100%;
 }

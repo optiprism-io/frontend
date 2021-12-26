@@ -2,14 +2,18 @@
     <Popper :key="key" ref="popper" placement="bottom-start">
         <slot></slot>
         <template #content="{ close }">
-            <div
-                class="select pf-c-card pf-m-display-lg pf-u-min-width"
-                style="--pf-u-min-width--MinWidth: 700px"
-            >
+            <div class="select pf-c-card pf-m-display-lg pf-u-min-width">
                 <div v-if="loading" class="select__loader-wrap">
                     <UiSpinner class="select__loader" />
                 </div>
-                <div v-else class="pf-l-grid pf-m-all-6-col">
+                <div
+                    v-else
+                    class="pf-l-grid"
+                    :class="{
+                        'pf-m-all-12-col': !slots.description,
+                        'pf-m-all-6-col': slots.description
+                    }"
+                >
                     <div class="pf-l-grid__item select__box">
                         <SelectList
                             :items="items"
@@ -20,8 +24,18 @@
                             @on-search="onSearch"
                         />
                     </div>
-                    <div class="pf-l-grid__items select__description">
-                        <div class="pf-c-card__body">df</div>
+                    <div
+                        v-if="slots.description"
+                        class="pf-l-grid__items select__box select__description"
+                    >
+                        <div class="pf-c-card__body">
+                            <div class="select__description-icon">
+                                <UiIcon icon="fas fa-info-circle" />
+                            </div>
+                            <div class="select__description-text">
+                                <slot name="description"></slot>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -30,10 +44,13 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, useSlots } from "vue";
 import Popper from "vue3-popper";
 import SelectList from "./SelectList.vue";
 import UiSpinner from "../uikit/UiSpinner.vue";
+import UiIcon from "@/components/uikit/UiIcon.vue";
+
+const slots = useSlots();
 
 export interface Item {
     item: any;
@@ -48,6 +65,7 @@ export interface Group {
 const emit = defineEmits<{
     (e: "select", item: any): void;
     (e: "onSearch", payload: string): void;
+    (e: "onHover", item: any): void;
 }>();
 
 const props = withDefaults(
@@ -76,7 +94,7 @@ const select = (item: any, close: () => void): void => {
 
 const hover = (item: any): void => {
     selectedItem.value = item;
-    // TODO hover info
+    emit("onHover", item);
 };
 
 const onSearch = (payload: string) => {
@@ -87,9 +105,13 @@ const onSearch = (payload: string) => {
 <style scoped lang="scss">
 .select {
     position: relative;
-    min-width: 34rem;
+
+    &__box {
+        width: 20rem;
+    }
 
     &__loader-wrap {
+        width: 40rem;
         min-height: 18rem;
     }
 
@@ -102,6 +124,16 @@ const onSearch = (payload: string) => {
 
     &__description {
         border-left: 1px solid #d2d2d2;
+        color: var(--pf-global--palette--black-600);
+    }
+
+    &__description-icon {
+        margin-bottom: 1rem;
+        font-size: var(--pf-global--FontSize--2xl);
+    }
+
+    &__description-text {
+        font-size: var(--pf-global--FontSize--lg);
     }
 }
 </style>
