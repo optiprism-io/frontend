@@ -1,38 +1,25 @@
 <template>
     <div
-        class="pf-l-flex pf-m-column"
+        class="selected-event pf-l-flex pf-m-column"
         @mouseenter="showControls = true"
         @mouseleave="showControls = false"
     >
         <div class="pf-l-flex">
-            <div class="pf-l-flex__item selected-list-item__identifier">{{ identifier }}.</div>
+            <div class="pf-l-flex__item selected-event__identifier">{{ identifier }}</div>
             <div class="pf-c-action-list">
                 <div class="pf-c-action-list__item">
                     <EventSelect :selected="eventRef" @select="changeEvent">
-                        <button class="pf-c-button pf-m-secondary" type="button">
+                        <UiButton class="pf-m-main pf-m-secondary">
                             {{ eventName(eventRef) }}
-                        </button>
+                        </UiButton>
                     </EventSelect>
                 </div>
                 <div v-show="showControls" class="pf-c-action-list__item">
-                    <button
-                        class="pf-c-button pf-m-plain"
-                        type="button"
-                        aria-label="Filter"
-                        @click="addFilter"
-                    >
-                        <i class="fas fa-filter" aria-hidden="true"></i>
-                    </button>
+                    <UiButton class="pf-m-plain" icon="fas fa-filter" @click="addFilter"></UiButton>
                 </div>
                 <div v-show="showControls" class="pf-c-action-list__item">
-                    <button
-                        class="pf-c-button pf-m-plain"
-                        type="button"
-                        aria-label="Remove"
-                        @click="removeEvent"
-                    >
-                        <i class="fas fa-times" aria-hidden="true"></i>
-                    </button>
+                    <UiButton class="pf-m-plain" icon="fas fa-times" @click="removeEvent">
+                    </UiButton>
                 </div>
             </div>
         </div>
@@ -52,12 +39,13 @@
 </template>
 
 <script setup lang="ts">
-import { EventFilter } from "../../../stores/eventSegmentation/events";
-import EventSelect from "./EventSelect.vue";
+import { computed, ref } from "vue";
 import { EventRef, EventType, OperationId, PropertyRef, Value } from "../../../types";
 import { lexiconStore } from "../../../stores/lexicon";
-import { computed, ref } from "vue";
+import { EventFilter } from "../../../stores/eventSegmentation/events";
+import EventSelect from "./EventSelect.vue";
 import Filter from "./Filter.vue";
+import UiButton from "@/components/uikit/UiButton.vue";
 
 const props = defineProps<{
     eventRef: EventRef;
@@ -122,11 +110,17 @@ const eventName = (ref: EventRef): string => {
     throw new Error("unhandled");
 };
 
-const identifier = computed((): number => props.index + 1);
+const alphabet = "abcdefghijklmnopqrstuvwxyz".split("");
+const identifier = computed((): string => alphabet[props.index]);
 </script>
 
-<style scoped>
-.selected-list-item__identifier {
-    width: 20px;
+<style scoped lang="scss">
+.selected-event {
+    &__identifier {
+        width: 20px;
+        text-transform: uppercase;
+        text-align: center;
+        color: var(--pf-global--main-color--100);
+    }
 }
 </style>

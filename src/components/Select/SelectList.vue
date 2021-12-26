@@ -3,11 +3,12 @@
         <div class="pf-c-menu__search">
             <div class="pf-c-menu__search-input">
                 <input
-                    id="-search-input"
+                    v-model="search"
                     class="pf-c-form-control pf-m-search"
                     type="search"
-                    name="-search-input"
+                    name="search-input"
                     aria-label="Search"
+                    @input="onSearch"
                 />
             </div>
         </div>
@@ -22,8 +23,8 @@
                             </h1>
                             <ul class="pf-c-menu__list">
                                 <SelectListItem
-                                    v-for="item in group.items"
-                                    :key="item.name"
+                                    v-for="(item, i) in group.items"
+                                    :key="i"
                                     :item="item.item"
                                     :text="item.name"
                                     :selected="selected"
@@ -36,7 +37,7 @@
                     <ul v-else class="pf-c-menu__list">
                         <SelectListItem
                             v-for="item in group.items"
-                            :key="item.name"
+                            :key="item.item.id"
                             :item="item.item"
                             :text="item.name"
                             :selected="selected"
@@ -50,7 +51,7 @@
                 <ul class="pf-c-menu__list">
                     <SelectListItem
                         v-for="item in itemItems"
-                        :key="item.name"
+                        :key="item.item.id"
                         :item="item.item"
                         :text="item.name"
                         :selected="selected"
@@ -64,9 +65,11 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from "vue";
+import { computed, ref } from "vue";
 import { Group, Item } from "./Select.vue";
 import SelectListItem from "./SelectListItem.vue";
+
+const search = ref("");
 
 const props = defineProps<{
     items: Item[] | Group[];
@@ -93,6 +96,7 @@ const itemItems = computed((): Item[] => {
 const emit = defineEmits<{
     (e: "select", item: any): void;
     (e: "hover", item: any): void;
+    (e: "onSearch", value: string): void;
 }>();
 
 const hover = (item: any): void => {
@@ -101,5 +105,9 @@ const hover = (item: any): void => {
 
 const select = (item: any): void => {
     emit("select", item);
+};
+
+const onSearch = (): void => {
+    emit("onSearch", search.value);
 };
 </script>

@@ -1,5 +1,5 @@
 import { createServer } from "miragejs";
-import { EventStatus } from "./types";
+import { EventStatus, DataType } from "./types";
 
 export default function ({ environment = "development" } = {}) {
     return createServer({
@@ -85,6 +85,192 @@ export default function ({ environment = "development" } = {}) {
                         name: "Custom event",
                         description: "This is custom event",
                         tags: ["1"]
+                    }
+                ];
+            });
+
+            this.get("/schema/event-properties", () => {
+                return [
+                    {
+                        id: 1,
+                        eventId: 2,
+                        createdAt: new Date(),
+                        createdBy: 0,
+                        updatedBy: 0,
+                        tags: [],
+                        name: "Query",
+                        type: DataType.String,
+                        nullable: false,
+                        isArray: false,
+                        isDictionary: false,
+                        dictionaryType: DataType.UInt16
+                    },
+                    {
+                        id: 2,
+                        eventId: 3,
+                        createdAt: new Date(),
+                        createdBy: 0,
+                        updatedBy: 0,
+                        tags: [],
+                        name: "Product name",
+                        type: DataType.String,
+                        nullable: false,
+                        isArray: false,
+                        isDictionary: true,
+                        dictionaryType: DataType.UInt16
+                    },
+                    {
+                        id: 3,
+                        eventId: 3,
+                        createdAt: new Date(),
+                        createdBy: 0,
+                        updatedBy: 0,
+                        tags: [],
+                        name: "Product Category",
+                        type: DataType.String,
+                        nullable: false,
+                        isArray: false,
+                        isDictionary: true,
+                        dictionaryType: DataType.UInt16
+                    },
+                    {
+                        id: 4,
+                        eventId: 3,
+                        createdAt: new Date(),
+                        createdBy: 0,
+                        updatedBy: 0,
+                        tags: [],
+                        name: "Product Price",
+                        type: DataType.Float64,
+                        isArray: false,
+                        nullable: false,
+                        isDictionary: false
+                    },
+                    {
+                        id: 5,
+                        eventId: 4,
+                        createdAt: new Date(),
+                        createdBy: 0,
+                        updatedBy: 0,
+                        tags: [],
+                        name: "Product name",
+                        type: DataType.String,
+                        isArray: false,
+                        nullable: false,
+                        isDictionary: true,
+                        dictionaryType: DataType.UInt64
+                    },
+                    {
+                        id: 6,
+                        eventId: 4,
+                        createdAt: new Date(),
+                        createdBy: 0,
+                        updatedBy: 0,
+                        tags: [],
+                        name: "Product Category",
+                        type: DataType.String,
+                        isArray: false,
+                        nullable: false,
+                        isDictionary: true,
+                        dictionaryType: DataType.UInt16
+                    },
+                    {
+                        id: 7,
+                        eventId: 4,
+                        createdAt: new Date(),
+                        createdBy: 0,
+                        updatedBy: 0,
+                        tags: [],
+                        name: "Product Price",
+                        type: DataType.Float64,
+                        isArray: false,
+                        nullable: false,
+                        isDictionary: false
+                    },
+                    {
+                        id: 8,
+                        eventId: 5,
+                        createdAt: new Date(),
+                        createdBy: 0,
+                        updatedBy: 0,
+                        tags: [],
+                        name: "Product name",
+                        type: DataType.String,
+                        isArray: false,
+                        nullable: false,
+                        isDictionary: true,
+                        dictionaryType: DataType.UInt64
+                    },
+                    {
+                        id: 9,
+                        eventId: 5,
+                        createdAt: new Date(),
+                        createdBy: 0,
+                        updatedBy: 0,
+                        tags: [],
+                        name: "Product Category",
+                        type: DataType.String,
+                        isArray: false,
+                        nullable: false,
+                        isDictionary: true,
+                        dictionaryType: DataType.UInt16
+                    },
+                    {
+                        id: 10,
+                        eventId: 5,
+                        createdAt: new Date(),
+                        createdBy: 0,
+                        updatedBy: 0,
+                        tags: [],
+                        name: "Product Price",
+                        type: DataType.Float64,
+                        isArray: false,
+                        nullable: false,
+                        isDictionary: false
+                    },
+                    {
+                        id: 11,
+                        eventId: 5,
+                        createdAt: new Date(),
+                        createdBy: 0,
+                        updatedBy: 0,
+                        tags: [],
+                        name: "Discount",
+                        type: DataType.Float64,
+                        isArray: false,
+                        nullable: false,
+                        isDictionary: false
+                    },
+                    {
+                        id: 12,
+                        eventId: 5,
+                        createdAt: new Date(),
+                        createdBy: 0,
+                        updatedBy: 0,
+                        tags: [],
+                        name: "Revenue",
+                        type: DataType.Float64,
+                        isArray: false,
+                        nullable: false,
+                        isDictionary: false
+                    }
+                ];
+            });
+
+            this.get("/schema/event-custom-properties", () => {
+                return [
+                    {
+                        id: 1,
+                        eventId: 1,
+                        createdAt: new Date(),
+                        createdBy: 0,
+                        updatedBy: 0,
+                        tags: [],
+                        name: "custom prop 1",
+                        type: DataType.String,
+                        isArray: false,
+                        nullable: false,
+                        isDictionary: false
                     }
                 ];
             });

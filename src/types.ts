@@ -122,34 +122,44 @@ export interface Event {
 
 export interface EventProperty {
     id: number;
-    eventId: number;
     createdAt: Date;
-    updatedA?: Date;
+    updatedAt?: Date;
     createdBy: number;
     updatedBy: number;
+    projectId: number;
+    events: number[];
+    isSystem: boolean;
+    isGlobal: boolean;
     tags: string[];
     name: string;
+    displayName: string;
+    description: string;
+    status: EventStatus;
     type: DataType;
+    db_col: any;
+    isRequired: boolean;
     nullable: boolean;
-    is_array: boolean;
-    is_dictionary: boolean;
-    dictionary_type?: DataType;
+    isArray: boolean;
+    isDictionary: boolean;
+    dictionaryType?: DataType;
 }
 
 export interface EventCustomProperty {
     id: number;
-    eventId: number;
     createdAt: Date;
-    updatedA?: Date;
+    updatedAt?: Date;
     createdBy: number;
     updatedBy: number;
-    tags: string[];
+    projectId: number;
+    events: number[];
+    isSystem: boolean;
+    status: EventStatus;
     name: string;
+    description: string;
     type: DataType;
     nullable: boolean;
-    is_array: boolean;
-    is_dictionary: boolean;
-    dictionary_type?: DataType;
+    isArray: boolean;
+    tags: string[];
 }
 
 export interface UserProperty {

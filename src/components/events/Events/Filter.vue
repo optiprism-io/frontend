@@ -9,17 +9,18 @@
                     :selected="filter.propRef"
                     @select="changeProperty"
                 >
-                    <button class="pf-c-button pf-m-secondary" type="button">
+                    <UiButton class="pf-m-main pf-m-secondary">
                         {{ propertyName(filter.propRef) }}
-                    </button>
+                    </UiButton>
                 </PropertySelect>
                 <PropertySelect v-else :event-ref="eventRef" @select="changeProperty">
-                    <button class="pf-c-button pf-m-primary" type="button">
-                        <span class="pf-c-button__icon pf-m-start">
-                            <i class="fas fa-plus-circle" aria-hidden="true"></i>
-                        </span>
+                    <UiButton
+                        :before-icon="'fas fa-plus-circle'"
+                        class="pf-m-main pf-m-primary"
+                        type="button"
+                    >
                         Select property
-                    </button>
+                    </UiButton>
                 </PropertySelect>
             </div>
 
@@ -29,9 +30,9 @@
                     :selected="filter.opId"
                     @select="changeOperation"
                 >
-                    <button class="pf-c-button pf-m-secondary" type="button">
+                    <UiButton class="pf-m-main pf-m-secondary">
                         {{ operationById?.get(filter.opId)?.name }}
-                    </button>
+                    </UiButton>
                 </OperationSelect>
             </div>
 
@@ -49,28 +50,23 @@
                                 :key="i"
                                 class="pf-c-action-list__item"
                             >
-                                <button class="pf-c-button pf-m-secondary" type="button">
+                                <UiButton class="pf-m-main pf-m-secondary">
                                     {{ value }}
 
                                     <span class="pf-c-button__icon pf-m-end">
-                                        <i
-                                            class="fas fa-times"
-                                            aria-hidden="true"
-                                            :data-value="value"
+                                        <UiIcon
+                                            icon="fas fa-times"
                                             @click.stop="removeValueButton(value)"
-                                        ></i>
+                                        />
                                     </span>
-                                </button>
+                                </UiButton>
                             </div>
                         </div>
                     </template>
                     <template v-else>
-                        <button class="pf-c-button pf-m-primary" type="button">
-                            <span class="pf-c-button__icon pf-m-start">
-                                <i class="fas fa-plus-circle" aria-hidden="true"></i>
-                            </span>
+                        <UiButton class="pf-m-main" :before-icon="'fas fa-plus-circle'">
                             Select value
-                        </button>
+                        </UiButton>
                     </template>
                 </ValueSelect>
             </div>
@@ -105,6 +101,8 @@ import {
     Value
 } from "../../../types";
 import { onMounted, onUpdated, ref } from "vue";
+import UiIcon from "@/components/uikit/UiIcon.vue";
+import UiButton from "@/components/uikit/UiButton.vue";
 
 const props = defineProps<{
     eventRef: EventRef;

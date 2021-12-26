@@ -17,12 +17,14 @@
         />
         <div class="pf-l-flex">
             <EventSelect @select="addEvent">
-                <button class="pf-c-button pf-m-primary" type="button" @click="getEvents">
-                    <span class="pf-c-button__icon pf-m-start">
-                        <i class="fas fa-plus-circle" aria-hidden="true"></i>
-                    </span>
+                <UiButton
+                    class="pf-m-main"
+                    :is-link="true"
+                    :before-icon="'fas fa-plus-circle'"
+                    @click="getEvents"
+                >
                     Add Event
-                </button>
+                </UiButton>
             </EventSelect>
         </div>
     </div>
@@ -34,11 +36,13 @@ import { eventsStore as newEventsStore } from "../../../stores/eventSegmentation
 import { lexiconStore } from "../../../stores/lexicon";
 import EventSelect from "./EventSelect.vue";
 import SelectedEvent from "./SelectedEvent.vue";
+import UiButton from "@/components/uikit/UiButton.vue";
 
 const lexicon = lexiconStore();
 const getEvents = () => {
     if (!lexicon.events.length) {
         lexicon.getEvents();
+        lexicon.getEventProperties();
     }
 };
 

@@ -23,6 +23,8 @@ type Lexicon = {
 
     eventProperties: EventProperty[];
     eventCustomProperties: EventCustomProperty[];
+    eventPropertiesLoading: boolean;
+
     userProperties: UserProperty[];
     userCustomProperties: UserCustomProperty[];
 };
@@ -43,186 +45,8 @@ export const lexiconStore = defineStore("lexicon", {
                 name: "Profitable users"
             }
         ],
-        eventProperties: [
-            {
-                id: 1,
-                eventId: 2,
-                createdAt: new Date(),
-                createdBy: 0,
-                updatedBy: 0,
-                tags: [],
-                name: "Query",
-                type: DataType.String,
-                nullable: false,
-                is_array: false,
-                is_dictionary: false
-            },
-            {
-                id: 2,
-                eventId: 3,
-                createdAt: new Date(),
-                createdBy: 0,
-                updatedBy: 0,
-                tags: [],
-                name: "Product name",
-                type: DataType.String,
-                nullable: false,
-                is_array: false,
-                is_dictionary: true,
-                dictionary_type: DataType.UInt16
-            },
-            {
-                id: 3,
-                eventId: 3,
-                createdAt: new Date(),
-                createdBy: 0,
-                updatedBy: 0,
-                tags: [],
-                name: "Product Category",
-                type: DataType.String,
-                nullable: false,
-                is_array: false,
-                is_dictionary: true,
-                dictionary_type: DataType.UInt16
-            },
-            {
-                id: 4,
-                eventId: 3,
-                createdAt: new Date(),
-                createdBy: 0,
-                updatedBy: 0,
-                tags: [],
-                name: "Product Price",
-                type: DataType.Float64,
-                is_array: false,
-                nullable: false,
-                is_dictionary: false
-            },
-            {
-                id: 5,
-                eventId: 4,
-                createdAt: new Date(),
-                createdBy: 0,
-                updatedBy: 0,
-                tags: [],
-                name: "Product name",
-                type: DataType.String,
-                is_array: false,
-                nullable: false,
-                is_dictionary: true,
-                dictionary_type: DataType.UInt64
-            },
-            {
-                id: 6,
-                eventId: 4,
-                createdAt: new Date(),
-                createdBy: 0,
-                updatedBy: 0,
-                tags: [],
-                name: "Product Category",
-                type: DataType.String,
-                is_array: false,
-                nullable: false,
-                is_dictionary: true,
-                dictionary_type: DataType.UInt16
-            },
-            {
-                id: 7,
-                eventId: 4,
-                createdAt: new Date(),
-                createdBy: 0,
-                updatedBy: 0,
-                tags: [],
-                name: "Product Price",
-                type: DataType.Float64,
-                is_array: false,
-                nullable: false,
-                is_dictionary: false
-            },
-            {
-                id: 8,
-                eventId: 5,
-                createdAt: new Date(),
-                createdBy: 0,
-                updatedBy: 0,
-                tags: [],
-                name: "Product name",
-                type: DataType.String,
-                is_array: false,
-                nullable: false,
-                is_dictionary: true,
-                dictionary_type: DataType.UInt64
-            },
-            {
-                id: 9,
-                eventId: 5,
-                createdAt: new Date(),
-                createdBy: 0,
-                updatedBy: 0,
-                tags: [],
-                name: "Product Category",
-                type: DataType.String,
-                is_array: false,
-                nullable: false,
-                is_dictionary: true,
-                dictionary_type: DataType.UInt16
-            },
-            {
-                id: 10,
-                eventId: 5,
-                createdAt: new Date(),
-                createdBy: 0,
-                updatedBy: 0,
-                tags: [],
-                name: "Product Price",
-                type: DataType.Float64,
-                is_array: false,
-                nullable: false,
-                is_dictionary: false
-            },
-            {
-                id: 11,
-                eventId: 5,
-                createdAt: new Date(),
-                createdBy: 0,
-                updatedBy: 0,
-                tags: [],
-                name: "Discount",
-                type: DataType.Float64,
-                is_array: false,
-                nullable: false,
-                is_dictionary: false
-            },
-            {
-                id: 12,
-                eventId: 5,
-                createdAt: new Date(),
-                createdBy: 0,
-                updatedBy: 0,
-                tags: [],
-                name: "Revenue",
-                type: DataType.Float64,
-                is_array: false,
-                nullable: false,
-                is_dictionary: false
-            }
-        ],
-        eventCustomProperties: [
-            {
-                id: 1,
-                eventId: 1,
-                createdAt: new Date(),
-                createdBy: 0,
-                updatedBy: 0,
-                tags: [],
-                name: "custom prop 1",
-                type: DataType.String,
-                is_array: false,
-                nullable: false,
-                is_dictionary: false
-            }
-        ],
-        eventsLoading: false,
+        eventProperties: [],
+        eventCustomProperties: [],
         events: [],
         customEvents: [],
         userProperties: [
@@ -297,7 +121,10 @@ export const lexiconStore = defineStore("lexicon", {
                 isDictionary: true,
                 dictionaryType: DataType.UInt64
             }
-        ]
+        ],
+
+        eventPropertiesLoading: false,
+        eventsLoading: false
     }),
     actions: {
         async getEvents() {
@@ -306,9 +133,19 @@ export const lexiconStore = defineStore("lexicon", {
                 this.events = await schemaService.events();
                 this.customEvents = await schemaService.customEvents();
             } catch (error) {
-                console.log(error);
+                console.log(error); // TODO error handler
             }
             this.eventsLoading = false;
+        },
+        async getEventProperties() {
+            this.eventPropertiesLoading = true;
+            try {
+                this.userProperties = await schemaService.eventProperties();
+                this.userCustomProperties = await schemaService.eventCustomProperties();
+            } catch (error) {
+                console.log(error); // TODO error handler
+            }
+            this.eventPropertiesLoading = false;
         }
     },
     getters: {
@@ -342,14 +179,12 @@ export const lexiconStore = defineStore("lexicon", {
         },
         findEventProperties(state: Lexicon) {
             return (eventId: number): EventProperty[] => {
-                return state.eventProperties.filter((prop): boolean => prop.eventId === eventId);
+                return state.eventProperties.filter((prop): boolean => prop.id === eventId);
             };
         },
         findEventCustomProperties(state: Lexicon) {
             return (eventId: number): EventCustomProperty[] => {
-                return state.eventCustomProperties.filter(
-                    (prop): boolean => prop.eventId === eventId
-                );
+                return state.eventCustomProperties.filter((prop): boolean => prop.id === eventId);
             };
         },
         findEventPropertyById(state: Lexicon) {

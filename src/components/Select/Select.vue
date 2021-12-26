@@ -6,7 +6,9 @@
                 class="select pf-c-card pf-m-display-lg pf-u-min-width"
                 style="--pf-u-min-width--MinWidth: 700px"
             >
-                <UiSpinner v-if="loading" class="select__loader" />
+                <div v-if="loading" class="select__loader-wrap">
+                    <UiSpinner class="select__loader" />
+                </div>
                 <div v-else class="pf-l-grid pf-m-all-6-col">
                     <div class="pf-l-grid__item select__box">
                         <SelectList
@@ -15,6 +17,7 @@
                             :selected="selectedItem"
                             @select="select($event, close)"
                             @hover="hover"
+                            @on-search="onSearch"
                         />
                     </div>
                     <div class="pf-l-grid__items select__description">
@@ -44,6 +47,7 @@ export interface Group {
 
 const emit = defineEmits<{
     (e: "select", item: any): void;
+    (e: "onSearch", payload: string): void;
 }>();
 
 const props = withDefaults(
@@ -72,6 +76,11 @@ const select = (item: any, close: () => void): void => {
 
 const hover = (item: any): void => {
     selectedItem.value = item;
+    // TODO hover info
+};
+
+const onSearch = (payload: string) => {
+    emit("onSearch", payload);
 };
 </script>
 
@@ -79,7 +88,10 @@ const hover = (item: any): void => {
 .select {
     position: relative;
     min-width: 34rem;
-    min-height: 16rem;
+
+    &__loader-wrap {
+        min-height: 18rem;
+    }
 
     &__loader {
         position: absolute;
