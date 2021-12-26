@@ -49,6 +49,15 @@ import Header from "./components/Header.vue";
                             </div>
                         </div>
                     </div>
+                    <div class="pf-l-grid__item pf-m-12-col">
+                        <div class="pf-c-card pf-m-compact">
+                            <div
+                                class="pf-c-card__title pf-u-text-align-center pf-u-font-size-lg pf-u-color-200"
+                            >
+                                Select at least one events by clicking <b>+ add event</b>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </section>
         </main>

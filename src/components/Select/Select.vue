@@ -28,11 +28,11 @@
                         v-if="slots.description"
                         class="pf-l-grid__items select__box select__description"
                     >
-                        <div class="pf-c-card__body">
-                            <div class="select__description-icon">
+                        <div class="pf-c-card__body pf-u-color-200">
+                            <div class="pf-u-mb-md pf-u-font-size-2xl pf-u-icon-color-light">
                                 <UiIcon icon="fas fa-info-circle" />
                             </div>
-                            <div class="select__description-text">
+                            <div class="pf-u-font-size-lg">
                                 <slot name="description"></slot>
                             </div>
                         </div>
@@ -111,7 +111,7 @@ const onSearch = (payload: string) => {
     }
 
     &__loader-wrap {
-        width: 40rem;
+        min-width: 20rem;
         min-height: 18rem;
     }
 
@@ -124,16 +124,6 @@ const onSearch = (payload: string) => {
 
     &__description {
         border-left: 1px solid #d2d2d2;
-        color: var(--pf-global--palette--black-600);
-    }
-
-    &__description-icon {
-        margin-bottom: 1rem;
-        font-size: var(--pf-global--FontSize--2xl);
-    }
-
-    &__description-text {
-        font-size: var(--pf-global--FontSize--lg);
     }
 }
 </style>

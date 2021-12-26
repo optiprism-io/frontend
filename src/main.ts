@@ -1,4 +1,5 @@
-import "@patternfly/patternfly/patternfly.css";
+import "@patternfly/patternfly/patternfly.scss";
+import "@patternfly/patternfly/patternfly-addons.scss";
 import "./assets/styles/main.scss";
 
 import { createApp } from "vue";
