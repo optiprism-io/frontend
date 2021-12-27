@@ -17,7 +17,7 @@ import {
     UserProperty
 } from "../../../types";
 import Select, { Group, Item } from "../../Select/Select.vue";
-import { lexiconStore } from "../../../stores/lexicon";
+import { useLexiconStore } from "@/stores/lexicon";
 import { computed, ref } from "vue";
 import {
     FilterRefCohort,
@@ -27,7 +27,7 @@ import {
     newFilterUserProperty
 } from "../../../stores/eventSegmentation/filters";
 
-const lexicon = lexiconStore();
+const lexiconStore = useLexiconStore();
 
 const props = defineProps<{
     selected?: FilterRef;
@@ -46,9 +46,9 @@ let items = computed((): Group[] => {
         ret.push({ name: "", items: items });
     }
 
-    if (lexicon.userProperties.length > 0) {
+    if (lexiconStore.userProperties.length > 0) {
         let items: Item[] = [];
-        lexicon.userProperties.forEach((prop: UserProperty): void => {
+        lexiconStore.userProperties.forEach((prop: UserProperty): void => {
             items.push({
                 item: newFilterUserProperty(prop.id),
                 name: prop.name
@@ -57,9 +57,9 @@ let items = computed((): Group[] => {
         ret.push({ name: "User Properties", items: items });
     }
 
-    if (lexicon.userCustomProperties.length > 0) {
+    if (lexiconStore.userCustomProperties.length > 0) {
         let items: Item[] = [];
-        lexicon.userCustomProperties.forEach((prop: UserCustomProperty): void => {
+        lexiconStore.userCustomProperties.forEach((prop: UserCustomProperty): void => {
             items.push({
                 item: newFilterUserCustomProperty(prop.id),
                 name: prop.name

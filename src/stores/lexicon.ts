@@ -29,7 +29,7 @@ type Lexicon = {
     userCustomProperties: UserCustomProperty[];
 };
 
-export const lexiconStore = defineStore("lexicon", {
+export const useLexiconStore = defineStore("lexicon", {
     state: (): Lexicon => ({
         cohorts: [
             {
@@ -140,8 +140,8 @@ export const lexiconStore = defineStore("lexicon", {
         async getEventProperties() {
             this.eventPropertiesLoading = true;
             try {
-                this.userProperties = await schemaService.eventProperties();
-                this.userCustomProperties = await schemaService.eventCustomProperties();
+                this.eventProperties = await schemaService.eventProperties();
+                this.eventCustomProperties = await schemaService.eventCustomProperties();
             } catch (error) {
                 console.log(error); // TODO error handler
             }
@@ -149,16 +149,6 @@ export const lexiconStore = defineStore("lexicon", {
         }
     },
     getters: {
-        eventName(state: Lexicon) {
-            return (type: EventType, id: number): string => {
-                switch (type) {
-                    case EventType.Regular:
-                        return lexiconStore().findEventById(id).name;
-                    case EventType.Custom:
-                        return lexiconStore().findCustomEventById(id).name;
-                }
-            };
-        },
         findEventById(state: Lexicon) {
             return (id: number): Event => {
                 const e = state.events.find((event): boolean => event.id === id);
@@ -175,6 +165,16 @@ export const lexiconStore = defineStore("lexicon", {
                     return e;
                 }
                 throw new Error(`undefined custom event id: {$id}`);
+            };
+        },
+        eventName(state: Lexicon) {
+            return (type: EventType, id: number): string => {
+                switch (type) {
+                    case EventType.Regular:
+                        return this.findEventById(id).name;
+                    case EventType.Custom:
+                        return this.findCustomEventById(id).name;
+                }
             };
         },
         findEventProperties(state: Lexicon) {

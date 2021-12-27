@@ -6,7 +6,7 @@
 
 <script setup lang="ts">
 import Select, { Item } from "../../Select/Select.vue";
-import { lexiconStore } from "../../../stores/lexicon";
+import { useLexiconStore } from "@/stores/lexicon";
 import { computed } from "vue";
 
 const props = defineProps<{
@@ -17,13 +17,13 @@ const emit = defineEmits<{
     (e: "select", id: number): void;
 }>();
 
-const lexicon = lexiconStore();
+const lexiconStore = useLexiconStore();
 
 let items = computed((): Item[] => {
     const ret: Item[] = [];
 
-    if (lexicon.cohorts) {
-        lexicon.cohorts.forEach(cohort => ret.push({ item: cohort.id, name: cohort.name }));
+    if (lexiconStore.cohorts) {
+        lexiconStore.cohorts.forEach(cohort => ret.push({ item: cohort.id, name: cohort.name }));
     }
 
     return ret;

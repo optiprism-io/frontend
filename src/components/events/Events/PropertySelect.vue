@@ -17,10 +17,10 @@ import {
     UserProperty
 } from "../../../types";
 import Select, { Group, Item } from "../../Select/Select.vue";
-import { lexiconStore } from "../../../stores/lexicon";
+import { useLexiconStore } from "@/stores/lexicon";
 import { computed } from "vue";
 
-const lexicon = lexiconStore();
+const lexiconStore = useLexiconStore();
 
 const props = defineProps<{
     eventRef: EventRef;
@@ -31,11 +31,12 @@ const emit = defineEmits<{
     (e: "select", ref: PropertyRef): void;
 }>();
 
-let items = computed((): Group[] => {
+const items = computed((): Group[] => {
     let ret: Group[] = [];
     if (props.eventRef.type == EventType.Regular) {
-        let eventProperties = lexicon.findEventProperties(props.eventRef.id);
-        if (eventProperties.length > 0) {
+        const eventProperties = lexiconStore.findEventProperties(props.eventRef.id);
+
+        if (eventProperties.length) {
             let items: Item[] = [];
             eventProperties.forEach((prop: EventProperty): void => {
                 const propertyRef: PropertyRef = {
@@ -51,9 +52,11 @@ let items = computed((): Group[] => {
             ret.push({ name: "Event Properties", items: items });
         }
 
-        let eventCustomProperties = lexicon.findEventCustomProperties(props.eventRef.id);
-        if (eventCustomProperties.length > 0) {
+        const eventCustomProperties = lexiconStore.findEventCustomProperties(props.eventRef.id);
+
+        if (eventCustomProperties.length) {
             let items: Item[] = [];
+
             eventCustomProperties.forEach((prop: EventCustomProperty): void => {
                 const propertyRef: PropertyRef = {
                     type: PropertyType.EventCustom,
@@ -72,9 +75,9 @@ let items = computed((): Group[] => {
         }
     }
 
-    if (lexicon.userProperties.length > 0) {
+    if (lexiconStore.userProperties.length) {
         let items: Item[] = [];
-        lexicon.userProperties.forEach((prop: UserProperty): void => {
+        lexiconStore.userProperties.forEach((prop: UserProperty): void => {
             const propertyRef: PropertyRef = {
                 type: PropertyType.User,
                 id: prop.id
@@ -88,9 +91,9 @@ let items = computed((): Group[] => {
         ret.push({ name: "User Properties", items: items });
     }
 
-    if (lexicon.userCustomProperties.length > 0) {
+    if (lexiconStore.userCustomProperties.length) {
         let items: Item[] = [];
-        lexicon.userCustomProperties.forEach((prop: UserCustomProperty): void => {
+        lexiconStore.userCustomProperties.forEach((prop: UserCustomProperty): void => {
             const propertyRef: PropertyRef = {
                 type: PropertyType.UserCustom,
                 id: prop.id
@@ -106,7 +109,7 @@ let items = computed((): Group[] => {
     return ret;
 });
 
-let selectedItem = computed((): PropertyRef | undefined => {
+const selectedItem = computed((): PropertyRef | undefined => {
     if (props.selected) {
         return props.selected;
     } else {

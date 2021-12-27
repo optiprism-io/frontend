@@ -119,4 +119,8 @@ import Header from "./components/Header.vue";
         @include styled-scroll();
     }
 }
+
+.op-opacity-0 {
+    opacity: 0;
+}
 </style>

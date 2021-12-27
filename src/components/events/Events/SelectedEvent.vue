@@ -28,21 +28,22 @@
             :key="i"
             :event-ref="eventRef"
             :filter="filter"
-            :index="index"
+            :index="i"
             @remove-filter="removeFilter"
             @change-filter-property="changeFilterProperty"
             @change-filter-operation="changeFilterOperation"
             @add-filter-value="addFilterValue"
             @remove-filter-value="removeFilterValue"
+            @handle-select-property="handleSelectProperty"
         />
     </div>
 </template>
 
 <script setup lang="ts">
 import { computed, ref } from "vue";
-import { EventRef, EventType, OperationId, PropertyRef, Value } from "../../../types";
-import { lexiconStore } from "../../../stores/lexicon";
-import { EventFilter } from "../../../stores/eventSegmentation/events";
+import { EventRef, EventType, OperationId, PropertyRef, Value } from "@/types";
+import { useLexiconStore } from "@/stores/lexicon";
+import { EventFilter } from "@/stores/eventSegmentation/events";
 import EventSelect from "./EventSelect.vue";
 import Filter from "./Filter.vue";
 import UiButton from "@/components/uikit/UiButton.vue";
@@ -62,11 +63,16 @@ const emit = defineEmits<{
     (e: "changeFilterOperation", eventIdx: number, filterIdx: number, opId: OperationId): void;
     (e: "addFilterValue", eventIdx: number, filterIdx: number, value: Value): void;
     (e: "removeFilterValue", eventIdx: number, filterIdx: number, value: Value): void;
+    (e: "handleSelectProperty"): void;
 }>();
 
 let showControls = ref(false);
 
-const lexicon = lexiconStore();
+const lexiconStore = useLexiconStore();
+
+const handleSelectProperty = (): void => {
+    emit("handleSelectProperty");
+};
 
 const changeEvent = (ref: EventRef): void => {
     emit("changeEvent", props.index, ref);
@@ -103,9 +109,9 @@ const removeFilterValue = (filterIdx: number, value: Value): void => {
 const eventName = (ref: EventRef): string => {
     switch (ref.type) {
         case EventType.Regular:
-            return lexicon.findEventById(ref.id).name;
+            return lexiconStore.findEventById(ref.id).name;
         case EventType.Custom:
-            return lexicon.findCustomEventById(ref.id).name;
+            return lexiconStore.findCustomEventById(ref.id).name;
     }
     throw new Error("unhandled");
 };

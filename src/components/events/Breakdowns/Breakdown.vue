@@ -44,7 +44,7 @@
 </template>
 
 <script setup lang="ts">
-import { lexiconStore } from "../../../stores/lexicon";
+import { useLexiconStore } from "@/stores/lexicon";
 import BreakdownSelect from "./BreakdownSelect.vue";
 import CohortSelect from "./CohortSelect.vue";
 import { computed, ref } from "vue";
@@ -75,7 +75,7 @@ const emit = defineEmits<{
     (e: "changeBreakdown", index: number, breakdown: Breakdown): void;
 }>();
 
-const lexicon = lexiconStore();
+const lexiconStore = useLexiconStore();
 
 const removeBreakdown = (): void => {
     emit("removeBreakdown", props.index);
@@ -98,29 +98,30 @@ const breakdownName = (): string => {
     if (isBreakdownCohort(props.breakdown)) {
         let b = props.breakdown as BreakdownCohort;
         if (b.cohortId) {
-            return lexicon.findCohortById(b.cohortId).name;
+            return lexiconStore.findCohortById(b.cohortId).name;
         }
     }
 
     if (isBreakdownUserProperty(props.breakdown)) {
-        return lexicon.findUserPropertyById((props.breakdown as BreakdownUserProperty).propertyId)
-            .name;
+        return lexiconStore.findUserPropertyById(
+            (props.breakdown as BreakdownUserProperty).propertyId
+        ).name;
     }
 
     if (isBreakdownUserCustomProperty(props.breakdown)) {
-        return lexicon.findUserCustomPropertyById(
+        return lexiconStore.findUserCustomPropertyById(
             (props.breakdown as BreakdownUserCustomProperty).propertyId
         ).name;
     }
 
     if (isBreakdownEventCommonProperty(props.breakdown)) {
-        return lexicon.findEventPropertyById(
+        return lexiconStore.findEventPropertyById(
             (props.breakdown as BreakdownEventCommonProperty).propertyId
         ).name;
     }
 
     if (isBreakdownEventCommonCustomProperty(props.breakdown)) {
-        return lexicon.findEventCustomPropertyById(
+        return lexiconStore.findEventCustomPropertyById(
             (props.breakdown as BreakdownEventCommonCustomProperty).propertyId
         ).name;
     }

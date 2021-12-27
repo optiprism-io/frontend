@@ -1,7 +1,14 @@
 <template>
     <div class="pf-l-flex" @mouseenter="showControls = true" @mouseleave="showControls = false">
         <div class="pf-c-action-list">
-            <div class="pf-c-action-list__item filter__caption">with</div>
+            <div
+                class="pf-c-action-list__item pf-u-ml-2xl"
+                :class="{
+                    'op-opacity-0': isNowSelectedFilterRef
+                }"
+            >
+                with
+            </div>
             <div class="pf-c-action-list__item">
                 <PropertySelect
                     v-if="filter.propRef"
@@ -18,6 +25,7 @@
                         :before-icon="'fas fa-plus-circle'"
                         class="pf-m-main pf-m-primary"
                         type="button"
+                        @click="handleSelectProperty"
                     >
                         Select property
                     </UiButton>
@@ -86,8 +94,8 @@
 </template>
 
 <script setup lang="ts">
-import { EventFilter } from "../../../stores/eventSegmentation/events";
-import { lexiconStore } from "../../../stores/lexicon";
+import { EventFilter } from "@/stores/eventSegmentation/events";
+import { useLexiconStore } from "@/stores/lexicon";
 import PropertySelect from "./PropertySelect.vue";
 import OperationSelect from "./OperationSelect.vue";
 import ValueSelect from "./ValueSelect.vue";
@@ -100,7 +108,7 @@ import {
     OperationId,
     Value
 } from "../../../types";
-import { onMounted, onUpdated, ref } from "vue";
+import { computed, ref } from "vue";
 import UiIcon from "@/components/uikit/UiIcon.vue";
 import UiButton from "@/components/uikit/UiButton.vue";
 
@@ -110,6 +118,7 @@ const props = defineProps<{
     index: number;
 }>();
 
+const isNowSelectedFilterRef = computed(() => !props?.filter?.propRef);
 let showControls = ref(false);
 
 const emit = defineEmits<{
@@ -118,8 +127,9 @@ const emit = defineEmits<{
     (e: "changeFilterOperation", filterIdx: number, opId: OperationId): void;
     (e: "addFilterValue", filterIdx: number, value: Value): void;
     (e: "removeFilterValue", filterIdx: number, value: Value): void;
+    (e: "handleSelectProperty"): void;
 }>();
-const lexicon = lexiconStore();
+const lexiconStore = useLexiconStore();
 
 const removeFilter = (): void => {
     emit("removeFilter", props.index);
@@ -127,6 +137,10 @@ const removeFilter = (): void => {
 
 const changeProperty = (propRef: PropertyRef): void => {
     emit("changeFilterProperty", props.index, propRef);
+};
+
+const handleSelectProperty = (): void => {
+    emit("handleSelectProperty");
 };
 
 const changeOperation = (opId: OperationId): void => {
@@ -147,20 +161,16 @@ const removeValueButton = (value: Value) => {
 const propertyName = (ref: PropertyRef): string => {
     switch (ref.type) {
         case PropertyType.Event:
-            return lexicon.findEventPropertyById(ref.id).name;
+            return lexiconStore.findEventPropertyById(ref.id).name;
         case PropertyType.EventCustom:
-            return lexicon.findEventCustomPropertyById(ref.id).name;
+            return lexiconStore.findEventCustomPropertyById(ref.id).name;
         case PropertyType.User:
-            return lexicon.findUserPropertyById(ref.id).name;
+            return lexiconStore.findUserPropertyById(ref.id).name;
         case PropertyType.UserCustom:
-            return lexicon.findUserCustomPropertyById(ref.id).name;
+            return lexiconStore.findUserCustomPropertyById(ref.id).name;
     }
     throw new Error("unhandled");
 };
 </script>
 
-<style scoped>
-.filter__caption {
-    margin-left: 56px;
-}
-</style>
+<style scoped></style>

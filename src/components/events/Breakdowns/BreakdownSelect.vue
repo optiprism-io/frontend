@@ -31,7 +31,8 @@ import {
     UserCustomProperty,
     UserProperty
 } from "../../../types";
-import { lexiconStore } from "../../../stores/lexicon";
+import { useLexiconStore } from "@/stores/lexicon";
+
 import { eventsStore as newEventsStore } from "../../../stores/eventSegmentation/events";
 
 const emit = defineEmits<{
@@ -42,7 +43,7 @@ const props = defineProps<{
     selected?: Breakdown;
 }>();
 
-const lexicon = lexiconStore();
+const lexiconStore = useLexiconStore();
 const eventStore = newEventsStore();
 const events = eventStore.events;
 
@@ -54,9 +55,9 @@ const items = computed((): Group[] => {
         ret.push({ name: "", items: items });
     }
 
-    if (lexicon.userProperties.length > 0) {
+    if (lexiconStore.userProperties.length > 0) {
         let items: Item[] = [];
-        lexicon.userProperties.forEach((prop: UserProperty): void => {
+        lexiconStore.userProperties.forEach((prop: UserProperty): void => {
             items.push({
                 item: newBreakdownUserProperty(prop.id),
                 name: prop.name
@@ -65,9 +66,9 @@ const items = computed((): Group[] => {
         ret.push({ name: "User Properties", items: items });
     }
 
-    if (lexicon.userCustomProperties.length > 0) {
+    if (lexiconStore.userCustomProperties.length > 0) {
         let items: Item[] = [];
-        lexicon.userCustomProperties.forEach((prop: UserCustomProperty): void => {
+        lexiconStore.userCustomProperties.forEach((prop: UserCustomProperty): void => {
             items.push({
                 item: newBreakdownUserCustomProperty(prop.id),
                 name: prop.name
@@ -77,11 +78,11 @@ const items = computed((): Group[] => {
     }
 
     if (events.length > 0) {
-        let firstProps = lexicon.findEventProperties(events[0].ref.id);
-        let firstCustomProps = lexicon.findEventCustomProperties(events[0].ref.id);
+        let firstProps = lexiconStore.findEventProperties(events[0].ref.id);
+        let firstCustomProps = lexiconStore.findEventCustomProperties(events[0].ref.id);
         if (firstProps.length > 0) {
             for (let i = 1; i < events.length; i++) {
-                let props = lexicon.findEventProperties(events[i].ref.id);
+                let props = lexiconStore.findEventProperties(events[i].ref.id);
                 let rem: number[] = [];
                 for (let j = 0; j < firstProps.length; j++) {
                     let firstProp = firstProps[j];
@@ -106,7 +107,7 @@ const items = computed((): Group[] => {
 
             if (firstCustomProps.length > 0) {
                 for (let i = 1; i < events.length; i++) {
-                    let props = lexicon.findEventCustomProperties(events[i].ref.id);
+                    let props = lexiconStore.findEventCustomProperties(events[i].ref.id);
                     let rem: number[] = [];
                     for (let j = 0; j < firstCustomProps.length; j++) {
                         let firstProp = firstCustomProps[j];

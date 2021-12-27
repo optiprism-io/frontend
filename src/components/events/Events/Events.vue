@@ -17,12 +17,7 @@
         />
         <div class="pf-l-flex">
             <EventSelect @select="addEvent">
-                <UiButton
-                    class="pf-m-main"
-                    :is-link="true"
-                    :before-icon="'fas fa-plus'"
-                    @click="getEvents"
-                >
+                <UiButton class="pf-m-main" :is-link="true" :before-icon="'fas fa-plus'">
                     Add Event
                 </UiButton>
             </EventSelect>
@@ -31,20 +26,20 @@
 </template>
 
 <script setup lang="ts">
-import { EventRef, OperationId, PropertyRef, Value } from "../../../types";
-import { eventsStore as newEventsStore } from "../../../stores/eventSegmentation/events";
-import { lexiconStore } from "../../../stores/lexicon";
+import { onBeforeMount } from "vue";
+import { EventRef, OperationId, PropertyRef, Value } from "@/types";
+import { eventsStore as newEventsStore } from "@/stores/eventSegmentation/events";
+import { useLexiconStore } from "@/stores/lexicon";
 import EventSelect from "./EventSelect.vue";
 import SelectedEvent from "./SelectedEvent.vue";
 import UiButton from "@/components/uikit/UiButton.vue";
 
-const lexicon = lexiconStore();
-const getEvents = () => {
-    if (!lexicon.events.length) {
-        lexicon.getEvents();
-        lexicon.getEventProperties();
-    }
-};
+const lexiconStore = useLexiconStore();
+
+onBeforeMount(() => {
+    lexiconStore.getEvents();
+    lexiconStore.getEventProperties();
+});
 
 const eventsStore = newEventsStore();
 const events = eventsStore.events;

@@ -16,15 +16,15 @@
 </template>
 
 <script setup lang="ts">
-import { CustomEvent, Event, EventRef, customEventRef, eventRef } from "../../../types";
+import { CustomEvent, Event, EventRef, customEventRef, eventRef } from "@/types";
 import Select, { Group, Item } from "../../Select/Select.vue";
-import { lexiconStore } from "../../../stores/lexicon";
+import { useLexiconStore } from "@/stores/lexicon";
 import { computed, ref } from "vue";
 
 const search = ref("");
 const description = ref("");
 
-const lexicon = lexiconStore();
+const lexiconStore = useLexiconStore();
 
 const props = defineProps<{
     selected?: EventRef;
@@ -35,16 +35,16 @@ const emit = defineEmits<{
 }>();
 
 const isLoading = computed((): boolean => {
-    return lexicon.eventsLoading;
+    return lexiconStore.eventsLoading;
 });
 
 const items = computed((): Group[] => {
     let ret: Group[] = [];
 
-    if (lexicon.customEvents.length) {
+    if (lexiconStore.customEvents.length) {
         const items: Item[] = [];
 
-        lexicon.customEvents.forEach((e: CustomEvent) => {
+        lexiconStore.customEvents.forEach((e: CustomEvent) => {
             if (search.value && !(e.name.search(search.value) >= 0)) {
                 return;
             }
@@ -57,7 +57,7 @@ const items = computed((): Group[] => {
         }
     }
 
-    lexicon.events.forEach((e: Event) => {
+    lexiconStore.events.forEach((e: Event) => {
         e.tags.forEach((tag: string) => {
             if (search.value && !(e.name.search(search.value) >= 0)) {
                 return;
@@ -103,10 +103,10 @@ const onHover = (item: any) => {
     let storeItem: Event | CustomEvent | undefined;
 
     if (item.type === 0) {
-        storeItem = lexicon.events.find(event => event.id === item.id);
+        storeItem = lexiconStore.events.find(event => event.id === item.id);
     }
     if (item.type === 1) {
-        storeItem = lexicon.customEvents.find(event => event.id === item.id);
+        storeItem = lexiconStore.customEvents.find(event => event.id === item.id);
     }
 
     description.value = storeItem?.description || "";

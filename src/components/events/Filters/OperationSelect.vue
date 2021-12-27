@@ -7,7 +7,7 @@
 <script setup lang="ts">
 import { findOperations, OperationId, UserCustomProperty } from "../../../types";
 import Select, { Group, Item } from "../../Select/Select.vue";
-import { lexiconStore } from "../../../stores/lexicon";
+import { useLexiconStore } from "@/stores/lexicon";
 import { computed, ref } from "vue";
 import {
     FilterRef,
@@ -16,7 +16,7 @@ import {
     isFilterUserProperty
 } from "../../../stores/eventSegmentation/filters";
 
-const lexicon = lexiconStore();
+const lexiconStore = useLexiconStore();
 
 const props = defineProps<{
     filterRef: FilterRef;
@@ -31,7 +31,9 @@ const items = computed((): Item[] => {
     let ret: Item[] = [];
 
     if (isFilterUserProperty(props.filterRef)) {
-        const prop = lexicon.findUserPropertyById((props.filterRef as FilterRefUserProperty).id);
+        const prop = lexiconStore.findUserPropertyById(
+            (props.filterRef as FilterRefUserProperty).id
+        );
         findOperations(prop.type, prop.nullable, prop.is_array).forEach(op =>
             ret.push({
                 item: op.id,
@@ -39,7 +41,7 @@ const items = computed((): Item[] => {
             })
         );
     } else if (isFilterUserCustomProperty(props.filterRef)) {
-        const prop = lexicon.findUserCustomPropertyById(
+        const prop = lexiconStore.findUserCustomPropertyById(
             (props.filterRef as FilterRefUserProperty).id
         );
         findOperations(prop.type, prop.nullable, prop.isArray).forEach(op =>

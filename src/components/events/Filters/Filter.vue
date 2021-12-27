@@ -100,7 +100,7 @@ import {
     isFilterUserCustomProperty,
     isFilterUserProperty
 } from "../../../stores/eventSegmentation/filters";
-import { lexiconStore } from "../../../stores/lexicon";
+import { useLexiconStore } from "@/stores/lexicon";
 import RefSelect from "./RefSelect.vue";
 import OperationSelect from "./OperationSelect.vue";
 import ValueSelect from "./ValueSelect.vue";
@@ -128,7 +128,7 @@ const emit = defineEmits<{
     (e: "addFilterValue", filterIdx: number, value: Value): void;
     (e: "removeFilterValue", filterIdx: number, value: Value): void;
 }>();
-const lexicon = lexiconStore();
+const lexiconStore = useLexiconStore();
 
 const removeFilter = (): void => {
     emit("removeFilter", props.index);
@@ -155,9 +155,9 @@ const removeValueButton = (value: Value) => {
 };
 const refName = (ref: FilterRef): string => {
     if (isFilterUserProperty(ref)) {
-        return lexicon.findUserPropertyById((ref as FilterRefUserProperty).id).name;
+        return lexiconStore.findUserPropertyById((ref as FilterRefUserProperty).id).name;
     } else if (isFilterUserCustomProperty(ref)) {
-        return lexicon.findUserCustomPropertyById((ref as FilterRefUserProperty).id).name;
+        return lexiconStore.findUserCustomPropertyById((ref as FilterRefUserProperty).id).name;
     } else if (isFilterCohort(ref)) {
         return "Cohort";
     }
