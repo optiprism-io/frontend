@@ -28,7 +28,7 @@
                                     :item="item.item"
                                     :text="item.name"
                                     :selected="selected"
-                                    @hover="hover"
+                                    @mouseenter="hover(item)"
                                     @click="select"
                                 ></SelectListItem>
                             </ul>
@@ -66,7 +66,7 @@
 
 <script setup lang="ts">
 import { computed, ref } from "vue";
-import { Group, Item } from "@/components/Select/Select.vue";
+import { Group, Item } from "@/components/Select/SelectTypes";
 import SelectListItem from "@/components/Select/SelectListItem.vue";
 
 const search = ref("");

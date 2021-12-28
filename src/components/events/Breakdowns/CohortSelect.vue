@@ -5,7 +5,8 @@
 </template>
 
 <script setup lang="ts">
-import Select, { Item } from "../../Select/Select.vue";
+import Select from "@/components/Select/Select.vue";
+import { Item } from "@/components/Select/SelectTypes";
 import { useLexiconStore } from "@/stores/lexicon";
 import { computed } from "vue";
 

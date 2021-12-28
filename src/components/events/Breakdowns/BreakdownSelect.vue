@@ -5,8 +5,9 @@
 </template>
 
 <script setup lang="ts">
-import Select, { Group, Item } from "../../Select/Select.vue";
-import { computed, ref } from "vue";
+import Select from "../../Select/Select.vue";
+import { Group, Item } from "@/components/Select/SelectTypes";
+import { computed } from "vue";
 import {
     Breakdown,
     BreakdownEventCommonProperty,

@@ -44,23 +44,14 @@
 </template>
 
 <script setup lang="ts">
-import { ref, useSlots } from "vue";
+import { computed, ref, useSlots } from "vue";
 import Popper from "vue3-popper";
 import SelectList from "@/components/Select/SelectList.vue";
 import UiSpinner from "@/components/uikit/UiSpinner.vue";
 import UiIcon from "@/components/uikit/UiIcon.vue";
+import { Group, Item } from "@/components/Select/SelectTypes";
 
 const slots = useSlots();
-
-export interface Item {
-    item: any;
-    name: string;
-}
-
-export interface Group {
-    name: string;
-    items: Item[];
-}
 
 const emit = defineEmits<{
     (e: "select", item: any): void;
@@ -83,8 +74,10 @@ const props = withDefaults(
 
 let key = ref(0);
 
-// this way we're able te change initially selected item on hover
-let selectedItem = ref(props.selected);
+const selectedItemLocal = ref(false);
+const selectedItem = computed(() => {
+    return selectedItemLocal.value || props.selected;
+});
 
 const select = (item: any, close: () => void): void => {
     close();
@@ -92,9 +85,11 @@ const select = (item: any, close: () => void): void => {
     emit("select", item);
 };
 
-const hover = (item: any): void => {
-    selectedItem.value = item;
-    emit("onHover", item);
+const hover = (item: Item): void => {
+    if (item) {
+        selectedItemLocal.value = item.item;
+        emit("onHover", item);
+    }
 };
 
 const onSearch = (payload: string) => {

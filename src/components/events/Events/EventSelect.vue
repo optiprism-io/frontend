@@ -1,94 +1,75 @@
 <template>
     <Select
-        :loading="isLoading"
-        :items="items"
         grouped
+        :loading="isLoading"
+        :items="itemsWithSearch"
         :selected="selectedItem"
         @select="select"
         @on-search="onSearch"
         @on-hover="onHover"
     >
         <slot></slot>
-        <template v-if="description" #description>
-            {{ description }}
+        <template v-if="selectedDescription" #description>
+            {{ selectedDescription }}
         </template>
     </Select>
 </template>
 
 <script setup lang="ts">
-import { CustomEvent, Event, EventRef, customEventRef, eventRef } from "@/types";
-import Select, { Group, Item } from "../../Select/Select.vue";
-import { useLexiconStore } from "@/stores/lexicon";
 import { computed, ref } from "vue";
+import { EventRef } from "@/types";
+import Select from "@/components/Select/Select.vue";
+import { Group, Item } from "@/components/Select/SelectTypes";
 
 const search = ref("");
 const description = ref("");
 
-const lexiconStore = useLexiconStore();
+interface Props {
+    selected?: EventRef | undefined | null;
+    items: Group[];
+    isLoading?: boolean;
+}
 
-const props = defineProps<{
-    selected?: EventRef;
-}>();
+const props = withDefaults(defineProps<Props>(), {
+    selected: null,
+    items: () => []
+});
 
 const emit = defineEmits<{
     (e: "select", ref: EventRef): void;
 }>();
 
-const isLoading = computed((): boolean => {
-    return lexiconStore.eventsLoading;
-});
+const itemsWithSearch = computed((): Group[] => {
+    if (search.value) {
+        return props.items.reduce((acc: Group[], item) => {
+            const innerItems: Item[] = item.items.filter(
+                item => item.name.search(search.value) >= 0
+            );
 
-const items = computed((): Group[] => {
-    let ret: Group[] = [];
-
-    if (lexiconStore.customEvents.length) {
-        const items: Item[] = [];
-
-        lexiconStore.customEvents.forEach((e: CustomEvent) => {
-            if (search.value && !(e.name.search(search.value) >= 0)) {
-                return;
-            }
-            items.push({ item: customEventRef(e), name: e.name });
-        });
-        // Other group
-
-        if (items.length) {
-            ret.push({ name: "Custom Events", items });
-        }
-    }
-
-    lexiconStore.events.forEach((e: Event) => {
-        e.tags.forEach((tag: string) => {
-            if (search.value && !(e.name.search(search.value) >= 0)) {
-                return;
-            }
-
-            let dst = ret.find((g: Group) => g.name == tag);
-            let item = {
-                item: eventRef(e),
-                name: e.name
-            };
-
-            if (!dst) {
-                ret.push({
-                    name: tag,
-                    items: [item]
+            if (innerItems.length) {
+                acc.push({
+                    ...item,
+                    items: innerItems
                 });
-            } else {
-                dst.items.push(item);
             }
-        });
-    });
 
-    return ret;
+            return acc;
+        }, []);
+    } else {
+        return props.items;
+    }
 });
 
-let selectedItem = computed(() => {
+const selectedItem = computed(() => {
     if (props.selected) {
         return props.selected;
     } else {
-        return items?.value[0]?.items[0]?.item;
+        return props.items[0]?.items[0]?.item;
     }
+});
+
+const selectedDescription = computed(() => {
+    return description.value || props.items[0]?.items[0]?.description;
 });
 
 const select = (item: EventRef) => {
@@ -99,16 +80,7 @@ const onSearch = (payload: string) => {
     search.value = payload;
 };
 
-const onHover = (item: any) => {
-    let storeItem: Event | CustomEvent | undefined;
-
-    if (item.type === 0) {
-        storeItem = lexiconStore.events.find(event => event.id === item.id);
-    }
-    if (item.type === 1) {
-        storeItem = lexiconStore.customEvents.find(event => event.id === item.id);
-    }
-
-    description.value = storeItem?.description || "";
+const onHover = (item: Item) => {
+    description.value = item?.description || "";
 };
 </script>

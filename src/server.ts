@@ -67,6 +67,30 @@ export default function ({ environment = "development" } = {}) {
                         description: "When product was purchased",
                         status: EventStatus.Enabled,
                         properties: [8, 9, 10, 11, 12]
+                    },
+                    {
+                        id: 6,
+                        createdAt: new Date(),
+                        createdBy: 0,
+                        updatedBy: 0,
+                        projectId: 0,
+                        tags: [],
+                        name: "Purchase Product Other 1",
+                        description: "Other Test description 1",
+                        status: EventStatus.Enabled,
+                        properties: [8, 9, 10, 11, 12]
+                    },
+                    {
+                        id: 7,
+                        createdAt: new Date(),
+                        createdBy: 0,
+                        updatedBy: 0,
+                        projectId: 0,
+                        tags: [],
+                        name: "Purchase Product Other 2",
+                        description: "Other Test description 2",
+                        status: EventStatus.Enabled,
+                        properties: [8, 9, 10, 11, 12]
                     }
                 ];
             });

@@ -5,10 +5,12 @@
         @mouseleave="showControls = false"
     >
         <div class="pf-l-flex">
-            <div class="pf-l-flex__item selected-event__identifier">{{ identifier }}</div>
+            <div class="pf-l-flex__item selected-event__identifier">
+                {{ identifier }}
+            </div>
             <div class="pf-c-action-list">
                 <div class="pf-c-action-list__item">
-                    <EventSelect :selected="eventRef" @select="changeEvent">
+                    <EventSelect :items="eventItems" :selected="eventRef" @select="changeEvent">
                         <UiButton class="pf-m-main pf-m-secondary">
                             {{ eventName(eventRef) }}
                         </UiButton>
@@ -18,8 +20,11 @@
                     <UiButton class="pf-m-plain" icon="fas fa-filter" @click="addFilter"></UiButton>
                 </div>
                 <div v-show="showControls" class="pf-c-action-list__item">
-                    <UiButton class="pf-m-plain" icon="fas fa-times" @click="removeEvent">
-                    </UiButton>
+                    <UiButton
+                        class="pf-m-plain"
+                        icon="fas fa-times"
+                        @click="removeEvent"
+                    ></UiButton>
                 </div>
             </div>
         </div>
@@ -47,12 +52,19 @@ import { EventFilter } from "@/stores/eventSegmentation/events";
 import EventSelect from "./EventSelect.vue";
 import Filter from "./Filter.vue";
 import UiButton from "@/components/uikit/UiButton.vue";
+import { Group } from "@/components/Select/SelectTypes";
 
-const props = defineProps<{
-    eventRef: EventRef;
-    filters: EventFilter[];
-    index: number;
-}>();
+const props = withDefaults(
+    defineProps<{
+        eventRef: EventRef;
+        filters: EventFilter[];
+        eventItems: Group[];
+        index: number;
+    }>(),
+    {
+        eventItems: () => []
+    }
+);
 
 const emit = defineEmits<{
     (e: "changeEvent", index: number, ref: EventRef): void;

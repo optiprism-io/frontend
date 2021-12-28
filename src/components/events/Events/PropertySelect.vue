@@ -16,7 +16,8 @@ import {
     UserCustomProperty,
     UserProperty
 } from "../../../types";
-import Select, { Group, Item } from "../../Select/Select.vue";
+import Select from "../../Select/Select.vue";
+import { Group, Item } from "@/components/Select/SelectTypes";
 import { useLexiconStore } from "@/stores/lexicon";
 import { computed } from "vue";
 

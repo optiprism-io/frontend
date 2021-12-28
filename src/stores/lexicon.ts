@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import schemaService from "../api/services/schema.service";
+import schemaService from "@/api/services/schema.service";
 import {
     CustomEvent,
     EventProperty,
@@ -7,12 +7,13 @@ import {
     DataType,
     Event,
     EventCustomProperty,
-    EventStatus,
     UserProperty,
     EventType,
-    EventRef,
-    Cohort
+    Cohort,
+    customEventRef,
+    eventRef
 } from "../types";
+import { Group, Item } from "@/components/Select/SelectTypes";
 
 type Lexicon = {
     cohorts: Cohort[];
@@ -231,6 +232,56 @@ export const useLexiconStore = defineStore("lexicon", {
                 }
                 throw new Error(`undefined cohort id: {$id}`);
             };
+        },
+        eventsList(state: Lexicon): Group[] {
+            const eventsList: Group[] = [];
+
+            if (state.customEvents.length) {
+                const items: Item[] = [];
+
+                state.customEvents.forEach((e: CustomEvent) => {
+                    items.push({
+                        item: customEventRef(e),
+                        name: e.name,
+                        description: e?.description
+                    });
+                });
+
+                if (items.length) {
+                    eventsList.push({ name: "Custom Events", items });
+                }
+            }
+
+            state.events.forEach((e: Event) => {
+                const item: Item = {
+                    item: eventRef(e),
+                    name: e.name,
+                    description: e?.description
+                };
+
+                const setToList = (name: string, item: Item) => {
+                    const group = eventsList.find((g: Group) => g.name === name);
+
+                    if (!group) {
+                        eventsList.push({
+                            name: name,
+                            items: [item]
+                        });
+                    } else {
+                        group.items.push(item);
+                    }
+                };
+
+                if (Array.isArray(e.tags) && e.tags.length) {
+                    e.tags.forEach((tag: string) => {
+                        setToList(tag, item);
+                    });
+                } else {
+                    setToList("Other", item);
+                }
+            });
+
+            return eventsList;
         }
     }
 });

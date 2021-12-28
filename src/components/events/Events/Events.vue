@@ -6,6 +6,7 @@
             :event-ref="event.ref"
             :filters="event.filters"
             :index="index"
+            :event-items="lexiconStore.eventsList"
             @change-event="changeEvent"
             @remove-event="removeEvent"
             @add-filter="addFilter"
@@ -16,7 +17,7 @@
             @remove-filter-value="removeFilterValue"
         />
         <div class="pf-l-flex">
-            <EventSelect @select="addEvent">
+            <EventSelect :items="lexiconStore.eventsList" @select="addEvent">
                 <UiButton class="pf-m-main" :is-link="true" :before-icon="'fas fa-plus'">
                     Add Event
                 </UiButton>
@@ -30,8 +31,8 @@ import { onBeforeMount } from "vue";
 import { EventRef, OperationId, PropertyRef, Value } from "@/types";
 import { useEventsStore } from "@/stores/eventSegmentation/events";
 import { useLexiconStore } from "@/stores/lexicon";
-import EventSelect from "./EventSelect.vue";
-import SelectedEvent from "./SelectedEvent.vue";
+import EventSelect from "@/components/events/Events/EventSelect.vue";
+import SelectedEvent from "@/components/events/Events/SelectedEvent.vue";
 import UiButton from "@/components/uikit/UiButton.vue";
 
 const lexiconStore = useLexiconStore();

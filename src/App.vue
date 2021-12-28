@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import Events from "./components/events/Events/Events.vue";
+import Events from "@/components/events/Events/Events.vue";
 import Breakdowns from "./components/events/Breakdowns/Breakdowns.vue";
 import Filters from "./components/events/Filters/Filters.vue";
 import Header from "./components/Header.vue";
@@ -54,7 +54,8 @@ import Header from "./components/Header.vue";
                             <div
                                 class="pf-c-card__title pf-u-text-align-center pf-u-font-size-lg pf-u-color-200"
                             >
-                                Select at least one events by clicking <b>+ add event</b>
+                                Select at least one events by clicking
+                                <b>+ add event</b>
                             </div>
                         </div>
                     </div>

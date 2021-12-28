@@ -40,7 +40,8 @@ module.exports = {
                 arrowParens: "avoid",
                 printWidth: 100,
                 endOfLine: "auto",
-                vueIndentScriptAndStyle: false
+                vueIndentScriptAndStyle: false,
+                htmlWhitespaceSensitivity: "ignore"
             },
             { usePrettierrc: false }
         ],

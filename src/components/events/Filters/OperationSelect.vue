@@ -5,16 +5,17 @@
 </template>
 
 <script setup lang="ts">
-import { findOperations, OperationId, UserCustomProperty } from "../../../types";
-import Select, { Group, Item } from "../../Select/Select.vue";
+import { findOperations, OperationId } from "@/types";
+import Select from "@/components/Select/Select.vue";
+import { Item } from "@/components/Select/SelectTypes";
 import { useLexiconStore } from "@/stores/lexicon";
-import { computed, ref } from "vue";
+import { computed } from "vue";
 import {
     FilterRef,
     FilterRefUserProperty,
     isFilterUserCustomProperty,
     isFilterUserProperty
-} from "../../../stores/eventSegmentation/filters";
+} from "@/stores/eventSegmentation/filters";
 
 const lexiconStore = useLexiconStore();
 
