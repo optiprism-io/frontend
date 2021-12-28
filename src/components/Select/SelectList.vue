@@ -18,9 +18,9 @@
                     <template v-if="group.name">
                         <section class="pf-c-menu__group">
                             <hr v-if="index > 0" class="pf-c-divider" />
-                            <h1 class="pf-c-menu__group-title">
+                            <div class="pf-c-menu__group-title">
                                 {{ group.name }}
-                            </h1>
+                            </div>
                             <ul class="pf-c-menu__list">
                                 <SelectListItem
                                     v-for="(item, i) in group.items"
@@ -66,8 +66,8 @@
 
 <script setup lang="ts">
 import { computed, ref } from "vue";
-import { Group, Item } from "./Select.vue";
-import SelectListItem from "./SelectListItem.vue";
+import { Group, Item } from "@/components/Select/Select.vue";
+import SelectListItem from "@/components/Select/SelectListItem.vue";
 
 const search = ref("");
 

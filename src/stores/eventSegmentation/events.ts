@@ -17,7 +17,7 @@ type Events = {
     events: Event[];
 };
 
-export const eventsStore = defineStore("events", {
+export const useEventsStore = defineStore("events", {
     state: (): Events => ({
         events: []
     }),

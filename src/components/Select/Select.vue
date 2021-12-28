@@ -46,8 +46,8 @@
 <script setup lang="ts">
 import { ref, useSlots } from "vue";
 import Popper from "vue3-popper";
-import SelectList from "./SelectList.vue";
-import UiSpinner from "../uikit/UiSpinner.vue";
+import SelectList from "@/components/Select/SelectList.vue";
+import UiSpinner from "@/components/uikit/UiSpinner.vue";
 import UiIcon from "@/components/uikit/UiIcon.vue";
 
 const slots = useSlots();

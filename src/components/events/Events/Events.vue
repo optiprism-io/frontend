@@ -28,7 +28,7 @@
 <script setup lang="ts">
 import { onBeforeMount } from "vue";
 import { EventRef, OperationId, PropertyRef, Value } from "@/types";
-import { eventsStore as newEventsStore } from "@/stores/eventSegmentation/events";
+import { useEventsStore } from "@/stores/eventSegmentation/events";
 import { useLexiconStore } from "@/stores/lexicon";
 import EventSelect from "./EventSelect.vue";
 import SelectedEvent from "./SelectedEvent.vue";
@@ -41,7 +41,7 @@ onBeforeMount(() => {
     lexiconStore.getEventProperties();
 });
 
-const eventsStore = newEventsStore();
+const eventsStore = useEventsStore();
 const events = eventsStore.events;
 
 const addEvent = (ref: EventRef) => {

@@ -33,7 +33,7 @@ import {
 } from "../../../types";
 import { useLexiconStore } from "@/stores/lexicon";
 
-import { eventsStore as newEventsStore } from "../../../stores/eventSegmentation/events";
+import { useEventsStore } from "../../../stores/eventSegmentation/events";
 
 const emit = defineEmits<{
     (e: "select", type: Breakdown): void;
@@ -44,7 +44,7 @@ const props = defineProps<{
 }>();
 
 const lexiconStore = useLexiconStore();
-const eventStore = newEventsStore();
+const eventStore = useEventsStore();
 const events = eventStore.events;
 
 const items = computed((): Group[] => {
