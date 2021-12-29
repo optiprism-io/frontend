@@ -8,6 +8,7 @@
         "serve": "vite preview"
     },
     "dependencies": {
+        "@floating-ui/dom": "^0.1.9",
         "@patternfly/patternfly": "^4.164.2",
         "axios": "^0.24.0",
         "lodash": "^4.17.21",

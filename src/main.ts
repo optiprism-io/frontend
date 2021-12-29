@@ -14,6 +14,7 @@ if (typeof makeServer === "function") {
 const app = createApp(App);
 app.use(createPinia());
 app.mount("#app");
+
 app.config.errorHandler = (err, vm, info) => {
     console.log(err, vm, info);
     // err: error trace

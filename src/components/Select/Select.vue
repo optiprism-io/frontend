@@ -1,7 +1,7 @@
 <template>
-    <Popper :key="key" ref="popper" placement="bottom-start">
+    <UiPopper v-model="show">
         <slot></slot>
-        <template #content="{ close }">
+        <template #content>
             <div class="select pf-c-card pf-m-display-lg pf-u-min-width">
                 <div v-if="loading" class="select__loader-wrap">
                     <UiSpinner class="select__loader" />
@@ -19,7 +19,7 @@
                             :items="items"
                             :grouped="grouped"
                             :selected="selectedItem"
-                            @select="select($event, close)"
+                            @select="select($event)"
                             @hover="hover"
                             @on-search="onSearch"
                         />
@@ -40,12 +40,12 @@
                 </div>
             </div>
         </template>
-    </Popper>
+    </UiPopper>
 </template>
 
 <script setup lang="ts">
-import { computed, ref, useSlots } from "vue";
-import Popper from "vue3-popper";
+import { computed, ref, useSlots, onBeforeMount } from "vue";
+import UiPopper from "@/components/uikit/UiPopper.vue";
 import SelectList from "@/components/Select/SelectList.vue";
 import UiSpinner from "@/components/uikit/UiSpinner.vue";
 import UiIcon from "@/components/uikit/UiIcon.vue";
@@ -65,22 +65,24 @@ const props = withDefaults(
         grouped?: boolean;
         selected?: any;
         loading?: boolean;
+        open?: boolean;
     }>(),
     {
         grouped: false,
-        selected: false
+        selected: false,
+        open: false
     }
 );
 
-let key = ref(0);
-
+const key = ref(0);
+const show = ref(false);
 const selectedItemLocal = ref(false);
 const selectedItem = computed(() => {
     return selectedItemLocal.value || props.selected;
 });
 
-const select = (item: any, close: () => void): void => {
-    close();
+const select = (item: any): void => {
+    show.value = false;
     key.value++;
     emit("select", item);
 };
@@ -95,6 +97,10 @@ const hover = (item: Item): void => {
 const onSearch = (payload: string) => {
     emit("onSearch", payload);
 };
+
+onBeforeMount(() => {
+    show.value = props.open;
+});
 </script>
 
 <style scoped lang="scss">
