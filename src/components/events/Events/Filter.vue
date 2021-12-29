@@ -163,6 +163,7 @@ const removeValue = (value: Value) => {
 const removeValueButton = (value: Value) => {
     emit("removeFilterValue", props.index, value);
 };
+
 const propertyName = (ref: PropertyRef): string => {
     switch (ref.type) {
         case PropertyType.Event:

@@ -43,7 +43,7 @@ const items = computed((): Item[] => {
         );
     } else if (props.propertyRef.type === PropertyType.User) {
         const prop = lexiconStore.findUserPropertyById(props.propertyRef.id);
-        findOperations(prop.type, prop.nullable, prop.is_array).forEach(op =>
+        findOperations(prop.type, prop.nullable, prop.isArray).forEach(op =>
             ret.push({
                 item: op.id,
                 name: op.name

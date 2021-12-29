@@ -5,14 +5,18 @@
         :items="items"
         :selected="selectedItem"
         @select="select"
+        @on-search="onSearch"
+        @on-hover="onHover"
     >
         <slot></slot>
+        <template v-if="selectedDescription" #description>
+            {{ selectedDescription }}
+        </template>
     </Select>
 </template>
 
 <script setup lang="ts">
 import {
-    Event,
     EventCustomProperty,
     EventProperty,
     EventRef,
@@ -25,9 +29,13 @@ import {
 import Select from "../../Select/Select.vue";
 import { Group, Item } from "@/components/Select/SelectTypes";
 import { useLexiconStore } from "@/stores/lexicon";
-import { computed } from "vue";
+import { computed, ref } from "vue";
 
 const lexiconStore = useLexiconStore();
+
+const emit = defineEmits<{
+    (e: "select", ref: PropertyRef): void;
+}>();
 
 const props = defineProps<{
     eventRef: EventRef;
@@ -35,12 +43,45 @@ const props = defineProps<{
     isOpenMount?: boolean;
 }>();
 
-const emit = defineEmits<{
-    (e: "select", ref: PropertyRef): void;
-}>();
+const search = ref("");
+const description = ref();
 
 const items = computed((): Group[] => {
     let ret: Group[] = [];
+
+    if (lexiconStore.userProperties.length) {
+        let items: Item[] = [];
+        lexiconStore.userProperties.forEach((prop: UserProperty): void => {
+            const propertyRef: PropertyRef = {
+                type: PropertyType.User,
+                id: prop.id
+            };
+
+            items.push({
+                item: propertyRef,
+                name: prop.name,
+                description: prop?.description
+            });
+        });
+        ret.push({ name: "User Properties", items: items });
+    }
+
+    if (lexiconStore.userCustomProperties.length) {
+        let items: Item[] = [];
+        lexiconStore.userCustomProperties.forEach((prop: UserCustomProperty): void => {
+            const propertyRef: PropertyRef = {
+                type: PropertyType.UserCustom,
+                id: prop.id
+            };
+            items.push({
+                item: propertyRef,
+                name: prop.name,
+                description: prop?.description
+            });
+        });
+        ret.push({ name: "User Custom Properties", items: items });
+    }
+
     if (props.eventRef.type == EventType.Regular) {
         const eventProperties = lexiconStore.findEventProperties(props.eventRef.id);
 
@@ -83,38 +124,32 @@ const items = computed((): Group[] => {
         }
     }
 
-    if (lexiconStore.userProperties.length) {
-        let items: Item[] = [];
-        lexiconStore.userProperties.forEach((prop: UserProperty): void => {
-            const propertyRef: PropertyRef = {
-                type: PropertyType.User,
-                id: prop.id
-            };
+    if (search.value) {
+        return ret.reduce((acc: Group[], item) => {
+            const innerItems: Item[] = item.items.filter(item => {
+                const name = item.name.toLowerCase();
 
-            items.push({
-                item: propertyRef,
-                name: prop.name
+                return name.search(search.value) >= 0;
             });
-        });
-        ret.push({ name: "User Properties", items: items });
-    }
 
-    if (lexiconStore.userCustomProperties.length) {
-        let items: Item[] = [];
-        lexiconStore.userCustomProperties.forEach((prop: UserCustomProperty): void => {
-            const propertyRef: PropertyRef = {
-                type: PropertyType.UserCustom,
-                id: prop.id
-            };
-            items.push({
-                item: propertyRef,
-                name: prop.name
-            });
-        });
-        ret.push({ name: "User Custom Properties", items: items });
-    }
+            if (innerItems.length) {
+                acc.push({
+                    ...item,
+                    items: innerItems
+                });
+            }
 
-    return ret;
+            return acc;
+        }, []);
+    } else {
+        return ret;
+    }
+});
+
+const selectedDescription = computed(() => {
+    return description.value === undefined
+        ? items.value[0]?.items[0]?.description
+        : description.value;
 });
 
 const selectedItem = computed((): PropertyRef | undefined => {
@@ -127,5 +162,13 @@ const selectedItem = computed((): PropertyRef | undefined => {
 
 const select = (item: PropertyRef) => {
     emit("select", item);
+};
+
+const onSearch = (payload: string) => {
+    search.value = payload.toLowerCase();
+};
+
+const onHover = (item: Item) => {
+    description.value = item?.description || "";
 };
 </script>

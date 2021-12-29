@@ -28,6 +28,7 @@ type Lexicon = {
 
     userProperties: UserProperty[];
     userCustomProperties: UserCustomProperty[];
+    userPropertiesLoading: boolean;
 };
 
 export const useLexiconStore = defineStore("lexicon", {
@@ -46,86 +47,18 @@ export const useLexiconStore = defineStore("lexicon", {
                 name: "Profitable users"
             }
         ],
-        eventProperties: [],
-        eventCustomProperties: [],
+
+        eventsLoading: false,
         events: [],
         customEvents: [],
-        userProperties: [
-            {
-                id: 1,
-                schema_id: 0,
-                createdAt: new Date(),
-                createdBy: 0,
-                updatedBy: 0,
-                tags: [],
-                name: "Name",
-                type: DataType.String,
-                is_array: false,
-                nullable: false,
-                is_dictionary: true,
-                dictionary_type: DataType.UInt64
-            },
-            {
-                id: 2,
-                schema_id: 0,
-                createdAt: new Date(),
-                createdBy: 0,
-                updatedBy: 0,
-                tags: [],
-                name: "Age",
-                type: DataType.UInt8,
-                is_array: false,
-                nullable: false,
-                is_dictionary: false
-            },
-            {
-                id: 3,
-                schema_id: 0,
-                createdAt: new Date(),
-                createdBy: 0,
-                updatedBy: 0,
-                tags: [],
-                name: "Country",
-                type: DataType.String,
-                is_array: false,
-                nullable: false,
-                is_dictionary: true,
-                dictionary_type: DataType.UInt8
-            },
-            {
-                id: 4,
-                schema_id: 0,
-                createdAt: new Date(),
-                createdBy: 0,
-                updatedBy: 0,
-                tags: [],
-                name: "Device",
-                type: DataType.String,
-                is_array: false,
-                nullable: false,
-                is_dictionary: true,
-                dictionary_type: DataType.UInt32
-            }
-        ],
-        userCustomProperties: [
-            {
-                id: 1,
-                schemaId: 0,
-                createdAt: new Date(),
-                createdBy: 0,
-                updatedBy: 0,
-                tags: [],
-                name: "custom user prop",
-                type: DataType.String,
-                isArray: false,
-                nullable: false,
-                isDictionary: true,
-                dictionaryType: DataType.UInt64
-            }
-        ],
 
         eventPropertiesLoading: false,
-        eventsLoading: false
+        eventProperties: [],
+        eventCustomProperties: [],
+
+        userPropertiesLoading: false,
+        userProperties: [],
+        userCustomProperties: []
     }),
     actions: {
         async getEvents() {
@@ -134,7 +67,7 @@ export const useLexiconStore = defineStore("lexicon", {
                 this.events = await schemaService.events();
                 this.customEvents = await schemaService.customEvents();
             } catch (error) {
-                console.log(error); // TODO error handler
+                throw new Error("error getEvents");
             }
             this.eventsLoading = false;
         },
@@ -144,7 +77,17 @@ export const useLexiconStore = defineStore("lexicon", {
                 this.eventProperties = await schemaService.eventProperties();
                 this.eventCustomProperties = await schemaService.eventCustomProperties();
             } catch (error) {
-                console.log(error); // TODO error handler
+                throw new Error("error getEventProperties");
+            }
+            this.eventPropertiesLoading = false;
+        },
+        async getUserProperties() {
+            this.eventPropertiesLoading = true;
+            try {
+                this.userProperties = await schemaService.userProperties();
+                this.userCustomProperties = await schemaService.userCustomProperties();
+            } catch (error) {
+                throw new Error("error getUserProperties");
             }
             this.eventPropertiesLoading = false;
         }

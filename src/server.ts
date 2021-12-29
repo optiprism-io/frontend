@@ -1,5 +1,5 @@
 import { createServer } from "miragejs";
-import { EventStatus, DataType } from "./types";
+import { EventStatus, DataType, UserProperty, UserCustomProperty } from "./types";
 
 export default function ({ environment = "development" } = {}) {
     return createServer({
@@ -28,7 +28,7 @@ export default function ({ environment = "development" } = {}) {
                         projectId: 0,
                         tags: ["General"],
                         name: "Search",
-                        description: "Search",
+                        description: "",
                         status: EventStatus.Enabled,
                         properties: [1]
                     },
@@ -295,6 +295,112 @@ export default function ({ environment = "development" } = {}) {
                         isArray: false,
                         nullable: false,
                         isDictionary: false
+                    }
+                ];
+            });
+
+            this.get("/schema/user-properties", (): UserProperty[] => {
+                return [
+                    {
+                        id: 1,
+                        createdAt: new Date(),
+                        createdBy: 0,
+                        updatedBy: 0,
+                        projectId: 1,
+                        isSystem: true,
+                        tags: [],
+                        name: "Name",
+                        displayName: "Name",
+                        description: "Name description",
+                        status: EventStatus.Enabled,
+                        type: DataType.String,
+                        nullable: false,
+                        isArray: false,
+                        isDictionary: true,
+                        dictionaryType: DataType.UInt64
+                    },
+                    {
+                        id: 2,
+                        createdAt: new Date(),
+                        createdBy: 0,
+                        updatedBy: 0,
+                        projectId: 1,
+                        isSystem: true,
+                        tags: [],
+                        name: "Age",
+                        displayName: "Age",
+                        description:
+                            "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Architecto, temporibus.",
+                        status: EventStatus.Enabled,
+                        type: DataType.String,
+                        nullable: false,
+                        isArray: false,
+                        isDictionary: true,
+                        dictionaryType: DataType.UInt64
+                    },
+                    {
+                        id: 3,
+                        createdAt: new Date(),
+                        createdBy: 0,
+                        updatedBy: 0,
+                        projectId: 1,
+                        isSystem: true,
+                        tags: [],
+                        name: "Country",
+                        displayName: "Country",
+                        description: "Country description",
+                        status: EventStatus.Enabled,
+                        type: DataType.String,
+                        nullable: false,
+                        isArray: false,
+                        isDictionary: true,
+                        dictionaryType: DataType.UInt64
+                    },
+                    {
+                        id: 4,
+                        createdAt: new Date(),
+                        createdBy: 0,
+                        updatedBy: 0,
+                        projectId: 1,
+                        isSystem: true,
+                        tags: [],
+                        name: "Device",
+                        displayName: "Device",
+                        description: "Device description",
+                        status: EventStatus.Enabled,
+                        type: DataType.String,
+                        nullable: false,
+                        isArray: false,
+                        isDictionary: true,
+                        dictionaryType: DataType.UInt64
+                    }
+                ];
+            });
+
+            this.get("/schema/user-custom-properties", (): UserCustomProperty[] => {
+                return [
+                    {
+                        id: 1,
+                        createdBy: 0,
+                        createdAt: new Date(),
+                        updatedAt: new Date(),
+                        updatedBy: 0,
+                        projectId: 1,
+                        events: [],
+                        isSystem: false,
+                        isGlobal: true,
+                        tags: [],
+                        name: "Custom user prop",
+                        displayName: "Custom user prop",
+                        description:
+                            "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Architecto, temporibus.",
+                        status: EventStatus.Enabled,
+                        type: DataType.String,
+                        isRequired: false,
+                        isArray: false,
+                        nullable: false,
+                        isDictionary: true,
+                        dictionaryType: DataType.UInt64
                     }
                 ];
             });

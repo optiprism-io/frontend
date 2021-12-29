@@ -164,30 +164,43 @@ export interface EventCustomProperty {
 
 export interface UserProperty {
     id: number;
-    schema_id: number;
+    createdBy: number;
     createdAt: Date;
     updatedAt?: Date;
-    createdBy: number;
     updatedBy: number;
+    projectId: number;
+    isSystem: boolean;
     tags: string[];
     name: string;
+    displayName: string;
+    description: string;
+    status: EventStatus;
     type: DataType;
+    db_col?: any;
     nullable: boolean;
-    is_array: boolean;
-    is_dictionary: boolean;
-    dictionary_type?: DataType;
+    isArray: boolean;
+    isDictionary: boolean;
+    dictionaryType?: DataType;
 }
 
 export interface UserCustomProperty {
     id: number;
-    schemaId: number;
+    createdBy: number;
     createdAt: Date;
     updatedAt?: Date;
-    createdBy: number;
     updatedBy: number;
+    projectId: number;
+    events: number[];
+    isSystem: boolean;
+    isGlobal: boolean;
     tags: string[];
     name: string;
+    displayName: string;
+    description: string;
+    status: EventStatus;
     type: DataType;
+    db_col?: any;
+    isRequired: boolean;
     nullable: boolean;
     isArray: boolean;
     isDictionary: boolean;

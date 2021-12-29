@@ -1,10 +1,3 @@
-<script setup lang="ts">
-import Events from "@/components/events/Events/Events.vue";
-import Breakdowns from "./components/events/Breakdowns/Breakdowns.vue";
-import Filters from "./components/events/Filters/Filters.vue";
-import Header from "./components/Header.vue";
-</script>
-
 <template>
     <div class="pf-c-page">
         <Header />
@@ -12,7 +5,7 @@ import Header from "./components/Header.vue";
             <section class="pf-c-page__main-section">
                 <div class="pf-l-grid pf-m-gutter">
                     <div class="pf-l-grid__item pf-m-6-col">
-                        <div class="pf-c-card pf-m-compact">
+                        <div class="pf-c-card pf-m-compact pf-u-h-100">
                             <div class="pf-c-card__title">
                                 <p>Events</p>
                             </div>
@@ -22,7 +15,7 @@ import Header from "./components/Header.vue";
                         </div>
                     </div>
                     <div class="pf-l-grid__item pf-m-6-col">
-                        <div class="pf-c-card pf-m-compact">
+                        <div class="pf-c-card pf-m-compact pf-u-h-100">
                             <div class="pf-c-card__title"><p>Segments</p></div>
                             <div class="pf-c-card__body">
                                 <Breakdowns />
@@ -30,7 +23,7 @@ import Header from "./components/Header.vue";
                         </div>
                     </div>
                     <div class="pf-l-grid__item pf-m-6-col">
-                        <div class="pf-c-card pf-m-compact">
+                        <div class="pf-c-card pf-m-compact pf-u-h-100">
                             <div class="pf-c-card__title">
                                 <p>Filters</p>
                             </div>
@@ -40,7 +33,7 @@ import Header from "./components/Header.vue";
                         </div>
                     </div>
                     <div class="pf-l-grid__item pf-m-6-col">
-                        <div class="pf-c-card pf-m-compact">
+                        <div class="pf-c-card pf-m-compact pf-u-h-100">
                             <div class="pf-c-card__title">
                                 <p>Breakdowns</p>
                             </div>
@@ -64,6 +57,23 @@ import Header from "./components/Header.vue";
         </main>
     </div>
 </template>
+
+<script setup lang="ts">
+import { onBeforeMount } from "vue";
+import Events from "@/components/events/Events/Events.vue";
+import Breakdowns from "./components/events/Breakdowns/Breakdowns.vue";
+import Filters from "./components/events/Filters/Filters.vue";
+import Header from "./components/Header.vue";
+import { useLexiconStore } from "@/stores/lexicon";
+
+const lexiconStore = useLexiconStore();
+
+onBeforeMount(() => {
+    lexiconStore.getEvents();
+    lexiconStore.getEventProperties();
+    lexiconStore.getUserProperties();
+});
+</script>
 
 <style lang="scss">
 @mixin styled-scroll {

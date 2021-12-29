@@ -27,7 +27,7 @@
 </template>
 
 <script setup lang="ts">
-import { onBeforeMount } from "vue";
+import { computed } from "vue";
 import { EventRef, OperationId, PropertyRef, Value } from "@/types";
 import { useEventsStore } from "@/stores/eventSegmentation/events";
 import { useLexiconStore } from "@/stores/lexicon";
@@ -36,14 +36,9 @@ import SelectedEvent from "@/components/events/Events/SelectedEvent.vue";
 import UiButton from "@/components/uikit/UiButton.vue";
 
 const lexiconStore = useLexiconStore();
-
-onBeforeMount(() => {
-    lexiconStore.getEvents();
-    lexiconStore.getEventProperties();
-});
-
 const eventsStore = useEventsStore();
-const events = eventsStore.events;
+
+const events = computed(() => eventsStore.events);
 
 const addEvent = (ref: EventRef) => {
     eventsStore.addEventByRef(ref);

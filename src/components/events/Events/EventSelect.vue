@@ -22,7 +22,7 @@ import Select from "@/components/Select/Select.vue";
 import { Group, Item } from "@/components/Select/SelectTypes";
 
 const search = ref("");
-const description = ref("");
+const description = ref();
 
 interface Props {
     selected?: EventRef | undefined | null;
@@ -42,9 +42,11 @@ const emit = defineEmits<{
 const itemsWithSearch = computed((): Group[] => {
     if (search.value) {
         return props.items.reduce((acc: Group[], item) => {
-            const innerItems: Item[] = item.items.filter(
-                item => item.name.search(search.value) >= 0
-            );
+            const innerItems: Item[] = item.items.filter(item => {
+                const name = item.name.toLowerCase();
+
+                return name.search(search.value) >= 0;
+            });
 
             if (innerItems.length) {
                 acc.push({
@@ -69,7 +71,9 @@ const selectedItem = computed(() => {
 });
 
 const selectedDescription = computed(() => {
-    return description.value || props.items[0]?.items[0]?.description;
+    return description.value === undefined
+        ? props.items[0]?.items[0]?.description
+        : description.value;
 });
 
 const select = (item: EventRef) => {
@@ -77,7 +81,7 @@ const select = (item: EventRef) => {
 };
 
 const onSearch = (payload: string) => {
-    search.value = payload;
+    search.value = payload.toLowerCase();
 };
 
 const onHover = (item: Item) => {

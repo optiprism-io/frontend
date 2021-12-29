@@ -1,9 +1,5 @@
 <template>
-    <div
-        class="selected-event pf-l-flex pf-m-column"
-        @mouseenter="showControls = true"
-        @mouseleave="showControls = false"
-    >
+    <div class="selected-event pf-l-flex pf-m-column">
         <div class="pf-l-flex">
             <div class="pf-l-flex__item selected-event__identifier">
                 {{ identifier }}
@@ -16,10 +12,10 @@
                         </UiButton>
                     </EventSelect>
                 </div>
-                <div v-show="showControls" class="pf-c-action-list__item">
+                <div class="pf-c-action-list__item selected-event__control">
                     <UiButton class="pf-m-plain" icon="fas fa-filter" @click="addFilter"></UiButton>
                 </div>
-                <div v-show="showControls" class="pf-c-action-list__item">
+                <div class="pf-c-action-list__item selected-event__control">
                     <UiButton
                         class="pf-m-plain"
                         icon="fas fa-times"
@@ -77,8 +73,6 @@ const emit = defineEmits<{
     (e: "removeFilterValue", eventIdx: number, filterIdx: number, value: Value): void;
     (e: "handleSelectProperty"): void;
 }>();
-
-let showControls = ref(false);
 
 const lexiconStore = useLexiconStore();
 
@@ -139,6 +133,18 @@ const identifier = computed((): string => alphabet[props.index]);
         text-transform: uppercase;
         text-align: center;
         color: var(--pf-global--main-color--100);
+    }
+
+    &__control {
+        opacity: 0;
+    }
+
+    &:hover {
+        .selected-event {
+            &__control {
+                opacity: 1;
+            }
+        }
     }
 }
 </style>
