@@ -20,7 +20,12 @@
                         {{ propertyName(filter.propRef) }}
                     </UiButton>
                 </PropertySelect>
-                <PropertySelect v-else :event-ref="eventRef" @select="changeProperty">
+                <PropertySelect
+                    v-else
+                    :is-open-mount="true"
+                    :event-ref="eventRef"
+                    @select="changeProperty"
+                >
                     <UiButton
                         :before-icon="'fas fa-plus-circle'"
                         class="pf-m-main pf-m-primary"

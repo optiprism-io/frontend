@@ -7,7 +7,6 @@
     >
         <slot></slot>
     </span>
-
     <teleport v-if="visible" to="body">
         <div ref="tooltip" class="ui-popper" role="tooltip">
             <slot v-if="slots.content" name="content"></slot>
@@ -78,8 +77,6 @@ const update = () => {
 };
 
 const setValue = (value: boolean): void => {
-    console.log(value, "setValue");
-
     if (hasValue.value) {
         emit("update:modelValue", value);
     } else {
@@ -87,7 +84,7 @@ const setValue = (value: boolean): void => {
     }
 };
 
-const open = (e: any) => {
+const open = () => {
     setValue(true);
     setTimeout(() => {
         update();
@@ -102,7 +99,7 @@ const toggle = (e: any): void => {
     if (visible.value) {
         close();
     } else {
-        open(e);
+        open();
     }
 };
 
@@ -127,6 +124,9 @@ const clickOutside = (e: any) => {
 };
 
 onBeforeMount(() => {
+    if (props.modelValue) {
+        open();
+    }
     addEventListener("mouseup", clickOutside);
 });
 

@@ -65,12 +65,12 @@ const props = withDefaults(
         grouped?: boolean;
         selected?: any;
         loading?: boolean;
-        open?: boolean;
+        isOpenMount?: boolean;
     }>(),
     {
         grouped: false,
         selected: false,
-        open: false
+        isOpenMount: false
     }
 );
 
@@ -99,7 +99,7 @@ const onSearch = (payload: string) => {
 };
 
 onBeforeMount(() => {
-    show.value = props.open;
+    show.value = props.isOpenMount;
 });
 </script>
 

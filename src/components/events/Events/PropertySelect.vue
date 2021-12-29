@@ -1,5 +1,11 @@
 <template>
-    <Select :items="items" grouped :selected="selectedItem" @select="select">
+    <Select
+        grouped
+        :is-open-mount="isOpenMount"
+        :items="items"
+        :selected="selectedItem"
+        @select="select"
+    >
         <slot></slot>
     </Select>
 </template>
@@ -26,6 +32,7 @@ const lexiconStore = useLexiconStore();
 const props = defineProps<{
     eventRef: EventRef;
     selected?: PropertyRef;
+    isOpenMount?: boolean;
 }>();
 
 const emit = defineEmits<{
