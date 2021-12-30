@@ -1,5 +1,5 @@
 <template>
-    <div class="pf-l-flex" @mouseenter="showControls = true" @mouseleave="showControls = false">
+    <div class="filter pf-l-flex">
         <div class="pf-c-action-list">
             <div
                 class="pf-c-action-list__item pf-u-ml-2xl"
@@ -84,15 +84,8 @@
                 </ValueSelect>
             </div>
 
-            <div v-show="showControls" class="pf-c-action-list__item">
-                <button
-                    class="pf-c-button pf-m-plain"
-                    type="button"
-                    aria-label="Remove"
-                    @click="removeFilter"
-                >
-                    <i class="fas fa-times" aria-hidden="true"></i>
-                </button>
+            <div class="pf-c-action-list__item filter__control-item">
+                <UiButton class="pf-m-plain" icon="fas fa-times" @click="removeFilter"></UiButton>
             </div>
         </div>
     </div>
@@ -124,7 +117,6 @@ const props = defineProps<{
 }>();
 
 const isNowSelectedFilterRef = computed(() => !props?.filter?.propRef);
-let showControls = ref(false);
 
 const emit = defineEmits<{
     (e: "removeFilter", index: number): void;
@@ -179,4 +171,16 @@ const propertyName = (ref: PropertyRef): string => {
 };
 </script>
 
-<style scoped></style>
+<style scoped lang="scss">
+.filter {
+    &:hover {
+        .filter__control-item {
+            opacity: 1;
+        }
+    }
+
+    &__control-item {
+        opacity: 0;
+    }
+}
+</style>

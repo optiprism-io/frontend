@@ -83,6 +83,7 @@ const selectedItem = computed(() => {
 
 const select = (item: any): void => {
     show.value = false;
+    selectedItemLocal.value = false;
     key.value++;
     emit("select", item);
 };

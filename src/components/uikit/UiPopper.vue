@@ -70,7 +70,7 @@ const update = () => {
             Object.assign(tooltipElement.style, {
                 left: `${x}px`,
                 top: `${y}px`,
-                opacity: 1
+                display: "block"
             });
         });
     }
@@ -150,7 +150,7 @@ onUnmounted(() => {
     left: 0;
     position: absolute;
     display: inline-block;
-    opacity: 0;
+    display: none;
     z-index: 1000;
 }
 </style>

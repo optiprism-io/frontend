@@ -41,7 +41,7 @@
                             :item="item.item"
                             :text="item.name"
                             :selected="selected"
-                            @hover="hover"
+                            @mouseenter="hover"
                             @click="select"
                         ></SelectListItem>
                     </ul>
@@ -55,7 +55,7 @@
                         :item="item.item"
                         :text="item.name"
                         :selected="selected"
-                        @hover="hover"
+                        @mouseenter="hover"
                         @click="select"
                     ></SelectListItem>
                 </ul>

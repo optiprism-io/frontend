@@ -282,7 +282,7 @@ export const operations: Operation[] = [
     },
     {
         id: OperationId.Empty,
-        name: "Empty",
+        name: "Is Empty",
         flags: [OpFlag.Null]
     },
     {
