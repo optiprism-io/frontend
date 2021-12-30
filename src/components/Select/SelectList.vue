@@ -41,7 +41,7 @@
                             :item="item.item"
                             :text="item.name"
                             :selected="selected"
-                            @mouseenter="hover"
+                            @mouseenter="hover(item)"
                             @click="select"
                         ></SelectListItem>
                     </ul>
@@ -55,7 +55,7 @@
                         :item="item.item"
                         :text="item.name"
                         :selected="selected"
-                        @mouseenter="hover"
+                        @mouseenter="hover(item)"
                         @click="select"
                     ></SelectListItem>
                 </ul>
@@ -69,13 +69,19 @@ import { computed, ref } from "vue";
 import { Group, Item } from "@/components/Select/SelectTypes";
 import SelectListItem from "@/components/Select/SelectListItem.vue";
 
-const search = ref("");
+const emit = defineEmits<{
+    (e: "select", item: any): void;
+    (e: "hover", item: any): void;
+    (e: "on-search", value: string): void;
+}>();
 
 const props = defineProps<{
     items: Item[] | Group[];
     grouped: boolean;
     selected?: any;
 }>();
+
+const search = ref("");
 
 const groupedItems = computed((): Group[] => {
     if (props.grouped) {
@@ -93,12 +99,6 @@ const itemItems = computed((): Item[] => {
     }
 });
 
-const emit = defineEmits<{
-    (e: "select", item: any): void;
-    (e: "hover", item: any): void;
-    (e: "onSearch", value: string): void;
-}>();
-
 const hover = (item: any): void => {
     emit("hover", item);
 };
@@ -108,6 +108,6 @@ const select = (item: any): void => {
 };
 
 const onSearch = (): void => {
-    emit("onSearch", search.value);
+    emit("on-search", search.value);
 };
 </script>

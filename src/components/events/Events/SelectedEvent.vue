@@ -6,11 +6,11 @@
             </div>
             <div class="pf-c-action-list">
                 <div class="pf-c-action-list__item">
-                    <EventSelect :items="eventItems" :selected="eventRef" @select="changeEvent">
+                    <Select grouped :items="eventItems" :selected="eventRef" @select="changeEvent">
                         <UiButton class="pf-m-main pf-m-secondary">
                             {{ eventName(eventRef) }}
                         </UiButton>
-                    </EventSelect>
+                    </Select>
                 </div>
                 <div class="pf-c-action-list__item selected-event__control">
                     <UiButton class="pf-m-plain" icon="fas fa-filter" @click="addFilter"></UiButton>
@@ -41,11 +41,11 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from "vue";
+import { computed } from "vue";
 import { EventRef, EventType, OperationId, PropertyRef, Value } from "@/types";
 import { useLexiconStore } from "@/stores/lexicon";
 import { EventFilter } from "@/stores/eventSegmentation/events";
-import EventSelect from "./EventSelect.vue";
+import Select from "@/components/Select/Select.vue";
 import Filter from "./Filter.vue";
 import UiButton from "@/components/uikit/UiButton.vue";
 import { Group } from "@/components/Select/SelectTypes";

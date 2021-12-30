@@ -10,13 +10,13 @@
                     v-else
                     class="pf-l-grid"
                     :class="{
-                        'pf-m-all-12-col': !slots.description,
-                        'pf-m-all-6-col': slots.description
+                        'pf-m-all-12-col': !selectedDescription,
+                        'pf-m-all-6-col': selectedDescription
                     }"
                 >
                     <div class="pf-l-grid__item select__box">
                         <SelectList
-                            :items="items"
+                            :items="itemsWithSearch"
                             :grouped="grouped"
                             :selected="selectedItem"
                             @select="select($event)"
@@ -25,7 +25,7 @@
                         />
                     </div>
                     <div
-                        v-if="slots.description"
+                        v-if="selectedDescription"
                         class="pf-l-grid__items select__box select__description"
                     >
                         <div class="pf-c-card__body pf-u-color-200">
@@ -33,7 +33,7 @@
                                 <UiIcon icon="fas fa-info-circle" />
                             </div>
                             <div class="pf-u-font-size-lg">
-                                <slot name="description"></slot>
+                                {{ selectedDescription }}
                             </div>
                         </div>
                     </div>
@@ -61,7 +61,7 @@ const emit = defineEmits<{
 
 const props = withDefaults(
     defineProps<{
-        items: Item[] | Group[];
+        items: Group[];
         grouped?: boolean;
         selected?: any;
         loading?: boolean;
@@ -77,8 +77,40 @@ const props = withDefaults(
 const key = ref(0);
 const show = ref(false);
 const selectedItemLocal = ref(false);
+const search = ref("");
+const description = ref();
+
 const selectedItem = computed(() => {
-    return selectedItemLocal.value || props.selected;
+    return selectedItemLocal.value || props.selected || props.items[0]?.items[0]?.item;
+});
+
+const selectedDescription = computed(() => {
+    return description.value === undefined
+        ? props.items[0]?.items[0]?.description
+        : description.value;
+});
+
+const itemsWithSearch = computed((): Group[] => {
+    if (search.value) {
+        return props.items.reduce((acc: Group[], item) => {
+            const innerItems: Item[] = item.items.filter(item => {
+                const name = item.name.toLowerCase();
+
+                return name.search(search.value) >= 0;
+            });
+
+            if (innerItems.length) {
+                acc.push({
+                    ...item,
+                    items: innerItems
+                });
+            }
+
+            return acc;
+        }, []);
+    } else {
+        return props.items;
+    }
 });
 
 const select = (item: any): void => {
@@ -90,12 +122,14 @@ const select = (item: any): void => {
 
 const hover = (item: Item): void => {
     if (item) {
+        description.value = item?.description || "";
         selectedItemLocal.value = item.item;
         emit("onHover", item);
     }
 };
 
 const onSearch = (payload: string) => {
+    search.value = payload.toLowerCase();
     emit("onSearch", payload);
 };
 
@@ -125,7 +159,7 @@ onBeforeMount(() => {
     }
 
     &__description {
-        border-left: 1px solid #d2d2d2;
+        border-left: 1px solid var(--pf-global--BackgroundColor--200);
     }
 }
 </style>

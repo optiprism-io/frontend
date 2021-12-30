@@ -17,11 +17,11 @@
             @remove-filter-value="removeFilterValue"
         />
         <div class="pf-l-flex">
-            <EventSelect :items="lexiconStore.eventsList" @select="addEvent">
+            <Select grouped :items="lexiconStore.eventsList" @select="addEvent">
                 <UiButton class="pf-m-main" :is-link="true" :before-icon="'fas fa-plus'">
                     Add Event
                 </UiButton>
-            </EventSelect>
+            </Select>
         </div>
     </div>
 </template>
@@ -31,7 +31,7 @@ import { computed } from "vue";
 import { EventRef, OperationId, PropertyRef, Value } from "@/types";
 import { useEventsStore } from "@/stores/eventSegmentation/events";
 import { useLexiconStore } from "@/stores/lexicon";
-import EventSelect from "@/components/events/Events/EventSelect.vue";
+import Select from "@/components/Select/Select.vue";
 import SelectedEvent from "@/components/events/Events/SelectedEvent.vue";
 import UiButton from "@/components/uikit/UiButton.vue";
 
