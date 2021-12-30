@@ -51,8 +51,6 @@ import UiSpinner from "@/components/uikit/UiSpinner.vue";
 import UiIcon from "@/components/uikit/UiIcon.vue";
 import { Group, Item } from "@/components/Select/SelectTypes";
 
-const slots = useSlots();
-
 const emit = defineEmits<{
     (e: "select", item: any): void;
     (e: "onSearch", payload: string): void;
@@ -61,7 +59,7 @@ const emit = defineEmits<{
 
 const props = withDefaults(
     defineProps<{
-        items: Group[];
+        items: any;
         grouped?: boolean;
         selected?: any;
         loading?: boolean;
@@ -80,34 +78,62 @@ const selectedItemLocal = ref(false);
 const search = ref("");
 const description = ref();
 
+const firstElement = computed(() => props.items[0]);
+
 const selectedItem = computed(() => {
-    return selectedItemLocal.value || props.selected || props.items[0]?.items[0]?.item;
+    if (props.grouped) {
+        return selectedItemLocal.value || props.selected || firstElement.value?.items[0]?.item;
+    } else {
+        return selectedItemLocal.value || props.selected || firstElement.value?.item;
+    }
 });
 
 const selectedDescription = computed(() => {
-    return description.value === undefined
-        ? props.items[0]?.items[0]?.description
-        : description.value;
+    let item: any = null;
+    if (props.grouped) {
+        props.items.forEach((group: Group) => {
+            group.items.forEach((groupItem: Item) => {
+                if (JSON.stringify(selectedItem.value) === JSON.stringify(groupItem.item)) {
+                    item = groupItem;
+                }
+            });
+        });
+    } else {
+        props.items.forEach((groupItem: Item) => {
+            if (JSON.stringify(selectedItem.value) === JSON.stringify(groupItem.item)) {
+                item = groupItem;
+            }
+        });
+    }
+    return item ? item.description : "";
 });
 
-const itemsWithSearch = computed((): Group[] => {
+const itemsWithSearch = computed((): Group[] | Item[] => {
     if (search.value) {
-        return props.items.reduce((acc: Group[], item) => {
-            const innerItems: Item[] = item.items.filter(item => {
+        if (props.grouped) {
+            return props.items.reduce((acc: Group[], item: Group) => {
+                const innerItems: Item[] = item.items.filter(item => {
+                    const name = item.name.toLowerCase();
+
+                    return name.search(search.value) >= 0;
+                });
+
+                if (innerItems.length) {
+                    acc.push({
+                        ...item,
+                        items: innerItems
+                    });
+                }
+
+                return acc;
+            }, []);
+        } else {
+            return props.items.filter((item: any) => {
                 const name = item.name.toLowerCase();
 
                 return name.search(search.value) >= 0;
             });
-
-            if (innerItems.length) {
-                acc.push({
-                    ...item,
-                    items: innerItems
-                });
-            }
-
-            return acc;
-        }, []);
+        }
     } else {
         return props.items;
     }

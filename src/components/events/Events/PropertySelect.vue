@@ -3,15 +3,10 @@
         grouped
         :is-open-mount="isOpenMount"
         :items="items"
-        :selected="selectedItem"
+        :selected="selected"
         @select="select"
-        @on-search="onSearch"
-        @on-hover="onHover"
     >
         <slot></slot>
-        <template v-if="selectedDescription" #description>
-            {{ selectedDescription }}
-        </template>
     </Select>
 </template>
 
@@ -42,9 +37,6 @@ const props = defineProps<{
     selected?: PropertyRef;
     isOpenMount?: boolean;
 }>();
-
-const search = ref("");
-const description = ref();
 
 const items = computed((): Group[] => {
     let ret: Group[] = [];
@@ -124,51 +116,10 @@ const items = computed((): Group[] => {
         }
     }
 
-    if (search.value) {
-        return ret.reduce((acc: Group[], item) => {
-            const innerItems: Item[] = item.items.filter(item => {
-                const name = item.name.toLowerCase();
-
-                return name.search(search.value) >= 0;
-            });
-
-            if (innerItems.length) {
-                acc.push({
-                    ...item,
-                    items: innerItems
-                });
-            }
-
-            return acc;
-        }, []);
-    } else {
-        return ret;
-    }
-});
-
-const selectedDescription = computed(() => {
-    return description.value === undefined
-        ? items.value[0]?.items[0]?.description
-        : description.value;
-});
-
-const selectedItem = computed((): PropertyRef | undefined => {
-    if (props.selected) {
-        return props.selected;
-    } else {
-        return items?.value[0]?.items[0]?.item;
-    }
+    return ret;
 });
 
 const select = (item: PropertyRef) => {
     emit("select", item);
-};
-
-const onSearch = (payload: string) => {
-    search.value = payload.toLowerCase();
-};
-
-const onHover = (item: Item) => {
-    description.value = item?.description || "";
 };
 </script>

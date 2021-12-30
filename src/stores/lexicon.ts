@@ -11,7 +11,9 @@ import {
     EventType,
     Cohort,
     customEventRef,
-    eventRef
+    eventRef,
+    PropertyRef,
+    PropertyType
 } from "../types";
 import { Group, Item } from "@/components/Select/SelectTypes";
 
