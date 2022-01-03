@@ -5,17 +5,18 @@
 </template>
 
 <script setup lang="ts">
-import { PropertyRef, Value } from "../../../types";
-import MultiSelect, { Item } from "../../MultiSelect/MultiSelect.vue";
-import { computed } from "vue";
+import { PropertyRef, Value } from "@/types";
+import MultiSelect, { Item } from "@/components/MultiSelect/MultiSelect.vue";
 
 withDefaults(
     defineProps<{
         propertyRef: PropertyRef;
         selected?: Value[];
+        items?: Item[];
     }>(),
     {
-        selected: () => []
+        selected: () => [],
+        items: () => []
     }
 );
 
@@ -23,16 +24,6 @@ const emit = defineEmits<{
     (e: "add", value: Value): void;
     (e: "remove", value: Value): void;
 }>();
-
-const items = computed((): Item[] => {
-    let ret: Item[] = [];
-
-    for (let i = 0; i < 100; i++) {
-        ret.push({ item: i, name: i.toString() });
-    }
-
-    return ret;
-});
 
 const add = (value: Value) => {
     emit("add", value);

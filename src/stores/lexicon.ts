@@ -4,7 +4,6 @@ import {
     CustomEvent,
     EventProperty,
     UserCustomProperty,
-    DataType,
     Event,
     EventCustomProperty,
     UserProperty,
@@ -13,8 +12,9 @@ import {
     customEventRef,
     eventRef,
     PropertyRef,
-    PropertyType
-} from "../types";
+    PropertyType,
+    EventRef
+} from "@/types";
 import { Group, Item } from "@/components/Select/SelectTypes";
 
 type Lexicon = {
@@ -114,12 +114,12 @@ export const useLexiconStore = defineStore("lexicon", {
             };
         },
         eventName(state: Lexicon) {
-            return (type: EventType, id: number): string => {
-                switch (type) {
+            return (ref: EventRef): string => {
+                switch (ref.type) {
                     case EventType.Regular:
-                        return this.findEventById(id).name;
+                        return this.findEventById(ref.id).name;
                     case EventType.Custom:
-                        return this.findCustomEventById(id).name;
+                        return this.findCustomEventById(ref.id).name;
                 }
             };
         },
@@ -167,6 +167,21 @@ export const useLexiconStore = defineStore("lexicon", {
                     return e;
                 }
                 throw new Error(`undefined user custom property id: {$id}`);
+            };
+        },
+        propertyName() {
+            return (ref: PropertyRef): string => {
+                switch (ref.type) {
+                    case PropertyType.Event:
+                        return this.findEventPropertyById(ref.id).name;
+                    case PropertyType.EventCustom:
+                        return this.findEventCustomPropertyById(ref.id).name;
+                    case PropertyType.User:
+                        return this.findUserPropertyById(ref.id).name;
+                    case PropertyType.UserCustom:
+                        return this.findUserCustomPropertyById(ref.id).name;
+                }
+                throw new Error("unhandled");
             };
         },
         findCohortById(state: Lexicon) {

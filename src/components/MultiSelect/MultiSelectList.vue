@@ -3,11 +3,11 @@
         <div class="pf-c-menu__search">
             <div class="pf-c-menu__search-input">
                 <input
-                    id="-search-input"
+                    v-model="searchRef"
                     class="pf-c-form-control pf-m-search"
                     type="search"
-                    name="-search-input"
                     aria-label="Search"
+                    @input="search"
                 />
             </div>
         </div>
@@ -28,8 +28,9 @@
 </template>
 
 <script setup lang="ts">
-import { Item } from "./MultiSelect.vue";
-import MultiSelectListItem from "./MultiSelectListItem.vue";
+import { ref } from "vue";
+import { Item } from "@/components/MultiSelect/MultiSelect.vue";
+import MultiSelectListItem from "@/components/MultiSelect/MultiSelectListItem.vue";
 
 const props = defineProps<{
     items: Item[];
@@ -39,7 +40,10 @@ const props = defineProps<{
 const emit = defineEmits<{
     (e: "select", item: any): void;
     (e: "deselect", item: any): void;
+    (e: "search", payload: any): void;
 }>();
+
+const searchRef = ref("");
 
 const select = (item: any): void => {
     emit("select", item);
@@ -51,5 +55,9 @@ const deselect = (item: any): void => {
 
 const isSelected = (item: any): boolean => {
     return props.selected?.find((v: any) => v === item) !== undefined;
+};
+
+const search = (): void => {
+    emit("search", searchRef.value);
 };
 </script>

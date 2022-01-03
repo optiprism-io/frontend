@@ -49,10 +49,11 @@
                 </OperationSelect>
             </div>
 
-            <div v-if="filter.propRef" class="pf-c-action-list__item">
+            <div v-if="isShowValues && filter.propRef" class="pf-c-action-list__item">
                 <ValueSelect
                     :property-ref="filter.propRef"
                     :selected="filter.values"
+                    :items="filterItemValues"
                     @add="addValue"
                     @deselect="removeValue"
                 >
@@ -105,18 +106,17 @@ import {
     operationById,
     OperationId,
     Value
-} from "../../../types";
-import { computed, ref } from "vue";
+} from "@/types";
+import { computed } from "vue";
 import UiIcon from "@/components/uikit/UiIcon.vue";
 import UiButton from "@/components/uikit/UiButton.vue";
 
+const lexiconStore = useLexiconStore();
 const props = defineProps<{
     eventRef: EventRef;
     filter: EventFilter;
     index: number;
 }>();
-
-const isNowSelectedFilterRef = computed(() => !props?.filter?.propRef);
 
 const emit = defineEmits<{
     (e: "removeFilter", index: number): void;
@@ -126,7 +126,14 @@ const emit = defineEmits<{
     (e: "removeFilterValue", filterIdx: number, value: Value): void;
     (e: "handleSelectProperty"): void;
 }>();
-const lexiconStore = useLexiconStore();
+
+const isNowSelectedFilterRef = computed(() => !props?.filter?.propRef);
+const filterItemValues = computed(() =>
+    props.filter.valuesList.map((item: string, i) => {
+        return { item, name: item };
+    })
+);
+const isShowValues = computed(() => !["exists", "empty"].includes(props.filter.opId));
 
 const removeFilter = (): void => {
     emit("removeFilter", props.index);

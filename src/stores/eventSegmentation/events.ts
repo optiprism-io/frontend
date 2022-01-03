@@ -1,11 +1,14 @@
 import { defineStore } from "pinia";
 import * as types from "../../types";
-import { EventRef, EventType, OperationId, PropertyRef, Value } from "../../types";
+import { EventRef, EventType, OperationId, PropertyRef, Value, PropertyType } from "@/types";
+import schemaService from "@/api/services/schema.service";
+import { useLexiconStore } from "@/stores/lexicon";
 
 export interface EventFilter {
     propRef?: PropertyRef;
     opId: OperationId;
     values: Value[];
+    valuesList: string[];
 }
 
 export type Event = {
@@ -57,17 +60,37 @@ export const useEventsStore = defineStore("events", {
             }
             this.events[idx].filters.push(<EventFilter>{
                 opId: OperationId.Eq,
-                values: []
+                values: [],
+                valuesList: []
             });
         },
         removeFilter(eventIdx: number, filterIdx: number): void {
             this.events[eventIdx].filters.splice(filterIdx, 1);
         },
-        changeFilterProperty(eventIdx: number, filterIdx: number, propRef: PropertyRef): void {
+        async changeFilterProperty(eventIdx: number, filterIdx: number, propRef: PropertyRef) {
+            const lexiconStore = useLexiconStore();
+            const eventRef: EventRef = this.events[eventIdx].ref;
+            let valuesList: string[] = [];
+
+            try {
+                const res = await schemaService.propertiesValues({
+                    event_name: lexiconStore.eventName(eventRef),
+                    event_type: EventType[eventRef.type],
+                    property_name: lexiconStore.propertyName(propRef),
+                    property_type: PropertyType[propRef.type]
+                });
+                if (res) {
+                    valuesList = res;
+                }
+            } catch (error) {
+                throw new Error("error getEventsValues");
+            }
+
             this.events[eventIdx].filters[filterIdx] = <EventFilter>{
                 propRef: propRef,
                 opId: types.OperationId.Eq,
-                values: []
+                values: [],
+                valuesList: valuesList
             };
         },
         changeFilterOperation(eventIdx: number, filterIdx: number, opId: types.OperationId): void {

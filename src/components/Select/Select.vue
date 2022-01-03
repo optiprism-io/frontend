@@ -44,7 +44,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, useSlots, onBeforeMount } from "vue";
+import { computed, ref, onBeforeMount } from "vue";
 import UiPopper from "@/components/uikit/UiPopper.vue";
 import SelectList from "@/components/Select/SelectList.vue";
 import UiSpinner from "@/components/uikit/UiSpinner.vue";
@@ -88,27 +88,7 @@ const selectedItem = computed(() => {
     }
 });
 
-const selectedDescription = computed(() => {
-    let item: any = null;
-    if (props.grouped) {
-        props.items.forEach((group: Group) => {
-            group.items.forEach((groupItem: Item) => {
-                if (JSON.stringify(selectedItem.value) === JSON.stringify(groupItem.item)) {
-                    item = groupItem;
-                }
-            });
-        });
-    } else {
-        props.items.forEach((groupItem: Item) => {
-            if (JSON.stringify(selectedItem.value) === JSON.stringify(groupItem.item)) {
-                item = groupItem;
-            }
-        });
-    }
-    return item ? item.description : "";
-});
-
-const itemsWithSearch = computed((): Group[] | Item[] => {
+const itemsWithSearch = computed(() => {
     if (search.value) {
         if (props.grouped) {
             return props.items.reduce((acc: Group[], item: Group) => {
@@ -139,6 +119,27 @@ const itemsWithSearch = computed((): Group[] | Item[] => {
     }
 });
 
+const selectedDescription = computed(() => {
+    let item: any = null;
+    if (props.grouped) {
+        itemsWithSearch.value.forEach((group: Group) => {
+            group.items.forEach((groupItem: Item) => {
+                if (JSON.stringify(selectedItem.value) === JSON.stringify(groupItem.item)) {
+                    item = groupItem;
+                }
+            });
+        });
+    } else {
+        itemsWithSearch.value.forEach((groupItem: Item) => {
+            if (JSON.stringify(selectedItem.value) === JSON.stringify(groupItem.item)) {
+                item = groupItem;
+            }
+        });
+    }
+
+    return item ? item.description : "";
+});
+
 const select = (item: any): void => {
     show.value = false;
     selectedItemLocal.value = false;
@@ -156,6 +157,7 @@ const hover = (item: Item): void => {
 
 const onSearch = (payload: string) => {
     search.value = payload.toLowerCase();
+    description.value = "";
     emit("onSearch", payload);
 };
 

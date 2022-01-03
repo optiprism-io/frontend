@@ -404,6 +404,10 @@ export default function ({ environment = "development" } = {}) {
                     }
                 ];
             });
+
+            this.get("/data/property-values", (): string[] => {
+                return ["Furniture", "Doors", "Lamp", "Tables", "Shelves"];
+            });
         }
     });
 }

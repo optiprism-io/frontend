@@ -4,13 +4,14 @@
         <template #content>
             <div
                 class="pf-c-card pf-m-compact pf-u-min-width"
-                style="--pf-u-min-width--MinWidth: 350px"
+                style="--pf-u-min-width--MinWidth: 320px"
             >
                 <MultiSelectList
-                    :items="items"
+                    :items="itemsSelect"
                     :selected="selected"
                     @select="select"
                     @deselect="deselect"
+                    @search="search"
                 />
             </div>
         </template>
@@ -19,8 +20,8 @@
 
 <script setup lang="ts">
 import Popper from "vue3-popper";
-import MultiSelectList from "./MultiSelectList.vue";
-import { ref } from "vue";
+import MultiSelectList from "@/components/MultiSelect/MultiSelectList.vue";
+import { ref, computed } from "vue";
 
 export interface Item {
     item: any;
@@ -30,14 +31,28 @@ export interface Item {
 const emit = defineEmits<{
     (e: "select", item: any): void;
     (e: "deselect", item: any): void;
+    (e: "search", payload: string): void;
 }>();
 
-defineProps<{
+const props = defineProps<{
     items: Item[];
     selected?: any;
 }>();
 
 let key = ref(0);
+const searchRef = ref("");
+
+const itemsSelect = computed(() => {
+    if (searchRef.value) {
+        return props.items.filter((item: any) => {
+            const name = item.name.toLowerCase();
+
+            return name.search(searchRef.value) >= 0;
+        });
+    } else {
+        return props.items;
+    }
+});
 
 const select = (item: any): void => {
     emit("select", item);
@@ -45,6 +60,11 @@ const select = (item: any): void => {
 
 const deselect = (item: any): void => {
     emit("deselect", item);
+};
+
+const search = (payload: string) => {
+    searchRef.value = payload.toLowerCase();
+    emit("search", payload);
 };
 </script>
 
