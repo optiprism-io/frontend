@@ -1,6 +1,11 @@
 <template>
-    <Select grouped :items="items" :selected="selectedItem" @select="select">
-        <slot></slot>
+    <Select
+        grouped
+        :items="items"
+        :selected="selectedItem"
+        @select="select"
+    >
+        <slot />
     </Select>
 </template>
 

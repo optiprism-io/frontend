@@ -8,7 +8,7 @@
                     type="search"
                     aria-label="Search"
                     @input="search"
-                />
+                >
             </div>
         </div>
         <div class="pf-c-menu__content">
@@ -21,7 +21,7 @@
                     :selected="isSelected(item.item)"
                     @select="select"
                     @deselect="deselect"
-                ></MultiSelectListItem>
+                />
             </ul>
         </div>
     </div>

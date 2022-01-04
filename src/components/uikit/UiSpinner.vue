@@ -1,9 +1,13 @@
 <template>
     <span class="ui-spinner">
-        <span class="pf-c-spinner" role="progressbar" aria-label="Loading...">
-            <span class="pf-c-spinner__clipper"></span>
-            <span class="pf-c-spinner__lead-ball"></span>
-            <span class="pf-c-spinner__tail-ball"></span>
+        <span
+            class="pf-c-spinner"
+            role="progressbar"
+            aria-label="Loading..."
+        >
+            <span class="pf-c-spinner__clipper" />
+            <span class="pf-c-spinner__lead-ball" />
+            <span class="pf-c-spinner__tail-ball" />
         </span>
     </span>
 </template>

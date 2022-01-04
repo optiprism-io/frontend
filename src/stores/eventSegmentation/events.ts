@@ -11,9 +11,14 @@ export interface EventFilter {
     valuesList: string[];
 }
 
+export interface EventBreakdown {
+    propRef?: PropertyRef;
+}
+
 export type Event = {
     ref: EventRef;
     filters: EventFilter[];
+    breakdowns: EventBreakdown[];
 };
 
 type Events = {
@@ -26,7 +31,11 @@ export const useEventsStore = defineStore("events", {
     }),
     actions: {
         changeEvent(index: number, ref: EventRef): void {
-            this.events[index] = <Event>{ ref: ref, filters: [] };
+            this.events[index] = <Event>{
+                ref: ref,
+                filters: [],
+                breakdowns: []
+            };
         },
         addEventByRef(ref: EventRef): void {
             switch (ref.type) {
@@ -41,13 +50,15 @@ export const useEventsStore = defineStore("events", {
         addEvent(id: number): void {
             this.events.push(<Event>{
                 ref: <EventRef>{ type: types.EventType.Regular, id: id },
-                filters: []
+                filters: [],
+                breakdowns: []
             });
         },
         addCustomEvent(id: number): void {
             this.events.push(<Event>{
                 ref: <EventRef>{ type: types.EventType.Custom, id: id },
-                filters: []
+                filters: [],
+                breakdowns: []
             });
         },
         deleteEvent(idx: number): void {
@@ -105,6 +116,16 @@ export const useEventsStore = defineStore("events", {
             ].values.filter(v => {
                 return v !== value;
             });
-        }
+        },
+
+        addBreakdown(idx: number): void {
+            if (this.events[idx].breakdowns.find((breakdown): boolean => breakdown.propRef === null)) {
+                return;
+            }
+
+            this.events[idx].breakdowns.push(<EventFilter>{
+                propRef: undefined,
+            });
+        },
     }
 });

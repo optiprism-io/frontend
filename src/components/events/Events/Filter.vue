@@ -37,7 +37,10 @@
                 </PropertySelect>
             </div>
 
-            <div v-if="filter.propRef" class="pf-c-action-list__item">
+            <div
+                v-if="filter.propRef"
+                class="pf-c-action-list__item"
+            >
                 <OperationSelect
                     :property-ref="filter.propRef"
                     :selected="filter.opId"
@@ -49,7 +52,10 @@
                 </OperationSelect>
             </div>
 
-            <div v-if="isShowValues && filter.propRef" class="pf-c-action-list__item">
+            <div
+                v-if="isShowValues && filter.propRef"
+                class="pf-c-action-list__item"
+            >
                 <ValueSelect
                     :property-ref="filter.propRef"
                     :selected="filter.values"
@@ -78,7 +84,10 @@
                         </div>
                     </template>
                     <template v-else>
-                        <UiButton class="pf-m-main" :before-icon="'fas fa-plus-circle'">
+                        <UiButton
+                            class="pf-m-main"
+                            :before-icon="'fas fa-plus-circle'"
+                        >
                             Select value
                         </UiButton>
                     </template>
@@ -86,7 +95,11 @@
             </div>
 
             <div class="pf-c-action-list__item filter__control-item">
-                <UiButton class="pf-m-plain" icon="fas fa-times" @click="removeFilter"></UiButton>
+                <UiButton
+                    class="pf-m-plain"
+                    icon="fas fa-times"
+                    @click="removeFilter"
+                />
             </div>
         </div>
     </div>

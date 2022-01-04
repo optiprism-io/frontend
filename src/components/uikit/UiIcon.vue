@@ -1,5 +1,8 @@
 <template>
-    <i :class="[icon]" aria-hidden="true"></i>
+    <i
+        :class="[icon]"
+        aria-hidden="true"
+    />
 </template>
 
 <script setup lang="ts">

@@ -6,21 +6,44 @@
             </div>
             <div class="pf-c-action-list">
                 <div class="pf-c-action-list__item">
-                    <Select grouped :items="eventItems" :selected="eventRef" @select="changeEvent">
+                    <Select
+                        grouped
+                        :items="eventItems"
+                        :selected="eventRef"
+                        @select="changeEvent"
+                    >
                         <UiButton class="pf-m-main pf-m-secondary">
                             {{ eventName(eventRef) }}
                         </UiButton>
                     </Select>
                 </div>
-                <div class="pf-c-action-list__item selected-event__control">
-                    <UiButton class="pf-m-plain" icon="fas fa-filter" @click="addFilter"></UiButton>
+                <div
+                    class="pf-c-action-list__item selected-event__control"
+                    @click="addFilter"
+                >
+                    <VTooltip>
+                        <UiIcon icon="fas fa-filter" />
+                        <template #popper>
+                            Add Filter
+                        </template>
+                    </VTooltip>
                 </div>
-                <div class="pf-c-action-list__item selected-event__control">
-                    <UiButton
-                        class="pf-m-plain"
-                        icon="fas fa-times"
-                        @click="removeEvent"
-                    ></UiButton>
+                <div
+                    class="pf-c-action-list__item selected-event__control"
+                    @click="addBreakdown"
+                >
+                    <VTooltip>
+                        <UiIcon icon="fas fa-layer-group" />
+                        <template #popper>
+                            Add breakdown
+                        </template>
+                    </VTooltip>
+                </div>
+                <div
+                    class="pf-c-action-list__item selected-event__control"
+                    @click="removeEvent"
+                >
+                    <UiIcon icon="fas fa-times" />
                 </div>
             </div>
         </div>
@@ -48,6 +71,7 @@ import { EventFilter } from "@/stores/eventSegmentation/events";
 import Select from "@/components/Select/Select.vue";
 import Filter from "./Filter.vue";
 import UiButton from "@/components/uikit/UiButton.vue";
+import UiIcon from "@/components/uikit/UiIcon.vue";
 import { Group } from "@/components/Select/SelectTypes";
 
 const props = withDefaults(
@@ -72,6 +96,7 @@ const emit = defineEmits<{
     (e: "addFilterValue", eventIdx: number, filterIdx: number, value: Value): void;
     (e: "removeFilterValue", eventIdx: number, filterIdx: number, value: Value): void;
     (e: "handleSelectProperty"): void;
+    (e: "addBreakdown", index: number): void;
 }>();
 
 const lexiconStore = useLexiconStore();
@@ -112,6 +137,11 @@ const removeFilterValue = (filterIdx: number, value: Value): void => {
     emit("removeFilterValue", props.index, filterIdx, value);
 };
 
+const addBreakdown = (): void => {
+    console.log("addBreakdowns");
+    emit("addBreakdown", props.index);
+};
+
 const eventName = (ref: EventRef): string => {
     switch (ref.type) {
         case EventType.Regular:
@@ -136,7 +166,14 @@ const identifier = computed((): string => alphabet[props.index]);
     }
 
     &__control {
+        padding: 5px;
         opacity: 0;
+        cursor: pointer;
+        color: var(--op-base-color-text);
+
+        &:hover {
+            color: var(--pf-global--palette--black-800);
+        }
     }
 
     &:hover {

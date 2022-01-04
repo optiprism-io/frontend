@@ -9,14 +9,23 @@
         :type="type"
         :aria-label="ariaLabel"
     >
-        <span v-if="beforeIcon" class="pf-c-button__icon pf-m-start">
+        <span
+            v-if="beforeIcon"
+            class="pf-c-button__icon pf-m-start"
+        >
             <UiIcon :icon="beforeIcon" />
         </span>
-        <span v-if="progress" class="pf-c-button__progress">
+        <span
+            v-if="progress"
+            class="pf-c-button__progress"
+        >
             <UiSpinner class="pf-m-md" />
         </span>
-        <UiIcon v-if="icon" :icon="icon" />
-        <slot></slot>
+        <UiIcon
+            v-if="icon"
+            :icon="icon"
+        />
+        <slot />
     </button>
 </template>
 

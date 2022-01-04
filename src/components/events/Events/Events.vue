@@ -15,10 +15,19 @@
             @change-filter-operation="changeFilterOperation"
             @add-filter-value="addFilterValue"
             @remove-filter-value="removeFilterValue"
+            @add-breakdown="addBreakdown"
         />
         <div class="pf-l-flex">
-            <Select grouped :items="lexiconStore.eventsList" @select="addEvent">
-                <UiButton class="pf-m-main" :is-link="true" :before-icon="'fas fa-plus'">
+            <Select
+                grouped
+                :items="lexiconStore.eventsList"
+                @select="addEvent"
+            >
+                <UiButton
+                    class="pf-m-main"
+                    :is-link="true"
+                    :before-icon="'fas fa-plus'"
+                >
                     Add Event
                 </UiButton>
             </Select>
@@ -74,5 +83,9 @@ const addFilterValue = (eventIdx: number, filterIdx: number, value: Value) => {
 
 const removeFilterValue = (eventIdx: number, filterIdx: number, value: Value) => {
     eventsStore.removeFilterValue(eventIdx, filterIdx, value);
+};
+
+const addBreakdown = (idx: number): void => {
+    eventsStore.addBreakdown(idx);
 };
 </script>

@@ -1,6 +1,11 @@
 <template>
-    <MultiSelect :items="items" :selected="selected" @select="add" @deselect="remove">
-        <slot></slot>
+    <MultiSelect
+        :items="items"
+        :selected="selected"
+        @select="add"
+        @deselect="remove"
+    >
+        <slot />
     </MultiSelect>
 </template>
 

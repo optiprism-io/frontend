@@ -1,9 +1,16 @@
 <template>
     <li class="pf-c-menu__list-item">
-        <a class="pf-c-menu__item" @click="click">
+        <a
+            class="pf-c-menu__item"
+            @click="click"
+        >
             <span class="pf-c-menu__item-main">
                 <span class="pf-c-menu__item-icon">
-                    <input v-model="selectedData" class="pf-c-check__input" type="checkbox" />
+                    <input
+                        v-model="selectedData"
+                        class="pf-c-check__input"
+                        type="checkbox"
+                    >
                 </span>
                 <span class="pf-c-menu__item-text">{{ text }}</span>
             </span>

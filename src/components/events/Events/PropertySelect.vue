@@ -6,7 +6,7 @@
         :selected="selected"
         @select="select"
     >
-        <slot></slot>
+        <slot />
     </Select>
 </template>
 

@@ -1,5 +1,11 @@
 <template>
-    <input class="pf-c-form-control" :value="value" :type="type" @input="input" @blur="blur" />
+    <input
+        class="pf-c-form-control"
+        :value="value"
+        :type="type"
+        @input="input"
+        @blur="blur"
+    >
 </template>
 
 <script setup lang="ts">

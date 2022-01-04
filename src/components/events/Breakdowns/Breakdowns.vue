@@ -11,7 +11,11 @@
         <div class="pf-l-flex">
             <BreakdownSelect @select="addBreakdown">
                 <slot>
-                    <UiButton class="pf-m-main" :is-link="true" :before-icon="'fas fa-plus'">
+                    <UiButton
+                        class="pf-m-main"
+                        :is-link="true"
+                        :before-icon="'fas fa-plus'"
+                    >
                         Add Breakdown
                     </UiButton>
                 </slot>

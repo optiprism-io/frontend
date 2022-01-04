@@ -10,8 +10,6 @@ module.exports = {
         "plugin:vue/vue3-recommended",
         "eslint:recommended",
         "@vue/typescript/recommended",
-        "@vue/prettier",
-        "@vue/prettier/@typescript-eslint"
     ],
     parserOptions: {
         ecmaVersion: 2021
@@ -25,26 +23,16 @@ module.exports = {
         "@typescript-eslint/no-explicit-any": "off",
         "@typescript-eslint/no-non-null-assertion": "off",
         "@typescript-eslint/no-unused-vars": ["off", { argsIgnorePattern: "^_" }],
-        "prettier/prettier": [
-            "warn",
-            {
-                tabWidth: 4,
-                useTabs: false,
-                semi: true,
-                singleQuote: false,
-                quoteProps: "as-needed",
-                trailingComma: "none",
-                bracketSpacing: true,
-                bracketSameLine: false,
-                jsxBracketSameLine: false,
-                arrowParens: "avoid",
-                printWidth: 100,
-                endOfLine: "auto",
-                vueIndentScriptAndStyle: false,
-                htmlWhitespaceSensitivity: "ignore"
-            },
-            { usePrettierrc: false }
-        ],
+        "indent": ["warn", 4, {
+            "SwitchCase": 1,
+        }],
+        "vue/html-indent": ["warn", 4, {
+            "attribute": 1,
+            "baseIndent": 1,
+            "closeBracket": 0,
+            "alignAttributesVertically": true,
+            "ignores": []
+        }],
         "vue/script-setup-uses-vars": "error"
     }
 };

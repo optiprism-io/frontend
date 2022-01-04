@@ -1,6 +1,9 @@
 <template>
-    <Popper :key="key" ref="popper" placement="bottom-start">
-        <slot></slot>
+    <UiPopper
+        :key="key"
+        placement="bottom-start"
+    >
+        <slot />
         <template #content>
             <div
                 class="pf-c-card pf-m-compact pf-u-min-width"
@@ -15,11 +18,11 @@
                 />
             </div>
         </template>
-    </Popper>
+    </UiPopper>
 </template>
 
 <script setup lang="ts">
-import Popper from "vue3-popper";
+import UiPopper from "@/components/uikit/UiPopper.vue";
 import MultiSelectList from "@/components/MultiSelect/MultiSelectList.vue";
 import { ref, computed } from "vue";
 

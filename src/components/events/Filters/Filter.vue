@@ -1,9 +1,18 @@
 <template>
-    <div class="pf-l-flex" @mouseenter="showControls = true" @mouseleave="showControls = false">
-        <div class="pf-l-flex__item selected-list-item__identifier">{{ identifier }}.</div>
+    <div
+        class="pf-l-flex"
+        @mouseenter="showControls = true"
+        @mouseleave="showControls = false"
+    >
+        <div class="pf-l-flex__item selected-list-item__identifier">
+            {{ identifier }}.
+        </div>
         <div class="pf-c-action-list">
             <div class="pf-c-action-list__item">
-                <RefSelect :selected="filter.ref" @select="changeRef">
+                <RefSelect
+                    :selected="filter.ref"
+                    @select="changeRef"
+                >
                     <button
                         v-if="isFilterCohort(filter.ref)"
                         class="pf-c-button pf-m-secondary"
@@ -14,11 +23,15 @@
                                 class="fas fa-user-friends"
                                 aria-hidden="true"
                                 @click.stop="removeValueButton(filter.opId)"
-                            ></i>
+                            />
                         </span>
                         {{ refName(filter.ref) }}
                     </button>
-                    <button v-else class="pf-c-button pf-m-secondary" type="button">
+                    <button
+                        v-else
+                        class="pf-c-button pf-m-secondary"
+                        type="button"
+                    >
                         {{ refName(filter.ref) }}
                     </button>
                 </RefSelect>
@@ -30,7 +43,10 @@
                     :selected="filter.opId"
                     @select="changeOperation"
                 >
-                    <button class="pf-c-button pf-m-secondary" type="button">
+                    <button
+                        class="pf-c-button pf-m-secondary"
+                        type="button"
+                    >
                         {{ operationById?.get(filter.opId)?.name }}
                     </button>
                 </OperationSelect>
@@ -50,7 +66,10 @@
                                 :key="i"
                                 class="pf-c-action-list__item"
                             >
-                                <button class="pf-c-button pf-m-secondary" type="button">
+                                <button
+                                    class="pf-c-button pf-m-secondary"
+                                    type="button"
+                                >
                                     {{ value }}
 
                                     <span class="pf-c-button__icon pf-m-end">
@@ -59,16 +78,22 @@
                                             aria-hidden="true"
                                             :data-value="value"
                                             @click.stop="removeValueButton(value)"
-                                        ></i>
+                                        />
                                     </span>
                                 </button>
                             </div>
                         </div>
                     </template>
                     <template v-else>
-                        <button class="pf-c-button pf-m-primary" type="button">
+                        <button
+                            class="pf-c-button pf-m-primary"
+                            type="button"
+                        >
                             <span class="pf-c-button__icon pf-m-start">
-                                <i class="fas fa-plus-circle" aria-hidden="true"></i>
+                                <i
+                                    class="fas fa-plus-circle"
+                                    aria-hidden="true"
+                                />
                             </span>
                             Select value
                         </button>
@@ -76,14 +101,20 @@
                 </ValueSelect>
             </div>
 
-            <div v-show="showControls" class="pf-c-action-list__item">
+            <div
+                v-show="showControls"
+                class="pf-c-action-list__item"
+            >
                 <button
                     class="pf-c-button pf-m-plain"
                     type="button"
                     aria-label="Remove"
                     @click="removeFilter"
                 >
-                    <i class="fas fa-times" aria-hidden="true"></i>
+                    <i
+                        class="fas fa-times"
+                        aria-hidden="true"
+                    />
                 </button>
             </div>
         </div>

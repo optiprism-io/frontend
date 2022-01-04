@@ -1,9 +1,12 @@
 <template>
     <UiPopper v-model="show">
-        <slot></slot>
+        <slot />
         <template #content>
             <div class="select pf-c-card pf-m-display-lg pf-u-min-width">
-                <div v-if="loading" class="select__loader-wrap">
+                <div
+                    v-if="loading"
+                    class="select__loader-wrap"
+                >
                     <UiSpinner class="select__loader" />
                 </div>
                 <div

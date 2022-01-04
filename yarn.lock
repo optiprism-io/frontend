@@ -111,7 +111,7 @@
   "resolved" "https://registry.npmjs.org/@patternfly/patternfly/-/patternfly-4.164.2.tgz"
   "version" "4.164.2"
 
-"@popperjs/core@^2.9.2":
+"@popperjs/core@^2.11.0":
   "integrity" "sha512-zrsUxjLOKAzdewIDRWy9nsV1GQsKBCWaGwsZQlCgr6/q+vjyZhFgqedLfFBuI9anTPEUT4APq9Mu0SZBTzIcGQ=="
   "resolved" "https://registry.npmjs.org/@popperjs/core/-/core-2.11.0.tgz"
   "version" "2.11.0"
@@ -554,11 +554,6 @@
   "integrity" "sha512-ZVxXaNy28/k3kJg0Fou5MiYpp88j7H9hLZp8PDC3jV0WFjfH5E9xHb56L0W59cPbKbcHXeP4qyT8PrHp8t6LcQ=="
   "resolved" "https://registry.npmjs.org/csstype/-/csstype-2.6.19.tgz"
   "version" "2.6.19"
-
-"debounce@^1.2.1":
-  "integrity" "sha512-XRRe6Glud4rd/ZGQfiV1ruXSfbvfJedlV9Y6zOlP+2K04vBYiJEte6stfFkCP03aMnY5tsipamumUjL14fofug=="
-  "resolved" "https://registry.npmjs.org/debounce/-/debounce-1.2.1.tgz"
-  "version" "1.2.1"
 
 "debug@^4.1.1", "debug@^4.3.2":
   "integrity" "sha512-/zxw5+vh1Tfv+4Qn7a5nsbcJKPaSvCDhojn6FEl9vupwK2VCSDtEiEtqr8DFtzYFOdz63LBkxec7DYuc2jon6Q=="
@@ -1807,6 +1802,14 @@
   dependencies:
     "punycode" "^2.1.0"
 
+"v-tooltip@^4.0.0-beta.6":
+  "integrity" "sha512-LR5IUOTgLX5vt7FNOIvmSvmnRVWUrFacBPDq0W4ZuVmQULqoZJchnzRBPGc12Jf/AWlffZLn0t4mVSfSFp5OLw=="
+  "resolved" "https://registry.npmjs.org/v-tooltip/-/v-tooltip-4.0.0-beta.6.tgz"
+  "version" "4.0.0-beta.6"
+  dependencies:
+    "@popperjs/core" "^2.11.0"
+    "vue-resize" "^2.0.0-alpha.1"
+
 "v8-compile-cache@^2.0.3":
   "integrity" "sha512-l8lCEmLcLYZh4nbunNZvQCJc5pv7+RCwa8q/LdUx8u7lsWvPDKmpodJAJNwkAhJC//dFY48KuIEmjtd4RViDrA=="
   "resolved" "https://registry.npmjs.org/v8-compile-cache/-/v8-compile-cache-2.3.0.tgz"
@@ -1976,6 +1979,11 @@
     "lodash" "^4.17.21"
     "semver" "^7.3.5"
 
+"vue-resize@^2.0.0-alpha.1":
+  "integrity" "sha512-7+iqOueLU7uc9NrMfrzbG8hwMqchfVfSzpVlCMeJQe4pyibqyoifDNbKTZvwxZKDvGkB+PdFeKvnGZMoEb8esg=="
+  "resolved" "https://registry.npmjs.org/vue-resize/-/vue-resize-2.0.0-alpha.1.tgz"
+  "version" "2.0.0-alpha.1"
+
 "vue-tsc@^0.3.0":
   "integrity" "sha512-zaDRZBxwRIz1XjhNP92FqugG71st6BUMnA2EwPeXrAyzbEYVRz6TezNFceYl3QYqqN8CtaxbqUhaQEDj/ntoCA=="
   "resolved" "https://registry.npmjs.org/vue-tsc/-/vue-tsc-0.3.0.tgz"
@@ -1983,7 +1991,7 @@
   dependencies:
     "vscode-vue-languageservice" "^0.27.0"
 
-"vue@^2.6.14 || ^3.2.0", "vue@^3.0.0-0 || ^2.6.0", "vue@^3.2.20", "vue@^3.2.26", "vue@3.2.26":
+"vue@^2.6.14 || ^3.2.0", "vue@^3.0.0", "vue@^3.0.0-0 || ^2.6.0", "vue@^3.0.11", "vue@^3.2.26", "vue@3.2.26":
   "integrity" "sha512-KD4lULmskL5cCsEkfhERVRIOEDrfEL9CwAsLYpzptOGjaGFNWo3BQ9g8MAb7RaIO71rmVOziZ/uEN/rHwcUIhg=="
   "resolved" "https://registry.npmjs.org/vue/-/vue-3.2.26.tgz"
   "version" "3.2.26"
@@ -1993,14 +2001,6 @@
     "@vue/runtime-dom" "3.2.26"
     "@vue/server-renderer" "3.2.26"
     "@vue/shared" "3.2.26"
-
-"vue3-popper@^1.4.1":
-  "integrity" "sha512-pmct5vumtvbK8MmUs4oFY+3Al1glU34QXWcIPK4WJhRo/Kp85kxD0j70cNofNBqHYwhY5D7xJ6Yhkwf/5x9w7Q=="
-  "resolved" "https://registry.npmjs.org/vue3-popper/-/vue3-popper-1.4.1.tgz"
-  "version" "1.4.1"
-  dependencies:
-    "@popperjs/core" "^2.9.2"
-    "debounce" "^1.2.1"
 
 "which@^2.0.1":
   "integrity" "sha512-BLI3Tl1TW3Pvl70l3yq3Y64i+awpwXqsGBYWkkqMtnbXgrMD+yj7rhW0kuEDxzJaYXGjEW5ogapKNMEKNMjibA=="

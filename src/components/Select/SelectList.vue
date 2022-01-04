@@ -9,15 +9,21 @@
                     name="search-input"
                     aria-label="Search"
                     @input="onSearch"
-                />
+                >
             </div>
         </div>
         <div class="pf-c-menu__content">
             <template v-if="grouped">
-                <template v-for="(group, index) in groupedItems" :key="group.name">
+                <template
+                    v-for="(group, index) in groupedItems"
+                    :key="group.name"
+                >
                     <template v-if="group.name">
                         <section class="pf-c-menu__group">
-                            <hr v-if="index > 0" class="pf-c-divider" />
+                            <hr
+                                v-if="index > 0"
+                                class="pf-c-divider"
+                            >
                             <div class="pf-c-menu__group-title">
                                 {{ group.name }}
                             </div>
@@ -30,11 +36,14 @@
                                     :selected="selected"
                                     @mouseenter="hover(item)"
                                     @click="select"
-                                ></SelectListItem>
+                                />
                             </ul>
                         </section>
                     </template>
-                    <ul v-else class="pf-c-menu__list">
+                    <ul
+                        v-else
+                        class="pf-c-menu__list"
+                    >
                         <SelectListItem
                             v-for="item in group.items"
                             :key="item.item.id"
@@ -43,7 +52,7 @@
                             :selected="selected"
                             @mouseenter="hover(item)"
                             @click="select"
-                        ></SelectListItem>
+                        />
                     </ul>
                 </template>
             </template>
@@ -57,7 +66,7 @@
                         :selected="selected"
                         @mouseenter="hover(item)"
                         @click="select"
-                    ></SelectListItem>
+                    />
                 </ul>
             </template>
         </div>

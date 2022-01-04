@@ -16,7 +16,9 @@
                     </div>
                     <div class="pf-l-grid__item pf-m-6-col">
                         <div class="pf-c-card pf-m-compact pf-u-h-100">
-                            <div class="pf-c-card__title"><p>Segments</p></div>
+                            <div class="pf-c-card__title">
+                                <p>Segments</p>
+                            </div>
                             <div class="pf-c-card__body">
                                 <Breakdowns />
                             </div>

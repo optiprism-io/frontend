@@ -5,11 +5,21 @@
         aria-describedby="tooltip"
         @mousedown="clickHandler"
     >
-        <slot></slot>
+        <slot />
     </span>
-    <teleport v-if="visible" to="body">
-        <div ref="tooltip" class="ui-popper" role="tooltip">
-            <slot v-if="slots.content" name="content"></slot>
+    <teleport
+        v-if="visible"
+        to="body"
+    >
+        <div
+            ref="tooltip"
+            class="ui-popper"
+            role="tooltip"
+        >
+            <slot
+                v-if="slots.content"
+                name="content"
+            />
         </div>
     </teleport>
 </template>

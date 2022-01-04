@@ -13,7 +13,11 @@
         />
         <div class="pf-l-flex">
             <RefSelect @select="addFilter">
-                <UiButton class="pf-m-main" :is-link="true" :before-icon="'fas fa-plus'">
+                <UiButton
+                    class="pf-m-main"
+                    :is-link="true"
+                    :before-icon="'fas fa-plus'"
+                >
                     Add Filter
                 </UiButton>
             </RefSelect>

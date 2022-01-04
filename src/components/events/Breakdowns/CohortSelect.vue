@@ -1,6 +1,10 @@
 <template>
-    <Select :selected="selectedItem" :items="items" @select="select">
-        <slot></slot>
+    <Select
+        :selected="selectedItem"
+        :items="items"
+        @select="select"
+    >
+        <slot />
     </Select>
 </template>
 
