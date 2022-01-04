@@ -1,7 +1,10 @@
 <template>
     <li
         class="pf-c-menu__list-item"
-        :class="isSelected && 'pf-c-menu__list-item--selected'"
+        :class="{
+            'pf-c-menu__list-item--selected': isSelected,
+            'pf-c-menu__list-item--disabled': isDisabled,
+        }"
     >
         <div
             class="pf-c-menu__item"
@@ -21,6 +24,7 @@ const props = defineProps<{
     item: any;
     selected?: any;
     text: string;
+    isDisabled?: boolean;
 }>();
 
 defineEmits<{

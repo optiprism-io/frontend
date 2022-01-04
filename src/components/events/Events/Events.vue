@@ -7,6 +7,7 @@
             :filters="event.filters"
             :index="index"
             :event-items="lexiconStore.eventsList"
+            :breakdowns="event.breakdowns"
             @change-event="changeEvent"
             @remove-event="removeEvent"
             @add-filter="addFilter"
@@ -16,6 +17,8 @@
             @add-filter-value="addFilterValue"
             @remove-filter-value="removeFilterValue"
             @add-breakdown="addBreakdown"
+            @change-breakdown-property="changeBreakdownProperty"
+            @remove-breakdown="removeBreakdown"
         />
         <div class="pf-l-flex">
             <Select
@@ -87,5 +90,13 @@ const removeFilterValue = (eventIdx: number, filterIdx: number, value: Value) =>
 
 const addBreakdown = (idx: number): void => {
     eventsStore.addBreakdown(idx);
+};
+
+const changeBreakdownProperty = (eventIdx: number, breakdownIdx: number, propRef: PropertyRef) => {
+    eventsStore.changeBreakdownProperty(eventIdx, breakdownIdx, propRef);
+};
+
+const removeBreakdown = (eventIdx: number, breakdownIdx: number): void => {
+    eventsStore.removeBreakdown(eventIdx, breakdownIdx);
 };
 </script>

@@ -1,7 +1,11 @@
 <template>
-    <UiPopper v-model="show">
+    <VDropdown
+        :shown="isOpen"
+        placement="bottom-start"
+        @hide="onHide"
+    >
         <slot />
-        <template #content>
+        <template #popper="{ hide }">
             <div class="select pf-c-card pf-m-display-lg pf-u-min-width">
                 <div
                     v-if="loading"
@@ -22,7 +26,7 @@
                             :items="itemsWithSearch"
                             :grouped="grouped"
                             :selected="selectedItem"
-                            @select="select($event)"
+                            @select="($event) => {hide(); select($event)}"
                             @hover="hover"
                             @on-search="onSearch"
                         />
@@ -43,12 +47,11 @@
                 </div>
             </div>
         </template>
-    </UiPopper>
+    </VDropdown>
 </template>
 
 <script setup lang="ts">
-import { computed, ref, onBeforeMount } from "vue";
-import UiPopper from "@/components/uikit/UiPopper.vue";
+import { computed, ref, onBeforeMount, watchEffect } from "vue";
 import SelectList from "@/components/Select/SelectList.vue";
 import UiSpinner from "@/components/uikit/UiSpinner.vue";
 import UiIcon from "@/components/uikit/UiIcon.vue";
@@ -67,16 +70,18 @@ const props = withDefaults(
         selected?: any;
         loading?: boolean;
         isOpenMount?: boolean;
+        updateOpen?: boolean;
     }>(),
     {
         grouped: false,
         selected: false,
-        isOpenMount: false
+        isOpenMount: false,
+        updateOpen: false,
     }
 );
 
 const key = ref(0);
-const show = ref(false);
+const isOpen = ref(false);
 const selectedItemLocal = ref(false);
 const search = ref("");
 const description = ref();
@@ -143,8 +148,14 @@ const selectedDescription = computed(() => {
     return item ? item.description : "";
 });
 
+watchEffect(() => {
+    if (props.updateOpen) {
+        isOpen.value = true;
+    }
+})
+
 const select = (item: any): void => {
-    show.value = false;
+    isOpen.value = false;
     selectedItemLocal.value = false;
     key.value++;
     emit("select", item);
@@ -164,8 +175,12 @@ const onSearch = (payload: string) => {
     emit("onSearch", payload);
 };
 
+const onHide = () => {
+    isOpen.value = false;
+};
+
 onBeforeMount(() => {
-    show.value = props.isOpenMount;
+    isOpen.value = props.isOpenMount;
 });
 </script>
 

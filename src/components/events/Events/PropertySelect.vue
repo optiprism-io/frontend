@@ -4,6 +4,7 @@
         :is-open-mount="isOpenMount"
         :items="items"
         :selected="selected"
+        :update-open="updateOpen"
         @select="select"
     >
         <slot />
@@ -36,6 +37,7 @@ const props = defineProps<{
     eventRef: EventRef;
     selected?: PropertyRef;
     isOpenMount?: boolean;
+    updateOpen?: boolean;
 }>();
 
 const items = computed((): Group[] => {

@@ -65,8 +65,9 @@ export const useEventsStore = defineStore("events", {
             this.events.splice(idx, 1);
         },
         addFilter(idx: number): void {
-            // duplicates check
-            if (this.events[idx].filters.find((filter): boolean => filter.opId === undefined)) {
+            const emptyFilter = this.events[idx].filters.find((filter): boolean => filter.propRef === undefined);
+
+            if (emptyFilter) {
                 return;
             }
             this.events[idx].filters.push(<EventFilter>{
@@ -118,14 +119,24 @@ export const useEventsStore = defineStore("events", {
             });
         },
 
+        removeBreakdown(eventIdx: number, breakdownIdx: number): void {
+            this.events[eventIdx].breakdowns.splice(breakdownIdx, 1);
+        },
         addBreakdown(idx: number): void {
-            if (this.events[idx].breakdowns.find((breakdown): boolean => breakdown.propRef === null)) {
-                return;
+            const emptyBreakdown = this.events[idx].breakdowns.findIndex((breakdown): boolean => breakdown.propRef === undefined);
+
+            if (emptyBreakdown !== -1) {
+                this.removeBreakdown(idx, emptyBreakdown);
             }
 
             this.events[idx].breakdowns.push(<EventFilter>{
                 propRef: undefined,
             });
+        },
+        changeBreakdownProperty(eventIdx: number, breakdownIdx: number, propRef: PropertyRef) {
+            this.events[eventIdx].breakdowns[breakdownIdx] = <EventFilter>{
+                propRef: propRef,
+            };
         },
     }
 });

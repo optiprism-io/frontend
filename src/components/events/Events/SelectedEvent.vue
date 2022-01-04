@@ -53,6 +53,7 @@
             :event-ref="eventRef"
             :filter="filter"
             :index="i"
+            :update-open="updateOpenFilter"
             @remove-filter="removeFilter"
             @change-filter-property="changeFilterProperty"
             @change-filter-operation="changeFilterOperation"
@@ -60,16 +61,27 @@
             @remove-filter-value="removeFilterValue"
             @handle-select-property="handleSelectProperty"
         />
+        <Breakdown
+            v-for="(breakdown, i) in breakdowns"
+            :key="i"
+            :event-ref="eventRef"
+            :breakdown="breakdown"
+            :index="i"
+            :update-open="updateOpenBreakdown"
+            @remove-breakdown="removeBreakdown"
+            @change-breakdown-property="changeBreakdownProperty"
+        />
     </div>
 </template>
 
 <script setup lang="ts">
-import { computed } from "vue";
+import { computed, ref } from "vue";
 import { EventRef, EventType, OperationId, PropertyRef, Value } from "@/types";
 import { useLexiconStore } from "@/stores/lexicon";
-import { EventFilter } from "@/stores/eventSegmentation/events";
+import { EventBreakdown, EventFilter } from "@/stores/eventSegmentation/events";
 import Select from "@/components/Select/Select.vue";
-import Filter from "./Filter.vue";
+import Filter from "@/components/events/Events/Filter.vue";
+import Breakdown from "@/components/events/Events/Breakdown.vue";
 import UiButton from "@/components/uikit/UiButton.vue";
 import UiIcon from "@/components/uikit/UiIcon.vue";
 import { Group } from "@/components/Select/SelectTypes";
@@ -78,6 +90,7 @@ const props = withDefaults(
     defineProps<{
         eventRef: EventRef;
         filters: EventFilter[];
+        breakdowns: EventBreakdown[];
         eventItems: Group[];
         index: number;
     }>(),
@@ -97,9 +110,14 @@ const emit = defineEmits<{
     (e: "removeFilterValue", eventIdx: number, filterIdx: number, value: Value): void;
     (e: "handleSelectProperty"): void;
     (e: "addBreakdown", index: number): void;
+    (e: "changeBreakdownProperty", eventIdx: number, breakdownIdx: number, propRef: PropertyRef): void;
+    (e: "removeBreakdown", eventIdx: number, breakdownIdx: number): void;
 }>();
 
 const lexiconStore = useLexiconStore();
+
+const updateOpenBreakdown = ref(false);
+const updateOpenFilter = ref(false);
 
 const handleSelectProperty = (): void => {
     emit("handleSelectProperty");
@@ -119,6 +137,11 @@ const removeFilter = (filterIdx: number): void => {
 
 const addFilter = (): void => {
     emit("addFilter", props.index);
+    updateOpenFilter.value = true;
+
+    setTimeout(() => {
+        updateOpenFilter.value = false;
+    });
 };
 
 const changeFilterProperty = (filterIdx: number, propRef: PropertyRef): void => {
@@ -137,9 +160,22 @@ const removeFilterValue = (filterIdx: number, value: Value): void => {
     emit("removeFilterValue", props.index, filterIdx, value);
 };
 
-const addBreakdown = (): void => {
-    console.log("addBreakdowns");
-    emit("addBreakdown", props.index);
+const addBreakdown = async (): Promise<void> => {
+    await emit("addBreakdown", props.index);
+
+    updateOpenBreakdown.value = true;
+
+    setTimeout(() => {
+        updateOpenBreakdown.value = false;
+    })
+};
+
+const changeBreakdownProperty = (breakdownIdx: number, propRef: PropertyRef): void => {
+    emit("changeBreakdownProperty", props.index, breakdownIdx, propRef);
+};
+
+const removeBreakdown = (breakdownIdx: number): void => {
+    emit("removeBreakdown", props.index, breakdownIdx);
 };
 
 const eventName = (ref: EventRef): string => {
