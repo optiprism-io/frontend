@@ -107,16 +107,14 @@ export const useEventsStore = defineStore("events", {
         },
         changeFilterOperation(eventIdx: number, filterIdx: number, opId: types.OperationId): void {
             this.events[eventIdx].filters[filterIdx].opId = opId;
+            this.events[eventIdx].filters[filterIdx].values = [];
         },
         addFilterValue(eventIdx: number, filterIdx: number, value: Value): void {
             this.events[eventIdx].filters[filterIdx].values.push(value);
         },
         removeFilterValue(eventIdx: number, filterIdx: number, value: Value): void {
-            this.events[eventIdx].filters[filterIdx].values = this.events[eventIdx].filters[
-                filterIdx
-            ].values.filter(v => {
-                return v !== value;
-            });
+            this.events[eventIdx].filters[filterIdx].values =
+                this.events[eventIdx].filters[filterIdx].values.filter(v =>  v !== value);
         },
 
         removeBreakdown(eventIdx: number, breakdownIdx: number): void {

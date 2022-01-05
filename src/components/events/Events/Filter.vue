@@ -19,6 +19,7 @@
                     v-else
                     :is-open-mount="true"
                     :event-ref="eventRef"
+                    :update-open="updateOpen"
                     @select="changeProperty"
                 >
                     <UiButton
@@ -124,6 +125,7 @@ const props = defineProps<{
     eventRef: EventRef;
     filter: EventFilter;
     index: number;
+    updateOpen?: boolean;
 }>();
 
 const emit = defineEmits<{

@@ -9,6 +9,7 @@
                     v-if="breakdown.propRef"
                     :event-ref="eventRef"
                     :selected="breakdown.propRef"
+                    :disabled-items="selectedItems"
                     @select="changeProperty"
                 >
                     <UiButton class="pf-m-main pf-m-secondary">
@@ -20,6 +21,7 @@
                     :is-open-mount="true"
                     :event-ref="eventRef"
                     :update-open="updateOpen"
+                    :disabled-items="selectedItems"
                     @select="changeProperty"
                 >
                     <UiButton
@@ -60,6 +62,7 @@ const props = defineProps<{
     breakdown: EventBreakdown;
     index: number;
     updateOpen?: boolean;
+    selectedItems?: EventBreakdown[];
 }>();
 
 const emit = defineEmits<{

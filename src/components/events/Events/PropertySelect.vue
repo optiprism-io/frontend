@@ -12,6 +12,7 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from "vue";
 import {
     EventCustomProperty,
     EventProperty,
@@ -21,11 +22,10 @@ import {
     PropertyType,
     UserCustomProperty,
     UserProperty
-} from "../../../types";
-import Select from "../../Select/Select.vue";
+} from "@/types";
+import Select from "@/components/Select/Select.vue";
 import { Group, Item } from "@/components/Select/SelectTypes";
 import { useLexiconStore } from "@/stores/lexicon";
-import { computed, ref } from "vue";
 
 const lexiconStore = useLexiconStore();
 
@@ -38,7 +38,12 @@ const props = defineProps<{
     selected?: PropertyRef;
     isOpenMount?: boolean;
     updateOpen?: boolean;
+    disabledItems?: any[];
 }>();
+
+const checkDisable = (propRef: PropertyRef): boolean => {
+    return props.disabledItems ? Boolean(props.disabledItems.find((item) => JSON.stringify(item.propRef) === JSON.stringify(propRef))) : false;
+};
 
 const items = computed((): Group[] => {
     let ret: Group[] = [];
@@ -54,6 +59,7 @@ const items = computed((): Group[] => {
             items.push({
                 item: propertyRef,
                 name: prop.name,
+                disabled: checkDisable(propertyRef),
                 description: prop?.description
             });
         });
@@ -67,9 +73,11 @@ const items = computed((): Group[] => {
                 type: PropertyType.UserCustom,
                 id: prop.id
             };
+
             items.push({
                 item: propertyRef,
                 name: prop.name,
+                disabled: checkDisable(propertyRef),
                 description: prop?.description
             });
         });
@@ -89,7 +97,8 @@ const items = computed((): Group[] => {
 
                 items.push({
                     item: propertyRef,
-                    name: prop.name
+                    name: prop.name,
+                    disabled: checkDisable(propertyRef),
                 });
             });
             ret.push({ name: "Event Properties", items: items });
@@ -108,7 +117,8 @@ const items = computed((): Group[] => {
 
                 items.push({
                     item: propertyRef,
-                    name: prop.name
+                    name: prop.name,
+                    disabled: checkDisable(propertyRef),
                 });
             });
             ret.push({

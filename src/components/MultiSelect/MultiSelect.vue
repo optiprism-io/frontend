@@ -1,10 +1,12 @@
 <template>
-    <UiPopper
-        :key="key"
+    <VDropdown
         placement="bottom-start"
+        class="multi-select"
     >
-        <slot />
-        <template #content>
+        <span class="multi-select__action">
+            <slot />
+        </span>
+        <template #popper>
             <div
                 class="pf-c-card pf-m-compact pf-u-min-width"
                 style="--pf-u-min-width--MinWidth: 320px"
@@ -18,11 +20,10 @@
                 />
             </div>
         </template>
-    </UiPopper>
+    </VDropdown>
 </template>
 
 <script setup lang="ts">
-import UiPopper from "@/components/uikit/UiPopper.vue";
 import MultiSelectList from "@/components/MultiSelect/MultiSelectList.vue";
 import { ref, computed } from "vue";
 

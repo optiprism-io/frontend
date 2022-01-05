@@ -27,3 +27,11 @@
 .min-w-50 {
     min-width: 50px;
 }
+
+.v-popper {
+    &__popper {
+        &--hide-to {
+            z-index: 0;
+        }
+    }
+}

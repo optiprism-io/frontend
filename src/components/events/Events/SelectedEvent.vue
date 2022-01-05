@@ -66,6 +66,7 @@
             :key="i"
             :event-ref="eventRef"
             :breakdown="breakdown"
+            :selected-items="breakdowns"
             :index="i"
             :update-open="updateOpenBreakdown"
             @remove-breakdown="removeBreakdown"
@@ -167,7 +168,7 @@ const addBreakdown = async (): Promise<void> => {
 
     setTimeout(() => {
         updateOpenBreakdown.value = false;
-    })
+    });
 };
 
 const changeBreakdownProperty = (breakdownIdx: number, propRef: PropertyRef): void => {

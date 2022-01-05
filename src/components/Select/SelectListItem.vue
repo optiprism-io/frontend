@@ -44,6 +44,12 @@ const isSelected = computed(() => {
 .pf-c-menu__list-item--selected {
     background-color: var(--pf-c-menu__list-item--hover--BackgroundColor);
 }
+.pf-c-menu__list-item--disabled {
+    background-color: var(--pf-c-menu__list-item--hover--BackgroundColor);
+    opacity: .5;
+    pointer-events: none;
+}
+
 .pf-c-menu {
     &__list-item {
         cursor: pointer;

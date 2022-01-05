@@ -34,6 +34,7 @@
                                     :item="item.item"
                                     :text="item.name"
                                     :selected="selected"
+                                    :is-disabled="item.disabled"
                                     @mouseenter="hover(item)"
                                     @click="select"
                                 />
