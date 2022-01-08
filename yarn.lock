@@ -297,7 +297,7 @@
     "@vue/compiler-dom" "3.2.26"
     "@vue/shared" "3.2.26"
 
-"@vue/devtools-api@^6.0.0-beta.21":
+"@vue/devtools-api@^6.0.0-beta.18", "@vue/devtools-api@^6.0.0-beta.21":
   "integrity" "sha512-FqC4s3pm35qGVeXRGOjTsRzlkJjrBLriDS9YXbflHLsfA9FrcKzIyWnLXoNm+/7930E8rRakXuAc2QkC50swAw=="
   "resolved" "https://registry.npmjs.org/@vue/devtools-api/-/devtools-api-6.0.0-beta.21.1.tgz"
   "version" "6.0.0-beta.21.1"
@@ -1983,6 +1983,13 @@
   "integrity" "sha512-7+iqOueLU7uc9NrMfrzbG8hwMqchfVfSzpVlCMeJQe4pyibqyoifDNbKTZvwxZKDvGkB+PdFeKvnGZMoEb8esg=="
   "resolved" "https://registry.npmjs.org/vue-resize/-/vue-resize-2.0.0-alpha.1.tgz"
   "version" "2.0.0-alpha.1"
+
+"vue-router@^4.0.12":
+  "integrity" "sha512-CPXvfqe+mZLB1kBWssssTiWg4EQERyqJZes7USiqfW9B5N2x+nHlnsM1D3b5CaJ6qgCvMmYJnz+G0iWjNCvXrg=="
+  "resolved" "https://registry.npmjs.org/vue-router/-/vue-router-4.0.12.tgz"
+  "version" "4.0.12"
+  dependencies:
+    "@vue/devtools-api" "^6.0.0-beta.18"
 
 "vue-tsc@^0.3.0":
   "integrity" "sha512-zaDRZBxwRIz1XjhNP92FqugG71st6BUMnA2EwPeXrAyzbEYVRz6TezNFceYl3QYqqN8CtaxbqUhaQEDj/ntoCA=="
