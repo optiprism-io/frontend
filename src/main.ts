@@ -10,11 +10,18 @@ import makeServer from "@/server";
 import VTooltipPlugin from "v-tooltip";
 import { router } from '@/router'
 
+import UiIcon from "@/components/uikit/UiIcon.vue";
+import UiButton from "@/components/uikit/UiButton.vue";
+
 if (typeof makeServer === "function") {
     makeServer();
 }
 
 const app = createApp(App);
+
+app.component("UiButton", UiButton);
+app.component("UiIcon", UiIcon);
+
 app.use(createPinia());
 app.use(VTooltipPlugin);
 app.use(router);

@@ -13,9 +13,13 @@ import {
     eventRef,
     PropertyRef,
     PropertyType,
-    EventRef
+    EventRef,
+    eventsQueries,
+    EventQueryRef,
+    aggregates,
 } from "@/types";
 import { Group, Item } from "@/components/Select/SelectTypes";
+import { useEventsStore, Events } from "@/stores/eventSegmentation/events";
 
 type Lexicon = {
     cohorts: Cohort[];
@@ -60,7 +64,7 @@ export const useLexiconStore = defineStore("lexicon", {
 
         userPropertiesLoading: false,
         userProperties: [],
-        userCustomProperties: []
+        userCustomProperties: [],
     }),
     actions: {
         async getEvents() {
@@ -242,6 +246,39 @@ export const useLexiconStore = defineStore("lexicon", {
             });
 
             return eventsList;
-        }
-    }
+        },
+        eventsQueries(state: Lexicon): Item[] {
+            const eventsStore: Events = useEventsStore();
+
+            return eventsQueries.map(item => {
+                const query: Item = {
+                    item: <EventQueryRef>{
+                        type: item.type,
+                        name: item.name || '',
+                    },
+                    name: item.grouped ? `${item.displayName} ${eventsStore.group}` : item.displayName,
+                };
+
+                if (item.hasAggregate) {
+                    query.items = aggregates.map(aggregate => {
+                        return {
+                            item: {
+                                type: aggregate.id
+                            },
+                            name: aggregate.name
+                        };
+                    });
+                }
+
+                return query;
+            })
+        },
+        findQuery(state: Lexicon) {
+            return (ref: EventQueryRef): Item | undefined => {
+                return this.eventsQueries.find((query: Item) => {
+                    return JSON.stringify(query.item) === JSON.stringify(ref);
+                });
+            };
+        },
+    },
 });

@@ -1,6 +1,15 @@
 import { defineStore } from "pinia";
 import * as types from "../../types";
-import { EventRef, EventType, OperationId, PropertyRef, Value, PropertyType } from "@/types";
+import {
+    EventRef,
+    EventType,
+    OperationId,
+    PropertyRef,
+    Value,
+    PropertyType,
+    Group,
+    EventQueryRef,
+} from "@/types";
 import schemaService from "@/api/services/schema.service";
 import { useLexiconStore } from "@/stores/lexicon";
 
@@ -15,26 +24,45 @@ export interface EventBreakdown {
     propRef?: PropertyRef;
 }
 
+export interface EventQuery {
+    queryRef?: EventQueryRef;
+    noDelete?: boolean;
+}
+
 export type Event = {
     ref: EventRef;
     filters: EventFilter[];
     breakdowns: EventBreakdown[];
+    queries: EventQuery[];
 };
 
-type Events = {
+export type Events = {
     events: Event[];
+    group: Group;
 };
+
+const initialQuery = <EventQuery[]>[
+    {
+        queryRef: <EventQueryRef>{
+            type: types.QueryType.simple,
+            name: "countEvents"
+        },
+        noDelete: true,
+    }
+]
 
 export const useEventsStore = defineStore("events", {
     state: (): Events => ({
-        events: []
+        events: [],
+        group: Group.User,
     }),
     actions: {
         changeEvent(index: number, ref: EventRef): void {
             this.events[index] = <Event>{
                 ref: ref,
                 filters: [],
-                breakdowns: []
+                breakdowns: [],
+                queries: initialQuery,
             };
         },
         addEventByRef(ref: EventRef): void {
@@ -51,14 +79,16 @@ export const useEventsStore = defineStore("events", {
             this.events.push(<Event>{
                 ref: <EventRef>{ type: types.EventType.Regular, id: id },
                 filters: [],
-                breakdowns: []
+                breakdowns: [],
+                queries: initialQuery,
             });
         },
         addCustomEvent(id: number): void {
             this.events.push(<Event>{
                 ref: <EventRef>{ type: types.EventType.Custom, id: id },
                 filters: [],
-                breakdowns: []
+                breakdowns: [],
+                queries: initialQuery,
             });
         },
         deleteEvent(idx: number): void {
@@ -117,6 +147,16 @@ export const useEventsStore = defineStore("events", {
                 this.events[eventIdx].filters[filterIdx].values.filter(v =>  v !== value);
         },
 
+        /**
+         * Breakdown
+         *
+         * You cannot create two identical groupings.
+         * The grouping can be removed by hovering and clicking on the cross.
+         *
+         * @func removeBreakdown
+         * @func addBreakdown
+         * @func changeBreakdownProperty
+         */
         removeBreakdown(eventIdx: number, breakdownIdx: number): void {
             this.events[eventIdx].breakdowns.splice(breakdownIdx, 1);
         },
@@ -136,5 +176,37 @@ export const useEventsStore = defineStore("events", {
                 propRef: propRef,
             };
         },
-    }
+
+        /**
+         * Query
+         *
+         * @func removeQuery
+         * @func addQuery
+         * @func changeQuery
+         */
+        removeQuery(eventIdx: number, queryIdx: number): void {
+            this.events[eventIdx].queries.splice(queryIdx, 1);
+        },
+        addQuery(idx: number): void {
+            const emptyQueryIndex = this.events[idx].queries.findIndex((query): boolean => query.queryRef === undefined);
+
+            if (emptyQueryIndex !== -1) {
+                this.removeQuery(idx, emptyQueryIndex);
+            }
+
+            this.events[idx].queries.push(<EventQuery>{
+                queryRef: undefined,
+            });
+        },
+        changeQuery(eventIdx: number, queryIdx: number, queryRef: EventQueryRef) {
+            const queries = [...this.events[eventIdx].queries];
+
+            queries[queryIdx] = <EventQuery>{
+                queryRef: queryRef,
+                noDelete: queryIdx === 0,
+            };
+
+            this.events[eventIdx].queries = queries;
+        },
+    },
 });

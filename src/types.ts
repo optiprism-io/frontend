@@ -327,3 +327,130 @@ export const findOperations = (
         return true;
     });
 };
+
+export enum Group {
+    User = "user",
+    Country = "country"
+}
+
+export enum AggregateId {
+    Sum = "sum",
+    Avg = "avg",
+    Median = "median",
+    Min = "min",
+    Max = "max",
+    DistinctCount = "distinctCount",
+    PercentileTh25 = "25thPercentile",
+    PercentileTh75 = "75thPercentile",
+    PercentileTh90 = "90thPercentile",
+    PercentileTh99 = "99thPercentile"
+}
+
+export interface Aggregate {
+    id: AggregateId;
+    name: string;
+    description?: string;
+}
+
+export const aggregates: Aggregate[] = [
+    {
+        id: AggregateId.Sum,
+        name: "Sum"
+    },
+    {
+        id: AggregateId.Avg,
+        name: "Average"
+    },
+    {
+        id: AggregateId.Median,
+        name: "Median"
+    },
+    {
+        id: AggregateId.Min,
+        name: "Minimum"
+    },
+    {
+        id: AggregateId.Max,
+        name: "Maximum"
+    },
+    {
+        id: AggregateId.DistinctCount,
+        name: "Distinct count"
+    },
+    {
+        id: AggregateId.PercentileTh25,
+        name: "25th Percentile"
+    },
+    {
+        id: AggregateId.PercentileTh75,
+        name: "75th Percentile"
+    },
+    {
+        id: AggregateId.PercentileTh90,
+        name: "90th Percentile"
+    },
+    {
+        id: AggregateId.PercentileTh99,
+        name: "99th Percentile"
+    },
+]
+
+export enum QueryType {
+    simple,
+    countPerGroup,
+    aggregateProperty,
+    aggregatePropertyPerGroup,
+    formula,
+}
+
+export type EventQueryRef = {
+    type: QueryType;
+    name?: string;
+};
+
+export interface EventsQuery {
+    type: QueryType;
+    name?: string;
+    displayName: string;
+    hasAggregate?: boolean;
+    grouped?: boolean;
+}
+
+export const eventsQueries: EventsQuery[] = [
+    {
+        type: QueryType.simple,
+        name: "countEvents",
+        displayName: "Count",
+    },
+    {
+        type: QueryType.simple,
+        name: "countUnique",
+        displayName: "Count Unique",
+        grouped: true,
+    },
+    {
+        type: QueryType.simple,
+        name: "dailyActive",
+        displayName: "Daily Active",
+        grouped: true,
+    },
+    {
+        type: QueryType.simple,
+        name: "weeklyActive",
+        displayName: "Weekly Active",
+        grouped: true,
+    },
+    {
+        type: QueryType.simple,
+        name: "monthlyActive",
+        displayName: "Monthly Active",
+        grouped: true,
+    },
+    {
+        type: QueryType.countPerGroup,
+        name: "countPer",
+        displayName: "Count per",
+        grouped: true,
+        hasAggregate: true,
+    },
+]

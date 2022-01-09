@@ -8,6 +8,7 @@
             :index="index"
             :event-items="lexiconStore.eventsList"
             :breakdowns="event.breakdowns"
+            :queries="event.queries"
             @change-event="changeEvent"
             @remove-event="removeEvent"
             @add-filter="addFilter"
@@ -19,6 +20,9 @@
             @add-breakdown="addBreakdown"
             @change-breakdown-property="changeBreakdownProperty"
             @remove-breakdown="removeBreakdown"
+            @remove-query="removeQuery"
+            @add-query="addQuery"
+            @change-query="changeQuery"
         />
         <div class="pf-l-flex">
             <Select
@@ -40,12 +44,11 @@
 
 <script setup lang="ts">
 import { computed } from "vue";
-import { EventRef, OperationId, PropertyRef, Value } from "@/types";
+import { EventQueryRef, EventRef, OperationId, PropertyRef, Value } from "@/types";
 import { useEventsStore } from "@/stores/eventSegmentation/events";
 import { useLexiconStore } from "@/stores/lexicon";
 import Select from "@/components/Select/Select.vue";
 import SelectedEvent from "@/components/events/Events/SelectedEvent.vue";
-import UiButton from "@/components/uikit/UiButton.vue";
 
 const lexiconStore = useLexiconStore();
 const eventsStore = useEventsStore();
@@ -98,5 +101,17 @@ const changeBreakdownProperty = (eventIdx: number, breakdownIdx: number, propRef
 
 const removeBreakdown = (eventIdx: number, breakdownIdx: number): void => {
     eventsStore.removeBreakdown(eventIdx, breakdownIdx);
+};
+
+const addQuery = (idx: number): void => {
+    eventsStore.addQuery(idx);
+};
+
+const removeQuery = (eventIdx: number, queryIdx: number): void => {
+    eventsStore.removeQuery(eventIdx, queryIdx);
+};
+
+const changeQuery = (eventIdx: number, queryIdx: number, ref: EventQueryRef) => {
+    eventsStore.changeQuery(eventIdx, queryIdx, ref);
 };
 </script>

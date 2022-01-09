@@ -26,7 +26,7 @@
                             :items="itemsWithSearch"
                             :grouped="grouped"
                             :selected="selectedItem"
-                            @select="($event) => {hide(); select($event)}"
+                            @select="($event: any) => {hide(); select($event)}"
                             @hover="hover"
                             @on-search="onSearch"
                         />
@@ -54,7 +54,6 @@
 import { computed, ref, onBeforeMount, watchEffect } from "vue";
 import SelectList from "@/components/Select/SelectList.vue";
 import UiSpinner from "@/components/uikit/UiSpinner.vue";
-import UiIcon from "@/components/uikit/UiIcon.vue";
 import { Group, Item } from "@/components/Select/SelectTypes";
 
 const emit = defineEmits<{

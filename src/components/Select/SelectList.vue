@@ -63,6 +63,7 @@
                         v-for="item in itemItems"
                         :key="item.item.id"
                         :item="item.item"
+                        :items="item.items || undefined"
                         :text="item.name"
                         :selected="selected"
                         @mouseenter="hover(item)"

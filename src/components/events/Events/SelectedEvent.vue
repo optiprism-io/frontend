@@ -19,6 +19,17 @@
                 </div>
                 <div
                     class="pf-c-action-list__item selected-event__control"
+                    @click="addQuery"
+                >
+                    <VTooltip>
+                        <UiIcon icon="fas fa-search" />
+                        <template #popper>
+                            Add Query
+                        </template>
+                    </VTooltip>
+                </div>
+                <div
+                    class="pf-c-action-list__item selected-event__control"
                     @click="addFilter"
                 >
                     <VTooltip>
@@ -43,7 +54,12 @@
                     class="pf-c-action-list__item selected-event__control"
                     @click="removeEvent"
                 >
-                    <UiIcon icon="fas fa-times" />
+                    <VTooltip>
+                        <UiIcon icon="fas fa-times" />
+                        <template #popper>
+                            Remove event
+                        </template>
+                    </VTooltip>
                 </div>
             </div>
         </div>
@@ -72,19 +88,29 @@
             @remove-breakdown="removeBreakdown"
             @change-breakdown-property="changeBreakdownProperty"
         />
+        <Query
+            v-for="(query, i) in queries"
+            :key="i"
+            :event-ref="eventRef"
+            :item="query"
+            :index="i"
+            :update-open="updateOpenQuery"
+            :no-delete="query.noDelete"
+            @remove-query="removeQuery"
+            @change-query="changeQuery"
+        />
     </div>
 </template>
 
 <script setup lang="ts">
 import { computed, ref } from "vue";
-import { EventRef, EventType, OperationId, PropertyRef, Value } from "@/types";
+import { EventRef, EventType, OperationId, PropertyRef, Value, EventQueryRef } from "@/types";
 import { useLexiconStore } from "@/stores/lexicon";
-import { EventBreakdown, EventFilter } from "@/stores/eventSegmentation/events";
+import { EventBreakdown, EventFilter, EventQuery } from "@/stores/eventSegmentation/events";
 import Select from "@/components/Select/Select.vue";
 import Filter from "@/components/events/Events/Filter.vue";
 import Breakdown from "@/components/events/Events/Breakdown.vue";
-import UiButton from "@/components/uikit/UiButton.vue";
-import UiIcon from "@/components/uikit/UiIcon.vue";
+import Query from "@/components/events/Events/Query.vue";
 import { Group } from "@/components/Select/SelectTypes";
 
 const props = withDefaults(
@@ -94,8 +120,8 @@ const props = withDefaults(
         breakdowns: EventBreakdown[];
         eventItems: Group[];
         index: number;
-    }>(),
-    {
+        queries: EventQuery[];
+    }>(), {
         eventItems: () => []
     }
 );
@@ -113,12 +139,19 @@ const emit = defineEmits<{
     (e: "addBreakdown", index: number): void;
     (e: "changeBreakdownProperty", eventIdx: number, breakdownIdx: number, propRef: PropertyRef): void;
     (e: "removeBreakdown", eventIdx: number, breakdownIdx: number): void;
+    (e: "removeQuery", eventIdx: number, queryInx: number): void;
+    (e: "addQuery", index: number): void;
+    (e: "changeQuery", eventIdx: number, queryIdx: number, queryRef: EventQueryRef): void;
 }>();
 
 const lexiconStore = useLexiconStore();
 
 const updateOpenBreakdown = ref(false);
 const updateOpenFilter = ref(false);
+const updateOpenQuery = ref(false)
+
+const alphabet = "abcdefghijklmnopqrstuvwxyz".split("");
+const identifier = computed((): string => alphabet[props.index]);
 
 const handleSelectProperty = (): void => {
     emit("handleSelectProperty");
@@ -189,8 +222,23 @@ const eventName = (ref: EventRef): string => {
     throw new Error("unhandled");
 };
 
-const alphabet = "abcdefghijklmnopqrstuvwxyz".split("");
-const identifier = computed((): string => alphabet[props.index]);
+const removeQuery = (idx: number): void => {
+    emit("removeQuery", props.index, idx);
+};
+
+const addQuery = async (): Promise<void> => {
+    await emit("addQuery", props.index);
+
+    updateOpenQuery.value = true;
+
+    setTimeout(() => {
+        updateOpenQuery.value = false;
+    });
+};
+
+const changeQuery = (idx: number, ref: EventQueryRef) => {
+    emit("changeQuery", props.index, idx, ref);
+};
 </script>
 
 <style scoped lang="scss">
