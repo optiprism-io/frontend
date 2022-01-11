@@ -10,6 +10,7 @@
                         grouped
                         :items="eventItems"
                         :selected="eventRef"
+                        :width-auto="true"
                         @select="changeEvent"
                     >
                         <UiButton class="pf-m-main pf-m-secondary">

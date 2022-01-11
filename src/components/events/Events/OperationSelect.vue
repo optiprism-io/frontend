@@ -2,6 +2,7 @@
     <Select
         :items="items"
         :selected="selectedItem"
+        :width-auto="true"
         @select="select"
     >
         <slot />

@@ -1,12 +1,13 @@
 <template>
     <VDropdown
-        :shown="isOpen"
+        class="select"
         placement="bottom-start"
+        :shown="isOpen"
         @hide="onHide"
     >
         <slot />
         <template #popper="{ hide }">
-            <div class="select pf-c-card pf-m-display-lg pf-u-min-width">
+            <div class="pf-c-card pf-m-display-lg pf-u-min-width">
                 <div
                     v-if="loading"
                     class="select__loader-wrap"
@@ -15,14 +16,10 @@
                 </div>
                 <div
                     v-else
-                    class="pf-l-grid"
-                    :class="{
-                        'pf-m-all-12-col': !selectedDescription,
-                        'pf-m-all-6-col': selectedDescription
-                    }"
+                    class="select__content"
                 >
                     <div
-                        class="pf-l-grid__item select__box"
+                        class="select__box"
                         :class="{
                             'select__box_width-auto': widthAuto,
                         }"
@@ -39,13 +36,13 @@
                     </div>
                     <div
                         v-if="selectedDescription"
-                        class="pf-l-grid__items select__box select__description"
+                        class="select__description"
                     >
                         <div class="pf-c-card__body pf-u-color-200">
-                            <div class="pf-u-mb-md pf-u-font-size-2xl pf-u-icon-color-light">
+                            <div class="select__description-icon">
                                 <UiIcon icon="fas fa-info-circle" />
                             </div>
-                            <div class="pf-u-font-size-lg">
+                            <div class="select__description-text">
                                 {{ selectedDescription }}
                             </div>
                         </div>
@@ -196,8 +193,14 @@ onBeforeMount(() => {
 .select {
     position: relative;
 
+    &__content {
+        display: flex;
+    }
+
     &__box {
         width: 20rem;
+        min-width: 140px;
+        max-width: 22rem;
 
         &_width-auto {
             width: initial;
@@ -217,7 +220,17 @@ onBeforeMount(() => {
     }
 
     &__description {
+        width: 260px;
         border-left: 1px solid var(--pf-global--BackgroundColor--200);
+    }
+
+    &__description-icon {
+        float: left;
+        margin-right: .5rem;
+    }
+
+    &__description-text {
+        font-size: .9rem;
     }
 }
 </style>

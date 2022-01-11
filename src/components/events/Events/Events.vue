@@ -28,6 +28,7 @@
             <Select
                 grouped
                 :items="lexiconStore.eventsList"
+                :width-auto="true"
                 @select="addEvent"
             >
                 <UiButton

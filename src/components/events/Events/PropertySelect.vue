@@ -5,6 +5,7 @@
         :items="items"
         :selected="selected"
         :update-open="updateOpen"
+        :width-auto="true"
         @select="select"
     >
         <slot />

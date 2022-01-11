@@ -9,7 +9,6 @@
         <template #popper>
             <div
                 class="pf-c-card pf-m-compact pf-u-min-width"
-                style="--pf-u-min-width--MinWidth: 320px"
             >
                 <MultiSelectList
                     :items="itemsSelect"
