@@ -403,8 +403,13 @@ export enum QueryType {
     formula,
 }
 
+export type AggregateRef = {
+    typeAggregate?: AggregateId;
+}
+
 export type EventQueryRef = {
     type: QueryType;
+    typeAggregate?: AggregateId;
     name?: string;
 };
 
@@ -414,6 +419,7 @@ export interface EventsQuery {
     displayName: string;
     hasAggregate?: boolean;
     grouped?: boolean;
+    hasProperty?: boolean;
 }
 
 export const eventsQueries: EventsQuery[] = [
@@ -452,5 +458,12 @@ export const eventsQueries: EventsQuery[] = [
         displayName: "Count per",
         grouped: true,
         hasAggregate: true,
+    },
+    {
+        type: QueryType.aggregateProperty,
+        name: "aggregateProperty",
+        displayName: "Aggregate Property",
+        hasAggregate: true,
+        hasProperty: true
     },
 ]

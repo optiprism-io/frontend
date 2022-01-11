@@ -17,6 +17,7 @@ import {
     eventsQueries,
     EventQueryRef,
     aggregates,
+    EventsQuery,
 } from "@/types";
 import { Group, Item } from "@/components/Select/SelectTypes";
 import { useEventsStore, Events } from "@/stores/eventSegmentation/events";
@@ -247,6 +248,16 @@ export const useLexiconStore = defineStore("lexicon", {
 
             return eventsList;
         },
+        eventsQueryAggregates(): Item[] {
+            return aggregates.map(aggregate => {
+                return {
+                    item: {
+                        typeAggregate: aggregate.id
+                    },
+                    name: aggregate.name
+                };
+            });
+        },
         eventsQueries(state: Lexicon): Item[] {
             const eventsStore: Events = useEventsStore();
 
@@ -259,21 +270,21 @@ export const useLexiconStore = defineStore("lexicon", {
                     name: item.grouped ? `${item.displayName} ${eventsStore.group}` : item.displayName,
                 };
 
-                if (item.hasAggregate) {
-                    query.items = aggregates.map(aggregate => {
-                        return {
-                            item: {
-                                type: aggregate.id
-                            },
-                            name: aggregate.name
-                        };
-                    });
+                if (item.hasAggregate && item.hasProperty) {
+                    query.items = this.eventsQueryAggregates;
                 }
 
                 return query;
             })
         },
-        findQuery(state: Lexicon) {
+        findQuery() {
+            return (ref: EventQueryRef | undefined): EventsQuery | undefined => {
+                return ref ? eventsQueries.find((item: EventsQuery) => {
+                    return item.name === ref.name;
+                }) : ref;
+            }
+        },
+        findQueryItem(state: Lexicon) {
             return (ref: EventQueryRef): Item | undefined => {
                 return this.eventsQueries.find((query: Item) => {
                     return JSON.stringify(query.item) === JSON.stringify(ref);

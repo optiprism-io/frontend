@@ -1,6 +1,9 @@
 <template>
     <div class="pf-c-menu pf-m-plain pf-m-scrollable">
-        <div class="pf-c-menu__search">
+        <div
+            v-if="showSearch"
+            class="pf-c-menu__search"
+        >
             <div class="pf-c-menu__search-input">
                 <input
                     v-model="search"
@@ -90,6 +93,7 @@ const props = defineProps<{
     items: Item[] | Group[];
     grouped: boolean;
     selected?: any;
+    showSearch?: boolean;
 }>();
 
 const search = ref("");

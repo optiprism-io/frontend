@@ -21,11 +21,17 @@
                         'pf-m-all-6-col': selectedDescription
                     }"
                 >
-                    <div class="pf-l-grid__item select__box">
+                    <div
+                        class="pf-l-grid__item select__box"
+                        :class="{
+                            'select__box_width-auto': widthAuto,
+                        }"
+                    >
                         <SelectList
                             :items="itemsWithSearch"
                             :grouped="grouped"
                             :selected="selectedItem"
+                            :show-search="showSearch"
                             @select="($event: any) => {hide(); select($event)}"
                             @hover="hover"
                             @on-search="onSearch"
@@ -70,8 +76,11 @@ const props = withDefaults(
         loading?: boolean;
         isOpenMount?: boolean;
         updateOpen?: boolean;
+        showSearch?: boolean;
+        widthAuto?: boolean;
     }>(),
     {
+        showSearch: true,
         grouped: false,
         selected: false,
         isOpenMount: false,
@@ -189,6 +198,10 @@ onBeforeMount(() => {
 
     &__box {
         width: 20rem;
+
+        &_width-auto {
+            width: initial;
+        }
     }
 
     &__loader-wrap {

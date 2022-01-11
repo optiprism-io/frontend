@@ -15,7 +15,7 @@
                 class="select-list-item__sub-menu"
             >
                 <div class="pf-c-menu__item">
-                    <div class="pf-c-menu__item-main">
+                    <div class="select-list-item__content">
                         <span class="pf-c-menu__item-text">{{ text }}</span>
                         <UiIcon
                             class="select-list-item__icon"
@@ -48,7 +48,7 @@
             class="pf-c-menu__item"
             @click="$emit('click', item)"
         >
-            <span class="pf-c-menu__item-main">
+            <span class="select-list-item__content">
                 <span class="pf-c-menu__item-text">{{ text }}</span>
             </span>
         </div>
@@ -110,8 +110,14 @@ const clickList = (payload: any) => {
     }
 
     &__icon {
+        display: inline-block;
         color: var(--pf-c-menu__item--Color);
-        font-size: .8rem;
+        font-size: .6rem;
+    }
+
+    &__content {
+        display: flex;
+        align-items: center;
     }
 }
 </style>
