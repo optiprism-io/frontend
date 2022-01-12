@@ -9,10 +9,11 @@
                     v-if="item.queryRef"
                     :items="lexiconStore.eventsQueries"
                     :selected="item.queryRef"
+                    :width-auto="true"
                     @select="changeQuery"
                 >
                     <UiButton class="pf-m-main pf-m-secondary">
-                        {{ queryInfo?.displayName }}
+                        {{ querySelectorName }}
                     </UiButton>
                 </Select>
                 <Select
@@ -30,6 +31,26 @@
                     </UiButton>
                 </Select>
             </div>
+
+            <PropertySelect
+                v-if="showProperty"
+                :event-ref="eventRef"
+                :selected="propRef"
+                :width-auto="true"
+                @select="changeProperty"
+            >
+                <UiButton
+                    class="pf-m-main"
+                    :before-icon="!propRef ? 'fas fa-plus-circle' : ''"
+                    :class="{
+                        'pf-m-secondary': propRef,
+                        'pf-m-primary': !propRef,
+                    }"
+                >
+                    {{ propertyName }}
+                </UiButton>
+            </PropertySelect>
+
             <div
                 v-if="showOnlyAggregate"
                 class="pf-c-action-list__item pf-u-text-align-right"
@@ -49,7 +70,7 @@
                 >
                     <UiButton
                         class="pf-m-main"
-                        :before-icon="!selectedAggregateRef && 'fas fa-plus-circle'"
+                        :before-icon="!selectedAggregateRef ? 'fas fa-plus-circle' : ''"
                         :class="{
                             'pf-m-secondary': selectedAggregateRef,
                             'pf-m-primary': !selectedAggregateRef,
@@ -80,9 +101,11 @@ import { computed } from "vue";
 import { EventQuery } from "@/stores/eventSegmentation/events";
 import { useLexiconStore } from "@/stores/lexicon";
 import { useEventsStore, Events } from "@/stores/eventSegmentation/events";
-import { EventRef, EventQueryRef, EventsQuery, AggregateRef } from "@/types";
-import Select from "@/components/Select/Select.vue";
+import { EventRef, EventQueryRef, EventsQuery, AggregateRef, PropertyRef } from "@/types";
 import { Item } from "@/components/Select/SelectTypes";
+import Select from "@/components/Select/Select.vue";
+import PropertySelect from "@/components/events/Events/PropertySelect.vue";
+import UiButton from "@/components/uikit/UiButton.vue";
 
 const eventsStore: Events = useEventsStore();
 const lexiconStore = useLexiconStore();
@@ -104,6 +127,18 @@ const queryInfo = computed((): EventsQuery | undefined => {
     return lexiconStore.findQuery(props.item.queryRef);
 });
 
+const propRef = computed((): PropertyRef | undefined => {
+    return props?.item?.queryRef?.propRef;
+});
+
+const showProperty = computed(() => {
+    return queryInfo.value?.hasProperty;
+});
+
+const propertyName = computed((): string => {
+    return props.item?.queryRef?.propRef ? lexiconStore.propertyName(props.item?.queryRef?.propRef): 'Select property';
+});
+
 const showOnlyAggregate = computed(() => {
     return queryInfo.value?.hasAggregate && !queryInfo.value?.hasProperty;
 });
@@ -118,6 +153,10 @@ const selectAggregateName = computed((): string => {
 
 const selectedAggregateRef = computed((): AggregateRef | undefined => {
     return selectedAggregate.value?.item || undefined;
+});
+
+const querySelectorName = computed((): string => {
+    return showProperty.value && props.item.queryRef ? `${selectAggregateName.value} of property` : queryInfo.value?.displayName || '';
 });
 
 const aggregateString = computed((): string => {
@@ -141,9 +180,13 @@ const removeQuery = () => {
     emit("removeQuery", props.index);
 }
 
-const queryName = (ref: EventQueryRef): string | undefined => {
-    const query = lexiconStore.findQueryItem(ref);
-    return query ? query.name : props.item?.queryRef?.name;
+const changeProperty = (payload: PropertyRef) => {
+    if (props.item.queryRef) {
+        emit("changeQuery", props.index, {
+            ...props.item.queryRef,
+            propRef: payload,
+        });
+    }
 };
 </script>
 

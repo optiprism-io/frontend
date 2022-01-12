@@ -1,7 +1,5 @@
 import { defineStore } from "pinia";
-import * as types from "../../types";
-import { OperationId, PropertyRef, Value } from "../../types";
-import { Prop } from "vue";
+import * as types from "@/types";
 
 export type FilterRefUserProperty = {
     type: string;
@@ -45,8 +43,8 @@ export const isFilterCohort = (ref: FilterRef): boolean => {
 
 export interface Filter {
     ref: FilterRef;
-    opId: OperationId;
-    values: Value[];
+    opId: types.OperationId;
+    values: types.Value[];
 }
 
 type Filters = {
@@ -59,7 +57,7 @@ export const filtersStore = defineStore("filters", {
         addFilter(ref: FilterRef): void {
             this.filters.push(<Filter>{
                 ref: ref,
-                opId: OperationId.Eq,
+                opId: types.OperationId.Eq,
                 values: []
             });
         },
@@ -76,10 +74,10 @@ export const filtersStore = defineStore("filters", {
         changeFilterOperation(filterIdx: number, opId: types.OperationId): void {
             this.filters[filterIdx].opId = opId;
         },
-        addFilterValue(filterIdx: number, value: Value): void {
+        addFilterValue(filterIdx: number, value: types.Value): void {
             this.filters[filterIdx].values.push(value);
         },
-        removeFilterValue(filterIdx: number, value: Value): void {
+        removeFilterValue(filterIdx: number, value: types.Value): void {
             this.filters[filterIdx].values = this.filters[filterIdx].values.filter(v => {
                 return v !== value;
             });

@@ -410,6 +410,7 @@ export type AggregateRef = {
 export type EventQueryRef = {
     type: QueryType;
     typeAggregate?: AggregateId;
+    propRef?: PropertyRef;
     name?: string;
 };
 
@@ -420,6 +421,7 @@ export interface EventsQuery {
     hasAggregate?: boolean;
     grouped?: boolean;
     hasProperty?: boolean;
+    hasGroupAggregate?: boolean;
 }
 
 export const eventsQueries: EventsQuery[] = [
@@ -464,6 +466,15 @@ export const eventsQueries: EventsQuery[] = [
         name: "aggregateProperty",
         displayName: "Aggregate Property",
         hasAggregate: true,
+        hasProperty: true
+    },
+    {
+        type: QueryType.aggregateProperty,
+        name: "aggregatePropertyPer",
+        displayName: "Aggregate Property per",
+        grouped: true,
+        hasAggregate: true,
+        hasGroupAggregate: true,
         hasProperty: true
     },
 ]

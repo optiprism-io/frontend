@@ -67,7 +67,7 @@ const props = defineProps<{
     isDisabled?: boolean;
 }>();
 
-defineEmits<{
+const emit = defineEmits<{
     (e: "click", item: any): void;
 }>();
 
@@ -80,7 +80,10 @@ const isSelected = computed(() => {
 });
 
 const clickList = (payload: any) => {
-    // TODO deep select
+    emit('click', {
+        ...props.item,
+        ...payload,
+    })
 };
 </script>
 
@@ -113,6 +116,7 @@ const clickList = (payload: any) => {
         display: inline-block;
         color: var(--pf-c-menu__item--Color);
         font-size: .6rem;
+        margin-left: 1rem;
     }
 
     &__content {
