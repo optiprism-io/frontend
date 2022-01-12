@@ -1,13 +1,31 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHistory } from "vue-router"
 
-const Index = () => import('@/pages/Index.vue')
+const Index = () => import("@/pages/Index.vue");
+const Dashboard = () => import("@/pages/Dashboard.vue");
+const Funnels = () => import("@/pages/Funnels.vue");
 
 const routes = [
     {
-        // path: '/',
-        path: '/:pathMatch(.*)*', // for all routes
+        path: '/',
+        name: 'dashboard.index',
+        component: Dashboard,
+        children: [
+            {
+                path: '/',
+                name: 'dashboard_events_segmentation',
+                component: Index,
+            },
+            {
+                path: '/funnels',
+                name: 'dashboard_funnels',
+                component: Funnels,
+            },
+        ],
+    },
+    {
+        path: '/:pathMatch(.*)*',
         name: 'index',
-        component: Index,
+        redirect: '/'
     },
 ]
 

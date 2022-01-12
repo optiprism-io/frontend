@@ -395,13 +395,7 @@ export const aggregates: Aggregate[] = [
     },
 ]
 
-export enum QueryType {
-    simple,
-    countPerGroup,
-    aggregateProperty,
-    aggregatePropertyPerGroup,
-    formula,
-}
+export type QueryType = "simple" | "countPerGroup" | "aggregateProperty" | "aggregatePropertyPerGroup" | "formula";
 
 export type AggregateRef = {
     typeAggregate?: AggregateId;
@@ -426,50 +420,50 @@ export interface EventsQuery {
 
 export const eventsQueries: EventsQuery[] = [
     {
-        type: QueryType.simple,
+        type: "simple",
         name: "countEvents",
         displayName: "Count",
     },
     {
-        type: QueryType.simple,
+        type: "simple",
         name: "countUnique",
         displayName: "Count Unique",
         grouped: true,
     },
     {
-        type: QueryType.simple,
+        type: "simple",
         name: "dailyActive",
         displayName: "Daily Active",
         grouped: true,
     },
     {
-        type: QueryType.simple,
+        type: "simple",
         name: "weeklyActive",
         displayName: "Weekly Active",
         grouped: true,
     },
     {
-        type: QueryType.simple,
+        type: "simple",
         name: "monthlyActive",
         displayName: "Monthly Active",
         grouped: true,
     },
     {
-        type: QueryType.countPerGroup,
+        type: "countPerGroup",
         name: "countPer",
         displayName: "Count per",
         grouped: true,
         hasAggregate: true,
     },
     {
-        type: QueryType.aggregateProperty,
+        type: "aggregateProperty",
         name: "aggregateProperty",
         displayName: "Aggregate Property",
         hasAggregate: true,
         hasProperty: true
     },
     {
-        type: QueryType.aggregateProperty,
+        type: "aggregatePropertyPerGroup",
         name: "aggregatePropertyPer",
         displayName: "Aggregate Property per",
         grouped: true,

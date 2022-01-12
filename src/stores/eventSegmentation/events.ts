@@ -44,7 +44,7 @@ export type Events = {
 const initialQuery = <EventQuery[]>[
     {
         queryRef: <EventQueryRef>{
-            type: types.QueryType.simple,
+            type: "simple",
             name: "countEvents"
         },
         noDelete: true,
