@@ -404,6 +404,7 @@ export type AggregateRef = {
 export type EventQueryRef = {
     type: QueryType;
     typeAggregate?: AggregateId;
+    typeGroupAggregate?: AggregateId;
     propRef?: PropertyRef;
     name?: string;
 };
@@ -451,7 +452,7 @@ export const eventsQueries: EventsQuery[] = [
     {
         type: "countPerGroup",
         name: "countPer",
-        displayName: "Count per",
+        displayName: "Count",
         grouped: true,
         hasAggregate: true,
     },

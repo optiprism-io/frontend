@@ -1,8 +1,8 @@
 import { createRouter, createWebHistory } from "vue-router"
 
-const Index = () => import("@/pages/Index.vue");
-const Dashboard = () => import("@/pages/Dashboard.vue");
-const Funnels = () => import("@/pages/Funnels.vue");
+import Index from "@/pages/Index.vue";
+import Dashboard from "@/pages/Dashboard.vue";
+import Funnels from "@/pages/Funnels.vue";
 
 const routes = [
     {

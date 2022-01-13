@@ -3,7 +3,7 @@
         Event Segmentation
     </h1>
     <div class="pf-l-grid pf-m-gutter">
-        <div class="pf-l-grid__item pf-m-6-col">
+        <div class="pf-l-grid__item pf-m-12-col-on-md pf-m-6-col-on-2xl">
             <div class="pf-c-card pf-m-compact pf-u-h-100">
                 <div class="pf-c-card__title">
                     <p>Events</p>
@@ -13,7 +13,7 @@
                 </div>
             </div>
         </div>
-        <div class="pf-l-grid__item pf-m-6-col">
+        <div class="pf-l-grid__item pf-m-12-col-on-md pf-m-6-col-on-2xl">
             <div class="pf-c-card pf-m-compact pf-u-h-100">
                 <div class="pf-c-card__title">
                     <p>Segments</p>
@@ -23,7 +23,7 @@
                 </div>
             </div>
         </div>
-        <div class="pf-l-grid__item pf-m-6-col">
+        <div class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-lg">
             <div class="pf-c-card pf-m-compact pf-u-h-100">
                 <div class="pf-c-card__title">
                     <p>Filters</p>
@@ -33,7 +33,7 @@
                 </div>
             </div>
         </div>
-        <div class="pf-l-grid__item pf-m-6-col">
+        <div class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-lg">
             <div class="pf-c-card pf-m-compact pf-u-h-100">
                 <div class="pf-c-card__title">
                     <p>Breakdowns</p>
@@ -43,7 +43,7 @@
                 </div>
             </div>
         </div>
-        <div class="pf-l-grid__item pf-m-12-col">
+        <div class="pf-l-grid__item pf-m-12-col pf-u-h-50vh">
             <div class="pf-c-card pf-m-compact">
                 <div
                     class="pf-c-card__title pf-u-text-align-center pf-u-font-size-lg pf-u-color-200"
@@ -57,18 +57,24 @@
 </template>
 
 <script setup lang="ts">
-import { onBeforeMount } from "vue";
+import { onBeforeMount, onUnmounted } from "vue";
 import Events from "@/components/events/Events/Events.vue";
 import Breakdowns from "@/components/events/Breakdowns/Breakdowns.vue";
 import Filters from "@/components/events/Filters/Filters.vue";
 import { useLexiconStore } from "@/stores/lexicon";
+import { useEventsStore } from "@/stores/eventSegmentation/events";
 
 const lexiconStore = useLexiconStore();
+const eventsStore = useEventsStore();
 
 onBeforeMount(() => {
     lexiconStore.getEvents();
     lexiconStore.getEventProperties();
     lexiconStore.getUserProperties();
+});
+
+onUnmounted(() => {
+    eventsStore.$reset();
 });
 </script>
 

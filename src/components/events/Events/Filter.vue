@@ -1,7 +1,7 @@
 <template>
     <div class="filter pf-l-flex">
         <div class="pf-c-action-list">
-            <div class="pf-c-action-list__item pf-u-ml-2xl min-w-50 pf-u-text-align-right">
+            <div class="pf-c-action-list__item min-w-50 pf-u-text-align-right">
                 with
             </div>
             <div class="pf-c-action-list__item">

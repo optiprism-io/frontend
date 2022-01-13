@@ -64,42 +64,44 @@
                 </div>
             </div>
         </div>
-        <Filter
-            v-for="(filter, i) in filters"
-            :key="i"
-            :event-ref="eventRef"
-            :filter="filter"
-            :index="i"
-            :update-open="updateOpenFilter"
-            @remove-filter="removeFilter"
-            @change-filter-property="changeFilterProperty"
-            @change-filter-operation="changeFilterOperation"
-            @add-filter-value="addFilterValue"
-            @remove-filter-value="removeFilterValue"
-            @handle-select-property="handleSelectProperty"
-        />
-        <Breakdown
-            v-for="(breakdown, i) in breakdowns"
-            :key="i"
-            :event-ref="eventRef"
-            :breakdown="breakdown"
-            :selected-items="breakdowns"
-            :index="i"
-            :update-open="updateOpenBreakdown"
-            @remove-breakdown="removeBreakdown"
-            @change-breakdown-property="changeBreakdownProperty"
-        />
-        <Query
-            v-for="(query, i) in queries"
-            :key="i"
-            :event-ref="eventRef"
-            :item="query"
-            :index="i"
-            :update-open="updateOpenQuery"
-            :no-delete="query.noDelete"
-            @remove-query="removeQuery"
-            @change-query="changeQuery"
-        />
+        <div class="selected-event__rows pf-l-flex pf-m-column pf-u-pl-2xl">
+            <Filter
+                v-for="(filter, i) in filters"
+                :key="i"
+                :event-ref="eventRef"
+                :filter="filter"
+                :index="i"
+                :update-open="updateOpenFilter"
+                @remove-filter="removeFilter"
+                @change-filter-property="changeFilterProperty"
+                @change-filter-operation="changeFilterOperation"
+                @add-filter-value="addFilterValue"
+                @remove-filter-value="removeFilterValue"
+                @handle-select-property="handleSelectProperty"
+            />
+            <Breakdown
+                v-for="(breakdown, i) in breakdowns"
+                :key="i"
+                :event-ref="eventRef"
+                :breakdown="breakdown"
+                :selected-items="breakdowns"
+                :index="i"
+                :update-open="updateOpenBreakdown"
+                @remove-breakdown="removeBreakdown"
+                @change-breakdown-property="changeBreakdownProperty"
+            />
+            <Query
+                v-for="(query, i) in queries"
+                :key="i"
+                :event-ref="eventRef"
+                :item="query"
+                :index="i"
+                :update-open="updateOpenQuery"
+                :no-delete="query.noDelete"
+                @remove-query="removeQuery"
+                @change-query="changeQuery"
+            />
+        </div>
     </div>
 </template>
 

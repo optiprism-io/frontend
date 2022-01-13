@@ -1,7 +1,7 @@
 <template>
     <div class="queries pf-l-flex">
         <div class="pf-c-action-list">
-            <div class="pf-c-action-list__item pf-u-ml-2xl min-w-50 pf-u-text-align-right">
+            <div class="pf-c-action-list__item min-w-50 pf-u-text-align-right">
                 query
             </div>
             <div class="pf-c-action-list__item">
@@ -50,9 +50,8 @@
                     {{ propertyName }}
                 </UiButton>
             </PropertySelect>
-
             <div
-                v-if="showOnlyAggregate"
+                v-if="showAggregateText"
                 class="pf-c-action-list__item pf-u-text-align-right"
             >
                 {{ aggregateString }}
@@ -81,6 +80,29 @@
                 </Select>
             </div>
             <div
+                v-if="showGroupAggregate"
+                class="pf-c-action-list__item"
+            >
+                <Select
+                    :items="lexiconStore.eventsQueryAggregates"
+                    :selected="selectedGroupAggregateRef"
+                    :show-search="false"
+                    :width-auto="true"
+                    @select="changeQueryGroupAggregate"
+                >
+                    <UiButton
+                        class="pf-m-main"
+                        :before-icon="!selectedGroupAggregateRef ? 'fas fa-plus-circle' : ''"
+                        :class="{
+                            'pf-m-secondary': selectedGroupAggregateRef,
+                            'pf-m-primary': !selectedGroupAggregateRef,
+                        }"
+                    >
+                        {{ selectedGroupAggregateName }}
+                    </UiButton>
+                </Select>
+            </div>
+            <div
                 v-if="!noDelete"
                 class="pf-c-action-list__item queries__control-item"
                 @click="removeQuery"
@@ -88,7 +110,7 @@
                 <VTooltip>
                     <UiIcon icon="fas fa-times" />
                     <template #popper>
-                        Remove event
+                        Remove query
                     </template>
                 </VTooltip>
             </div>
@@ -143,6 +165,14 @@ const showOnlyAggregate = computed(() => {
     return queryInfo.value?.hasAggregate && !queryInfo.value?.hasProperty;
 });
 
+const showGroupAggregate = computed(() => {
+    return queryInfo.value?.hasGroupAggregate;
+});
+
+const showAggregateText = computed(() => {
+    return showGroupAggregate.value || showOnlyAggregate.value;
+});
+
 const selectedAggregate = computed((): Item | undefined => {
     return props.item?.queryRef?.typeAggregate ? lexiconStore.eventsQueryAggregates.find(item => props.item?.queryRef?.typeAggregate === item.item.typeAggregate) : undefined;
 });
@@ -155,19 +185,42 @@ const selectedAggregateRef = computed((): AggregateRef | undefined => {
     return selectedAggregate.value?.item || undefined;
 });
 
+const selectedGroupAggregate = computed((): Item | undefined => {
+    return props.item?.queryRef?.typeGroupAggregate ?
+        lexiconStore.eventsQueryAggregates.find(item => props.item?.queryRef?.typeGroupAggregate === item.item.typeAggregate) :
+        undefined;
+});
+
+const selectedGroupAggregateRef = computed((): AggregateRef | undefined => {
+    return selectedGroupAggregate.value?.item || undefined;
+});
+
+const selectedGroupAggregateName = computed((): string => {
+    return selectedGroupAggregate.value?.name || 'Select agregate';
+});
+
 const querySelectorName = computed((): string => {
     return showProperty.value && props.item.queryRef ? `${selectAggregateName.value} of property` : queryInfo.value?.displayName || '';
 });
 
 const aggregateString = computed((): string => {
-    return `${eventsStore.group}, agregate by`;
+    return `per ${eventsStore.group}, agregate by`;
 });
 
 const changeQueryAggregate = (payload: AggregateRef) => {
     if (props.item.queryRef) {
         emit("changeQuery", props.index, {
             ...props.item.queryRef,
-            ...payload,
+            ...payload
+        });
+    }
+};
+
+const changeQueryGroupAggregate = (payload: AggregateRef) => {
+    if (props.item.queryRef) {
+        emit("changeQuery", props.index, {
+            ...props.item.queryRef,
+            typeGroupAggregate: payload.typeAggregate,
         });
     }
 };
