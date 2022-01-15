@@ -70,8 +70,6 @@
 </template>
 
 <script setup lang="ts">
-import UiButton from "./UiButton.vue";
-
 defineProps<{
     value?: string;
 }>();

@@ -49,11 +49,7 @@
 import { EventBreakdown } from "@/stores/eventSegmentation/events";
 import { useLexiconStore } from "@/stores/lexicon";
 import PropertySelect from "./PropertySelect.vue";
-import {
-    EventRef,
-    PropertyRef,
-    PropertyType,
-} from "@/types";
+import { EventRef, PropertyRef, PropertyType } from "@/types/events";
 import UiButton from "@/components/uikit/UiButton.vue";
 
 const lexiconStore = useLexiconStore();

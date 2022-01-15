@@ -23,7 +23,7 @@ import {
     PropertyType,
     UserCustomProperty,
     UserProperty
-} from "@/types";
+} from "@/types/events";
 import Select from "@/components/Select/Select.vue";
 import { Group, Item } from "@/components/Select/SelectTypes";
 import { useLexiconStore } from "@/stores/lexicon";

@@ -9,9 +9,7 @@ import App from "@/App.vue";
 import makeServer from "@/server";
 import VTooltipPlugin from "v-tooltip";
 import { router } from '@/router'
-
-import UiIcon from "@/components/uikit/UiIcon.vue";
-import UiButton from "@/components/uikit/UiButton.vue";
+import uikitPlugin from "@/plugins/uikit";
 
 if (typeof makeServer === "function") {
     makeServer();
@@ -19,11 +17,9 @@ if (typeof makeServer === "function") {
 
 const app = createApp(App);
 
-app.component("UiButton", UiButton);
-app.component("UiIcon", UiIcon);
-
 app.use(createPinia());
 app.use(VTooltipPlugin);
+app.use(uikitPlugin);
 app.use(router);
 app.mount("#app");
 

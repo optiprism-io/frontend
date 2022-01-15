@@ -1,15 +1,12 @@
 import { defineStore } from "pinia";
-import * as types from "../../types";
 import {
     EventRef,
     EventType,
-    OperationId,
     PropertyRef,
-    Value,
     PropertyType,
-    Group,
     EventQueryRef,
-} from "@/types";
+} from "@/types/events";
+import { OperationId, Value, Group } from "@/types";
 import schemaService from "@/api/services/schema.service";
 import { useLexiconStore } from "@/stores/lexicon";
 
@@ -77,7 +74,7 @@ export const useEventsStore = defineStore("events", {
         },
         addEvent(id: number): void {
             this.events.push(<Event>{
-                ref: <EventRef>{ type: types.EventType.Regular, id: id },
+                ref: <EventRef>{ type: EventType.Regular, id: id },
                 filters: [],
                 breakdowns: [],
                 queries: initialQuery,
@@ -85,7 +82,7 @@ export const useEventsStore = defineStore("events", {
         },
         addCustomEvent(id: number): void {
             this.events.push(<Event>{
-                ref: <EventRef>{ type: types.EventType.Custom, id: id },
+                ref: <EventRef>{ type: EventType.Custom, id: id },
                 filters: [],
                 breakdowns: [],
                 queries: initialQuery,
@@ -130,12 +127,12 @@ export const useEventsStore = defineStore("events", {
 
             this.events[eventIdx].filters[filterIdx] = <EventFilter>{
                 propRef: propRef,
-                opId: types.OperationId.Eq,
+                opId: OperationId.Eq,
                 values: [],
                 valuesList: valuesList
             };
         },
-        changeFilterOperation(eventIdx: number, filterIdx: number, opId: types.OperationId): void {
+        changeFilterOperation(eventIdx: number, filterIdx: number, opId: OperationId): void {
             this.events[eventIdx].filters[filterIdx].opId = opId;
             this.events[eventIdx].filters[filterIdx].values = [];
         },

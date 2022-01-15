@@ -1,7 +1,5 @@
 import { defineStore } from "pinia";
-import * as types from "../../types";
-import { EventRef, OperationId, PropertyRef, Value } from "../../types";
-import { Prop } from "vue";
+import { EventRef } from "@/types/events";
 
 export type BreakdownUserProperty = {
     type: string;

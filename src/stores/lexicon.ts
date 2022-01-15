@@ -8,7 +8,6 @@ import {
     EventCustomProperty,
     UserProperty,
     EventType,
-    Cohort,
     customEventRef,
     eventRef,
     PropertyRef,
@@ -16,9 +15,10 @@ import {
     EventRef,
     eventsQueries,
     EventQueryRef,
-    aggregates,
     EventsQuery,
-} from "@/types";
+} from "@/types/events";
+import { Cohort } from "@/types";
+import { aggregates } from "@/types/aggregate"
 import { Group, Item } from "@/components/Select/SelectTypes";
 import { useEventsStore, Events } from "@/stores/eventSegmentation/events";
 

@@ -10,18 +10,17 @@
 </template>
 
 <script setup lang="ts">
-import { UserCustomProperty, UserProperty } from "../../../types";
-import Select from "../../Select/Select.vue";
+import { computed } from "vue";
+import { UserCustomProperty, UserProperty } from "@/types/events";
+import Select from "@/components/Select/Select.vue";
 import { Group, Item } from "@/components/Select/SelectTypes";
 import { useLexiconStore } from "@/stores/lexicon";
-import { computed } from "vue";
 import {
-    FilterRefCohort,
     FilterRef,
     newFilterCohort,
     newFilterUserCustomProperty,
     newFilterUserProperty
-} from "../../../stores/eventSegmentation/filters";
+} from "@/stores/eventSegmentation/filters";
 
 const lexiconStore = useLexiconStore();
 

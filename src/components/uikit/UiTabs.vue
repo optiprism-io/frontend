@@ -29,8 +29,6 @@
 </template>
 
 <script lang="ts" setup>
-import UiIcon from './UiIcon.vue';
-
 type Item = {
     name: string,
     value: string | number,

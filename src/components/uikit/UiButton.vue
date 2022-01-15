@@ -30,7 +30,6 @@
 </template>
 
 <script setup lang="ts">
-import UiIcon from "./UiIcon.vue";
 import UiSpinner from "./UiSpinner.vue";
 
 interface Props {

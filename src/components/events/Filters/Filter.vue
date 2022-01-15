@@ -125,24 +125,16 @@
 import {
     Filter,
     FilterRef,
-    FilterRefUserCustomProperty,
     FilterRefUserProperty,
     isFilterCohort,
     isFilterUserCustomProperty,
     isFilterUserProperty
-} from "../../../stores/eventSegmentation/filters";
+} from "@/stores/eventSegmentation/filters";
 import { useLexiconStore } from "@/stores/lexicon";
 import RefSelect from "./RefSelect.vue";
 import OperationSelect from "./OperationSelect.vue";
 import ValueSelect from "./ValueSelect.vue";
-import {
-    operationById,
-    OperationId,
-    PropertyRef,
-    PropertyType,
-    UserProperty,
-    Value
-} from "../../../types";
+import { operationById, OperationId, Value } from "@/types";
 import { computed, ref } from "vue";
 
 const props = defineProps<{
@@ -150,7 +142,7 @@ const props = defineProps<{
     index: number;
 }>();
 
-let showControls = ref(false);
+const showControls = ref(false);
 
 const emit = defineEmits<{
     (e: "removeFilter", index: number): void;

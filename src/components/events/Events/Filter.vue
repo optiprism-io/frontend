@@ -102,25 +102,17 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from "vue";
 import { EventFilter } from "@/stores/eventSegmentation/events";
 import { useLexiconStore } from "@/stores/lexicon";
-import PropertySelect from "./PropertySelect.vue";
-import OperationSelect from "./OperationSelect.vue";
-import ValueSelect from "./ValueSelect.vue";
-import {
-    EventRef,
-    EventType,
-    PropertyRef,
-    PropertyType,
-    operationById,
-    OperationId,
-    Value
-} from "@/types";
-import { computed } from "vue";
-import UiIcon from "@/components/uikit/UiIcon.vue";
-import UiButton from "@/components/uikit/UiButton.vue";
+import PropertySelect from "@/components/events/Events/PropertySelect.vue";
+import OperationSelect from "@/components/events/Events/OperationSelect.vue";
+import ValueSelect from "@/components/events/Events/ValueSelect.vue";
+import { EventRef, PropertyRef, PropertyType } from "@/types/events";
+import { operationById, OperationId, Value } from "@/types";
 
 const lexiconStore = useLexiconStore();
+
 const props = defineProps<{
     eventRef: EventRef;
     filter: EventFilter;

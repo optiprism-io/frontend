@@ -45,7 +45,8 @@
 
 <script setup lang="ts">
 import { computed } from "vue";
-import { EventQueryRef, EventRef, OperationId, PropertyRef, Value } from "@/types";
+import { EventQueryRef, EventRef, PropertyRef } from "@/types/events";
+import { OperationId, Value } from "@/types";
 import { useEventsStore } from "@/stores/eventSegmentation/events";
 import { useLexiconStore } from "@/stores/lexicon";
 import Select from "@/components/Select/Select.vue";

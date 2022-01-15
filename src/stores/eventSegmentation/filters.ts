@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import * as types from "@/types";
+import { OperationId, Value } from "@/types";
 
 export type FilterRefUserProperty = {
     type: string;
@@ -43,8 +43,8 @@ export const isFilterCohort = (ref: FilterRef): boolean => {
 
 export interface Filter {
     ref: FilterRef;
-    opId: types.OperationId;
-    values: types.Value[];
+    opId: OperationId;
+    values: Value[];
 }
 
 type Filters = {
@@ -57,7 +57,7 @@ export const filtersStore = defineStore("filters", {
         addFilter(ref: FilterRef): void {
             this.filters.push(<Filter>{
                 ref: ref,
-                opId: types.OperationId.Eq,
+                opId: OperationId.Eq,
                 values: []
             });
         },
@@ -67,17 +67,17 @@ export const filtersStore = defineStore("filters", {
         changeFilterRef(filterIdx: number, ref: FilterRef): void {
             this.filters[filterIdx] = <Filter>{
                 ref: ref,
-                opId: types.OperationId.Eq,
+                opId: OperationId.Eq,
                 values: []
             };
         },
-        changeFilterOperation(filterIdx: number, opId: types.OperationId): void {
+        changeFilterOperation(filterIdx: number, opId: OperationId): void {
             this.filters[filterIdx].opId = opId;
         },
-        addFilterValue(filterIdx: number, value: types.Value): void {
+        addFilterValue(filterIdx: number, value: Value): void {
             this.filters[filterIdx].values.push(value);
         },
-        removeFilterValue(filterIdx: number, value: types.Value): void {
+        removeFilterValue(filterIdx: number, value: Value): void {
             this.filters[filterIdx].values = this.filters[filterIdx].values.filter(v => {
                 return v !== value;
             });

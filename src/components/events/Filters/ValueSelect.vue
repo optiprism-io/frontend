@@ -10,10 +10,10 @@
 </template>
 
 <script setup lang="ts">
-import { PropertyRef, Value } from "../../../types";
-import MultiSelect, { Item } from "../../MultiSelect/MultiSelect.vue";
 import { computed } from "vue";
-import { FilterRef } from "../../../stores/eventSegmentation/filters";
+import { Value } from "@/types";
+import MultiSelect, { Item } from "@/components/MultiSelect/MultiSelect.vue";
+import { FilterRef } from "@/stores/eventSegmentation/filters";
 
 const props = withDefaults(
     defineProps<{

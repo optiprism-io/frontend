@@ -30,8 +30,7 @@ import Breakdown from "./Breakdown.vue";
 import {
     breakdownsStore as newBreakdownsStore,
     Breakdown as StoreBreakdown
-} from "../../../stores/eventSegmentation/breakdowns";
-import UiButton from "@/components/uikit/UiButton.vue";
+} from "@/stores/eventSegmentation/breakdowns";
 
 const breakdownsStore = newBreakdownsStore();
 const breakdowns = breakdownsStore.breakdowns;

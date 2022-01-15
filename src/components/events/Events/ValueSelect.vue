@@ -10,7 +10,8 @@
 </template>
 
 <script setup lang="ts">
-import { PropertyRef, Value } from "@/types";
+import { Value } from "@/types";
+import { PropertyRef } from "@/types/events";
 import MultiSelect, { Item } from "@/components/MultiSelect/MultiSelect.vue";
 
 withDefaults(

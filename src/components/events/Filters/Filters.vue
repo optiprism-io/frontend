@@ -26,14 +26,13 @@
 </template>
 
 <script setup lang="ts">
-import { OperationId, PropertyRef, Value } from "../../../types";
+import { OperationId, Value } from "@/types";
 import RefSelect from "./RefSelect.vue";
 import Filter from "./Filter.vue";
 import {
     FilterRef,
     filtersStore as newFiltersStore
-} from "../../../stores/eventSegmentation/filters";
-import UiButton from "@/components/uikit/UiButton.vue";
+} from "@/stores/eventSegmentation/filters";
 
 const filtersStore = newFiltersStore();
 const filters = filtersStore.filters;

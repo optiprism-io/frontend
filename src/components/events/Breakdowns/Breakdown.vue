@@ -91,7 +91,7 @@ import {
     isBreakdownUserCustomProperty,
     isBreakdownUserProperty,
     newBreakdownCohort
-} from "../../../stores/eventSegmentation/breakdowns";
+} from "@/stores/eventSegmentation/breakdowns";
 
 const props = defineProps<{
     breakdown: Breakdown;

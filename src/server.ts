@@ -1,5 +1,6 @@
 import { createServer } from "miragejs";
-import { EventStatus, DataType, UserProperty, UserCustomProperty } from "./types";
+import { DataType } from "@/types";
+import { EventStatus, UserProperty, UserCustomProperty } from "@/types/events";
 
 export default function ({ environment = "development" } = {}) {
     return createServer({

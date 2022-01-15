@@ -36,8 +36,7 @@
 </template>
 
 <script setup lang="ts">
-import UiButton from "./uikit/UiButton.vue";
-import UiDropdown from "./uikit/UiDropdown.vue";
+import UiDropdown from "@/components/uikit/UiDropdown.vue";
 </script>
 
 <style scoped lang="scss">

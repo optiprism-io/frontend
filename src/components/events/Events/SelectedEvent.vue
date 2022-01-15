@@ -107,7 +107,8 @@
 
 <script setup lang="ts">
 import { computed, ref } from "vue";
-import { EventRef, EventType, OperationId, PropertyRef, Value, EventQueryRef } from "@/types";
+import { EventRef, EventType, PropertyRef, EventQueryRef } from "@/types/events";
+import { OperationId, Value } from "@/types";
 import { useLexiconStore } from "@/stores/lexicon";
 import { EventBreakdown, EventFilter, EventQuery } from "@/stores/eventSegmentation/events";
 import Select from "@/components/Select/Select.vue";

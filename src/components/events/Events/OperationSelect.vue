@@ -10,11 +10,12 @@
 </template>
 
 <script setup lang="ts">
-import { findOperations, OperationId, PropertyRef, PropertyType } from "../../../types";
-import Select from "@/components/Select/Select.vue";
+import { computed } from "vue";
+import { findOperations, OperationId } from "@/types";
+import { PropertyRef, PropertyType } from "@/types/events"
 import { Item } from "@/components/Select/SelectTypes";
 import { useLexiconStore } from "@/stores/lexicon";
-import { computed } from "vue";
+import Select from "@/components/Select/Select.vue";
 
 const lexiconStore = useLexiconStore();
 

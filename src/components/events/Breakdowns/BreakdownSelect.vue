@@ -10,36 +10,19 @@
 </template>
 
 <script setup lang="ts">
-import Select from "../../Select/Select.vue";
-import { Group, Item } from "@/components/Select/SelectTypes";
 import { computed } from "vue";
+import Select from "@/components/Select/Select.vue";
+import { Group, Item } from "@/components/Select/SelectTypes";
 import {
     Breakdown,
-    BreakdownEventCommonProperty,
-    BreakdownType,
     newBreakdownCohort,
-    newBreakdownEventCommonCustomProperty,
     newBreakdownEventCommonProperty,
     newBreakdownUserCustomProperty,
     newBreakdownUserProperty
-} from "../../../stores/eventSegmentation/breakdowns";
-import {
-    newFilterCohort,
-    newFilterUserCustomProperty,
-    newFilterUserProperty
-} from "../../../stores/eventSegmentation/filters";
-import {
-    EventCustomProperty,
-    EventProperty,
-    eventRef,
-    EventRef,
-    EventType,
-    UserCustomProperty,
-    UserProperty
-} from "../../../types";
+} from "@/stores/eventSegmentation/breakdowns";
+import { UserCustomProperty, UserProperty } from "@/types/events";
 import { useLexiconStore } from "@/stores/lexicon";
-
-import { useEventsStore } from "../../../stores/eventSegmentation/events";
+import { useEventsStore } from "@/stores/eventSegmentation/events";
 
 const emit = defineEmits<{
     (e: "select", type: Breakdown): void;

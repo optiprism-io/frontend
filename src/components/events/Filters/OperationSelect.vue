@@ -9,11 +9,11 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from "vue";
 import { findOperations, OperationId } from "@/types";
 import Select from "@/components/Select/Select.vue";
 import { Item } from "@/components/Select/SelectTypes";
 import { useLexiconStore } from "@/stores/lexicon";
-import { computed } from "vue";
 import {
     FilterRef,
     FilterRefUserProperty,
