@@ -1,88 +1,27 @@
 use super::{
-    account,
-    context::Context,
-    error::{Result, ERR_AUTH_LOG_IN_INVALID_PASSWORD},
-    organization,
-    rbac::{Permission, Role, Scope},
+    types::{AccessClaims, LogInRequest, RefreshClaims, SignUpRequest, TokensResponse},
+    ACCESS_TOKEN_DURATION, ACCESS_TOKEN_KEY, COMMON_SALT, REFRESH_TOKEN_DURATION,
+    REFRESH_TOKEN_KEY,
 };
-use chrono::{Duration, Utc};
+use crate::{context::Context, error::Result};
+use chrono::Utc;
+use common::rbac::{Role, Scope};
+use metadata::{
+    accounts::types::{Account as MetadataAccount, CreateRequest as CreateAccountRequest},
+    Metadata,
+};
 use rand::{distributions::Alphanumeric, thread_rng, Rng};
-use serde::{Deserialize, Serialize};
+use serde::Serialize;
 use sha3::{Digest, Sha3_256, Sha3_512};
-use std::{collections::HashMap, env::var, ops::Add, rc::Rc, sync::Arc};
-
-lazy_static::lazy_static! {
-    static ref COMMON_SALT: String = var("FNP_COMMON_SALT").unwrap();
-    static ref EMAIL_TOKEN_KEY: String = var("FNP_EMAIL_TOKEN_KEY").unwrap();
-    static ref ACCESS_TOKEN_KEY: String = var("FNP_ACCESS_TOKEN_KEY").unwrap();
-    static ref REFRESH_TOKEN_KEY: String = var("FNP_REFRESH_TOKEN_KEY").unwrap();
-
-    static ref ACCESS_TOKEN_DURATION: Duration = Duration::hours(1);
-    static ref REFRESH_TOKEN_DURATION: Duration = Duration::days(30);
-}
-
-#[derive(Deserialize)]
-pub struct LogInRequest {
-    pub email: String,
-    pub password: String,
-}
-
-#[derive(Deserialize)]
-pub struct SignUpRequest {
-    pub organization_name: String,
-    pub email: String,
-    pub password: String,
-    pub first_name: Option<String>,
-    pub middle_name: Option<String>,
-    pub last_name: Option<String>,
-}
-
-#[derive(Deserialize)]
-pub struct RefreshRequest {
-    pub refresh_token: String,
-}
-
-#[derive(Deserialize)]
-pub struct RecoverRequest {
-    pub email: String,
-}
-
-#[derive(Serialize)]
-pub struct TokensResponse {
-    pub access_token: String,
-    pub refresh_token: String,
-}
-
-#[derive(Serialize, Deserialize)]
-pub struct AccessClaims {
-    pub exp: i64,
-    pub organization_id: u64,
-    pub account_id: u64,
-    pub roles: Option<HashMap<Scope, Role>>,
-    pub permissions: Option<HashMap<Scope, Vec<Permission>>>,
-}
-
-#[derive(Serialize, Deserialize)]
-pub struct RefreshClaims {
-    pub organization_id: u64,
-    pub account_id: u64,
-    pub exp: i64,
-}
+use std::{collections::HashMap, ops::Add, rc::Rc, sync::Arc};
 
 pub struct Provider {
-    organization_provider: Arc<organization::Provider>,
-    account_provider: Arc<account::Provider>,
+    metadata: Arc<Metadata>,
 }
 
 impl Provider {
-    pub fn new(
-        organization_provider: Arc<organization::Provider>,
-        account_provider: Arc<account::Provider>,
-    ) -> Self {
-        Self {
-            organization_provider,
-            account_provider,
-        }
+    pub fn new(metadata: Arc<Metadata>) -> Self {
+        Self { metadata }
     }
 
     pub async fn sign_up(
@@ -90,40 +29,46 @@ impl Provider {
         ctx: Rc<Context>,
         request: SignUpRequest,
     ) -> Result<TokensResponse> {
-        let org = self
-            .organization_provider
-            .create(organization::CreateRequest {
-                name: request.organization_name,
-            })?;
+        // let org = self
+        //     .organization_provider
+        //     .create(organization::CreateRequest {
+        //         name: request.organization_name,
+        //     })?;
+        let organization_id = 1u64; // TODO: add organizaion
         let mut roles = HashMap::new();
         roles.insert(Scope::Organization, Role::Owner);
-        let acc = self.account_provider.create(
-            Rc::new(Context::with_permission(org.id, Permission::AccountCreate)),
-            account::CreateRequest {
+        let account = self
+            .metadata
+            .account
+            .create(CreateAccountRequest {
                 admin: false,
-                password: request.password,
-                organization_id: org.id,
+                salt: "".to_string(),       // TODO: make salt
+                password: request.password, // TODO: make pass hash
+                organization_id: organization_id,
                 email: request.email,
                 roles: Some(roles),
                 permissions: None,
                 first_name: request.first_name,
                 middle_name: request.middle_name,
                 last_name: request.last_name,
-            },
-        )?;
-        make_token_response(acc)
+            })
+            .await?;
+        make_token_response(account)
     }
 
-    pub fn log_in(&self, ctx: Rc<Context>, request: LogInRequest) -> Result<TokensResponse> {
-        let acc = self.account_provider.get_by_email(ctx, request.email)?;
-        if !is_valid_password(&request.password, &acc.salt, &acc.password) {
-            return Err(ERR_AUTH_LOG_IN_INVALID_PASSWORD.into());
+    pub async fn log_in(&self, ctx: Rc<Context>, request: LogInRequest) -> Result<TokensResponse> {
+        let account = match self.metadata.account.get_by_email(&request.email).await? {
+            Some(account) => account,
+            None => unimplemented!(),
+        };
+        if !is_valid_password(&request.password, &account.salt, &account.password) {
+            unimplemented!();
         }
-        make_token_response(acc)
+        make_token_response(account)
     }
 }
 
-fn make_token_response(acc: account::Account) -> Result<TokensResponse> {
+fn make_token_response(acc: MetadataAccount) -> Result<TokensResponse> {
     Ok(TokensResponse {
         access_token: make_token(
             AccessClaims {

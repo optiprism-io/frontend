@@ -1,11 +1,8 @@
-use super::{
-    auth,
-    error::{Error, ERR_INTERNAL_CONTEXT_REQUIRED},
-    rbac::{Permission, Role, Scope, MANAGER_PERMISSIONS, READER_PERMISSIONS},
-};
+use crate::{auth, error::Error};
 use actix_http::header;
 use actix_utils::future::{err, ok, Ready};
 use actix_web::{dev::Payload, FromRequest, HttpRequest};
+use common::rbac::{Permission, Role, Scope, MANAGER_PERMISSIONS, READER_PERMISSIONS};
 use std::{collections::HashMap, ops::Deref, rc::Rc};
 
 #[derive(Default)]
@@ -120,16 +117,16 @@ impl Deref for ContextExtractor {
 }
 
 impl FromRequest for ContextExtractor {
-    type Config = ();
     type Error = Error;
     type Future = Ready<Result<Self, Error>>;
 
     #[inline]
     fn from_request(request: &HttpRequest, _: &mut Payload) -> Self::Future {
-        if let Some(ctx) = request.extensions().get::<ContextExtractor>() {
+        if let Some(ctx) = request.req_data().get::<ContextExtractor>() {
             ok(ContextExtractor(ctx.0.clone()))
         } else {
-            err(ERR_INTERNAL_CONTEXT_REQUIRED.into())
+            unimplemented!();
+            // err(ERR_INTERNAL_CONTEXT_REQUIRED.into())
         }
     }
 }
