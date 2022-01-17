@@ -12,6 +12,15 @@ const KV_NAMESPACE: Namespace = Namespace::Events;
 
 type NameKey = (u64, String);
 
+enum IndexOp<'a> {
+    Insert(&'a Event),
+    Update {
+        event: &'a Event,
+        prev_event: &'a Event,
+    },
+    Delete(&'a Event),
+}
+
 pub struct Provider {
     store: Arc<Store>,
     name_idx: HashMap<NameKey, u64>,
@@ -35,37 +44,46 @@ impl Provider {
         Ok(())
     }
 
-    fn update_idx(&mut self, event: &Event, prev_event: Option<&Event>) {
-        if let Some(e) = prev_event {
-            if e.name != event.name {
-                self.name_idx.remove(&name_key(&e));
+    fn update_indices(&mut self, op: IndexOp) {
+        match op {
+            IndexOp::Insert(event) => {
+                self.name_idx.insert(name_key(event), event.id);
+            }
+            IndexOp::Update { event, prev_event } => {
+                if event.name != prev_event.name {
+                    self.name_idx.remove(&name_key(event));
+                }
+
+                self.name_idx.insert(name_key(event), event.id);
+            }
+            IndexOp::Delete(event) => {
+                self.name_idx.remove(&name_key(event));
             }
         }
-        self.name_idx.insert(name_key(&event), event.id);
     }
 
-    fn update_idx_validate(&self, event: &Event, prev_event: Option<&Event>) -> Result<()> {
-        if let Some(event_id) = self.name_idx.get(&name_key(event)) {
-            if event.id != *event_id {
-                return Err(Error::EventWithSameNameAlreadyExist);
+    fn check_constraints(&mut self, op: IndexOp) -> Result<()> {
+        match op {
+            IndexOp::Insert(event) => {
+                if let Some(_) = self.name_idx.get(&name_key(event)) {
+                    return Err(Error::EventWithSameNameAlreadyExist);
+                }
             }
+            IndexOp::Update { event, prev_event } => {
+                if event.name != prev_event.name {
+                    if let Some(_) = self.name_idx.get(&name_key(event)) {
+                        return Err(Error::EventWithSameNameAlreadyExist);
+                    }
+                }
+            }
+            _ => unreachable!(),
         }
 
-        if let Some(e) = prev_event {
-            if e.name != event.name {
-                self.name_idx.remove(&name_key(&e));
-            }
-        }
-        self.name_idx.insert(name_key(&event), event.id);
-        Ok()
+        Ok(())
     }
 
     pub async fn create_event(&mut self, event: Event) -> Result<Event> {
-        // name is unique among all events
-        match self.name_idx.get(&name_key(&event)) {
-            Some(_) => return Err(Error::EventWithSameNameAlreadyExist),
-            None => {}
-        }
+        self.check_constraints(IndexOp::Insert(&event))?;
 
         let mut event = event.clone();
         event.created_at = Some(Utc::now());
@@ -73,22 +91,23 @@ impl Provider {
         self.store
             .put(KV_NAMESPACE, event.id.to_le_bytes(), serialize(&event)?)
             .await?;
-        self.update_idx(&event, None);
 
+        self.update_indices(IndexOp::Insert(&event));
         Ok(event)
     }
 
     pub async fn update_event(&mut self, event: Event) -> Result<Event> {
         let prev_event = self.get_event_by_id(event.id).await?;
+        self.check_constraints(IndexOp::Update { event: &event, prev_event: &prev_event })?;
+
         let mut event = event.clone();
         event.updated_at = Some(Utc::now());
 
-        self.update_idx_check(&event, Some(&prev_event))?;
         self.store
             .put(KV_NAMESPACE, event.id.to_le_bytes(), serialize(&event)?)
             .await?;
 
-        self.update_idx(&event, Some(&prev_event));
+        self.update_indices(IndexOp::Update { event: &event, prev_event: &prev_event });
         Ok(event)
     }
 
@@ -110,7 +129,7 @@ impl Provider {
         let event = self.get_event_by_id(id).await?;
         self.store.delete(KV_NAMESPACE, id.to_le_bytes()).await?;
 
-        self.name_idx.remove(&name_key(&event));
+        self.update_indices(IndexOp::Delete(&event));
         Ok(event)
     }
 
