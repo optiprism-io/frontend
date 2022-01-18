@@ -1,5 +1,8 @@
 import { defineStore } from "pinia";
 import { OperationId, Value } from "@/types";
+import { PropertyRef, PropertyType, EventType, EventRef } from "@/types/events";
+import { useLexiconStore } from "@/stores/lexicon";
+import schemaService from "@/api/services/schema.service";
 
 export type FilterRefUserProperty = {
     type: string;
@@ -42,33 +45,96 @@ export const isFilterCohort = (ref: FilterRef): boolean => {
 };
 
 export interface Filter {
-    ref: FilterRef;
+    propRef?: PropertyRef;
     opId: OperationId;
     values: Value[];
+    valuesList: string[];
 }
 
 type Filters = {
     filters: Filter[];
 };
 
-export const filtersStore = defineStore("filters", {
+export const useFiltersStore = defineStore("filters", {
     state: (): Filters => ({ filters: [] }),
+    getters: {
+        eventForValues() {
+            const lexiconStore = useLexiconStore();
+
+            return (id: number): EventRef | undefined => {
+                const event = lexiconStore.events.find(item => {
+                    if (item.properties) {
+                        return item.properties.includes(id);
+                    }
+                });
+
+                let eventRef;
+
+                lexiconStore.eventsList.forEach(item => {
+                    const eventStoreRef: any = item.items.find(itemInner => itemInner.item.id === event?.id);
+
+                    if (event) {
+                        eventRef = eventStoreRef;
+                    }
+                })
+                return eventRef
+            };
+        },
+    },
     actions: {
-        addFilter(ref: FilterRef): void {
+        async addFilter(propRef: PropertyRef) {
+            const lexiconStore = useLexiconStore();
+            let valuesList: string[] = [];
+            const eventRef = this.eventForValues(propRef.id);
+
+            try {
+                const res = await schemaService.propertiesValues({
+                    event_name: eventRef ? lexiconStore.eventName(eventRef) : "",
+                    event_type: eventRef ? EventType[eventRef.type] : "",
+                    property_name: lexiconStore.propertyName(propRef),
+                    property_type: PropertyType[propRef.type]
+                });
+                if (res) {
+                    valuesList = res;
+                }
+            } catch (error) {
+                throw new Error("error getEventsValues");
+            }
+
             this.filters.push(<Filter>{
-                ref: ref,
+                propRef,
                 opId: OperationId.Eq,
-                values: []
+                values: [],
+                valuesList: valuesList,
             });
         },
         removeFilter(idx: number): void {
             this.filters.splice(idx, 1);
         },
-        changeFilterRef(filterIdx: number, ref: FilterRef): void {
+        async changeFilterRef(filterIdx: number, propRef: PropertyRef) {
+            const lexiconStore = useLexiconStore();
+            let valuesList: string[] = [];
+            const eventRef = this.eventForValues(propRef.id);
+
+            try {
+                const res = await schemaService.propertiesValues({
+                    event_name: eventRef ? lexiconStore.eventName(eventRef) : "",
+                    event_type: eventRef ? EventType[eventRef.type] : "",
+                    property_name: lexiconStore.propertyName(propRef),
+                    property_type: PropertyType[propRef.type]
+                });
+                if (res) {
+                    valuesList = res;
+                }
+            } catch (error) {
+                throw new Error("error getEventsValues");
+            }
+
             this.filters[filterIdx] = <Filter>{
-                ref: ref,
+                propRef,
                 opId: OperationId.Eq,
-                values: []
+                values: [],
+                valuesList: valuesList,
             };
         },
         changeFilterOperation(filterIdx: number, opId: OperationId): void {

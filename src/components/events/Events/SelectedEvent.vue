@@ -1,9 +1,10 @@
 <template>
     <div class="selected-event pf-l-flex pf-m-column">
         <div class="pf-l-flex">
-            <div class="pf-l-flex__item selected-event__identifier">
-                {{ identifier }}
-            </div>
+            <AlphabetIdentifier
+                class="pf-l-flex__item"
+                :index="index"
+            />
             <div class="pf-c-action-list">
                 <div class="pf-c-action-list__item">
                     <Select
@@ -106,16 +107,17 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from "vue";
+import { ref } from "vue";
 import { EventRef, EventType, PropertyRef, EventQueryRef } from "@/types/events";
 import { OperationId, Value } from "@/types";
 import { useLexiconStore } from "@/stores/lexicon";
 import { EventBreakdown, EventFilter, EventQuery } from "@/stores/eventSegmentation/events";
 import Select from "@/components/Select/Select.vue";
-import Filter from "@/components/events/Events/Filter.vue";
+import Filter from "@/components/events/Filter.vue";
 import Breakdown from "@/components/events/Events/Breakdown.vue";
 import Query from "@/components/events/Events/Query.vue";
 import { Group } from "@/components/Select/SelectTypes";
+import AlphabetIdentifier from "@/components/AlphabetIdentifier.vue";
 
 const props = withDefaults(
     defineProps<{
@@ -153,9 +155,6 @@ const lexiconStore = useLexiconStore();
 const updateOpenBreakdown = ref(false);
 const updateOpenFilter = ref(false);
 const updateOpenQuery = ref(false)
-
-const alphabet = "abcdefghijklmnopqrstuvwxyz".split("");
-const identifier = computed((): string => alphabet[props.index]);
 
 const handleSelectProperty = (): void => {
     emit("handleSelectProperty");
@@ -247,13 +246,6 @@ const changeQuery = (idx: number, ref: EventQueryRef) => {
 
 <style scoped lang="scss">
 .selected-event {
-    &__identifier {
-        width: 20px;
-        text-transform: uppercase;
-        text-align: center;
-        color: var(--pf-global--main-color--100);
-    }
-
     &__control {
         padding: 5px;
         opacity: 0;

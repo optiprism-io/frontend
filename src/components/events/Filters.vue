@@ -1,18 +1,23 @@
 <template>
     <div class="pf-l-flex pf-m-column">
         <Filter
-            v-for="(filter, index) in filters"
-            :key="index"
+            v-for="(filter, i) in filters"
+            :key="i"
             :filter="filter"
-            :index="index"
+            :index="i"
+            :show-identifier="true"
+            :event-refs="eventRefs"
             @remove-filter="removeFilter"
-            @change-filter-ref="changeFilterRef"
+            @change-filter-property="changeFilterRef"
             @change-filter-operation="changeFilterOperation"
             @add-filter-value="addFilterValue"
             @remove-filter-value="removeFilterValue"
         />
         <div class="pf-l-flex">
-            <RefSelect @select="addFilter">
+            <PropertySelect
+                :event-refs="eventRefs"
+                @select="addFilter"
+            >
                 <UiButton
                     class="pf-m-main"
                     :is-link="true"
@@ -20,24 +25,28 @@
                 >
                     Add Filter
                 </UiButton>
-            </RefSelect>
+            </PropertySelect>
         </div>
     </div>
 </template>
 
 <script setup lang="ts">
+import { computed } from "vue";
 import { OperationId, Value } from "@/types";
-import RefSelect from "./RefSelect.vue";
-import Filter from "./Filter.vue";
-import {
-    FilterRef,
-    filtersStore as newFiltersStore
-} from "@/stores/eventSegmentation/filters";
+import Filter from "@/components/events/Filter.vue";
+import PropertySelect from "@/components/events/PropertySelect.vue";
+import { useFiltersStore, FilterRef } from "@/stores/eventSegmentation/filters";
+import { useEventsStore } from "@/stores/eventSegmentation/events";
+import { useLexiconStore } from "@/stores/lexicon";
+import { PropertyRef } from "@/types/events";
+const filtersStore = useFiltersStore();
+const eventsStore = useEventsStore();
+const lexiconStore = useLexiconStore();
 
-const filtersStore = newFiltersStore();
 const filters = filtersStore.filters;
+const eventRefs = computed(() => eventsStore.events.map(item => item.ref));
 
-const addFilter = (ref: FilterRef): void => {
+const addFilter = (ref: PropertyRef): void => {
     filtersStore.addFilter(ref);
 };
 
@@ -45,7 +54,7 @@ const removeFilter = (idx: number): void => {
     filtersStore.removeFilter(idx);
 };
 
-const changeFilterRef = (filterIdx: number, ref: FilterRef) => {
+const changeFilterRef = (filterIdx: number, ref: PropertyRef) => {
     filtersStore.changeFilterRef(filterIdx, ref);
 };
 

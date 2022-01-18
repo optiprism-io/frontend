@@ -17,7 +17,8 @@ export default function ({ environment = "development" } = {}) {
                         updatedBy: 0,
                         projectId: 0,
                         tags: ["Onboarding"],
-                        name: "Sign Up",
+                        name: "sign_up",
+                        displayName: "Sign Up",
                         description: "When user signs up",
                         status: EventStatus.Enabled
                     },
@@ -28,7 +29,8 @@ export default function ({ environment = "development" } = {}) {
                         updatedBy: 0,
                         projectId: 0,
                         tags: ["General"],
-                        name: "Search",
+                        name: "search",
+                        displayName: "Search",
                         description: "",
                         status: EventStatus.Enabled,
                         properties: [1]
@@ -40,7 +42,8 @@ export default function ({ environment = "development" } = {}) {
                         updatedBy: 0,
                         projectId: 0,
                         tags: ["General"],
-                        name: "View Product",
+                        name: "view_product",
+                        displayName: "View Product",
                         description: "View product",
                         status: EventStatus.Enabled,
                         properties: [2, 3, 4]
@@ -52,7 +55,8 @@ export default function ({ environment = "development" } = {}) {
                         updatedBy: 0,
                         projectId: 0,
                         tags: ["Revenue"],
-                        name: "Add Product to Cart",
+                        name: "add_product_to_cart",
+                        displayName: "Add Product to Cart",
                         description: "Add Product to Cart",
                         status: EventStatus.Enabled,
                         properties: [5, 6, 7]
@@ -64,7 +68,8 @@ export default function ({ environment = "development" } = {}) {
                         updatedBy: 0,
                         projectId: 0,
                         tags: ["Revenue"],
-                        name: "Purchase Product",
+                        name: "purchase_product",
+                        displayName: "Purchase Product",
                         description: "When product was purchased",
                         status: EventStatus.Enabled,
                         properties: [8, 9, 10, 11, 12]
@@ -76,7 +81,8 @@ export default function ({ environment = "development" } = {}) {
                         updatedBy: 0,
                         projectId: 0,
                         tags: [],
-                        name: "Purchase Product Other 1",
+                        name: "purchase_product_other_1",
+                        displayName: "Purchase Product Other 1",
                         description: "Other Test description 1",
                         status: EventStatus.Enabled,
                         properties: [8, 9, 10, 11, 12]
@@ -88,7 +94,8 @@ export default function ({ environment = "development" } = {}) {
                         updatedBy: 0,
                         projectId: 0,
                         tags: [],
-                        name: "Purchase Product Other 2",
+                        name: "purchase_product_other_2",
+                        displayName: "Purchase Product Other 2",
                         description: "Other Test description 2",
                         status: EventStatus.Enabled,
                         properties: [8, 9, 10, 11, 12]

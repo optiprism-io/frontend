@@ -1,7 +1,7 @@
 <template>
     <section class="pf-c-page__main-section">
         <UiTabs
-            class="dashboard__tabs"
+            class="pf-u-mb-md"
             :items="items"
         />
         <router-view />
@@ -41,9 +41,4 @@ const items = computed(() => {
 </script>
 
 <style lang="scss">
-.dashboard {
-    &__tabs {
-        margin-bottom: 1rem;
-    }
-}
 </style>

@@ -1,7 +1,14 @@
 <template>
     <div class="filter pf-l-flex">
         <div class="pf-c-action-list">
-            <div class="pf-c-action-list__item min-w-50 pf-u-text-align-right">
+            <AlphabetIdentifier
+                v-if="showIdentifier"
+                :index="index"
+            />
+            <div
+                v-else
+                class="pf-c-action-list__item min-w-50 pf-u-text-align-right"
+            >
                 with
             </div>
             <div class="pf-c-action-list__item">
@@ -105,19 +112,22 @@
 import { computed } from "vue";
 import { EventFilter } from "@/stores/eventSegmentation/events";
 import { useLexiconStore } from "@/stores/lexicon";
-import PropertySelect from "@/components/events/Events/PropertySelect.vue";
-import OperationSelect from "@/components/events/Events/OperationSelect.vue";
-import ValueSelect from "@/components/events/Events/ValueSelect.vue";
+import PropertySelect from "@/components/events/PropertySelect.vue";
+import OperationSelect from "@/components/events/OperationSelect.vue";
+import ValueSelect from "@/components/events/ValueSelect.vue";
 import { EventRef, PropertyRef, PropertyType } from "@/types/events";
 import { operationById, OperationId, Value } from "@/types";
+import AlphabetIdentifier from "@/components/AlphabetIdentifier.vue";
 
 const lexiconStore = useLexiconStore();
 
 const props = defineProps<{
-    eventRef: EventRef;
+    eventRef?: EventRef;
+    eventRefs?: EventRef[];
     filter: EventFilter;
     index: number;
     updateOpen?: boolean;
+    showIdentifier?: boolean;
 }>();
 
 const emit = defineEmits<{

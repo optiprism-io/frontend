@@ -127,7 +127,7 @@ import { EventRef, EventQueryRef, EventsQuery, PropertyRef } from "@/types/event
 import { AggregateRef } from "@/types/aggregate";
 import { Item } from "@/components/Select/SelectTypes";
 import Select from "@/components/Select/Select.vue";
-import PropertySelect from "@/components/events/Events/PropertySelect.vue";
+import PropertySelect from "@/components/events/PropertySelect.vue";
 import UiButton from "@/components/uikit/UiButton.vue";
 
 const eventsStore: Events = useEventsStore();

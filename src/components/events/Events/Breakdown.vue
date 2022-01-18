@@ -48,7 +48,7 @@
 <script setup lang="ts">
 import { EventBreakdown } from "@/stores/eventSegmentation/events";
 import { useLexiconStore } from "@/stores/lexicon";
-import PropertySelect from "./PropertySelect.vue";
+import PropertySelect from "@/components/events/PropertySelect.vue";
 import { EventRef, PropertyRef, PropertyType } from "@/types/events";
 import UiButton from "@/components/uikit/UiButton.vue";
 

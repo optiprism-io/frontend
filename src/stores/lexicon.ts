@@ -2,7 +2,6 @@ import { defineStore } from "pinia";
 import schemaService from "@/api/services/schema.service";
 import {
     CustomEvent,
-    EventProperty,
     UserCustomProperty,
     Event,
     EventCustomProperty,
@@ -16,6 +15,7 @@ import {
     eventsQueries,
     EventQueryRef,
     EventsQuery,
+    EventProperty,
 } from "@/types/events";
 import { Cohort } from "@/types";
 import { aggregates } from "@/types/aggregate"
@@ -174,6 +174,21 @@ export const useLexiconStore = defineStore("lexicon", {
                 throw new Error(`undefined user custom property id: {$id}`);
             };
         },
+        property() {
+            return (ref: PropertyRef): EventProperty | EventCustomProperty | UserProperty | UserCustomProperty => {
+                switch (ref.type) {
+                    case PropertyType.Event:
+                        return this.findEventPropertyById(ref.id);
+                    case PropertyType.EventCustom:
+                        return this.findEventCustomPropertyById(ref.id);
+                    case PropertyType.User:
+                        return this.findUserPropertyById(ref.id);
+                    case PropertyType.UserCustom:
+                        return this.findUserCustomPropertyById(ref.id);
+                }
+                throw new Error("unhandled");
+            };
+        },
         propertyName() {
             return (ref: PropertyRef): string => {
                 switch (ref.type) {
@@ -220,7 +235,7 @@ export const useLexiconStore = defineStore("lexicon", {
             state.events.forEach((e: Event) => {
                 const item: Item = {
                     item: eventRef(e),
-                    name: e.name,
+                    name: e.displayName || e.name,
                     description: e?.description
                 };
 

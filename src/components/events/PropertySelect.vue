@@ -35,7 +35,7 @@ const emit = defineEmits<{
 }>();
 
 const props = defineProps<{
-    eventRef: EventRef;
+    eventRef?: EventRef;
     selected?: PropertyRef;
     isOpenMount?: boolean;
     updateOpen?: boolean;
@@ -85,7 +85,7 @@ const items = computed((): Group[] => {
         ret.push({ name: "User Custom Properties", items: items });
     }
 
-    if (props.eventRef.type == EventType.Regular) {
+    if (props.eventRef && props.eventRef.type == EventType.Regular) {
         const eventProperties = lexiconStore.findEventProperties(props.eventRef.id);
 
         if (eventProperties.length) {

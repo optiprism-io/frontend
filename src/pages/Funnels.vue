@@ -1,6 +1,6 @@
 <template>
-    <h1 class="page-title">
-        Funnels
+    <h1 class="pf-u-font-size-2xl pf-u-mb-md">
+        Event Segmentation
     </h1>
 </template>
 
