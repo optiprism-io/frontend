@@ -218,7 +218,7 @@ const removeBreakdown = (breakdownIdx: number): void => {
 const eventName = (ref: EventRef): string => {
     switch (ref.type) {
         case EventType.Regular:
-            return lexiconStore.findEventById(ref.id).name;
+            return lexiconStore.findEventById(ref.id).displayName;
         case EventType.Custom:
             return lexiconStore.findCustomEventById(ref.id).name;
     }

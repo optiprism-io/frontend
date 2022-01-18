@@ -36,6 +36,7 @@ const emit = defineEmits<{
 
 const props = defineProps<{
     eventRef?: EventRef;
+    eventRefs?: EventRef[];
     selected?: PropertyRef;
     isOpenMount?: boolean;
     updateOpen?: boolean;
@@ -45,6 +46,56 @@ const props = defineProps<{
 const checkDisable = (propRef: PropertyRef): boolean => {
     return props.disabledItems ? Boolean(props.disabledItems.find((item) => JSON.stringify(item.propRef) === JSON.stringify(propRef))) : false;
 };
+
+const getEventProperties = (eventRef: EventRef): Group[] => {
+    const properties: Group[] = [];
+
+    if (eventRef.type == EventType.Regular) {
+        const eventProperties = lexiconStore.findEventProperties(eventRef.id);
+
+        if (eventProperties.length) {
+            let items: Item[] = [];
+            eventProperties.forEach((prop: EventProperty): void => {
+                const propertyRef: PropertyRef = {
+                    type: PropertyType.Event,
+                    id: prop.id
+                };
+
+                items.push({
+                    item: propertyRef,
+                    name: prop.name,
+                    disabled: checkDisable(propertyRef),
+                });
+            });
+            properties.push({ name: "Event Properties", items: items });
+        }
+
+        const eventCustomProperties = lexiconStore.findEventCustomProperties(eventRef.id);
+
+        if (eventCustomProperties.length) {
+            let items: Item[] = [];
+
+            eventCustomProperties.forEach((prop: EventCustomProperty): void => {
+                const propertyRef: PropertyRef = {
+                    type: PropertyType.EventCustom,
+                    id: prop.id
+                };
+
+                items.push({
+                    item: propertyRef,
+                    name: prop.name,
+                    disabled: checkDisable(propertyRef),
+                });
+            });
+            properties.push({
+                name: "Event Custom Properties",
+                items: items
+            });
+        }
+    }
+
+    return properties;
+}
 
 const items = computed((): Group[] => {
     let ret: Group[] = [];
@@ -85,48 +136,33 @@ const items = computed((): Group[] => {
         ret.push({ name: "User Custom Properties", items: items });
     }
 
-    if (props.eventRef && props.eventRef.type == EventType.Regular) {
-        const eventProperties = lexiconStore.findEventProperties(props.eventRef.id);
+    if (props.eventRef) {
+        ret = [...ret, ...getEventProperties(props.eventRef)];
+    }
 
-        if (eventProperties.length) {
-            let items: Item[] = [];
-            eventProperties.forEach((prop: EventProperty): void => {
-                const propertyRef: PropertyRef = {
-                    type: PropertyType.Event,
-                    id: prop.id
-                };
+    if (props.eventRefs) {
+        const allEventRefs = props.eventRefs.map(eventRef => {
+            return getEventProperties(eventRef)
+        });
+        ret = [...ret, ...allEventRefs.reduce((refs, item) => {
+            item.forEach(itemInner => {
+                const existItem = refs.find(ref => ref.name === itemInner.name);
 
-                items.push({
-                    item: propertyRef,
-                    name: prop.name,
-                    disabled: checkDisable(propertyRef),
-                });
+                if (existItem) {
+                    itemInner.items.forEach(item => {
+                        const i = existItem.items.find(existItemInner => JSON.stringify(existItemInner.item) === JSON.stringify(item.item));
+
+                        if (!i) {
+                            existItem.items.push(item);
+                        }
+                    });
+                } else {
+                    refs.push(itemInner);
+                }
             });
-            ret.push({ name: "Event Properties", items: items });
-        }
 
-        const eventCustomProperties = lexiconStore.findEventCustomProperties(props.eventRef.id);
-
-        if (eventCustomProperties.length) {
-            let items: Item[] = [];
-
-            eventCustomProperties.forEach((prop: EventCustomProperty): void => {
-                const propertyRef: PropertyRef = {
-                    type: PropertyType.EventCustom,
-                    id: prop.id
-                };
-
-                items.push({
-                    item: propertyRef,
-                    name: prop.name,
-                    disabled: checkDisable(propertyRef),
-                });
-            });
-            ret.push({
-                name: "Event Custom Properties",
-                items: items
-            });
-        }
+            return refs;
+        }, [])];
     }
 
     return ret;

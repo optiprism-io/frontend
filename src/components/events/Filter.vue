@@ -15,6 +15,7 @@
                 <PropertySelect
                     v-if="filter.propRef"
                     :event-ref="eventRef"
+                    :event-refs="eventRefs"
                     :selected="filter.propRef"
                     @select="changeProperty"
                 >
