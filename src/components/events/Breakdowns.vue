@@ -13,6 +13,7 @@
         <div class="pf-l-flex">
             <PropertySelect
                 :event-refs="eventRefs"
+                :disabled-items="breakdowns"
                 @select="addBreakdown"
             >
                 <UiButton

@@ -46,7 +46,7 @@
         </div>
         <div class="pf-l-grid__item pf-m-12-col">
             <div class="pf-c-card pf-u-p-md">
-                <div class="content-info-controls"></div>
+                <div class="content-info-controls" />
                 <div class="content-info">
                     <div class="pf-u-display-flex content-info__icons pf-u-color-400">
                         <UiIcon
