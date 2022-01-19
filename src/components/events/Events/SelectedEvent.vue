@@ -114,7 +114,7 @@ import { useLexiconStore } from "@/stores/lexicon";
 import { EventBreakdown, EventFilter, EventQuery } from "@/stores/eventSegmentation/events";
 import Select from "@/components/Select/Select.vue";
 import Filter from "@/components/events/Filter.vue";
-import Breakdown from "@/components/events/Events/Breakdown.vue";
+import Breakdown from "@/components/events/Breakdown.vue";
 import Query from "@/components/events/Events/Query.vue";
 import { Group } from "@/components/Select/SelectTypes";
 import AlphabetIdentifier from "@/components/AlphabetIdentifier.vue";

@@ -60,7 +60,7 @@
 <script setup lang="ts">
 import { onBeforeMount, onUnmounted } from "vue";
 import Events from "@/components/events/Events/Events.vue";
-import Breakdowns from "@/components/events/Breakdowns/Breakdowns.vue";
+import Breakdowns from "@/components/events/Breakdowns.vue";
 import Filters from "@/components/events/Filters.vue";
 import { useLexiconStore } from "@/stores/lexicon";
 import { useEventsStore } from "@/stores/eventSegmentation/events";

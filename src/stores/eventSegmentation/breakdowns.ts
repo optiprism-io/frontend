@@ -1,5 +1,6 @@
 import { defineStore } from "pinia";
-import { EventRef } from "@/types/events";
+import { EventRef, PropertyRef } from "@/types/events";
+import { EventBreakdown } from "@/stores/eventSegmentation/events";
 
 export type BreakdownUserProperty = {
     type: string;
@@ -99,20 +100,22 @@ export type Breakdown =
     | BreakdownCohort;
 
 type Breakdowns = {
-    breakdowns: Breakdown[];
+    breakdowns: EventBreakdown[];
 };
 
-export const breakdownsStore = defineStore("breakdowns", {
+export const useBreakdownsStore = defineStore("breakdowns", {
     state: (): Breakdowns => ({ breakdowns: [] }),
     actions: {
-        addBreakdown(breakdown: Breakdown): void {
-            this.breakdowns.push(breakdown);
-        },
         removeBreakdown(idx: number): void {
             this.breakdowns.splice(idx, 1);
         },
-        changeBreakdown(idx: number, breakdown: Breakdown): void {
-            this.breakdowns[idx] = breakdown;
-        }
+        addBreakdown(propRef: PropertyRef): void {
+            this.breakdowns.push({propRef});
+        },
+        changeBreakdownProperty(breakdownIdx: number, propRef: PropertyRef) {
+            this.breakdowns[breakdownIdx] = {
+                propRef,
+            };
+        },
     }
 });
