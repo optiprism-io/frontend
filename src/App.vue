@@ -49,12 +49,8 @@ import Header from "./components/Header.vue";
 }
 
 .pf-c-page {
-    height: 100%;
-}
-
-.pf-c-page {
     background-color: var(--op-base-background);
-    height: 100vh;
+    min-height: 100vh;
 
     &__main-section {
         padding: var(--pf-global--spacer--md);

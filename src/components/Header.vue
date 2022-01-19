@@ -1,13 +1,13 @@
 <template>
-    <header class="op-header">
+    <header class="app-header">
         <div class="pf-l-flex pf-m-justify-content-space-between">
             <div class="pf-l-flex__item">
-                <div class="op-header__menu">
+                <div class="app-header__menu">
                     <UiDropdown :value="'MyShop'" />
                 </div>
             </div>
             <div class="pf-l-flex__item">
-                <div class="op-header__tools">
+                <div class="app-header__tools">
                     <div class="pf-c-page__header-tools-group">
                         <div class="pf-c-page__header-tools-item">
                             <UiButton
@@ -40,7 +40,10 @@ import UiDropdown from "@/components/uikit/UiDropdown.vue";
 </script>
 
 <style scoped lang="scss">
-.op-header {
+.app-header {
+    position: sticky;
+    top: 0;
+    z-index: 101;
     padding: 8px 15px;
     grid-area: header;
     background-color: var(--op-base-color);

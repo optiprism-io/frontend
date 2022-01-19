@@ -44,13 +44,24 @@
                 </div>
             </div>
         </div>
-        <div class="pf-l-grid__item pf-m-12-col pf-u-h-50vh">
-            <div class="pf-c-card pf-m-compact">
-                <div
-                    class="pf-c-card__title pf-u-text-align-center pf-u-font-size-lg pf-u-color-200"
-                >
-                    Select at least one events by clicking
-                    <b>+ add event</b>
+        <div class="pf-l-grid__item pf-m-12-col">
+            <div class="pf-c-card pf-u-p-md">
+                <div class="content-info-controls"></div>
+                <div class="content-info">
+                    <div class="pf-u-display-flex content-info__icons pf-u-color-400">
+                        <UiIcon
+                            class="content-info__icon"
+                            :icon="'fas fa-chart-pie'"
+                        />
+                        <UiIcon
+                            class="content-info__icon"
+                            :icon="'fas fa-chart-line'"
+                        />
+                    </div>
+                    <div class="pf-c-card__title pf-u-text-align-center pf-u-font-size-lg pf-u-color-400">
+                        Select at least one events by clicking
+                        <b>+ add event</b>
+                    </div>
                 </div>
             </div>
         </div>
@@ -84,5 +95,23 @@ onUnmounted(() => {
     color: var(--op-base-color);
     font-size: 1.4rem;
     margin-bottom: .2rem;
+}
+
+.content-info {
+    height: 320px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    &__icons {
+        margin-bottom: 25px;
+        font-size: 68px;
+    }
+
+    &__icon {
+        margin: 0 15px;
+        // color: var(--op-base-color-text);
+    }
 }
 </style>
