@@ -45,7 +45,7 @@
                 v-if="breakdown.error"
                 class="pf-c-action-list__item"
             >
-                <VTooltip theme="ui-hint">
+                <VTooltip popper-class="ui-hint">
                     <UiIcon
                         class="pf-u-warning-color-100"
                         icon="fas fa-exclamation-triangle"

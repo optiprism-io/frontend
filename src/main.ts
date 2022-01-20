@@ -1,13 +1,13 @@
 import "@patternfly/patternfly/patternfly.scss";
 import "@patternfly/patternfly/patternfly-addons.scss";
-import "v-tooltip/dist/v-tooltip.css";
+import 'floating-vue/dist/style.css'
 import "@/assets/styles/main.scss";
 
 import { createApp } from "vue";
 import { createPinia } from "pinia";
 import App from "@/App.vue";
 import makeServer from "@/server";
-import VTooltipPlugin from "v-tooltip";
+import FloatingVue from 'floating-vue'
 import { router } from '@/router'
 import uikitPlugin from "@/plugins/uikit";
 
@@ -18,7 +18,7 @@ if (typeof makeServer === "function") {
 const app = createApp(App);
 
 app.use(createPinia());
-app.use(VTooltipPlugin);
+app.use(FloatingVue);
 app.use(uikitPlugin);
 app.use(router);
 app.mount("#app");

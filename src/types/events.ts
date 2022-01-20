@@ -177,6 +177,7 @@ export type EventQueryRef = {
     typeGroupAggregate?: AggregateId;
     propRef?: PropertyRef;
     name?: string;
+    value?: string;
 };
 
 export interface EventsQuery {
@@ -187,6 +188,7 @@ export interface EventsQuery {
     grouped?: boolean;
     hasProperty?: boolean;
     hasGroupAggregate?: boolean;
+    hasValue?: boolean;
 }
 
 export const eventsQueries: EventsQuery[] = [
@@ -241,5 +243,11 @@ export const eventsQueries: EventsQuery[] = [
         hasAggregate: true,
         hasGroupAggregate: true,
         hasProperty: true
+    },
+    {
+        type: "formula",
+        name: "formula",
+        displayName: "Formula",
+        hasValue: true,
     },
 ]

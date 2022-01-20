@@ -103,6 +103,12 @@
                 </Select>
             </div>
             <div
+                v-if="queryInfo?.hasValue"
+                class="pf-c-action-list__item"
+            >
+                <UiInput @input="changeFormula" />
+            </div>
+            <div
                 v-if="!noDelete"
                 class="pf-c-action-list__item queries__control-item"
                 @click="removeQuery"
@@ -239,6 +245,15 @@ const changeProperty = (payload: PropertyRef) => {
         emit("changeQuery", props.index, {
             ...props.item.queryRef,
             propRef: payload,
+        });
+    }
+};
+
+const changeFormula = (e: any) => {
+    if (props.item.queryRef) {
+        emit("changeQuery", props.index, {
+            ...props.item.queryRef,
+            value: e.target.value
         });
     }
 };
