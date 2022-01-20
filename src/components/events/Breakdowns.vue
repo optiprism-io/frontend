@@ -39,7 +39,12 @@ const eventsStore = useEventsStore();
 const breakdownsStore = useBreakdownsStore();
 
 const eventRefs = computed(() => eventsStore.events.map(item => item.ref));
-const breakdowns = computed(() => breakdownsStore.breakdowns);
+const breakdowns = computed(() => breakdownsStore.breakdowns.map(item => {
+    return {
+        ...item,
+        error: !eventsStore.allSelectedEventPropertyRefs.find(ref => JSON.stringify(ref) === JSON.stringify(item.propRef)),
+    };
+}));
 
 const changeBreakdownProperty = (breakdownIdx: number, propRef: PropertyRef) => {
     breakdownsStore.changeBreakdownProperty(breakdownIdx, propRef);

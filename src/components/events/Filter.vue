@@ -98,6 +98,20 @@
                 </ValueSelect>
             </div>
 
+            <div
+                v-if="filter.error"
+                class="pf-c-action-list__item"
+            >
+                <VTooltip theme="ui-hint">
+                    <UiIcon
+                        class="pf-u-warning-color-100"
+                        icon="fas fa-exclamation-triangle"
+                    />
+                    <template #popper>
+                        This filter will not work because no event was found for the selected property
+                    </template>
+                </VTooltip>
+            </div>
             <div class="pf-c-action-list__item filter__control-item">
                 <UiButton
                     class="pf-m-plain"

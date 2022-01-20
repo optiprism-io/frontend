@@ -35,15 +35,18 @@ import { computed } from "vue";
 import { OperationId, Value } from "@/types";
 import Filter from "@/components/events/Filter.vue";
 import PropertySelect from "@/components/events/PropertySelect.vue";
-import { useFiltersStore, FilterRef } from "@/stores/eventSegmentation/filters";
+import { useFiltersStore } from "@/stores/eventSegmentation/filters";
 import { useEventsStore } from "@/stores/eventSegmentation/events";
-import { useLexiconStore } from "@/stores/lexicon";
 import { PropertyRef } from "@/types/events";
 const filtersStore = useFiltersStore();
 const eventsStore = useEventsStore();
-const lexiconStore = useLexiconStore();
 
-const filters = filtersStore.filters;
+const filters = computed(() => filtersStore.filters.map(item => {
+    return {
+        ...item,
+        error: !eventsStore.allSelectedEventPropertyRefs.find(ref => JSON.stringify(ref) === JSON.stringify(item.propRef)),
+    };
+}));
 const eventRefs = computed(() => eventsStore.events.map(item => item.ref));
 
 const addFilter = (ref: PropertyRef): void => {

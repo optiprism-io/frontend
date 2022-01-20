@@ -33,5 +33,24 @@
         &--hide-to {
             z-index: 0;
         }
+
+        &.v-popper--theme-ui-hint {
+            position: relative;
+            max-width: 18.75rem;
+            background-color: var(--pf-global--BackgroundColor--dark-100);
+            box-shadow: var(--pf-global--BoxShadow--md);
+
+            .v-popper__inner {
+                padding: var(--pf-global--spacer--sm);
+                font-size: var(--pf-global--FontSize--sm);
+                color: var(--pf-c-tooltip__content--Color);
+                text-align: center;
+                word-break: break-word;
+                color: var(--pf-global--Color--light-100)
+            }
+            .v-popper__arrow-inner {
+                color: var(--pf-global--BackgroundColor--dark-100);
+            }
+        }
     }
 }

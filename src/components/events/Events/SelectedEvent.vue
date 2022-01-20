@@ -23,7 +23,7 @@
                     class="pf-c-action-list__item selected-event__control"
                     @click="addQuery"
                 >
-                    <VTooltip>
+                    <VTooltip theme="ui-hint">
                         <UiIcon icon="fas fa-search" />
                         <template #popper>
                             Add Query
@@ -34,7 +34,7 @@
                     class="pf-c-action-list__item selected-event__control"
                     @click="addFilter"
                 >
-                    <VTooltip>
+                    <VTooltip theme="ui-hint">
                         <UiIcon icon="fas fa-filter" />
                         <template #popper>
                             Add Filter
@@ -45,7 +45,7 @@
                     class="pf-c-action-list__item selected-event__control"
                     @click="addBreakdown"
                 >
-                    <VTooltip>
+                    <VTooltip theme="ui-hint">
                         <UiIcon icon="fas fa-layer-group" />
                         <template #popper>
                             Add breakdown
@@ -56,7 +56,7 @@
                     class="pf-c-action-list__item selected-event__control"
                     @click="removeEvent"
                 >
-                    <VTooltip>
+                    <VTooltip theme="ui-hint">
                         <UiIcon icon="fas fa-times" />
                         <template #popper>
                             Remove event

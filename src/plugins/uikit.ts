@@ -11,6 +11,12 @@ const componentMap: any = {
     UiDropdown,
 };
 
+declare module '@vue/runtime-core' {
+    export interface GlobalComponents {
+        UiButton: typeof UiButton,
+    }
+}
+
 export default {
     install(Vue: Application) {
         for (const name in componentMap) {

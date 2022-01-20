@@ -15,10 +15,12 @@ export interface EventFilter {
     opId: OperationId;
     values: Value[];
     valuesList: string[];
+    error?: boolean;
 }
 
 export interface EventBreakdown {
     propRef?: PropertyRef;
+    error?: boolean;
 }
 
 export interface EventQuery {
@@ -48,11 +50,38 @@ const initialQuery = <EventQuery[]>[
     }
 ]
 
+const compudeEventProperties = (type: PropertyType, items: any): PropertyRef[] => {
+    return items.map((item: any) => {
+        return {
+            type: type,
+            id: item.id,
+        };
+    });
+};
+
 export const useEventsStore = defineStore("events", {
     state: (): Events => ({
         events: [],
         group: Group.User,
     }),
+    getters: {
+        allSelectedEventPropertyRefs() {
+            const lexiconStore = useLexiconStore();
+            const items: PropertyRef[] = []
+
+            this.events.forEach(item => {
+                const eventRef = item.ref;
+                items.push(...compudeEventProperties(PropertyType.Event, lexiconStore.findEventProperties(eventRef.id)));
+                items.push(...compudeEventProperties(PropertyType.EventCustom, lexiconStore.findEventCustomProperties(eventRef.id)));
+            });
+
+            return [
+                ...new Set(items),
+                ...compudeEventProperties(PropertyType.User, lexiconStore.userProperties),
+                ...compudeEventProperties(PropertyType.UserCustom, lexiconStore.userCustomProperties),
+            ];
+        },
+    },
     actions: {
         changeEvent(index: number, ref: EventRef): void {
             this.events[index] = <Event>{
