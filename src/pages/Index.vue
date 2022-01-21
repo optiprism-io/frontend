@@ -47,7 +47,15 @@
         <div class="pf-l-grid__item pf-m-12-col">
             <div class="pf-c-card pf-u-p-md">
                 <div class="content-info-controls" />
-                <div class="content-info">
+                <ChartWrapper
+                    v-if="chartEventsOptions"
+                    :options="chartEventsOptions"
+                    :type="'line'"
+                />
+                <div
+                    v-else
+                    class="content-info"
+                >
                     <div class="pf-u-display-flex content-info__icons pf-u-color-400">
                         <UiIcon
                             class="content-info__icon"
@@ -69,20 +77,28 @@
 </template>
 
 <script setup lang="ts">
-import { onBeforeMount, onUnmounted } from "vue";
+import { ref, onBeforeMount, onUnmounted } from "vue";
 import Events from "@/components/events/Events/Events.vue";
 import Breakdowns from "@/components/events/Breakdowns.vue";
 import Filters from "@/components/events/Filters.vue";
+import ChartWrapper from "@/components/charts/ChartWrapper.vue";
 import { useLexiconStore } from "@/stores/lexicon";
 import { useEventsStore } from "@/stores/eventSegmentation/events";
+import eventService from "@/api/services/schema.service";
 
 const lexiconStore = useLexiconStore();
 const eventsStore = useEventsStore();
+const chartEventsOptions = ref();
 
-onBeforeMount(() => {
+onBeforeMount(async () => {
     lexiconStore.getEvents();
     lexiconStore.getEventProperties();
     lexiconStore.getUserProperties();
+
+    const res = await eventService.getEventChart();
+    chartEventsOptions.value = {
+        data: res,
+    };
 });
 
 onUnmounted(() => {

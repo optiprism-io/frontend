@@ -25,7 +25,12 @@ const schemaService = {
      * @param property_type: Available values : event, eventCustom, user, userCustom
      */
     propertiesValues: async (params: PropertiesValues) =>
-        await get("/data/property-values", "", params)
+        await get("/data/property-values", "", params),
+
+
+    // TODO event chart
+    getEventChart: async () =>
+        await get("/chart", "", null),
 };
 
 export default schemaService;

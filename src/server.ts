@@ -1,6 +1,7 @@
 import { createServer } from "miragejs";
 import { DataType } from "@/types";
 import { EventStatus, UserProperty, UserCustomProperty } from "@/types/events";
+import splineChartMocks from "@/mocks/splineChart.json";
 
 export default function ({ environment = "development" } = {}) {
     return createServer({
@@ -415,6 +416,10 @@ export default function ({ environment = "development" } = {}) {
 
             this.get("/data/property-values", (): string[] => {
                 return ["Furniture", "Doors", "Lamp", "Tables", "Shelves"];
+            });
+
+            this.get("/chart", (): any[] => {
+                return splineChartMocks;
             });
         }
     });
