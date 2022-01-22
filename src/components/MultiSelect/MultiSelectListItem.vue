@@ -2,13 +2,13 @@
     <li class="pf-c-menu__list-item">
         <a
             class="pf-c-menu__item"
-            @click="click"
+            @click="onClick(item)"
         >
             <span class="pf-c-menu__item-main">
                 <span class="pf-c-menu__item-icon">
                     <input
-                        v-model="selectedData"
-                        class="pf-c-check__input"
+                        :checked="selected"
+                        class="pf-c-check__input multi-select-list-item__input"
                         type="checkbox"
                     >
                 </span>
@@ -18,32 +18,60 @@
     </li>
 </template>
 
-<script lang="ts" setup>
-import { computed } from "vue";
+<script lang="ts">
+import { defineComponent, PropType } from 'vue';
 
-const props = defineProps<{
-    item: any;
-    selected: boolean;
-    text: string;
-}>();
+class MultiSelectListItemFactory<T = unknown> {
+    define() {
+        return defineComponent({
+            name: 'MultiSelectListItem',
+            props: {
+                item: {
+                    type: null as unknown as PropType<T | undefined>,
+                    default: undefined as unknown,
+                    required: true,
+                },
+                selected: Boolean,
+                text: {
+                    type: String,
+                    default: '',
+                },
+            },
+            emits: {
+                deselect: (payload: T) => payload,
+                select: (payload: T) => payload
+            },
+            setup(props, { emit }) {
 
-const selectedData = computed({
-    get: () => props.selected,
-    set: val => {
-        emit("select", val);
+                const onClick = (value: T) => {
+                    if (props.selected) {
+                        emit('deselect', value);
+                    } else {
+                        emit('select', value);
+                    }
+                };
+
+                return {
+                    onClick,
+                };
+            }
+        })
     }
-});
+}
 
-const emit = defineEmits<{
-    (e: "select", item: any): void;
-    (e: "deselect", item: any): void;
-}>();
+const main = new MultiSelectListItemFactory().define();
 
-const click = () => {
-    if (props.selected) {
-        emit("deselect", props.item);
-    } else {
-        emit("select", props.item);
-    }
-};
+export function GenericMultiSelectListItem<T>() {
+    return main as ReturnType<MultiSelectListItemFactory<T>['define']>;
+}
+
+export default main;
 </script>
+
+<style lang="scss" scoped>
+.multi-select-list-item {
+    &__input {
+        pointer-events: none;
+    }
+}
+</style>

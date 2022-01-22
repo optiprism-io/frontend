@@ -30,7 +30,8 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { Item } from "@/components/MultiSelect/MultiSelect.vue";
-import MultiSelectListItem from "@/components/MultiSelect/MultiSelectListItem.vue";
+import { GenericMultiSelectListItem } from "./MultiSelectListItem.vue";
+const MultiSelectListItem = GenericMultiSelectListItem<'string'>();
 
 const props = defineProps<{
     items: Item[];
@@ -45,11 +46,11 @@ const emit = defineEmits<{
 
 const searchRef = ref("");
 
-const select = (item: any): void => {
+const select = (item: string): void => {
     emit("select", item);
 };
 
-const deselect = (item: any): void => {
+const deselect = (item: string): void => {
     emit("deselect", item);
 };
 
