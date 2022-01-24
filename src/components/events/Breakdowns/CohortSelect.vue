@@ -24,8 +24,8 @@ const emit = defineEmits<{
 
 const lexiconStore = useLexiconStore();
 
-let items = computed((): Item[] => {
-    const ret: Item[] = [];
+let items = computed(() => {
+    const ret: Item<number, null>[] = [];
 
     if (lexiconStore.cohorts) {
         lexiconStore.cohorts.forEach(cohort => ret.push({ item: cohort.id, name: cohort.name }));

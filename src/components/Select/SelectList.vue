@@ -79,6 +79,7 @@
 </template>
 
 <script setup lang="ts">
+// TODO add generics
 import { computed, ref } from "vue";
 import { Group, Item } from "@/components/Select/SelectTypes";
 import SelectListItem from "@/components/Select/SelectListItem.vue";
@@ -90,7 +91,7 @@ const emit = defineEmits<{
 }>();
 
 const props = defineProps<{
-    items: Item[] | Group[];
+    items: Item<any, any>[] | Group<any>[];
     grouped: boolean;
     selected?: any;
     showSearch?: boolean;
@@ -98,19 +99,19 @@ const props = defineProps<{
 
 const search = ref("");
 
-const groupedItems = computed((): Group[] => {
+const groupedItems = computed((): Group<any>[] => {
     if (props.grouped) {
-        return props.items as Group[];
+        return props.items as Group<any>[];
     } else {
         return [];
     }
 });
 
-const itemItems = computed((): Item[] => {
+const itemItems = computed((): Item<any, any>[] => {
     if (props.grouped) {
         return [];
     } else {
-        return props.items as Item[];
+        return props.items as Item<any, any>[];
     }
 });
 

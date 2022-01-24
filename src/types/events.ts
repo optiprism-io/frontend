@@ -172,7 +172,7 @@ export interface UserCustomProperty {
 export type QueryType = "simple" | "countPerGroup" | "aggregateProperty" | "aggregatePropertyPerGroup" | "formula";
 
 export type EventQueryRef = {
-    type: QueryType;
+    type?: QueryType;
     typeAggregate?: AggregateId;
     typeGroupAggregate?: AggregateId;
     propRef?: PropertyRef;

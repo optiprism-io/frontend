@@ -28,8 +28,8 @@ const emit = defineEmits<{
     (e: "select", opId: OperationId): void;
 }>();
 
-const items = computed((): Item[] => {
-    let ret: Item[] = [];
+const items = computed(() => {
+    let ret: Item<OperationId, null>[] = [];
 
     if (props.propertyRef.type === PropertyType.Event) {
         const prop = lexiconStore.findEventPropertyById(props.propertyRef.id);

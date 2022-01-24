@@ -54,6 +54,7 @@
 </template>
 
 <script setup lang="ts">
+// TODO add generics
 import { computed, ref, onBeforeMount, watchEffect } from "vue";
 import SelectList from "@/components/Select/SelectList.vue";
 import UiSpinner from "@/components/uikit/UiSpinner.vue";
@@ -104,8 +105,8 @@ const selectedItem = computed(() => {
 const itemsWithSearch = computed(() => {
     if (search.value) {
         if (props.grouped) {
-            return props.items.reduce((acc: Group[], item: Group) => {
-                const innerItems: Item[] = item.items.filter(item => {
+            return props.items.reduce((acc: Group<any>[], item: Group<any>) => {
+                const innerItems: Item<any, any>[] = item.items.filter((item: Item<any, any>) => {
                     const name = item.name.toLowerCase();
 
                     return name.search(search.value) >= 0;
@@ -135,15 +136,15 @@ const itemsWithSearch = computed(() => {
 const selectedDescription = computed(() => {
     let item: any = null;
     if (props.grouped) {
-        itemsWithSearch.value.forEach((group: Group) => {
-            group.items.forEach((groupItem: Item) => {
+        itemsWithSearch.value.forEach((group: Group<any>) => {
+            group.items.forEach((groupItem: Item<any, any>) => {
                 if (JSON.stringify(selectedItem.value) === JSON.stringify(groupItem.item)) {
                     item = groupItem;
                 }
             });
         });
     } else {
-        itemsWithSearch.value.forEach((groupItem: Item) => {
+        itemsWithSearch.value.forEach((groupItem: Item<any, any>) => {
             if (JSON.stringify(selectedItem.value) === JSON.stringify(groupItem.item)) {
                 item = groupItem;
             }
@@ -166,7 +167,7 @@ const select = (item: any): void => {
     emit("select", item);
 };
 
-const hover = (item: Item): void => {
+const hover = (item: Item<any, any>): void => {
     if (item) {
         description.value = item?.description || "";
         selectedItemLocal.value = item.item;

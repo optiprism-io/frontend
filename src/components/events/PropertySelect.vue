@@ -47,14 +47,14 @@ const checkDisable = (propRef: PropertyRef): boolean => {
     return props.disabledItems ? Boolean(props.disabledItems.find((item) => JSON.stringify(item.propRef) === JSON.stringify(propRef))) : false;
 };
 
-const getEventProperties = (eventRef: EventRef): Group[] => {
-    const properties: Group[] = [];
+const getEventProperties = (eventRef: EventRef) => {
+    const properties: Group<Item<PropertyRef, null>[]>[] = [];
 
     if (eventRef.type == EventType.Regular) {
         const eventProperties = lexiconStore.findEventProperties(eventRef.id);
 
         if (eventProperties.length) {
-            let items: Item[] = [];
+            let items: Item<PropertyRef, null>[] = [];
             eventProperties.forEach((prop: EventProperty): void => {
                 const propertyRef: PropertyRef = {
                     type: PropertyType.Event,
@@ -67,13 +67,13 @@ const getEventProperties = (eventRef: EventRef): Group[] => {
                     disabled: checkDisable(propertyRef),
                 });
             });
-            properties.push({ name: "Event Properties", items: items });
+            properties.push({ name: "Event Properties", items, });
         }
 
         const eventCustomProperties = lexiconStore.findEventCustomProperties(eventRef.id);
 
         if (eventCustomProperties.length) {
-            let items: Item[] = [];
+            let items: Item<PropertyRef, null>[] = [];
 
             eventCustomProperties.forEach((prop: EventCustomProperty): void => {
                 const propertyRef: PropertyRef = {
@@ -97,11 +97,11 @@ const getEventProperties = (eventRef: EventRef): Group[] => {
     return properties;
 }
 
-const items = computed((): Group[] => {
-    let ret: Group[] = [];
+const items = computed(() => {
+    let ret: Group<Item<PropertyRef, null>[]>[] = [];
 
     if (lexiconStore.userProperties.length) {
-        let items: Item[] = [];
+        let items: Item<PropertyRef, null>[] = [];
         lexiconStore.userProperties.forEach((prop: UserProperty): void => {
             const propertyRef: PropertyRef = {
                 type: PropertyType.User,
@@ -119,7 +119,7 @@ const items = computed((): Group[] => {
     }
 
     if (lexiconStore.userCustomProperties.length) {
-        let items: Item[] = [];
+        let items: Item<PropertyRef, null>[] = [];
         lexiconStore.userCustomProperties.forEach((prop: UserCustomProperty): void => {
             const propertyRef: PropertyRef = {
                 type: PropertyType.UserCustom,

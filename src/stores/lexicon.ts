@@ -213,11 +213,11 @@ export const useLexiconStore = defineStore("lexicon", {
                 throw new Error(`undefined cohort id: {$id}`);
             };
         },
-        eventsList(state: Lexicon): Group[] {
-            const eventsList: Group[] = [];
+        eventsList(state: Lexicon) {
+            const eventsList: Group<Item<EventRef, null>[]>[] = [];
 
             if (state.customEvents.length) {
-                const items: Item[] = [];
+                const items: Item<EventRef, null>[] = [];
 
                 state.customEvents.forEach((e: CustomEvent) => {
                     items.push({
@@ -233,14 +233,14 @@ export const useLexiconStore = defineStore("lexicon", {
             }
 
             state.events.forEach((e: Event) => {
-                const item: Item = {
+                const item: Item<EventRef, null> = {
                     item: eventRef(e),
                     name: e.displayName || e.name,
                     description: e?.description
                 };
 
-                const setToList = (name: string, item: Item) => {
-                    const group = eventsList.find((g: Group) => g.name === name);
+                const setToList = (name: string, item: Item<EventRef, null>) => {
+                    const group = eventsList.find(g => g.name === name);
 
                     if (!group) {
                         eventsList.push({
@@ -263,22 +263,20 @@ export const useLexiconStore = defineStore("lexicon", {
 
             return eventsList;
         },
-        eventsQueryAggregates(): Item[] {
-            return aggregates.map(aggregate => {
-                return {
-                    item: {
-                        typeAggregate: aggregate.id
-                    },
-                    name: aggregate.name
-                };
-            });
+        eventsQueryAggregates() {
+            return aggregates.map((aggregate): Item<EventQueryRef, null> => ({
+                item: {
+                    typeAggregate: aggregate.id,
+                },
+                name: aggregate.name || '',
+            }));
         },
-        eventsQueries(state: Lexicon): Item[] {
+        eventsQueries(state: Lexicon) {
             const eventsStore: Events = useEventsStore();
 
-            return eventsQueries.map(item => {
-                const query: Item = {
-                    item: <EventQueryRef>{
+            return eventsQueries.map((item) => {
+                const query: Item<EventQueryRef, Item<EventQueryRef, null>[] | undefined> = {
+                    item: {
                         type: item.type,
                         name: item.name || '',
                     },
@@ -299,9 +297,9 @@ export const useLexiconStore = defineStore("lexicon", {
                 }) : ref;
             }
         },
-        findQueryItem(state: Lexicon) {
-            return (ref: EventQueryRef): Item | undefined => {
-                return this.eventsQueries.find((query: Item) => {
+        findQueryItem() {
+            return (ref: EventQueryRef): Item<EventQueryRef, Item<EventQueryRef, null>[] | undefined> | undefined => {
+                return this.eventsQueries.find(query => {
                     return JSON.stringify(query.item) === JSON.stringify(ref);
                 });
             };

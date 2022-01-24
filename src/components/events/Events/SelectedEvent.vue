@@ -116,7 +116,7 @@ import Select from "@/components/Select/Select.vue";
 import Filter from "@/components/events/Filter.vue";
 import Breakdown from "@/components/events/Breakdown.vue";
 import Query from "@/components/events/Events/Query.vue";
-import { Group } from "@/components/Select/SelectTypes";
+import { Group, Item } from "@/components/Select/SelectTypes";
 import AlphabetIdentifier from "@/components/AlphabetIdentifier.vue";
 
 const props = withDefaults(
@@ -124,7 +124,7 @@ const props = withDefaults(
         eventRef: EventRef;
         filters: EventFilter[];
         breakdowns: EventBreakdown[];
-        eventItems: Group[];
+        eventItems: Group<Item<EventRef, null>[]>[];
         index: number;
         queries: EventQuery[];
     }>(), {

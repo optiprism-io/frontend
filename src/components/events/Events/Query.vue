@@ -180,7 +180,7 @@ const showAggregateText = computed(() => {
     return showGroupAggregate.value || showOnlyAggregate.value;
 });
 
-const selectedAggregate = computed((): Item | undefined => {
+const selectedAggregate = computed((): Item<EventQueryRef, null> | undefined => {
     return props.item?.queryRef?.typeAggregate ? lexiconStore.eventsQueryAggregates.find(item => props.item?.queryRef?.typeAggregate === item.item.typeAggregate) : undefined;
 });
 
@@ -192,7 +192,7 @@ const selectedAggregateRef = computed((): AggregateRef | undefined => {
     return selectedAggregate.value?.item || undefined;
 });
 
-const selectedGroupAggregate = computed((): Item | undefined => {
+const selectedGroupAggregate = computed((): Item<EventQueryRef, null> | undefined => {
     return props.item?.queryRef?.typeGroupAggregate ?
         lexiconStore.eventsQueryAggregates.find(item => props.item?.queryRef?.typeGroupAggregate === item.item.typeAggregate) :
         undefined;

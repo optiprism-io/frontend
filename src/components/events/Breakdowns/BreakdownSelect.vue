@@ -18,7 +18,11 @@ import {
     newBreakdownCohort,
     newBreakdownEventCommonProperty,
     newBreakdownUserCustomProperty,
-    newBreakdownUserProperty
+    newBreakdownUserProperty,
+    BreakdownUserProperty,
+    BreakdownUserCustomProperty,
+    BreakdownCohort,
+    BreakdownEventCommonProperty,
 } from "@/stores/eventSegmentation/breakdowns";
 import { UserCustomProperty, UserProperty } from "@/types/events";
 import { useLexiconStore } from "@/stores/lexicon";
@@ -36,16 +40,16 @@ const lexiconStore = useLexiconStore();
 const eventStore = useEventsStore();
 const events = eventStore.events;
 
-const items = computed((): Group[] => {
-    let ret: Group[] = [];
+const items = computed(() => {
+    let ret: Group<Item<BreakdownCohort | BreakdownUserProperty | BreakdownUserCustomProperty | BreakdownEventCommonProperty, null>[]>[] = [];
     {
-        let items: Item[] = [];
+        let items: Item<BreakdownCohort, null>[] = [];
         items.push({ item: newBreakdownCohort(), name: "Cohort" });
         ret.push({ name: "", items: items });
     }
 
     if (lexiconStore.userProperties.length > 0) {
-        let items: Item[] = [];
+        let items: Item<BreakdownUserProperty, null>[] = [];
         lexiconStore.userProperties.forEach((prop: UserProperty): void => {
             items.push({
                 item: newBreakdownUserProperty(prop.id),
@@ -56,7 +60,7 @@ const items = computed((): Group[] => {
     }
 
     if (lexiconStore.userCustomProperties.length > 0) {
-        let items: Item[] = [];
+        let items: Item<BreakdownUserCustomProperty, null>[] = [];
         lexiconStore.userCustomProperties.forEach((prop: UserCustomProperty): void => {
             items.push({
                 item: newBreakdownUserCustomProperty(prop.id),
@@ -121,7 +125,7 @@ const items = computed((): Group[] => {
         }
 
         if (firstProps.length > 0) {
-            let items: Item[] = [];
+            let items: Item<BreakdownEventCommonProperty, null>[] = [];
             firstProps.forEach(prop =>
                 items.push({
                     item: newBreakdownEventCommonProperty(prop.id),
@@ -133,7 +137,7 @@ const items = computed((): Group[] => {
         }
 
         if (firstCustomProps.length > 0) {
-            let items: Item[] = [];
+            let items: Item<BreakdownEventCommonProperty, null>[] = [];
             firstCustomProps.forEach(prop =>
                 items.push({
                     item: newBreakdownEventCommonProperty(prop.id),

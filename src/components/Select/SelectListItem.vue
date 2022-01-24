@@ -56,12 +56,12 @@
 </template>
 
 <script lang="ts" setup>
-import { Item } from "@/components/Select/SelectTypes";
+// TODO add generic
 import { computed } from "vue";
 
 const props = defineProps<{
     item: any;
-    items?: Item[];
+    items?: any[];
     selected?: any;
     text: string;
     isDisabled?: boolean;
