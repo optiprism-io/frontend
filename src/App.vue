@@ -1,88 +1,69 @@
-<script setup lang="ts">
-import Events from "./components/events/Events/Events.vue";
-import Breakdowns from "./components/events/Breakdowns/Breakdowns.vue";
-import Filters from "./components/events/Filters/Filters.vue";
-import Header from './components/Header.vue'
-</script>
-
 <template>
-  <div class="pf-c-page" id="card-view-example">
-    <a
-        class="pf-c-skip-to-content pf-c-button pf-m-primary"
-        href="#main-content-card-view-example"
-    >Skip to content</a>
-    <Header/>
-    <main
-        class="pf-c-page__main"
-        tabindex="-1"
-        id="main-content-card-view-example"
-    >
-      <section class="pf-c-page__main-section pf-m-light">
-        <div class="pf-c-content">
-          <h1>Untitled query</h1>
-          <p>This is a demo that showcases PatternFly cards.</p>
-        </div>
-      </section>
-      <section class="pf-c-page__main-section">
-        <div class="pf-l-grid pf-m-gutter">
-          <div class="pf-l-grid__item pf-m-6-col">
-            <div class="pf-c-card pf-m-hoverable pf-m-compact">
-              <div class="pf-c-card__title">
-                <p>Events</p>
-              </div>
-              <div class="pf-c-card__body">
-                <Events/>
-              </div>
-            </div>
-          </div>
-          <div class="pf-l-grid__item pf-m-6-col pf-m-4-row">
-          </div>
-          <div class="pf-l-grid__item pf-m-6-col">
-            <div class="pf-c-card pf-m-hoverable pf-m-compact">
-              <div class="pf-c-card__title">
-                <p>Filters</p>
-              </div>
-              <div class="pf-c-card__body">
-                <Filters/>
-              </div>
-            </div>
-          </div>
-          <div class="pf-l-grid__item pf-m-6-col">
-            <div class="pf-c-card pf-m-hoverable pf-m-compact">
-              <div class="pf-c-card__title">
-                <p>Breakdowns</p>
-              </div>
-              <div class="pf-c-card__body">
-                <Breakdowns/>
-              </div>
-            </div>
-          </div>
-
-          <div class="pf-l-grid__item pf-m-6-col">
-            <div class="pf-c-card pf-m-hoverable pf-m-compact">
-              <div class="pf-c-card__title">
-                <p>Breakdowns</p>
-              </div>
-              <div class="pf-c-card__body">
-                <Breakdowns/>
-              </div>
-            </div>
-          </div>
-          <div class="pf-l-grid__item pf-m-12-col">12 col</div>
-        </div>
-
-      </section>
-
-
-    </main>
-  </div>
+    <div class="pf-c-page">
+        <Header />
+        <main class="pf-c-page__main">
+            <router-view />
+        </main>
+    </div>
 </template>
 
-<style>
-:root {
-  --pf-global--spacer--md: .7rem;
-  --pf-global--FontSize--md: 0.9rem;
-  --pf-c-page__main-section--PaddingTop: 1rem;
-  --pf-global--gutter: .7rem;
+<script setup lang="ts">
+import Header from "./components/Header.vue";
+</script>
+
+<style lang="scss">
+@mixin styled-scroll {
+    scrollbar-width: thin;
+    scrollbar-color: var(--pf-global--palette--black-150) transparent;
+
+    &::-webkit-scrollbar {
+        margin-top: 1rem;
+        display: block;
+        width: 0.6rem;
+        height: 0.6rem;
+    }
+
+    &::-webkit-scrollbar-track {
+        background-color: var(--pf-global--BackgroundColor--200);
+        border-radius: 0.4rem;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background-color: #979da3;
+        border-radius: 0.4rem;
+    }
+}
+
+.pf-icon {
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    display: inline-block;
+    font-style: normal;
+    font-variant: normal;
+    text-rendering: auto;
+    line-height: 1;
+}
+
+#app {
+    min-height: 100vh;
+}
+
+.pf-c-page {
+    background-color: var(--op-base-background);
+    min-height: 100vh;
+
+    &__main-section {
+        padding: var(--pf-global--spacer--md);
+    }
+}
+
+.pf-c-menu.pf-m-scrollable {
+    .pf-c-menu__content {
+        @include styled-scroll();
+    }
+}
+
+.op-opacity-0 {
+    opacity: 0;
 }
 </style>

@@ -1,53 +1,78 @@
 <template>
-  <Popper placement="bottom-start" :key="key" ref="popper">
-    <slot></slot>
-    <template #content={close}>
-      <div class="pf-c-card pf-m-compact pf-u-min-width" style="--pf-u-min-width--MinWidth: 350px;">
-        <MultiSelectList
-            :items="items"
-            :selected="selected"
-            @select="select"
-            @deselect="deselect"
-        />
-      </div>
-    </template>
-  </Popper>
+    <VDropdown
+        placement="bottom-start"
+        class="multi-select"
+    >
+        <span class="multi-select__action">
+            <slot />
+        </span>
+        <template #popper>
+            <div
+                class="pf-c-card pf-m-compact pf-u-min-width"
+            >
+                <MultiSelectList
+                    :items="itemsSelect"
+                    :selected="selected"
+                    @select="select"
+                    @deselect="deselect"
+                    @search="search"
+                />
+            </div>
+        </template>
+    </VDropdown>
 </template>
 
 <script setup lang="ts">
-import Popper from "../../vue3-popper";
-import MultiSelectList from "./MultiSelectList.vue";
-import {ref} from "vue";
+import MultiSelectList from "@/components/MultiSelect/MultiSelectList.vue";
+import { ref, computed } from "vue";
 
 export interface Item {
-  item: any;
-  name: string
+    item: any;
+    name: string;
 }
 
 const emit = defineEmits<{
-  (e: 'select', item: any): void
-  (e: 'deselect', item: any): void
-}>()
+    (e: "select", item: any): void;
+    (e: "deselect", item: any): void;
+    (e: "search", payload: string): void;
+}>();
 
-const props = withDefaults(defineProps<{
-  items: Item[];
-  selected?: any;
-}>(), {
-});
+const props = defineProps<{
+    items: Item[];
+    selected?: any;
+}>();
 
 let key = ref(0);
+const searchRef = ref("");
+
+const itemsSelect = computed(() => {
+    if (searchRef.value) {
+        return props.items.filter((item: any) => {
+            const name = item.name.toLowerCase();
+
+            return name.search(searchRef.value) >= 0;
+        });
+    } else {
+        return props.items;
+    }
+});
 
 const select = (item: any): void => {
-  emit('select', item);
-}
+    emit("select", item);
+};
 
 const deselect = (item: any): void => {
-  emit('deselect', item);
-}
+    emit("deselect", item);
+};
+
+const search = (payload: string) => {
+    searchRef.value = payload.toLowerCase();
+    emit("search", payload);
+};
 </script>
 
 <style scoped>
 .event-select__description {
-  border-left: 1px solid #d2d2d2;
+    border-left: 1px solid #d2d2d2;
 }
 </style>
