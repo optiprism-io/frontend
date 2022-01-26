@@ -51,7 +51,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onBeforeMount, onUnmounted } from "vue";
+import { onBeforeMount, onUnmounted } from "vue";
 import Events from "@/components/events/Events/Events.vue";
 import Breakdowns from "@/components/events/Breakdowns.vue";
 import Filters from "@/components/events/Filters.vue";

@@ -1,8 +1,8 @@
 <template>
     <input
         class="pf-c-form-control"
-        :value="value"
-        :type="type"
+        :value="props.value"
+        :type="props.type"
         @input="input"
         @blur="blur"
     >
@@ -16,7 +16,7 @@ interface Props {
     type?: string;
 }
 
-withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<Props>(), {
     value: "",
     type: "text"
 });

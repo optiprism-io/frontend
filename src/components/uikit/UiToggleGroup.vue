@@ -12,7 +12,7 @@
             <slot name="before" />
         </div>
         <div
-            v-for="item in items"
+            v-for="item in props.items"
             :key="item.key"
             class="pf-c-toggle-group__item"
         >
@@ -65,7 +65,7 @@ export interface Props {
     isCompact?: boolean,
 }
 
-withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<Props>(), {
     isCompact: false,
 });
 

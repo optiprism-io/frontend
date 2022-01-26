@@ -68,7 +68,7 @@ export const useEventsStore = defineStore("events", {
         group: Group.User,
 
         controlsGroupBy: 'day',
-        controlsPeriod: '',
+        controlsPeriod: '1',
     }),
     getters: {
         allSelectedEventPropertyRefs() {
