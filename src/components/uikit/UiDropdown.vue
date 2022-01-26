@@ -1,66 +1,65 @@
 <template>
-    <div class="ui-dropdown">
-        <VDropdown placement="bottom-end">
-            <div class="pf-c-dropdown">
-                <UiButton class="pf-m-bright">
-                    <span class="pf-c-dropdown__toggle-text">{{ value }}</span>
-                    <span class="pf-c-dropdown__toggle-icon">
-                        <i
-                            class="fas fa-caret-down"
-                            aria-hidden="true"
-                        />
-                    </span>
-                </UiButton>
-            </div>
-
+    <div class="pf-c-dropdown pf-m-expanded">
+        <VDropdown
+            placement="bottom-start"
+            :triggers="[]"
+            :shown="isOpen"
+            @hide="onHide"
+        >
+            <template v-if="$slots.button">
+                <slot name="button" />
+            </template>
+            <button
+                v-else
+                class="pf-c-dropdown__toggle"
+                aria-expanded="true"
+                type="button"
+                @click="onToggle"
+            >
+                <span
+                    class="pf-c-dropdown__toggle-text"
+                    :class="{
+                        'pf-u-color-400': !textValue,
+                    }"
+                >
+                    {{ textValue }}
+                </span>
+                <span class="pf-c-dropdown__toggle-icon">
+                    <i
+                        class="fas fa-caret-down"
+                        aria-hidden="true"
+                    />
+                </span>
+            </button>
             <template #popper>
                 <div class="pf-c-dropdown">
                     <ul
                         class="pf-c-dropdown__menu"
-                        aria-labelledby="card-view-example-dropdown-kebab-2-button"
+                        aria-labelledby="dropdown-expanded-button"
                     >
-                        <li>
-                            <a
-                                class="pf-c-dropdown__menu-item"
-                                href="#"
-                            >Link</a>
-                        </li>
-                        <li>
-                            <button
-                                class="pf-c-dropdown__menu-item"
-                                type="button"
-                            >
-                                Action
-                            </button>
-                        </li>
-                        <li>
-                            <a
-                                class="pf-c-dropdown__menu-item pf-m-disabled"
-                                href="#"
-                                aria-disabled="true"
-                                tabindex="-1"
-                            >
-                                Disabled link
-                            </a>
-                        </li>
-                        <li>
-                            <button
-                                class="pf-c-dropdown__menu-item"
-                                type="button"
-                                disabled
-                            >
-                                Disabled action
-                            </button>
-                        </li>
                         <li
-                            class="pf-c-divider"
-                            role="separator"
-                        />
-                        <li>
+                            v-for="item in items"
+                            :key="item.key"
+                            v-close-popper
+                            @click="onClick(item)"
+                        >
                             <a
+                                v-if="item.href"
                                 class="pf-c-dropdown__menu-item"
                                 href="#"
-                            >Separated link</a>
+                            >
+                                {{ item.nameDisplay }}
+                            </a>
+                            <button
+                                v-else
+                                class="pf-c-dropdown__menu-item"
+                                :class="{
+                                    'pf-u-background-color-200': item.selected,
+                                }"
+                                type="button"
+                            >
+                                {{ item.nameDisplay }}
+                            </button>
                         </li>
                     </ul>
                 </div>
@@ -69,10 +68,81 @@
     </div>
 </template>
 
-<script setup lang="ts">
-defineProps<{
-    value?: string;
-}>();
+<script lang="ts">
+import { defineComponent, PropType, ref, computed } from 'vue';
+
+export interface UiDropdownItem<T> {
+    key: string | number;
+    nameDisplay: string;
+    value: T;
+    selected?: boolean;
+    disabled?: boolean;
+    iconBefore?: boolean;
+    iconAfter?: string;
+    href?: string;
+}
+
+class UiDropdownFactory<T = unknown> {
+    define() {
+        return defineComponent({
+            name: 'UiDropdown',
+            props: {
+                items: {
+                    type: Array as PropType<UiDropdownItem<T>[]>,
+                    required: true,
+                },
+                isCompact: Boolean,
+                placeholder: {
+                    type: String,
+                    default: '',
+                },
+                textButton: {
+                    type: String,
+                    default: '',
+                },
+            },
+            emits: {
+                deselect: (payload: UiDropdownItem<T>) => payload,
+                select: (payload: UiDropdownItem<T>) => payload
+            },
+            setup(props, { emit }) {
+
+                const isOpen = ref(false);
+                const textValue = computed(() => {
+                    return props.textButton ? props.textButton : props.placeholder;
+                })
+
+                const onClick = (item: UiDropdownItem<T>) => {
+                    emit('select', item);
+                };
+
+                const onToggle = () => {
+                    isOpen.value = !isOpen.value;
+                };
+
+                const onHide = () => {
+                    isOpen.value = false;
+                };
+
+                return {
+                    isOpen,
+                    textValue,
+                    onClick,
+                    onHide,
+                    onToggle,
+                };
+            }
+        })
+    }
+}
+
+const main = new UiDropdownFactory().define();
+
+export function GenericUiDropdown<T>() {
+    return main as ReturnType<UiDropdownFactory<T>['define']>;
+}
+
+export default main;
 </script>
 
 <style lang="scss">
@@ -92,8 +162,15 @@ defineProps<{
 }
 
 .pf-c-dropdown {
+    --min-width: 10rem;
+
+    &__toggle {
+        min-width: var(--min-width);
+    }
+
     &__menu {
         position: initial;
+        min-width: var(--min-width);
     }
 }
 </style>

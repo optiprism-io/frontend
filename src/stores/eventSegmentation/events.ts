@@ -38,6 +38,9 @@ export type Event = {
 export type Events = {
     events: Event[];
     group: Group;
+
+    controlsGroupBy: string;
+    controlsPeriod: string | number;
 };
 
 const initialQuery = <EventQuery[]>[
@@ -63,6 +66,9 @@ export const useEventsStore = defineStore("events", {
     state: (): Events => ({
         events: [],
         group: Group.User,
+
+        controlsGroupBy: 'day',
+        controlsPeriod: '',
     }),
     getters: {
         allSelectedEventPropertyRefs() {
