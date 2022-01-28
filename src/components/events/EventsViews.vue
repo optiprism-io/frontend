@@ -50,18 +50,18 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed, onBeforeMount } from "vue";
+import {ref, computed, onBeforeMount} from "vue";
 import ChartWrapper from "@/components/charts/ChartWrapper.vue";
-import { UiDropdownItem, GenericUiDropdown } from "@/components/uikit/UiDropdown.vue";
-import { useEventsStore } from "@/stores/eventSegmentation/events";
+import {UiDropdownItem, GenericUiDropdown} from "@/components/uikit/UiDropdown.vue";
+import {useEventsStore} from "@/stores/eventSegmentation/events";
 import eventService from "@/api/services/schema.service";
-import { groupByMap, periodMap } from "@/configs/events/controls" ;
-import { UiToggleGroupItem } from "@/components/uikit/UiToggleGroup.vue";
+import {groupByMap, periodMap} from "@/configs/events/controls" ;
+import {UiToggleGroupItem} from "@/components/uikit/UiToggleGroup.vue";
+
 const UiDropdown = GenericUiDropdown<string>();
 
 const eventsStore = useEventsStore();
 const chartEventsOptions = ref();
-
 
 const itemsGroupBy = computed(() => {
     return groupByMap.map((key): UiDropdownItem<string> => ({

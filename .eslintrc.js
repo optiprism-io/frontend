@@ -9,7 +9,7 @@ module.exports = {
     extends: [
         "plugin:vue/vue3-recommended",
         "eslint:recommended",
-        "@vue/typescript/recommended",
+        "@vue/typescript/recommended"
     ],
     parserOptions: {
         ecmaVersion: 2021
@@ -24,7 +24,7 @@ module.exports = {
         "@typescript-eslint/no-non-null-assertion": "off",
         "@typescript-eslint/no-unused-vars": ["off", { argsIgnorePattern: "^_" }],
         "indent": ["warn", 4, {
-            "SwitchCase": 1,
+            "SwitchCase": 1
         }],
         "vue/html-indent": ["warn", 4, {
             "attribute": 1,

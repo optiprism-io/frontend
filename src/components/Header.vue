@@ -3,7 +3,9 @@
         <div class="pf-l-flex pf-m-justify-content-space-between">
             <div class="pf-l-flex__item">
                 <div class="app-header__menu">
-                    <UiDropdown :value="'MyShop'" />
+                    <UiDropdown
+                        :items="items"
+                    />
                 </div>
             </div>
             <div class="pf-l-flex__item">
@@ -26,7 +28,7 @@
                     </div>
                     <div class="pf-c-page__header-tools-group">
                         <div class="pf-c-page__header-tools-item">
-                            <UiDropdown :value="'Jone Smith'" />
+                            <UiDropdown :items="items" />
                         </div>
                     </div>
                 </div>
@@ -37,6 +39,20 @@
 
 <script setup lang="ts">
 import UiDropdown from "@/components/uikit/UiDropdown.vue";
+
+const items = [
+    {
+        key: 1,
+        value: 1,
+        nameDisplay: "Menu Item 1"
+    },
+    {
+        key: 2,
+        value: 2,
+        nameDisplay: "Menu Item 2"
+    }
+];
+
 </script>
 
 <style scoped lang="scss">
