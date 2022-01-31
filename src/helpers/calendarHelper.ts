@@ -14,6 +14,10 @@ const getFirstDayOfWeek = (firstDayBackend: number = DEFAULT_FIRST_DAY): number 
     }
 };
 
+export function dateDiff(first: string, second: string) {
+    return Math.round((new Date(second).getTime() - new Date(first).getTime()) / (1000 * 60 * 60 * 24));
+}
+
 export function getDaysInMonthsCount({year, month}: { year: number, month: number }) {
     return 32 - (new Date(year, month, 32)).getDate();
 }

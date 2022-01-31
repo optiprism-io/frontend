@@ -4,7 +4,7 @@ export const periodMap = [
     {
         type: 'minute',
         text: 'min',
-        items: ['5', '15', '30', '45'],
+        items: ['15', '30', '45'],
     },
     {
         type: 'hour',
@@ -24,6 +24,6 @@ export const periodMap = [
     {
         type: 'month',
         text: 'm',
-        items: ['1', '3', '6', '12'],
+        items: ['3', '6', '9'],
     },
 ]

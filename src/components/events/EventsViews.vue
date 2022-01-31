@@ -14,7 +14,33 @@
                         <UiToggleGroup
                             :items="itemsPeriod"
                             @select="onSelectPerion"
-                        />
+                        >
+                            <template #after>
+                                <UiDatePicker
+                                    :value="calendarValue"
+                                    :last-count="eventsStore.period.last"
+                                    :active-tab-controls="eventsStore.period.type"
+                                    :controls-group-by="eventsStore.controlsGroupBy"
+                                    @on-apply="onApplyPeriod"
+                                >
+                                    <template #action>
+                                        <button
+                                            class="pf-c-toggle-group__button"
+                                            :class="{
+                                                'pf-m-selected': calendarValueString,
+                                            }"
+                                            type="button"
+                                        >
+                                            <div class="pf-u-display-flex pf-u-align-items-center">
+                                                <UiIcon :icon="'far fa-calendar-alt'" />
+                                                &nbsp;
+                                                {{ calendarValueString }}
+                                            </div>
+                                        </button>
+                                    </template>
+                                </UiDatePicker>
+                            </template>
+                        </UiToggleGroup>
                     </div>
                 </div>
             </div>
@@ -55,13 +81,31 @@ import ChartWrapper from "@/components/charts/ChartWrapper.vue";
 import {UiDropdownItem, GenericUiDropdown} from "@/components/uikit/UiDropdown.vue";
 import {useEventsStore} from "@/stores/eventSegmentation/events";
 import eventService from "@/api/services/schema.service";
-import {groupByMap, periodMap} from "@/configs/events/controls" ;
-import {UiToggleGroupItem} from "@/components/uikit/UiToggleGroup.vue";
+import {groupByMap, periodMap} from "@/configs/events/controls";
+import UiToggleGroup, {UiToggleGroupItem} from "@/components/uikit/UiToggleGroup.vue";
+import UiIcon from "@/components/uikit/UiIcon.vue";
+import UiDatePicker, { ApplyPayload } from "@/components/uikit/UiDatePicker.vue";
 
 const UiDropdown = GenericUiDropdown<string>();
-
 const eventsStore = useEventsStore();
 const chartEventsOptions = ref();
+
+const calendarValue = computed(() => {
+    return {
+        from: eventsStore.period.from,
+        to: eventsStore.period.to,
+        multiple: false,
+        dates: [],
+    };
+});
+
+const calendarValueString = computed(() => {
+    if (eventsStore.period.type === 'last' && eventsStore.period.from && eventsStore.period.to) {
+        return `Last ${eventsStore.period.last} ${eventsStore.controlsGroupBy}`;
+    } else {
+        return '';
+    }
+});
 
 const itemsGroupBy = computed(() => {
     return groupByMap.map((key): UiDropdownItem<string> => ({
@@ -75,7 +119,6 @@ const itemsGroupBy = computed(() => {
 const itemsPeriod = computed(() => {
     const activeKey: string = eventsStore.controlsGroupBy;
     const config = periodMap.find(item => item.type === activeKey);
-
 
     if (config) {
         return config.items.map((key, i): UiToggleGroupItem => ({
@@ -102,12 +145,45 @@ onBeforeMount(async () => {
     };
 });
 
+const getCountAfterGroup = (type: string) => {
+    switch (type) {
+        case 'week':
+            return 3
+        case 'month':
+            return 1
+        default:
+            return 7
+    }
+}
+
 const onSelectGroupBy = (payload: UiDropdownItem<string>) => {
+    eventsStore.period = {
+        ...eventsStore.period,
+        last: getCountAfterGroup(payload.value),
+    };
     eventsStore.controlsGroupBy = payload.value;
 };
 
 const onSelectPerion = (payload: UiToggleGroupItem) => {
     eventsStore.controlsPeriod = payload.value;
+    eventsStore.period = {
+        ...eventsStore.period,
+        from: '',
+        to: '',
+        last: getCountAfterGroup(eventsStore.controlsGroupBy),
+        type: 'last',
+    };
+};
+
+const onApplyPeriod = (payload: ApplyPayload): void => {
+    eventsStore.controlsPeriod = 'calendar';
+    eventsStore.period = {
+        ...eventsStore.period,
+        from: payload.value.from || '',
+        to: payload.value.to || '',
+        type: payload.type,
+        last: payload.last,
+    };
 };
 </script>
 

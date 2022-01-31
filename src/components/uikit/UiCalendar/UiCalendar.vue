@@ -9,7 +9,7 @@
                     >
                         <tr class="pf-c-calendar-month__days-row">
                             <td
-                                v-for="(day, index) in props.weekDays"
+                                v-for="(day, index) in weekDays"
                                 :key="day + index"
                                 class="pf-c-calendar-month__day"
                             >
@@ -28,24 +28,25 @@
                     :get-node-height="getNodeHeight"
                     :tolerance="1"
                     :nodes="calendarList"
-                    :initial-scroll-top="10000"
+                    :initial-scroll-top="initialScrollTop"
                     class="ui-calendar__list"
                 >
                     <template #cell="slotProps">
-                        <div class="ui-calendar__list-item">
+                        <div class="ui-calendar__list-item pf-u-pb-md">
                             <UiCalendarMonth
                                 :month="slotProps.node.month"
-                                :months-names="props.monthsNames"
+                                :months-names="monthsNames"
                                 :year="slotProps.node.year"
                                 :active-dates="props.activeDates"
                                 :ranged="currentRanged"
                                 :dates="currentDates"
-                                :week-days="props.weekDays"
+                                :week-days="weekDays"
                                 :allow-future="props.allowFuture"
                                 :years="yearsSelect"
                                 :show-select-years="props.showSelectYears"
                                 :disable-future-dates="props.disableFutureDates"
                                 :first-day-of-week="props.firstDayOfWeek"
+                                :from-select-only="props.fromSelectOnly"
                                 @on-select="clickDate"
                                 @on-mouseover="mouseoverDate"
                                 @on-mouseleave="mouseleaveDate"
@@ -54,6 +55,20 @@
                         </div>
                     </template>
                 </VirtualisedList>
+                <div class="ui-calendar__footer pf-u-p-md">
+                    <div
+                        v-if="showBottomControls"
+                        class="pf-u-display-flex pf-u-align-items-center"
+                    >
+                        <slot name="footer-right" />
+                        <UiButton
+                            class="pf-m-primary pf-u-ml-auto"
+                            @click="apply"
+                        >
+                            {{ buttonText }}
+                        </UiButton>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -81,20 +96,17 @@ export interface CurrentValue {
     date: string | null,
 }
 
-interface Value {
+export interface Value {
     from: string,
     to: string,
     multiple: boolean,
-    dates: string[],
+    dates?: string[],
 }
 
 interface Props {
-    dates: string[];
+    dates?: string[];
     activeDates?: string[];
     multiple: boolean;
-    weekDays: string[];
-    monthsNames?: string[];
-    monthsNamesShort?: string[];
     max?: number;
     count?: number;
     switcher?: boolean;
@@ -112,7 +124,12 @@ interface Props {
     firstDayOfWeek?: number;
     disabledMultiple?: boolean;
     value: Value | number,
+    fromSelectOnly?: boolean,
 }
+
+const weekDays = ['mo', 'tu', 'we', 'th', 'fr', 'sa', 'su'];
+const monthsNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+const monthsNamesShort = [];
 
 const props = withDefaults(defineProps<Props>(), {
     count: 2,
@@ -129,17 +146,18 @@ const props = withDefaults(defineProps<Props>(), {
     firstDayOfWeek: 1,
     disabledMultiple: false,
     activeDates: () => [],
-    monthsNames: () => [],
-    monthsNamesShort: () => [],
+    dates: () => [],
     max: 0,
+    switcher: false,
     switcherLabel: '',
+    fromSelectOnly: false,
 });
 
 const emit = defineEmits<{
     (e: "change-visible-range", payload: RangeValue[]): void;
-    (e: "input", payload: CurrentValue): void;
+    (e: "on-apply", payload: CurrentValue): void;
     (e: "cancel"): void;
-    (e: "change", payload: CurrentValue): void;
+    (e: "on-change", payload: CurrentValue): void;
     (e: "set-multiple", payload: boolean): void;
 }>();
 
@@ -149,6 +167,7 @@ const start = ref(-1);
 const currentDates = ref<string[]>([]);
 const hovered = ref('');
 const currentMultiple = ref(false);
+const initialScrollTop = ref(10000);
 
 const calendarList = computed(() => {
     switch (props.type) {
@@ -285,16 +304,6 @@ const getYearCalendarList = () => {
     return result;
 };
 
-const apply = () => {
-    switch (props.selectMode) {
-        case 'single':
-            emit('input', currentValue.value);
-            break;
-        default:
-            emit('input', currentValue.value);
-    }
-};
-
 const setMultiple = (e: boolean) => {
     if (!e) {
         currentDates.value = [minDate.value, maxDate.value].filter(item => item).map(item => String(item));
@@ -302,7 +311,7 @@ const setMultiple = (e: boolean) => {
         currentDates.value = [];
     }
     currentMultiple.value = e;
-    emit('change', currentValue.value);
+    emit('on-change', currentValue.value);
     emit('set-multiple', e);
 };
 
@@ -334,14 +343,29 @@ const cancel = () => {
     initValues();
 };
 
+const apply = () => {
+    switch (props.selectMode) {
+        case 'single':
+            emit('on-apply', currentValue.value);
+            break;
+        // TOOD other mode calendate
+        default:
+            emit('on-apply', currentValue.value);
+    }
+};
+
+
 const onDateClickSingle = (e: string) => {
     currentDates.value = [e];
-    emit('change', currentValue.value);
+    emit('on-change', currentValue.value);
 };
 
 const onDateClickRange = (e: string) => {
     let dates = [];
-    if (!currentMultiple.value && Array.isArray(currentDates.value) && currentDates.value.length >= 2) {
+
+    if (props.fromSelectOnly) {
+        dates = [e, currentDates.value[1] ? currentDates.value[1] : currentDates.value[0]];
+    } else if (!currentMultiple.value && Array.isArray(currentDates.value) && currentDates.value.length >= 2) {
         dates = [e];
     } else {
         dates = [...currentDates.value, e];
@@ -358,7 +382,7 @@ const onDateClickRange = (e: string) => {
         }
     }
     currentDates.value = dates;
-    emit('change', currentValue.value);
+    emit('on-change', currentValue.value);
 };
 
 const clickDate = (e: string) => {
@@ -439,9 +463,12 @@ watch(() => props.value, (value) => {
         padding-left: 2rem;
     }
 
+    &__footer {
+        border-top: var(--pf-c-calendar-month__days--BorderBottomWidth) solid var(--pf-c-calendar-month__days--BorderBottomColor);
+    }
+
     .pf-c-calendar-month {
         padding: 6px 0 0;
-        border: 1px solid var(--pf-global--base-light-color--100);
 
         &__calendar {
             margin-left: 2.6rem;
@@ -450,7 +477,8 @@ watch(() => props.value, (value) => {
         &__day {
             width: 40px;
             text-transform: uppercase;
-            font-weight: 600;
+            font-weight: 300;
+            font-size: .8rem;
         }
     }
 }

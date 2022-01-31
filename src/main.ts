@@ -10,7 +10,6 @@ import makeServer from "@/server";
 import FloatingVue from 'floating-vue'
 import { router } from '@/router'
 import uikitPlugin from "@/plugins/uikit";
-
 if (typeof makeServer === "function") {
     makeServer();
 }
@@ -18,6 +17,7 @@ if (typeof makeServer === "function") {
 const app = createApp(App);
 
 app.use(createPinia());
+FloatingVue.options.disposeTimeout = 300
 app.use(FloatingVue);
 app.use(uikitPlugin);
 app.use(router);

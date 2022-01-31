@@ -1,9 +1,9 @@
 <template>
     <input
         class="pf-c-form-control"
-        :value="props.value"
+        :value="modelValue"
         :type="props.type"
-        @input="input"
+        @input="updateValue"
         @blur="blur"
     >
 </template>
@@ -12,16 +12,18 @@
 const emit = defineEmits(["update:modelValue", "blur"]);
 
 interface Props {
-    value?: number | string;
-    type?: string;
+    modelValue?: number | string
+    type?: string
+    placeholder?: string
 }
 
 const props = withDefaults(defineProps<Props>(), {
-    value: "",
-    type: "text"
+    modelValue: "",
+    type: "text",
+    placeholder: '',
 });
 
-const input = (e: Event) => {
+const updateValue = (e: Event) => {
     const target = e.target as HTMLInputElement;
 
     emit("update:modelValue", target.value);

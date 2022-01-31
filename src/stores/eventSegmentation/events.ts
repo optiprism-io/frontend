@@ -41,6 +41,12 @@ export type Events = {
 
     controlsGroupBy: string;
     controlsPeriod: string | number;
+    period: {
+        from: string,
+        to: string,
+        last: number,
+        type: string,
+    },
 };
 
 const initialQuery = <EventQuery[]>[
@@ -68,7 +74,13 @@ export const useEventsStore = defineStore("events", {
         group: Group.User,
 
         controlsGroupBy: 'day',
-        controlsPeriod: '1',
+        controlsPeriod: '',
+        period: {
+            from: '',
+            to: '',
+            type: 'last',
+            last: 7,
+        },
     }),
     getters: {
         allSelectedEventPropertyRefs() {

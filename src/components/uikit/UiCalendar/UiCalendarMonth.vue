@@ -56,7 +56,11 @@ import {
     getMonthTable,
     getOrderedWeekdays,
 } from '@/helpers/calendarHelper';
-import {UiToggleGroupItem} from "@/components/uikit/UiToggleGroup.vue";
+
+export interface Ranged {
+    from: string | null;
+    to: string | null;
+}
 
 interface CellDate {
     date: number;
@@ -75,11 +79,6 @@ interface Year {
     value: number;
 }
 
-export interface Ranged {
-    from: string | null;
-    to: string | null;
-}
-
 interface Props {
     month: number;
     year: number;
@@ -92,12 +91,14 @@ interface Props {
     showSelectYears: boolean;
     allowFuture: boolean;
     firstDayOfWeek: number;
+    fromSelectOnly?: boolean,
 }
 
 const props = withDefaults(defineProps<Props>(), {
     lang: 'en',
     firstDayOfWeek: 1,
     activeDates: () => [],
+    fromSelectOnly: false,
 });
 
 const emit = defineEmits<{
