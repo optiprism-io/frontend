@@ -57,15 +57,16 @@
                 </VirtualisedList>
                 <div class="ui-calendar__footer pf-u-p-md">
                     <div
-                        v-if="showBottomControls"
+                        v-if="props.showBottomControls"
                         class="pf-u-display-flex pf-u-align-items-center"
                     >
                         <slot name="footer-right" />
                         <UiButton
                             class="pf-m-primary pf-u-ml-auto"
+                            :disabled="props.disableApply"
                             @click="apply"
                         >
-                            {{ buttonText }}
+                            {{ props.buttonText }}
                         </UiButton>
                     </div>
                 </div>
@@ -123,13 +124,15 @@ interface Props {
     disableFutureDates?: boolean;
     firstDayOfWeek?: number;
     disabledMultiple?: boolean;
-    value: Value | number,
-    fromSelectOnly?: boolean,
+    value: Value | number;
+    fromSelectOnly?: boolean;
+    disableApply?: boolean;
 }
 
 const weekDays = ['mo', 'tu', 'we', 'th', 'fr', 'sa', 'su'];
 const monthsNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 const monthsNamesShort = [];
+const VIEWPORT_HEIGHT = 300;
 
 const props = withDefaults(defineProps<Props>(), {
     count: 2,
@@ -151,6 +154,7 @@ const props = withDefaults(defineProps<Props>(), {
     switcher: false,
     switcherLabel: '',
     fromSelectOnly: false,
+    disableApply: false,
 });
 
 const emit = defineEmits<{
@@ -167,7 +171,7 @@ const start = ref(-1);
 const currentDates = ref<string[]>([]);
 const hovered = ref('');
 const currentMultiple = ref(false);
-const initialScrollTop = ref(10000);
+const initialScrollTop = computed(() => props.count * VIEWPORT_HEIGHT + 300);
 
 const calendarList = computed(() => {
     switch (props.type) {

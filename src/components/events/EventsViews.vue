@@ -20,7 +20,6 @@
                                     :value="calendarValue"
                                     :last-count="eventsStore.period.last"
                                     :active-tab-controls="eventsStore.period.type"
-                                    :controls-group-by="eventsStore.controlsGroupBy"
                                     @on-apply="onApplyPeriod"
                                 >
                                     <template #action>
@@ -85,6 +84,7 @@ import {groupByMap, periodMap} from "@/configs/events/controls";
 import UiToggleGroup, {UiToggleGroupItem} from "@/components/uikit/UiToggleGroup.vue";
 import UiIcon from "@/components/uikit/UiIcon.vue";
 import UiDatePicker, { ApplyPayload } from "@/components/uikit/UiDatePicker.vue";
+import { getStringDateByFormat } from "@/helpers/getStringDates";
 
 const UiDropdown = GenericUiDropdown<string>();
 const eventsStore = useEventsStore();
@@ -100,8 +100,17 @@ const calendarValue = computed(() => {
 });
 
 const calendarValueString = computed(() => {
-    if (eventsStore.period.type === 'last' && eventsStore.period.from && eventsStore.period.to) {
-        return `Last ${eventsStore.period.last} ${eventsStore.controlsGroupBy}`;
+    if (eventsStore.period.from && eventsStore.period.to) {
+        switch(eventsStore.period.type) {
+            case 'last':
+                return `Last ${eventsStore.period.last} ${eventsStore.period.last === 1 ? 'day' : 'days'}`;
+            case 'since':
+                return `Since ${getStringDateByFormat(eventsStore.period.from, '%d %b, %Y')}`;
+            case 'between':
+                return `${getStringDateByFormat(eventsStore.period.from, '%d %b, %Y')} - ${getStringDateByFormat(eventsStore.period.to, '%d %b, %Y')}`;
+            default:
+                return '';
+        }
     } else {
         return '';
     }
@@ -145,21 +154,13 @@ onBeforeMount(async () => {
     };
 });
 
-const getCountAfterGroup = (type: string) => {
-    switch (type) {
-        case 'week':
-            return 3
-        case 'month':
-            return 1
-        default:
-            return 7
-    }
-}
-
 const onSelectGroupBy = (payload: UiDropdownItem<string>) => {
     eventsStore.period = {
         ...eventsStore.period,
-        last: getCountAfterGroup(payload.value),
+        from: '',
+        to: '',
+        type: 'last',
+        last: 7,
     };
     eventsStore.controlsGroupBy = payload.value;
 };
@@ -170,8 +171,8 @@ const onSelectPerion = (payload: UiToggleGroupItem) => {
         ...eventsStore.period,
         from: '',
         to: '',
-        last: getCountAfterGroup(eventsStore.controlsGroupBy),
         type: 'last',
+        last: 7,
     };
 };
 
