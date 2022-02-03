@@ -8,7 +8,15 @@ import {
 } from "@/types/events";
 import { OperationId, Value, Group } from "@/types";
 import schemaService from "@/api/services/schema.service";
+import queriesService, { EventSegmentation } from "@/api/services/queries.service";
 import { useLexiconStore } from "@/stores/lexicon";
+import { getYYYYMMDD } from "@/helpers/getStringDates";
+import { getLastNDaysRange } from "@/helpers/calendarHelper";
+import { TimeUnit } from "@/types";
+
+export type ChartType = 'line' | 'pie';
+export const compareToMap = ['day', 'week', 'month', 'year'];
+export const chartTypeMap: ChartType[] = ['line', 'pie'];
 
 export interface EventFilter {
     propRef?: PropertyRef;
@@ -47,6 +55,12 @@ export type Events = {
         last: number,
         type: string,
     },
+    compareTo: TimeUnit | string
+    compareOffset: number,
+    chartType: ChartType,
+
+    eventSegmentationResult: any // TODO
+    eventSegmentationResultLoading: boolean
 };
 
 const initialQuery = <EventQuery[]>[
@@ -81,6 +95,12 @@ export const useEventsStore = defineStore("events", {
             type: 'last',
             last: 7,
         },
+        compareTo: '',
+        compareOffset: 1,
+        chartType: 'line',
+
+        eventSegmentationResult: {},
+        eventSegmentationResultLoading: false,
     }),
     getters: {
         allSelectedEventPropertyRefs() {
@@ -99,8 +119,49 @@ export const useEventsStore = defineStore("events", {
                 ...compudeEventProperties(PropertyType.UserCustom, lexiconStore.userCustomProperties),
             ];
         },
+        propsForEventSegmentationResult(): EventSegmentation {
+            const props: EventSegmentation = {
+                time: {
+                    type: this.period.type,
+                    from: this.period.from,
+                    to: this.period.to,
+                },
+                group: this.group,
+                intervalUnit: this.controlsGroupBy,
+                chartType: this.chartType,
+            };
+
+            if (this.compareTo) {
+                props.compare = {
+                    offset: 1,
+                    unit: this.compareTo,
+                }
+            }
+
+            return props;
+        },
     },
     actions: {
+        initPeriod(): void {
+            const lastNDateRange = getLastNDaysRange(20);
+            this.period = {
+                from: getYYYYMMDD(lastNDateRange.from),
+                to: getYYYYMMDD(new Date()),
+                type: 'last',
+                last: 20,
+            };
+        },
+        async fetchEventSegmentationResult() {
+            try {
+                const res = await queriesService.eventSegmentation(this.propsForEventSegmentationResult);
+                if (res) {
+                    this.eventSegmentationResult = res;
+                }
+            } catch (error) {
+                throw new Error("error getEventsValues");
+            }
+        },
+
         changeEvent(index: number, ref: EventRef): void {
             this.events[index] = <Event>{
                 ref: ref,
@@ -138,6 +199,10 @@ export const useEventsStore = defineStore("events", {
         deleteEvent(idx: number): void {
             this.events.splice(idx, 1);
         },
+
+        /**
+         * Filters
+         */
         addFilter(idx: number): void {
             const emptyFilter = this.events[idx].filters.find((filter): boolean => filter.propRef === undefined);
 

@@ -21,7 +21,7 @@ export const get = async (endpoint = "/", path: string, params: any, settings = 
     return getResponse(response);
 };
 
-export const post = async (endpoint: string, path: string, data: any, file: any, settings = {}) => {
+export const post = async (endpoint: string, path: string, data: any, file?: any, settings = {}) => {
     const formData = new FormData();
     if (file) {
         for (const key in data) {

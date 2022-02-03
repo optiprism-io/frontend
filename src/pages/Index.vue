@@ -63,9 +63,12 @@ const lexiconStore = useLexiconStore();
 const eventsStore = useEventsStore();
 
 onBeforeMount(async () => {
-    lexiconStore.getEvents();
-    lexiconStore.getEventProperties();
-    lexiconStore.getUserProperties();
+    await lexiconStore.getEvents();
+    await lexiconStore.getEventProperties();
+    await lexiconStore.getUserProperties();
+
+    await eventsStore.initPeriod();
+    await eventsStore.fetchEventSegmentationResult();
 });
 
 onUnmounted(() => {

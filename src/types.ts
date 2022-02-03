@@ -163,3 +163,5 @@ export enum Group {
     User = "user",
     Country = "country"
 }
+
+export type TimeUnit = 'day' | 'week' | 'month' | 'year'

@@ -15,10 +15,25 @@
                 aria-labelledby="select-single-label select-single-toggle"
                 @click="onToggle"
             >
-                <div class="pf-c-select__toggle-wrapper">
+                <div
+                    class="pf-c-select__toggle-wrapper"
+                    :class="{
+                        'pf-c-select__toggle-wrapper_full': props.fullText,
+                    }"
+                >
                     <span class="pf-c-select__toggle-text">{{ textValue }}</span>
                 </div>
-                <span class="pf-c-select__toggle-arrow">
+                <span
+                    v-if="selectedSingleOption && clearable"
+                    class="pf-c-select__menu-item-icon"
+                    @click="removeSelect"
+                >
+                    <UiIcon :icon="'fas fa-times'" />
+                </span>
+                <span
+                    v-else
+                    class="pf-c-select__toggle-arrow"
+                >
                     <i
                         class="fas fa-caret-down"
                         aria-hidden="true"
@@ -37,6 +52,7 @@
                             :key="item.key"
                             v-close-popper="props.variant === 'single'"
                             role="presentation"
+                            @click="onSelect(item)"
                         >
                             <button
                                 class="pf-c-select__menu-item"
@@ -46,13 +62,13 @@
                                 }"
                             >
                                 {{ item.nameDisplay }}
+                                <span
+                                    v-if="item.selected"
+                                    class="pf-c-select__menu-item-icon"
+                                >
+                                    <UiIcon :icon="'fas fa-check'" />
+                                </span>
                             </button>
-                            <span
-                                v-if="item.selected"
-                                class="pf-c-select__menu-item-icon"
-                            >
-                                <UiIcon :icon="'fas fa-check'" />
-                            </span>
                         </li>
                     </ul>
                 </div>
@@ -61,73 +77,110 @@
     </div>
 </template>
 
-<script lang="ts" setup>
-import {ref, computed} from 'vue';
+<script lang="ts">
+import { defineComponent, PropType, ref, computed } from 'vue';
 
-interface UiSelectOption {
+export interface UiSelectItem<T> {
     key: string | number;
     nameDisplay: string;
-    value: string;
+    value: T;
     disabled?: boolean;
 }
 
-interface Props {
-    items: UiSelectOption[]
-    selections?: string[]
-    textButton?: string
-    placeholder?: string
-    variant?: 'single' | 'checkbox' | 'multiple'
-    typehead?: boolean
+class UiSelectFactory<T = unknown> {
+    define() {
+        return defineComponent({
+            name: 'UiSelect',
+            props: {
+                items: {
+                    type: Array as PropType<UiSelectItem<T>[]>,
+                    required: true,
+                },
+                selections: {
+                    type: Array as PropType<T[]>,
+                    default: () => [],
+                },
+                textButton: { type: String, default: '' },
+                placeholder: { type: String, default: '' },
+                variant: {
+                    type: String as PropType<'single' | 'checkbox' | 'multiple'>,
+                    default: 'single',
+                },
+                typehead: Boolean,
+                clearable: Boolean,
+                fullText: Boolean,
+            },
+            emits: {
+                onSelect: (payload: T) => payload,
+                onClear: () => true,
+            },
+            setup(props, { emit }) {
+
+                const isOpen = ref(false);
+
+                const textValue = computed(() => {
+                    if (props.variant === 'single') {
+                        return props.textButton ? props.textButton : selectedSingleOption.value ? selectedSingleOption.value?.nameDisplay : props.placeholder || '';
+                    } else {
+                        return props.textButton || props.placeholder || '';
+                    }
+                })
+
+                const options = computed(() => {
+                    return props.items.map(item => {
+                        return {
+                            ...item,
+                            selected: props.selections.includes(item.value),
+                        };
+                    });
+                })
+
+                const selectedSingleOption = computed(() => {
+                    const selected = props.items.find(item => props.selections.includes(item.value));
+
+                    return selected || null;
+                })
+
+                const onToggle = () => {
+                    isOpen.value = !isOpen.value;
+                };
+
+                const onHide = () => {
+                    isOpen.value = false;
+                };
+
+                const onSelect = (item: UiSelectItem<T>) => {
+                    emit('onSelect', item.value);
+                };
+
+                const removeSelect = (e: Event) => {
+                    e.stopPropagation();
+                    emit('onClear');
+                }
+
+                return {
+                    props,
+                    isOpen,
+                    textValue,
+                    options,
+                    selectedSingleOption,
+                    onToggle,
+                    onHide,
+                    onSelect,
+                    removeSelect,
+                }
+            }
+        })
+    }
 }
 
-const props = withDefaults(defineProps<Props>(), {
-    textButton: '',
-    placeholder: '',
-    typehead: false,
-    variant: 'single',
-    selections: () => [],
-});
+const main = new UiSelectFactory().define();
 
-const emit = defineEmits<{
-    (e: "on-select", payload: string): void;
-}>();
+export function GenericUiSelect<T>() {
+    return main as ReturnType<UiSelectFactory<T>['define']>;
+}
 
-const isOpen = ref(false);
-
-const textValue = computed(() => {
-    if (props.variant === 'single') {
-        return selectedSingleOption.value ? selectedSingleOption.value?.nameDisplay : props.textButton || props.placeholder || '';
-    } else {
-        return props.textButton || props.placeholder || '';
-    }
-})
-
-const options = computed(() => {
-    return props.items.map(item => {
-        return {
-            ...item,
-            selected: props.selections.includes(item.value),
-        };
-    });
-})
-
-const selectedSingleOption = computed(() => {
-    const selected = props.items.find(item => props.selections.includes(item.value));
-
-    return selected || null;
-})
-
-const onToggle = () => {
-    isOpen.value = !isOpen.value;
-};
-
-const onHide = () => {
-    isOpen.value = false;
-};
-
-const onSelect = (value: string) => {
-    emit('on-select', value);
-};
+export default main;
 </script>
 
 <style lang="scss">
@@ -136,6 +189,14 @@ const onSelect = (value: string) => {
 
     &__toggle {
         min-width: var(--min-width);
+    }
+
+    &__toggle-wrapper {
+        padding-right: 1.4rem;
+
+        &_full {
+            max-width: 100%;
+        }
     }
 
     &__menu {

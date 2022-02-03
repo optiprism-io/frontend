@@ -7,7 +7,7 @@ export default function ({ environment = "development" } = {}) {
     return createServer({
         routes() {
             this.namespace = "api";
-            this.timing = 300;
+            this.timing = 200;
 
             this.get("/schema/events", () => {
                 return [
@@ -420,6 +420,10 @@ export default function ({ environment = "development" } = {}) {
 
             this.get("/chart", (): any[] => {
                 return splineChartMocks;
+            });
+
+            this.post("/queries/event-segmentation", (): any[] => {
+                return splineChartMocks; // TODO
             });
         }
     });
