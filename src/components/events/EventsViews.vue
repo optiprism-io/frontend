@@ -4,7 +4,7 @@
             <div class="pf-c-toolbar__content">
                 <div class="pf-c-toolbar__content-section pf-m-nowrap">
                     <div class="pf-c-toolbar__item">
-                        <UiSelectGroupBy
+                        <UiSelect
                             :items="itemsGroupBy"
                             :text-button="selectedGroupByString"
                             :selections="[eventsStore.controlsGroupBy]"
@@ -43,7 +43,7 @@
                         </UiToggleGroup>
                     </div>
                     <div class="pf-c-toolbar__item">
-                        <UiSelectCompateTo
+                        <UiSelect
                             :items="compareToItems"
                             :text-button="textSelectCompairTo"
                             :selections="[eventsStore.compareTo]"
@@ -54,7 +54,7 @@
                         />
                     </div>
                     <div class="pf-c-toolbar__item pf-u-ml-auto">
-                        <UiSelectChartType
+                        <UiSelect
                             :items="chartTypeItems"
                             :selections="[eventsStore.chartType]"
                             :text-button="textSelectChartType"
@@ -97,19 +97,15 @@
 <script lang="ts" setup>
 import { ref, computed, onBeforeMount } from "vue";
 import ChartWrapper from "@/components/charts/ChartWrapper.vue";
-import { GenericUiSelect, UiSelectItem } from "@/components/uikit/UiSelect.vue";
+import UiSelect, { UiSelectItem } from "@/components/uikit/UiSelect.vue";
 import { useEventsStore, compareToMap, ChartType, chartTypeMap } from "@/stores/eventSegmentation/events";
 import eventService from "@/api/services/schema.service";
-import {groupByMap, periodMap} from "@/configs/events/controls";
+import { groupByMap, periodMap } from "@/configs/events/controls";
 import UiToggleGroup, {UiToggleGroupItem} from "@/components/uikit/UiToggleGroup.vue";
 import UiIcon from "@/components/uikit/UiIcon.vue";
 import UiDatePicker, { ApplyPayload } from "@/components/uikit/UiDatePicker.vue";
 import { getStringDateByFormat } from "@/helpers/getStringDates";
 import { firstChartUpper } from "@/helpers/stringConverts";
-
-const UiSelectGroupBy = GenericUiSelect<string>();
-const UiSelectCompateTo = GenericUiSelect<string>();
-const UiSelectChartType = GenericUiSelect<ChartType>();
 
 const eventsStore = useEventsStore();
 const chartEventsOptions = ref();

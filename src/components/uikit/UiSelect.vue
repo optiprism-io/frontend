@@ -87,7 +87,7 @@ export interface UiSelectItem<T> {
     disabled?: boolean;
 }
 
-class UiSelectFactory<T = unknown> {
+class UiSelectFactory<T = any> {
     define() {
         return defineComponent({
             name: 'UiSelect',

@@ -8,4 +8,3 @@ declare module "*.vue" {
 
 declare module "v-tooltip";
 declare module "VirtualisedList";
-
