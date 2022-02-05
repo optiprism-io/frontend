@@ -30,8 +30,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { Item } from "@/components/MultiSelect/MultiSelect.vue";
-import { GenericMultiSelectListItem } from "./MultiSelectListItem.vue";
-const MultiSelectListItem = GenericMultiSelectListItem<'string'>();
+import MultiSelectListItem from "./MultiSelectListItem.vue";
 
 const props = defineProps<{
     items: Item[];

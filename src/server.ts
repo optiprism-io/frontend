@@ -2,6 +2,8 @@ import { createServer } from "miragejs";
 import { DataType } from "@/types";
 import { EventStatus, UserProperty, UserCustomProperty } from "@/types/events";
 import splineChartMocks from "@/mocks/splineChart.json";
+import eventSegmentationsMocks from "@/mocks/eventSegmentations.json";
+
 
 export default function ({ environment = "development" } = {}) {
     return createServer({
@@ -422,8 +424,8 @@ export default function ({ environment = "development" } = {}) {
                 return splineChartMocks;
             });
 
-            this.post("/queries/event-segmentation", (): any[] => {
-                return splineChartMocks; // TODO
+            this.post("/queries/event-segmentation", (): any => {
+                return eventSegmentationsMocks;
             });
         }
     });

@@ -54,22 +54,28 @@
                         />
                     </div>
                     <div class="pf-c-toolbar__item pf-u-ml-auto">
-                        <UiSelect
-                            :items="chartTypeItems"
-                            :selections="[eventsStore.chartType]"
-                            :text-button="textSelectChartType"
-                            @on-select="onSelectChartType"
-                        />
+                        <UiLabelGroup
+                            :label="'Chart type:'"
+                        >
+                            <template #content>
+                                <UiToggleGroup
+                                    :items="chartTypeItems"
+                                    @select="onSelectChartType"
+                                />
+                            </template>
+                        </UiLabelGroup>
                     </div>
                 </div>
             </div>
         </div>
 
         <div class="pf-c-scroll-inner-wrapper pf-u-p-md">
-            <ChartWrapper
+            <component
+                :is="chartEventsOptions.component"
                 v-if="chartEventsOptions"
                 :options="chartEventsOptions"
-                :type="'line'"
+                :type="eventsStore.chartType"
+                :loading="eventsStore.eventSegmentationLoading"
             />
             <div
                 v-else
@@ -95,20 +101,55 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed, onBeforeMount } from "vue";
-import ChartWrapper from "@/components/charts/ChartWrapper.vue";
-import UiSelect, { UiSelectItem } from "@/components/uikit/UiSelect.vue";
-import { useEventsStore, compareToMap, ChartType, chartTypeMap } from "@/stores/eventSegmentation/events";
-import eventService from "@/api/services/schema.service";
+import { computed } from "vue";
+import UiSelect from "@/components/uikit/UiSelect.vue";
+import { useEventsStore, compareToMap, chartTypeMap } from "@/stores/eventSegmentation/events";
 import { groupByMap, periodMap } from "@/configs/events/controls";
 import UiToggleGroup, {UiToggleGroupItem} from "@/components/uikit/UiToggleGroup.vue";
 import UiIcon from "@/components/uikit/UiIcon.vue";
 import UiDatePicker, { ApplyPayload } from "@/components/uikit/UiDatePicker.vue";
 import { getStringDateByFormat } from "@/helpers/getStringDates";
-import { firstChartUpper } from "@/helpers/stringConverts";
+import UiLabelGroup from "@/components/uikit/UiLabelGroup.vue";
+import ChartPie from "@/components/charts/ChartPie.vue";
+import ChartLine from "@/components/charts/ChartLine.vue";
 
 const eventsStore = useEventsStore();
-const chartEventsOptions = ref();
+const chartEventsOptions = computed(() => {
+    switch(eventsStore.chartType) {
+        case 'line':
+            return {
+                data: eventsStore.lineChart,
+                component: ChartLine,
+                xField: 'date',
+                yField: 'value',
+                seriesField: 'category',
+                xAxis: {
+                    type: 'time',
+                },
+                yAxis: {
+                    label: {
+                        formatter: (v: number) => `${v}`.replace(/\d{1,3}(?=(\d{3})+$)/g, (s) => `${s},`),
+                    },
+                },
+            };
+        case 'pie':
+            return {
+                data: eventsStore.pieChart,
+                component: ChartPie,
+                appendPadding: 10,
+                angleField: 'value',
+                colorField: 'type',
+                radius: 0.8,
+                label: {
+                    type: 'outer',
+                    content: '{name} {percentage}',
+                },
+                interactions: [{ type: 'pie-legend-active' }, { type: 'element-active' }],
+            };
+        default:
+            return {};
+    }
+});
 
 const compareToItems = computed(() => {
     return compareToMap.map(item => {
@@ -123,18 +164,16 @@ const textSelectCompairTo = computed(() => {
     return eventsStore.compareTo ? `Compare to previous ${eventsStore.compareTo}` : 'Compare to Past'
 })
 
-
 const chartTypeItems = computed(() => {
-    return chartTypeMap.map((item, i): UiSelectItem<ChartType> => {
+    return chartTypeMap.map((item, i) => {
         return {
-            key: `${item}-${i}`,
-            nameDisplay: firstChartUpper(item),
-            value: item,
+            key: `${item.value}-${i}`,
+            iconAfter: item.icon,
+            nameDisplay: '',
+            selected: eventsStore.chartType === item.value,
+            value: item.value,
         }
     })
-})
-const textSelectChartType = computed(() => {
-    return `${firstChartUpper(eventsStore.chartType)} charts`
 })
 
 const perios = computed(() => {
@@ -204,11 +243,13 @@ const selectedGroupByString = computed(() => {
 const onSelectGroupBy = (payload: string) => {
     eventsStore.initPeriod();
     eventsStore.controlsGroupBy = payload;
+    updateEventSegmentationData();
 };
 
 const onSelectPerion = (payload: UiToggleGroupItem) => {
     eventsStore.controlsPeriod = payload.value;
     eventsStore.initPeriod();
+    updateEventSegmentationData();
 };
 
 const onApplyPeriod = (payload: ApplyPayload): void => {
@@ -220,22 +261,20 @@ const onApplyPeriod = (payload: ApplyPayload): void => {
         type: payload.type,
         last: payload.last,
     };
+    updateEventSegmentationData();
 };
 
 const onSelectCompareTo = (payload: string): void => {
-    eventsStore.compareTo = payload;
-};
+    eventsStore.compareTo = payload
+}
 
-const onSelectChartType = (payload: ChartType): void => {
-    eventsStore.chartType = payload;
-};
+const onSelectChartType = (payload: UiToggleGroupItem): void => {
+    eventsStore.chartType = ['line', 'pie'].includes(payload.value) ? payload.value : 'line';
+}
 
-onBeforeMount(async () => {
-    const res = await eventService.getEventChart();
-    chartEventsOptions.value = {
-        data: res,
-    };
-});
+const updateEventSegmentationData = async () => {
+    await eventsStore.fetchEventSegmentationResult()
+}
 </script>
 
 <style lang="scss" scoped>

@@ -1,5 +1,6 @@
 export default {
     data: [],
+    height: 350,
     padding: 'auto',
     xField: 'Date',
     yField: 'scales',

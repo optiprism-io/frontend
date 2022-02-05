@@ -5,6 +5,8 @@
                 <div class="app-header__menu">
                     <UiDropdown
                         :items="items"
+                        :text-button="'Dashboard'"
+                        :transparent="true"
                     />
                 </div>
             </div>
@@ -28,7 +30,11 @@
                     </div>
                     <div class="pf-c-page__header-tools-group">
                         <div class="pf-c-page__header-tools-item">
-                            <UiDropdown :items="items" />
+                            <UiDropdown
+                                :items="items"
+                                :text-button="'User'"
+                                :transparent="true"
+                            />
                         </div>
                     </div>
                 </div>
@@ -61,6 +67,7 @@ const items = [
     top: 0;
     z-index: 101;
     padding: 8px 15px;
+    height: 50px;
     grid-area: header;
     background-color: var(--op-base-color);
 

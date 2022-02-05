@@ -29,9 +29,14 @@
                     v-if="item.iconBefore"
                     class="pf-c-toggle-group__icon"
                 >
-                    <UiIcon :icon="item.iconAfter" />
+                    <UiIcon :icon="item.iconBefore" />
                 </span>
-                <span class="pf-c-toggle-group__text">{{ item.nameDisplay }}</span>
+                <span
+                    v-if="item.nameDisplay"
+                    class="pf-c-toggle-group__text"
+                >
+                    {{ item.nameDisplay }}
+                </span>
                 <span
                     v-if="item.iconAfter"
                     class="pf-c-toggle-group__icon"
@@ -53,7 +58,7 @@
 export interface UiToggleGroupItem {
     key: string | number;
     nameDisplay: string;
-    value: string | number;
+    value: string;
     selected?: boolean;
     disabled?: boolean;
     iconBefore?: boolean;

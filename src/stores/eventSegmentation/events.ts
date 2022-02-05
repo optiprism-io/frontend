@@ -16,7 +16,16 @@ import { TimeUnit } from "@/types";
 
 export type ChartType = 'line' | 'pie';
 export const compareToMap = ['day', 'week', 'month', 'year'];
-export const chartTypeMap: ChartType[] = ['line', 'pie'];
+export const chartTypeMap = [
+    {
+        value: 'line',
+        icon: 'fas fa-chart-line',
+    },
+    {
+        value: 'pie',
+        icon: 'fas fa-chart-pie',
+    }
+];
 
 export interface EventFilter {
     propRef?: PropertyRef;
@@ -57,10 +66,10 @@ export type Events = {
     },
     compareTo: TimeUnit | string
     compareOffset: number,
-    chartType: ChartType,
+    chartType: ChartType | string,
 
-    eventSegmentationResult: any // TODO
-    eventSegmentationResultLoading: boolean
+    eventSegmentation: any // TODO
+    eventSegmentationLoading: boolean
 };
 
 const initialQuery = <EventQuery[]>[
@@ -99,10 +108,43 @@ export const useEventsStore = defineStore("events", {
         compareOffset: 1,
         chartType: 'line',
 
-        eventSegmentationResult: {},
-        eventSegmentationResultLoading: false,
+        eventSegmentation: {
+            series: [],
+        },
+        eventSegmentationLoading: false,
     }),
     getters: {
+        lineChart(): any[] {
+            if (this.eventSegmentation && Array.isArray(this.eventSegmentation.series) && this.eventSegmentation.series.length) {
+                return this.eventSegmentation.series.reduce((acc: any[], item: number[], indexSeries: number) => {
+                    item.forEach((value: number, indexValue: number) => {
+                        acc.push({
+                            date: new Date(this.eventSegmentation.metricHeaders[indexValue]),
+                            value,
+                            category: this.eventSegmentation.dimensions[indexSeries].join(', '),
+                        });
+                    });
+                    return acc;
+                }, []);
+            } else {
+                return [];
+            }
+        },
+        pieChart(): any[] {
+            if (this.eventSegmentation && Array.isArray(this.eventSegmentation.series) && this.eventSegmentation.series.length) {
+                return this.eventSegmentation.singles.map((item: number, index: number) => {
+                    return {
+                        type: this.eventSegmentation.dimensions[index].join(', '),
+                        value: item,
+                    };
+                });
+            } else {
+                return [];
+            }
+        },
+        noDataLineChart() {
+            return !this.lineChart.length
+        },
         allSelectedEventPropertyRefs() {
             const lexiconStore = useLexiconStore();
             const items: PropertyRef[] = []
@@ -152,14 +194,16 @@ export const useEventsStore = defineStore("events", {
             };
         },
         async fetchEventSegmentationResult() {
+            this.eventSegmentationLoading = true;
             try {
                 const res = await queriesService.eventSegmentation(this.propsForEventSegmentationResult);
                 if (res) {
-                    this.eventSegmentationResult = res;
+                    this.eventSegmentation = res;
                 }
             } catch (error) {
                 throw new Error("error getEventsValues");
             }
+            this.eventSegmentationLoading = false;
         },
 
         changeEvent(index: number, ref: EventRef): void {

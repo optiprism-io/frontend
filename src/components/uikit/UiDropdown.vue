@@ -12,6 +12,11 @@
             <button
                 v-else
                 class="pf-c-dropdown__toggle"
+                :class="{
+                    'pf-m-action': isOpen,
+                    'pf-m-transparent': transparent && !isOpen,
+                    'pf-m-transparent_expanded': transparent && isOpen,
+                }"
                 aria-expanded="true"
                 type="button"
                 @click="onToggle"
@@ -80,6 +85,8 @@ export interface UiDropdownItem<T> {
     iconBefore?: boolean;
     iconAfter?: string;
     href?: string;
+    typeButton?: string
+    transparent?: boolean
 }
 
 class UiDropdownFactory<T = unknown> {
@@ -91,15 +98,20 @@ class UiDropdownFactory<T = unknown> {
                     type: Array as PropType<UiDropdownItem<T>[]>,
                     required: true,
                 },
-                isCompact: Boolean,
                 placeholder: {
-                    type: String,
+                    type: String as PropType<string>,
                     default: '',
                 },
                 textButton: {
-                    type: String,
+                    type: String as PropType<string>,
                     default: '',
                 },
+                typeButton: {
+                    type: String as PropType<string>,
+                    default: '',
+                },
+                isCompact: Boolean as PropType<boolean>,
+                transparent: Boolean as PropType<boolean>,
             },
             emits: {
                 deselect: (payload: UiDropdownItem<T>) => payload,
@@ -171,6 +183,29 @@ export default main;
     &__menu {
         position: initial;
         min-width: var(--min-width);
+    }
+
+    .pf-m-transparent {
+        color: var(--pf-global--Color--light-100);
+
+        &::before {
+            content: none;
+        }
+
+        &:hover {
+            border-bottom: 1px solid #fff;
+        }
+
+        &_expanded {
+            color: var(--pf-global--Color--light-100);
+
+            &::before {
+                border-left: none;
+                border-right: none;
+                border-top: none;
+                border-bottom: 2px solid #fff;
+            }
+        }
     }
 }
 </style>
