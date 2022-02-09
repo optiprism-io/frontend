@@ -124,14 +124,15 @@
 </template>
 
 <script lang="ts" setup>
-import { computed } from "vue";
+import { computed, onBeforeMount } from "vue";
 import UiSelect from "@/components/uikit/UiSelect.vue";
-import { useEventsStore, ChartType } from "@/stores/eventSegmentation/events";
+import { useEventsStore } from "@/stores/eventSegmentation/events";
 import { groupByMap, periodMap } from "@/configs/events/controls";
 import UiToggleGroup, {UiToggleGroupItem} from "@/components/uikit/UiToggleGroup.vue";
 import UiIcon from "@/components/uikit/UiIcon.vue";
 import UiDatePicker, { ApplyPayload } from "@/components/uikit/UiDatePicker.vue";
-import { getStringDateByFormat } from "@/helpers/getStringDates";
+import { getStringDateByFormat, getYYYYMMDD } from "@/helpers/getStringDates";
+import { getLastNDaysRange } from "@/helpers/calendarHelper";
 import UiLabelGroup from "@/components/uikit/UiLabelGroup.vue";
 import UiTable from "@/components/uikit/UiTable/UiTable.vue";
 import ChartPie from "@/components/charts/ChartPie.vue";
@@ -139,6 +140,7 @@ import ChartLine from "@/components/charts/ChartLine.vue";
 import ChartColumn from "@/components/charts/ChartColumn.vue";
 
 const compareToMap = ['day', 'week', 'month', 'year'];
+
 const chartTypeMap = [
     {
         value: 'line',
@@ -155,6 +157,7 @@ const chartTypeMap = [
 ];
 
 const eventsStore = useEventsStore();
+
 const chartEventsOptions = computed(() => {
     switch(eventsStore.chartType) {
         case 'line':
@@ -211,6 +214,7 @@ const compareToItems = computed(() => {
         }
     })
 })
+
 const textSelectCompairTo = computed(() => {
     return eventsStore.compareTo ? `Compare to previous ${eventsStore.compareTo}` : 'Compare to Past'
 })
@@ -294,6 +298,7 @@ const selectedGroupByString = computed(() => {
 const onSelectGroupBy = (payload: string) => {
     eventsStore.initPeriod();
     eventsStore.controlsGroupBy = payload;
+    eventsStore.controlsPeriod = itemsPeriod.value[itemsPeriod.value.length - 1].value;
     updateEventSegmentationData();
 };
 

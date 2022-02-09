@@ -91,12 +91,12 @@ export const useEventsStore = defineStore("events", {
         group: Group.User,
 
         controlsGroupBy: 'day',
-        controlsPeriod: '',
+        controlsPeriod: '30',
         period: {
             from: '',
             to: '',
             type: 'last',
-            last: 7,
+            last: 30,
         },
         compareTo: '',
         compareOffset: 1,
@@ -207,12 +207,43 @@ export const useEventsStore = defineStore("events", {
             ];
         },
         propsForEventSegmentationResult(): EventSegmentation {
+            let time = {
+                from: new Date(this.period.from),
+                to: new Date(this.period.to),
+                type: this.period.type,
+            };
+
+            if (this.controlsPeriod !== 'calendar') {
+                switch(this.controlsGroupBy) {
+                    case 'day':
+                        time = {
+                            ...getLastNDaysRange(Number(this.controlsPeriod) + 1),
+                            type: 'last',
+                        };
+                        break;
+                    case 'month':
+                        time = {
+                            ...getLastNDaysRange(Number(this.controlsPeriod) * 30),
+                            type: 'last',
+                        };
+                        break;
+                    case 'week':
+                        time = {
+                            ...getLastNDaysRange(Number(this.controlsPeriod) * 7),
+                            type: 'last',
+                        };
+                        break;
+                    case 'hour':
+                        // TODO
+                        break;
+                    case 'minuts':
+                        // TODO
+                        break;
+                }
+            }
+
             const props: EventSegmentation = {
-                time: {
-                    type: this.period.type,
-                    from: this.period.from,
-                    to: this.period.to,
-                },
+                time,
                 group: this.group,
                 intervalUnit: this.controlsGroupBy,
                 chartType: this.chartType,

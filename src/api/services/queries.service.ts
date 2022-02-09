@@ -4,8 +4,8 @@ import { TimeUnit } from "@/types";
 export type EventSegmentation = {
     time: {
         type: string
-        from: string
-        to: string
+        from: Date
+        to: Date
     }
     group: string
     intervalUnit: 'day' | string
