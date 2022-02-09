@@ -1,5 +1,5 @@
 <template>
-    <div class="pf-c-card">
+    <div class="pf-c-card pf-u-mb-md">
         <div class="pf-c-toolbar">
             <div class="pf-c-toolbar__content">
                 <div class="pf-c-toolbar__content-section pf-m-nowrap">
@@ -68,7 +68,6 @@
                 </div>
             </div>
         </div>
-
         <div class="pf-c-scroll-inner-wrapper pf-u-p-md">
             <component
                 :is="chartEventsOptions.component"
@@ -98,20 +97,62 @@
             </div>
         </div>
     </div>
+
+    <div class="pf-c-card">
+        <div class="pf-c-toolbar">
+            <div class="pf-c-toolbar__content">
+                <div class="pf-u-font-size-lg">
+                    Breakdown Table
+                </div>
+            </div>
+        </div>
+        <div class="pf-c-scroll-inner-wrapper">
+            <div
+                v-if="eventsStore.eventSegmentationLoading"
+                class="pf-u-min-height pf-u-display-flex pf-u-justify-content-center pf-u-align-items-center"
+                style="--pf-u-min-height--MinHeight: 24ch;"
+            >
+                <UiSpinner :size="'xl'" />
+            </div>
+            <UiTable
+                v-else
+                :items="eventsStore.tableData"
+                :columns="eventsStore.tableColumnsValues"
+            />
+        </div>
+    </div>
 </template>
 
 <script lang="ts" setup>
 import { computed } from "vue";
 import UiSelect from "@/components/uikit/UiSelect.vue";
-import { useEventsStore, compareToMap, chartTypeMap } from "@/stores/eventSegmentation/events";
+import { useEventsStore, ChartType } from "@/stores/eventSegmentation/events";
 import { groupByMap, periodMap } from "@/configs/events/controls";
 import UiToggleGroup, {UiToggleGroupItem} from "@/components/uikit/UiToggleGroup.vue";
 import UiIcon from "@/components/uikit/UiIcon.vue";
 import UiDatePicker, { ApplyPayload } from "@/components/uikit/UiDatePicker.vue";
 import { getStringDateByFormat } from "@/helpers/getStringDates";
 import UiLabelGroup from "@/components/uikit/UiLabelGroup.vue";
+import UiTable from "@/components/uikit/UiTable/UiTable.vue";
 import ChartPie from "@/components/charts/ChartPie.vue";
 import ChartLine from "@/components/charts/ChartLine.vue";
+import ChartColumn from "@/components/charts/ChartColumn.vue";
+
+const compareToMap = ['day', 'week', 'month', 'year'];
+const chartTypeMap = [
+    {
+        value: 'line',
+        icon: 'fas fa-chart-line',
+    },
+    {
+        value: 'column',
+        icon: 'fas fa-chart-bar',
+    },
+    {
+        value: 'pie',
+        icon: 'fas fa-chart-pie',
+    },
+];
 
 const eventsStore = useEventsStore();
 const chartEventsOptions = computed(() => {
@@ -145,6 +186,16 @@ const chartEventsOptions = computed(() => {
                     content: '{name} {percentage}',
                 },
                 interactions: [{ type: 'pie-legend-active' }, { type: 'element-active' }],
+            };
+        case 'column':
+            return {
+                data: eventsStore.pieChart,
+                component: ChartColumn,
+                xField: 'type',
+                yField: 'value',
+                seriesField: 'type',
+                intervalPadding: 15,
+                maxColumnWidth: 45,
             };
         default:
             return {};
@@ -246,8 +297,8 @@ const onSelectGroupBy = (payload: string) => {
     updateEventSegmentationData();
 };
 
-const onSelectPerion = (payload: UiToggleGroupItem) => {
-    eventsStore.controlsPeriod = payload.value;
+const onSelectPerion = (payload: string) => {
+    eventsStore.controlsPeriod = payload;
     eventsStore.initPeriod();
     updateEventSegmentationData();
 };
@@ -268,8 +319,8 @@ const onSelectCompareTo = (payload: string): void => {
     eventsStore.compareTo = payload
 }
 
-const onSelectChartType = (payload: UiToggleGroupItem): void => {
-    eventsStore.chartType = ['line', 'pie'].includes(payload.value) ? payload.value : 'line';
+const onSelectChartType = (payload: string): void => {
+    eventsStore.chartType = payload;
 }
 
 const updateEventSegmentationData = async () => {

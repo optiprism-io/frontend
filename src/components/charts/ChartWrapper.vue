@@ -35,8 +35,8 @@ const props = withDefaults(
     }
 );
 
-const chart = ref(null);
-const chartLib = ref();
+const chart = ref<HTMLInputElement | null>(null)
+const chartLib = ref()
 
 const deleteReactivity = (data: any) => {
     return JSON.parse(JSON.stringify(data));

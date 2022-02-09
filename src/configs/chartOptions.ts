@@ -7,5 +7,10 @@ export default {
     xAxis: {
         tickCount: 5,
     },
-    smooth: true,
+    animation: {
+        appear: {
+            duration: 0,
+        },
+    },
+    smooth: false,
 };

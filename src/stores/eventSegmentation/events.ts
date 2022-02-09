@@ -10,22 +10,16 @@ import { OperationId, Value, Group } from "@/types";
 import schemaService from "@/api/services/schema.service";
 import queriesService, { EventSegmentation } from "@/api/services/queries.service";
 import { useLexiconStore } from "@/stores/lexicon";
-import { getYYYYMMDD } from "@/helpers/getStringDates";
+import { getYYYYMMDD, getStringDateByFormat } from "@/helpers/getStringDates";
 import { getLastNDaysRange } from "@/helpers/calendarHelper";
 import { TimeUnit } from "@/types";
+import {Column, Row} from "@/components/uikit/UiTable/UiTable";
 
-export type ChartType = 'line' | 'pie';
-export const compareToMap = ['day', 'week', 'month', 'year'];
-export const chartTypeMap = [
-    {
-        value: 'line',
-        icon: 'fas fa-chart-line',
-    },
-    {
-        value: 'pie',
-        icon: 'fas fa-chart-pie',
-    }
-];
+export type ChartType = 'line' | 'pie' | 'column';
+
+type ColumnMap = {
+    [key: string]: Column;
+}
 
 export interface EventFilter {
     propRef?: PropertyRef;
@@ -114,8 +108,59 @@ export const useEventsStore = defineStore("events", {
         eventSegmentationLoading: false,
     }),
     getters: {
+        hasDataEvent(): boolean {
+            return this.eventSegmentation && Array.isArray(this.eventSegmentation.series) && this.eventSegmentation.series.length;
+        },
+        tableColumns(): ColumnMap {
+            if (this.hasDataEvent) {
+                return {
+                    'brackdowns': {
+                        key: 'brackdowns',
+                        title: 'Brackdowns',
+                        pinned: true,
+                        lastPinned: true,
+                        truncate: true,
+                    },
+                    ...this.eventSegmentation.metricHeaders.reduce((acc: any, key: string) => {
+                        acc[key] = {
+                            value: key,
+                            title: getStringDateByFormat(key, '%d %b, %Y'),
+                        }
+
+                        return acc
+                    }, {})
+                }
+            } else {
+                return {};
+            }
+        },
+        tableData(): Row[] {
+            if (this.hasDataEvent) {
+                return this.eventSegmentation.series.map((values: number[], indexSeries: number) => {
+                    return [
+                        {
+                            value: this.eventSegmentation.dimensions[indexSeries],
+                            title: this.eventSegmentation.dimensions[indexSeries].join(', '),
+                            pinned: true,
+                            lastPinned: true,
+                        },
+                        ...values.map((value: number | undefined) => {
+                            return {
+                                value,
+                                title: value || '-',
+                            };
+                        })
+                    ];
+                });
+            } else {
+                return [];
+            }
+        },
+        tableColumnsValues(): Column[] {
+            return Object.values(this.tableColumns);
+        },
         lineChart(): any[] {
-            if (this.eventSegmentation && Array.isArray(this.eventSegmentation.series) && this.eventSegmentation.series.length) {
+            if (this.hasDataEvent) {
                 return this.eventSegmentation.series.reduce((acc: any[], item: number[], indexSeries: number) => {
                     item.forEach((value: number, indexValue: number) => {
                         acc.push({
@@ -131,7 +176,7 @@ export const useEventsStore = defineStore("events", {
             }
         },
         pieChart(): any[] {
-            if (this.eventSegmentation && Array.isArray(this.eventSegmentation.series) && this.eventSegmentation.series.length) {
+            if (this.hasDataEvent) {
                 return this.eventSegmentation.singles.map((item: number, index: number) => {
                     return {
                         type: this.eventSegmentation.dimensions[index].join(', '),
