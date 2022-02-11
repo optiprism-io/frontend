@@ -80,6 +80,8 @@
 <script lang="ts">
 import { defineComponent, PropType, ref, computed } from 'vue';
 
+type Value = string | number | Record<string, any> | any[];
+
 export interface UiSelectItem<T> {
     key: string | number;
     nameDisplay: string;
@@ -87,100 +89,88 @@ export interface UiSelectItem<T> {
     disabled?: boolean;
 }
 
-class UiSelectFactory<T = any> {
-    define() {
-        return defineComponent({
-            name: 'UiSelect',
-            props: {
-                items: {
-                    type: Array as PropType<UiSelectItem<T>[]>,
-                    required: true,
-                },
-                selections: {
-                    type: Array as PropType<T[]>,
-                    default: () => [],
-                },
-                textButton: { type: String, default: '' },
-                placeholder: { type: String, default: '' },
-                variant: {
-                    type: String as PropType<'single' | 'checkbox' | 'multiple'>,
-                    default: 'single',
-                },
-                typehead: Boolean,
-                clearable: Boolean,
-                fullText: Boolean,
-            },
-            emits: {
-                onSelect: (payload: T) => payload,
-                onClear: () => true,
-            },
-            setup(props, { emit }) {
+export default defineComponent({
+    name: 'UiSelect',
+    props: {
+        items: {
+            type: Array as PropType<UiSelectItem<Value>[]>,
+            required: true,
+        },
+        selections: {
+            type: Array as PropType<Value[]>,
+            default: () => [],
+        },
+        textButton: { type: String, default: '' },
+        placeholder: { type: String, default: '' },
+        variant: {
+            type: String as PropType<'single' | 'checkbox' | 'multiple'>,
+            default: 'single',
+        },
+        typehead: Boolean,
+        clearable: Boolean,
+        fullText: Boolean,
+    },
+    emits: [
+        'onSelect',
+        'onClear'
+    ],
+    setup(props, { emit }) {
 
-                const isOpen = ref(false);
+        const isOpen = ref(false);
 
-                const textValue = computed(() => {
-                    if (props.variant === 'single') {
-                        return props.textButton ? props.textButton : selectedSingleOption.value ? selectedSingleOption.value?.nameDisplay : props.placeholder || '';
-                    } else {
-                        return props.textButton || props.placeholder || '';
-                    }
-                })
-
-                const options = computed(() => {
-                    return props.items.map(item => {
-                        return {
-                            ...item,
-                            selected: props.selections.includes(item.value),
-                        };
-                    });
-                })
-
-                const selectedSingleOption = computed(() => {
-                    const selected = props.items.find(item => props.selections.includes(item.value));
-
-                    return selected || null;
-                })
-
-                const onToggle = () => {
-                    isOpen.value = !isOpen.value;
-                };
-
-                const onHide = () => {
-                    isOpen.value = false;
-                };
-
-                const onSelect = (item: UiSelectItem<T>) => {
-                    emit('onSelect', item.value);
-                };
-
-                const removeSelect = (e: Event) => {
-                    e.stopPropagation();
-                    emit('onClear');
-                }
-
-                return {
-                    props,
-                    isOpen,
-                    textValue,
-                    options,
-                    selectedSingleOption,
-                    onToggle,
-                    onHide,
-                    onSelect,
-                    removeSelect,
-                }
+        const textValue = computed(() => {
+            if (props.variant === 'single') {
+                return props.textButton ? props.textButton : selectedSingleOption.value ? selectedSingleOption.value?.nameDisplay : props.placeholder || '';
+            } else {
+                return props.textButton || props.placeholder || '';
             }
         })
+
+        const options = computed(() => {
+            return props.items.map(item => {
+                return {
+                    ...item,
+                    selected: props.selections.includes(item.value),
+                };
+            });
+        })
+
+        const selectedSingleOption = computed(() => {
+            const selected = props.items.find(item => props.selections.includes(item.value));
+
+            return selected || null;
+        })
+
+        const onToggle = () => {
+            isOpen.value = !isOpen.value;
+        };
+
+        const onHide = () => {
+            isOpen.value = false;
+        };
+
+        const onSelect = (item: UiSelectItem<Value>) => {
+            emit('onSelect', item.value);
+        };
+
+        const removeSelect = (e: Event) => {
+            e.stopPropagation();
+            emit('onClear');
+        }
+
+        return {
+            props,
+            isOpen,
+            textValue,
+            options,
+            selectedSingleOption,
+            onToggle,
+            onHide,
+            onSelect,
+            removeSelect,
+        }
     }
-}
-
-const main = new UiSelectFactory().define();
-
-export function GenericUiSelect<T>() {
-    return main as ReturnType<UiSelectFactory<T>['define']>;
-}
-
-export default main;
+})
 </script>
 
 <style lang="scss">

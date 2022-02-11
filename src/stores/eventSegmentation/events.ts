@@ -114,13 +114,20 @@ export const useEventsStore = defineStore("events", {
         tableColumns(): ColumnMap {
             if (this.hasDataEvent) {
                 return {
-                    'brackdowns': {
-                        key: 'brackdowns',
-                        title: 'Brackdowns',
-                        pinned: true,
-                        lastPinned: true,
-                        truncate: true,
-                    },
+                    ...this.eventSegmentation.dimensionHeaders.reduce((acc: any, key: string) => {
+                        acc[key] = {
+                            value: key,
+                            title: key,
+                        }
+
+                        if (key === 'Event Name') {
+                            acc[key].pinned = true;
+                            acc[key].lastPinned = true;
+                            acc[key].truncate = true;
+                        }
+
+                        return acc
+                    }, {}),
                     ...this.eventSegmentation.metricHeaders.reduce((acc: any, key: string) => {
                         acc[key] = {
                             value: key,
@@ -138,12 +145,14 @@ export const useEventsStore = defineStore("events", {
             if (this.hasDataEvent) {
                 return this.eventSegmentation.series.map((values: number[], indexSeries: number) => {
                     return [
-                        {
-                            value: this.eventSegmentation.dimensions[indexSeries],
-                            title: this.eventSegmentation.dimensions[indexSeries].join(', '),
-                            pinned: true,
-                            lastPinned: true,
-                        },
+                        ...this.eventSegmentation.dimensions[indexSeries].map((dimension: string, i: number) => {
+                            return {
+                                value: dimension,
+                                title: dimension,
+                                pinned: i === 0,
+                                lastPinned: i === 0,
+                            };
+                        }),
                         ...values.map((value: number | undefined) => {
                             return {
                                 value,

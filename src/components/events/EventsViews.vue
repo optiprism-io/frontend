@@ -124,15 +124,14 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, onBeforeMount } from "vue";
+import { computed } from "vue";
 import UiSelect from "@/components/uikit/UiSelect.vue";
 import { useEventsStore } from "@/stores/eventSegmentation/events";
 import { groupByMap, periodMap } from "@/configs/events/controls";
 import UiToggleGroup, {UiToggleGroupItem} from "@/components/uikit/UiToggleGroup.vue";
 import UiIcon from "@/components/uikit/UiIcon.vue";
 import UiDatePicker, { ApplyPayload } from "@/components/uikit/UiDatePicker.vue";
-import { getStringDateByFormat, getYYYYMMDD } from "@/helpers/getStringDates";
-import { getLastNDaysRange } from "@/helpers/calendarHelper";
+import { getStringDateByFormat } from "@/helpers/getStringDates";
 import UiLabelGroup from "@/components/uikit/UiLabelGroup.vue";
 import UiTable from "@/components/uikit/UiTable/UiTable.vue";
 import ChartPie from "@/components/charts/ChartPie.vue";
