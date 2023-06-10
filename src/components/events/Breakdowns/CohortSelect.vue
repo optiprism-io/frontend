@@ -9,22 +9,22 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from "vue";
-import Select from "@/components/Select/Select.vue";
-import { Item } from "@/components/Select/SelectTypes";
-import { useLexiconStore } from "@/stores/lexicon";
+import { computed } from 'vue';
+import Select from '@/components/Select/Select.vue';
+import { Item } from '@/components/Select/SelectTypes';
+import { useLexiconStore } from '@/stores/lexicon';
 
 const props = defineProps<{
     selected?: number;
 }>();
 
 const emit = defineEmits<{
-    (e: "select", id: number): void;
+    (e: 'select', id: number): void;
 }>();
 
 const lexiconStore = useLexiconStore();
 
-let items = computed(() => {
+const items = computed(() => {
     const ret: Item<number, null>[] = [];
 
     if (lexiconStore.cohorts) {
@@ -34,7 +34,7 @@ let items = computed(() => {
     return ret;
 });
 
-let selectedItem = computed(() => {
+const selectedItem = computed(() => {
     if (props.selected) {
         return props.selected;
     } else {
@@ -43,6 +43,6 @@ let selectedItem = computed(() => {
 });
 
 const select = (item: number) => {
-    emit("select", item);
+    emit('select', item);
 };
 </script>

@@ -10,9 +10,10 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from "vue";
-import Select from "@/components/Select/Select.vue";
-import { Group, Item } from "@/components/Select/SelectTypes";
+import { computed } from 'vue';
+import Select from '@/components/Select/Select.vue';
+import { Group, Item } from '@/components/Select/SelectTypes';
+import { Property } from '@/api'
 import {
     Breakdown,
     newBreakdownCohort,
@@ -23,13 +24,13 @@ import {
     BreakdownUserCustomProperty,
     BreakdownCohort,
     BreakdownEventCommonProperty,
-} from "@/stores/eventSegmentation/breakdowns";
-import { UserCustomProperty, UserProperty } from "@/types/events";
-import { useLexiconStore } from "@/stores/lexicon";
-import { useEventsStore } from "@/stores/eventSegmentation/events";
+} from '@/stores/reports/breakdowns'
+import { UserCustomProperty } from '@/types/events'
+import { useLexiconStore } from '@/stores/lexicon';
+import { useEventsStore } from '@/stores/eventSegmentation/events';
 
 const emit = defineEmits<{
-    (e: "select", type: Breakdown): void;
+    (e: 'select', type: Breakdown): void;
 }>();
 
 const props = defineProps<{
@@ -41,46 +42,46 @@ const eventStore = useEventsStore();
 const events = eventStore.events;
 
 const items = computed(() => {
-    let ret: Group<Item<BreakdownCohort | BreakdownUserProperty | BreakdownUserCustomProperty | BreakdownEventCommonProperty, null>[]>[] = [];
+    const ret: Group<Item<BreakdownCohort | BreakdownUserProperty | BreakdownUserCustomProperty | BreakdownEventCommonProperty, null>[]>[] = [];
     {
-        let items: Item<BreakdownCohort, null>[] = [];
-        items.push({ item: newBreakdownCohort(), name: "Cohort" });
-        ret.push({ name: "", items: items });
+        const items: Item<BreakdownCohort, null>[] = [];
+        items.push({ item: newBreakdownCohort(), name: 'Cohort' });
+        ret.push({ name: '', items: items });
     }
 
     if (lexiconStore.userProperties.length > 0) {
-        let items: Item<BreakdownUserProperty, null>[] = [];
-        lexiconStore.userProperties.forEach((prop: UserProperty): void => {
+        const items: Item<BreakdownUserProperty, null>[] = [];
+        lexiconStore.userProperties.forEach((prop: Property): void => {
             items.push({
                 item: newBreakdownUserProperty(prop.id),
                 name: prop.name
             });
         });
-        ret.push({ name: "User Properties", items: items });
+        ret.push({ name: 'User Properties', items: items });
     }
 
     if (lexiconStore.userCustomProperties.length > 0) {
-        let items: Item<BreakdownUserCustomProperty, null>[] = [];
+        const items: Item<BreakdownUserCustomProperty, null>[] = [];
         lexiconStore.userCustomProperties.forEach((prop: UserCustomProperty): void => {
             items.push({
                 item: newBreakdownUserCustomProperty(prop.id),
                 name: prop.name
             });
         });
-        ret.push({ name: "User Custom Properties", items: items });
+        ret.push({ name: 'User Custom Properties', items: items });
     }
 
     if (events.length > 0) {
-        let firstProps = lexiconStore.findEventProperties(events[0].ref.id);
-        let firstCustomProps = lexiconStore.findEventCustomProperties(events[0].ref.id);
+        const firstProps = lexiconStore.findEventProperties(events[0].ref);
+        const firstCustomProps = lexiconStore.findEventCustomProperties(events[0].ref);
         if (firstProps.length > 0) {
             for (let i = 1; i < events.length; i++) {
-                let props = lexiconStore.findEventProperties(events[i].ref.id);
-                let rem: number[] = [];
+                const props = lexiconStore.findEventProperties(events[i].ref);
+                const rem: number[] = [];
                 for (let j = 0; j < firstProps.length; j++) {
-                    let firstProp = firstProps[j];
+                    const firstProp = firstProps[j];
                     let found = false;
-                    for (let curProp of props) {
+                    for (const curProp of props) {
                         if (
                             firstProp.name === curProp.name &&
                             firstProp.isArray === curProp.isArray &&
@@ -100,12 +101,12 @@ const items = computed(() => {
 
             if (firstCustomProps.length > 0) {
                 for (let i = 1; i < events.length; i++) {
-                    let props = lexiconStore.findEventCustomProperties(events[i].ref.id);
-                    let rem: number[] = [];
+                    const props = lexiconStore.findEventCustomProperties(events[i].ref);
+                    const rem: number[] = [];
                     for (let j = 0; j < firstCustomProps.length; j++) {
-                        let firstProp = firstCustomProps[j];
+                        const firstProp = firstCustomProps[j];
                         let found = false;
-                        for (let curProp of props) {
+                        for (const curProp of props) {
                             if (
                                 firstProp.name === curProp.name &&
                                 firstProp.isArray === curProp.isArray
@@ -125,7 +126,7 @@ const items = computed(() => {
         }
 
         if (firstProps.length > 0) {
-            let items: Item<BreakdownEventCommonProperty, null>[] = [];
+            const items: Item<BreakdownEventCommonProperty, null>[] = [];
             firstProps.forEach(prop =>
                 items.push({
                     item: newBreakdownEventCommonProperty(prop.id),
@@ -133,20 +134,22 @@ const items = computed(() => {
                 })
             );
 
-            ret.push({ name: "Event Properties", items: items });
+            ret.push({ name: 'Event Properties', items: items });
         }
 
         if (firstCustomProps.length > 0) {
-            let items: Item<BreakdownEventCommonProperty, null>[] = [];
-            firstCustomProps.forEach(prop =>
-                items.push({
-                    item: newBreakdownEventCommonProperty(prop.id),
-                    name: prop.name
-                })
-            );
+            const items: Item<BreakdownEventCommonProperty, null>[] = [];
+            firstCustomProps.forEach(prop => {
+                if (prop.id) {
+                    items.push({
+                        item: newBreakdownEventCommonProperty(prop.id),
+                        name: prop.name || ''
+                    })
+                }
+            })
 
             ret.push({
-                name: "Event Custom Properties",
+                name: 'Event Custom Properties',
                 items: items
             });
         }
@@ -155,7 +158,7 @@ const items = computed(() => {
     return ret;
 });
 
-let selectedItem = computed(() => {
+const selectedItem = computed(() => {
     if (props.selected) {
         return props.selected;
     } else {
@@ -164,6 +167,6 @@ let selectedItem = computed(() => {
 });
 
 const select = (type: Breakdown) => {
-    emit("select", type);
+    emit('select', type);
 };
 </script>

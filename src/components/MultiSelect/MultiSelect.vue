@@ -2,14 +2,13 @@
     <VDropdown
         placement="bottom-start"
         class="multi-select"
+        :container="props.popperContainer || 'body'"
     >
         <span class="multi-select__action">
             <slot />
         </span>
         <template #popper>
-            <div
-                class="pf-c-card pf-m-compact pf-u-min-width"
-            >
+            <div class="pf-c-card pf-m-compact pf-u-min-width">
                 <MultiSelectList
                     :items="itemsSelect"
                     :selected="selected"
@@ -23,27 +22,28 @@
 </template>
 
 <script setup lang="ts">
-import MultiSelectList from "@/components/MultiSelect/MultiSelectList.vue";
-import { ref, computed } from "vue";
+import { ref, computed } from 'vue'
+import MultiSelectList from '@/components/MultiSelect/MultiSelectList.vue'
 
 export interface Item {
     item: any;
-    name: string;
+    name: string | boolean | number;
 }
 
 const emit = defineEmits<{
-    (e: "select", item: any): void;
-    (e: "deselect", item: any): void;
-    (e: "search", payload: string): void;
+    (e: 'select', item: any): void;
+    (e: 'deselect', item: any): void;
+    (e: 'search', payload: string): void;
 }>();
 
 const props = defineProps<{
     items: Item[];
     selected?: any;
+    popperContainer?: string
 }>();
 
-let key = ref(0);
-const searchRef = ref("");
+const key = ref(0);
+const searchRef = ref('');
 
 const itemsSelect = computed(() => {
     if (searchRef.value) {
@@ -58,16 +58,16 @@ const itemsSelect = computed(() => {
 });
 
 const select = (item: any): void => {
-    emit("select", item);
+    emit('select', item);
 };
 
 const deselect = (item: any): void => {
-    emit("deselect", item);
+    emit('deselect', item);
 };
 
 const search = (payload: string) => {
     searchRef.value = payload.toLowerCase();
-    emit("search", payload);
+    emit('search', payload);
 };
 </script>
 

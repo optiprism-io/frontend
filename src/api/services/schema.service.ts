@@ -1,36 +1,61 @@
-import { get } from "../apiClient";
+import {OperationId, Value} from '@/types'
+import {PropertyRef} from '@/types/events'
+import {
+    CreateCustomEventRequest,
+    CustomEventEvent,
+    EventsApi,
+    EventType,
+    EventPropertiesApi,
+    CustomEventsApi,
+    PropertiesApi,
+    PropertyValuesApi,
+    UserPropertiesApi,
+    PropertyType,
+    UpdateEventRequest,
+    UpdatePropertyRequest,
+    UpdateCustomEventRequest,
+    ListPropertyValuesRequest,
+} from '@/api'
+import {config} from '@/api/services/config';
 
-type PropertiesValues = {
-    event_name: string;
-    event_type: string;
-    property_name: string;
-    property_type: string;
-};
+const api = new EventsApi(config)
+const customEventsApi = new CustomEventsApi(config)
+const propertiesApi = new PropertiesApi(config)
+const propertyValuesApi = new PropertyValuesApi(config)
+const eventPropertiesApi = new EventPropertiesApi(config)
+const userPropertiesApi = new UserPropertiesApi(config)
+
+export type FilterCustomEvent = {
+    filterType: string
+    propertyName: string
+    propertyType: PropertyType,
+    operation: OperationId
+    value: Value[]
+    propRef: PropertyRef
+    valuesList?: string[]
+}
+
+export interface Event extends Omit<CustomEventEvent, 'eventType'> {
+    eventType: EventType
+}
+
+export interface CustomEvents extends Omit<CreateCustomEventRequest, 'events'> {
+    events: Array<Event>
+}
 
 const schemaService = {
-    events: async () => await get("/schema/events", "", null),
-    customEvents: async () => await get("/schema/custom-events", "", null),
-    eventProperties: async () => await get("/schema/event-properties", "", null),
-    eventCustomProperties: async () => await get("/schema/event-custom-properties", "", null),
-    userProperties: async () => await get("/schema/user-properties", "", null),
-    userCustomProperties: async () => await get("/schema/user-custom-properties", "", null),
-
-    /**
-     * GET propertiesValues
-     * for event property you should incude event_name and event_type
-     *
-     * @param event_name: Event Name. Required if property has event type
-     * @param event_type: Event Type. Required if property has event type
-     * @param property_name: Property Name
-     * @param property_type: Available values : event, eventCustom, user, userCustom
-     */
-    propertiesValues: async (params: PropertiesValues) =>
-        await get("/data/property-values", "", params),
-
-
-    // TODO event chart
-    getEventChart: async () =>
-        await get("/chart", "", null),
+    events: async (organizationId: number, projectId: number) => await api.eventsList(organizationId, projectId),
+    updateEvent: async(organizationId: number, projectId: number, eventId: string, params: UpdateEventRequest) => await api.updateEvent(organizationId, projectId, eventId, params),
+    customEvents: async (organizationId: number, projectId: number) => await customEventsApi.customEventsList(organizationId, projectId),
+    createCustomEvent: async (organizationId: number, projectId: number, params: CreateCustomEventRequest) => await customEventsApi.createCustomEvent(organizationId, projectId, params),
+    updateCustomEvent: async(organizationId: number, projectId: number, eventId: string, params: UpdateCustomEventRequest) => await customEventsApi.updateCustomEvent(organizationId, projectId, eventId, params),
+    deleteCustomEvents: async (organizationId: number, projectId: number, eventId: number) => await customEventsApi.deleteCustomEvent(organizationId, projectId, eventId),
+    eventCustomProperties: async (organizationId: number, projectId: number) => await propertiesApi.customPropertiesList(organizationId, projectId),
+    eventProperties: async (organizationId: number, projectId: number) => await eventPropertiesApi.eventPropertiesList(organizationId, projectId),
+    updateEventProperty: async(organizationId: number, projectId: number, propertyId: string, params: UpdatePropertyRequest) => await eventPropertiesApi.updateEventProperty(organizationId, projectId, propertyId, params),
+    userProperties: async (organizationId: number, projectId: number) => await userPropertiesApi.userPropertiesList(organizationId, projectId),
+    updateUserProperty: async(organizationId: number, projectId: number, propertyId: number, params: UpdatePropertyRequest) => await userPropertiesApi.updateUserProperty(organizationId, projectId, propertyId, params),
+    propertyValues: async(organizationId: number, projectId: number, params: ListPropertyValuesRequest) => await propertyValuesApi.propertyValuesList(organizationId, projectId, params),
 };
 
-export default schemaService;
+export default schemaService

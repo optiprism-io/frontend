@@ -1,6 +1,7 @@
-import { defineConfig } from "vite";
-import vue from "@vitejs/plugin-vue";
-import path from "path";
+import {defineConfig} from 'vitest/config'
+import vue from '@vitejs/plugin-vue'
+import vueJsx from '@vitejs/plugin-vue-jsx'
+import path from 'path'
 
 export default defineConfig({
     resolve: {
@@ -8,5 +9,14 @@ export default defineConfig({
             "@": path.resolve(__dirname, "./src")
         }
     },
-    plugins: [vue()]
-});
+    plugins: [
+        vue(),
+        vueJsx(),
+    ],
+    test: {
+        include: [
+            'test/unit/**/*.{test,spec}.ts',
+            'test/contract/**/*.{test,spec}.ts'
+        ],
+    },
+})

@@ -1,39 +1,49 @@
-import { DataType } from '@/types';
-import { AggregateId } from '@/types/aggregate';
+import {OperationId} from '@/types'
+import {Each} from '@/components/uikit/UiCalendar/UiCalendar'
 
-export enum EventType {
-    Regular,
-    Custom
-}
-
-export enum PropertyType {
+import {
+    DataType,
     Event,
-    EventCustom,
-    User,
-    UserCustom
-}
+    EventType,
+    PropertyType,
+    CustomEvent,
+    Value,
+    QuerySimpleTypeEnum,
+    QueryCountPerGroupTypeEnum,
+    DidEventAggregatePropertyTypeEnum,
+    QueryAggregatePropertyPerGroupTypeEnum,
+    QueryFormulaTypeEnum,
+    QueryAggregatePerGroup,
+    QueryAggregate,
+    SegmentConditionAnd,
+    SegmentConditionOr,
+} from '@/api'
+
+export type QueryType = QuerySimpleTypeEnum | QueryCountPerGroupTypeEnum | DidEventAggregatePropertyTypeEnum | QueryAggregatePropertyPerGroupTypeEnum | QueryFormulaTypeEnum;
 
 export type PropertyRef = {
     type: PropertyType;
-    id: number;
+    id: number,
+    name?: string,
 };
 
 export enum EventStatus {
-    Enabled = "enabled",
-    Disabled = "disabled"
+    Enabled = 'enabled',
+    Disabled = 'disabled'
 }
 
 export type EventRef = {
-    type: EventType;
-    id: number;
-};
+    type: EventType
+    id: number
+    name?: string
+}
 
 export function eventRef(e: Event): EventRef {
-    return <EventRef>{ type: EventType.Regular, id: e.id };
+    return <EventRef>{ type: EventType.Regular, id: e.id, name: e.name }
 }
 
 export function customEventRef(e: CustomEvent): EventRef {
-    return <EventRef>{ type: EventType.Custom, id: e.id };
+    return <EventRef>{ type: EventType.Custom, id: e.id, name: e.name }
 }
 
 export function eventPropertyRef(e: EventProperty): PropertyRef {
@@ -41,7 +51,7 @@ export function eventPropertyRef(e: EventProperty): PropertyRef {
 }
 
 export function eventCustomPropertyRef(e: EventCustomProperty): PropertyRef {
-    return <PropertyRef>{ type: PropertyType.EventCustom, id: e.id };
+    return <PropertyRef>{ type: PropertyType.Custom, id: e.id };
 }
 
 export function userPropertyRef(e: UserProperty): PropertyRef {
@@ -49,37 +59,7 @@ export function userPropertyRef(e: UserProperty): PropertyRef {
 }
 
 export function userCustomPropertyRef(e: UserCustomProperty): PropertyRef {
-    return <PropertyRef>{ type: PropertyType.UserCustom, id: e.id };
-}
-
-export interface CustomEvent {
-    id: number;
-    createdAt: Date;
-    updatedAt?: Date;
-    createdBy: number;
-    updatedBy: number;
-    projectId: number;
-    tags: string[];
-    name: string;
-    description?: string;
-    status: EventStatus;
-}
-
-export interface Event {
-    id: number;
-    createdAt: Date;
-    updatedAt?: Date;
-    createdBy: number;
-    updatedBy: number;
-    projectId: number;
-    isSystyem: boolean;
-    tags: string[];
-    name: string;
-    displayName: string;
-    description?: string;
-    status: EventStatus;
-    properties?: number[];
-    custom_properties?: number[];
+    return <PropertyRef>{ type: PropertyType.Custom, id: e.id };
 }
 
 export interface EventProperty {
@@ -118,7 +98,7 @@ export interface EventCustomProperty {
     status: EventStatus;
     name: string;
     description: string;
-    type: DataType;
+    dataType: DataType;
     nullable: boolean;
     isArray: boolean;
     tags: string[];
@@ -137,7 +117,7 @@ export interface UserProperty {
     displayName: string;
     description: string;
     status: EventStatus;
-    type: DataType;
+    dataType: DataType;
     db_col?: any;
     nullable: boolean;
     isArray: boolean;
@@ -169,12 +149,10 @@ export interface UserCustomProperty {
     dictionaryType?: DataType;
 }
 
-export type QueryType = "simple" | "countPerGroup" | "aggregateProperty" | "aggregatePropertyPerGroup" | "formula";
-
 export type EventQueryRef = {
     type?: QueryType;
-    typeAggregate?: AggregateId;
-    typeGroupAggregate?: AggregateId;
+    typeAggregate?: QueryAggregate;
+    typeGroupAggregate?: QueryAggregatePerGroup;
     propRef?: PropertyRef;
     name?: string;
     value?: string;
@@ -193,61 +171,102 @@ export interface EventsQuery {
 
 export const eventsQueries: EventsQuery[] = [
     {
-        type: "simple",
-        name: "countEvents",
-        displayName: "Count",
+        type: QuerySimpleTypeEnum.CountEvents,
+        name: 'countEvents',
+        displayName: 'Count',
     },
     {
-        type: "simple",
-        name: "countUnique",
-        displayName: "Count Unique",
+        type: QuerySimpleTypeEnum.CountUniqueGroups,
+        name: 'countUnique',
+        displayName: 'Count Unique',
         grouped: true,
     },
     {
-        type: "simple",
-        name: "dailyActive",
-        displayName: "Daily Active",
+        type: QuerySimpleTypeEnum.WeeklyActiveGroups,
+        name: 'dailyActive',
+        displayName: 'Daily Active',
         grouped: true,
     },
     {
-        type: "simple",
-        name: "weeklyActive",
-        displayName: "Weekly Active",
+        type: QuerySimpleTypeEnum.WeeklyActiveGroups,
+        name: 'weeklyActive',
+        displayName: 'Weekly Active',
         grouped: true,
     },
     {
-        type: "simple",
-        name: "monthlyActive",
-        displayName: "Monthly Active",
+        type: QuerySimpleTypeEnum.MonthlyActiveGroups,
+        name: 'monthlyActive',
+        displayName: 'Monthly Active',
         grouped: true,
     },
     {
-        type: "countPerGroup",
-        name: "countPer",
-        displayName: "Count",
+        type: QueryCountPerGroupTypeEnum.CountPerGroup,
+        name: 'countPer',
+        displayName: 'Count',
         grouped: true,
         hasAggregate: true,
     },
     {
-        type: "aggregateProperty",
-        name: "aggregateProperty",
-        displayName: "Aggregate Property",
+        type: DidEventAggregatePropertyTypeEnum.AggregateProperty,
+        name: 'aggregateProperty',
+        displayName: 'Aggregate Property',
         hasAggregate: true,
         hasProperty: true
     },
     {
-        type: "aggregatePropertyPerGroup",
-        name: "aggregatePropertyPer",
-        displayName: "Aggregate Property per",
+        type: QueryAggregatePropertyPerGroupTypeEnum.AggregatePropertyPerGroup,
+        name: 'aggregatePropertyPer',
+        displayName: 'Aggregate Property per',
         grouped: true,
         hasAggregate: true,
         hasGroupAggregate: true,
         hasProperty: true
     },
     {
-        type: "formula",
-        name: "formula",
-        displayName: "Formula",
+        type: QueryFormulaTypeEnum.Formula,
+        name: 'formula',
+        displayName: 'Formula',
         hasValue: true,
     },
 ]
+
+export interface ConditionFilter {
+    propRef?: PropertyRef
+    opId: OperationId
+    values: Value[]
+    valuesList: Value[]
+    error?: boolean
+}
+
+export interface Condition {
+    action?: {
+        name?: string
+        id: string | SegmentConditionAnd | SegmentConditionOr
+    }
+    propRef?: PropertyRef
+    opId?: OperationId
+    values?: Value[]
+    valueItem?: Value,
+    valuesList?: Value[],
+    period?: {
+        from?: string
+        to?: string
+        last?: number
+        type?: string
+    }
+    event?: {
+        name: string
+        ref: EventRef
+    }
+    compareEvent?: {
+        name: string
+        ref: EventRef
+    }
+    filters: ConditionFilter[]
+    aggregate?: {
+        name?: string
+        id: string,
+        typeAggregate?: string
+    }
+    each?: Each
+}

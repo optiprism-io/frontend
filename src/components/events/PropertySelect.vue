@@ -13,25 +13,21 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from "vue";
+import { computed } from 'vue';
 import {
     EventCustomProperty,
-    EventProperty,
     EventRef,
-    EventType,
     PropertyRef,
-    PropertyType,
-    UserCustomProperty,
-    UserProperty
-} from "@/types/events";
-import Select from "@/components/Select/Select.vue";
-import { Group, Item } from "@/components/Select/SelectTypes";
-import { useLexiconStore } from "@/stores/lexicon";
+} from '@/types/events';
+import Select from '@/components/Select/Select.vue';
+import { Group, Item } from '@/components/Select/SelectTypes';
+import { useLexiconStore } from '@/stores/lexicon';
+import { PropertyType, EventType, Property, CustomProperty } from '@/api'
 
 const lexiconStore = useLexiconStore();
 
 const emit = defineEmits<{
-    (e: "select", ref: PropertyRef): void;
+    (e: 'select', ref: PropertyRef): void;
 }>();
 
 const props = defineProps<{
@@ -41,6 +37,7 @@ const props = defineProps<{
     isOpenMount?: boolean;
     updateOpen?: boolean;
     disabledItems?: any[];
+    forceProps?: Property[];
 }>();
 
 const checkDisable = (propRef: PropertyRef): boolean => {
@@ -50,12 +47,12 @@ const checkDisable = (propRef: PropertyRef): boolean => {
 const getEventProperties = (eventRef: EventRef) => {
     const properties: Group<Item<PropertyRef, null>[]>[] = [];
 
-    if (eventRef.type == EventType.Regular) {
-        const eventProperties = lexiconStore.findEventProperties(eventRef.id);
+    if (eventRef.type === EventType.Regular) {
+        const eventProperties = lexiconStore.findEventProperties(eventRef)
 
         if (eventProperties.length) {
-            let items: Item<PropertyRef, null>[] = [];
-            eventProperties.forEach((prop: EventProperty): void => {
+            const items: Item<PropertyRef, null>[] = [];
+            eventProperties.forEach((prop: Property): void => {
                 const propertyRef: PropertyRef = {
                     type: PropertyType.Event,
                     id: prop.id
@@ -67,28 +64,30 @@ const getEventProperties = (eventRef: EventRef) => {
                     disabled: checkDisable(propertyRef),
                 });
             });
-            properties.push({ name: "Event Properties", items, });
+            properties.push({ name: 'Event Properties', items, });
         }
 
-        const eventCustomProperties = lexiconStore.findEventCustomProperties(eventRef.id);
+        const eventCustomProperties = lexiconStore.findEventCustomProperties(eventRef);
 
         if (eventCustomProperties.length) {
-            let items: Item<PropertyRef, null>[] = [];
+            const items: Item<PropertyRef, null>[] = [];
 
-            eventCustomProperties.forEach((prop: EventCustomProperty): void => {
-                const propertyRef: PropertyRef = {
-                    type: PropertyType.EventCustom,
-                    id: prop.id
-                };
+            eventCustomProperties.forEach((prop: CustomProperty): void => {
+                if (prop.id) {
+                    const propertyRef: PropertyRef = {
+                        type: PropertyType.Custom,
+                        id: prop.id
+                    }
 
-                items.push({
-                    item: propertyRef,
-                    name: prop.name,
-                    disabled: checkDisable(propertyRef),
-                });
+                    items.push({
+                        item: propertyRef,
+                        name: prop.name || '',
+                        disabled: checkDisable(propertyRef),
+                    })
+                }
             });
             properties.push({
-                name: "Event Custom Properties",
+                name: 'Event Custom Properties',
                 items: items
             });
         }
@@ -100,9 +99,27 @@ const getEventProperties = (eventRef: EventRef) => {
 const items = computed(() => {
     let ret: Group<Item<PropertyRef, null>[]>[] = [];
 
+    if (lexiconStore.eventProperties.length) {
+        const items: Item<PropertyRef, null>[] = [];
+        lexiconStore.eventProperties.forEach((prop: Property): void => {
+            const propertyRef: PropertyRef = {
+                type: PropertyType.Event,
+                id: prop.id
+            };
+
+            items.push({
+                item: propertyRef,
+                name: prop.name,
+                disabled: checkDisable(propertyRef),
+                description: prop?.description
+            });
+        });
+        ret.push({ name: 'Event Properties', items: items });
+    }
+
     if (lexiconStore.userProperties.length) {
-        let items: Item<PropertyRef, null>[] = [];
-        lexiconStore.userProperties.forEach((prop: UserProperty): void => {
+        const items: Item<PropertyRef, null>[] = [];
+        lexiconStore.userProperties.forEach((prop: Property): void => {
             const propertyRef: PropertyRef = {
                 type: PropertyType.User,
                 id: prop.id
@@ -115,25 +132,7 @@ const items = computed(() => {
                 description: prop?.description
             });
         });
-        ret.push({ name: "User Properties", items: items });
-    }
-
-    if (lexiconStore.userCustomProperties.length) {
-        let items: Item<PropertyRef, null>[] = [];
-        lexiconStore.userCustomProperties.forEach((prop: UserCustomProperty): void => {
-            const propertyRef: PropertyRef = {
-                type: PropertyType.UserCustom,
-                id: prop.id
-            };
-
-            items.push({
-                item: propertyRef,
-                name: prop.name,
-                disabled: checkDisable(propertyRef),
-                description: prop?.description
-            });
-        });
-        ret.push({ name: "User Custom Properties", items: items });
+        ret.push({ name: 'User Properties', items: items });
     }
 
     if (props.eventRef) {
@@ -169,6 +168,6 @@ const items = computed(() => {
 });
 
 const select = (item: PropertyRef) => {
-    emit("select", item);
+    emit('select', item);
 };
 </script>

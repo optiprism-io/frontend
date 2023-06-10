@@ -21,7 +21,7 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 
-class MultiSelectListItemFactory<T = unknown> {
+class MultiSelectListItemFactory<T = any> {
     define() {
         return defineComponent({
             name: 'MultiSelectListItem',

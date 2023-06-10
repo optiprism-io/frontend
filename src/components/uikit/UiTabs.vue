@@ -1,37 +1,51 @@
 <template>
-    <ul class="ui-tabs">
-        <li
-            v-for="item in items"
-            :key="item.name"
-            class="ui-tabs__item"
-            :class="{
-                'ui-tabs__item_active': item.active,
-            }"
-        >
-            <component
-                :is="item.link ? 'router-link' : 'div'"
-                class="ui-tabs__item-content"
-                :to="item.link"
+    <div
+        class="pf-c-tabs"
+        :class="{
+            'pf-m-box': props.box,
+        }"
+    >
+        <ul class="pf-c-tabs__list">
+            <li
+                v-for="item in props.items"
+                :key="item.name"
+                class="pf-c-tabs__item"
+                :class="{
+                    'pf-m-current': item.active,
+                }"
+                @click="onSelect(item.value)"
             >
-                <UiIcon
-                    v-if="item.icon"
-                    :icon="item.icon"
-                    class="ui-tabs__item-icon"
-                />
-                <span
-                    class="ui-tabs__item-name"
+                <component
+                    :is="item.link ? 'router-link' : 'button'"
+                    class="pf-c-tabs__link"
+                    :to="item.link"
                 >
-                    {{ item.name }}
-                </span>
-            </component>
-        </li>
-    </ul>
+                    <span
+                        v-if="item.icon"
+                        class="pf-c-tabs__item-icon"
+                        aria-hidden="true"
+                    >
+                        <UiIcon
+                            v-if="item.icon"
+                            :icon="item.icon"
+                        />
+                    </span>
+                    <span
+                        class="pf-c-tabs__item-text"
+                    >
+                        {{ item.name }}
+                    </span>
+                </component>
+            </li>
+        </ul>
+        <slot name="afterTabs" />
+    </div>
 </template>
 
 <script lang="ts" setup>
 type Item = {
     name: string,
-    value: string | number,
+    value: string,
     icon?: string,
     active?: boolean,
     link?: any,
@@ -39,35 +53,18 @@ type Item = {
 
 interface Props {
     items: Item[],
+    box?: boolean,
 }
 
-withDefaults(defineProps<Props>(), {});
+const props = withDefaults(defineProps<Props>(), {});
+
+const emit = defineEmits<{
+    (e: 'on-select', payload: string): void;
+}>();
+
+const onSelect = (value: string) => {
+    emit('on-select', value);
+};
 </script>
 
-<style lang="scss" scoped>
-.ui-tabs {
-    display: flex;
-    align-items: center;
-
-    &__item {
-        padding: 6px 15px;
-        border-radius: 3px;
-        cursor: pointer;
-
-        &_active {
-            background-color: #e1ebf4;
-        }
-    }
-
-    &__item-content {
-        display: flex;
-        align-items: center;
-        text-decoration: none;
-        color: var(--pf-global--main-color--200);
-    }
-
-    &__item-icon {
-        margin-right: 10px;
-    }
-}
-</style>
+<style lang="scss" scoped></style>

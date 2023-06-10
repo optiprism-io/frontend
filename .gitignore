@@ -1,8 +1,14 @@
 .idea
 .vscode
+.DS_Store
 
 node_modules
-.DS_Store
 dist
 dist-ssr
+typings
 *.local
+*.ts.snap
+coverage/
+test-results/
+playwright-report/
+playwright/.cache/

@@ -15,9 +15,9 @@
             <ul class="pf-c-menu__list">
                 <MultiSelectListItem
                     v-for="item in items"
-                    :key="item.name"
+                    :key="String(item.name)"
                     :item="item.item"
-                    :text="item.name"
+                    :text="String(item.name)"
                     :selected="isSelected(item.item)"
                     @select="select"
                     @deselect="deselect"
@@ -28,10 +28,9 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
-import { Item } from "@/components/MultiSelect/MultiSelect.vue";
-import { GenericMultiSelectListItem } from "./MultiSelectListItem.vue";
-const MultiSelectListItem = GenericMultiSelectListItem<'string'>();
+import { ref } from 'vue';
+import { Item } from '@/components/MultiSelect/MultiSelect.vue';
+import MultiSelectListItem from './MultiSelectListItem.vue';
 
 const props = defineProps<{
     items: Item[];
@@ -39,19 +38,19 @@ const props = defineProps<{
 }>();
 
 const emit = defineEmits<{
-    (e: "select", item: any): void;
-    (e: "deselect", item: any): void;
-    (e: "search", payload: any): void;
+    (e: 'select', item: any): void;
+    (e: 'deselect', item: any): void;
+    (e: 'search', payload: any): void;
 }>();
 
-const searchRef = ref("");
+const searchRef = ref('');
 
 const select = (item: string): void => {
-    emit("select", item);
+    emit('select', item);
 };
 
 const deselect = (item: string): void => {
-    emit("deselect", item);
+    emit('deselect', item);
 };
 
 const isSelected = (item: any): boolean => {
@@ -59,6 +58,6 @@ const isSelected = (item: any): boolean => {
 };
 
 const search = (): void => {
-    emit("search", searchRef.value);
+    emit('search', searchRef.value);
 };
 </script>

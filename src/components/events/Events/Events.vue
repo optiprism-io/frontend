@@ -3,20 +3,19 @@
         <SelectedEvent
             v-for="(event, index) in events"
             :key="index"
+            :event="event"
             :event-ref="event.ref"
             :filters="event.filters"
             :index="index"
             :event-items="lexiconStore.eventsList"
             :breakdowns="event.breakdowns"
             :queries="event.queries"
-            @change-event="changeEvent"
+            :auto-hide="!commonStore.showCreateCustomEvent"
+            :identifier="identifier"
+            @action="selectAction"
+            @edit="editEvent"
+            @set-event="setEvent"
             @remove-event="removeEvent"
-            @add-filter="addFilter"
-            @remove-filter="removeFilter"
-            @change-filter-property="changeFilterProperty"
-            @change-filter-operation="changeFilterOperation"
-            @add-filter-value="addFilterValue"
-            @remove-filter-value="removeFilterValue"
             @add-breakdown="addBreakdown"
             @change-breakdown-property="changeBreakdownProperty"
             @remove-breakdown="removeBreakdown"
@@ -25,72 +24,56 @@
             @change-query="changeQuery"
         />
         <div class="pf-l-flex">
-            <Select
-                grouped
-                :items="lexiconStore.eventsList"
-                :width-auto="true"
-                @select="addEvent"
-            >
-                <UiButton
-                    class="pf-m-main"
-                    :is-link="true"
-                    :before-icon="'fas fa-plus'"
-                >
-                    Add Event
-                </UiButton>
-            </Select>
+            <EventSelector @select="addEvent">
+                <slot name="new" />
+            </EventSelector>
         </div>
     </div>
 </template>
 
 <script setup lang="ts">
-import { computed } from "vue";
-import { EventQueryRef, EventRef, PropertyRef } from "@/types/events";
-import { OperationId, Value } from "@/types";
-import { useEventsStore } from "@/stores/eventSegmentation/events";
-import { useLexiconStore } from "@/stores/lexicon";
-import Select from "@/components/Select/Select.vue";
-import SelectedEvent from "@/components/events/Events/SelectedEvent.vue";
+import {computed, watch, defineAsyncComponent, PropType} from 'vue';
+import { EventQueryRef, EventRef, PropertyRef } from '@/types/events';
+import { useEventsStore, EventPayload } from '@/stores/eventSegmentation/events';
+import { useLexiconStore } from '@/stores/lexicon';
+import { useCommonStore } from '@/stores/common'
+import EventSelector from '@/components/events/Events/EventSelector.vue';
+import useCustomEvent from '@/components/events/Events/CustomEventHooks';
+const SelectedEvent = defineAsyncComponent(() => import('@/components/events/Events/SelectedEvent.vue'))
+
+const props = defineProps({
+    identifier: {
+        type: String as PropType<'numeric' | 'alphabet'>,
+        default: 'alphabet',
+    },
+    createWithQuery: {
+        type: Boolean,
+        default: true,
+    },
+})
 
 const lexiconStore = useLexiconStore();
 const eventsStore = useEventsStore();
+const commonStore = useCommonStore()
+
+const { hoveredCustomEventDescription, hoveredCustomEventId, onHoverEvent } = useCustomEvent()
+
+const emit = defineEmits<{
+    (e: 'get-event-segmentation'): void
+}>()
 
 const events = computed(() => eventsStore.events);
 
-const addEvent = (ref: EventRef) => {
-    eventsStore.addEventByRef(ref);
-};
+const setEvent = (payload: EventPayload) => {
+    eventsStore.setEvent(payload);
+}
 
-const changeEvent = (index: number, ref: EventRef) => {
-    eventsStore.changeEvent(index, ref);
+const addEvent = (ref: EventRef) => {
+    eventsStore.addEventByRef(ref, props.createWithQuery);
 };
 
 const removeEvent = (idx: number): void => {
     eventsStore.deleteEvent(idx);
-};
-
-const addFilter = (idx: number): void => {
-    eventsStore.addFilter(idx);
-};
-
-const removeFilter = (eventIdx: number, filterIdx: number): void => {
-    eventsStore.removeFilter(eventIdx, filterIdx);
-};
-
-const changeFilterProperty = (eventIdx: number, filterIdx: number, propRef: PropertyRef) => {
-    eventsStore.changeFilterProperty(eventIdx, filterIdx, propRef);
-};
-
-const changeFilterOperation = (eventIdx: number, filterIdx: number, opId: OperationId) => {
-    eventsStore.changeFilterOperation(eventIdx, filterIdx, opId);
-};
-
-const addFilterValue = (eventIdx: number, filterIdx: number, value: Value) => {
-    eventsStore.addFilterValue(eventIdx, filterIdx, value);
-};
-
-const removeFilterValue = (eventIdx: number, filterIdx: number, value: Value) => {
-    eventsStore.removeFilterValue(eventIdx, filterIdx, value);
 };
 
 const addBreakdown = (idx: number): void => {
@@ -116,4 +99,18 @@ const removeQuery = (eventIdx: number, queryIdx: number): void => {
 const changeQuery = (eventIdx: number, queryIdx: number, ref: EventQueryRef) => {
     eventsStore.changeQuery(eventIdx, queryIdx, ref);
 };
+
+const selectAction = (payload: string) => {
+    if (payload === 'createCustomEvent') {
+        eventsStore.setEditCustomEvent(null)
+        commonStore.togglePopupCreateCustomEvent(true)
+    }
+}
+
+const editEvent = (payload: number) => {
+    eventsStore.setEditCustomEvent(Number(payload))
+    commonStore.togglePopupCreateCustomEvent(true)
+}
+
+watch(eventsStore.events, () => emit('get-event-segmentation'))
 </script>
