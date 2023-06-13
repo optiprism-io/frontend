@@ -5,9 +5,9 @@ export default () => {
     outer.style.visibility = 'hidden'
     outer.style.overflow = 'scroll'
     document.body.appendChild(outer)
-
     outer.appendChild(inner)
-    const scrollbarWidth = (outer.offsetWidth - inner.offsetWidth)
+
+    const scrollbarWidth: number = (outer.offsetWidth - inner.offsetWidth);
 
     if (outer.parentNode) {
         outer.parentNode.removeChild(outer)

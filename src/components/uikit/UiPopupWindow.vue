@@ -95,10 +95,11 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted, computed } from 'vue'
+import { ref, onMounted, onUnmounted, computed } from 'vue';
 
-import getScrollbarWidth from '@/helpers/getScrollbarWidth'
-import UiButton from '@/components/uikit/UiButton.vue'
+import getScrollbarWidth from '@/helpers/getScrollbarWidth';
+
+import UiButton from '@/components/uikit/UiButton.vue';
 
 export interface Props {
     title?: string

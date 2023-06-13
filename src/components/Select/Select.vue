@@ -89,6 +89,7 @@ const emit = defineEmits<{
     (e: 'onHover', item: any): void;
     (e: 'action', payload: string): void
     (e: 'edit', payload: number): void
+    (e: 'on-hide'): void
 }>();
 
 const props = withDefaults(
@@ -219,6 +220,7 @@ const onSearch = (payload: string) => {
 const onHide = () => {
     isOpen.value = false;
     search.value = '';
+    emit('on-hide');
 };
 
 const onAction = (payload: string) => {

@@ -21,10 +21,7 @@
 </template>
 
 <script lang="ts" setup>
-import { inject } from 'vue'
-import UiPopupWindow from '@/components/uikit/UiPopupWindow.vue'
-
-const i18n = inject<any>('i18n')
+import UiPopupWindow from '@/components/uikit/UiPopupWindow.vue';
 
 type Props = {
     title?: string

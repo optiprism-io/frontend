@@ -1,8 +1,9 @@
 <template>
     <div
-        class="condition pf-l-flex pf-m-column"
+        class="condition pf-l-flex"
         :class="{
             'condition_is-one': props.isOne,
+            'pf-m-column': !props.isOne,
         }"
     >
         <div class="pf-c-action-list">
@@ -181,16 +182,20 @@
         <div
             v-if="isAllowBetweenAdd"
             class="condition__between-add"
+            :class="{
+                'condition__between-add_visible': iconVisiblBetweenCondition,
+            }"
         >
             <Select
                 :items="conditionItemsAll"
                 :width-auto="true"
                 :is-open-mount="updateOpenBetweenCondition"
                 :update-open="updateOpenBetweenCondition"
+                @on-hide="onHideConditionBetweenAll"
                 @select="changeBetweenAdd"
             >
                 <UiButton
-                    :before-icon="'fas fa-plus-circle'"
+                    :before-icon="'fas fa-arrow-right-to-bracket'"
                     @click="betweenAdd"
                 />
             </Select>
@@ -221,7 +226,7 @@ import {
 import { conditions } from '@/configs/events/segmentCondition'
 import { useLexiconStore } from '@/stores/lexicon'
 import { getStringDateByFormat } from '@/helpers/getStringDates'
-import { conditions as conditionsMap } from '@/configs/events/segmentCondition'
+import { conditions as conditionsMap, conditionsBetween } from '@/configs/events/segmentCondition'
 import usei18n from '@/hooks/useI18n';
 import { Each, ApplyPayload } from '@/components/uikit/UiCalendar/UiCalendar'
 
@@ -278,6 +283,9 @@ const getConditionItem = (key: string): ItemConditionType => {
     }
 }
 
+const nextAction = computed(() => props.nextCondition?.action?.id || '');
+const currentAction = computed(() => props.condition?.action?.id || '');
+
 const isAllowBetweenAdd = computed(() => {
     return props.isOne && props.condition?.action?.id && props.nextCondition?.action?.id;
 });
@@ -288,20 +296,23 @@ const conditionItems = computed(() => {
 
 const conditionItemsAll = computed(() => {
     const items = [...conditionItems.value];
-    items.push({
-        item: {
-            id: 'andOr',
-            name: '',
-        },
-        items: ['and', 'or'].map(key => getConditionItem(key)),
-        name: i18n.t('common.groupBy'),
-        description: '',
-    });
+    if (!conditionsBetween.includes(currentAction.value) && !conditionsBetween.includes(nextAction.value)) {
+        items.push({
+            item: {
+                id: 'andOr',
+                name: '',
+            },
+            items: conditionsBetween.map(key => getConditionItem(key)),
+            name: i18n.t('common.groupBy'),
+            description: '',
+        });
+    }
     return items;
 });
 
 const updateOpenFilter = ref(false);
 const updateOpenBetweenCondition = ref(false);
+const iconVisiblBetweenCondition = ref(false);
 
 const lastCount = computed(() => {
     return props.condition?.period?.last
@@ -513,11 +524,16 @@ const onChangeEach = (payload: Each) => {
 }
 
 const betweenAdd = () => {
-    updateOpenBetweenCondition.value = true
+    updateOpenBetweenCondition.value = true;
+    iconVisiblBetweenCondition.value = !iconVisiblBetweenCondition.value;
 };
 
 const changeBetweenAdd = (payload: {id: string, name: string}) => {
     betweenAddCondition && betweenAddCondition(props.index, props.indexParent, payload);
+};
+
+const onHideConditionBetweenAll = () => {
+    iconVisiblBetweenCondition.value = false;
 };
 </script>
 
@@ -550,7 +566,7 @@ const changeBetweenAdd = (payload: {id: string, name: string}) => {
     &__between-add-after {
         position: absolute;
         left: 40px;
-        bottom: 0;
+        bottom: -6px;
         height: 1px;
         width: calc(100% - 50px);
         background-color: #000;
@@ -559,13 +575,19 @@ const changeBetweenAdd = (payload: {id: string, name: string}) => {
 
     &__between-add {
         position: absolute;
-        bottom: -28px;
+        bottom: -23px;
         left: 0;
         opacity: 0;
         .pf-c-button {
-            padding-top: 34px;
+            padding-top: 28px;
         }
         &:hover {
+            opacity: 1;
+            + .condition__between-add-after {
+                opacity: 1;
+            }
+        }
+        &_visible {
             opacity: 1;
             + .condition__between-add-after {
                 opacity: 1;

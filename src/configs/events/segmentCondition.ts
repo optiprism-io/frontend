@@ -22,3 +22,5 @@ export const conditions = [
     //     key: 'retained',
     // }
 ]
+
+export const conditionsBetween = ['and', 'or'];

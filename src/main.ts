@@ -4,7 +4,7 @@ import 'floating-vue/dist/style.css';
 import '@/assets/styles/main.scss';
 import lang from '@/lang';
 import {createApp} from 'vue';
-import {createPinia} from 'pinia';
+import { createPinia } from 'pinia';
 import App from '@/App.vue';
 import makeServer from '@/server';
 import FloatingVue from 'floating-vue';
