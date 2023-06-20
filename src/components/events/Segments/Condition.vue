@@ -569,7 +569,7 @@ const onHideConditionBetweenAll = () => {
         bottom: -6px;
         height: 1px;
         width: calc(100% - 50px);
-        background-color: #000;
+        background-color: var(--pf-global--main-color--100);
         opacity: 0;
     }
 
@@ -580,6 +580,9 @@ const onHideConditionBetweenAll = () => {
         opacity: 0;
         .pf-c-button {
             padding-top: 28px;
+            &__icon {
+                color: var(--pf-global--main-color--100);
+            }
         }
         &:hover {
             opacity: 1;
