@@ -123,7 +123,7 @@ const changeOperationCondition = (idx: number, idxSegment: number, opId: Operati
 const addValueCondition = (idx: number, idxSegment: number, value: Value) => segmentsStore.addValueCondition(idx, idxSegment, value)
 const removeValueCondition = (idx: number, idxSegment: number, value: Value) => segmentsStore.removeValueCondition(idx, idxSegment, value)
 
-provide('conditionItems', conditionItems.value)
+provide('conditionItems', conditionItems.value);
 provide('conditionAggregateItems', conditionAggregateItems.value)
 provide('changeOperationCondition', changeOperationCondition)
 provide('changePropertyCondition', changePropertyCondition)
