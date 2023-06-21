@@ -52,6 +52,7 @@ import { useCommonStore } from '@/stores/common'
 
 import Segment from '@/components/events/Segments/Segment.vue'
 import { aggregates } from '@/configs/events/segmentConditionDidEventAggregate'
+import { conditions } from '@/configs/events/segmentCondition'
 import { PropertyRef } from '@/types/events'
 import { DidEventCountTypeEnum } from '@/api'
 
@@ -72,12 +73,6 @@ type Props = {
 
 const props = defineProps<Props>();
 
-const isFirstSegmentSelectAction = computed(() => {
-    const lastSegment = segmentsStore.segments[0];
-    const conditions = lastSegment?.conditions || [];
-    return conditions[0]?.action;
-});
-
 const conditionAggregateItems = computed(() => {
     return aggregates.map(item => {
         const name = i18n.$t(`events.aggregates.${item.key}`)
@@ -92,6 +87,21 @@ const conditionAggregateItems = computed(() => {
         }
     })
 })
+
+const conditionItems = computed(() => {
+    return conditions.map(item => {
+        const name = i18n.$t(`events.condition.${item.key}`)
+
+        return {
+            item: {
+                id: item.key,
+                name,
+            },
+            name,
+            description: i18n.$t(`events.condition.${item.key}_hint`)
+        }
+    })
+});
 
 const addSegment = () => {
     segmentsStore.addSegment(`${i18n.$t('events.segments.segment')} ${segmentsStore.segments.length + 1}`)
@@ -113,6 +123,7 @@ const changeOperationCondition = (idx: number, idxSegment: number, opId: Operati
 const addValueCondition = (idx: number, idxSegment: number, value: Value) => segmentsStore.addValueCondition(idx, idxSegment, value)
 const removeValueCondition = (idx: number, idxSegment: number, value: Value) => segmentsStore.removeValueCondition(idx, idxSegment, value)
 
+provide('conditionItems', conditionItems.value)
 provide('conditionAggregateItems', conditionAggregateItems.value)
 provide('changeOperationCondition', changeOperationCondition)
 provide('changePropertyCondition', changePropertyCondition)
