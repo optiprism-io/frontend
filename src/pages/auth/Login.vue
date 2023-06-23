@@ -1,5 +1,8 @@
 <template>
-    <div class="login pf-c-background-image">
+    <div
+        class="login pf-c-background-image"
+        data-test="login"
+    >
         <svg
             xmlns="http://www.w3.org/2000/svg"
             class="pf-c-background-image__filter"
@@ -54,6 +57,7 @@
                     <UiForm
                         class="login-form"
                         :error-main="errorMain"
+                        data-test="login-form"
                         @submit="actionForm"
                     >
                         <UiFormGroup
@@ -66,6 +70,7 @@
                                 v-model="email"
                                 name="login-email"
                                 :invalid="Boolean(errorFields?.email)"
+                                data-test="login-form-email"
                                 @input="(e) => onInput(e, 'email')"
                             />
                         </UiFormGroup>
@@ -79,6 +84,7 @@
                                 v-model="password"
                                 name="login-password"
                                 type="password"
+                                data-test="login-form-password"
                                 :invalid="Boolean(errorFields?.password)"
                                 @input="(e) => onInput(e, 'password')"
                             />
@@ -87,6 +93,7 @@
                             <UiCheckbox
                                 v-model="keepLogged"
                                 :label="$t('login.keep')"
+                                data-test="login-form-keep-logged"
                                 class="pf-u-mb-md"
                             />
                         </UiFormGroup>
@@ -96,6 +103,7 @@
                             <button
                                 class="pf-c-button pf-m-primary pf-m-block"
                                 type="submit"
+                                data-test="login-form-submit"
                             >
                                 {{ $t('login.logIn') }}
                             </button>
