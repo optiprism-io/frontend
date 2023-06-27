@@ -10,7 +10,7 @@
             <VMenu
                 placement="right-start"
                 :triggers="['hover']"
-                :delay="{ hide: 0 }"
+                :delay="{ hide: 200 }"
                 :offset="[0, 0]"
                 class="select-list-item__sub-menu"
             >
@@ -46,10 +46,33 @@
         <div
             v-else
             class="pf-c-menu__item"
+            :class="{
+                'pf-m-selected': isActive,
+            }"
             @click="$emit('click', item)"
         >
             <span class="select-list-item__content">
                 <span class="pf-c-menu__item-text">{{ text }}</span>
+                <span
+                    v-if="isActive"
+                    class="pf-c-select__menu-item-icon"
+                >
+                    <UiIcon :icon="'fas fa-check'" />
+                </span>
+                <div
+                    v-if="editable"
+                    class="select-list-item__content-edit"
+                    @click="edit"
+                >
+                    <VTooltip
+                        popper-class="ui-hint"
+                    >
+                        <UiIcon icon="fas fa-edit" />
+                        <template #popper>
+                            {{ $t('common.edit') }}
+                        </template>
+                    </VTooltip>
+                </div>
             </span>
         </div>
     </li>
@@ -57,7 +80,7 @@
 
 <script lang="ts" setup>
 // TODO add generic
-import { computed } from "vue";
+import { computed } from 'vue';
 
 const props = defineProps<{
     item: any;
@@ -65,14 +88,22 @@ const props = defineProps<{
     selected?: any;
     text: string;
     isDisabled?: boolean;
+    editable?: boolean
+    multiple?: boolean
+    active?: boolean
 }>();
 
 const emit = defineEmits<{
-    (e: "click", item: any): void;
+    (e: 'click', item: any): void;
+    (e: 'edit', payload: number): void
 }>();
 
+const isActive = computed(() => {
+    return props.multiple && props.active
+})
+
 const isSelected = computed(() => {
-    if (!props.selected) {
+    if (!props.selected || props.multiple) {
         return false;
     }
 
@@ -84,7 +115,12 @@ const clickList = (payload: any) => {
         ...props.item,
         ...payload,
     })
-};
+}
+
+const edit = (e: Event) => {
+    e.stopPropagation()
+    emit('edit', props.item.id)
+}
 </script>
 
 <style lang="scss">
@@ -122,6 +158,22 @@ const clickList = (payload: any) => {
     &__content {
         display: flex;
         align-items: center;
+        padding-right: 1rem;
+        position: relative;
+
+        &:hover {
+            .select-list-item__content-edit {
+                opacity: 1;
+            }
+        }
+    }
+
+    &__content-edit {
+        position: absolute;
+        top: 50%;
+        right: 2px;
+        transform: translateY(-50%);
+        opacity: 0;
     }
 }
 </style>

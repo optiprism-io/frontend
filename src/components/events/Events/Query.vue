@@ -113,7 +113,7 @@
                 class="pf-c-action-list__item queries__control-item"
                 @click="removeQuery"
             >
-                <VTooltip theme="ui-hint">
+                <VTooltip popper-class="ui-hint">
                     <UiIcon icon="fas fa-times" />
                     <template #popper>
                         Remove query
@@ -125,16 +125,17 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from "vue";
-import { EventQuery } from "@/stores/eventSegmentation/events";
-import { useLexiconStore } from "@/stores/lexicon";
-import { useEventsStore, Events } from "@/stores/eventSegmentation/events";
-import { EventRef, EventQueryRef, EventsQuery, PropertyRef } from "@/types/events";
-import { AggregateRef } from "@/types/aggregate";
-import { Item } from "@/components/Select/SelectTypes";
-import Select from "@/components/Select/Select.vue";
-import PropertySelect from "@/components/events/PropertySelect.vue";
-import UiButton from "@/components/uikit/UiButton.vue";
+import { computed } from 'vue';
+import { EventQuery } from '@/stores/eventSegmentation/events';
+import { useLexiconStore } from '@/stores/lexicon';
+import { useEventsStore, Events } from '@/stores/eventSegmentation/events';
+import { EventRef, EventQueryRef, EventsQuery, PropertyRef } from '@/types/events';
+import { AggregateRef } from '@/types/aggregate';
+import { Item } from '@/components/Select/SelectTypes';
+import UiInput from '@/components/uikit/UiInput.vue';
+import Select from '@/components/Select/Select.vue';
+import PropertySelect from '@/components/events/PropertySelect.vue';
+import UiButton from '@/components/uikit/UiButton.vue';
 
 const eventsStore: Events = useEventsStore();
 const lexiconStore = useLexiconStore();
@@ -148,8 +149,8 @@ const props = defineProps<{
 }>();
 
 const emit = defineEmits<{
-    (e: "removeQuery", index: number): void;
-    (e: "changeQuery", queryIdx: number, queryRef: EventQueryRef): void;
+    (e: 'removeQuery', index: number): void;
+    (e: 'changeQuery', queryIdx: number, queryRef: EventQueryRef): void;
 }>();
 
 const queryInfo = computed((): EventsQuery | undefined => {
@@ -189,7 +190,7 @@ const selectAggregateName = computed((): string => {
 });
 
 const selectedAggregateRef = computed((): AggregateRef | undefined => {
-    return selectedAggregate.value?.item || undefined;
+    return selectedAggregate.value?.item as AggregateRef || undefined;
 });
 
 const selectedGroupAggregate = computed((): Item<EventQueryRef, null> | undefined => {
@@ -199,7 +200,7 @@ const selectedGroupAggregate = computed((): Item<EventQueryRef, null> | undefine
 });
 
 const selectedGroupAggregateRef = computed((): AggregateRef | undefined => {
-    return selectedGroupAggregate.value?.item || undefined;
+    return selectedGroupAggregate.value?.item as AggregateRef || undefined;
 });
 
 const selectedGroupAggregateName = computed((): string => {
@@ -216,7 +217,7 @@ const aggregateString = computed((): string => {
 
 const changeQueryAggregate = (payload: AggregateRef) => {
     if (props.item.queryRef) {
-        emit("changeQuery", props.index, {
+        emit('changeQuery', props.index, {
             ...props.item.queryRef,
             ...payload
         });
@@ -225,7 +226,7 @@ const changeQueryAggregate = (payload: AggregateRef) => {
 
 const changeQueryGroupAggregate = (payload: AggregateRef) => {
     if (props.item.queryRef) {
-        emit("changeQuery", props.index, {
+        emit('changeQuery', props.index, {
             ...props.item.queryRef,
             typeGroupAggregate: payload.typeAggregate,
         });
@@ -233,30 +234,30 @@ const changeQueryGroupAggregate = (payload: AggregateRef) => {
 };
 
 const changeQuery = (payload: EventQueryRef) => {
-    emit("changeQuery", props.index, payload);
+    emit('changeQuery', props.index, payload);
 }
 
 const removeQuery = () => {
-    emit("removeQuery", props.index);
+    emit('removeQuery', props.index);
 }
 
 const changeProperty = (payload: PropertyRef) => {
     if (props.item.queryRef) {
-        emit("changeQuery", props.index, {
+        emit('changeQuery', props.index, {
             ...props.item.queryRef,
             propRef: payload,
         });
     }
 };
 
-const changeFormula = (e: any) => {
+const changeFormula = (value: string) => {
     if (props.item.queryRef) {
-        emit("changeQuery", props.index, {
+        emit('changeQuery', props.index, {
             ...props.item.queryRef,
-            value: e.target.value
-        });
+            value,
+        })
     }
-};
+}
 </script>
 
 <style scoped lang="scss">

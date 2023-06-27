@@ -2,7 +2,10 @@
     <VDropdown
         class="select"
         placement="bottom-start"
+        :popper-class="props.popperClass || ''"
         :shown="isOpen"
+        :container="props.popperContainer || 'body'"
+        :auto-hide="props.autoHide"
         @hide="onHide"
     >
         <slot />
@@ -29,16 +32,37 @@
                             :grouped="grouped"
                             :selected="selectedItem"
                             :show-search="showSearch"
-                            @select="($event: any) => {hide(); select($event)}"
+                            :multiple="props.multiple"
+                            @select="($event) => {
+                                if (!props.multiple) {
+                                    hide()
+                                }
+                                select($event)
+                            }"
                             @hover="hover"
                             @on-search="onSearch"
+                            @action="
+                                ($event) => {
+                                    if (props.cloaseAfterAction) {
+                                        hide()
+                                    }
+                                    onAction($event)
+                                }
+                            "
+                            @edit="emit('edit', $event)"
                         />
                     </div>
                     <div
-                        v-if="selectedDescription"
+                        v-if="$slots.description"
+                        class="select__description pf-u-pt-lg pf-u-p-sm"
+                    >
+                        <slot name="description" />
+                    </div>
+                    <div
+                        v-else-if="selectedDescription"
                         class="select__description"
                     >
-                        <div class="pf-c-card__body pf-u-color-200">
+                        <div class="pf-c-card__body pf-u-pt-lg pf-u-p-sm pf-u-color-200">
                             <div class="select__description-icon">
                                 <UiIcon icon="fas fa-info-circle" />
                             </div>
@@ -54,16 +78,18 @@
 </template>
 
 <script setup lang="ts">
-// TODO add generics
-import { computed, ref, onBeforeMount, watchEffect } from "vue";
-import SelectList from "@/components/Select/SelectList.vue";
-import UiSpinner from "@/components/uikit/UiSpinner.vue";
-import { Group, Item } from "@/components/Select/SelectTypes";
+import { computed, ref, onBeforeMount, watchEffect } from 'vue';
+import SelectList from '@/components/Select/SelectList.vue';
+import UiSpinner from '@/components/uikit/UiSpinner.vue';
+import { Group, Item } from '@/components/Select/SelectTypes';
 
 const emit = defineEmits<{
-    (e: "select", item: any): void;
-    (e: "onSearch", payload: string): void;
-    (e: "onHover", item: any): void;
+    (e: 'select', item: any): void;
+    (e: 'onSearch', payload: string): void;
+    (e: 'onHover', item: any): void;
+    (e: 'action', payload: string): void
+    (e: 'edit', payload: number): void
+    (e: 'on-hide'): void
 }>();
 
 const props = withDefaults(
@@ -76,6 +102,11 @@ const props = withDefaults(
         updateOpen?: boolean;
         showSearch?: boolean;
         widthAuto?: boolean;
+        popperClass?: string
+        popperContainer?: string
+        autoHide?: boolean
+        multiple?: boolean
+        cloaseAfterAction?: boolean
     }>(),
     {
         showSearch: true,
@@ -83,13 +114,18 @@ const props = withDefaults(
         selected: false,
         isOpenMount: false,
         updateOpen: false,
+        popperClass: undefined,
+        autoHide: true,
+        popperContainer: 'body',
+        multiple: false,
+        cloaseAfterAction: false,
     }
 );
 
 const key = ref(0);
 const isOpen = ref(false);
 const selectedItemLocal = ref(false);
-const search = ref("");
+const search = ref('');
 const description = ref();
 
 const firstElement = computed(() => props.items[0]);
@@ -151,7 +187,7 @@ const selectedDescription = computed(() => {
         });
     }
 
-    return item ? item.description : "";
+    return item ? item.description : '';
 });
 
 watchEffect(() => {
@@ -164,26 +200,32 @@ const select = (item: any): void => {
     isOpen.value = false;
     selectedItemLocal.value = false;
     key.value++;
-    emit("select", item);
+    emit('select', item);
 };
 
 const hover = (item: Item<any, any>): void => {
     if (item) {
-        description.value = item?.description || "";
+        description.value = item?.description || '';
         selectedItemLocal.value = item.item;
-        emit("onHover", item);
+        emit('onHover', item.item);
     }
 };
 
 const onSearch = (payload: string) => {
     search.value = payload.toLowerCase();
-    description.value = "";
-    emit("onSearch", payload);
+    description.value = '';
+    emit('onSearch', payload);
 };
 
 const onHide = () => {
     isOpen.value = false;
+    search.value = '';
+    emit('on-hide');
 };
+
+const onAction = (payload: string) => {
+    emit('action', payload);
+}
 
 onBeforeMount(() => {
     isOpen.value = props.isOpenMount;
@@ -199,9 +241,8 @@ onBeforeMount(() => {
     }
 
     &__box {
-        width: 20rem;
-        min-width: 140px;
-        max-width: 22rem;
+        width: 230px;
+        flex: 1;
 
         &_width-auto {
             width: initial;
@@ -221,7 +262,7 @@ onBeforeMount(() => {
     }
 
     &__description {
-        width: 260px;
+        min-width: 200px;
         border-left: 1px solid var(--pf-global--BackgroundColor--200);
     }
 
@@ -232,6 +273,7 @@ onBeforeMount(() => {
 
     &__description-text {
         font-size: .9rem;
+        max-width: 200px;
     }
 }
 </style>

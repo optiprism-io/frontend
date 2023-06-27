@@ -1,135 +1,106 @@
-export enum DataTypeKind {
-    String,
-    Number,
-    Boolean
-}
+import {
+    DataType,
+    PropertyFilterOperation,
+    Value as ApiValue
+} from '@/api'
 
-export enum DataType {
-    String,
-    Float64,
-    Int8,
-    Int16,
-    Int32,
-    Int64,
-    UInt8,
-    UInt16,
-    UInt32,
-    UInt64,
-    Boolean
-}
-
-export type Value = string | number | boolean;
-
-export const dataTypeKinds: Map<DataType, DataTypeKind> = new Map([
-    [DataType.String, DataTypeKind.String],
-    [DataType.Float64, DataTypeKind.Number],
-    [DataType.Int8, DataTypeKind.Number],
-    [DataType.Int16, DataTypeKind.Number],
-    [DataType.Int32, DataTypeKind.Number],
-    [DataType.Int64, DataTypeKind.Number],
-    [DataType.UInt8, DataTypeKind.Number],
-    [DataType.UInt16, DataTypeKind.Number],
-    [DataType.UInt32, DataTypeKind.Number],
-    [DataType.UInt64, DataTypeKind.Number],
-    [DataType.Boolean, DataTypeKind.Boolean]
-]);
+export type Value = ApiValue
 
 export interface Cohort {
     id: number;
     name: string;
 }
 
-export enum OperationId {
-    Eq = "=",
-    Neq = "neq",
-    Gt = "gt",
-    Gte = "gte",
-    Lt = "lt",
-    Lte = "lte",
-    True = "true",
-    False = "false",
-    Exists = "exists",
-    Empty = "empty",
-    ArrAll = "arr_all",
-    ArrNone = "arr_none",
-    Regex = "regex"
-}
+export const OperationId = PropertyFilterOperation;
+export type OperationId = typeof PropertyFilterOperation[keyof typeof PropertyFilterOperation]
 
 export interface Operation {
     id: OperationId;
     name: string;
-    typeKinds?: DataTypeKind[];
+    shortName?: string;
+    dataTypes?: DataType[];
     flags?: OpFlag[];
 }
 
 enum OpFlag {
-    Null,
-    Array
+    Null = 'Null',
+    Array = 'Array'
 }
 
 export const operations: Operation[] = [
     {
         id: OperationId.Eq,
-        name: "Equal (=)"
+        name: 'Equal (=)',
+        shortName: '='
     },
     {
         id: OperationId.Neq,
-        name: "Not Equal (!=)"
+        name: 'Not Equal (!=)',
+        shortName: '!=',
     },
     {
         id: OperationId.Gt,
-        name: "Greater (>)",
-        typeKinds: [DataTypeKind.Number]
+        name: 'Greater (>)',
+        dataTypes: [DataType.Number],
+        shortName: '>',
     },
     {
         id: OperationId.Gte,
-        name: "Greater or Equal (>=)",
-        typeKinds: [DataTypeKind.Number]
+        name: 'Greater or Equal (>=)',
+        dataTypes: [DataType.Number],
+        shortName: '>=',
     },
     {
         id: OperationId.Lt,
-        name: "Less (<)",
-        typeKinds: [DataTypeKind.Number]
+        name: 'Less (<)',
+        dataTypes: [DataType.Number],
+        shortName: '<',
     },
     {
         id: OperationId.Lte,
-        name: "Less or Equal (<=)",
-        typeKinds: [DataTypeKind.Number]
+        name: 'Less or Equal (<=)',
+        dataTypes: [DataType.Number],
+        shortName: '<=',
     },
     {
         id: OperationId.True,
-        name: "True",
-        typeKinds: [DataTypeKind.Boolean]
+        name: 'True',
+        dataTypes: [DataType.Boolean],
     },
     {
         id: OperationId.False,
-        name: "False",
-        typeKinds: [DataTypeKind.Boolean]
+        name: 'False',
+        dataTypes: [DataType.Boolean]
     },
     {
         id: OperationId.Exists,
-        name: "Exists",
+        name: 'Exists',
         flags: [OpFlag.Null]
     },
     {
         id: OperationId.Empty,
-        name: "Is Empty",
+        name: 'Is Empty',
         flags: [OpFlag.Null]
     },
     {
         id: OperationId.ArrAll,
-        name: "All in array",
+        name: 'All in array',
+        flags: [OpFlag.Array]
+    },
+    {
+        id: OperationId.ArrAny,
+        name: 'Any in array',
         flags: [OpFlag.Array]
     },
     {
         id: OperationId.ArrNone,
-        name: "None in array",
+        name: 'None in array',
         flags: [OpFlag.Array]
     },
     {
         id: OperationId.Regex,
-        name: "Regex",
-        typeKinds: [DataTypeKind.String]
+        name: 'Regex',
+        dataTypes: [DataType.String]
     }
 ];
 
@@ -141,25 +112,35 @@ export const findOperations = (
     nullable: boolean,
     isArray: boolean
 ): Operation[] => {
-    const kind = dataTypeKinds.get(type);
     return operations.filter(op => {
-        if (op.typeKinds && !op.typeKinds.find(t => t === kind)) {
-            return false;
+
+        if (!op.dataTypes && !op.flags) {
+            return true
         }
 
-        if (nullable && op.flags && !op.flags.find(f => f === OpFlag.Null)) {
-            return false;
+        if (op.dataTypes && op.dataTypes.find(t => t === type)) {
+            return true;
         }
 
-        if (isArray && op.flags && !op.flags.find(f => f === OpFlag.Array)) {
-            return false;
+        if (nullable && op.flags && op.flags.find(f => f === OpFlag.Null)) {
+            return true;
         }
 
-        return true;
+        if (isArray && op.flags && op.flags.find(f => f === OpFlag.Array)) {
+            return true;
+        }
     });
 };
 
 export enum Group {
-    User = "user",
-    Country = "country"
+    User = 'user',
+    Country = 'country'
 }
+
+export const AlertTypeEnum = {
+    Default: 'default',
+    Info: 'info',
+    Success: 'success',
+    Warning: 'warning',
+    Danger: 'danger',
+} as const
