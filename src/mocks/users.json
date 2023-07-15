@@ -1,0 +1,50 @@
+[
+    {
+        "id": "31",
+        "name": "user2",
+        "type": "sss",
+        "query": {
+            "segments": [
+                {
+                    "name": "Segment 3",
+                    "conditions": []
+                }
+            ]
+        }
+    },
+    {
+        "id": "1",
+        "name": "Report for Dashboard",
+        "type": "eventSegmentation"
+    },
+    {
+        "id": "2",
+        "name": "Report 2",
+        "type": "eventSegmentation"
+    },
+    {
+        "id": "3",
+        "name": "user 3",
+        "type": "eventSegmentation",
+        "query": {
+        }
+    },
+    {
+        "id": "4",
+        "name": "User 3",
+        "type": "group"
+    },
+    {
+        "id": "123",
+        "name": "User 1",
+        "type": "users",
+        "query": {
+            "segments": [
+                {
+                    "name": "Segment 1",
+                    "conditions": []
+                }
+            ]
+        }
+    }
+]

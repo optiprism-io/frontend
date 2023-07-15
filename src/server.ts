@@ -15,6 +15,7 @@ import customEventsMocks from '@/mocks/eventSegmentations/customEvents.json';
 import reportsMocks from '@/mocks/reports/reports.json';
 import dashboardsMocks from '@/mocks/dashboards';
 import groupRecordsMocks from '@/mocks/groupRecords.json';
+import usersMocks from '@/mocks/users.json';
 
 const alphabet = '0123456789';
 const nanoid = customAlphabet(alphabet, 4);
@@ -35,6 +36,7 @@ export default function ({ environment = 'development' } = {}) {
                 reports: reportsMocks,
                 dashboards: dashboardsMocks,
                 groupRecords: groupRecordsMocks.map(item => ({...item, id: nanoid()})),
+                users:usersMocks,
             });
         },
 
@@ -202,6 +204,36 @@ export default function ({ environment = 'development' } = {}) {
             this.delete(`${BASE_PATH}/v1/organizations/:organization_id/projects/:project_id/reports/:report_id`, (schema, request) => {
                 schema.db.reports.remove(request.params.report_id)
                 return request.params.report_id;
+            })
+
+            this.get(`${BASE_PATH}/v1/organizations/:organization_id/projects/:project_id/users`, (schema) => {
+                return {
+                    data: schema.db.reports,
+                    meta: {}
+                }
+            })
+
+            this.post(`${BASE_PATH}/v1/organizations/:organization_id/projects/:project_id/users`, (schema, request) => {
+                const body = JSON.parse(request.requestBody);
+
+                return schema.db.users.insert({
+                    id: nanoid(),
+                    ...body,
+                })
+            }, { timing: 1100 })
+
+            this.get(`${BASE_PATH}/v1/organizations/:organization_id/projects/:project_id/users/:user_id`, (schema, request) => {
+                return schema.db.reports.find(request.params.user_id);
+            })
+
+            this.put(`${BASE_PATH}/v1/organizations/:organization_id/projects/:project_id/users/:user_id`, (schema, request) => {
+                const body = JSON.parse(request.requestBody);
+                return schema.db.reports.update(request.params.user_id, body)
+            }, { timing: 1200 })
+
+            this.delete(`${BASE_PATH}/v1/organizations/:organization_id/projects/:project_id/users/:user_id`, (schema, request) => {
+                schema.db.reports.remove(request.params.user_id)
+                return request.params.user_id;
             })
 
             this.post(`${BASE_PATH}/v1/organizations/:organization_id/projects/:project_id/queries/event-segmentation`, (_, request) => {
