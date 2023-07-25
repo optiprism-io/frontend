@@ -463,7 +463,7 @@ paths:
       security:
         - bearerAuth: []
       tags:
-        - reports
+        - users
       parameters:
         - $ref: '#/components/parameters/OrganizationID'
         - $ref: '#/components/parameters/ProjectID'
@@ -535,7 +535,7 @@ paths:
       security:
         - bearerAuth: []
       tags:
-        - reports
+        - users
       parameters:
         - $ref: '#/components/parameters/OrganizationID'
         - $ref: '#/components/parameters/ProjectID'
@@ -570,7 +570,7 @@ paths:
       security:
         - bearerAuth: []
       tags:
-        - reports
+        - users
       parameters:
         - $ref: '#/components/parameters/OrganizationID'
         - $ref: '#/components/parameters/ProjectID'
