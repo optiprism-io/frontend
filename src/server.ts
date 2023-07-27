@@ -39,6 +39,11 @@ export default function ({ environment = 'development' } = {}) {
         },
 
         routes() {
+            this.get(`${BASE_PATH}/shutdown`, () =>  {
+                this.shutdown();
+                return 'shutdown';
+            });
+
             this.namespace = 'api'
 
             this.get(`${BASE_PATH}/v1/organizations/:organization_id/projects/:project_id/schema/events`, (schema) => {
