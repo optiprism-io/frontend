@@ -49,6 +49,24 @@
                     @on-select="addReport"
                 />
             </div>
+            <div
+                v-if="!layout.length"
+                class="dashboards__stock"
+            >
+                <div class="dashboards__stock-content">
+                    <div class="pf-c-card__title pf-u-text-align-center pf-u-font-size-lg">
+                        {{ t('dashboards.noReports') }}
+                    </div>
+                    <UiSelect
+                        class="pf-u-ml-auto pf-u-mr-md dashboards__add-report"
+                        :items="selectReportsList"
+                        :text-button="t('dashboards.addReport')"
+                        :placement="'bottom-end'"
+                        :is-text-select="true"
+                        @on-select="addReport"
+                    />
+                </div>
+            </div>
             <GridLayout
                 v-model:layout="layout"
                 :col-num="12"
@@ -126,6 +144,7 @@ import { useDashboardsStore } from '@/stores/dashboards'
 import { useCommonStore } from '@/stores/common'
 import { useReportsStore } from '@/stores/reports/reports'
 import usei18n from '@/hooks/useI18n'
+import useConfirm from '@/hooks/useConfirm';
 
 import UiCard from '@/components/uikit/UiCard/UiCard.vue'
 import DashboardPanel from '@/components/dashboards/DashboardPanel.vue'
@@ -141,6 +160,7 @@ const router = useRouter()
 const commonStore = useCommonStore()
 const dashboardsStore = useDashboardsStore()
 const reportsStore = useReportsStore()
+const { confirm } = useConfirm();
 
 const ROW_HEIGHT = 56;
 const CREATE = 'createDashboard';
@@ -285,6 +305,13 @@ const updateCreateDashboard = async (panels?: Layout[]) => {
 
 const onDeleteDashboard = async () => {
     if (activeDashboardId.value) {
+        await confirm(t('dashboards.deleteConfirm', { name: `<b>${activeDashboard?.value?.name}</b>` || '' }), {
+            applyButton: t('common.apply'),
+            cancelButton: t('common.cancel'),
+            title: t('dashboards.delete'),
+            applyButtonClass: 'pf-m-danger',
+        });
+
         await dashboardService.deleteDashboard(commonStore.organizationId, commonStore.projectId, activeDashboardId.value);
         await getDashboardsList();
 
@@ -454,6 +481,17 @@ watch(() => route.query.id, id => {
         &_small {
             max-width: 50px;
         }
+    }
+    &__stock {
+        min-height: calc(100vh - 100px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    &__stock-content {
+        display: flex;
+        align-items: center;
+        gap: 1rem
     }
 }
 </style>

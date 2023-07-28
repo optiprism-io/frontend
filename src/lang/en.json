@@ -285,6 +285,7 @@
   },
 
   "dashboards": {
+    "noReports": "No reports. Please add at least one report: ",
     "title": "Dashboards",
     "selectDashboard": "Select Dashboard",
     "createDashboard": "Create new dashboard",

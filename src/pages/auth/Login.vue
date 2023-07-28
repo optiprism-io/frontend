@@ -155,7 +155,8 @@ const login = async (): Promise<void | Error> => {
             router.push({ path: nextPath.value })
         }
     } catch (e: any) {
-        const error = (e?.response?.data?.error ?? e?.error);
+        const error = (e?.response?.data?.error ?? e?.error ?? (e?.fields ? e : {}));
+
         if (error?.fields) {
             errorFields.value = error?.fields as { [key: string]: string; } || {};
         }
