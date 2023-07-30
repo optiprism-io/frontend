@@ -2,33 +2,26 @@
     <div class="dashboards pf-c-page__main-section pf-u-p-md pf-u-pb-3xl">
         <div>
             <div class="dashboards__nav pf-u-mb-sm pf-u-display-flex pf-u-justify-content-space-between pf-u-align-items-center">
-                <div
-                    v-if="dashboardsList.length && !editableNameDashboard"
-                    class="pf-u-mr-md"
-                >
-                    <UiSelect
-                        class="dashboards__select"
-                        :items="dashboardsList"
-                        :text-button="dashboardSelectText"
-                        :is-text-select="true"
-                        :selections="[Number(activeDashboardId)]"
-                        @on-select="onSelectDashboard"
-                    />
-                </div>
-                <div class="dashboards__name pf-u-mr-md">
-                    <UiInlineEdit
-                        :value="dashboardName"
-                        :hide-text="!!dashboardName"
-                        :placeholder-value="$t('dashboards.untitledDashboard')"
-                        @on-input="updateName"
-                        @on-edit="onEditNameDashboard"
-                    />
-                </div>
+                <UiSelect
+                    v-if="!editableNameDashboard"
+                    class="dashboards__select pf-u-mr-md"
+                    :items="dashboardsList"
+                    :text-button="dashboardSelectText"
+                    :is-text-select="true"
+                    :selections="[Number(activeDashboardId)]"
+                    @on-select="onSelectDashboard"
+                />
+                <UiInlineEdit
+                    class="dashboards__name pf-u-mr-md"
+                    :value="dashboardName"
+                    :hide-text="true"
+                    @on-input="updateName"
+                    @on-edit="onEditNameDashboard"
+                />
                 <UiButton
-                    v-show="activeDashboardId"
                     class="pf-m-link dashboards__nav-item dashboards__nav-item_new"
                     :before-icon="'fas fa-plus'"
-                    @click="router.push({ query: { id: null } })"
+                    @click="onCreateDashboard"
                 >
                     {{ $t('dashboards.createDashboard') }}
                 </UiButton>
@@ -117,7 +110,7 @@
                             </template>
                             <DashboardPanel
                                 :height-chart="item.h * ROW_HEIGHT - 20"
-                                :report-id="item.reportId"
+                                :report-id="Number(item.reportId)"
                             />
                         </UiCard>
                     </GridItem>
@@ -204,7 +197,7 @@ const menuCardReport = computed<UiDropdownItem<string>[]>(() => {
 })
 
 const dashboardSelectText = computed(() => {
-    return activeDashboard.value ? activeDashboard.value.name : t('dashboards.selectDashboard');
+    return activeDashboard.value ? activeDashboard.value.name : `${t('dashboards.untitledDashboard')} ${untitledDashboardsList.value.length + 1}`;
 });
 
 const dashboardsList = computed(() => {
@@ -216,6 +209,14 @@ const dashboardsList = computed(() => {
             nameDisplay: item.name || '',
         }
     });
+});
+
+const untitledDashboardName = computed(() => {
+    return `${t('dashboards.untitledDashboard')} ${untitledDashboardsList.value.length + 1}`;
+});
+
+const untitledDashboardsList = computed(() => {
+    return dashboards.value.filter(item => (`${item.name.split(' ')[0]}` + ' ' + `${item.name.split(' ')[1]}`) === t('dashboards.untitledDashboard'));
 });
 
 const selectReportsList = computed(() => {
@@ -272,7 +273,7 @@ const getDashboardsList = async () => {
 const updateCreateDashboard = async (panels?: Layout[]) => {
     try {
         const dataForRequest = {
-            name: dashboardName.value || t('dashboards.untitledDashboard'),
+            name: dashboardName.value || untitledDashboardName.value,
             panels: (panels || layout.value).map(item => {
                 return {
                     type: DashboardPanelTypeEnum.Report,
@@ -366,25 +367,22 @@ const selectReportDropdown = async (payload: UiDropdownItem<string>, id: number)
     }
 }
 
-const setNew = () => {
+const setNew = async () => {
     layout.value = [];
     activeDashboardId.value = null
     dashboardName.value = '';
-    router.push({
-        query: {
-            id: null,
-        }
-    })
+    await updateCreateDashboard();
+    getDashboardsList();
 }
 
 const updateName = async (payload: string) => {
-    dashboardName.value = payload
-    await updateCreateDashboard()
-    getDashboardsList()
+    dashboardName.value = payload;
+    await updateCreateDashboard();
+    getDashboardsList();
 }
 
 const initDashboardPage = () => {
-    const dashboardId = route.query.id;
+    const dashboardId = route.query?.id || dashboardsId.value[0] || null;
 
     if (dashboardId) {
         if (dashboardsId.value.includes(Number(dashboardId))) {
@@ -399,6 +397,10 @@ const initDashboardPage = () => {
 
 const onEditNameDashboard = (payload: boolean) => {
     editableNameDashboard.value = payload;
+};
+
+const onCreateDashboard = () => {
+    setNew();
 };
 
 onMounted(async () => {
@@ -433,7 +435,7 @@ watch(() => route.query.id, id => {
     &__add-report,
     .pf-c-inline-edit__input,
     &__select {
-        width: 200px;
+        width: 220px;
     }
     &__nav {
         min-height: 34px;
@@ -459,7 +461,7 @@ watch(() => route.query.id, id => {
         color: var(--pf-global--Color--300);
     }
     &__name {
-        min-width: 66px;
+        min-width: 70px;
         .pf-c-inline-edit__value {
             font-size: 20px;
         }
@@ -483,7 +485,7 @@ watch(() => route.query.id, id => {
         }
     }
     &__stock {
-        min-height: calc(100vh - 100px);
+        min-height: calc(100vh - 174px);
         display: flex;
         align-items: center;
         justify-content: center;
