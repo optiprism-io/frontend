@@ -197,7 +197,7 @@ const menuCardReport = computed<UiDropdownItem<string>[]>(() => {
 })
 
 const dashboardSelectText = computed(() => {
-    return activeDashboard.value ? activeDashboard.value.name : `${t('dashboards.untitledDashboard')} ${untitledDashboardsList.value.length + 1}`;
+    return activeDashboard.value ? activeDashboard.value.name : `${t('dashboards.untitledDashboard')} #${untitledDashboardsList.value.length + 1}`;
 });
 
 const dashboardsList = computed(() => {
@@ -212,7 +212,7 @@ const dashboardsList = computed(() => {
 });
 
 const untitledDashboardName = computed(() => {
-    return `${t('dashboards.untitledDashboard')} ${untitledDashboardsList.value.length + 1}`;
+    return `${t('dashboards.untitledDashboard')} #${untitledDashboardsList.value.length + 1}`;
 });
 
 const untitledDashboardsList = computed(() => {
@@ -229,14 +229,6 @@ const selectReportsList = computed(() => {
         }
     })
 })
-
-const moved = () => {
-    updateCreateDashboard();
-}
-
-const resized = () => {
-    updateCreateDashboard();
-}
 
 const updateLauout = () => {
     if (activeDashboard.value) {
@@ -324,13 +316,13 @@ const onDeleteDashboard = async () => {
     }
 };
 
-const onSelectReport = (payload: number) => {
+const onSelectReport = async (payload: number) => {
     const items = layout.value;
     const panelIndex = items.findIndex(item => Number(item.i) === editPanel.value)
     items[panelIndex].reportId = payload;
     layout.value = items;
     closeDashboardReportsPopup()
-    updateCreateDashboard()
+    onChange();
 }
 
 const closeDashboardReportsPopup = () => {
@@ -352,6 +344,7 @@ const addReport = async (payload: number) => {
     }
     await updateCreateDashboard([panel, ...layout.value]);
     layout.value = [panel, ...layout.value];
+    getDashboardsList();
 }
 
 const selectReportDropdown = async (payload: UiDropdownItem<string>, id: number) => {
@@ -365,20 +358,6 @@ const selectReportDropdown = async (payload: UiDropdownItem<string>, id: number)
         editPanel.value = id;
         dashboardReportsPopup.value = true;
     }
-}
-
-const setNew = async () => {
-    layout.value = [];
-    activeDashboardId.value = null
-    dashboardName.value = '';
-    await updateCreateDashboard();
-    getDashboardsList();
-}
-
-const updateName = async (payload: string) => {
-    dashboardName.value = payload;
-    await updateCreateDashboard();
-    getDashboardsList();
 }
 
 const initDashboardPage = () => {
@@ -402,6 +381,32 @@ const onEditNameDashboard = (payload: boolean) => {
 const onCreateDashboard = () => {
     setNew();
 };
+
+const onChange = async () => {
+    await updateCreateDashboard();
+    getDashboardsList();
+};
+
+const moved = () => {
+    onChange();
+}
+
+const resized = () => {
+    onChange();
+}
+
+
+const setNew = async () => {
+    layout.value = [];
+    activeDashboardId.value = null
+    dashboardName.value = '';
+    onChange();
+}
+
+const updateName = async (payload: string) => {
+    dashboardName.value = payload;
+    onChange();
+}
 
 onMounted(async () => {
     if (!dashboards.value?.length) {

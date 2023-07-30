@@ -267,8 +267,8 @@ export default function ({ environment = 'development' } = {}) {
             }, { timing: 130 })
 
             this.put(`${BASE_PATH}/v1/organizations/:organization_id/projects/:project_id/dashboards/:dashboard_id`, (schema, request) => {
-                const property = JSON.parse(request.requestBody)
-                return schema.db.dashboards.update(request.params.dashboard_id, property)
+                const requestBody = JSON.parse(request.requestBody)
+                return schema.db.dashboards.update(request.params.dashboard_id, requestBody)
             }, { timing: 135 })
 
             this.delete(`${BASE_PATH}/v1/organizations/:organization_id/projects/:project_id/dashboards/:dashboard_id`, (schema, request) => {
