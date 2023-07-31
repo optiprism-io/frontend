@@ -9,9 +9,18 @@
                     :text-button="dashboardSelectText"
                     :is-text-select="true"
                     :selections="[Number(activeDashboardId)]"
+                    :is-toggle="false"
                     @on-select="onSelectDashboard"
-                />
+                >
+                    <template
+                        v-if="isLoading"
+                        #action
+                    >
+                        <UiSpinner />
+                    </template>
+                </UiSelect>
                 <UiInlineEdit
+                    v-if="dashboards.length"
                     class="dashboards__name pf-u-mr-md"
                     :value="dashboardName"
                     :hide-text="true"
@@ -21,12 +30,11 @@
                 <UiButton
                     class="pf-m-link dashboards__nav-item dashboards__nav-item_new"
                     :before-icon="'fas fa-plus'"
-                    @click="onCreateDashboard"
+                    @click="setNew"
                 >
                     {{ $t('dashboards.createDashboard') }}
                 </UiButton>
                 <UiButton
-                    v-show="activeDashboardId"
                     class="pf-m-link pf-m-danger"
                     :before-icon="'fas fa-trash'"
                     @click="onDeleteDashboard"
@@ -43,7 +51,7 @@
                 />
             </div>
             <div
-                v-if="!layout.length"
+                v-if="!layout.length && !isLoading"
                 class="dashboards__stock"
             >
                 <div class="dashboards__stock-content">
@@ -128,9 +136,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted, watch, onUnmounted } from 'vue'
+import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { pagesMap } from '@/router'
 import dashboardService from '@/api/services/dashboards.service'
 import { DashboardPanel as DashboardPanelType, DashboardPanelTypeEnum } from '@/api'
 import { useDashboardsStore } from '@/stores/dashboards'
@@ -146,6 +153,7 @@ import UiInlineEdit from '@/components/uikit/UiInlineEdit.vue'
 import { UiDropdownItem } from '@/components/uikit/UiDropdown.vue'
 import UiSelect from '@/components/uikit/UiSelect.vue';
 import UiButton from '@/components/uikit/UiButton.vue';
+import UiSpinner from '@/components/uikit/UiSpinner.vue';
 
 const { t } = usei18n()
 const route = useRoute()
@@ -154,9 +162,10 @@ const commonStore = useCommonStore()
 const dashboardsStore = useDashboardsStore()
 const reportsStore = useReportsStore()
 const { confirm } = useConfirm();
+const isLoading = ref(true);
+const updateLoading = ref(false);
 
 const ROW_HEIGHT = 56;
-const CREATE = 'createDashboard';
 
 interface Layout extends DashboardPanelType {
     i: number
@@ -197,7 +206,7 @@ const menuCardReport = computed<UiDropdownItem<string>[]>(() => {
 })
 
 const dashboardSelectText = computed(() => {
-    return activeDashboard.value ? activeDashboard.value.name : `${t('dashboards.untitledDashboard')} #${untitledDashboardsList.value.length + 1}`;
+    return dashboardName.value || activeDashboard.value?.name || '';
 });
 
 const dashboardsList = computed(() => {
@@ -249,13 +258,9 @@ const updateLauout = () => {
 }
 
 const onSelectDashboard = (id: number | string) => {
-    if (id === CREATE) {
-        setNew();
-    } else {
-        activeDashboardId.value = Number(id);
-        router.push({ query: { id } })
-        updateLauout();
-    }
+    activeDashboardId.value = Number(id);
+    router.push({ query: { id } })
+    updateLauout();
 }
 
 const getDashboardsList = async () => {
@@ -283,12 +288,8 @@ const updateCreateDashboard = async (panels?: Layout[]) => {
         } else {
             const res = await dashboardService.createDashboard(commonStore.organizationId, commonStore.projectId, dataForRequest)
             if (res.data?.id) {
-                router.push({
-                    name: pagesMap.dashboards.name,
-                    query: {
-                        id: res.data.id,
-                    },
-                })
+                dashboardName.value = res.data?.name || dashboardName.value || untitledDashboardName.value;
+                onSelectDashboard(res.data?.id);
             }
         }
     } catch (e) {
@@ -309,7 +310,7 @@ const onDeleteDashboard = async () => {
         await getDashboardsList();
 
         if (dashboardsId.value?.length) {
-            router.push({ query: { id: dashboardsId.value[0] } });
+            onSelectDashboard(dashboardsId.value[0]);
         } else {
             setNew();
         }
@@ -360,31 +361,29 @@ const selectReportDropdown = async (payload: UiDropdownItem<string>, id: number)
     }
 }
 
-const initDashboardPage = () => {
-    const dashboardId = route.query?.id || dashboardsId.value[0] || null;
+const initDashboardPage = async () => {
+    const dashboardId =
+        (dashboardsId.value.includes(Number(route.query?.id)) ? route.query?.id : dashboardsId.value[0]) || null;
 
     if (dashboardId) {
-        if (dashboardsId.value.includes(Number(dashboardId))) {
-            onSelectDashboard(Number(dashboardId))
-        } else {
-            setNew()
-        }
+        onSelectDashboard(Number(dashboardId));
     } else {
-        setNew()
+        await setNew();
     }
+
+    isLoading.value = false;
 };
 
 const onEditNameDashboard = (payload: boolean) => {
+    dashboardName.value = dashboardSelectText.value;
     editableNameDashboard.value = payload;
 };
 
-const onCreateDashboard = () => {
-    setNew();
-};
-
 const onChange = async () => {
+    updateLoading.value = true;
     await updateCreateDashboard();
-    getDashboardsList();
+    await getDashboardsList();
+    updateLoading.value = false;
 };
 
 const moved = () => {
@@ -395,12 +394,14 @@ const resized = () => {
     onChange();
 }
 
-
 const setNew = async () => {
+    isLoading.value = true;
     layout.value = [];
     activeDashboardId.value = null
     dashboardName.value = '';
-    onChange();
+
+    await onChange();
+    isLoading.value = false;
 }
 
 const updateName = async (payload: string) => {
@@ -409,25 +410,13 @@ const updateName = async (payload: string) => {
 }
 
 onMounted(async () => {
-    if (!dashboards.value?.length) {
-        await getDashboardsList()
-    }
-    initDashboardPage()
+    await getDashboardsList()
+    initDashboardPage();
 })
 
 onUnmounted(() => {
     activeDashboardId.value = null;
 });
-
-watch(() => route.query.id, id => {
-    if (Number(id) !== activeDashboardId.value) {
-        if (id) {
-            onSelectDashboard(Number(id))
-        } else {
-            setNew();
-        }
-    }
-})
 </script>
 
 <style lang="scss">
@@ -466,7 +455,6 @@ watch(() => route.query.id, id => {
         color: var(--pf-global--Color--300);
     }
     &__name {
-        min-width: 70px;
         .pf-c-inline-edit__value {
             font-size: 20px;
         }

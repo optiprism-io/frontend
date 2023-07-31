@@ -52,9 +52,6 @@ const getStartData = () => {
     lexiconStore.getEventProperties();
     lexiconStore.getUserProperties();
 
-    if (!dashboardsStore.dashboards.length) {
-        dashboardsStore.getDashboards();
-    }
     if (!reportsStore.list.length) {
         reportsStore.getList();
     }

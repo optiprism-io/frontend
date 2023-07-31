@@ -14,8 +14,8 @@
             </div>
             <button
                 v-else
-                class="pf-c-select__toggle"
                 :class="{
+                    'pf-c-select__toggle': props.isToggle,
                     'pf-c-dropdown__toggle pf-m-plain pf-m-text': props.isTextSelect,
                 }"
                 type="button"
@@ -124,6 +124,7 @@ export default defineComponent({
             type: String as PropType<'bottom-start' | 'bottom-end'>,
             default: 'bottom-start',
         },
+        isToggle: { type: Boolean, default: true },
     },
     emits: [
         'onSelect',
