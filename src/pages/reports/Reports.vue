@@ -1,5 +1,5 @@
 <template>
-    <section class="pf-c-page__main-section report">
+    <section class="pf-c-page__main-section reports">
         <UiTabs
             class="pf-u-mb-md"
             :items="items"
@@ -13,33 +13,33 @@
         </div>
         <template v-else>
             <div class="pf-u-mb-sm pf-u-display-flex pf-u-justify-content-space-between pf-u-align-items-center">
-                <div
-                    v-if="itemsReports.length && !editableNameReport"
-                    class="pf-u-mr-md"
+                <UiSelect
+                    v-if="!editableNameReport"
+                    class="reports__select pf-u-mr-md"
+                    :items="itemsReports"
+                    :text-button="reportSelectText"
+                    :is-text-select="true"
+                    :selections="[Number(reportsStore.reportId)]"
+                    @on-select="onSelectReport"
                 >
-                    <UiSelect
-                        class="dashboards__select"
-                        :items="itemsReports"
-                        :text-button="reportSelectText"
-                        :is-text-select="true"
-                        :selections="[Number(reportsStore.reportId)]"
-                        @on-select="onSelectReport"
-                    />
-                </div>
-                <div class="report__name pf-u-mr-md">
-                    <UiInlineEdit
-                        :value="reportName"
-                        :hide-text="!!reportName"
-                        :placeholder-value="t('reports.untitledReport')"
-                        @on-input="setNameReport"
-                        @on-edit="onEditNameReport"
-                    />
-                </div>
+                    <template
+                        v-if="isLoading"
+                        #action
+                    >
+                        <UiSpinner />
+                    </template>
+                </UiSelect>
+                <UiInlineEdit
+                    class="reports__name pf-u-mr-md"
+                    :value="reportName"
+                    :hide-text="true"
+                    @on-input="setNameReport"
+                    @on-edit="onEditNameReport"
+                />
                 <UiButton
-                    v-show="reportsStore.reportId"
-                    class="pf-m-link report__nav-item report__nav-item_new"
+                    class="pf-m-link reports__nav-item reports__nav-item_new"
                     :before-icon="'fas fa-plus'"
-                    @click="router.push({ query: { id: null } })"
+                    @click="setNew"
                 >
                     {{ $t('reports.createReport') }}
                 </UiButton>
@@ -49,7 +49,7 @@
                     :before-icon="'fas fa-trash'"
                     @click="onDeleteReport"
                 >
-                    {{ $t('dashboards.delete') }}
+                    {{ $t('reports.delete') }}
                 </UiButton>
                 <UiSwitch
                     class="pf-u-ml-auto pf-u-mr-md"
@@ -98,6 +98,7 @@ const stepsStore = useStepsStore()
 const { confirm } = useConfirm()
 
 const editableNameReport = ref(false);
+const isLoading = ref(false);
 const reportName = ref('');
 
 const items = computed(() => {
@@ -200,6 +201,10 @@ const setEmptyReport = () => {
     stepsStore.$reset()
 }
 
+const setNew = () => {
+    // TODO
+}
+
 const onSelectTab = () => {
     if (reportsStore.reportId) {
         setEmptyReport()
@@ -241,14 +246,14 @@ onMounted(async () => {
 </script>
 
 <style lang="scss">
-.report {
+.reports {
     &__name {
         .pf-c-inline-edit__value {
             font-size: 20px;
         }
     }
     &__select {
-        width: 200px;
+        width: 220px;
     }
     &__nav {
         min-height: 34px;
