@@ -2,7 +2,7 @@
   {
     "id": 1,
     "name": "Create Product",
-    "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet animi architecto aspernatur beatae blanditiis culpa cupiditate dolorem doloribus ea et eveniet explicabo, harum illo inventore laudantium modi obcaecati quibusdam ratione recusandae reiciendis reprehenderit sapiente similique totam.",
+    "description": "",
     "tags": [
       "ok",
       "product",
@@ -59,7 +59,7 @@
   {
     "id": 2,
     "name": "Find Product",
-    "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet animi architecto aspernatur beatae blanditiis culpa cupiditate dolorem doloribus ea et eveniet explicabo.",
+    "description": "",
     "tags": [
       "ok",
       "😎"

@@ -88,7 +88,7 @@
         ],
         "name": "view_product",
         "displayName": "View Product",
-        "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet animi architecto aspernatur beatae blanditiis culpa cupiditate dolorem doloribus ea et eveniet explicabo, harum illo inventore laudantium modi obcaecati quibusdam ratione recusandae reiciendis reprehenderit sapiente similique totam.",
+        "description": "",
         "status": "enabled",
         "eventProperties": [
             2,
