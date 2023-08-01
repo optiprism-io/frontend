@@ -9,52 +9,7 @@
       "my tag"
     ],
     "status": "enabled",
-    "events": [
-      {
-        "eventName": "view_product",
-        "eventType": "regular",
-        "eventId": "3",
-        "filters": [
-          {
-            "type": "property",
-            "propertyType": "user",
-            "propertyId": 3,
-            "operation": "eq",
-            "value": [
-              "USA",
-              "United Kingdom"
-            ]
-          }
-        ]
-      },
-      {
-        "eventName": "purchase_product",
-        "eventType": "regular",
-        "eventId": "5",
-        "filters": [
-          {
-            "type": "property",
-            "propertyType": "user",
-            "propertyId": 4,
-            "operation": "eq",
-            "value": [
-              "Furniture",
-              "Doors",
-              "Lamp"
-            ]
-          },
-          {
-            "type": "property",
-            "propertyType": "user",
-            "propertyId": 3,
-            "operation": "eq",
-            "value": [
-              "Spain"
-            ]
-          }
-        ]
-      }
-    ]
+    "events": []
   },
   {
     "id": 2,
@@ -65,13 +20,6 @@
       "😎"
     ],
     "status": "disabled",
-    "events": [
-      {
-        "eventId": 2,
-        "eventName": "search",
-        "eventType": "regular",
-        "filters": []
-      }
-    ]
+    "events": []
   }
 ]
