@@ -17,7 +17,13 @@
             <div class="pf-l-flex__item">
                 <Nav />
             </div>
-            <div class="pf-l-flex__item pf-m-align-right">
+            <UiSwitch
+                class="pf-l-flex__item pf-m-align-right pf-m-reverse pf-c-switch-white"
+                :value="viteMockApi"
+                :label="'Mocks enabled'"
+                @input="changeMocks"
+            />
+            <div>
                 <div class="app-header__tools">
                     <div class="pf-c-page__header-tools-group">
                         <div class="pf-c-page__header-tools-item">
@@ -37,12 +43,15 @@
 </template>
 
 <script setup lang="ts">
-import { inject } from 'vue'
+import { inject, onBeforeMount, ref } from 'vue'
 import { GenericUiDropdown, UiDropdownItem } from '@/components/uikit/UiDropdown.vue'
 import Nav from '@/components/common/Nav.vue'
+import UiSwitch from '@/components/uikit/UiSwitch.vue';
 import { useAuthStore } from '@/stores/auth/auth'
 import { useDashboardsStore } from '@/stores/dashboards'
 import { useRouter } from 'vue-router'
+import { BASE_PATH } from '@/api/base'
+import makeServer from '@/server';
 
 const authStore = useAuthStore()
 const dashboardsStore = useDashboardsStore()
@@ -70,6 +79,21 @@ const selectUserMenu = (item: UiDropdownItem<string>) => {
         router.replace({ name: 'login' })
     }
 }
+
+
+
+/**
+ * for text, change mocks env
+ */
+const viteMockApi = ref(import.meta.env.VITE_MOCK_API);
+const changeMocks = () => {
+    if (viteMockApi.value) {
+        fetch(`${BASE_PATH}/shutdown`)
+    } else {
+        makeServer();
+    }
+    viteMockApi.value = !viteMockApi.value;
+};
 </script>
 
 <style scoped lang="scss">

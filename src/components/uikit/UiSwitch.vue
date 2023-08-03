@@ -37,3 +37,9 @@ const updateValue = (e: Event) => {
     emit('input', target.checked)
 }
 </script>
+
+<style>
+.pf-c-switch.pf-c-switch-white {
+    --pf-c-switch__input--checked__label--Color: var(--pf-global--Color--light-100);
+}
+</style>
