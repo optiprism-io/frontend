@@ -13,7 +13,7 @@
                 >
                     <template #before>
                         <UiButton
-                            class="pf-m-main pf-m-primary"
+                            class="pf-m-primary"
                             @click="addCustomEvent"
                         >
                             {{ $t('events.add_custom_event') }}

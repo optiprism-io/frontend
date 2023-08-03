@@ -42,7 +42,7 @@
                 >
                     <UiButton
                         :before-icon="'fas fa-plus-circle'"
-                        class="pf-m-main pf-m-primary"
+                        class="pf-m-primary"
                         type="button"
                         @click="handleSelectProperty"
                     >
@@ -94,7 +94,6 @@
                                     :disabled="props.forPreview"
                                 >
                                     {{ value }}
-
                                     <span
                                         v-if="!props.forPreview"
                                         class="pf-c-button__icon pf-m-end"
@@ -110,10 +109,9 @@
                     </template>
                     <template v-else>
                         <UiButton
-                            class="pf-m-main"
                             :before-icon="'fas fa-plus-circle'"
                         >
-                            Select value
+                            {{ $t('events.select_value') }}
                         </UiButton>
                     </template>
                 </ValueSelect>

@@ -11,7 +11,6 @@
             class="pf-l-flex"
         >
             <UiButton
-                class="pf-m-main"
                 :is-link="true"
                 :before-icon="'fas fa-plus'"
                 @click="filterGroups.addFilterGroup"

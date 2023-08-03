@@ -16,7 +16,7 @@
                         @select="editEvent($event, index)"
                     >
                         <UiButton
-                            class="pf-m-main pf-m-secondary"
+                            class="pf-m-secondary"
                             is-link
                         >
                             {{ eventName(item.event) }}
@@ -33,7 +33,7 @@
                         @update:model-value="editEventSteps($event, index)"
                     >
                         <UiButton
-                            class="pf-m-main pf-m-secondary pf-l-flex__item"
+                            class="pf-m-secondary pf-l-flex__item"
                             :is-link="true"
                         >
                             {{ excludeStepsToString(item.steps) }}

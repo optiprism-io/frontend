@@ -15,7 +15,7 @@
                         @update:model-value="changeFilterGroupCondition"
                     >
                         <UiButton
-                            class="pf-m-main pf-m-secondary pf-l-flex__item"
+                            class="pf-m-secondary pf-l-flex__item"
                             :is-link="true"
                         >
                             {{ $t(`filters.conditions.${filterGroup.condition}`) }}
@@ -56,7 +56,6 @@
             </Filter>
             <div class="pf-l-flex">
                 <UiButton
-                    class="pf-m-main"
                     :is-link="true"
                     :before-icon="'fas fa-plus'"
                     @click="addFilterToGroup"
@@ -65,7 +64,6 @@
                 </UiButton>
                 <UiButton
                     v-if="index === filterGroupsStore.filterGroups.length - 1"
-                    class="pf-m-main"
                     :is-link="true"
                     :before-icon="'fas fa-plus'"
                     @click="filterGroupsStore.addFilterGroup"

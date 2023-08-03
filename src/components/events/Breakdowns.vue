@@ -17,11 +17,10 @@
                 @select="addBreakdown"
             >
                 <UiButton
-                    class="pf-m-main"
                     :is-link="true"
                     :before-icon="'fas fa-plus'"
                 >
-                    Add Breakdown
+                    {{ $t('events.addBreakdown') }}
                 </UiButton>
             </PropertySelect>
         </div>
@@ -39,12 +38,7 @@ const eventsStore = useEventsStore();
 const breakdownsStore = useBreakdownsStore();
 
 const eventRefs = computed(() => eventsStore.events.map(item => item.ref));
-const breakdowns = computed(() => breakdownsStore.breakdowns.map(item => {
-    return {
-        ...item,
-        error: !eventsStore.allSelectedEventPropertyRefs.find(ref => JSON.stringify(ref) === JSON.stringify(item.propRef)),
-    };
-}));
+const breakdowns = computed(() => breakdownsStore.breakdowns);
 
 const changeBreakdownProperty = (breakdownIdx: number, propRef: PropertyRef) => {
     breakdownsStore.changeBreakdownProperty(breakdownIdx, propRef);

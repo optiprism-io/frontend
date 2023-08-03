@@ -20,7 +20,7 @@
                                 type: 'event'
                             })"
                         >
-                            <UiButton class="pf-m-main pf-m-secondary">
+                            <UiButton class="pf-m-secondary">
                                 {{ event.name }}
                             </UiButton>
                         </div>

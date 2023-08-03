@@ -14,7 +14,7 @@
             :force-props="lexiconStore.eventProperties"
             @select="editHoldingProperty(index, $event)"
         >
-            <UiButton class="pf-m-main pf-m-secondary">
+            <UiButton class="pf-m-secondary">
                 {{ props.name }}
 
                 <span class="pf-c-button__icon pf-m-end">

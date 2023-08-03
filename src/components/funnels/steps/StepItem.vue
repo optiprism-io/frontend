@@ -14,7 +14,7 @@
                 <UiActionList>
                     <template #main>
                         <EventSelector @select="(value) => editStepEvent(i, value)">
-                            <UiButton class="pf-m-main pf-m-secondary">
+                            <UiButton class="pf-m-secondary">
                                 {{ eventName(event.event) }}
                             </UiButton>
                         </EventSelector>

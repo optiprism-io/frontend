@@ -8,7 +8,7 @@
             @search="handleSizeSearch"
         >
             <UiButton
-                class="pf-m-main pf-m-secondary pf-l-flex__item"
+                class="pf-m-secondary pf-l-flex__item"
                 :is-link="true"
             >
                 {{ stepsStore.size }}
@@ -21,7 +21,7 @@
             :show-search="false"
         >
             <UiButton
-                class="pf-m-main pf-m-secondary pf-l-flex__item"
+                class="pf-m-secondary pf-l-flex__item"
                 :is-link="true"
             >
                 {{ $t(`common.timeUnits.${stepsStore.unit}`) }}
@@ -38,7 +38,7 @@
             :show-search="false"
         >
             <UiButton
-                class="pf-m-main pf-m-secondary pf-l-flex__item"
+                class="pf-m-secondary pf-l-flex__item"
                 :is-link="true"
             >
                 {{ $t(`criteria.orderType.${stepsStore.order}`) }}

@@ -16,7 +16,6 @@
                     @select="changeConditionAction"
                 >
                     <UiButton
-                        class="pf-m-main"
                         :class="{
                             'pf-m-secondary': isSelectedAction,
                         }"
@@ -45,7 +44,6 @@
                         @select="changeProperty"
                     >
                         <UiButton
-                            class="pf-m-main"
                             :class="{
                                 'pf-m-secondary': isSelectedProp,
                             }"
@@ -65,7 +63,7 @@
                         :selected="props.condition.opId"
                         @select="changeOperation"
                     >
-                        <UiButton class="pf-m-main pf-m-secondary">
+                        <UiButton class="pf-m-secondary">
                             {{ operationButtonText }}
                         </UiButton>
                     </OperationSelect>
@@ -88,7 +86,7 @@
                                     :key="i"
                                     class="pf-c-action-list__item"
                                 >
-                                    <UiButton class="pf-m-main pf-m-secondary">
+                                    <UiButton class="pf-m-secondary">
                                         {{ value }}
                                         <span class="pf-c-button__icon pf-m-end">
                                             <UiIcon
@@ -102,7 +100,6 @@
                         </template>
                         <template v-else>
                             <UiButton
-                                class="pf-m-main"
                                 :before-icon="'fas fa-plus-circle'"
                             >
                                 {{ $t('events.select_value') }}
@@ -125,7 +122,6 @@
                 >
                     <template #action>
                         <UiButton
-                            class="pf-m-main"
                             :before-icon="props.condition.each ? '' : 'fas fa-calendar-alt'"
                             :class="{
                                 'pf-m-secondary': isSelectedCalendar,

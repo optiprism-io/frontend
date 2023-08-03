@@ -11,7 +11,6 @@
             @on-hover="onHoverEvent"
         >
             <UiButton
-                class="pf-m-main"
                 :class="{
                     'pf-m-secondary': props.condition.event,
                 }"
@@ -50,7 +49,6 @@
             @select="changeConditionAggregate"
         >
             <UiButton
-                class="pf-m-main"
                 :class="{
                     'pf-m-secondary': isSelectedAggregate,
                 }"
@@ -66,7 +64,6 @@
     >
         <PropertySelect @select="changeProperty">
             <UiButton
-                class="pf-m-main"
                 :class="{
                     'pf-m-secondary': isSelectedProp,
                 }"
@@ -86,7 +83,7 @@
             :op-items="opItems"
             @select="changeOperation"
         >
-            <UiButton class="pf-m-main pf-m-secondary">
+            <UiButton class="pf-m-secondary">
                 {{ operationButtonText }}
             </UiButton>
         </OperationSelect>
@@ -102,7 +99,6 @@
             @select="changeCompareEvent"
         >
             <UiButton
-                class="pf-m-main"
                 :class="{
                     'pf-m-secondary': props.condition.compareEvent,
                 }"
@@ -124,7 +120,6 @@
             @select="onInputValue"
         >
             <UiButton
-                class="pf-m-main"
                 :class="{
                     'pf-m-secondary': props.condition.event,
                 }"
