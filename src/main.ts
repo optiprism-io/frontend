@@ -14,8 +14,12 @@ import i18nPlugin from '@/plugins/i18n';
 import GridLayout from 'vue3-drr-grid-layout';
 import 'vue3-drr-grid-layout/dist/style.css';
 
+const isEnabledMocks = localStorage.getItem('isEnabledMocks');
 if (import.meta.env.VITE_MOCK_API) {
-    makeServer();
+    if ((isEnabledMocks && Number(isEnabledMocks)) || !isEnabledMocks) {
+        makeServer();
+        localStorage.setItem('isEnabledMocks', '1');
+    }
 }
 const app = createApp(App);
 

@@ -18,8 +18,9 @@
                 <Nav />
             </div>
             <UiSwitch
+                v-if="viteMockApi"
                 class="pf-l-flex__item pf-m-align-right pf-m-reverse pf-c-switch-white"
-                :value="viteMockApi"
+                :value="isEnabledMocks"
                 :label="'Mocks enabled'"
                 @input="changeMocks"
             />
@@ -43,15 +44,13 @@
 </template>
 
 <script setup lang="ts">
-import { inject, onBeforeMount, ref } from 'vue'
+import { inject, ref, onMounted } from 'vue'
 import { GenericUiDropdown, UiDropdownItem } from '@/components/uikit/UiDropdown.vue'
 import Nav from '@/components/common/Nav.vue'
 import UiSwitch from '@/components/uikit/UiSwitch.vue';
 import { useAuthStore } from '@/stores/auth/auth'
 import { useDashboardsStore } from '@/stores/dashboards'
 import { useRouter } from 'vue-router'
-import { BASE_PATH } from '@/api/base'
-import makeServer from '@/server';
 
 const authStore = useAuthStore()
 const dashboardsStore = useDashboardsStore()
@@ -83,17 +82,19 @@ const selectUserMenu = (item: UiDropdownItem<string>) => {
 
 
 /**
- * for text, change mocks env
+ * mocks env
  */
-const viteMockApi = ref(import.meta.env.VITE_MOCK_API);
+const isEnabledMocks = ref(false);
+const viteMockApi = import.meta.env.VITE_MOCK_API;
 const changeMocks = () => {
-    if (viteMockApi.value) {
-        fetch(`${BASE_PATH}/shutdown`)
-    } else {
-        makeServer();
-    }
-    viteMockApi.value = !viteMockApi.value;
+    localStorage.setItem('isEnabledMocks', isEnabledMocks.value ? '0' : '1');
+    location.reload();
 };
+
+onMounted(() => {
+    const localIsEnabledMocks = localStorage.getItem('isEnabledMocks');
+    isEnabledMocks.value = !!(localIsEnabledMocks && Number(localIsEnabledMocks));
+});
 </script>
 
 <style scoped lang="scss">
