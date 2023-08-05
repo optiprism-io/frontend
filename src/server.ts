@@ -22,19 +22,48 @@ const accessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3OD
 const refreshToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6Im5pa28ga3VzaCIsImlhdCI6MTUxNjIzOTAyMn0.FzpmXmStgiYEO15ZbwwPafVRQSOCO_xidYjrjRvVIbQ'
 const csrfToken = 'CIwNZNlR4XbisJF39I8yWnWX9wX4WFoz'
 
-export default function ({ environment = 'development' } = {}) {
+export default function ({ environment = 'development', isSeed = true } = {}) {
     let usersCount = 0;
 
     return createServer({
         seeds(server) {
             server.db.loadData({
-                events: eventMocks,
-                customEvents: customEventsMocks,
-                eventProperties: eventPropertiesMocks,
-                userProperties: userPropertiesMocks,
-                reports: reportsMocks,
-                dashboards: dashboardsMocks,
-                groupRecords: groupRecordsMocks.map(item => ({...item, id: nanoid()})),
+                events: isSeed ? eventMocks : [],
+                customEvents: isSeed ? customEventsMocks : [],
+                eventProperties: isSeed ? eventPropertiesMocks : [],
+                userProperties: isSeed ? userPropertiesMocks : [],
+                reports: isSeed ? reportsMocks : [],
+                dashboards: isSeed ? dashboardsMocks : [],
+                groupRecords: isSeed ? groupRecordsMocks.map(item => ({...item, id: nanoid()})) : [],
+                liveStreamMocks: isSeed ? liveStreamMocks : [],
+                customProperties: isSeed ? [
+                    {
+                        id: 1,
+                        eventId: 1,
+                        createdAt: new Date(),
+                        createdBy: 0,
+                        updatedBy: 0,
+                        tags: [],
+                        name: 'custom prop 1',
+                        dataType: DataType.String,
+                        isArray: false,
+                        nullable: false,
+                        isDictionary: false
+                    },
+                    {
+                        id: 2,
+                        eventId: 1,
+                        createdAt: new Date(),
+                        createdBy: 0,
+                        updatedBy: 0,
+                        tags: [],
+                        name: 'custom prop 2',
+                        dataType: DataType.String,
+                        isArray: false,
+                        nullable: false,
+                        isDictionary: false
+                    }
+                ] : [],
             });
         },
 
@@ -81,7 +110,7 @@ export default function ({ environment = 'development' } = {}) {
 
             this.post(`${BASE_PATH}/v1/organizations/:organization_id/projects/:project_id/event-records/search`, (schema, request) => {
                 return {
-                    events: liveStreamMocks,
+                    events: schema.db.liveStreamMocks,
                 };
             })
 
@@ -104,34 +133,9 @@ export default function ({ environment = 'development' } = {}) {
             }, { timing: 200 })
 
             this.get(`${BASE_PATH}/v1/organizations/:organization_id/projects/:project_id/schema/custom-properties`, () => {
-                return { events: [
-                    {
-                        id: 1,
-                        eventId: 1,
-                        createdAt: new Date(),
-                        createdBy: 0,
-                        updatedBy: 0,
-                        tags: [],
-                        name: 'custom prop 1',
-                        dataType: DataType.String,
-                        isArray: false,
-                        nullable: false,
-                        isDictionary: false
-                    },
-                    {
-                        id: 2,
-                        eventId: 1,
-                        createdAt: new Date(),
-                        createdBy: 0,
-                        updatedBy: 0,
-                        tags: [],
-                        name: 'custom prop 2',
-                        dataType: DataType.String,
-                        isArray: false,
-                        nullable: false,
-                        isDictionary: false
-                    }
-                ]};
+                return {
+                    events: this.schema.db.customProperties,
+                };
             });
 
             this.get('/schema/user-custom-properties', (): UserCustomProperty[] => {

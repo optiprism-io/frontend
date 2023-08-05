@@ -17,7 +17,7 @@ import 'vue3-drr-grid-layout/dist/style.css';
 const isEnabledMocks = localStorage.getItem('isEnabledMocks');
 if (import.meta.env.VITE_MOCK_API) {
     if ((isEnabledMocks && Number(isEnabledMocks)) || !isEnabledMocks) {
-        makeServer();
+        makeServer({ isSeed: localStorage.getItem('isEmptyMocks') !== '1' });
         localStorage.setItem('isEnabledMocks', '1');
     }
 }
