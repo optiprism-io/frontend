@@ -41,18 +41,8 @@
                         },
                         {
                             "type": "property",
-                            "propertyName": "country",
-                            "propertyId": "3",
-                            "propertyType": "user",
-                            "operation": "arr_any",
-                            "value": [
-                                "Shelves"
-                            ]
-                        },
-                        {
-                            "type": "property",
                             "propertyName": "custom prop 1",
-                            "propertyId": 1,
+                            "propertyId": "1",
                             "propertyType": "custom",
                             "operation": "neq",
                             "value": [
@@ -178,7 +168,7 @@
                         {
                             "type": "didEvent",
                             "eventName": "Find Product",
-                            "eventId": 2,
+                            "eventId": "2",
                             "eventType": "custom",
                             "filters": [],
                             "aggregate": {

@@ -51,10 +51,6 @@ const getStartData = () => {
     lexiconStore.getEvents();
     lexiconStore.getEventProperties();
     lexiconStore.getUserProperties();
-
-    if (!reportsStore.list.length) {
-        reportsStore.getList();
-    }
 };
 
 const init = async (): Promise<void> => {

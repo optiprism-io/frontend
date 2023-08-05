@@ -110,6 +110,7 @@
                     <template v-else>
                         <UiButton
                             :before-icon="'fas fa-plus-circle'"
+                            class="pf-m-link"
                         >
                             {{ $t('events.select_value') }}
                         </UiButton>

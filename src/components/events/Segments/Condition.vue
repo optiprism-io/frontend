@@ -11,13 +11,14 @@
                 <Select
                     :items="allowAndOr ? conditionItemsAll : conditionItems"
                     :width-auto="true"
-                    :is-open-mount="updateOpen || (!!nextCondition?.action && !!condition?.action)"
+                    :is-open-mount="false"
                     :update-open="!isSelectedAction ? updateOpen : false"
                     @select="changeConditionAction"
                 >
                     <UiButton
                         :class="{
                             'pf-m-secondary': isSelectedAction,
+                            'pf-m-link': !isSelectedAction,
                         }"
                         :before-icon="!isSelectedAction ? 'fas fa-plus-circle': ''"
                     >
@@ -46,6 +47,7 @@
                         <UiButton
                             :class="{
                                 'pf-m-secondary': isSelectedProp,
+                                'pf-m-link': !isSelectedProp,
                             }"
                             type="button"
                             :before-icon="!isSelectedProp ? 'fas fa-plus-circle' : ''"
@@ -100,6 +102,7 @@
                         </template>
                         <template v-else>
                             <UiButton
+                                class="pf-m-link"
                                 :before-icon="'fas fa-plus-circle'"
                             >
                                 {{ $t('events.select_value') }}
