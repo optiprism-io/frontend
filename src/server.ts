@@ -185,7 +185,10 @@ export default function ({ environment = 'development', isSeed = true } = {}) {
 
             this.get(`${BASE_PATH}/v1/organizations/:organization_id/projects/:project_id/reports`, (schema) => {
                 return {
-                    data: schema.db.reports,
+                    data: schema.db.reports.map(item => ({
+                        ...item,
+                        id: Number(item.id),
+                    })),
                     meta: {}
                 }
             })

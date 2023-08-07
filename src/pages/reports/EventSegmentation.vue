@@ -4,7 +4,7 @@
             <GridContainer>
                 <GridItem :col-lg="6">
                     <UiCard :title="$t('events.events')">
-                        <Events @get-event-segmentation="getEventSegmentation" />
+                        <Events @on-change="getEventSegmentation" />
                     </UiCard>
                 </GridItem>
                 <GridItem :col-lg="6">
@@ -35,7 +35,7 @@
 </template>
 
 <script setup lang="ts">
-import { onUnmounted, watch, ref } from 'vue';
+import { onUnmounted, onMounted, watch, ref } from 'vue';
 import Events from '@/components/events/Events/Events.vue';
 import Breakdowns from '@/components/events/Breakdowns.vue';
 import Segments from '@/components/events/Segments/Segments.vue';
@@ -86,7 +86,11 @@ const getEventSegmentation = async () => {
     eventSegmentationLoading.value = false
 }
 
-watch(() => eventsStore.events, () => getEventSegmentation())
+onMounted(() => {
+    if (eventsStore.propsForEventSegmentationResult) {
+        getEventSegmentation();
+    }
+})
 </script>
 
 <style scoped lang="scss">

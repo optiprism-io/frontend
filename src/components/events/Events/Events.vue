@@ -59,45 +59,54 @@ const commonStore = useCommonStore()
 const { hoveredCustomEventDescription, hoveredCustomEventId, onHoverEvent } = useCustomEvent()
 
 const emit = defineEmits<{
-    (e: 'get-event-segmentation'): void
+    (e: 'on-change'): void
 }>()
 
 const events = computed(() => eventsStore.events);
 
 const setEvent = (payload: EventPayload) => {
     eventsStore.setEvent(payload);
+    emit('on-change');
 }
 
 const addEvent = (ref: EventRef) => {
     eventsStore.addEventByRef(ref, props.createWithQuery);
+    emit('on-change');
 };
 
 const removeEvent = (idx: number): void => {
     eventsStore.deleteEvent(idx);
+    emit('on-change');
 };
 
 const addBreakdown = (idx: number): void => {
     eventsStore.addBreakdown(idx);
+    emit('on-change');
 };
 
 const changeBreakdownProperty = (eventIdx: number, breakdownIdx: number, propRef: PropertyRef) => {
     eventsStore.changeBreakdownProperty(eventIdx, breakdownIdx, propRef);
+    emit('on-change');
 };
 
 const removeBreakdown = (eventIdx: number, breakdownIdx: number): void => {
     eventsStore.removeBreakdown(eventIdx, breakdownIdx);
+    emit('on-change');
 };
 
 const addQuery = (idx: number): void => {
     eventsStore.addQuery(idx);
+    emit('on-change');
 };
 
 const removeQuery = (eventIdx: number, queryIdx: number): void => {
     eventsStore.removeQuery(eventIdx, queryIdx);
+    emit('on-change');
 };
 
 const changeQuery = (eventIdx: number, queryIdx: number, ref: EventQueryRef) => {
     eventsStore.changeQuery(eventIdx, queryIdx, ref);
+    emit('on-change');
 };
 
 const selectAction = (payload: string) => {
@@ -111,6 +120,4 @@ const editEvent = (payload: number) => {
     eventsStore.setEditCustomEvent(Number(payload))
     commonStore.togglePopupCreateCustomEvent(true)
 }
-
-watch(eventsStore.events, () => emit('get-event-segmentation'))
 </script>

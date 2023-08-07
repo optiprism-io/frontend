@@ -1,6 +1,6 @@
 [
     {
-        "id": "31",
+        "id": 31,
         "name": "New Report for Test",
         "type": "eventSegmentation",
         "query": {
@@ -249,7 +249,7 @@
         }
     },
     {
-        "id": "1",
+        "id": 1,
         "name": "Report for Dashboard",
         "type": "eventSegmentation",
         "query": {
@@ -295,7 +295,7 @@
         }
     },
     {
-        "id": "2",
+        "id": 2,
         "name": "Report 2",
         "type": "eventSegmentation",
         "query": {
@@ -341,7 +341,7 @@
         }
     },
     {
-        "id": "3",
+        "id": 3,
         "name": "Report 3",
         "type": "eventSegmentation",
         "query": {
@@ -387,7 +387,7 @@
         }
     },
     {
-        "id": "4",
+        "id": 4,
         "name": "Report 4",
         "type": "eventSegmentation",
         "query": {
@@ -433,7 +433,7 @@
         }
     },
     {
-        "id": "8747",
+        "id": 8747,
         "name": "Funnels Report #1",
         "type": "funnel",
         "query": {

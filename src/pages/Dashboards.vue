@@ -410,7 +410,7 @@ const updateName = async (payload: string) => {
 }
 
 onMounted(async () => {
-    reportsStore.getList();
+    await reportsStore.getList();
     await getDashboardsList()
     initDashboardPage();
 })

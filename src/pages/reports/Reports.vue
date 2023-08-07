@@ -77,6 +77,7 @@ import { useFilterGroupsStore } from '@/stores/reports/filters'
 import { useSegmentsStore } from '@/stores/reports/segments'
 import { useBreakdownsStore } from '@/stores/reports/breakdowns'
 import { useStepsStore } from '@/stores/funnels/steps'
+import { useLexiconStore } from '@/stores/lexicon';
 
 import UiSelect from '@/components/uikit/UiSelect.vue'
 import UiSwitch from '@/components/uikit/UiSwitch.vue'
@@ -93,6 +94,7 @@ const filterGroupsStore = useFilterGroupsStore()
 const segmentsStore = useSegmentsStore()
 const breakdownsStore = useBreakdownsStore()
 const stepsStore = useStepsStore()
+const lexiconStore = useLexiconStore();
 const { confirm } = useConfirm()
 
 const editableNameReport = ref(false);
@@ -229,8 +231,8 @@ const updateReport = async (id: number) => {
     reportsStore.updateDump(reportType.value)
 }
 
-const onSelectReport = (id: number) => {
-    updateReport(id)
+const onSelectReport = async (id: number) => {
+    await updateReport(id)
     router.push({ params: { id } })
 }
 
@@ -247,9 +249,18 @@ const initReportPage = async () => {
     reportsStore.loading = false;
 };
 
+const initEventsAndProperties = async () => {
+    await Promise.all([
+        lexiconStore.getEvents(),
+        lexiconStore.getEventProperties(),
+        lexiconStore.getUserProperties(),
+    ]);
+};
+
 onMounted(async () => {
     reportsStore.loading = true
     eventsStore.initPeriod();
+    await initEventsAndProperties();
     await reportsStore.getList();
     initReportPage();
 })
