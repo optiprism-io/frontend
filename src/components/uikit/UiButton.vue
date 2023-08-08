@@ -2,8 +2,8 @@
     <button
         class="pf-c-button"
         :class="{
-            'pf-m-in-progress': progress,
-            'pf-m-link': isLink
+            'pf-m-in-progress': props.progress,
+            'pf-m-link': props.isLink,
         }"
         :disabled="disabled"
         :type="type"
@@ -37,7 +37,7 @@
 
 <script setup lang="ts">
 import UiSpinner from './UiSpinner.vue';
-import UiIcon from '@/components/uikit/UiIcon.vue'
+import UiIcon from '@/components/uikit/UiIcon.vue';
 
 interface Props {
     active?: boolean;
@@ -51,7 +51,7 @@ interface Props {
     afterIcon?: string
 }
 
-withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<Props>(), {
     type: 'button',
     beforeIcon: '',
     icon: '',

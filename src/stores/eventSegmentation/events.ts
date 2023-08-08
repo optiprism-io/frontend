@@ -242,12 +242,11 @@ export const useEventsStore = defineStore('events', {
                         filters: item.filters.filter(item => item.propRef).map((filter): EventFilterByProperty => {
                             const ref = filter.propRef;
                             const propertyId = ref?.id || 0;
-                            const eventProperty = ref?.name ? lexiconStore.findEventPropertyByName(ref.name) : lexiconStore.findEventPropertyById(propertyId);
                             let name = '';
 
                             switch (filter.propRef?.type || 'event') {
                                 case PropertyType.Event:
-                                    name = ref?.name || eventProperty.name;
+                                    name = ref?.name || (ref?.name ? lexiconStore.findEventPropertyByName(ref.name) : lexiconStore.findEventPropertyById(propertyId))?.name || '';
                                     break;
                                 case PropertyType.Custom:
                                     name = lexiconStore.findEventCustomPropertyById(propertyId)?.name || ''
