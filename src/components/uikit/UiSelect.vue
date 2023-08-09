@@ -15,6 +15,7 @@
             <button
                 v-else
                 :class="{
+                    'pf-u-w-100': props.w100,
                     'pf-c-select__toggle': props.isToggle,
                     'pf-c-dropdown__toggle pf-m-plain pf-m-text': props.isTextSelect,
                 }"
@@ -125,6 +126,7 @@ export default defineComponent({
             default: 'bottom-start',
         },
         isToggle: { type: Boolean, default: true },
+        w100: Boolean,
     },
     emits: [
         'onSelect',

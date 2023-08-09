@@ -10,6 +10,7 @@
                     :is-text-select="true"
                     :selections="[Number(activeDashboardId)]"
                     :is-toggle="false"
+                    :w-100="true"
                     @on-select="onSelectDashboard"
                 >
                     <template

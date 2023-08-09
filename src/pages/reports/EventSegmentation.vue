@@ -49,7 +49,6 @@ import GridItem from '@/components/grid/GridItem.vue';
 import reportsService from '@/api/services/reports.service'
 import { DataTableResponse } from '@/api'
 import { eventsToFunnels } from '@/utils/reportsMappings'
-
 import { useEventsStore } from '@/stores/eventSegmentation/events'
 import { useFilterGroupsStore } from '@/stores/reports/filters'
 import { useCommonStore } from '@/stores/common'
@@ -74,23 +73,25 @@ onUnmounted(() => {
 })
 
 const getEventSegmentation = async () => {
-    eventSegmentationLoading.value = true
+    eventSegmentationLoading.value = true;
     try {
-        const res = await reportsService.eventSegmentation(commonStore.organizationId, commonStore.projectId,  eventsStore.propsForEventSegmentationResult)
+        const res = await reportsService.eventSegmentation(commonStore.organizationId, commonStore.projectId,  eventsStore.propsForEventSegmentationResult);
         if (res) {
-            eventSegmentation.value = res.data as DataTableResponse
+            eventSegmentation.value = res.data as DataTableResponse;
         }
     } catch (error) {
-        throw new Error('error event segmentation')
+        throw new Error('error event segmentation');
     }
-    eventSegmentationLoading.value = false
+    eventSegmentationLoading.value = false;
 }
 
 onMounted(() => {
-    if (eventsStore.propsForEventSegmentationResult) {
-        getEventSegmentation();
-    }
-})
+    getEventSegmentation();
+});
+
+watch(() => eventsStore.propsForEventSegmentationResult, () => {
+    getEventSegmentation();
+});
 </script>
 
 <style scoped lang="scss">

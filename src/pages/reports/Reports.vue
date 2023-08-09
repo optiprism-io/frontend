@@ -14,6 +14,7 @@
                 :is-text-select="true"
                 :selections="[Number(reportsStore.reportId)]"
                 :is-toggle="false"
+                :w-100="true"
                 @on-select="onSelectReport"
             >
                 <template
@@ -232,8 +233,8 @@ const updateReport = async (id: number) => {
 }
 
 const onSelectReport = async (id: number) => {
-    await updateReport(id)
-    router.push({ params: { id } })
+    await updateReport(id);
+    router.push({ params: { id } });
 }
 
 const initReportPage = async () => {
@@ -241,7 +242,7 @@ const initReportPage = async () => {
         (reportsId.value.includes(Number(route.params?.id)) ? route.params?.id : reportsId.value[0]) || null;
 
     if (reportId) {
-        onSelectReport(Number(reportId));
+        await onSelectReport(Number(reportId));
     } else {
         await setNew();
     }

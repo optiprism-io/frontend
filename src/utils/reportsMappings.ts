@@ -448,7 +448,7 @@ export const reportToStores = async (id: number) => {
             stepsStore.steps = query?.steps ? await mapReportToSteps(query.steps) : []
             stepsStore.holdingProperties = query?.holdingConstants ? mapReportToHoldingConstants(query.holdingConstants) : []
         }
-        filterGroupsStore.condition = report.query?.filters?.groupsCondition || 'and'
+        filterGroupsStore.condition = report.query?.filters?.groupsCondition || 'and';
         filterGroupsStore.filterGroups = report.query?.filters?.groups ? await mapReportToFilterGroups(report.query.filters.groups) : []
         segmentsStore.segments = report?.query?.segments ? await mapReportToSegments(report.query.segments) : []
         breakdownsStore.breakdowns = report?.query?.breakdowns ? mapReportToBreakdowns(report.query.breakdowns) : []
