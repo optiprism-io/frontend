@@ -44,6 +44,7 @@ type EditFilterForGroupPayload = {
 interface FilterGroupsStore {
     condition: EventGroupedFiltersGroupsConditionEnum;
     filterGroups: FilterGroup[];
+    isFiltersAdvanced: boolean;
 }
 
 export const useFilterGroupsStore = defineStore('filter-groups', {
@@ -54,7 +55,8 @@ export const useFilterGroupsStore = defineStore('filter-groups', {
                 condition: 'and',
                 filters: []
             }
-        ]
+        ],
+        isFiltersAdvanced: false,
     }),
     actions: {
         setCondition(payload: EventGroupedFiltersGroupsConditionEnum): void {

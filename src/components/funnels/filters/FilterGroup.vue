@@ -4,7 +4,10 @@
         class="pf-l-flex pf-m-column"
     >
         <UiActionList>
-            <template #main>
+            <template
+                v-if="showMatch"
+                #main
+            >
                 <div class="pf-l-flex">
                     <span class="pf-l-flex__item">match</span>
 
@@ -25,8 +28,10 @@
                     <span class="pf-l-flex__item">in group</span>
                 </div>
             </template>
-
-            <UiActionListItem @click="removeFilterGroup">
+            <UiActionListItem
+                v-if="showMatch"
+                @click="removeFilterGroup"
+            >
                 <VTooltip popper-class="ui-hint">
                     <UiIcon icon="fas fa-trash" />
                     <template #popper>
@@ -60,15 +65,15 @@
                     :before-icon="'fas fa-plus'"
                     @click="addFilterToGroup"
                 >
-                    Add filter
+                    {{ $t('common.addFilter') }}
                 </UiButton>
                 <UiButton
-                    v-if="index === filterGroupsStore.filterGroups.length - 1"
+                    v-if="index === filterGroupsStore.filterGroups.length - 1 && filterGroupsStore.isFiltersAdvanced"
                     :is-link="true"
                     :before-icon="'fas fa-plus'"
                     @click="filterGroupsStore.addFilterGroup"
                 >
-                    Add group
+                    {{ $t('filters.addGroup') }}
                 </UiButton>
             </div>
         </div>
@@ -102,6 +107,8 @@ const props = defineProps({
         required: true,
     },
 })
+
+const showMatch = computed(() => filterGroupsStore.isFiltersAdvanced);
 
 const eventRefs = computed(() => {
     return stepsStore.steps.map(step => {

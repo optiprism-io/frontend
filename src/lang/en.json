@@ -32,7 +32,7 @@
     "close": "Close",
     "select_period": "Select period",
     "select_aggregate": "Select aggregate",
-    "add_filter": "Add Filter",
+    "addFilter": "Add Filter",
     "add_event": "Add Event",
     "add_step": "Add Step",
     "enter_value": "Enter a value",
@@ -285,7 +285,11 @@
     "conditions": {
       "and": "Any",
       "or": "All"
-    }
+    },
+    "simple": "Simple",
+    "advanced": "Advanced",
+    "addGroup": "Add group",
+    "resetText": "When switching to simple filters, you must reset the selected groups. Reset all filters?"
   },
 
   "dashboards": {

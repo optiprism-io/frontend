@@ -450,6 +450,7 @@ export const reportToStores = async (id: number) => {
         }
         filterGroupsStore.condition = report.query?.filters?.groupsCondition || 'and';
         filterGroupsStore.filterGroups = report.query?.filters?.groups ? await mapReportToFilterGroups(report.query.filters.groups) : []
+        filterGroupsStore.isFiltersAdvanced = Boolean(filterGroupsStore.filterGroups.length);
         segmentsStore.segments = report?.query?.segments ? await mapReportToSegments(report.query.segments) : []
         breakdownsStore.breakdowns = report?.query?.breakdowns ? mapReportToBreakdowns(report.query.breakdowns) : []
         eventsStore.chartType = report?.query?.chartType as ChartType

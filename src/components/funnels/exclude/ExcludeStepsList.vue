@@ -50,7 +50,7 @@
                 <VTooltip popper-class="ui-hint">
                     <UiIcon icon="fas fa-filter" />
                     <template #popper>
-                        {{ $t('common.add_filter') }}
+                        {{ $t('common.addFilter') }}
                     </template>
                 </VTooltip>
             </UiActionListItem>

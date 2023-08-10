@@ -1,5 +1,16 @@
 <template>
-    <label class="pf-c-switch">
+    <label
+        class="pf-c-switch"
+        :class="{
+            'pf-m-reverse': props.reverse,
+        }"
+    >
+        <span
+            v-if="props.beforeLabel"
+            class="pf-c-switch__label pf-c-switch__before-label"
+        >
+            {{ props.beforeLabel }}
+        </span>
         <input
             class="pf-c-switch__input"
             type="checkbox"
@@ -21,6 +32,8 @@ interface Props {
     modelValue?: number | string | boolean
     value?: boolean
     label?: string
+    beforeLabel?: string
+    reverse?: boolean
 }
 
 const emit = defineEmits(['update:modelValue', 'input']);
@@ -33,7 +46,6 @@ const props = withDefaults(defineProps<Props>(), {
 const updateValue = (e: Event) => {
     const target = e.target as HTMLInputElement
 
-    emit('update:modelValue', target.checked)
     emit('input', target.checked)
 }
 </script>
