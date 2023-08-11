@@ -4,7 +4,6 @@
         @select="addHoldingConstant"
     >
         <UiButton
-            class="pf-m-main"
             :is-link="true"
             :before-icon="'fas fa-plus'"
         >

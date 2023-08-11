@@ -5,26 +5,24 @@
             :key="index"
             :index="index"
         />
-
         <div
-            v-if="filterGroups.filterGroups.length === 0"
+            v-if="filterGroups.isFiltersAdvanced && filterGroups.filterGroups.length === 0"
             class="pf-l-flex"
         >
             <UiButton
-                class="pf-m-main"
                 :is-link="true"
                 :before-icon="'fas fa-plus'"
                 @click="filterGroups.addFilterGroup"
             >
-                Add group
+                {{ $t('filters.addGroup') }}
             </UiButton>
         </div>
     </div>
 </template>
 
 <script lang="ts" setup>
-import FilterGroup from '@/components/funnels/filters/FilterGroup.vue'
-import { useFilterGroupsStore } from '@/stores/reports/filters'
+import FilterGroup from '@/components/funnels/filters/FilterGroup.vue';
+import { useFilterGroupsStore } from '@/stores/reports/filters';
 
-const filterGroups = useFilterGroupsStore()
+const filterGroups = useFilterGroupsStore();
 </script>

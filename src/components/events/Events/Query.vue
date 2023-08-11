@@ -12,7 +12,7 @@
                     :width-auto="true"
                     @select="changeQuery"
                 >
-                    <UiButton class="pf-m-main pf-m-secondary">
+                    <UiButton class="pf-m-secondary">
                         {{ querySelectorName }}
                     </UiButton>
                 </Select>
@@ -24,7 +24,7 @@
                 >
                     <UiButton
                         :before-icon="'fas fa-plus-circle'"
-                        class="pf-m-main pf-m-primary"
+                        class="pf-m-primary"
                         type="button"
                     >
                         Select Query
@@ -40,7 +40,6 @@
                 @select="changeProperty"
             >
                 <UiButton
-                    class="pf-m-main"
                     :before-icon="!propRef ? 'fas fa-plus-circle' : ''"
                     :class="{
                         'pf-m-secondary': propRef,
@@ -68,7 +67,6 @@
                     @select="changeQueryAggregate"
                 >
                     <UiButton
-                        class="pf-m-main"
                         :before-icon="!selectedAggregateRef ? 'fas fa-plus-circle' : ''"
                         :class="{
                             'pf-m-secondary': selectedAggregateRef,
@@ -91,7 +89,6 @@
                     @select="changeQueryGroupAggregate"
                 >
                     <UiButton
-                        class="pf-m-main"
                         :before-icon="!selectedGroupAggregateRef ? 'fas fa-plus-circle' : ''"
                         :class="{
                             'pf-m-secondary': selectedGroupAggregateRef,

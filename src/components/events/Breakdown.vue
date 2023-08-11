@@ -19,7 +19,7 @@
                     :disabled-items="selectedItems"
                     @select="changeProperty"
                 >
-                    <UiButton class="pf-m-main pf-m-secondary">
+                    <UiButton class="pf-m-secondary">
                         {{ propertyName(breakdown.propRef) }}
                     </UiButton>
                 </PropertySelect>
@@ -33,7 +33,7 @@
                 >
                     <UiButton
                         :before-icon="'fas fa-plus-circle'"
-                        class="pf-m-main pf-m-primary"
+                        class="pf-m-primary"
                         type="button"
                         @click="handleSelectProperty"
                     >
@@ -51,7 +51,7 @@
                         icon="fas fa-exclamation-triangle"
                     />
                     <template #popper>
-                        This breakdown will not work because no event was found for the selected property
+                        {{ $t('events.errorBreakdown') }}
                     </template>
                 </VTooltip>
             </div>

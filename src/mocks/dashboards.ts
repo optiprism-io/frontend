@@ -7,7 +7,7 @@ export default [
         'panels': [
             {
                 type: 'report',
-                reportId: '31',
+                reportId: 31,
                 x: 0,
                 y: 0,
                 w: 3,
@@ -15,7 +15,7 @@ export default [
             },
             {
                 type: 'report',
-                reportId: '2',
+                reportId: 2,
                 x: 3,
                 y: 0,
                 w: 3,
@@ -23,7 +23,7 @@ export default [
             },
             {
                 type: 'report',
-                reportId: '8747',
+                reportId: 8747,
                 x: 6,
                 y: 0,
                 w: 6,
@@ -31,7 +31,7 @@ export default [
             },
             {
                 type: 'report',
-                reportId: '3',
+                reportId: 3,
                 x: 0,
                 y: 1,
                 w: 6,
@@ -39,7 +39,7 @@ export default [
             },
             {
                 type: 'report',
-                reportId: '4',
+                reportId: 4,
                 x: 6,
                 y: 1,
                 w: 6,
@@ -53,7 +53,7 @@ export default [
         'panels': [
             {
                 type: 'report',
-                reportId: '1',
+                reportId: 1,
                 x: 0,
                 y: 0,
                 w: 12,
@@ -61,7 +61,7 @@ export default [
             },
             {
                 type: 'report',
-                reportId: '3',
+                reportId: 3,
                 x: 0,
                 y: 1,
                 w: 6,
@@ -69,7 +69,7 @@ export default [
             },
             {
                 type: 'report',
-                reportId: '4',
+                reportId: 4,
                 x: 6,
                 y: 1,
                 w: 6,

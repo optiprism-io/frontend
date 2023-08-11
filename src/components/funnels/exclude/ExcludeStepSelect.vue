@@ -1,7 +1,6 @@
 <template>
     <EventSelector @select="excludeEvent">
         <UiButton
-            class="pf-m-main"
             :is-link="true"
             :before-icon="'fas fa-plus'"
         >

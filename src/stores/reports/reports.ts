@@ -48,7 +48,7 @@ export const getReport = (type: ReportType) => {
             intervalUnit: TimeUnit.Day
         },
         analysis: { type: 'linear' },
-        events: type === ReportType.EventSegmentation ? eventsStore.propsForEventSegmentationResult.events : [],
+        events: type === ReportType.EventSegmentation ? eventsStore?.propsForEventSegmentationResult?.events || [] : [],
         filters: filterGroupsStore.filters as EventGroupedFilters,
         breakdowns: breakdownsStore.breakdownsItems as BreakdownByProperty[],
         segments: segmentsStore.segmentationItems as EventSegmentationSegment[],

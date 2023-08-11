@@ -23,10 +23,8 @@ import CreateCustomEvent from '@/components/events/CreateCustomEvent.vue'
 import { useCommonStore } from '@/stores/common'
 import { useRoute, useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth/auth'
-import { useDashboardsStore } from '@/stores/dashboards'
-import { useReportsStore } from '@/stores/reports/reports'
-import { useLexiconStore } from '@/stores/lexicon';
-import { pagesMap } from '@/router'
+
+import { pagesMap } from '@/router';
 
 const state = ref<'pending' | 'ok' | 'error'>('pending')
 const REFRESH_KEY = 'refreshToken'
@@ -35,9 +33,6 @@ const route = useRoute()
 const router = useRouter()
 const commonStore = useCommonStore()
 const authStore = useAuthStore()
-const dashboardsStore = useDashboardsStore()
-const reportsStore = useReportsStore()
-const lexiconStore = useLexiconStore();
 
 const togglePopupCreateCustomEvent = (payload: boolean) => {
     commonStore.togglePopupCreateCustomEvent(payload)
@@ -46,19 +41,6 @@ const togglePopupCreateCustomEvent = (payload: boolean) => {
 const applyCreateCustomEvent = () => {
     togglePopupCreateCustomEvent(false)
 }
-
-const getStartData = () => {
-    lexiconStore.getEvents();
-    lexiconStore.getEventProperties();
-    lexiconStore.getUserProperties();
-
-    if (!dashboardsStore.dashboards.length) {
-        dashboardsStore.getDashboards();
-    }
-    if (!reportsStore.list.length) {
-        reportsStore.getList();
-    }
-};
 
 const init = async (): Promise<void> => {
     await authStore.authAccess();
@@ -70,7 +52,6 @@ const init = async (): Promise<void> => {
         })
         return Promise.resolve()
     } else {
-        getStartData();
         state.value = 'ok'
     }
 }

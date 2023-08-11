@@ -4,7 +4,7 @@
             <GridContainer>
                 <GridItem :col-lg="6">
                     <UiCard :title="$t('events.events')">
-                        <Events @get-event-segmentation="getEventSegmentation" />
+                        <Events @on-change="getEventSegmentation" />
                     </UiCard>
                 </GridItem>
                 <GridItem :col-lg="6">
@@ -35,7 +35,7 @@
 </template>
 
 <script setup lang="ts">
-import { onUnmounted, watch, ref } from 'vue';
+import { onUnmounted, onMounted, watch, ref } from 'vue';
 import Events from '@/components/events/Events/Events.vue';
 import Breakdowns from '@/components/events/Breakdowns.vue';
 import Segments from '@/components/events/Segments/Segments.vue';
@@ -49,7 +49,6 @@ import GridItem from '@/components/grid/GridItem.vue';
 import reportsService from '@/api/services/reports.service'
 import { DataTableResponse } from '@/api'
 import { eventsToFunnels } from '@/utils/reportsMappings'
-
 import { useEventsStore } from '@/stores/eventSegmentation/events'
 import { useFilterGroupsStore } from '@/stores/reports/filters'
 import { useCommonStore } from '@/stores/common'
@@ -74,19 +73,25 @@ onUnmounted(() => {
 })
 
 const getEventSegmentation = async () => {
-    eventSegmentationLoading.value = true
+    eventSegmentationLoading.value = true;
     try {
-        const res = await reportsService.eventSegmentation(commonStore.organizationId, commonStore.projectId,  eventsStore.propsForEventSegmentationResult)
+        const res = await reportsService.eventSegmentation(commonStore.organizationId, commonStore.projectId,  eventsStore.propsForEventSegmentationResult);
         if (res) {
-            eventSegmentation.value = res.data as DataTableResponse
+            eventSegmentation.value = res.data as DataTableResponse;
         }
     } catch (error) {
-        throw new Error('error event segmentation')
+        throw new Error('error event segmentation');
     }
-    eventSegmentationLoading.value = false
+    eventSegmentationLoading.value = false;
 }
 
-watch(() => eventsStore.events, () => getEventSegmentation())
+onMounted(() => {
+    getEventSegmentation();
+});
+
+watch(() => eventsStore.propsForEventSegmentationResult, () => {
+    getEventSegmentation();
+});
 </script>
 
 <style scoped lang="scss">

@@ -32,7 +32,7 @@
     "close": "Close",
     "select_period": "Select period",
     "select_aggregate": "Select aggregate",
-    "add_filter": "Add Filter",
+    "addFilter": "Add Filter",
     "add_event": "Add Event",
     "add_step": "Add Step",
     "enter_value": "Enter a value",
@@ -102,6 +102,8 @@
   },
 
   "events": {
+    "addBreakdown": "Add Breakdown",
+    "errorBreakdown": "This breakdown will not work because no event was found for the selected property",
     "breakdownTable": "Breakdown Table",
     "event_management": {
       "event": "Event",
@@ -252,6 +254,8 @@
     },
     "view": {
       "funnelSteps": "Funnel Steps",
+      "conversionOverTime": "Conversion over time",
+      "timeToConvert": "Time to convert",
       "conversionCount": "Conversion count",
       "conversionRatio": "Conversion ratio",
       "dropOffCount": "Drop off count",
@@ -281,10 +285,15 @@
     "conditions": {
       "and": "Any",
       "or": "All"
-    }
+    },
+    "simple": "Simple",
+    "advanced": "Advanced",
+    "addGroup": "Add group",
+    "resetText": "When switching to simple filters, you must reset the selected groups. Reset all filters?"
   },
 
   "dashboards": {
+    "noReports": "No reports. Please add at least one report: ",
     "title": "Dashboards",
     "selectDashboard": "Select Dashboard",
     "createDashboard": "Create new dashboard",

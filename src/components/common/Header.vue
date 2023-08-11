@@ -17,18 +17,43 @@
             <div class="pf-l-flex__item">
                 <Nav />
             </div>
-            <div class="pf-l-flex__item pf-m-align-right">
-                <div class="app-header__tools">
-                    <div class="pf-c-page__header-tools-group">
-                        <div class="pf-c-page__header-tools-item">
-                            <UiDropdown
-                                class="pf-u-mr-md"
-                                :items="userMenu"
-                                :text-button="'User'"
-                                :transparent="true"
-                                @select-value="selectUserMenu"
-                            />
-                        </div>
+            <div
+                class="app-header__tools"
+                :class="{
+                    'pf-m-align-r': !viteMockApi,
+                }"
+            >
+                <div class="pf-c-page__header-tools-group">
+                    <div
+                        v-if="viteMockApi"
+                        class="pf-c-page__header-tools-item pf-u-mr-lg"
+                    >
+                        <UiSwitch
+                            class="pf-m-reverse pf-c-switch-white"
+                            :value="isEmptyMocks"
+                            :label="'Mocks empty'"
+                            @input="onClearStore"
+                        />
+                    </div>
+                    <div
+                        v-if="viteMockApi"
+                        class="pf-c-page__header-tools-item pf-u-mr-lg"
+                    >
+                        <UiSwitch
+                            class="pf-m-reverse pf-c-switch-white"
+                            :value="isEnabledMocks"
+                            :label="'Mocks enabled'"
+                            @input="changeMocks"
+                        />
+                    </div>
+                    <div class="pf-c-page__header-tools-item">
+                        <UiDropdown
+                            class="pf-u-mr-md"
+                            :items="userMenu"
+                            :text-button="'User'"
+                            :transparent="true"
+                            @select-value="selectUserMenu"
+                        />
                     </div>
                 </div>
             </div>
@@ -37,9 +62,10 @@
 </template>
 
 <script setup lang="ts">
-import { inject } from 'vue'
+import { inject, ref, onMounted } from 'vue'
 import { GenericUiDropdown, UiDropdownItem } from '@/components/uikit/UiDropdown.vue'
 import Nav from '@/components/common/Nav.vue'
+import UiSwitch from '@/components/uikit/UiSwitch.vue';
 import { useAuthStore } from '@/stores/auth/auth'
 import { useDashboardsStore } from '@/stores/dashboards'
 import { useRouter } from 'vue-router'
@@ -70,6 +96,27 @@ const selectUserMenu = (item: UiDropdownItem<string>) => {
         router.replace({ name: 'login' })
     }
 }
+
+/**
+ * mocks env store
+ */
+const isEnabledMocks = ref(false);
+const viteMockApi = import.meta.env.VITE_MOCK_API;
+const changeMocks = () => {
+    localStorage.setItem('isEnabledMocks', isEnabledMocks.value ? '0' : '1');
+    location.reload();
+};
+
+const isEmptyMocks = ref(false);
+const onClearStore = () => {
+    localStorage.setItem('isEmptyMocks', isEmptyMocks.value ? '0' : '1');
+    location.reload();
+};
+
+onMounted(() => {
+    isEnabledMocks.value = localStorage.getItem('isEnabledMocks') === '1';
+    isEmptyMocks.value = localStorage.getItem('isEmptyMocks') === '1';
+});
 </script>
 
 <style scoped lang="scss">

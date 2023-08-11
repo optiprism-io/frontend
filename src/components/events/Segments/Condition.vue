@@ -11,14 +11,14 @@
                 <Select
                     :items="allowAndOr ? conditionItemsAll : conditionItems"
                     :width-auto="true"
-                    :is-open-mount="updateOpen || (!!nextCondition?.action && !!condition?.action)"
+                    :is-open-mount="false"
                     :update-open="!isSelectedAction ? updateOpen : false"
                     @select="changeConditionAction"
                 >
                     <UiButton
-                        class="pf-m-main"
                         :class="{
                             'pf-m-secondary': isSelectedAction,
+                            'pf-m-link': !isSelectedAction,
                         }"
                         :before-icon="!isSelectedAction ? 'fas fa-plus-circle': ''"
                     >
@@ -45,9 +45,9 @@
                         @select="changeProperty"
                     >
                         <UiButton
-                            class="pf-m-main"
                             :class="{
                                 'pf-m-secondary': isSelectedProp,
+                                'pf-m-link': !isSelectedProp,
                             }"
                             type="button"
                             :before-icon="!isSelectedProp ? 'fas fa-plus-circle' : ''"
@@ -65,7 +65,7 @@
                         :selected="props.condition.opId"
                         @select="changeOperation"
                     >
-                        <UiButton class="pf-m-main pf-m-secondary">
+                        <UiButton class="pf-m-secondary">
                             {{ operationButtonText }}
                         </UiButton>
                     </OperationSelect>
@@ -88,7 +88,7 @@
                                     :key="i"
                                     class="pf-c-action-list__item"
                                 >
-                                    <UiButton class="pf-m-main pf-m-secondary">
+                                    <UiButton class="pf-m-secondary">
                                         {{ value }}
                                         <span class="pf-c-button__icon pf-m-end">
                                             <UiIcon
@@ -102,7 +102,7 @@
                         </template>
                         <template v-else>
                             <UiButton
-                                class="pf-m-main"
+                                class="pf-m-link"
                                 :before-icon="'fas fa-plus-circle'"
                             >
                                 {{ $t('events.select_value') }}
@@ -125,7 +125,6 @@
                 >
                     <template #action>
                         <UiButton
-                            class="pf-m-main"
                             :before-icon="props.condition.each ? '' : 'fas fa-calendar-alt'"
                             :class="{
                                 'pf-m-secondary': isSelectedCalendar,
@@ -144,7 +143,7 @@
                 <VTooltip popper-class="ui-hint">
                     <UiIcon icon="fas fa-filter" />
                     <template #popper>
-                        {{ $t('common.add_filter') }}
+                        {{ $t('common.addFilter') }}
                     </template>
                 </VTooltip>
             </div>

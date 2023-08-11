@@ -1,7 +1,9 @@
 <template>
     <div
+        class="events-views"
         :class="{
-            'pf-c-card pf-u-mb-md': !props.onlyView
+            'pf-c-card': !props.onlyView,
+            'pf-u-mb-md': !props.onlyView,
         }"
     >
         <div
@@ -94,9 +96,18 @@
                     {{ $t('common.no_data') }}
                 </div>
             </div>
-            <component
-                :is="chartEventsOptions.component"
-                v-else
+            <ChartPie
+                v-if="chartEventsOptions.component === 'ChartPie'"
+                :options="chartEventsOptions"
+                :loading="props.loading"
+            />
+            <ChartColumn
+                v-else-if="chartEventsOptions.component === 'ChartColumn'"
+                :options="chartEventsOptions"
+                :loading="props.loading"
+            />
+            <ChartLine
+                v-else-if="chartEventsOptions.component === 'ChartLine'"
                 :options="chartEventsOptions"
                 :loading="props.loading"
             />
@@ -164,7 +175,7 @@ const eventsStore = useEventsStore();
 const { t } = usei18n()
 
 type Props = {
-    eventSegmentation: DataTableResponse | undefined
+    eventSegmentation?: DataTableResponse | undefined
     loading: boolean
     onlyView?: boolean
     chartType?: ChartType
@@ -194,7 +205,7 @@ const chartEventsOptions = computed(() => {
             return {
                 data: dataTable.value.lineChart,
                 height: props.heightChart ?? 350,
-                component: ChartLine,
+                component: 'ChartLine',
                 xField: 'date',
                 yField: 'value',
                 seriesField: 'category',
@@ -211,7 +222,7 @@ const chartEventsOptions = computed(() => {
             return {
                 data: dataTable.value.pieChart,
                 height: props.heightChart ?? 350,
-                component: ChartPie,
+                component: 'ChartPie',
                 appendPadding: 10,
                 angleField: 'value',
                 colorField: 'type',
@@ -226,7 +237,7 @@ const chartEventsOptions = computed(() => {
             return {
                 data: dataTable.value.pieChart,
                 height: props.heightChart ?? 350,
-                component: ChartColumn,
+                component: 'ChartColumn',
                 xField: 'type',
                 yField: 'value',
                 seriesField: 'type',
@@ -368,7 +379,7 @@ const updateEventSegmentationData = async () => {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .content-info {
     height: 320px;
     display: flex;

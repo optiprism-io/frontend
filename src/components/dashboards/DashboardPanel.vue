@@ -9,8 +9,7 @@
             </router-link>
         </div>
         <EventsViews
-            v-if="reportType === ReportType.EventSegmentation"
-            class="dashboard-panel__views"
+            v-if="isEventsViews"
             :event-segmentation="eventSegmentation"
             :loading="loading"
             :chart-type="reportChartType"
@@ -46,7 +45,6 @@ import { ChartType } from '@/stores/eventSegmentation/events';
 import { useCommonStore } from '@/stores/common'
 import { useReportsStore } from '@/stores/reports/reports';
 import dataService from '@/api/services/datas.service'
-import schemaReports from '@/api/services/reports.service';
 import { Step } from '@/types/steps'
 import { mapReportToSteps } from '@/utils/reportsMappings'
 import { pagesMap } from '@/router'
@@ -63,17 +61,19 @@ const props = defineProps<{
     heightChart?: number
 }>()
 
-const activeReport = ref<Report>()
 const loading = ref(false)
 const eventSegmentation = ref<DataTableResponse>()
 const funnelsReport = ref<DataTableResponseColumnsInner[]>()
 const steps = ref<Step[]>()
 
+const activeReport = computed(() => reportsStore.list.find(item => item.id === props.reportId));
 const funnelsChartHeight = computed(() => props.heightChart ? props.heightChart - 40 : 190);
 const report = computed(() => props.report || activeReport.value);
 const query = computed(() => report.value?.query);
 const reportChartType = computed(() => report.value?.query?.chartType as ChartType ?? 'line')
-const reportType = computed(() => report.value?.type ?? ReportType.EventSegmentation)
+const reportType = computed(() => report.value?.type ?? ReportType.EventSegmentation);
+const isEventsViews = computed(() => reportType.value === ReportType.EventSegmentation);
+
 const reportLink = computed(() => {
     if (report.value) {
         return {
@@ -121,29 +121,7 @@ const getFunnelsReport = async () => {
     loading.value = false
 }
 
-const getReport = async () => {
-    loading.value = true;
-    if (props.reportId) {
-        try {
-            let report = reportsStore.list.find(item => item.id === props.reportId);
-            if (!report) {
-                const res = await schemaReports.getReport(commonStore.organizationId, commonStore.projectId, props.reportId);
-                if (res?.data) {
-                    report = res.data;
-                }
-            }
-            activeReport.value = report
-        } catch (error) {
-            throw Error(JSON.stringify(error));
-        }
-    }
-    loading.value = false;
-};
-
 const updateState = async () => {
-    if (!props.report && props.reportId) {
-        await getReport();
-    }
     if (reportType.value === ReportType.EventSegmentation) {
         getEventSegmentation()
     } else if (reportType.value === ReportType.Funnel) {

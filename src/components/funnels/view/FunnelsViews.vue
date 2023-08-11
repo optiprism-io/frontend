@@ -66,21 +66,31 @@ import {useFunnelsStore} from '@/stores/funnels/funnels';
 import {getStringDateByFormat} from '@/helpers/getStringDates';
 import {ApplyPayload} from '@/components/uikit/UiCalendar/UiCalendar';
 import FunnelsChart from '@/components/funnels/view/FunnelsChart.vue';
-import {I18N} from '@/utils/i18n';
 import {UiDropdownItem} from '@/components/uikit/UiDropdown.vue';
 import FunnelsTable from '@/components/funnels/view/FunnelsTable.vue';
 import {useStepsStore} from '@/stores/funnels/steps';
 import DataEmptyPlaceholder from '@/components/common/data/DataEmptyPlaceholder.vue';
 import DataLoader from '@/components/common/data/DataLoader.vue';
+import useI18n from '@/hooks/useI18n';
 
-const { $t } = inject('i18n') as I18N
+const { t } = useI18n();
 
 const items = [
     {
         key: 0,
         value: 0,
-        nameDisplay: $t('funnels.view.funnelSteps')
-    }
+        nameDisplay: t('funnels.view.funnelSteps')
+    },
+    {
+        key: 1,
+        value: 1,
+        nameDisplay: t('funnels.view.conversionOverTime'),
+    },
+    {
+        key: 2,
+        value: 2,
+        nameDisplay: t('funnels.view.timeToConvert'),
+    },
 ];
 
 const item = ref<string | number>(0)

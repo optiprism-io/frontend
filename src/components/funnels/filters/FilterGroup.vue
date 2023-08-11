@@ -4,7 +4,10 @@
         class="pf-l-flex pf-m-column"
     >
         <UiActionList>
-            <template #main>
+            <template
+                v-if="showMatch"
+                #main
+            >
                 <div class="pf-l-flex">
                     <span class="pf-l-flex__item">match</span>
 
@@ -15,7 +18,7 @@
                         @update:model-value="changeFilterGroupCondition"
                     >
                         <UiButton
-                            class="pf-m-main pf-m-secondary pf-l-flex__item"
+                            class="pf-m-secondary pf-l-flex__item"
                             :is-link="true"
                         >
                             {{ $t(`filters.conditions.${filterGroup.condition}`) }}
@@ -25,8 +28,10 @@
                     <span class="pf-l-flex__item">in group</span>
                 </div>
             </template>
-
-            <UiActionListItem @click="removeFilterGroup">
+            <UiActionListItem
+                v-if="showMatch"
+                @click="removeFilterGroup"
+            >
                 <VTooltip popper-class="ui-hint">
                     <UiIcon icon="fas fa-trash" />
                     <template #popper>
@@ -56,21 +61,19 @@
             </Filter>
             <div class="pf-l-flex">
                 <UiButton
-                    class="pf-m-main"
                     :is-link="true"
                     :before-icon="'fas fa-plus'"
                     @click="addFilterToGroup"
                 >
-                    Add filter
+                    {{ $t('common.addFilter') }}
                 </UiButton>
                 <UiButton
-                    v-if="index === filterGroupsStore.filterGroups.length - 1"
-                    class="pf-m-main"
+                    v-if="index === filterGroupsStore.filterGroups.length - 1 && filterGroupsStore.isFiltersAdvanced"
                     :is-link="true"
                     :before-icon="'fas fa-plus'"
                     @click="filterGroupsStore.addFilterGroup"
                 >
-                    Add group
+                    {{ $t('filters.addGroup') }}
                 </UiButton>
             </div>
         </div>
@@ -104,6 +107,8 @@ const props = defineProps({
         required: true,
     },
 })
+
+const showMatch = computed(() => filterGroupsStore.isFiltersAdvanced);
 
 const eventRefs = computed(() => {
     return stepsStore.steps.map(step => {

@@ -1,65 +1,64 @@
 <template>
-    <section class="pf-c-page__main-section report">
+    <section class="pf-c-page__main-section reports">
         <UiTabs
             class="pf-u-mb-md"
             :items="items"
             @on-select="onSelectTab"
         />
+        <div class="pf-u-mb-sm pf-u-display-flex pf-u-justify-content-space-between pf-u-align-items-center">
+            <UiSelect
+                v-if="!editableNameReport"
+                class="reports__select pf-u-mr-md"
+                :items="itemsReports"
+                :text-button="reportSelectText"
+                :is-text-select="true"
+                :selections="[Number(reportsStore.reportId)]"
+                :is-toggle="false"
+                :w-100="true"
+                @on-select="onSelectReport"
+            >
+                <template
+                    v-if="reportsStore.loading"
+                    #action
+                >
+                    <UiSpinner />
+                </template>
+            </UiSelect>
+            <UiInlineEdit
+                class="reports__name pf-u-mr-md"
+                :value="reportName"
+                :hide-text="true"
+                @on-input="setNameReport"
+                @on-edit="onEditNameReport"
+            />
+            <UiButton
+                class="pf-m-link reports__nav-item reports__nav-item_new"
+                :before-icon="'fas fa-plus'"
+                @click="setNew"
+            >
+                {{ $t('reports.createReport') }}
+            </UiButton>
+            <UiButton
+                class="pf-m-link pf-m-danger"
+                :before-icon="'fas fa-trash'"
+                @click="onDeleteReport"
+            >
+                {{ $t('reports.delete') }}
+            </UiButton>
+            <UiSwitch
+                class="pf-u-ml-auto pf-u-mr-md"
+                :value="commonStore.syncReports"
+                :label="$t('reports.sync')"
+                @input="(value: boolean) => commonStore.syncReports = value"
+            />
+        </div>
         <div
             v-if="reportsStore.loading"
             class="pf-u-h-66vh pf-u-display-flex pf-u-align-items-center pf-u-justify-content-center"
         >
-            <UiSpinner :size="'xl'" />
+            <UiSpinner />
         </div>
-        <template v-else>
-            <div class="pf-u-mb-sm pf-u-display-flex pf-u-justify-content-space-between pf-u-align-items-center">
-                <div
-                    v-if="itemsReports.length && !editableNameReport"
-                    class="pf-u-mr-md"
-                >
-                    <UiSelect
-                        class="dashboards__select"
-                        :items="itemsReports"
-                        :text-button="reportSelectText"
-                        :is-text-select="true"
-                        :selections="[Number(reportsStore.reportId)]"
-                        @on-select="onSelectReport"
-                    />
-                </div>
-                <div class="report__name pf-u-mr-md">
-                    <UiInlineEdit
-                        :value="reportName"
-                        :hide-text="!!reportName"
-                        :placeholder-value="t('reports.untitledReport')"
-                        @on-input="setNameReport"
-                        @on-edit="onEditNameReport"
-                    />
-                </div>
-                <UiButton
-                    v-show="reportsStore.reportId"
-                    class="pf-m-link report__nav-item report__nav-item_new"
-                    :before-icon="'fas fa-plus'"
-                    @click="router.push({ query: { id: null } })"
-                >
-                    {{ $t('reports.createReport') }}
-                </UiButton>
-                <UiButton
-                    v-show="reportsStore.reportId"
-                    class="pf-m-link pf-m-danger"
-                    :before-icon="'fas fa-trash'"
-                    @click="onDeleteReport"
-                >
-                    {{ $t('dashboards.delete') }}
-                </UiButton>
-                <UiSwitch
-                    class="pf-u-ml-auto pf-u-mr-md"
-                    :value="commonStore.syncReports"
-                    :label="$t('reports.sync')"
-                    @input="(value: boolean) => commonStore.syncReports = value"
-                />
-            </div>
-            <router-view />
-        </template>
+        <router-view v-else />
     </section>
 </template>
 
@@ -79,6 +78,7 @@ import { useFilterGroupsStore } from '@/stores/reports/filters'
 import { useSegmentsStore } from '@/stores/reports/segments'
 import { useBreakdownsStore } from '@/stores/reports/breakdowns'
 import { useStepsStore } from '@/stores/funnels/steps'
+import { useLexiconStore } from '@/stores/lexicon';
 
 import UiSelect from '@/components/uikit/UiSelect.vue'
 import UiSwitch from '@/components/uikit/UiSwitch.vue'
@@ -95,10 +95,13 @@ const filterGroupsStore = useFilterGroupsStore()
 const segmentsStore = useSegmentsStore()
 const breakdownsStore = useBreakdownsStore()
 const stepsStore = useStepsStore()
+const lexiconStore = useLexiconStore();
 const { confirm } = useConfirm()
 
 const editableNameReport = ref(false);
 const reportName = ref('');
+
+const reportsId = computed((): number[] => reportsStore.reportsId);
 
 const items = computed(() => {
     const mapTabs = [
@@ -130,10 +133,6 @@ const reportSelectText = computed(() => {
     return reportsStore.activeReport ? reportsStore.activeReport.name : t('reports.selectReport')
 })
 
-const isChangedReport = computed(() => {
-    return reportsStore.saveLoading || reportsStore.isChangedReport || reportsStore?.activeReport?.name !== reportName.value
-})
-
 const reportType = computed(() => pagesMap.reportsEventSegmentation.name === route.name ?
     ReportType.EventSegmentation : ReportType.Funnel)
 
@@ -147,6 +146,15 @@ const itemsReports = computed(() => {
         }
     })
 })
+
+
+const untitledReportsList = computed(() => {
+    return reportsStore.list.filter(item => (`${item.name.split(' ')[0]}` + ' ' + `${item.name.split(' ')[1]}`) === t('reports.untitledReport'));
+});
+const untitledReportName = computed(() => {
+    return `${t('reports.untitledReport')} #${untitledReportsList.value.length + 1}`;
+});
+
 
 const onEditNameReport = (payload: boolean) => {
     editableNameReport.value = payload;
@@ -162,7 +170,7 @@ const onDeleteReport = async () => {
         })
 
         reportsStore.deleteReport(reportsStore.reportId)
-        setEmptyReport()
+        setNew();
         reportsStore.getList()
     } catch(error) {
         reportsStore.loading = false
@@ -173,7 +181,7 @@ const onSaveReport = async () => {
     if (reportsStore.reportId) {
         await reportsStore.editReport(reportName.value, reportType.value)
     } else {
-        await reportsStore.createReport(reportName.value || t('reports.untitledReport'), reportType.value)
+        await reportsStore.createReport(reportName.value || untitledReportName.value, reportType.value)
 
         router.push({
             params: {
@@ -187,22 +195,30 @@ const onSaveReport = async () => {
 
 const setNameReport = (payload: string) => {
     reportName.value = payload
-    onSaveReport()
+    onSaveReport();
 }
 
-const setEmptyReport = () => {
-    reportsStore.reportId = 0
-    reportName.value = '';
-    eventsStore.$reset()
-    filterGroupsStore.$reset()
-    segmentsStore.$reset()
-    breakdownsStore.$reset()
-    stepsStore.$reset()
+const onChange = async () => {
+    reportsStore.loading = true;
+    await onSaveReport();
+    await reportsStore.getList();
+    reportsStore.loading = false;
+};
+
+const setNew = async () => {
+    reportsStore.reportId = 0;
+    reportName.value = untitledReportName.value;
+    eventsStore.$reset();
+    filterGroupsStore.$reset();
+    segmentsStore.$reset();
+    breakdownsStore.$reset();
+    stepsStore.$reset();
+    onChange();
 }
 
 const onSelectTab = () => {
     if (reportsStore.reportId) {
-        setEmptyReport()
+        setNew();
     }
 }
 
@@ -216,39 +232,50 @@ const updateReport = async (id: number) => {
     reportsStore.updateDump(reportType.value)
 }
 
-const onSelectReport = (id: number) => {
-    updateReport(id)
-    router.push({ params: { id } })
+const onSelectReport = async (id: number) => {
+    await updateReport(id);
+    router.push({ params: { id } });
 }
+
+const initReportPage = async () => {
+    const reportId =
+        (reportsId.value.includes(Number(route.params?.id)) ? route.params?.id : reportsId.value[0]) || null;
+
+    if (reportId) {
+        await onSelectReport(Number(reportId));
+    } else {
+        await setNew();
+    }
+
+    reportsStore.loading = false;
+};
+
+const initEventsAndProperties = async () => {
+    await Promise.all([
+        lexiconStore.getEvents(),
+        lexiconStore.getEventProperties(),
+        lexiconStore.getUserProperties(),
+    ]);
+};
 
 onMounted(async () => {
     reportsStore.loading = true
-    eventsStore.initPeriod()
-    await reportsStore.getList()
-    const reportId = route.params.id;
-    if (reportId && reportsStore?.reportsId.includes(Number(reportId))) {
-        updateReport(Number(reportId))
-    } else {
-        reportsStore.reportId = 0
-        router.push({
-            params: {
-                id: null,
-            }
-        })
-    }
-    reportsStore.loading = false
+    eventsStore.initPeriod();
+    await initEventsAndProperties();
+    await reportsStore.getList();
+    initReportPage();
 })
 </script>
 
 <style lang="scss">
-.report {
+.reports {
     &__name {
         .pf-c-inline-edit__value {
             font-size: 20px;
         }
     }
     &__select {
-        width: 200px;
+        width: 220px;
     }
     &__nav {
         min-height: 34px;
