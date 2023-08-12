@@ -1,11 +1,6 @@
 <template>
     <section class="pf-c-page__main-section reports">
-        <UiTabs
-            class="pf-u-mb-md"
-            :items="items"
-            @on-select="onSelectTab"
-        />
-        <div class="pf-u-mb-sm pf-u-display-flex pf-u-justify-content-space-between pf-u-align-items-center">
+        <div class="pf-u-display-flex pf-u-align-items-center pf-u-mb-md">
             <UiSelect
                 v-if="!editableNameReport"
                 class="reports__select pf-u-mr-md"
@@ -31,6 +26,13 @@
                 @on-input="setNameReport"
                 @on-edit="onEditNameReport"
             />
+            <UiTabs
+                class="pf-u-w-100"
+                :items="items"
+                @on-select="onSelectTab"
+            />
+        </div>
+        <div class="pf-u-mb-sm pf-u-display-flex pf-u-justify-content-space-between pf-u-align-items-center">
             <UiButton
                 class="pf-m-link reports__nav-item reports__nav-item_new"
                 :before-icon="'fas fa-plus'"
