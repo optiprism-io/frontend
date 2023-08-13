@@ -539,6 +539,30 @@ const onHideConditionBetweenAll = () => {
 <style lang="scss">
 .condition {
     position: relative;
+    > .pf-c-action-list {
+        margin-bottom: -11px;
+    }
+    .pf-m-column {
+        margin-top: 11px;
+    }
+    .filter {
+        > .pf-c-action-list {
+            margin-bottom: -11px;
+        }
+    }
+    .pf-c-action-list {
+        position: relative;
+        flex-wrap: wrap;
+        align-items: flex-start;
+        &__item {
+            margin-bottom: 11px;
+        }
+        .multi-select__action {
+            .pf-c-action-list {
+                margin-bottom: -11px;
+            }
+        }
+    }
     &__control {
         padding: 5px;
         opacity: 0;

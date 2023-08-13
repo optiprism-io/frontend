@@ -118,7 +118,7 @@ const addCondition = (): void => {
 const onRemove = (): void => emit('on-remove', props.index)
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 .segment {
     &__control {
         padding: 5px;

@@ -105,6 +105,15 @@
                                     </span>
                                 </UiButton>
                             </div>
+                            <div
+                                class="pf-c-action-list__item filter__control-item"
+                            >
+                                <UiButton
+                                    class="pf-m-plain"
+                                    icon="fas fa-times"
+                                    @click="removeFilter"
+                                />
+                            </div>
                         </div>
                     </template>
                     <template v-else>
@@ -132,7 +141,10 @@
                     </template>
                 </VTooltip>
             </div>
-            <div class="pf-c-action-list__item filter__control-item">
+            <div
+                v-if="filter.values.length === 0"
+                class="pf-c-action-list__item filter__control-item"
+            >
                 <UiButton
                     class="pf-m-plain"
                     icon="fas fa-times"
@@ -238,14 +250,31 @@ const propertyName = (ref: PropertyRef): string => {
 
 <style scoped lang="scss">
 .filter {
+    margin-bottom: 0;
     &:hover {
         .filter__control-item {
             opacity: 1;
         }
     }
-
     &__control-item {
         opacity: 0;
+    }
+    > .pf-c-action-list {
+        position: relative;
+        padding-right: 30px;
+    }
+    .pf-c-action-list {
+        position: relative;
+        flex-wrap: wrap;
+        align-items: flex-start;
+        &__item {
+            margin-bottom: 11px;
+        }
+        .multi-select__action {
+            .pf-c-action-list {
+                margin-bottom: -11px;
+            }
+        }
     }
 }
 </style>
