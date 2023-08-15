@@ -114,7 +114,18 @@ const userProperties = computed(() => {
         editEventManagementPopup.value?.userProperties.map(id => lexiconStore.findUserPropertyById(id)) : []
 })
 
+
+const initEventsAndProperties = async () => {
+    await Promise.all([
+        lexiconStore.getEvents(),
+        lexiconStore.getEventProperties(),
+        lexiconStore.getUserProperties(),
+    ]);
+};
+
+
 onMounted(async () => {
+    await initEventsAndProperties();
     liveStreamStore.getReportLiveStream()
 });
 
