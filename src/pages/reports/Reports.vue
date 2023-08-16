@@ -1,6 +1,6 @@
 <template>
     <section class="pf-c-page__main-section reports">
-        <div class="pf-u-display-flex pf-u-align-items-center pf-u-mb-md">
+        <div class="pf-u-display-flex pf-u-align-items-center">
             <UiSelect
                 v-if="!editableNameReport"
                 class="reports__select pf-u-mr-md"
@@ -26,13 +26,6 @@
                 @on-input="setNameReport"
                 @on-edit="onEditNameReport"
             />
-            <UiTabs
-                class="pf-u-w-100"
-                :items="items"
-                @on-select="onSelectTab"
-            />
-        </div>
-        <div class="pf-u-mb-sm pf-u-display-flex pf-u-justify-content-space-between pf-u-align-items-center">
             <UiButton
                 class="pf-m-link reports__nav-item reports__nav-item_new"
                 :before-icon="'fas fa-plus'"
@@ -54,6 +47,11 @@
                 @input="(value: boolean) => commonStore.syncReports = value"
             />
         </div>
+        <UiTabs
+            class="pf-u-w-100 pf-u-mb-lg"
+            :items="items"
+            @on-select="onSelectTab"
+        />
         <div
             v-if="reportsStore.loading"
             class="pf-u-h-66vh pf-u-display-flex pf-u-align-items-center pf-u-justify-content-center"
