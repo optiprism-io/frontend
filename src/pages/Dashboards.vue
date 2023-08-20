@@ -54,41 +54,33 @@
                     @on-select="addReport"
                 />
             </div>
-            <div
+            <DataEmptyPlaceholder
                 v-if="!isShowDashboardContentAndControls && !isLoading"
-                class="dashboards__stock"
+                :hide-icon="true"
             >
-                <div class="dashboards__stock-content">
-                    <div class="pf-u-font-weight-bold pf-u-text-align-center pf-u-font-size-lg pf-u-color-400">
-                        {{ t('dashboards.noDashboards') }}
-                        <UiButton
-                            class="pf-m-primary pf-u-ml-md"
-                            :before-icon="'fas fa-plus'"
-                            @click="setNew"
-                        >
-                            {{ $t('dashboards.createDashboard') }}
-                        </UiButton>
-                    </div>
-                </div>
-            </div>
-            <div
+                {{ t('dashboards.noDashboards') }}
+                <UiButton
+                    class="pf-m-primary pf-u-ml-md"
+                    :before-icon="'fas fa-plus'"
+                    @click="setNew"
+                >
+                    {{ $t('dashboards.createDashboard') }}
+                </UiButton>
+            </DataEmptyPlaceholder>
+            <DataEmptyPlaceholder
                 v-else-if="!layout.length && !isLoading"
-                class="dashboards__stock"
+                :hide-icon="true"
             >
-                <div class="dashboards__stock-content">
-                    <div class="pf-c-card__title pf-u-text-align-center pf-u-font-size-lg">
-                        {{ t('dashboards.noReports') }}
-                    </div>
-                    <UiSelect
-                        class="pf-u-ml-auto pf-u-mr-md dashboards__add-report"
-                        :items="selectReportsList"
-                        :text-button="t('dashboards.addReport')"
-                        :placement="'bottom-end'"
-                        :is-text-select="true"
-                        @on-select="addReport"
-                    />
-                </div>
-            </div>
+                {{ t('dashboards.noReports') }}
+                <UiSelect
+                    class="pf-u-ml-auto pf-u-ml-md dashboards__add-report"
+                    :items="selectReportsList"
+                    :text-button="t('dashboards.addReport')"
+                    :placement="'bottom-end'"
+                    :is-text-select="true"
+                    @on-select="addReport"
+                />
+            </DataEmptyPlaceholder>
             <GridLayout
                 v-model:layout="layout"
                 :col-num="12"
@@ -175,6 +167,7 @@ import { UiDropdownItem } from '@/components/uikit/UiDropdown.vue'
 import UiSelect from '@/components/uikit/UiSelect.vue';
 import UiButton from '@/components/uikit/UiButton.vue';
 import UiSpinner from '@/components/uikit/UiSpinner.vue';
+import DataEmptyPlaceholder from '@/components/common/data/DataEmptyPlaceholder.vue';
 
 const { t } = usei18n()
 const route = useRoute()
