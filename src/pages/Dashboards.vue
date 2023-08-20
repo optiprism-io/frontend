@@ -3,7 +3,7 @@
         <div>
             <div class="dashboards__nav pf-u-mb-sm pf-u-display-flex pf-u-justify-content-space-between pf-u-align-items-center">
                 <UiSelect
-                    v-if="!editableNameDashboard"
+                    v-if="isLoading || isShowDashboardContentAndControls"
                     class="dashboards__select pf-u-mr-md"
                     :items="dashboardsList"
                     :text-button="dashboardSelectText"
@@ -29,6 +29,7 @@
                     @on-edit="onEditNameDashboard"
                 />
                 <UiButton
+                    v-if="isShowDashboardContentAndControls"
                     class="pf-m-link dashboards__nav-item dashboards__nav-item_new"
                     :before-icon="'fas fa-plus'"
                     @click="setNew"
@@ -36,6 +37,7 @@
                     {{ $t('dashboards.createDashboard') }}
                 </UiButton>
                 <UiButton
+                    v-if="isShowDashboardContentAndControls"
                     class="pf-m-link pf-m-danger"
                     :before-icon="'fas fa-trash'"
                     @click="onDeleteDashboard"
@@ -43,6 +45,7 @@
                     {{ $t('dashboards.delete') }}
                 </UiButton>
                 <UiSelect
+                    v-if="isShowDashboardContentAndControls"
                     class="pf-u-ml-auto pf-u-mr-md dashboards__add-report"
                     :items="selectReportsList"
                     :text-button="t('dashboards.addReport')"
@@ -52,7 +55,24 @@
                 />
             </div>
             <div
-                v-if="!layout.length && !isLoading"
+                v-if="!isShowDashboardContentAndControls && !isLoading"
+                class="dashboards__stock"
+            >
+                <div class="dashboards__stock-content">
+                    <div class="pf-u-font-weight-bold pf-u-text-align-center pf-u-font-size-lg pf-u-color-400">
+                        {{ t('dashboards.noDashboards') }}
+                        <UiButton
+                            class="pf-m-primary pf-u-ml-md"
+                            :before-icon="'fas fa-plus'"
+                            @click="setNew"
+                        >
+                            {{ $t('dashboards.createDashboard') }}
+                        </UiButton>
+                    </div>
+                </div>
+            </div>
+            <div
+                v-else-if="!layout.length && !isLoading"
                 class="dashboards__stock"
             >
                 <div class="dashboards__stock-content">
@@ -191,6 +211,10 @@ const activeDashboard = computed(() => {
     return dashboards.value.find(item => Number(item.id) === activeDashboardId.value) ?? null
 })
 
+const isShowDashboardContentAndControls = computed(() => {
+    return dashboards.value.length && activeDashboardId.value;
+});
+
 const menuCardReport = computed<UiDropdownItem<string>[]>(() => {
     return [
         {
@@ -313,7 +337,7 @@ const onDeleteDashboard = async () => {
         if (dashboardsId.value?.length) {
             onSelectDashboard(dashboardsId.value[0]);
         } else {
-            setNew();
+            layout.value = [];
         }
     }
 };
@@ -368,8 +392,6 @@ const initDashboardPage = async () => {
 
     if (dashboardId) {
         onSelectDashboard(Number(dashboardId));
-    } else {
-        await setNew();
     }
 
     isLoading.value = false;

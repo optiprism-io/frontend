@@ -293,6 +293,7 @@
   },
 
   "dashboards": {
+    "noDashboards": "No dashboards. Please create one",
     "noReports": "No reports. Please add at least one report: ",
     "title": "Dashboards",
     "selectDashboard": "Select Dashboard",
