@@ -25,6 +25,7 @@ import {
     QueryAggregate,
 } from '@/api'
 import { useCommonStore, PropertyTypeEnum } from '@/stores/common'
+import useI18n from '@/hooks/useI18n';
 
 type Lexicon = {
     cohorts: Cohort[];
@@ -349,11 +350,26 @@ export const useLexiconStore = defineStore('lexicon', {
             };
         },
         eventsList(state: Lexicon) {
+            const { t } = useI18n();
             const eventsList: Group<Item<EventRef, null>[]>[] = [];
-            const items: Item<EventRef, null>[] = [];
+            const eventsListCustom: Item<EventRef, null>[] = [];
+
+            const setToList = (name: string, item: Item<EventRef, null>) => {
+                const group = eventsList.find(g => g.name === name);
+
+                if (!group) {
+                    eventsList.push({
+                        name: name,
+                        items: [item],
+                    });
+                } else {
+                    group.items.push(item);
+                }
+            };
+
             if (state.customEvents) {
                 state.customEvents.forEach((e: CustomEvent) => {
-                    items.push({
+                    eventsListCustom.push({
                         item: customEventRef(e),
                         name: e.name,
                         description: e?.description,
@@ -361,35 +377,32 @@ export const useLexiconStore = defineStore('lexicon', {
                     });
                 });
             }
+
             eventsList.push({
                 type: 'custom',
                 name: 'Custom Events',
-                items,
+                items: eventsListCustom?.length ? eventsListCustom : [{
+                    item: {
+                        type: EventType.Custom,
+                        id: 0,
+                        name: '',
+                    },
+                    name: t('events.noEvents'),
+                    description: t('events.noEventsText'),
+                    editable: false,
+                }],
                 action: {
                     type: 'createCustomEvent',
                     icon: 'fas fa-plus-circle',
                     text: 'common.create',
-                }
-            })
+                },
+            });
 
             state.events.forEach((e: Event) => {
                 const item: Item<EventRef, null> = {
                     item: eventRef(e),
                     name: e.displayName || e.name,
                     description: e?.description
-                };
-
-                const setToList = (name: string, item: Item<EventRef, null>) => {
-                    const group = eventsList.find(g => g.name === name);
-
-                    if (!group) {
-                        eventsList.push({
-                            name: name,
-                            items: [item]
-                        });
-                    } else {
-                        group.items.push(item);
-                    }
                 };
 
                 if (Array.isArray(e.tags) && e.tags.length) {

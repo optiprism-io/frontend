@@ -66,9 +66,10 @@
                             <div class="select__description-icon">
                                 <UiIcon icon="fas fa-info-circle" />
                             </div>
-                            <div class="select__description-text">
-                                {{ selectedDescription }}
-                            </div>
+                            <div
+                                class="select__description-text"
+                                v-html="selectedDescription"
+                            />
                         </div>
                     </div>
                 </div>

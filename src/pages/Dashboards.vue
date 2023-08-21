@@ -1,143 +1,161 @@
 <template>
     <div class="dashboards pf-c-page__main-section pf-u-p-md pf-u-pb-3xl">
-        <div>
-            <div class="dashboards__nav pf-u-mb-sm pf-u-display-flex pf-u-justify-content-space-between pf-u-align-items-center">
-                <UiSelect
-                    v-if="isLoading || isShowDashboardContentAndControls"
-                    class="dashboards__select pf-u-mr-md"
-                    :items="dashboardsList"
-                    :text-button="dashboardSelectText"
-                    :is-text-select="true"
-                    :selections="[Number(activeDashboardId)]"
-                    :is-toggle="false"
-                    :w-100="true"
-                    @on-select="onSelectDashboard"
-                >
-                    <template
-                        v-if="isLoading"
-                        #action
-                    >
-                        <UiSpinner />
-                    </template>
-                </UiSelect>
-                <UiInlineEdit
-                    v-if="dashboards.length"
-                    class="dashboards__name pf-u-mr-md"
-                    :value="dashboardName"
-                    :hide-text="true"
-                    @on-input="updateName"
-                    @on-edit="onEditNameDashboard"
-                />
-                <UiButton
-                    v-if="isShowDashboardContentAndControls"
-                    class="pf-m-link dashboards__nav-item dashboards__nav-item_new"
-                    :before-icon="'fas fa-plus'"
-                    @click="setNew"
-                >
-                    {{ $t('dashboards.createDashboard') }}
-                </UiButton>
-                <UiButton
-                    v-if="isShowDashboardContentAndControls"
-                    class="pf-m-link pf-m-danger"
-                    :before-icon="'fas fa-trash'"
-                    @click="onDeleteDashboard"
-                >
-                    {{ $t('dashboards.delete') }}
-                </UiButton>
-                <UiSelect
-                    v-if="isShowDashboardContentAndControls"
-                    class="pf-u-ml-auto pf-u-mr-md dashboards__add-report"
-                    :items="selectReportsList"
-                    :text-button="t('dashboards.addReport')"
-                    :placement="'bottom-end'"
-                    :is-text-select="true"
-                    @on-select="addReport"
-                />
-            </div>
-            <DataEmptyPlaceholder
-                v-if="!isShowDashboardContentAndControls && !isLoading"
-                :hide-icon="true"
+        <div class="dashboards__nav pf-u-mb-sm pf-u-display-flex pf-u-justify-content-space-between pf-u-align-items-center">
+            <UiSelect
+                v-if="isLoading || isShowDashboardContentAndControls"
+                class="dashboards__select pf-u-mr-md"
+                :items="dashboardsList"
+                :text-button="dashboardSelectText"
+                :is-text-select="true"
+                :selections="[Number(activeDashboardId)]"
+                :is-toggle="false"
+                :w-100="true"
+                @on-select="onSelectDashboard"
             >
-                {{ t('dashboards.noDashboards') }}
+                <template
+                    v-if="isLoading"
+                    #action
+                >
+                    <UiSpinner />
+                </template>
+            </UiSelect>
+            <UiInlineEdit
+                v-if="dashboards.length"
+                class="dashboards__name pf-u-mr-md"
+                :value="dashboardName"
+                :hide-text="true"
+                @on-input="updateName"
+                @on-edit="onEditNameDashboard"
+            />
+            <UiButton
+                v-if="isShowDashboardContentAndControls"
+                class="pf-m-link dashboards__nav-item dashboards__nav-item_new"
+                :before-icon="'fas fa-plus'"
+                @click="setNew"
+            >
+                {{ $t('dashboards.createDashboard') }}
+            </UiButton>
+            <UiButton
+                v-if="isShowDashboardContentAndControls"
+                class="pf-m-link pf-m-danger"
+                :before-icon="'fas fa-trash'"
+                @click="onDeleteDashboard"
+            >
+                {{ $t('dashboards.delete') }}
+            </UiButton>
+            <UiSelect
+                v-if="isShowDashboardContentAndControls && selectReportsList.length"
+                class="pf-u-ml-auto pf-u-mr-md dashboards__add-report"
+                :items="selectReportsList"
+                :text-button="t('dashboards.addReport')"
+                :placement="'bottom-end'"
+                :is-text-select="true"
+                @on-select="addReport"
+            />
+        </div>
+        <DataEmptyPlaceholder
+            v-if="!isShowDashboardContentAndControls && !isLoading"
+            :hide-icon="true"
+            :h-100="true"
+        >
+            {{ t('dashboards.noDashboards') }}
+            <UiButton
+                class="pf-m-primary pf-u-ml-md"
+                :before-icon="'fas fa-plus'"
+                @click="setNew"
+            >
+                {{ $t('dashboards.createDashboard') }}
+            </UiButton>
+        </DataEmptyPlaceholder>
+        <GridLayout
+            v-if="layout.length"
+            v-model:layout="layout"
+            :col-num="12"
+            :row-height="ROW_HEIGHT"
+            :min-w="3"
+            :min-h="4"
+            :use-css-transforms="false"
+        >
+            <template #default="{ gridItemProps }">
+                <GridItem
+                    v-for="item in layout"
+                    :key="item.i"
+                    v-bind="gridItemProps"
+                    :x="item.x"
+                    :y="item.y"
+                    :w="item.w"
+                    :h="item.h"
+                    :i="item.i"
+                    :min-h="item.minH"
+                    :min-w="item.minW"
+                    @moved="moved"
+                    @resized="resized"
+                >
+                    <UiCard>
+                        <template #rightTitle>
+                            <UiDropdown
+                                class="pf-u-mr-md"
+                                :items="menuCardReport"
+                                :has-icon-arrow-button="false"
+                                :transparent="true"
+                                :placement-menu="'bottom-end'"
+                                @select-value="(paylaod: UiDropdownItem<string>) => selectReportDropdown(paylaod, item.i)"
+                            >
+                                <template #button>
+                                    <button
+                                        class="pf-c-dropdown__toggle pf-m-plain"
+                                        aria-expanded="true"
+                                        type="button"
+                                        aria-label="Actions"
+                                    >
+                                        <i
+                                            class="fas fa-ellipsis-v"
+                                            aria-hidden="true"
+                                        />
+                                    </button>
+                                </template>
+                            </UiDropdown>
+                        </template>
+                        <DashboardPanel
+                            :height-chart="item.h * ROW_HEIGHT - 20"
+                            :report-id="Number(item.reportId)"
+                        />
+                    </UiCard>
+                </GridItem>
+            </template>
+        </GridLayout>
+        <DataEmptyPlaceholder
+            v-else-if="!isLoading && selectReportsList.length"
+            :hide-icon="true"
+            :h-100="true"
+        >
+            {{ t('dashboards.noReportsInDashboard') }}
+            <UiSelect
+                class="pf-u-ml-auto pf-u-ml-md dashboards__add-report"
+                :items="selectReportsList"
+                :text-button="t('dashboards.addReport')"
+                :placement="'bottom-end'"
+                :is-text-select="true"
+                @on-select="addReport"
+            />
+        </DataEmptyPlaceholder>
+        <DataEmptyPlaceholder
+            v-else-if="!isLoading"
+            :hide-icon="true"
+            :h-100="true"
+        >
+            {{ t('dashboards.noReports') }}
+            <router-link
+                :to="pagesMap.reports"
+                aria-current="page"
+            >
                 <UiButton
                     class="pf-m-primary pf-u-ml-md"
-                    :before-icon="'fas fa-plus'"
-                    @click="setNew"
                 >
-                    {{ $t('dashboards.createDashboard') }}
+                    {{ $t('dashboards.createReport') }}
                 </UiButton>
-            </DataEmptyPlaceholder>
-            <DataEmptyPlaceholder
-                v-else-if="!layout.length && !isLoading"
-                :hide-icon="true"
-            >
-                {{ t('dashboards.noReports') }}
-                <UiSelect
-                    class="pf-u-ml-auto pf-u-ml-md dashboards__add-report"
-                    :items="selectReportsList"
-                    :text-button="t('dashboards.addReport')"
-                    :placement="'bottom-end'"
-                    :is-text-select="true"
-                    @on-select="addReport"
-                />
-            </DataEmptyPlaceholder>
-            <GridLayout
-                v-model:layout="layout"
-                :col-num="12"
-                :row-height="ROW_HEIGHT"
-                :min-w="3"
-                :min-h="4"
-                :use-css-transforms="false"
-            >
-                <template #default="{ gridItemProps }">
-                    <GridItem
-                        v-for="item in layout"
-                        :key="item.i"
-                        v-bind="gridItemProps"
-                        :x="item.x"
-                        :y="item.y"
-                        :w="item.w"
-                        :h="item.h"
-                        :i="item.i"
-                        :min-h="item.minH"
-                        :min-w="item.minW"
-                        @moved="moved"
-                        @resized="resized"
-                    >
-                        <UiCard>
-                            <template #rightTitle>
-                                <UiDropdown
-                                    class="pf-u-mr-md"
-                                    :items="menuCardReport"
-                                    :has-icon-arrow-button="false"
-                                    :transparent="true"
-                                    :placement-menu="'bottom-end'"
-                                    @select-value="(paylaod: UiDropdownItem<string>) => selectReportDropdown(paylaod, item.i)"
-                                >
-                                    <template #button>
-                                        <button
-                                            class="pf-c-dropdown__toggle pf-m-plain"
-                                            aria-expanded="true"
-                                            type="button"
-                                            aria-label="Actions"
-                                        >
-                                            <i
-                                                class="fas fa-ellipsis-v"
-                                                aria-hidden="true"
-                                            />
-                                        </button>
-                                    </template>
-                                </UiDropdown>
-                            </template>
-                            <DashboardPanel
-                                :height-chart="item.h * ROW_HEIGHT - 20"
-                                :report-id="Number(item.reportId)"
-                            />
-                        </UiCard>
-                    </GridItem>
-                </template>
-            </GridLayout>
-        </div>
+            </router-link>
+        </DataEmptyPlaceholder>
     </div>
     <DashboardReportsPopup
         v-if="dashboardReportsPopup"
@@ -158,6 +176,7 @@ import { useCommonStore } from '@/stores/common'
 import { useReportsStore } from '@/stores/reports/reports'
 import usei18n from '@/hooks/useI18n'
 import useConfirm from '@/hooks/useConfirm';
+import { pagesMap } from '@/router';
 
 import UiCard from '@/components/uikit/UiCard/UiCard.vue'
 import DashboardPanel from '@/components/dashboards/DashboardPanel.vue'

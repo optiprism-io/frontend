@@ -1,5 +1,11 @@
 <template>
-    <div class="pf-u-display-flex pf-u-justify-content-center pf-u-align-items-center pf-u-my-4xl">
+    <div
+        class="pf-u-display-flex pf-u-justify-content-center pf-u-align-items-center"
+        :class="{
+            'pf-u-h-100': props.h100,
+            'pf-u-my-4xl': !props.h100,
+        }"
+    >
         <div>
             <div
                 v-if="!props.hideIcon"
@@ -10,7 +16,7 @@
                     :icon="'fas fa-search'"
                 />
             </div>
-            <div class="pf-c-card__title pf-u-text-align-center pf-u-font-size-lg pf-u-color-400 pf-u-mt-xl">
+            <div class="pf-u-font-weight-bold pf-u-text-align-center pf-u-font-size-lg pf-u-color-400 pf-u-mt-xl">
                 <slot />
             </div>
         </div>
@@ -20,5 +26,6 @@
 <script lang="ts" setup>
 const props = defineProps<{
     hideIcon?: boolean;
+    h100?: boolean
 }>();
 </script>

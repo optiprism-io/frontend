@@ -23,6 +23,7 @@ export const pagesMap = {
     usersGroupRecords: 'usersGroupRecords',
     usersProperties: 'usersProperties',
     users: 'users',
+    reports: 'reports',
 }
 
 const routes = [

@@ -102,6 +102,8 @@
   },
 
   "events": {
+    "noEvents": "No events",
+    "noEventsText": "You don't have events yet. Please start tracking. Click <a href=\"/events?help=start_tracking\" target=\"_blank\">here</a> for details",
     "addBreakdown": "Add Breakdown",
     "errorBreakdown": "This breakdown will not work because no event was found for the selected property",
     "breakdownTable": "Breakdown Table",
@@ -294,10 +296,12 @@
 
   "dashboards": {
     "noDashboards": "No dashboards. Please create one",
-    "noReports": "No reports. Please add at least one report: ",
+    "noReportsInDashboard": "No reports. Please add at least one report: ",
+    "noReports": "No reports. Please create one",
     "title": "Dashboards",
     "selectDashboard": "Select Dashboard",
-    "createDashboard": "Create new dashboard",
+    "createDashboard": "Create dashboard",
+    "createReport": "Create report",
     "newDashboard": "New Dashboard",
     "delete": "Delete Dashboard",
     "deleteConfirm": "You definitely want to delete the dashboard: :name?",
