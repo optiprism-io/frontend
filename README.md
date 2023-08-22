@@ -52,7 +52,6 @@ docker run -it -p 8089:8080 optiprismio/demo:v0.1.9 VITE_API_BASE_PATH=http://lo
 ### build:
 ```
 yarn build
-
 VITE_MOCK_API=true yarn build
 ```
 

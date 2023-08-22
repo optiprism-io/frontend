@@ -1,124 +1,126 @@
 <template>
-    <div class="ui-table">
-        <div
-            v-if="props.showToolbar"
-            class="pf-c-toolbar"
-        >
-            <div class="pf-c-toolbar__content">
-                <div class="pf-c-toolbar__content-section pf-m-nowrap">
-                    <div class="pf-c-toolbar__item">
-                        <div class="pf-l-flex pf-u-align-items-center">
-                            <slot name="before" />
-                            <UiSpinner
-                                v-show="props.isLoading"
-                                class="pf-u-ml-md"
-                                :size="'md'"
-                            />
-                        </div>
-                    </div>
-                    <div
-                        v-if="slots.after"
-                        class="pf-c-toolbar__item pf-u-ml-auto"
-                    >
-                        <slot name="after" />
-                    </div>
-                    <div
-                        v-if="props.showSelectColumns"
-                        class="pf-c-toolbar__item pf-u-ml-auto"
-                    >
-                        <UiSelect
-                            :items="columnsSelect"
-                            :variant="'multiple'"
-                            :text-button="columnsButtonText"
-                            :selections="activeColumns"
-                            @on-select="toggleColumns"
+    <div
+        v-if="props.showToolbar"
+        class="pf-c-toolbar ui-table-toolbar"
+    >
+        <div class="pf-c-toolbar__content">
+            <div class="pf-c-toolbar__content-section pf-m-nowrap">
+                <div class="pf-c-toolbar__item">
+                    <div class="pf-l-flex pf-u-align-items-center">
+                        <slot name="before" />
+                        <UiSpinner
+                            v-show="props.isLoading"
+                            class="pf-u-ml-md"
+                            :size="'md'"
                         />
                     </div>
                 </div>
+                <div
+                    v-if="slots.after"
+                    class="pf-c-toolbar__item pf-u-ml-auto"
+                >
+                    <slot name="after" />
+                </div>
+                <div
+                    v-if="props.showSelectColumns"
+                    class="pf-c-toolbar__item pf-u-ml-auto"
+                >
+                    <UiSelect
+                        :items="columnsSelect"
+                        :variant="'multiple'"
+                        :text-button="columnsButtonText"
+                        :selections="activeColumns"
+                        @on-select="toggleColumns"
+                    />
+                </div>
             </div>
         </div>
-        <table
-            class="pf-c-table"
-            :class="{
-                'pf-m-compact': props.compact
-            }"
-            role="grid"
-        >
-            <thead>
-                <tr
-                    v-if="groups.length > 0"
-                    role="row"
-                >
-                    <template
-                        v-for="group in groups"
-                        :key="group.value"
-                    >
-                        <UiTableCellWrapper
-                            :fixed="group.fixed"
-                            :last-fixed="group.lastFixed"
-                            :colspan="group.span"
-                        >
-                            <UiTableHeadCell
-                                :value="group.value"
-                                :title="group.title"
-                            />
-                        </UiTableCellWrapper>
-                    </template>
-                </tr>
-                <tr role="row">
-                    <template
-                        v-for="column in visibleColumns"
-                        :key="column.value"
-                    >
-                        <UiTableCellWrapper
-                            :fixed="column.fixed"
-                            :sorted="column.sorted"
-                            :truncate="column.truncate"
-                            :last-fixed="column.lastFixed"
-                            :fit-content="column.fitContent"
-                            :type="column.type"
-                        >
-                            <UiTableHeadCell
-                                :value="column.value"
-                                :title="column.title"
-                                :sorted="column.sorted"
-                            />
-                        </UiTableCellWrapper>
-                    </template>
-                </tr>
-            </thead>
-            <tbody role="rowgroup">
-                <tr
-                    v-for="(row, i) in visibleItems"
-                    :key="i"
-                    role="row"
-                >
-                    <template
-                        v-for="(cell, j) in row"
-                        :key="j"
-                    >
-                        <UiTableCellWrapper
-                            :fixed="cell.fixed"
-                            :truncate="cell.truncate"
-                            :last-fixed="cell.lastFixed"
-                            :no-wrap="cell.nowrap"
-                            :type="cell.type"
-                        >
-                            <component
-                                :is="cell.component || UiTableCell"
-                                v-bind="cell"
-                                :style="null"
-                                @on-action="onAction"
-                            />
-                        </UiTableCellWrapper>
-                    </template>
-                </tr>
-            </tbody>
-        </table>
     </div>
+    <table
+        class="ui-table pf-c-table"
+        :class="{
+            'pf-m-compact': props.compact
+        }"
+        role="grid"
+    >
+        <thead>
+            <tr
+                v-if="groups.length > 0"
+                role="row"
+            >
+                <template
+                    v-for="group in groups"
+                    :key="group.value"
+                >
+                    <UiTableCellWrapper
+                        :fixed="group.fixed"
+                        :last-fixed="group.lastFixed"
+                        :colspan="group.span"
+                        :no-wrap="group.nowrap"
+                        :is-head-cell="true"
+                    >
+                        <UiTableHeadCell
+                            :value="group.value"
+                            :title="group.title"
+                        />
+                    </UiTableCellWrapper>
+                </template>
+            </tr>
+            <tr role="row">
+                <template
+                    v-for="column in visibleColumns"
+                    :key="column.value"
+                >
+                    <UiTableCellWrapper
+                        :fixed="column.fixed"
+                        :sorted="column.sorted"
+                        :truncate="column.truncate"
+                        :last-fixed="column.lastFixed"
+                        :fit-content="column.fitContent"
+                        :type="column.type"
+                        :no-wrap="column.nowrap"
+                        :is-head-cell="true"
+                    >
+                        <UiTableHeadCell
+                            :value="column.value"
+                            :title="column.title"
+                            :sorted="column.sorted"
+                        />
+                    </UiTableCellWrapper>
+                </template>
+            </tr>
+        </thead>
+        <tbody role="rowgroup">
+            <tr
+                v-for="(row, i) in visibleItems"
+                :key="i"
+                role="row"
+            >
+                <template
+                    v-for="(cell, j) in row"
+                    :key="j"
+                >
+                    <UiTableCellWrapper
+                        :fixed="cell.fixed"
+                        :truncate="cell.truncate"
+                        :last-fixed="cell.lastFixed"
+                        :no-wrap="cell.nowrap"
+                        :type="cell.type"
+                    >
+                        <component
+                            :is="cell.component || UiTableCell"
+                            v-bind="cell"
+                            :style="null"
+                            @on-action="onAction"
+                        />
+                    </UiTableCellWrapper>
+                </template>
+            </tr>
+        </tbody>
+    </table>
 </template>
 
-<script lang="ts" setup>
+<script lang="ts" setup name="UiTable">
 import {Row, Column, Action, ColumnGroup} from '@/components/uikit/UiTable/UiTable'
 import { computed, inject, useSlots, ref } from 'vue'
 import UiTableHeadCell from '@/components/uikit/UiTable/UiTableHeadCell.vue'
@@ -204,5 +206,13 @@ const toggleColumns = (payload: string) => {
     .pf-c-toolbar__content {
         min-height: 34px;
     }
+    &.pf-c-table {
+        --pf-c-table__sticky-column--cell-min-width--base: 10rem;
+    }
+}
+
+.ui-table-toolbar {
+    position: sticky;
+    left: 0;
 }
 </style>

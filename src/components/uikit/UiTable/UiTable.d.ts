@@ -24,6 +24,7 @@ export type ColumnGroup = {
     span: number;
     lastFixed?: boolean;
     fixed?: boolean;
+    nowrap?: boolean;
 }
 
 export type Column = {
@@ -44,6 +45,7 @@ export type Column = {
     type?: string
     notActiveStart?: boolean
     fitContent?: boolean
+    nowrap?: boolean;
 }
 
 export type Cell = {

@@ -1,5 +1,8 @@
 <template>
-    <div class="ui-input-tags">
+    <div
+        ref="inputTags"
+        class="ui-input-tags"
+    >
         <UiInput
             v-if="edit || !props.value?.length"
             :value="inputValue"
@@ -17,7 +20,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { ref, onMounted, onBeforeUnmount } from 'vue'
 import UiTags from './UiTags.vue'
 import UiInput from './UiInput.vue'
 
@@ -30,20 +33,42 @@ interface Props {
 const props = defineProps<Props>()
 const inputValue = ref('')
 const edit = ref(false)
+const inputTags = ref<HTMLElement>();
 
 const setEdit = () => {
     inputValue.value = props.value?.join(', ')
-    edit.value = true
+    edit.value = true;
+    if (inputTags.value) {
+        inputTags.value.addEventListener('keypress', eventKeypressEnter);
+    }
 }
 
 const onInput = (payload: string) => {
-    inputValue.value = payload
+    inputValue.value = payload;
 }
 
 const onBlur = () => {
     edit.value = false
     emit('input', inputValue.value.replace(/\s/g, '').split(',').filter(item => Boolean(item)))
 }
+
+const eventKeypressEnter = (e: KeyboardEvent) => {
+    if (e?.key === 'Enter') {
+        onBlur();
+    }
+};
+
+onMounted(() => {
+    if (inputTags.value) {
+        inputTags.value.addEventListener('keypress', eventKeypressEnter);
+    }
+});
+
+onBeforeUnmount(() => {
+    if (inputTags.value) {
+        inputTags.value.removeEventListener('keypress', eventKeypressEnter);
+    }
+});
 </script>
 
 <style lang="scss">

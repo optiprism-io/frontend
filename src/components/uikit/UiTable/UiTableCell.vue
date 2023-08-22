@@ -1,5 +1,6 @@
 <template>
     <div
+        class="ui-table-cell"
         :class="{
             'pf-u-text-nowrap': props.nowrap,
         }"

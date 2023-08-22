@@ -115,20 +115,22 @@
     </div>
     <div
         v-if="isShowTable"
-        class="pf-c-card"
+        class="events-views__table pf-c-card"
     >
-        <div class="pf-c-scroll-inner-wrapper">
-            <UiTable
-                :is-loading="props.loading"
-                :items="dataTable.tableData"
-                :columns="dataTable.tableColumnsValues"
-            >
-                <template #before>
-                    <div class="pf-u-font-size-lg">
-                        {{ $t('events.breakdownTable') }}
-                    </div>
-                </template>
-            </UiTable>
+        <div class="pf-c-scroll-outer-wrapper">
+            <div class="pf-c-scroll-inner-wrapper">
+                <UiTable
+                    :is-loading="props.loading"
+                    :items="dataTable.tableData"
+                    :columns="dataTable.tableColumnsValues"
+                >
+                    <template #before>
+                        <div class="pf-u-font-size-lg">
+                            {{ $t('events.breakdownTable') }}
+                        </div>
+                    </template>
+                </UiTable>
+            </div>
         </div>
     </div>
 </template>
@@ -172,7 +174,7 @@ const chartTypeMap = [
 ];
 
 const eventsStore = useEventsStore();
-const { t } = usei18n()
+const { t } = usei18n();
 
 type Props = {
     eventSegmentation?: DataTableResponse | undefined
@@ -188,7 +190,7 @@ const props = withDefaults(defineProps<Props>(), {
     loading: false,
 })
 
-const dataTable = computed(() => useDataTable(props.eventSegmentation || {}))
+const dataTable = computed(() => useDataTable(props.eventSegmentation || {}, true))
 
 const emit = defineEmits<{
     (e: 'get-event-segmentation'): void
@@ -394,6 +396,15 @@ const updateEventSegmentationData = async () => {
 
     &__icon {
         margin: 0 15px;
+    }
+}
+
+.events-views {
+    &__table {
+        min-height: initial;
+        .ui-table-cell {
+            min-width: 100px;
+        }
     }
 }
 </style>
