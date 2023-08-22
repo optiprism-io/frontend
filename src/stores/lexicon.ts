@@ -381,16 +381,7 @@ export const useLexiconStore = defineStore('lexicon', {
             eventsList.push({
                 type: 'custom',
                 name: 'Custom Events',
-                items: eventsListCustom?.length ? eventsListCustom : [{
-                    item: {
-                        type: EventType.Custom,
-                        id: 0,
-                        name: '',
-                    },
-                    name: t('events.noEvents'),
-                    description: t('events.noEventsText'),
-                    editable: false,
-                }],
+                items: eventsListCustom?.length ? eventsListCustom : [],
                 action: {
                     type: 'createCustomEvent',
                     icon: 'fas fa-plus-circle',
@@ -413,6 +404,24 @@ export const useLexiconStore = defineStore('lexicon', {
                     setToList('Other', item);
                 }
             });
+
+            if (!state.events?.length && !state.customEvents?.length) {
+                eventsList.push({
+                    type: '',
+                    name: '',
+                    items: [{
+                        item: {
+                            type: EventType.Regular,
+                            id: 0,
+                            name: '',
+                        },
+                        name: t('events.noEvents'),
+                        description: t('events.noEventsText'),
+                        editable: false,
+                        noSelected: true,
+                    }],
+                });
+            }
 
             return eventsList;
         },

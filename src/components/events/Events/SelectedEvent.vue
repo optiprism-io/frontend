@@ -61,6 +61,7 @@
                     </VTooltip>
                 </div>
                 <div
+                    v-if="isShowAddFilter"
                     class="pf-c-action-list__item selected-event__control"
                     @click="addFilter"
                 >
@@ -227,6 +228,10 @@ const updateOpenQuery = ref(false)
 const showRows = computed(() => {
     return props.filters.length || props.showBreakdowns || props.showQuery
 })
+
+const isShowAddFilter = computed(() => {
+    return lexiconStore?.eventProperties?.length || lexiconStore?.userProperties?.length || lexiconStore?.userCustomProperties?.length;
+});
 
 const setEvent = (payload: Event) => {
     emit('setEvent', {
