@@ -219,7 +219,7 @@ export default function ({ environment = 'development', isSeed = true } = {}) {
             this.post(`${BASE_PATH}/v1/organizations/:organization_id/projects/:project_id/queries/event-segmentation`, (_, request) => {
                 const body = JSON.parse(request.requestBody);
 
-                if (body.events.length || body.segments) {
+                if (body.events?.length || body?.segments?.length) {
                     return eventSegmentationsMocks;
                 } else {
                     return {

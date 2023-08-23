@@ -82,7 +82,7 @@
                 type="button"
                 @click="onDelete"
             >
-                <UiIcon icon="fas fa-trash" />
+                <UiIcon icon="fas fa-times" />
             </button>
         </div>
     </div>

@@ -11,6 +11,10 @@
                     :show-select-columns="true"
                     @on-action="onAction"
                 />
+                <DataEmptyPlaceholder
+                    v-if="!items.length"
+                    :content="$t('events.noEventsText')"
+                />
             </UiCardContainer>
         </template>
     </ToolsLayout>
@@ -29,6 +33,7 @@ import UiCellTags from '@/components/uikit/cells/UiCellTags.vue'
 import UiCellToolMenu from '@/components/uikit/cells/UiCellToolMenu.vue'
 import ToolsLayout from '@/layout/tools/ToolsLayout.vue'
 import UiCardContainer from '@/components/uikit/UiCard/UiCardContainer.vue'
+import DataEmptyPlaceholder from '@/components/common/data/DataEmptyPlaceholder.vue';
 
 const i18n = inject<any>('i18n')
 const lexiconStore = useLexiconStore()

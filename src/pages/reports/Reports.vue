@@ -35,7 +35,7 @@
             </UiButton>
             <UiButton
                 class="pf-m-link pf-m-danger"
-                :before-icon="'fas fa-trash'"
+                :before-icon="'fas fa-times'"
                 @click="onDeleteReport"
             >
                 {{ $t('reports.delete') }}

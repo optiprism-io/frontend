@@ -33,7 +33,7 @@
                 @click="removeFilterGroup"
             >
                 <VTooltip popper-class="ui-hint">
-                    <UiIcon icon="fas fa-trash" />
+                    <UiIcon icon="fas fa-times" />
                     <template #popper>
                         Remove group
                     </template>

@@ -38,7 +38,7 @@
             <UiButton
                 v-if="isShowDashboardContentAndControls"
                 class="pf-m-link pf-m-danger"
-                :before-icon="'fas fa-trash'"
+                :before-icon="'fas fa-times'"
                 @click="onDeleteDashboard"
             >
                 {{ $t('dashboards.delete') }}

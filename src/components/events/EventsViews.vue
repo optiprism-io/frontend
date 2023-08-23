@@ -77,25 +77,16 @@
                 </div>
             </div>
         </div>
+        <DataEmptyPlaceholder
+            v-if="isNoData"
+            :content="$t('common.no_data') "
+        />
         <div
+            v-else
             :class="{
                 'pf-u-p-md': !props.onlyView
             }"
         >
-            <div
-                v-if="isNoData"
-                class="content-info"
-            >
-                <div class="pf-u-display-flex content-info__icons pf-u-color-400">
-                    <UiIcon
-                        class="content-info__icon"
-                        :icon="'fas fa-search'"
-                    />
-                </div>
-                <div class="pf-c-card__title pf-u-text-align-center pf-u-font-size-lg pf-u-color-400">
-                    {{ $t('common.no_data') }}
-                </div>
-            </div>
             <ChartPie
                 v-if="chartEventsOptions.component === 'ChartPie'"
                 :options="chartEventsOptions"
@@ -148,6 +139,7 @@ import usei18n from '@/hooks/useI18n';
 
 import UiSelect from '@/components/uikit/UiSelect.vue';
 import UiToggleGroup, { UiToggleGroupItem } from '@/components/uikit/UiToggleGroup.vue';
+import DataEmptyPlaceholder from '@/components/common/data/DataEmptyPlaceholder.vue';
 import UiIcon from '@/components/uikit/UiIcon.vue';
 import UiDatePicker from '@/components/uikit/UiDatePicker.vue';
 import UiLabelGroup from '@/components/uikit/UiLabelGroup.vue';
@@ -401,7 +393,9 @@ const updateEventSegmentationData = async () => {
 
 .events-views {
     &__table {
-        min-height: initial;
+        .pf-c-scroll-outer-wrapper {
+            min-height: initial;
+        }
         .ui-table-cell {
             min-width: 100px;
         }

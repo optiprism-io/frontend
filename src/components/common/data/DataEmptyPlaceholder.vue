@@ -9,14 +9,22 @@
         <div>
             <div
                 v-if="!props.hideIcon"
-                class="pf-u-m-auto pf-u-w-25 pf-u-color-400 pf-u-text-align-center"
+                class="pf-u-m-auto pf-u-color-400 pf-u-text-align-center"
             >
                 <UiIcon
                     class="pf-u-font-size-4xl"
                     :icon="'fas fa-search'"
                 />
             </div>
-            <div class="pf-u-font-weight-bold pf-u-text-align-center pf-u-font-size-lg pf-u-color-400 pf-u-mt-xl">
+            <div
+                v-if="props.content"
+                :class="titleClass"
+                v-html="props.content"
+            />
+            <div
+                v-else
+                :class="titleClass"
+            >
                 <slot />
             </div>
         </div>
@@ -26,6 +34,9 @@
 <script lang="ts" setup>
 const props = defineProps<{
     hideIcon?: boolean;
-    h100?: boolean
+    h100?: boolean;
+    content?: string;
 }>();
+
+const titleClass = 'pf-u-font-weight-bold pf-u-text-align-center pf-u-font-size-lg pf-u-color-400 pf-u-mt-xl';
 </script>

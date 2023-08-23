@@ -3,9 +3,6 @@
         class="pf-u-min-height"
         style="--pf-u-min-height--MinHeight: 24ch;"
     >
-        <DataEmptyPlaceholder v-if="liveStreamStore.isNoData">
-            {{ $t('events.select_to_start') }}
-        </DataEmptyPlaceholder>
         <UiTable
             :is-loading="liveStreamStore.loading"
             :items="tableData"
@@ -75,6 +72,10 @@
                 </div>
             </template>
         </UiTable>
+        <DataEmptyPlaceholder
+            v-if="liveStreamStore.isNoData"
+            :content="$t('events.noEventsText')"
+        />
         <LiveStreamEventPopup
             v-if="liveStreamStore.eventPopup"
             :name="eventPopupName"
@@ -253,16 +254,6 @@ const selectColumns = computed((): Group<Item<string, null>[]>[] => {
             })
         }
     ]
-})
-
-const columns = computed(() => {
-    return liveStreamStore.columnsMap.map(key => {
-        return {
-            key: key,
-            nameDisplay: key.charAt(0).toUpperCase() + key.slice(1),
-            value: key,
-        }
-    })
 })
 
 const calendarValueString = computed(() => {

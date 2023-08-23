@@ -46,7 +46,7 @@
                     <UiActionListItem>
                         <VTooltip class="ui-hint">
                             <UiIcon
-                                icon="fas fa-trash"
+                                icon="fas fa-times"
                                 @click="deleteEventFromStep(i)"
                             />
                             <template #popper>
