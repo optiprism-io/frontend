@@ -9,7 +9,7 @@
             v-if="!props.isOneSegment"
             class="pf-l-flex"
         >
-            <AlphabetIdentifier
+            <CommonIdentifier
                 class="pf-l-flex__item"
                 :index="props.index"
             />
@@ -70,11 +70,11 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
-import AlphabetIdentifier from '@/components/common/identifier/AlphabetIdentifier.vue'
-import UiEditableText from '@/components/uikit/UiEditableText.vue'
-import Condition from '@/components/events/Segments/Condition.vue'
-import { Condition as ConditionType } from '@/types/events'
+import { ref, computed } from 'vue';
+import CommonIdentifier from '@/components/common/identifier/CommonIdentifier.vue';
+import UiEditableText from '@/components/uikit/UiEditableText.vue';
+import Condition from '@/components/events/Segments/Condition.vue';
+import { Condition as ConditionType } from '@/types/events';
 
 interface Props {
     index: number

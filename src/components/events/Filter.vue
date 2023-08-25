@@ -1,7 +1,7 @@
 <template>
     <div class="filter pf-l-flex">
         <div class="pf-c-action-list">
-            <AlphabetIdentifier
+            <CommonIdentifier
                 v-if="showIdentifier"
                 :index="index"
             />
@@ -164,7 +164,7 @@ import OperationSelect from '@/components/events/OperationSelect.vue';
 import ValueSelect from '@/components/events/ValueSelect.vue';
 import { EventRef, PropertyRef } from '@/types/events';
 import { operationById, OperationId, Value } from '@/types';
-import AlphabetIdentifier from '@/components/common/identifier/AlphabetIdentifier.vue';
+import CommonIdentifier from '@/components/common/identifier/CommonIdentifier.vue';
 import { PropertyType } from '@/api'
 
 const lexiconStore = useLexiconStore();

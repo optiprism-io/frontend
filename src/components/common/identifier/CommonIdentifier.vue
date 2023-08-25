@@ -11,28 +11,25 @@
     />
 </template>
 
-<script setup lang="ts">
-import {PropType} from 'vue';
+<script setup lang="ts" name="CommonIdentifier">
 import NumericIdentifier from '@/components/common/identifier/NumericIdentifier.vue';
 import AlphabetIdentifier from '@/components/common/identifier/AlphabetIdentifier.vue';
 
-defineProps({
-    type: {
-        type: String as PropType<'numeric' | 'alphabet'>,
-        default: 'alphabet',
-    },
-    index: {
-        type: Number,
-        required: true,
-    },
-})
+type Props = {
+    type?: 'numeric' | 'alphabet',
+    index: number,
+}
+
+withDefaults(defineProps<Props>(), {
+    type: 'alphabet',
+});
 </script>
 
 <style scoped lang="scss">
 .common-identifier {
-  width: 20px;
-  text-transform: uppercase;
-  text-align: center;
-  color: var(--pf-global--main-color--100, black);
+    width: 20px;
+    text-transform: uppercase;
+    text-align: center;
+    color: var(--pf-global--main-color--100, black);
 }
 </style>
