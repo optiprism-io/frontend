@@ -148,10 +148,10 @@
 </template>
 
 <script setup lang="ts">
-import {ref, computed} from 'vue'
-import {EventRef, PropertyRef, EventQueryRef} from '@/types/events'
-import {OperationId, Value} from '@/types';
-import {useLexiconStore} from '@/stores/lexicon';
+import { ref, computed } from 'vue';
+import { EventRef, PropertyRef, EventQueryRef } from '@/types/events';
+import { OperationId, Value } from '@/types';
+import { useLexiconStore } from '@/stores/lexicon';
 import {
     EventBreakdown,
     EventFilter,
@@ -159,22 +159,18 @@ import {
     Event,
     initialQuery,
     EventPayload
-} from '@/stores/eventSegmentation/events'
+} from '@/stores/eventSegmentation/events';
 import Select from '@/components/Select/Select.vue';
 import Filter from '@/components/events/Filter.vue';
 import Breakdown from '@/components/events/Breakdown.vue';
 import Query from '@/components/events/Events/Query.vue';
-import {Group, Item} from '@/components/Select/SelectTypes';
+import { Group, Item } from '@/components/Select/SelectTypes';
 import schemaService from '@/api/services/schema.service'
 import useCustomEvent from '@/components/events/Events/CustomEventHooks'
 import { useEventName } from '@/helpers/useEventName';
-import {
-    EventType,
-    PropertyType,
-    DataTableResponseColumnsInnerData,
-} from '@/api'
+import { EventType } from '@/api';
 import CommonIdentifier from '@/components/common/identifier/CommonIdentifier.vue';
-import { useCommonStore } from '@/stores/common'
+import { useCommonStore } from '@/stores/common';
 
 const commonStore = useCommonStore()
 
@@ -191,16 +187,16 @@ type Props = {
   popperContainer?: string
   autoHide?: boolean
   forPreview?: boolean,
-  identifier?: 'numeric' | 'alphabet'
-}
+  identifier?: 'numeric' | 'alphabet',
+};
 
 const props = withDefaults(defineProps<Props>(), {
     eventItems: () => [],
     showBreakdowns: true,
     showQuery: true,
     autoHide: true,
-    identifier: 'alphabet'
-})
+    identifier: 'alphabet',
+});
 
 const emit = defineEmits<{
   (e: 'changeEvent', index: number, ref: EventRef): void;

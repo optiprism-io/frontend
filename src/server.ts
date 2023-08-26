@@ -40,7 +40,7 @@ const emptyDbTemplate = dbTemplateKeys.reduce((acc: { [key: string]: [] }, key) 
     return acc;
 }, {});
 
-export default function ({ environment = 'development', isSeed = true } = {}) {
+export default function ({ environment = 'development', isSeed = true, emptyMocksKeys = null } = {}) {
     let usersCount = 0;
 
     return createServer({

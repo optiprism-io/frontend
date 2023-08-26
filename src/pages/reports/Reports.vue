@@ -167,7 +167,7 @@ const onDeleteReport = async () => {
             cancelButton: t('common.cancel'),
             title: t('reports.delete'),
             applyButtonClass: 'pf-m-danger',
-        })
+        });
 
         reportsStore.deleteReport(reportsStore.reportId)
         setNew();
@@ -186,7 +186,8 @@ const onSaveReport = async () => {
         router.push({
             params: {
                 id: reportsStore.reportId,
-            }
+            },
+            query: route.query,
         })
     }
     await reportsStore.getList()
@@ -230,7 +231,12 @@ const updateReport = async (id: number) => {
 
 const onSelectReport = async (id: number) => {
     await updateReport(id);
-    router.push({ params: { id } });
+    router.push({
+        params: {
+            id
+        },
+        query: route.query,
+    });
 }
 
 const initReportPage = async () => {

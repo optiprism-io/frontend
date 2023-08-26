@@ -107,7 +107,8 @@ const props = withDefaults(
         popperContainer?: string
         autoHide?: boolean
         multiple?: boolean
-        cloaseAfterAction?: boolean
+        cloaseAfterAction?: boolean,
+        disabled?: boolean,
     }>(),
     {
         showSearch: true,

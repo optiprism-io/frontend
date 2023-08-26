@@ -26,10 +26,13 @@
                     @select="changeProperty"
                 >
                     <UiButton
-                        :class="[props.forPreview ? 'pf-m-control pf-m-small' : 'pf-m-secondary']"
+                        :class="{
+                            'pf-m-control pf-m-small': props.forPreview,
+                            'pf-m-secondary': !props.forPreview,
+                        }"
                         :disabled="props.forPreview"
                     >
-                        {{ filter.propRef?.name || filterProperty?.name || filter.propRef?.id }}
+                        {{ propertyButtonText }}
                     </UiButton>
                 </PropertySelect>
                 <PropertySelect
@@ -190,7 +193,11 @@ const emit = defineEmits<{
 
 const operationButtonText = computed(() => {
     return props.filter.opId ? operationById?.get(props.filter.opId)?.shortName || operationById?.get(props.filter.opId)?.name : '';
-})
+});
+
+const propertyButtonText = computed(() => {
+    return props.filter?.propRef?.name || filterProperty.value?.name || props.filter?.propRef?.id;
+});
 
 const filterItemValues = computed(() =>
     props.filter.valuesList.map((item: any) => {

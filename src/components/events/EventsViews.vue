@@ -40,11 +40,17 @@
                                             }"
                                             type="button"
                                         >
-                                            <div class="pf-u-display-flex pf-u-align-items-center">
+                                            <span
+                                                class="pf-c-toggle-group__icon pf-c-toggle-group__text"
+                                            >
                                                 <UiIcon :icon="'far fa-calendar-alt'" />
-                                                &nbsp;
+                                            </span>
+                                            <span
+                                                v-if="calendarValueString"
+                                                class="pf-c-toggle-group__text"
+                                            >
                                                 {{ calendarValueString }}
-                                            </div>
+                                            </span>
                                         </button>
                                     </template>
                                 </UiDatePicker>
@@ -130,13 +136,11 @@
 import { computed } from 'vue';
 import { useEventsStore, ChartType } from '@/stores/eventSegmentation/events';
 import { groupByMap, periodMap } from '@/configs/events/controls';
-import { ApplyPayload } from '@/components/uikit/UiCalendar/UiCalendar'
-
+import { ApplyPayload } from '@/components/uikit/UiCalendar/UiCalendar';
 import { getStringDateByFormat } from '@/helpers/getStringDates';
-import { DataTableResponse, TimeUnit } from '@/api'
-import useDataTable from '@/hooks/useDataTable'
+import { DataTableResponse, TimeUnit } from '@/api';
+import useDataTable from '@/hooks/useDataTable';
 import usei18n from '@/hooks/useI18n';
-
 import UiSelect from '@/components/uikit/UiSelect.vue';
 import UiToggleGroup, { UiToggleGroupItem } from '@/components/uikit/UiToggleGroup.vue';
 import DataEmptyPlaceholder from '@/components/common/data/DataEmptyPlaceholder.vue';
@@ -399,6 +403,10 @@ const updateEventSegmentationData = async () => {
         .ui-table-cell {
             min-width: 100px;
         }
+    }
+    .pf-c-toggle-group__button {
+        min-width: 38px;
+
     }
 }
 </style>

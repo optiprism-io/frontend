@@ -186,6 +186,9 @@ export const useLexiconStore = defineStore('lexicon', {
         },
     },
     getters: {
+        propertiesLength(state) {
+            return state.eventProperties?.length + state.eventCustomProperties?.length + state.userProperties?.length + state.userCustomProperties?.length;
+        },
         findEventById(state: Lexicon) {
             return (id: number): Event => {
                 const e = state.events.find((event): boolean => Number(event.id) === Number(id))

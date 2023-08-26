@@ -73,7 +73,9 @@
       "year": "years"
     },
     "chartType": "Chart type",
-    "groupBy": "Group by"
+    "groupBy": "Group by",
+    "noProperties": "No properties",
+    "noPropertiesText": "You don't have events yet. Please start tracking events. Click <a href=\"/events?help=start_tracking\" target=\"_blank\">here</a> for details"
   },
 
   "users": {

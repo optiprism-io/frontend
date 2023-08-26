@@ -6,6 +6,7 @@
         :selected="selected"
         :update-open="updateOpen"
         :width-auto="true"
+        :disabled="disabled"
         @select="select"
     >
         <slot />
@@ -19,6 +20,8 @@ import Select from '@/components/Select/Select.vue';
 import { Group, Item } from '@/components/Select/SelectTypes';
 import { useLexiconStore } from '@/stores/lexicon';
 import { PropertyType, EventType, Property, CustomProperty } from '@/api';
+import usei18n from '@/hooks/useI18n';
+const { t } = usei18n();
 
 const lexiconStore = useLexiconStore();
 
@@ -92,8 +95,29 @@ const getEventProperties = (eventRef: EventRef) => {
     return properties;
 }
 
+const noDataPropertyes = computed(() => {
+    return !lexiconStore.propertiesLength;
+});
+
 const items = computed(() => {
     let ret: Group<Item<PropertyRef, null>[]>[] = [];
+
+    if (noDataPropertyes.value) {
+        return [{
+            name: '',
+            items: [{
+                item: {
+                    type: PropertyType.Event,
+                    id: 0,
+                    name: '',
+                },
+                name: t('common.noProperties'),
+                description: t('common.noPropertiesText'),
+                editable: false,
+                noSelected: true,
+            }],
+        }];
+    }
 
     if (lexiconStore.eventProperties.length) {
         const items: Item<PropertyRef, null>[] = [];
@@ -161,6 +185,10 @@ const items = computed(() => {
     }
 
     return ret;
+});
+
+const disabled = computed(() => {
+    return !lexiconStore.propertiesLength;
 });
 
 const select = (item: PropertyRef) => {

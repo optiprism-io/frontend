@@ -106,7 +106,7 @@
                 <UiInput @input="changeFormula" />
             </div>
             <div
-                v-if="showProperty && !property"
+                v-if="propertySelectError"
                 class="pf-c-action-list__item pf-u-mt-xs"
             >
                 <VTooltip popper-class="ui-hint">
@@ -180,10 +180,12 @@ const property = computed(() => {
     return props.item?.queryRef?.propRef ? lexiconStore.property(props.item?.queryRef?.propRef) : null;
 });
 
+const propertySelectError = computed(() => props.item?.queryRef?.propRef && !property.value);
+
 const propertyName = computed((): string => (property.value?.name || ''));
 
 const propertySelectButtonText = computed(() => {
-    return showProperty.value ? propertyName.value || props.item?.queryRef?.propRef?.name || props.item?.queryRef?.propRef?.id : t('');
+    return propertyName.value || props.item?.queryRef?.propRef?.name || props.item?.queryRef?.propRef?.id || t('events.selectProperty');
 });
 
 const showOnlyAggregate = computed(() => {

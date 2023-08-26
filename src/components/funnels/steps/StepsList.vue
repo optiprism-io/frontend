@@ -6,7 +6,6 @@
             :index="index"
             :step="step"
         />
-
         <EventSelector @select="addStep">
             <UiButton
                 :is-link="true"
