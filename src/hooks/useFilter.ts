@@ -38,24 +38,25 @@ export const useFilter = (): UseFilter => {
 
     const getValues = async (propRef: PropertyRef) => {
         const property = lexiconStore.property(propRef);
-        const eventRef = property.id ? getEventRef(property.id) : null
         let valuesList: Value[] = []
+        if (property) {
+            const eventRef = property.id ? getEventRef(property.id) : null
 
-        try {
-            const res = await schemaService.propertyValues(commonStore.organizationId, commonStore.projectId, {
-                eventName: eventRef ? lexiconStore.eventName(eventRef) : '',
-                eventType: eventRef?.type as EventType,
-                propertyName: property.name || '',
-                propertyType: propRef.type
-            })
+            try {
+                const res = await schemaService.propertyValues(commonStore.organizationId, commonStore.projectId, {
+                    eventName: eventRef ? lexiconStore.eventName(eventRef) : '',
+                    eventType: eventRef?.type as EventType,
+                    propertyName: property.name || '',
+                    propertyType: propRef.type
+                })
 
-            if (res.data.data) {
-                valuesList = res.data.data
+                if (res.data.data) {
+                    valuesList = res.data.data
+                }
+            } catch (error) {
+                throw new Error('error getEventsValues');
             }
-        } catch (error) {
-            throw new Error('error getEventsValues');
         }
-
         return valuesList;
     }
 

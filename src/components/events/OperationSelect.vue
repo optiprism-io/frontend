@@ -37,32 +37,38 @@ const items = computed(() => {
 
     if (props.propertyRef) {
         if (props.propertyRef.type === PropertyType.Event) {
-            const prop = lexiconStore.findEventProperty(props.propertyRef)
-            findOperations(prop.dataType || DataType.String, prop.nullable, prop.isArray).forEach(op =>
-                ret.push({
-                    item: op.id,
-                    name: op.name
-                })
-            );
+            const prop = lexiconStore.findEventProperty(props.propertyRef);
+            if (prop) {
+                findOperations(prop.dataType || DataType.String, prop.nullable, prop.isArray).forEach(op =>
+                    ret.push({
+                        item: op.id,
+                        name: op.name
+                    })
+                );
+            }
         } else if (props.propertyRef.type === PropertyType.Custom) {
             const prop = lexiconStore.findEventCustomPropertyById(props.propertyRef.id);
-            findOperations(prop?.type || DataType.String, prop.nullable || false, prop.isArray || false).forEach(op =>
-                ret.push({
-                    item: op.id,
-                    name: op.name
-                })
-            );
+            if (prop) {
+                findOperations(prop?.type || DataType.String, prop.nullable || false, prop.isArray || false).forEach(op =>
+                    ret.push({
+                        item: op.id,
+                        name: op.name
+                    })
+                );
+            }
         } else if (props.propertyRef.type === PropertyType.User) {
             const prop = lexiconStore.findUserPropertyById(props.propertyRef.id);
-            findOperations(prop.dataType || 'string', prop.nullable, prop.isArray).forEach(op =>
-                ret.push({
-                    item: op.id,
-                    name: op.name
-                })
-            );
+            if (prop) {
+                findOperations(prop.dataType || 'string', prop.nullable, prop.isArray).forEach(op =>
+                    ret.push({
+                        item: op.id,
+                        name: op.name
+                    })
+                );
+            }
         }
     } else if (props.opItems && props.opItems.length) {
-        ret = props.opItems
+        ret = props.opItems;
     }
 
     return ret;

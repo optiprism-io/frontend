@@ -7,13 +7,13 @@
             />
             <div
                 v-else
-                class="pf-c-action-list__item min-w-50 pf-u-text-align-right"
+                class="pf-c-action-list__item pf-u-mb-0 pf-u-mt-xs min-w-50 pf-u-text-align-right"
             >
                 <slot
                     v-if="!hidePrefix"
                     name="prefix"
                 >
-                    with
+                    {{ $t('filters.with') }}
                 </slot>
             </div>
             <div class="pf-c-action-list__item">
@@ -29,12 +29,12 @@
                         :class="[props.forPreview ? 'pf-m-control pf-m-small' : 'pf-m-secondary']"
                         :disabled="props.forPreview"
                     >
-                        {{ filter.propRef?.name || propertyName(filter.propRef) }}
+                        {{ filter.propRef?.name || filterProperty?.name || filter.propRef?.id }}
                     </UiButton>
                 </PropertySelect>
                 <PropertySelect
                     v-else
-                    :is-open-mount="true"
+                    :is-open-mount="filter.propRef ? false : true"
                     :event-ref="eventRef"
                     :update-open="updateOpen"
                     :popper-container="props.popperContainer"
@@ -46,11 +46,10 @@
                         type="button"
                         @click="handleSelectProperty"
                     >
-                        Select property
+                        {{ $t('events.selectProperty') }}
                     </UiButton>
                 </PropertySelect>
             </div>
-
             <div
                 v-if="isShowOperation && filter.propRef"
                 class="pf-c-action-list__item"
@@ -69,7 +68,6 @@
                     </UiButton>
                 </OperationSelect>
             </div>
-
             <div
                 v-if="isShowValues && filter.propRef"
                 class="pf-c-action-list__item"
@@ -128,8 +126,8 @@
             </div>
 
             <div
-                v-if="filter.error"
-                class="pf-c-action-list__item"
+                v-if="filter.error || (filter?.propRef && !filterProperty)"
+                class="pf-c-action-list__item pf-u-mt-xs"
             >
                 <VTooltip popper-class="ui-hint">
                     <UiIcon
@@ -137,7 +135,7 @@
                         icon="fas fa-exclamation-triangle"
                     />
                     <template #popper>
-                        This filter will not work because no event was found for the selected property
+                        {{ $t('filters.noPropertiesError') }}
                     </template>
                 </VTooltip>
             </div>
@@ -165,7 +163,7 @@ import ValueSelect from '@/components/events/ValueSelect.vue';
 import { EventRef, PropertyRef } from '@/types/events';
 import { operationById, OperationId, Value } from '@/types';
 import CommonIdentifier from '@/components/common/identifier/CommonIdentifier.vue';
-import { PropertyType } from '@/api'
+import { PropertyType } from '@/api';
 
 const lexiconStore = useLexiconStore();
 
@@ -206,7 +204,29 @@ const isShowOperation = computed(() => {
 
 const isShowValues = computed(() => {
     return !['exists', 'empty'].includes(props.filter.opId) && isShowOperation.value
-})
+});
+
+const filterPropRefType = computed((): PropertyType | null => {
+    return props?.filter?.propRef?.type || null;
+});
+
+const filterPropRefId = computed((): number | null => {
+    return props?.filter?.propRef?.id || null;
+});
+
+const filterProperty = computed(() => {
+    if (filterPropRefType.value && filterPropRefId.value) {
+        switch (filterPropRefType.value) {
+            case PropertyType.Event:
+                return lexiconStore.findEventPropertyById(filterPropRefId.value);
+            case PropertyType.Custom:
+                return lexiconStore.findEventCustomPropertyById(filterPropRefId.value);
+            case PropertyType.User:
+                return lexiconStore.findUserPropertyById(filterPropRefId.value);
+        }
+    }
+    return undefined;
+});
 
 const removeFilter = (): void => {
     emit('removeFilter', props.index);
@@ -234,17 +254,6 @@ const removeValue = (value: Value) => {
 
 const removeValueButton = (value: Value) => {
     emit('removeFilterValue', props.index, value);
-};
-
-const propertyName = (ref: PropertyRef): string => {
-    switch (ref.type) {
-        case PropertyType.Event:
-            return lexiconStore.findEventPropertyById(ref.id).name
-        case PropertyType.Custom:
-            return lexiconStore.findEventCustomPropertyById(ref.id)?.name || ''
-        case PropertyType.User:
-            return lexiconStore.findUserPropertyById(ref.id).name
-    }
 };
 </script>
 

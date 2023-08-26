@@ -1,79 +1,59 @@
-import { createServer, Response } from 'miragejs'
-import { customAlphabet } from 'nanoid'
-
-import { DataType, TokensResponse } from '@/api'
-import { BASE_PATH } from '@/api/base'
+import { createServer, Response } from 'miragejs';
+import { customAlphabet } from 'nanoid';
+import { DataType, TokensResponse } from '@/api';
+import { BASE_PATH } from '@/api/base';
 import { EventStatus, UserCustomProperty } from '@/types/events';
 import splineChartMocks from '@/mocks/splineChart.json';
-import liveStreamMocks from '@/mocks/reports/liveStream.json'
-import funnelsMocks from '@/mocks/reports/funnels.json'
+import liveStreamMocks from '@/mocks/reports/liveStream.json';
+import funnelsMocks from '@/mocks/reports/funnels.json';
 import userPropertiesMocks from '@/mocks/eventSegmentations/userProperties.json';
 import eventSegmentationsMocks from '@/mocks/eventSegmentations/eventSegmentations.json';
-import eventMocks from '@/mocks/eventSegmentations/events.json';
 import eventPropertiesMocks from '@/mocks/eventSegmentations/eventProperties.json';
+import customProperties from '@/mocks/eventSegmentations/customProperties.json';
 import customEventsMocks from '@/mocks/eventSegmentations/customEvents.json';
+import eventMocks from '@/mocks/eventSegmentations/events.json';
 import reportsMocks from '@/mocks/reports/reports.json';
 import dashboardsMocks from '@/mocks/dashboards';
 import groupRecordsMocks from '@/mocks/groupRecords.json';
 
 const alphabet = '0123456789';
 const nanoid = customAlphabet(alphabet, 4);
-const accessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c'
-const refreshToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6Im5pa28ga3VzaCIsImlhdCI6MTUxNjIzOTAyMn0.FzpmXmStgiYEO15ZbwwPafVRQSOCO_xidYjrjRvVIbQ'
-const csrfToken = 'CIwNZNlR4XbisJF39I8yWnWX9wX4WFoz'
+const accessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c';
+const refreshToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6Im5pa28ga3VzaCIsImlhdCI6MTUxNjIzOTAyMn0.FzpmXmStgiYEO15ZbwwPafVRQSOCO_xidYjrjRvVIbQ';
+const csrfToken = 'CIwNZNlR4XbisJF39I8yWnWX9wX4WFoz';
+
+const dbTemplate = {
+    events: eventMocks,
+    customEvents: customEventsMocks,
+    eventProperties: eventPropertiesMocks,
+    userProperties: userPropertiesMocks,
+    customProperties: customProperties,
+    reports: reportsMocks,
+    dashboards: dashboardsMocks,
+    groupRecords: groupRecordsMocks,
+    liveStreamMocks: liveStreamMocks,
+};
+
+const dbTemplateKeys = Object.keys(dbTemplate);
+const emptyDbTemplate = dbTemplateKeys.reduce((acc: { [key: string]: [] }, key) => {
+    acc[key] = [];
+    return acc;
+}, {});
 
 export default function ({ environment = 'development', isSeed = true } = {}) {
     let usersCount = 0;
 
     return createServer({
+        environment,
+        namespace: 'api',
         seeds(server) {
-            server.db.loadData({
-                events: isSeed ? eventMocks : [],
-                customEvents: isSeed ? customEventsMocks : [],
-                eventProperties: isSeed ? eventPropertiesMocks : [],
-                userProperties: isSeed ? userPropertiesMocks : [],
-                reports: isSeed ? reportsMocks : [],
-                dashboards: isSeed ? dashboardsMocks : [],
-                groupRecords: isSeed ? groupRecordsMocks.map(item => ({...item, id: nanoid()})) : [],
-                liveStreamMocks: isSeed ? liveStreamMocks : [],
-                customProperties: isSeed ? [
-                    {
-                        id: 1,
-                        eventId: 1,
-                        createdAt: new Date(),
-                        createdBy: 0,
-                        updatedBy: 0,
-                        tags: [],
-                        name: 'custom prop 1',
-                        dataType: DataType.String,
-                        isArray: false,
-                        nullable: false,
-                        isDictionary: false
-                    },
-                    {
-                        id: 2,
-                        eventId: 1,
-                        createdAt: new Date(),
-                        createdBy: 0,
-                        updatedBy: 0,
-                        tags: [],
-                        name: 'custom prop 2',
-                        dataType: DataType.String,
-                        isArray: false,
-                        nullable: false,
-                        isDictionary: false
-                    }
-                ] : [],
-            });
+            server.db.loadData(isSeed ? dbTemplate : emptyDbTemplate);
         },
-
         routes() {
             this.get(`${BASE_PATH}/shutdown`, () =>  {
                 this.shutdown();
                 return 'shutdown';
             });
-
-            this.namespace = 'api'
 
             this.get(`${BASE_PATH}/v1/organizations/:organization_id/projects/:project_id/schema/events`, (schema) => {
                 return { data: schema.db.events }

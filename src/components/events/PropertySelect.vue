@@ -14,15 +14,11 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
-import {
-    EventCustomProperty,
-    EventRef,
-    PropertyRef,
-} from '@/types/events';
+import { EventRef, PropertyRef } from '@/types/events';
 import Select from '@/components/Select/Select.vue';
 import { Group, Item } from '@/components/Select/SelectTypes';
 import { useLexiconStore } from '@/stores/lexicon';
-import { PropertyType, EventType, Property, CustomProperty } from '@/api'
+import { PropertyType, EventType, Property, CustomProperty } from '@/api';
 
 const lexiconStore = useLexiconStore();
 

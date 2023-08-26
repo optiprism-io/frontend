@@ -249,10 +249,10 @@ export const useEventsStore = defineStore('events', {
                                     name = ref?.name || (ref?.name ? lexiconStore.findEventPropertyByName(ref.name) : lexiconStore.findEventPropertyById(propertyId))?.name || '';
                                     break;
                                 case PropertyType.Custom:
-                                    name = lexiconStore.findEventCustomPropertyById(propertyId)?.name || ''
+                                    name = lexiconStore.findEventCustomPropertyById(propertyId)?.name || '';
                                     break;
                                 case PropertyType.User:
-                                    name = lexiconStore.findUserPropertyById(propertyId).name
+                                    name = lexiconStore.findUserPropertyById(propertyId)?.name || '';
                                     break;
                             }
 
@@ -263,7 +263,7 @@ export const useEventsStore = defineStore('events', {
                                 propertyType: filter.propRef?.type || 'event',
                                 operation: filter.opId,
                                 value: filter.values,
-                            }
+                            };
                         }),
                     }
                 }),

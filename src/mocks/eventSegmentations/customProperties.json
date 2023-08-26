@@ -1,0 +1,28 @@
+[
+    {
+        "id": 1,
+        "eventId": 1,
+        "createdAt": 0,
+        "createdBy": 0,
+        "updatedBy": 0,
+        "tags": [],
+        "name": "Custom prop 1",
+        "dataType": "string",
+        "isArray": false,
+        "nullable": false,
+        "isDictionary": false
+    },
+    {
+        "id": 2,
+        "eventId": 1,
+        "createdAt": 0,
+        "createdBy": 0,
+        "updatedBy": 0,
+        "tags": [],
+        "name": "Custom prop 2",
+        "dataType": "string",
+        "isArray": false,
+        "nullable": false,
+        "isDictionary": false
+    }
+]

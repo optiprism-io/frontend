@@ -15,28 +15,26 @@
 <script lang="ts" setup>
 import {useLexiconStore} from '@/stores/lexicon';
 import {useStepsStore} from '@/stores/funnels/steps';
-import {useEventsStore} from '@/stores/eventSegmentation/events';
 import PropertySelect from '@/components/events/PropertySelect.vue';
 import {PropertyRef} from '@/types/events';
-import { EventFilterByPropertyTypeEnum } from '@/api'
+import { EventFilterByPropertyTypeEnum } from '@/api';
 
 const lexiconStore = useLexiconStore();
 const stepsStore = useStepsStore();
-const eventsStore = useEventsStore();
 
-const addHoldingConstant = (property: PropertyRef): void => {
-    const { id, name } = property.type === 'user'
-        ? lexiconStore.findUserPropertyById(Number(property.id))
-        : property.type === 'custom'
-            ? lexiconStore.findEventCustomPropertyById(Number(property.id))
-            : lexiconStore.findEventPropertyById(Number(property.id));
+const addHoldingConstant = (propertyRef: PropertyRef): void => {
+    const property = propertyRef.type === 'user'
+        ? lexiconStore.findUserPropertyById(Number(propertyRef.id))
+        : propertyRef.type === 'custom'
+            ? lexiconStore.findEventCustomPropertyById(Number(propertyRef.id))
+            : lexiconStore.findEventPropertyById(Number(propertyRef.id));
 
-    if (id && name) {
+    if (property?.id && property?.name) {
         stepsStore.addHoldingProperty({
-            id,
-            name,
-            type: property.type as EventFilterByPropertyTypeEnum
-        })
+            id: property.id,
+            name: property.name,
+            type: propertyRef.type as EventFilterByPropertyTypeEnum,
+        });
     }
 }
 </script>

@@ -384,7 +384,7 @@ const displayNameAction = computed(() => props.condition?.action?.name || (props
 
 const isSelectedProp = computed(() =>  Boolean(props.condition.propRef))
 
-const displayNameProp = computed(() => props.condition.propRef ? lexiconStore.propertyName(props.condition.propRef) : i18n.t('events.select_property'))
+const displayNameProp = computed(() => props.condition.propRef ? lexiconStore.propertyName(props.condition.propRef) : i18n.t('events.selectProperty'))
 
 const isShowSelectProp = computed(() => {
     const id = props.condition?.action?.id

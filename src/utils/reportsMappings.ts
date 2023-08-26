@@ -324,20 +324,21 @@ const mapReportToSegments = async (items: EventSegmentationSegment[]): Promise<S
                         case SegmentConditionHadPropertyValueTypeEnum.HadPropertyValue:
                         case SegmentConditionHasPropertyValueTypeEnum.HasPropertyValue:
                             if (condition.propertyName) {
-                                const property: Property = lexiconStore.findEventPropertyByName(condition.propertyName) || lexiconStore.findUserPropertyByName(condition.propertyName)
-                                res.propRef = {
-                                    type: PropertyType.User,
-                                    id: property?.id,
-                                    name: property.name || property.displayName,
+                                const property: Property | undefined = lexiconStore.findEventPropertyByName(condition.propertyName) || lexiconStore.findUserPropertyByName(condition.propertyName)
+                                if (property) {
+                                    res.propRef = {
+                                        type: PropertyType.User,
+                                        id: property?.id,
+                                        name: property.name || property.displayName,
+                                    }
+                                    res.valuesList = await getValues({
+                                        propertyName: property.name,
+                                        propertyType: PropertyType.User,
+                                    })
                                 }
-                                res.valuesList = await getValues({
-                                    propertyName: property.name,
-                                    propertyType: PropertyType.User,
-                                })
                             }
-
-                            res.opId = condition.operation
-                            res.values = condition.value
+                            res.opId = condition.operation;
+                            res.values = condition.value;
                     }
 
                     return res;

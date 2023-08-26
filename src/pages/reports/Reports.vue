@@ -223,11 +223,7 @@ const onSelectTab = () => {
 }
 
 const updateReport = async (id: number) => {
-    try {
-        await reportToStores(Number(id))
-    } catch(e) {
-        throw new Error('cannot update report');
-    }
+    await reportToStores(Number(id))
     reportName.value = reportsStore.activeReport?.name ?? t('reports.untitledReport')
     reportsStore.updateDump(reportType.value)
 }

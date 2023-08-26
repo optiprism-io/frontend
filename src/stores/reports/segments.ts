@@ -87,17 +87,19 @@ const computedValueAggregate = (item: Condition): DidEventCount | DidEventRelati
     const operation = item.opId as PropertyFilterOperation
 
     if (item.aggregate?.id === DidEventAggregatePropertyTypeEnum.AggregateProperty && item.propRef) {
-        const property: Property = item.propRef.type === PropertyType.Event ? lexiconStore.findEventPropertyById(item.propRef.id) : lexiconStore.findUserPropertyById(item.propRef.id)
+        const property: Property | undefined = item.propRef.type === PropertyType.Event ? lexiconStore.findEventPropertyById(item.propRef.id) : lexiconStore.findUserPropertyById(item.propRef.id)
 
-        return {
-            type: DidEventAggregatePropertyTypeEnum.AggregateProperty,
-            time,
-            operation,
-            value: Number(item.valueItem),
-            propertyName: property.name,
-            propertyType: PropertyType.User,
-            propertyId: property.id,
-            aggregate: item.aggregate.typeAggregate as QueryAggregate,
+        if (property) {
+            return {
+                type: DidEventAggregatePropertyTypeEnum.AggregateProperty,
+                time,
+                operation,
+                value: Number(item.valueItem),
+                propertyName: property.name,
+                propertyType: PropertyType.User,
+                propertyId: property.id,
+                aggregate: item.aggregate.typeAggregate as QueryAggregate,
+            }
         }
     }
 
@@ -152,16 +154,18 @@ export const useSegmentsStore = defineStore('segments', {
                                 eventType: item.event.ref.type,
                                 filters: item.filters.filter(item => item.propRef).reduce((items: EventFilterByProperty[], filterRef) => {
                                     if (filterRef.propRef) {
-                                        const property: Property = filterRef?.propRef.type === PropertyType.Event ? lexiconStore.findEventPropertyById(filterRef.propRef.id) : lexiconStore.findUserPropertyById(filterRef.propRef.id)
+                                        const property: Property | undefined = filterRef?.propRef.type === PropertyType.Event ? lexiconStore.findEventPropertyById(filterRef.propRef.id) : lexiconStore.findUserPropertyById(filterRef.propRef.id)
 
-                                        items.push({
-                                            type: EventFilterByPropertyTypeEnum.Property,
-                                            propertyName: property.name,
-                                            propertyType: filterRef?.propRef.type,
-                                            propertyId: filterRef.propRef.id,
-                                            operation: filterRef.opId as PropertyFilterOperation,
-                                            value: filterRef.values,
-                                        })
+                                        if (property) {
+                                            items.push({
+                                                type: EventFilterByPropertyTypeEnum.Property,
+                                                propertyName: property.name,
+                                                propertyType: filterRef?.propRef.type,
+                                                propertyId: filterRef.propRef.id,
+                                                operation: filterRef.opId as PropertyFilterOperation,
+                                                value: filterRef.values,
+                                            });
+                                        }
                                     }
 
                                     return items
@@ -177,7 +181,7 @@ export const useSegmentsStore = defineStore('segments', {
                         }
 
                         if (item.propRef && item.action?.id) {
-                            const property: Property = item.propRef.type === PropertyType.Event ? lexiconStore.findEventPropertyById(item.propRef.id) : lexiconStore.findUserPropertyById(item.propRef.id)
+                            const property: Property | undefined = item.propRef.type === PropertyType.Event ? lexiconStore.findEventPropertyById(item.propRef.id) : lexiconStore.findUserPropertyById(item.propRef.id)
 
                             if (property) {
                                 if (item.action?.id === SegmentConditionHasPropertyValueTypeEnum.HasPropertyValue) {

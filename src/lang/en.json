@@ -170,7 +170,7 @@
     "breakdowns": "Breakdowns",
     "events": "Events",
     "event_segmentation": "Event Segmentation",
-    "select_property": "Select property",
+    "selectProperty": "Select property",
     "select_value": "Select value",
     "editEvent": "Edit event",
     "editProperty": "Edit property",
@@ -216,6 +216,10 @@
       "75thPercentile": "75th Percentile of property",
       "90thPercentile": "90th Percentile of property",
       "99thPercentile": "99th Percentile of property"
+    },
+    "query": {
+      "error": "This query will not work because no event was found for the selected property",
+      "removeQuery": "Remove query"
     }
   },
 
@@ -283,6 +287,7 @@
   },
 
   "filters": {
+    "with": "with",
     "conditions": {
       "and": "Any",
       "or": "All"
@@ -290,7 +295,8 @@
     "simple": "Simple",
     "advanced": "Advanced",
     "addGroup": "Add group",
-    "resetText": "When switching to simple filters, you must reset the selected groups. Reset all filters?"
+    "resetText": "When switching to simple filters, you must reset the selected groups. Reset all filters?",
+    "noPropertiesError": "This filter will not work because no event was found for the selected property"
   },
 
   "dashboards": {

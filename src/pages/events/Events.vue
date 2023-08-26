@@ -6,7 +6,7 @@
         />
         <router-view />
         <EventPropertyPopup
-            v-if="commonStore.showEventPropertyPopup"
+            v-if="commonStore.showEventPropertyPopup && editPropertyPopup"
             :loading="propertyPopupLoading"
             :property="editPropertyPopup"
             :events="editPropertyEventsPopup"
@@ -15,7 +15,7 @@
             @on-action-event="onActionEvent"
         />
         <EventManagementPopup
-            v-if="commonStore.showEventManagementPopup"
+            v-if="commonStore.showEventManagementPopup "
             :event="editEventManagementPopup"
             :properties="eventProperties"
             :user-properties="userProperties"
@@ -28,7 +28,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, inject, onMounted, ref } from 'vue'
+import { computed, inject, onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router'
 import { useLexiconStore } from '@/stores/lexicon'
 import { useLiveStreamStore } from '@/stores/reports/liveStream'
@@ -38,6 +38,7 @@ import EventManagementPopup, { ApplyPayload as ApplyPayloadEvent } from '@/compo
 import { Action } from '@/components/uikit/UiTable/UiTable'
 import navPagesConfig from '@/configs/events/navPages.json'
 import { pagesMap } from '@/router'
+import { Property } from '@/api';
 const i18n = inject<any>('i18n')
 const route = useRoute()
 const lexiconStore = useLexiconStore()
@@ -72,7 +73,7 @@ const editPropertyPopup = computed(() => {
 const editPropertyEventsPopup = computed(() => {
     if (commonStore.editEventPropertyPopupId) {
         const property = lexiconStore.findEventPropertyById(commonStore.editEventPropertyPopupId)
-        if (property.events?.length) {
+        if (property?.events?.length) {
             return property.events.map(id => {
                 return lexiconStore.findEventById(id)
             })
@@ -83,7 +84,6 @@ const editPropertyEventsPopup = computed(() => {
         return []
     }
 })
-
 
 const eventManagementPopupCancel = () => {
     commonStore.toggleEventManagementPopup(false)
@@ -104,16 +104,31 @@ const editEventManagementPopup = computed(() => {
     }
 })
 
+const eventPropertiesIds = computed(() => {
+    return editEventManagementPopup.value && editEventManagementPopup.value?.eventProperties || [];
+});
 const eventProperties = computed(() => {
-    return editEventManagementPopup.value && editEventManagementPopup.value?.eventProperties ?
-        editEventManagementPopup.value.eventProperties.map(id => lexiconStore.findEventPropertyById(id)) : []
-})
+    return eventPropertiesIds.value.reduce((acc: Property[], id) => {
+        const property = lexiconStore.findEventPropertyById(id);
+        if (property) {
+            acc.push(property);
+        }
+        return acc;
+    }, []);
+});
 
+const userPropertiesIds = computed(() => {
+    return editEventManagementPopup.value && editEventManagementPopup.value?.userProperties || [];
+});
 const userProperties = computed(() => {
-    return editEventManagementPopup.value && editEventManagementPopup.value?.userProperties ?
-        editEventManagementPopup.value?.userProperties.map(id => lexiconStore.findUserPropertyById(id)) : []
-})
-
+    return userPropertiesIds.value.reduce((acc: Property[], id) => {
+        const property = lexiconStore.findUserPropertyById(id);
+        if (property) {
+            acc.push(property);
+        }
+        return acc;
+    }, []);
+});
 
 const initEventsAndProperties = async () => {
     await Promise.all([

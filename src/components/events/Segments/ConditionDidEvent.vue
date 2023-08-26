@@ -292,7 +292,7 @@ const isShowSelectProp = computed(() => {
         return false
     }
 })
-const displayNameProp = computed(() => props.condition.propRef ? lexiconStore.propertyName(props.condition.propRef) : i18n.$t('events.select_property'))
+const displayNameProp = computed(() => props.condition.propRef ? lexiconStore.propertyName(props.condition.propRef) : i18n.$t('events.selectProperty'))
 const isSelectedProp = computed(() =>  Boolean(props.condition.propRef))
 const changeProperty = (propRef: PropertyRef) => emit('change-property', propRef)
 

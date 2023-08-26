@@ -46,7 +46,7 @@
                         'pf-m-primary': !propRef,
                     }"
                 >
-                    {{ propertyName }}
+                    {{ propertySelectButtonText }}
                 </UiButton>
             </PropertySelect>
             <div
@@ -106,6 +106,20 @@
                 <UiInput @input="changeFormula" />
             </div>
             <div
+                v-if="showProperty && !property"
+                class="pf-c-action-list__item pf-u-mt-xs"
+            >
+                <VTooltip popper-class="ui-hint">
+                    <UiIcon
+                        class="pf-u-warning-color-100"
+                        icon="fas fa-exclamation-triangle"
+                    />
+                    <template #popper>
+                        {{ $t('events.query.error') }}
+                    </template>
+                </VTooltip>
+            </div>
+            <div
                 v-if="!noDelete"
                 class="pf-c-action-list__item queries__control-item"
                 @click="removeQuery"
@@ -113,7 +127,7 @@
                 <VTooltip popper-class="ui-hint">
                     <UiIcon icon="fas fa-times" />
                     <template #popper>
-                        Remove query
+                        {{ $t('events.query.removeQuery') }}
                     </template>
                 </VTooltip>
             </div>
@@ -133,9 +147,11 @@ import UiInput from '@/components/uikit/UiInput.vue';
 import Select from '@/components/Select/Select.vue';
 import PropertySelect from '@/components/events/PropertySelect.vue';
 import UiButton from '@/components/uikit/UiButton.vue';
+import usei18n from '@/hooks/useI18n';
 
 const eventsStore: Events = useEventsStore();
 const lexiconStore = useLexiconStore();
+const { t } = usei18n();
 
 const props = defineProps<{
     eventRef: EventRef;
@@ -158,12 +174,16 @@ const propRef = computed((): PropertyRef | undefined => {
     return props?.item?.queryRef?.propRef;
 });
 
-const showProperty = computed(() => {
-    return queryInfo.value?.hasProperty;
+const showProperty = computed(() => queryInfo.value?.hasProperty);
+
+const property = computed(() => {
+    return props.item?.queryRef?.propRef ? lexiconStore.property(props.item?.queryRef?.propRef) : null;
 });
 
-const propertyName = computed((): string => {
-    return props.item?.queryRef?.propRef ? lexiconStore.propertyName(props.item?.queryRef?.propRef): 'Select property';
+const propertyName = computed((): string => (property.value?.name || ''));
+
+const propertySelectButtonText = computed(() => {
+    return showProperty.value ? propertyName.value || props.item?.queryRef?.propRef?.name || props.item?.queryRef?.propRef?.id : t('');
 });
 
 const showOnlyAggregate = computed(() => {

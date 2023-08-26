@@ -9,32 +9,31 @@
 </template>
 
 <script lang="ts" setup>
-import { inject } from 'vue'
-import axios from 'axios'
-import { useAuthStore } from '@/stores/auth/auth'
-import { useAlertsStore } from '@/stores/alerts'
-import { ErrorResponse } from '@/api'
-import { I18N } from '@/utils/i18n'
-import UiAlertGroup from './components/uikit/UiAlertGroup.vue'
+import { inject } from 'vue';
+import axios from 'axios';
+import { useAuthStore } from '@/stores/auth/auth';
+import { useAlertsStore } from '@/stores/alerts';
+import { ErrorResponse } from '@/api';
+import { I18N } from '@/utils/i18n';
+import UiAlertGroup from './components/uikit/UiAlertGroup.vue';
 
-const { $t } = inject('i18n') as I18N
-const authStore = useAuthStore()
-const alertsStore = useAlertsStore()
+const { $t } = inject('i18n') as I18N;
+const authStore = useAuthStore();
+const alertsStore = useAlertsStore();
 
-const ERROR_UNAUTHORIZED_ID = 'Unauthorized'
-const ERROR_INTERNAL_ID = 'Internal'
+const ERROR_INTERNAL_ID = 'Internal';
 
-const closeAlert = (id: string) => alertsStore.closeAlert(id)
+const closeAlert = (id: string) => alertsStore.closeAlert(id);
 
 const createErrorGeneral = (res: ErrorResponse) => {
     if (!alertsStore.items.find(item => item.id === ERROR_INTERNAL_ID)) {
         alertsStore.createAlert({
             id: ERROR_INTERNAL_ID,
             type: 'danger',
-            text: res?.message ?? $t('errors.internal')
-        })
+            text: res?.message ?? $t('errors.internal'),
+        });
     }
-}
+};
 
 axios.interceptors.response.use(res => res, async err => {
     console.log(`ERROR: code '${err?.code}', message: '${err?.message}', url: '${err?.config?.url}'`);
@@ -55,12 +54,12 @@ axios.interceptors.response.use(res => res, async err => {
             case 500:
             case 503:
                 createErrorGeneral(err.response);
-                break
+                break;
         }
     }
 
     return Promise.resolve();
-})
+});
 </script>
 
 <style lang="scss">
