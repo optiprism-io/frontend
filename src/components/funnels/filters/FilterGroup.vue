@@ -60,13 +60,18 @@
                 </template>
             </Filter>
             <div class="pf-l-flex">
-                <UiButton
-                    :is-link="true"
-                    :before-icon="'fas fa-plus'"
-                    @click="addFilterToGroup"
+                <PropertySelect
+                    :is-open-mount="false"
+                    :placement="'right-start'"
+                    @select="addFilterToGroup"
                 >
-                    {{ $t('common.addFilter') }}
-                </UiButton>
+                    <UiButton
+                        :is-link="true"
+                        :before-icon="'fas fa-plus'"
+                    >
+                        {{ $t('common.addFilter') }}
+                    </UiButton>
+                </PropertySelect>
                 <UiButton
                     v-if="index === filterGroupsStore.filterGroups.length - 1 && filterGroupsStore.isFiltersAdvanced"
                     :is-link="true"
@@ -87,26 +92,27 @@ import UiActionListItem from '@/components/uikit/UiActionList/UiActionListItem.v
 import Filter from '@/components/events/Filter.vue';
 import {UiSelectGeneric} from '@/components/uikit/UiSelect/UiSelectGeneric';
 import {UiSelectItemInterface} from '@/components/uikit/UiSelect/types';
+import PropertySelect from '@/components/events/PropertySelect.vue';
 import {OperationId, Value} from '@/types';
 import {PropertyRef} from '@/types/events';
 import {useStepsStore} from '@/stores/funnels/steps';
-import { FilterCondition, filterConditions, FilterGroup, useFilterGroupsStore } from '@/stores/reports/filters'
+import { FilterCondition, filterConditions, FilterGroup, useFilterGroupsStore } from '@/stores/reports/filters';
 import {useFilter} from '@/hooks/useFilter';
 import {I18N} from '@/utils/i18n';
 
 const UiSelectMatch = UiSelectGeneric<FilterCondition>();
 
-const filterGroupsStore = useFilterGroupsStore()
-const stepsStore = useStepsStore()
-const filterHelpers = useFilter()
-const { $t } = inject('i18n') as I18N
+const filterGroupsStore = useFilterGroupsStore();
+const stepsStore = useStepsStore();
+const filterHelpers = useFilter();
+const { $t } = inject('i18n') as I18N;
 
 const props = defineProps({
     index: {
         type: Number,
         required: true,
     },
-})
+});
 
 const showMatch = computed(() => filterGroupsStore.isFiltersAdvanced);
 
@@ -146,13 +152,14 @@ const changeFilterGroupCondition = (condition: FilterCondition): void => {
     });
 }
 
-const addFilterToGroup = (): void => {
+const addFilterToGroup = async (payload: PropertyRef): Promise<void> => {
     filterGroupsStore.addFilterToGroup({
         index: props.index,
         filter: {
+            propRef: payload,
             opId: OperationId.Eq,
             values: [],
-            valuesList: [],
+            valuesList: await filterHelpers.getValues(payload),
         }
     });
 }

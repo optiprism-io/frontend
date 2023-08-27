@@ -1,11 +1,11 @@
 <template>
     <VDropdown
         class="select"
-        placement="bottom-start"
         :popper-class="props.popperClass || ''"
         :shown="isOpen"
         :container="props.popperContainer || 'body'"
         :auto-hide="props.autoHide"
+        :placement="props.placement"
         @hide="onHide"
     >
         <slot />
@@ -109,6 +109,7 @@ const props = withDefaults(
         multiple?: boolean
         cloaseAfterAction?: boolean,
         disabled?: boolean,
+        placement?: string,
     }>(),
     {
         showSearch: true,
@@ -121,6 +122,7 @@ const props = withDefaults(
         popperContainer: 'body',
         multiple: false,
         cloaseAfterAction: false,
+        placement: 'bottom-start',
     }
 );
 

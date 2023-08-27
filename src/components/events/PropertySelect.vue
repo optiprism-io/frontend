@@ -7,6 +7,7 @@
         :update-open="updateOpen"
         :width-auto="true"
         :disabled="disabled"
+        :placement="placement"
         @select="select"
     >
         <slot />
@@ -37,6 +38,7 @@ const props = defineProps<{
     updateOpen?: boolean;
     disabledItems?: any[];
     forceProps?: Property[];
+    placement?: string;
 }>();
 
 const checkDisable = (propRef: PropertyRef): boolean => {

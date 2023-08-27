@@ -4,6 +4,7 @@
         :items="lexiconStore.eventsList"
         :width-auto="true"
         :auto-hide="!commonStore.showCreateCustomEvent"
+        :placement="'right-start'"
         @action="selectAction"
         @select="emit('select', $event)"
         @edit="editEvent"
