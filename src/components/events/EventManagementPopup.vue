@@ -26,6 +26,7 @@
                 :compact="true"
                 :items="itemsProperties"
                 :columns="columnsProperties"
+                :show-toolbar="false"
                 @on-action="onActionProperty"
             />
             <UiTable
@@ -33,6 +34,7 @@
                 :compact="true"
                 :items="itemsUserProperties"
                 :columns="columnsProperties"
+                :show-toolbar="false"
             />
         </div>
     </UiPopupWindow>

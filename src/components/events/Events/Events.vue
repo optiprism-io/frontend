@@ -32,7 +32,7 @@
 </template>
 
 <script setup lang="ts">
-import {computed, watch, defineAsyncComponent, PropType} from 'vue';
+import { computed, defineAsyncComponent, PropType } from 'vue';
 import { EventQueryRef, EventRef, PropertyRef } from '@/types/events';
 import { useEventsStore, EventPayload } from '@/stores/eventSegmentation/events';
 import { useLexiconStore } from '@/stores/lexicon';

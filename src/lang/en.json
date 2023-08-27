@@ -78,7 +78,9 @@
     "chartType": "Chart type",
     "groupBy": "Group by",
     "noProperties": "No properties",
-    "noPropertiesText": "You don't have events yet. Please start tracking events. Click <a href=\"/events?help=start_tracking\" target=\"_blank\">here</a> for details"
+    "noPropertiesText": "You don't have events yet. Please start tracking events. Click <a href=\"/events?help=start_tracking\" target=\"_blank\">here</a> for details",
+    "eventNoProperties": "Event doesn’t have properties",
+    "eventNoUserProperties": "Event doesn’t have user properties"
   },
 
   "users": {

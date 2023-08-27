@@ -13,39 +13,47 @@
         />
         <div class="live-stream-event-popup__content">
             <UiTable
+                v-if="items?.length"
                 :compact="true"
                 :items="items"
                 :columns="columns"
+                :show-toolbar="false"
                 @on-action="onActionProperty"
+            />
+            <DataEmptyPlaceholder
+                v-else-if="!props.loading"
+                :content="noDataText"
             />
         </div>
     </UiPopupWindow>
 </template>
 
 <script lang="ts" setup>
-import { computed, inject, ref } from 'vue'
-import { useLiveStreamStore, Report } from '@/stores/reports/liveStream'
-import { useCommonStore, PropertyTypeEnum } from '@/stores/common'
-import { useLexiconStore } from '@/stores/lexicon'
-import UiTable from '@/components/uikit/UiTable/UiTable.vue'
-import {Action, Row} from '@/components/uikit/UiTable/UiTable'
-import UiPopupWindow from '@/components/uikit/UiPopupWindow.vue'
-import UiTablePressedCell from '@/components/uikit/UiTable/UiTablePressedCell.vue'
-import { getStringDateByFormat } from '@/helpers/getStringDates'
+import { computed, ref } from 'vue';
+import { useLiveStreamStore, Report } from '@/stores/reports/liveStream';
+import { useCommonStore, PropertyTypeEnum } from '@/stores/common';
+import { useLexiconStore } from '@/stores/lexicon';
+import UiTable from '@/components/uikit/UiTable/UiTable.vue';
+import {Action, Row} from '@/components/uikit/UiTable/UiTable';
+import UiPopupWindow from '@/components/uikit/UiPopupWindow.vue';
+import UiTablePressedCell from '@/components/uikit/UiTable/UiTablePressedCell.vue';
+import { getStringDateByFormat } from '@/helpers/getStringDates';
+import DataEmptyPlaceholder from '@/components/common/data/DataEmptyPlaceholder.vue';
+import usei18n from '@/hooks/useI18n';
 
-const i18n = inject<any>('i18n')
-const liveStreamStore = useLiveStreamStore()
-const commonStore = useCommonStore()
-const lexiconStore = useLexiconStore()
+const liveStreamStore = useLiveStreamStore();
+const commonStore = useCommonStore();
+const lexiconStore = useLexiconStore();
+const { t } = usei18n();
 
 type Props = {
-    name: string
-    loading?: boolean
-}
+    name: string,
+    loading?: boolean,
+};
 
-const properties = 'properties'
-const userProperties = 'userProperties'
-const createdAt = 'createdAt'
+const properties = 'properties';
+const userProperties = 'userProperties';
+const createdAt = 'createdAt';
 
 const mapTabs = [properties, userProperties]
 
@@ -70,7 +78,7 @@ const items = computed(() => {
             return [
                 {
                     key: 'name',
-                    title: key === createdAt ? i18n.$t('events.live_stream.columns.createdAt') : activeTab.value === properties ? key.charAt(0).toUpperCase() + key.slice(1) : key,
+                    title: key === createdAt ? t('events.live_stream.columns.createdAt') : activeTab.value === properties ? key.charAt(0).toUpperCase() + key.slice(1) : key,
                     component: UiTablePressedCell,
                     action: {
                         type: activeTab.value === userProperties ? PropertyTypeEnum.UserProperty : PropertyTypeEnum.EventProperty,
@@ -92,24 +100,28 @@ const columns = computed(() => {
     return ['name', 'value'].map(key => {
         return {
             value: key,
-            title: i18n.$t(`events.event_management.columns.${key}`),
+            title: t(`events.event_management.columns.${key}`),
         }
     })
 })
 
 const title = computed(() => {
-    return `${i18n.$t('events.event_management.event')}: ${props.name}`
+    return `${t('events.event_management.event')}: ${props.name}`
 })
 
 const itemsTabs = computed(() => {
     return mapTabs.map(key => {
         return {
-            name: i18n.$t(`events.live_stream.popupTabs.${key}`),
+            name: t(`events.live_stream.popupTabs.${key}`),
             active: activeTab.value === key,
             value: key,
         }
     })
-})
+});
+
+const noDataText = computed(() => {
+    return t(activeTab.value === properties ? 'common.eventNoProperties' : 'common.eventNoUserProperties');
+});
 
 const onSelectTab = (payload: string) => {
     activeTab.value = payload
@@ -138,3 +150,11 @@ const onActionProperty = (payload: Action) => {
     commonStore.showEventPropertyPopup = true
 }
 </script>
+
+<style lang="scss">
+.live-stream-event-popup {
+    .pf-c-modal-box__body {
+        min-height: 316px;
+    }
+}
+</style>

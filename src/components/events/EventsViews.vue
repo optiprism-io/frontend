@@ -114,21 +114,17 @@
         v-if="isShowTable"
         class="events-views__table pf-c-card"
     >
-        <div class="pf-c-scroll-outer-wrapper">
-            <div class="pf-c-scroll-inner-wrapper">
-                <UiTable
-                    :is-loading="props.loading"
-                    :items="dataTable.tableData"
-                    :columns="dataTable.tableColumnsValues"
-                >
-                    <template #before>
-                        <div class="pf-u-font-size-lg">
-                            {{ $t('events.breakdownTable') }}
-                        </div>
-                    </template>
-                </UiTable>
-            </div>
-        </div>
+        <UiTable
+            :is-loading="props.loading"
+            :items="dataTable.tableData"
+            :columns="dataTable.tableColumnsValues"
+        >
+            <template #before>
+                <div class="pf-u-font-size-lg">
+                    {{ $t('events.breakdownTable') }}
+                </div>
+            </template>
+        </UiTable>
     </div>
 </template>
 
@@ -397,9 +393,6 @@ const updateEventSegmentationData = async () => {
 
 .events-views {
     &__table {
-        .pf-c-scroll-outer-wrapper {
-            min-height: initial;
-        }
         .ui-table-cell {
             min-width: 100px;
         }

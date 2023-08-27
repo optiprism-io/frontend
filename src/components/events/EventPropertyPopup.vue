@@ -25,6 +25,7 @@
                 v-if="activeTab === 'events'"
                 :items="itemsEvents"
                 :columns="itemsEventsColumns"
+                :show-toolbar="false"
                 @on-action="onActionEvent"
             />
         </div>
