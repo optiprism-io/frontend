@@ -15,7 +15,7 @@
                 :is-link="true"
                 :before-icon="'fas fa-plus'"
             >
-                {{ $t('common.add_event') }}
+                {{ $t('common.addEvent') }}
             </UiButton>
         </slot>
         <template

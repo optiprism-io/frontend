@@ -2,7 +2,6 @@
     <div
         class="segment pf-l-flex pf-m-column"
         :class="{
-            'pf-u-mb-md': !props.isLast,
             'segment_active': dropdownStatesControl,
         }"
     >
@@ -57,7 +56,7 @@
             </div>
         </div>
         <div
-            class="segment__condition-list pf-l-flex pf-m-column"
+            class="segment__condition-list"
             :class="{
                 'pf-u-pl-xl': !props.isOneSegment,
             }"

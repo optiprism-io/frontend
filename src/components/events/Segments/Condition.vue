@@ -1,6 +1,6 @@
 <template>
     <div
-        class="condition pf-l-flex"
+        class="condition"
         :class="{
             'condition_is-one': props.isOne,
             'pf-m-column': !props.isOne,
@@ -137,18 +137,23 @@
                     </template>
                 </UiDatePicker>
             </div>
-            <div
+            <PropertySelect
                 v-if="isHasFilter"
-                class="pf-c-action-list__item condition__control"
-                @click="addFilter"
+                class="pf-c-action-list__item"
+                :is-open-mount="false"
+                :update-open="false"
+                :placement="'right-start'"
+                @select="addFilter"
             >
-                <VTooltip popper-class="ui-hint">
-                    <UiIcon icon="fas fa-filter" />
-                    <template #popper>
-                        {{ $t('common.addFilter') }}
-                    </template>
-                </VTooltip>
-            </div>
+                <div class="condition__control">
+                    <VTooltip popper-class="ui-hint">
+                        <UiIcon icon="fas fa-filter" />
+                        <template #popper>
+                            {{ $t('common.addFilter') }}
+                        </template>
+                    </VTooltip>
+                </div>
+            </PropertySelect>
             <div
                 v-if="props.showRemove"
                 class="pf-c-action-list__item condition__control"
@@ -427,8 +432,7 @@ const changeOperationCondition = inject<(idx: number, indexParent: number, opId:
 const changeActionCondition = inject<(idx: number, indexParent: number, ref: { id: string, name: string }) => void>('changeActionCondition')
 const addValueCondition = inject<(idx: number, indexParent: number, value: Value) => void>('addValueCondition')
 const removeValueCondition = inject<(idx: number, indexParent: number, value: Value) => void>('removeValueCondition')
-
-const addFilterCondition = inject<(payload: Ids) => void>('addFilterCondition')
+const addFilterCondition = inject<(payload: Ids, propRef: PropertyRef) => void>('addFilterCondition')
 const removeFilterCondition = inject<(payload: RemoveFilterCondition) => void>('removeFilterCondition')
 const changeFilterPropertyCondition = inject<(payload: ChangeFilterPropertyCondition) => void>('changeFilterPropertyCondition')
 const changeFilterOperation = inject<(payload: ChangeFilterOperation) => void>('changeFilterOperation')
@@ -460,17 +464,12 @@ const onApplyPeriod = (payload: ApplyPayload) => {
     })
 }
 
-const addFilter = () => {
+const addFilter = (propRef: PropertyRef) => {
     addFilterCondition && addFilterCondition({
         idx: props.index,
         idxParent: props.indexParent,
-    })
-    updateOpenFilter.value = true
-
-    setTimeout(() => {
-        updateOpenFilter.value = false
-    })
-}
+    }, propRef);
+};
 
 const removeFilter = (idxFilter: number) => {
     removeFilterCondition && removeFilterCondition({
@@ -541,17 +540,6 @@ const onHideConditionBetweenAll = () => {
 <style lang="scss">
 .condition {
     position: relative;
-    > .pf-c-action-list {
-        margin-bottom: -11px;
-    }
-    .pf-m-column {
-        margin-top: 11px;
-    }
-    .filter {
-        > .pf-c-action-list {
-            margin-bottom: -11px;
-        }
-    }
     .pf-c-action-list {
         position: relative;
         flex-wrap: wrap;
