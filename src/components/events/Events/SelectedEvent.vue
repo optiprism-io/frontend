@@ -2,7 +2,8 @@
     <div
         class="selected-event pf-l-flex pf-m-column pf-u-mb-md"
         :class="{
-            'selected-event_preview': props.forPreview
+            'selected-event_preview': props.forPreview,
+            'selected-event_active': dropdownStatesControl,
         }"
     >
         <div class="pf-l-flex">
@@ -60,30 +61,45 @@
                         </template>
                     </VTooltip>
                 </div>
-                <div
+                <PropertySelect
                     v-if="isShowAddFilter"
-                    class="pf-c-action-list__item selected-event__control"
-                    @click="addFilter"
+                    class="pf-c-action-list__item"
+                    :is-open-mount="false"
+                    :event-ref="eventRef"
+                    :update-open="false"
+                    :placement="'right-start'"
+                    @select="addFilter"
+                    @show="show"
+                    @hide="hide"
                 >
-                    <VTooltip popper-class="ui-hint">
-                        <UiIcon icon="fas fa-filter" />
-                        <template #popper>
-                            Add Filter
-                        </template>
-                    </VTooltip>
-                </div>
-                <div
+                    <div class="selected-event__control">
+                        <VTooltip popper-class="ui-hint">
+                            <UiIcon icon="fas fa-filter" />
+                            <template #popper>
+                                {{ $t('common.addFilter') }}
+                            </template>
+                        </VTooltip>
+                    </div>
+                </PropertySelect>
+                <PropertySelect
                     v-if="props.showBreakdowns"
-                    class="pf-c-action-list__item selected-event__control"
-                    @click="addBreakdown"
+                    class="pf-c-action-list__item"
+                    :event-ref="eventRef"
+                    :placement="'right-start'"
+                    :disabled-items="breakdowns"
+                    @select="addBreakdown"
+                    @show="show"
+                    @hide="hide"
                 >
-                    <VTooltip popper-class="ui-hint">
-                        <UiIcon icon="fas fa-layer-group" />
-                        <template #popper>
-                            Add breakdown
-                        </template>
-                    </VTooltip>
-                </div>
+                    <div class="selected-event__control">
+                        <VTooltip popper-class="ui-hint">
+                            <UiIcon icon="fas fa-layer-group" />
+                            <template #popper>
+                                {{ $t('common.addBreakdown') }}
+                            </template>
+                        </VTooltip>
+                    </div>
+                </PropertySelect>
                 <div
                     class="pf-c-action-list__item selected-event__control"
                     @click="removeEvent"
@@ -91,7 +107,7 @@
                     <VTooltip popper-class="ui-hint">
                         <UiIcon icon="fas fa-times" />
                         <template #popper>
-                            Remove event
+                            {{ $t('common.removeEvent') }}
                         </template>
                     </VTooltip>
                 </div>
@@ -170,6 +186,7 @@ import useCustomEvent from '@/components/events/Events/CustomEventHooks'
 import { useEventName } from '@/helpers/useEventName';
 import { EventType } from '@/api';
 import CommonIdentifier from '@/components/common/identifier/CommonIdentifier.vue';
+import PropertySelect from '@/components/events/PropertySelect.vue';
 import { useCommonStore } from '@/stores/common';
 
 const commonStore = useCommonStore()
@@ -220,6 +237,7 @@ const lexiconStore = useLexiconStore();
 const updateOpenBreakdown = ref(false);
 const updateOpenFilter = ref(false);
 const updateOpenQuery = ref(false)
+const dropdownStatesControl = ref(false);
 
 const showRows = computed(() => {
     return props.filters.length || props.showBreakdowns || props.showQuery
@@ -256,31 +274,10 @@ const removeEvent = (): void => {
 const removeFilter = (filterIdx: number): void => {
     const event = props.event;
 
-    event.filters.splice(filterIdx, 1)
-}
-
-const addFilter = (): void => {
-    const event = props.event
-    const emptyFilter = event.filters.find((filter): boolean => filter.propRef === undefined)
-
-    if (emptyFilter) {
-        return
-    }
-
-    event.filters.push({
-        opId: OperationId.Eq,
-        values: [],
-        valuesList: []
-    })
-
-    updateOpenFilter.value = true;
-    setTimeout(() => {
-        updateOpenFilter.value = false;
-    });
+    event.filters.splice(filterIdx, 1);
 };
 
-const changeFilterProperty = async (filterIdx: number, propRef: PropertyRef) => {
-    const event = props.event
+const getPropertyValues = async (propRef: PropertyRef) => {
     let valuesList: Value[] = []
 
     try {
@@ -298,13 +295,40 @@ const changeFilterProperty = async (filterIdx: number, propRef: PropertyRef) => 
         console.error(e);
     }
 
+    return valuesList;
+};
+
+const addFilter = (propRef: PropertyRef): void => {
+    const event = props.event;
+    const emptyFilter = event.filters.find((filter): boolean => filter.propRef === undefined);
+    const filterIdx = event.filters?.length || 0;
+
+    if (emptyFilter) {
+        return
+    }
+
+    changeFilterProperty(filterIdx, propRef);
+};
+
+const show = () => {
+    dropdownStatesControl.value = true;
+};
+
+const hide = () => {
+    dropdownStatesControl.value = false;
+};
+
+const changeFilterProperty = async (filterIdx: number, propRef: PropertyRef) => {
+    const event = props.event
+    const valuesList: Value[] = await getPropertyValues(propRef);
+
     event.filters[filterIdx] = {
         propRef: propRef,
         opId: OperationId.Eq,
         values: [],
         valuesList: valuesList
-    }
-}
+    };
+};
 
 const changeFilterOperation = (filterIdx: number, opId: OperationId) => {
     const event = props.event
@@ -325,14 +349,9 @@ const removeFilterValue = (filterIdx: number, value: Value): void => {
     event.filters[filterIdx].values = props.event.filters[filterIdx].values.filter(v => v !== value)
 };
 
-const addBreakdown = async (): Promise<void> => {
-    await emit('addBreakdown', props.index);
-
-    updateOpenBreakdown.value = true;
-
-    setTimeout(() => {
-        updateOpenBreakdown.value = false;
-    });
+const addBreakdown = async (propRef: PropertyRef): Promise<void> => {
+    const breakdownIdx = props.event?.breakdowns?.length;
+    changeBreakdownProperty(breakdownIdx, propRef);
 };
 
 const changeBreakdownProperty = (breakdownIdx: number, propRef: PropertyRef): void => {
@@ -390,6 +409,7 @@ const changeQuery = (idx: number, ref: EventQueryRef) => {
     }
   }
 
+  &_active,
   &:hover {
     .selected-event {
       &__control {

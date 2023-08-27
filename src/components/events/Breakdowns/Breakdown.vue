@@ -112,8 +112,6 @@ const removeBreakdown = (): void => {
     emit('removeBreakdown', props.index);
 };
 
-const identifier = computed((): number => props.index + 1);
-
 const breakdownCohort = computed(
     (): BreakdownCohort =>
         isBreakdownCohort(props.breakdown) ? (props.breakdown as BreakdownCohort) : props.breakdown

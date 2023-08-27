@@ -33,6 +33,8 @@
     "select_period": "Select period",
     "select_aggregate": "Select aggregate",
     "addFilter": "Add Filter",
+    "addBreakdown": "Add breakdown",
+    "removeEvent": "Remove event",
     "add_event": "Add Event",
     "add_step": "Add Step",
     "enter_value": "Enter a value",

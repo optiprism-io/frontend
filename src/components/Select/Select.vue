@@ -6,6 +6,7 @@
         :container="props.popperContainer || 'body'"
         :auto-hide="props.autoHide"
         :placement="props.placement"
+        @apply-show="onShow"
         @hide="onHide"
     >
         <slot />
@@ -90,7 +91,8 @@ const emit = defineEmits<{
     (e: 'onHover', item: any): void;
     (e: 'action', payload: string): void
     (e: 'edit', payload: number): void
-    (e: 'on-hide'): void
+    (e: 'hide'): void
+    (e: 'show'): void
 }>();
 
 const props = withDefaults(
@@ -224,7 +226,11 @@ const onSearch = (payload: string) => {
 const onHide = () => {
     isOpen.value = false;
     search.value = '';
-    emit('on-hide');
+    emit('hide');
+};
+
+const onShow = () => {
+    emit('show');
 };
 
 const onAction = (payload: string) => {

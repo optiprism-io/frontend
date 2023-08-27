@@ -9,6 +9,8 @@
         :disabled="disabled"
         :placement="placement"
         @select="select"
+        @hide="emit('hide')"
+        @show="emit('show')"
     >
         <slot />
     </Select>
@@ -28,6 +30,8 @@ const lexiconStore = useLexiconStore();
 
 const emit = defineEmits<{
     (e: 'select', ref: PropertyRef): void;
+    (e: 'hide'): void;
+    (e: 'show'): void;
 }>();
 
 const props = defineProps<{

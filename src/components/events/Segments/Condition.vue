@@ -190,7 +190,7 @@
                 :width-auto="true"
                 :is-open-mount="updateOpenBetweenCondition"
                 :update-open="updateOpenBetweenCondition"
-                @on-hide="onHideConditionBetweenAll"
+                @hide="onHideConditionBetweenAll"
                 @select="changeBetweenAdd"
             >
                 <UiButton
