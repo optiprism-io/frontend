@@ -107,7 +107,11 @@ const addSegment = () => {
 }
 const deleteSegment = (idx: number) => segmentsStore.deleteSegment(idx)
 const onRenameSegment = (name: string, idx: number) => segmentsStore.renameSegment(name, idx)
-const addCondition = (idx: number) => segmentsStore.addConditionSegment(idx)
+
+const addCondition = (idx: number, ref?: { id: string, name: string }) => {
+    segmentsStore.addConditionSegment(idx, ref);
+};
+
 const changeActionCondition = (idx: number, idxSegment: number, ref: { id: string, name: string }) => {
     const segment = segmentsStore.segments[idxSegment];
     const conditions = segment?.conditions;

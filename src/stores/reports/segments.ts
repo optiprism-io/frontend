@@ -501,20 +501,26 @@ export const useSegmentsStore = defineStore('segments', {
                 }
             }
         },
-        addConditionSegment(idx: number) {
+        addConditionSegment(idx: number, ref?: { id: string, name: string }) {
             const segment = this.segments[idx];
+
+            console.log(111);
 
             if (segment.conditions) {
                 const length = segment.conditions.length - 1;
                 if (segment.conditions[length] && segment.conditions[length].action) {
                     segment.conditions.push({
-                        filters: []
-                    })
+                        filters: [],
+                        action: ref,
+                        period: {},
+                    });
                 }
             } else {
                 segment.conditions = [{
-                    filters: []
-                }]
+                    filters: [],
+                    action: ref,
+                    period: {},
+                }];
             }
         },
         renameSegment(name: string, idx: number) {

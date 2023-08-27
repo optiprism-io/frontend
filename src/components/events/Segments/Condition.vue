@@ -13,6 +13,7 @@
                     :width-auto="true"
                     :is-open-mount="false"
                     :update-open="!isSelectedAction ? updateOpen : false"
+                    :placement="'right-start'"
                     @select="changeConditionAction"
                 >
                     <UiButton
@@ -42,6 +43,7 @@
                     class="pf-c-action-list__item"
                 >
                     <PropertySelect
+                        :placement="'right-start'"
                         @select="changeProperty"
                     >
                         <UiButton
@@ -244,13 +246,6 @@ type Item = {
     name: string,
 }
 
-interface ItemConditionType {
-    item: Item,
-    items?: ItemConditionType[],
-    name: string,
-    description: string,
-}
-
 interface Props {
     index: number
     indexParent: number
@@ -261,6 +256,13 @@ interface Props {
     isOne?: boolean
     showRemove?: boolean
     allowAndOr?: boolean
+}
+
+interface ItemConditionType {
+    item: Item,
+    items?: ItemConditionType[],
+    name: string,
+    description: string,
 }
 
 const lexiconStore = useLexiconStore()
@@ -380,7 +382,7 @@ const conditionConfig = computed(() => {
 
 const isSelectedAction = computed(() => Boolean(props.condition.action))
 
-const displayNameAction = computed(() => props.condition?.action?.name || (props.isOne ? i18n.t('events.segments.add_condition') : i18n.t('events.segments.select_condition')))
+const displayNameAction = computed(() => props.condition?.action?.name || (props.isOne ? i18n.t('events.segments.addCondition') : i18n.t('events.segments.select_condition')))
 
 const isSelectedProp = computed(() =>  Boolean(props.condition.propRef))
 

@@ -3,6 +3,7 @@
         class="segment pf-l-flex pf-m-column"
         :class="{
             'pf-u-mb-md': !props.isLast,
+            'segment_active': dropdownStatesControl,
         }"
     >
         <div
@@ -22,17 +23,26 @@
                         <span>{{ name }}</span>
                     </UiEditableText>
                 </div>
-                <div
-                    class="pf-c-action-list__item segment__control"
-                    @click="addCondition"
+                <Select
+                    class="pf-c-action-list__item"
+                    :items="conditionItems"
+                    :is-open-mount="false"
+                    :placement="'right-start'"
+                    @select="addCondition"
+                    @show="show"
+                    @hide="hide"
                 >
-                    <VTooltip popper-class="ui-hint">
-                        <UiIcon icon="fas fa-filter" />
-                        <template #popper>
-                            {{ $t('events.segments.add_condition') }}
-                        </template>
-                    </VTooltip>
-                </div>
+                    <div
+                        class="segment__control"
+                    >
+                        <VTooltip popper-class="ui-hint">
+                            <UiIcon icon="fas fa-filter" />
+                            <template #popper>
+                                {{ $t('events.segments.addCondition') }}
+                            </template>
+                        </VTooltip>
+                    </div>
+                </Select>
                 <div
                     class="pf-c-action-list__item segment__control"
                     @click="onRemove"
@@ -75,6 +85,14 @@ import CommonIdentifier from '@/components/common/identifier/CommonIdentifier.vu
 import UiEditableText from '@/components/uikit/UiEditableText.vue';
 import Condition from '@/components/events/Segments/Condition.vue';
 import { Condition as ConditionType } from '@/types/events';
+import { conditions as conditionsMap } from '@/configs/events/segmentCondition';
+import Select from '@/components/Select/Select.vue';
+import usei18n from '@/hooks/useI18n';
+
+type Item = {
+    id: string,
+    name: string,
+}
 
 interface Props {
     index: number
@@ -87,18 +105,45 @@ interface Props {
     segmentsLength: number
 }
 
-const props = defineProps<Props>()
+interface ItemConditionType {
+    item: Item,
+    items?: ItemConditionType[],
+    name: string,
+    description: string,
+}
+
+const { t, keyExists } = usei18n();
+const props = defineProps<Props>();
 
 const emit = defineEmits<{
     (e: 'on-remove', inx: number): void
     (e: 'on-rename', name: string, idx: number): void
-    (e: 'add-condition', idx: number): void
-}>()
+    (e: 'add-condition', idx: number, ref: { id: string, name: string }): void
+}>();
 
 const updateOpenCondition = ref(false)
+const dropdownStatesControl = ref(false);
 
 const showRemoveCondition = computed(() => {
     return props.conditions.filter(item => !item?.action?.id);
+});
+
+const getConditionItem = (key: string): ItemConditionType => {
+    const name = t(`events.condition.${key}`) as string;
+    const hintKey = `events.condition.${key}_hint`;
+
+    return {
+        item: {
+            id: key,
+            name,
+        },
+        name,
+        description: keyExists(hintKey) ? t(hintKey) : '',
+    };
+};
+
+const conditionItems = computed(() => {
+    return conditionsMap.map(item => getConditionItem(item.key));
 });
 
 const conditionsLength = computed(() => {
@@ -106,14 +151,18 @@ const conditionsLength = computed(() => {
 });
 
 const onRename = (name: string): void => emit('on-rename', name, props.index)
-const addCondition = (): void => {
-    updateOpenCondition.value = true
-    emit('add-condition', props.index)
 
-    setTimeout(() => {
-        updateOpenCondition.value = false
-    })
+const addCondition = (payload: { id: string, name: string }): void => {
+    emit('add-condition', props.index, payload);
 }
+
+const show = () => {
+    dropdownStatesControl.value = true;
+};
+
+const hide = () => {
+    dropdownStatesControl.value = false;
+};
 
 const onRemove = (): void => emit('on-remove', props.index)
 </script>
@@ -130,7 +179,7 @@ const onRemove = (): void => emit('on-remove', props.index)
             color: var(--pf-global--palette--black-800);
         }
     }
-
+    &_active,
     &:hover {
         .segment {
             &__control {

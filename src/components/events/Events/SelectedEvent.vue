@@ -49,18 +49,24 @@
                         </template>
                     </Select>
                 </div>
-                <div
+                <Select
                     v-if="props.showQuery"
-                    class="pf-c-action-list__item selected-event__control"
-                    @click="addQuery"
+                    class="pf-c-action-list__item"
+                    :items="lexiconStore.eventsQueries"
+                    :placement="'right-start'"
+                    @select="addQuery"
+                    @show="show"
+                    @hide="hide"
                 >
-                    <VTooltip popper-class="ui-hint">
-                        <UiIcon icon="fas fa-search" />
-                        <template #popper>
-                            Add Query
-                        </template>
-                    </VTooltip>
-                </div>
+                    <div class=" selected-event__control">
+                        <VTooltip popper-class="ui-hint">
+                            <UiIcon icon="fas fa-search" />
+                            <template #popper>
+                                {{ $t('common.addQuery') }}
+                            </template>
+                        </VTooltip>
+                    </div>
+                </Select>
                 <PropertySelect
                     v-if="isShowAddFilter"
                     class="pf-c-action-list__item"
@@ -188,8 +194,10 @@ import { EventType } from '@/api';
 import CommonIdentifier from '@/components/common/identifier/CommonIdentifier.vue';
 import PropertySelect from '@/components/events/PropertySelect.vue';
 import { useCommonStore } from '@/stores/common';
+import { useEventsStore } from '@/stores/eventSegmentation/events';
 
-const commonStore = useCommonStore()
+const commonStore = useCommonStore();
+const eventsStore = useEventsStore();
 
 type Props = {
   eventRef: EventRef
@@ -377,14 +385,9 @@ const removeQuery = (idx: number): void => {
     emit('removeQuery', props.index, idx);
 };
 
-const addQuery = async (): Promise<void> => {
-    await emit('addQuery', props.index);
-
-    updateOpenQuery.value = true;
-
-    setTimeout(() => {
-        updateOpenQuery.value = false;
-    });
+const addQuery = async (payload: EventQueryRef): Promise<void> => {
+    const idx = eventsStore.events[props.index]?.queries?.length;
+    changeQuery(idx, payload);
 };
 
 const changeQuery = (idx: number, ref: EventQueryRef) => {

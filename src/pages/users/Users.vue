@@ -9,14 +9,16 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import { pagesMap } from '@/router';
 import usei18n from '@/hooks/useI18n';
 import UiTabs from '@/components/uikit/UiTabs.vue';
+import { useLexiconStore } from '@/stores/lexicon';
 
 const { t } = usei18n();
 const route = useRoute();
+const lexiconStore = useLexiconStore();
 
 const items = computed(() => ([
     {
@@ -36,6 +38,11 @@ const items = computed(() => ([
         active: route.name === pagesMap.usersProperties,
     },
 ]));
+
+onMounted(() => {
+    lexiconStore.getEventProperties();
+    lexiconStore.getUserProperties();
+});
 </script>
 
 <style scoped lang="scss"></style>

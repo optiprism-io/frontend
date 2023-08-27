@@ -34,6 +34,7 @@
     "select_aggregate": "Select aggregate",
     "addFilter": "Add Filter",
     "addBreakdown": "Add breakdown",
+    "addQuery": "Add Query",
     "removeEvent": "Remove event",
     "add_event": "Add Event",
     "add_step": "Add Step",
@@ -183,7 +184,7 @@
       "label": "Segments",
       "add": "Add segment",
       "remove": "Remove segment",
-      "add_condition": "Add condition",
+      "addCondition": "Add condition",
       "select_condition": "Select condition",
       "remove_condition": "Remove condition"
     },
