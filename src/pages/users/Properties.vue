@@ -32,7 +32,7 @@ const lexiconStore = useLexiconStore();
 const { t } = usei18n();
 
 const columns = computed(() => {
-    return ['name', 'displayName', 'description', 'tags', 'status', 'action'].map(key => {
+    return ['name', 'displayName', 'description', 'tags', 'status'].map(key => {
         const isAction = key === 'action'
 
         return {
@@ -50,11 +50,7 @@ const items = computed(() => {
             {
                 key: 'name',
                 title: property.name,
-                component: UiTablePressedCell,
-                action: {
-                    type: property.id,
-                    name: property.name,
-                }
+                nowrap: true,
             },
             {
                 key: 'displayName',
@@ -76,19 +72,6 @@ const items = computed(() => {
                 key: 'status',
                 title: property.status,
             },
-            {
-                title: 'action',
-                key: 'action',
-                value: property.id,
-                component: UiCellToolMenu,
-                items: [
-                    {
-                        label: t('events.editProperty'),
-                        value: 'edit',
-                    },
-                ],
-                type: 'action'
-            }
         ]
     })
 })

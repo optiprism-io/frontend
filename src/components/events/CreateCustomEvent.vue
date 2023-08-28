@@ -37,36 +37,40 @@
             class="pf-u-mb-md"
             :text="$t('events.events')"
         >
-            <div class="pf-l-flex pf-m-column pf-u-mb-md">
-                <SelectedEvent
-                    v-for="(event, index) in events"
-                    :key="index"
-                    :event="event"
-                    :event-ref="event.ref"
-                    :filters="event.filters"
-                    :index="index"
-                    :event-items="eventItems"
-                    :show-breakdowns="false"
-                    :show-query="false"
+            <template #after>
+                <div class="pf-l-flex pf-m-column">
+                    <SelectedEvent
+                        v-for="(event, index) in events"
+                        :key="index"
+                        :event="event"
+                        :event-ref="event.ref"
+                        :filters="event.filters"
+                        :index="index"
+                        :event-items="eventItems"
+                        :show-breakdowns="false"
+                        :show-query="false"
+                        :popper-class="'popup-floating-popper'"
+                        :popper-container="'.ui-popup-window__box'"
+                        @set-event="setEvent"
+                        @remove-event="removeEvent"
+                    />
+                </div>
+                <Select
+                    grouped
+                    :items="eventItems"
+                    :auto-hide="!commonStore.showCreateCustomEvent"
+                    :popper-class="'popup-floating-popper'"
                     :popper-container="'.ui-popup-window__box'"
-                    @set-event="setEvent"
-                    @remove-event="removeEvent"
-                />
-            </div>
-            <Select
-                grouped
-                :items="eventItems"
-                :popper-class="'popup-floating-popper'"
-                :popper-container="'.ui-popup-window__box'"
-                @select="addEvent"
-            >
-                <UiButton
-                    :is-link="true"
-                    :before-icon="'fas fa-plus'"
+                    @select="addEvent"
                 >
-                    {{ $t('common.addEvent') }}
-                </UiButton>
-            </Select>
+                    <UiButton
+                        :is-link="true"
+                        :before-icon="'fas fa-plus'"
+                    >
+                        {{ $t('common.addEvent') }}
+                    </UiButton>
+                </Select>
+            </template>
         </UiFormLabel>
         <UiFormLabel
             class="pf-u-mb-md"

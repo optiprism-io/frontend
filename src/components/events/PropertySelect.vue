@@ -8,6 +8,8 @@
         :width-auto="true"
         :disabled="disabled"
         :placement="placement"
+        :popper-class="props.popperClass"
+        :popper-container="props.popperContainer"
         @select="select"
         @hide="emit('hide')"
         @show="emit('show')"
@@ -43,6 +45,8 @@ const props = defineProps<{
     disabledItems?: any[];
     forceProps?: Property[];
     placement?: string;
+    popperContainer?: string;
+    popperClass?: string
 }>();
 
 const checkDisable = (propRef: PropertyRef): boolean => {

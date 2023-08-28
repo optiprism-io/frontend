@@ -74,6 +74,7 @@
                     :event-ref="eventRef"
                     :update-open="false"
                     :placement="'right-start'"
+                    :popper-container="props.popperContainer"
                     @select="addFilter"
                     @show="show"
                     @hide="hide"
@@ -131,6 +132,7 @@
                 :index="i"
                 :update-open="updateOpenFilter"
                 :popper-container="props.popperContainer"
+                :popper-class="popperClass"
                 :for-preview="props.forPreview"
                 @remove-filter="removeFilter"
                 @change-filter-property="changeFilterProperty"
@@ -210,6 +212,7 @@ type Props = {
   showBreakdowns?: boolean
   showQuery?: boolean
   popperContainer?: string
+  popperClass?: string
   autoHide?: boolean
   forPreview?: boolean,
   identifier?: 'numeric' | 'alphabet',
