@@ -48,7 +48,7 @@ import { useCommonStore, PropertyTypeEnum } from '@/stores/common'
 export type EventObject = {
     [key: string]: string | string[] | boolean
 }
-export type ApplyPayload = EventObject
+export type ApplyPayload = EventObject;
 
 const commonStore = useCommonStore()
 const mapTabs = ['property', 'events']

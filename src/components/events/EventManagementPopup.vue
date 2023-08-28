@@ -62,19 +62,10 @@ import { eventValuesConfig, Item as EventValuesConfig, EventValuesConfigKeysEnum
 import usei18n from '@/hooks/useI18n';
 import { pagesMap } from '@/router';
 
-const { t } = usei18n();
-const router = useRouter()
-
 export type EventObject = {
     [key: string]: string | string[] | boolean
 }
-export type ApplyPayload = EventObject
-
-const tabs = {
-    event: 'event',
-    properties: 'properties',
-    userProperties: 'userProperties',
-};
+export type ApplyPayload = EventObject;
 
 const i18n = inject<any>('i18n')
 
@@ -85,6 +76,15 @@ type Props = {
     properties: Property[]
     userProperties: Property[]
 }
+
+const tabs = {
+    event: 'event',
+    properties: 'properties',
+    userProperties: 'userProperties',
+};
+
+const { t } = usei18n();
+const router = useRouter()
 
 const props = withDefaults(defineProps<Props>(), {
     name: '',

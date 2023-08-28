@@ -34,7 +34,7 @@ import { useLexiconStore } from '@/stores/lexicon'
 import { useLiveStreamStore } from '@/stores/reports/liveStream'
 import { useCommonStore, PropertyTypeEnum } from '@/stores/common'
 import EventPropertyPopup, { ApplyPayload } from '@/components/events/EventPropertyPopup.vue'
-import EventManagementPopup, { ApplyPayload as ApplyPayloadEvent } from '@/components/events/EventManagementPopup.vue'
+import EventManagementPopup, { ApplyPayload as ApplyPayloadEvent } from '@/components/events/EventManagementPopup.vue';
 import { Action } from '@/components/uikit/UiTable/UiTable'
 import navPagesConfig from '@/configs/events/navPages.json'
 import { pagesMap } from '@/router'
@@ -137,7 +137,6 @@ const initEventsAndProperties = async () => {
         lexiconStore.getUserProperties(),
     ]);
 };
-
 
 onMounted(async () => {
     liveStreamStore.loading = true;
