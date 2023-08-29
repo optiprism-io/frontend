@@ -14,14 +14,6 @@ import uikitPlugin from '@/plugins/uikit';
 import i18nPlugin from '@/plugins/i18n';
 import GridLayout from 'vue3-drr-grid-layout';
 
-const isEnabledMocks = localStorage.getItem('isEnabledMocks');
-if (import.meta.env.VITE_MOCK_API) {
-    if ((isEnabledMocks && Number(isEnabledMocks)) || !isEnabledMocks) {
-        makeServer({ isSeed: localStorage.getItem('isEmptyMocks') !== '1' });
-        localStorage.setItem('isEnabledMocks', '1');
-    }
-}
-
 const pinia = createPinia();
 const app = createApp(App);
 
@@ -32,6 +24,16 @@ app.use(FloatingVue);
 app.use(GridLayout);
 app.use(uikitPlugin);
 app.use(i18nPlugin);
+
+const isEnabledMocks = localStorage.getItem('isEnabledMocks');
+if (import.meta.env.VITE_MOCK_API) {
+    console.log(router.currentRoute, 1);
+
+    if ((isEnabledMocks && Number(isEnabledMocks)) || !isEnabledMocks) {
+        makeServer({ isSeed: localStorage.getItem('isEmptyMocks') !== '1' });
+        localStorage.setItem('isEnabledMocks', '1');
+    }
+}
 
 app.directive('click-outside', {
     mounted(el, binding, vnode) {

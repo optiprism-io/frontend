@@ -22,7 +22,7 @@ const accessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3OD
 const refreshToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6Im5pa28ga3VzaCIsImlhdCI6MTUxNjIzOTAyMn0.FzpmXmStgiYEO15ZbwwPafVRQSOCO_xidYjrjRvVIbQ';
 const csrfToken = 'CIwNZNlR4XbisJF39I8yWnWX9wX4WFoz';
 
-const dbTemplate = {
+const dbTemplate: { [k: string]: any } = {
     events: eventMocks,
     customEvents: customEventsMocks,
     eventProperties: eventPropertiesMocks,
@@ -35,13 +35,25 @@ const dbTemplate = {
 };
 
 const dbTemplateKeys = Object.keys(dbTemplate);
+
 const emptyDbTemplate = dbTemplateKeys.reduce((acc: { [key: string]: [] }, key) => {
     acc[key] = [];
     return acc;
 }, {});
 
-export default function ({ environment = 'development', isSeed = true, emptyMocksKeys = null } = {}) {
+export default function ({ environment = 'development', isSeed = true } = {}) {
     let usersCount = 0;
+
+    if (window.location?.search) {
+        const valuesString = window.location.search?.split('=')[1];
+        const values = valuesString?.split(',') || [];
+
+        values.forEach(key => {
+            if (dbTemplate && dbTemplate[key]) {
+                dbTemplate[key] = [];
+            }
+        });
+    }
 
     return createServer({
         environment,

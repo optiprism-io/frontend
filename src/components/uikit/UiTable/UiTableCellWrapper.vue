@@ -15,7 +15,8 @@
         :role="props.isHeadCell ? 'columnheader' : ''"
         :colspan="colspan"
         :style="{
-            left: left,
+            '--pf-c-table__sticky-column--MinWidth': minWidth,
+            '--pf-c-table__sticky-column--Left': left,
         }"
     >
         <slot />
@@ -37,27 +38,14 @@ type Props = {
    isHeadCell?: boolean
 }
 
-const props = defineProps<Props>()
-const cell = ref<HTMLElement | null>(null)
-const left = ref('')
+const props = defineProps<Props>();
+const cell = ref<HTMLElement | null>(null);
+const left = ref('');
+const minWidth = ref('');
 
 const cellComponent = computed(() => props.isHeadCell ? 'th' : 'td');
 
-onMounted(() => {
-    setTimeout(() => {
-        if (props.fixed) {
-            const cellEl = cell.value;
-            if (cellEl) {
-                const parentEl = cellEl.parentElement;
-
-                if (parentEl) {
-                    const boundingClientRectParent = parentEl.getBoundingClientRect()
-                    left.value = `${cellEl.offsetLeft - boundingClientRectParent.left}px`
-                }
-            }
-        }
-    }, 100)
-})
 </script>
 
-<style lang="scss"></style>
+<style lang="scss">
+</style>

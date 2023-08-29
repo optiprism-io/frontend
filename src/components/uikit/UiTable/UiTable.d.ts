@@ -25,6 +25,7 @@ export type ColumnGroup = {
     lastFixed?: boolean;
     fixed?: boolean;
     nowrap?: boolean;
+    left?: number;
 }
 
 export type Column = {

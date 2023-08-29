@@ -127,8 +127,8 @@
 </template>
 
 <script lang="ts" setup name="UiTable">
+import { computed, inject, useSlots, ref, watch } from 'vue';
 import {Row, Column, Action, ColumnGroup} from '@/components/uikit/UiTable/UiTable'
-import { computed, inject, useSlots, ref } from 'vue'
 import UiTableHeadCell from '@/components/uikit/UiTable/UiTableHeadCell.vue'
 import UiTableCell from '@/components/uikit/UiTable/UiTableCell.vue'
 import UiTableCellWrapper from '@/components/uikit/UiTable/UiTableCellWrapper.vue'
@@ -205,6 +205,7 @@ const toggleColumns = (payload: string) => {
         disabledColumns.value.push(payload)
     }
 }
+
 </script>
 
 <style lang="scss">
