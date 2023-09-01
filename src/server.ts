@@ -36,7 +36,7 @@ const dbTemplate: { [k: string]: any } = {
 
 const dbTemplateKeys = Object.keys(dbTemplate);
 const getRandomTiming = (from = 0, to = 0) => {
-    // TODO
+    // TODO ADD HEADER SWITCHER OR URL SEARCH PARAMETR LIKE => timingMocks=100-200
     return Math.floor(Math.random() * (to - from)) + from;
 }
 
