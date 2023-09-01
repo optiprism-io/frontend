@@ -26,7 +26,6 @@
                     class="pf-c-action-list__item"
                     :items="conditionItems"
                     :is-open-mount="false"
-                    :placement="'right-start'"
                     @select="addCondition"
                     @show="show"
                     @hide="hide"

@@ -1,7 +1,11 @@
 <template>
     <div class="ui-table">
+        <DataEmptyPlaceholder
+            v-if="showPlacehilder"
+            :content="props?.noDataText || $t('common.noData')"
+        />
         <div
-            v-if="props.showToolbar"
+            v-else-if="props.showToolbar"
             class="pf-c-toolbar ui-table-toolbar"
         >
             <div class="pf-c-toolbar__content">
@@ -37,7 +41,10 @@
                 </div>
             </div>
         </div>
-        <div class="pf-c-scroll-outer-wrapper">
+        <div
+            v-if="props.items?.length"
+            class="pf-c-scroll-outer-wrapper"
+        >
             <div class="pf-c-scroll-inner-wrapper">
                 <table
                     class="pf-c-table"
@@ -127,15 +134,16 @@
 </template>
 
 <script lang="ts" setup name="UiTable">
-import { computed, inject, useSlots, ref, watch } from 'vue';
-import {Row, Column, Action, ColumnGroup} from '@/components/uikit/UiTable/UiTable'
-import UiTableHeadCell from '@/components/uikit/UiTable/UiTableHeadCell.vue'
-import UiTableCell from '@/components/uikit/UiTable/UiTableCell.vue'
-import UiTableCellWrapper from '@/components/uikit/UiTable/UiTableCellWrapper.vue'
-import UiSelect, { UiSelectItem } from '@/components/uikit/UiSelect.vue'
-import UiSpinner from '@/components/uikit/UiSpinner.vue'
+import { computed, inject, useSlots, ref } from 'vue';
+import {Row, Column, Action, ColumnGroup} from '@/components/uikit/UiTable/UiTable';
+import UiTableHeadCell from '@/components/uikit/UiTable/UiTableHeadCell.vue';
+import UiTableCell from '@/components/uikit/UiTable/UiTableCell.vue';
+import UiTableCellWrapper from '@/components/uikit/UiTable/UiTableCellWrapper.vue';
+import UiSelect, { UiSelectItem } from '@/components/uikit/UiSelect.vue';
+import UiSpinner from '@/components/uikit/UiSpinner.vue';
+import DataEmptyPlaceholder from '@/components/common/data/DataEmptyPlaceholder.vue';
 
-const i18n = inject<any>('i18n')
+const i18n = inject<any>('i18n');
 const slots = useSlots();
 
 type Props = {
@@ -146,6 +154,8 @@ type Props = {
     groups?: ColumnGroup[]
     isLoading?: boolean
     showToolbar?: boolean
+    noDataTitle?: string
+    noDataText?: string
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -154,6 +164,8 @@ const props = withDefaults(defineProps<Props>(), {
     compact: true,
     showSelectColumns: false,
     showToolbar: true,
+    noDataTitle: '',
+    noDataText: '',
 })
 
 const emit = defineEmits<{
@@ -163,6 +175,7 @@ const emit = defineEmits<{
 const defaultColumns = ref<string[]>([])
 const disabledColumns = ref<string[]>([])
 
+const showPlacehilder = computed(() => !props.isLoading && !props.items?.length);
 const columnsSelect = computed(() => {
     return props.columns.reduce((acc: UiSelectItem<string>[], column) => {
         if (!column.default) {

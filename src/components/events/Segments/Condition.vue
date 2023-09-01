@@ -13,7 +13,6 @@
                     :width-auto="true"
                     :is-open-mount="false"
                     :update-open="!isSelectedAction ? updateOpen : false"
-                    :placement="'right-start'"
                     @select="changeConditionAction"
                 >
                     <UiButton
@@ -43,7 +42,6 @@
                     class="pf-c-action-list__item"
                 >
                     <PropertySelect
-                        :placement="'right-start'"
                         @select="changeProperty"
                     >
                         <UiButton
@@ -142,7 +140,6 @@
                 class="pf-c-action-list__item"
                 :is-open-mount="false"
                 :update-open="false"
-                :placement="'right-start'"
                 @select="addFilter"
             >
                 <div class="condition__control">
@@ -214,12 +211,10 @@
 </template>
 
 <script lang="ts" setup>
-import { inject, computed, ref, defineAsyncComponent } from 'vue'
-import { operationById, OperationId, Value } from '@/types'
-import { PropertyRef, Condition as ConditionType } from '@/types/events'
-import {
-    DidEventRelativeCountTypeEnum,
-} from '@/api';
+import { inject, computed, ref, defineAsyncComponent } from 'vue';
+import { operationById, OperationId, Value } from '@/types';
+import { PropertyRef, Condition as ConditionType } from '@/types/events';
+import { DidEventRelativeCountTypeEnum } from '@/api';
 import {
     ChangeFilterPropertyCondition,
     RemoveFilterCondition,
@@ -228,22 +223,21 @@ import {
     Ids,
     PeriodConditionPayload,
     PayloadChangeEach,
-} from '@/components/events/Segments/Segments'
-import { conditions } from '@/configs/events/segmentCondition'
-import { useLexiconStore } from '@/stores/lexicon'
-import { getStringDateByFormat } from '@/helpers/getStringDates'
-import { conditions as conditionsMap, conditionsBetween } from '@/configs/events/segmentCondition'
+} from '@/components/events/Segments/Segments';
+import { conditions } from '@/configs/events/segmentCondition';
+import { useLexiconStore } from '@/stores/lexicon';
+import { getStringDateByFormat } from '@/helpers/getStringDates';
+import { conditions as conditionsMap, conditionsBetween } from '@/configs/events/segmentCondition';
 import usei18n from '@/hooks/useI18n';
-import { Each, ApplyPayload } from '@/components/uikit/UiCalendar/UiCalendar'
-
-import Select from '@/components/Select/Select.vue'
-import UiButton from '@/components/uikit/UiButton.vue'
-import PropertySelect from '@/components/events/PropertySelect.vue'
-import OperationSelect from '@/components/events/OperationSelect.vue'
-import ValueSelect from '@/components/events/ValueSelect.vue'
-import Filter from '@/components/events/Filter.vue'
-import UiDatePicker from '@/components/uikit/UiDatePicker.vue'
-const ConditionDidEvent = defineAsyncComponent(() => import('./ConditionDidEvent.vue'))
+import { Each, ApplyPayload } from '@/components/uikit/UiCalendar/UiCalendar';
+import Select from '@/components/Select/Select.vue';
+import UiButton from '@/components/uikit/UiButton.vue';
+import PropertySelect from '@/components/events/PropertySelect.vue';
+import OperationSelect from '@/components/events/OperationSelect.vue';
+import ValueSelect from '@/components/events/ValueSelect.vue';
+import Filter from '@/components/events/Filter.vue';
+import UiDatePicker from '@/components/uikit/UiDatePicker.vue';
+const ConditionDidEvent = defineAsyncComponent(() => import('./ConditionDidEvent.vue'));
 const i18n = usei18n();
 
 type Item = {

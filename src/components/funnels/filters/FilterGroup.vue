@@ -62,7 +62,6 @@
             <div class="pf-l-flex">
                 <PropertySelect
                     :is-open-mount="false"
-                    :placement="'right-start'"
                     @select="addFilterToGroup"
                 >
                     <UiButton
@@ -121,8 +120,8 @@ const eventRefs = computed(() => {
         return step.events.map(event => {
             return event.event
         })
-    }).flat()
-})
+    }).flat();
+});
 
 const filterGroup = computed<FilterGroup | null>(() => {
     return filterGroupsStore.filterGroups[props.index] ?? null;

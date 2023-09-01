@@ -13,16 +13,13 @@
         />
         <div class="live-stream-event-popup__content">
             <UiTable
-                v-if="items?.length"
                 :compact="true"
                 :items="items"
                 :columns="columns"
                 :show-toolbar="false"
+                :no-data-text="noDataText"
+                :is-loading="props?.loading"
                 @on-action="onActionProperty"
-            />
-            <DataEmptyPlaceholder
-                v-else-if="!props.loading"
-                :content="noDataText"
             />
         </div>
     </UiPopupWindow>

@@ -46,7 +46,7 @@
     "castom": "Castom",
     "list_of": "List of :types",
     "columns": "columns",
-    "no_data": "No data",
+    "noData": "No data",
     "fillField": "Please fill in this field",
     "calendar": {
       "last": "Last",

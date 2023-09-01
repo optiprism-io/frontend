@@ -85,7 +85,7 @@
         </div>
         <DataEmptyPlaceholder
             v-if="isNoData"
-            :content="$t('common.no_data') "
+            :content="$t('common.noData') "
         />
         <div
             v-else

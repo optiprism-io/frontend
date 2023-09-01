@@ -29,7 +29,6 @@
                     :event-ref="eventRef"
                     :update-open="updateOpen"
                     :disabled-items="selectedItems"
-                    :placement="'right-start'"
                     @select="changeProperty"
                 >
                     <UiButton

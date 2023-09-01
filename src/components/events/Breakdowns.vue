@@ -14,7 +14,6 @@
             <PropertySelect
                 :event-refs="eventRefs"
                 :disabled-items="breakdowns"
-                :placement="'right-start'"
                 @select="addBreakdown"
             >
                 <UiButton

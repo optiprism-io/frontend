@@ -5,7 +5,6 @@
             :items="lexiconStore.eventsList"
             :width-auto="true"
             :auto-hide="autoHideEvent"
-            :placement="'right-start'"
             @select="changeEvent"
             @action="selectAction"
             @edit="edit"
