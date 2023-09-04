@@ -9,15 +9,14 @@
 </template>
 
 <script lang="ts" setup>
-import { inject } from 'vue';
 import axios from 'axios';
 import { useAuthStore } from '@/stores/auth/auth';
 import { useAlertsStore } from '@/stores/alerts';
 import { ErrorResponse } from '@/api';
-import { I18N } from '@/utils/i18n';
 import UiAlertGroup from './components/uikit/UiAlertGroup.vue';
+import usei18n from '@/hooks/useI18n';
 
-const { $t } = inject('i18n') as I18N;
+const { t } = usei18n();
 const authStore = useAuthStore();
 const alertsStore = useAlertsStore();
 
@@ -30,7 +29,7 @@ const createErrorGeneral = (res: ErrorResponse) => {
         alertsStore.createAlert({
             id: ERROR_INTERNAL_ID,
             type: 'danger',
-            text: res?.message ?? $t('errors.internal'),
+            text: res?.message ?? t('errors.internal'),
         });
     }
 };

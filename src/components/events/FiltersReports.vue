@@ -22,6 +22,7 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
+import { debounce } from 'lodash';
 import UiCardTitle from '@/components/uikit/UiCard/UiCardTitle.vue';
 import UiCardBody from '@/components/uikit/UiCard/UiCardBody.vue';
 import FilterGroupsList from '@/components/funnels/filters/FilterGroupsList.vue';
@@ -33,6 +34,10 @@ import usei18n from '@/hooks/useI18n';
 const filterGroupsStore = useFilterGroupsStore();
 const { t } = usei18n();
 const { confirm } = useConfirm();
+
+const emit = defineEmits<{
+    (e: 'on-change'): void
+}>();
 
 const isFiltersAdvanced = computed(() => filterGroupsStore.isFiltersAdvanced);
 
@@ -61,4 +66,18 @@ const onBeforeChangeFiltersType = async (e: Event) => {
 const onChangeFiltersType = () => {
     filterGroupsStore.isFiltersAdvanced = !filterGroupsStore.isFiltersAdvanced;
 };
+
+const onChange = () => {
+    emit('on-change');
+};
+
+const onChangeDebounce = debounce(() => {
+    onChange();
+}, 1100);
+
+filterGroupsStore.$subscribe((mutation) => {
+    if (mutation.type === 'direct') {
+        onChangeDebounce();
+    }
+});
 </script>

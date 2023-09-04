@@ -29,7 +29,7 @@
                             :class="[props.forPreview ? 'pf-m-control pf-m-small' : 'pf-m-secondary']"
                             :disabled="props.forPreview"
                         >
-                            {{ eventName(eventRef) }}
+                            {{ getEventName(eventRef) }}
                         </UiButton>
                         <template
                             v-if="hoveredCustomEventId"
@@ -236,10 +236,15 @@ const emit = defineEmits<{
 
   (e: 'setEvent', payload: EventPayload): void
   (e: 'action', payload: string): void
-  (e: 'edit', payload: number): void
+  (e: 'edit', payload: number): void,
+  (e: 'on-change'): void,
 }>();
 
-const {hoveredCustomEventDescription, hoveredCustomEventId, onHoverEvent} = useCustomEvent()
+const {
+    hoveredCustomEventDescription,
+    hoveredCustomEventId,
+    onHoverEvent
+} = useCustomEvent();
 const lexiconStore = useLexiconStore();
 
 const updateOpenBreakdown = ref(false);
@@ -281,7 +286,6 @@ const removeEvent = (): void => {
 
 const removeFilter = (filterIdx: number): void => {
     const event = props.event;
-
     event.filters.splice(filterIdx, 1);
 };
 
@@ -340,21 +344,18 @@ const changeFilterProperty = async (filterIdx: number, propRef: PropertyRef) => 
 
 const changeFilterOperation = (filterIdx: number, opId: OperationId) => {
     const event = props.event
-
-    event.filters[filterIdx].opId = opId
-    event.filters[filterIdx].values = []
+    event.filters[filterIdx].opId = opId;
+    event.filters[filterIdx].values = [];
 }
 
 const addFilterValue = (filterIdx: number, value: Value): void => {
     const event = props.event
-
-    event.filters[filterIdx].values.push(value)
+    event.filters[filterIdx].values.push(value);
 }
 
 const removeFilterValue = (filterIdx: number, value: Value): void => {
-    const event = props.event
-
-    event.filters[filterIdx].values = props.event.filters[filterIdx].values.filter(v => v !== value)
+    const event = props.event;
+    event.filters[filterIdx].values = props.event.filters[filterIdx].values.filter(v => v !== value);
 };
 
 const addBreakdown = async (propRef: PropertyRef): Promise<void> => {
@@ -370,7 +371,7 @@ const removeBreakdown = (breakdownIdx: number): void => {
     emit('removeBreakdown', props.index, breakdownIdx);
 };
 
-const eventName = (ref: EventRef): string => {
+const getEventName = (ref: EventRef): string => {
     const eventName = useEventName()
     switch (ref.type) {
         case EventType.Regular:
@@ -378,7 +379,6 @@ const eventName = (ref: EventRef): string => {
         case EventType.Custom:
             return lexiconStore.findCustomEventById(ref.id).name
     }
-    throw new Error('unhandled');
 };
 
 const removeQuery = (idx: number): void => {

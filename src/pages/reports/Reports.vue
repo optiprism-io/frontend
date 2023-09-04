@@ -190,8 +190,8 @@ const onSaveReport = async () => {
             query: route.query,
         })
     }
-    await reportsStore.getList()
-    reportsStore.updateDump(reportType.value)
+    await reportsStore.getList();
+    reportsStore.updateDump(reportType.value);
 }
 
 const setNameReport = (payload: string) => {
@@ -224,10 +224,12 @@ const onSelectTab = () => {
 }
 
 const updateReport = async (id: number) => {
-    await reportToStores(Number(id))
-    reportName.value = reportsStore.activeReport?.name ?? t('reports.untitledReport')
-    reportsStore.updateDump(reportType.value)
-}
+    reportsStore.loading = true;
+    await reportToStores(Number(id));
+    reportName.value = reportsStore.activeReport?.name ?? t('reports.untitledReport');
+    reportsStore.updateDump(reportType.value);
+    reportsStore.loading = false;
+};
 
 const onSelectReport = async (id: number) => {
     await updateReport(id);
@@ -237,7 +239,7 @@ const onSelectReport = async (id: number) => {
         },
         query: route.query,
     });
-}
+};
 
 const initReportPage = async () => {
     const reportId =
