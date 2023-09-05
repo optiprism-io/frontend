@@ -14,11 +14,18 @@
             </UiCardContainer>
         </template>
     </ToolsLayout>
+    <UserPropertyPopup
+        v-if="lexiconStore.userPropertyPopup"
+        :property="editProperty"
+        @apply="userPropertyPopupApply"
+        @cancel="userPropertyPopupCancel"
+    />
 </template>
 
 <script setup lang="ts" name="Properties">
-import { computed, onMounted } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { useLexiconStore } from '@/stores/lexicon';
+import { useCommonStore } from '@/stores/common';
 import ToolsLayout from '@/layout/tools/ToolsLayout.vue';
 import UiCardContainer from '@/components/uikit/UiCard/UiCardContainer.vue';
 import UiTablePressedCell from '@/components/uikit/UiTable/UiTablePressedCell.vue';
@@ -27,12 +34,14 @@ import UiCellToolMenu from '@/components/uikit/cells/UiCellToolMenu.vue';
 import { Property } from '@/api';
 import { Action, Row }  from '@/components/uikit/UiTable/UiTable';
 import usei18n from '@/hooks/useI18n';
+import UserPropertyPopup, { ApplyPayload } from '@/components/events/UserPropertyPopup.vue';
 
-const lexiconStore = useLexiconStore();
 const { t } = usei18n();
+const lexiconStore = useLexiconStore();
+const commonStore = useCommonStore();
 
 const columns = computed(() => {
-    return ['name', 'displayName', 'description', 'tags', 'status'].map(key => {
+    return ['name', 'displayName', 'description', 'tags', 'status', 'action'].map(key => {
         const isAction = key === 'action'
 
         return {
@@ -51,6 +60,11 @@ const items = computed(() => {
                 key: 'name',
                 title: property.name,
                 nowrap: true,
+                component: UiTablePressedCell,
+                action: {
+                    type: Number(property.id),
+                    name: 'edit',
+                },
             },
             {
                 key: 'displayName',
@@ -72,16 +86,58 @@ const items = computed(() => {
                 key: 'status',
                 title: property.status,
             },
-        ]
-    })
-})
+            {
+                title: 'action',
+                key: 'action',
+                value: Number(property.id),
+                component: UiCellToolMenu,
+                items: [
+                    {
+                        label: t('events.editProperty'),
+                        value: 'edit',
+                    },
+                ],
+                type: 'action'
+            },
+        ];
+    });
+});
+
+const editProperty = ref<Property | null>(null);
+const popupLoading = ref(false);
+
+const setStatePopup = (payload: boolean) => {
+    lexiconStore.userPropertyPopup = payload;
+};
 
 const onAction = (payload: Action) => {
-    // TODO
+    if (payload?.name === 'edit' && typeof payload.type === 'number') {
+        const property = lexiconStore.findUserPropertyById(payload.type);
+        if (property) {
+            commonStore.editEventPropertyPopupId = Number(payload.type) || null
+            editProperty.value = property;
+            setStatePopup(true);
+        }
+    }
 };
 
 const updateData = () => {
     lexiconStore.getUserProperties();
+};
+
+const userPropertyPopupApply = async (payload: ApplyPayload) => {
+    popupLoading.value = true
+    await lexiconStore.updateUserProperty(payload);
+    popupLoading.value = false
+    commonStore.editEventPropertyPopupId = null;
+    updateData();
+    setStatePopup(false);
+    editProperty.value = null;
+};
+
+const userPropertyPopupCancel = () => {
+    setStatePopup(false);
+    editProperty.value = null;
 };
 
 onMounted(() => {

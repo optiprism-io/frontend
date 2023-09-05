@@ -232,7 +232,7 @@ const mapReportToFilterGroups = async (items: EventGroupedFiltersGroupsInner[]):
 }
 
 const mapReportToSegments = async (items: EventSegmentationSegment[]): Promise<Segment[]> => {
-    const lexiconStore = useLexiconStore()
+    const lexiconStore = useLexiconStore();
 
     return await Promise.all(items.map(async (item): Promise<Segment> => {
         return {

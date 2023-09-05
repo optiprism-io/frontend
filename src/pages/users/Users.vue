@@ -41,7 +41,6 @@ const items = computed(() => ([
 
 onMounted(() => {
     lexiconStore.getEventProperties();
-    lexiconStore.getUserProperties();
 });
 </script>
 

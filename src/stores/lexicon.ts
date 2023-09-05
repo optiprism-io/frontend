@@ -1,3 +1,4 @@
+// import { ref, computed } from 'vue';
 import {defineStore} from 'pinia';
 import schemaService from '@/api/services/schema.service';
 import {
@@ -10,6 +11,7 @@ import {
     UserCustomProperty,
     EventQueryRef,
 } from '@/types/events';
+import { $T, $TKeyExists } from '@/utils/i18n';
 import { Cohort } from '@/types';
 import { aggregates } from '@/types/aggregate'
 import { Group, Item } from '@/components/Select/SelectTypes';
@@ -29,6 +31,10 @@ import useI18n from '@/hooks/useI18n';
 import { errorHandler } from '@/helpers/errorHandlerHelper';
 
 type Lexicon = {
+    i18n: {
+        t: $T,
+        keyExists: $TKeyExists,
+    },
     cohorts: Cohort[];
 
     events: Event[];
@@ -39,6 +45,7 @@ type Lexicon = {
     eventCustomProperties: CustomProperty[];
     eventPropertiesLoading: boolean;
 
+    userPropertyPopup: boolean;
     userProperties: Property[];
     userCustomProperties: UserCustomProperty[];
     userPropertiesLoading: boolean;
@@ -46,6 +53,7 @@ type Lexicon = {
 
 export const useLexiconStore = defineStore('lexicon', {
     state: (): Lexicon => ({
+        i18n: useI18n(),
         cohorts: [
             {
                 id: 1,
@@ -60,7 +68,6 @@ export const useLexiconStore = defineStore('lexicon', {
                 name: 'Profitable users'
             }
         ],
-
         eventsLoading: false,
         events: [],
         customEvents: [],
@@ -69,11 +76,15 @@ export const useLexiconStore = defineStore('lexicon', {
         eventProperties: [],
         eventCustomProperties: [],
 
+        userPropertyPopup: false,
         userPropertiesLoading: false,
         userProperties: [],
         userCustomProperties: [],
     }),
     actions: {
+        getI18n() {
+            return
+        },
         deleteCustomEvent(payload: number) {
             const indexEvent = this.customEvents.findIndex(event => event.id === payload)
             this.customEvents.splice(indexEvent, 1)
@@ -176,9 +187,7 @@ export const useLexiconStore = defineStore('lexicon', {
             try {
                 const res = await schemaService.userProperties(commonStore.organizationId, commonStore.projectId);
 
-                if (res.data.data) {
-                    this.userProperties = res.data.data
-                }
+                this.userProperties = Array.isArray(res?.data?.data) ? res?.data?.data : [];
             } catch (error) {
                 throw new Error('error getUserProperties');
             }
@@ -356,7 +365,6 @@ export const useLexiconStore = defineStore('lexicon', {
             };
         },
         eventsList(state: Lexicon) {
-            const { t } = useI18n();
             const eventsList: Group<Item<EventRef, null>[]>[] = [];
             const eventsListCustom: Item<EventRef, null>[] = [];
 
@@ -421,8 +429,8 @@ export const useLexiconStore = defineStore('lexicon', {
                             id: 0,
                             name: '',
                         },
-                        name: t('events.noEvents'),
-                        description: t('events.noEventsText'),
+                        name: this.i18n.t('events.noEvents'),
+                        description: this.i18n.t('events.noEventsText'),
                         editable: false,
                         noSelected: true,
                     }],

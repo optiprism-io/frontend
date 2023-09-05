@@ -118,7 +118,12 @@ export default function ({ environment = 'development', isSeed = true } = {}) {
             })
 
             this.get(`${BASE_PATH}/v1/organizations/:organization_id/projects/:project_id/schema/user-properties`, (schema) => {
-                return { data: schema.db.userProperties }
+                return {
+                    data: schema.db.userProperties.map(item => ({
+                        ...item,
+                        id: Number(item.id),
+                    })),
+                };
             }, { timing: getRandomTiming() })
 
             this.put(`${BASE_PATH}/v1/organizations/:organization_id/projects/:project_id/schema/user-properties/:property_id`, (schema, request) => {
