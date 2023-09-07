@@ -135,7 +135,7 @@
 
 <script lang="ts" setup name="UiTable">
 import { computed, inject, useSlots, ref } from 'vue';
-import {Row, Column, Action, ColumnGroup} from '@/components/uikit/UiTable/UiTable';
+import { Row, Column, Action, ColumnGroup } from '@/components/uikit/UiTable/UiTable';
 import UiTableHeadCell from '@/components/uikit/UiTable/UiTableHeadCell.vue';
 import UiTableCell from '@/components/uikit/UiTable/UiTableCell.vue';
 import UiTableCellWrapper from '@/components/uikit/UiTable/UiTableCellWrapper.vue';
@@ -156,7 +156,7 @@ type Props = {
     showToolbar?: boolean
     noDataTitle?: string
     noDataText?: string
-}
+};
 
 const props = withDefaults(defineProps<Props>(), {
     items: () => [],
@@ -218,7 +218,6 @@ const toggleColumns = (payload: string) => {
         disabledColumns.value.push(payload)
     }
 }
-
 </script>
 
 <style lang="scss">
