@@ -80,7 +80,7 @@ const getEventSegmentation = async () => {
             eventSegmentation.value = res.data as DataTableResponse;
         }
     } catch (error) {
-        throw new Error('error event segmentation');
+        console.log('error event segmentation');
     }
     eventSegmentationLoading.value = false;
 };

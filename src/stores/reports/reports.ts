@@ -85,14 +85,14 @@ export const useReportsStore = defineStore('reports', {
             this.reportDump = JSON.stringify(getReport(type))
         },
         async getList() {
-            const commonStore = useCommonStore()
+            const commonStore = useCommonStore();
             try {
                 const res = await reportsService.reportsList(commonStore.organizationId, commonStore.projectId)
                 if (res.data?.data) {
                     this.list = res.data.data
                 }
             } catch (e) {
-                throw new Error('error reportsList');
+                console.log('error reportsList');
             }
         },
         async createReport(name: string, type: ReportType) {
@@ -108,7 +108,7 @@ export const useReportsStore = defineStore('reports', {
                     this.reportId = Number(res.data.id)
                 }
             } catch (e) {
-                throw new Error('error reportsList');
+                console.log('error reportsList');
             }
 
             this.saveLoading = false

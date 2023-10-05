@@ -24,22 +24,22 @@ const ERROR_INTERNAL_ID = 'Internal';
 
 const closeAlert = (id: string) => alertsStore.closeAlert(id);
 
-const createErrorGeneral = (res: ErrorResponse) => {
-    if (!alertsStore.items.find(item => item.id === ERROR_INTERNAL_ID)) {
-        alertsStore.createAlert({
-            id: ERROR_INTERNAL_ID,
-            type: 'danger',
-            text: res?.message ?? t('errors.internal'),
-        });
-    }
+const createErrorGeneral = (res: ErrorResponse, text?: string) => {
+    alertsStore.createAlert({
+        time: 5000,
+        type: 'danger',
+        text: text ?? res?.message ?? t('errors.internal'),
+    });
 };
 
 axios.interceptors.response.use(res => res, async err => {
-    console.log(`ERROR: code '${err?.code}', message: '${err?.message}', url: '${err?.config?.url}'`);
+    const code = err?.code || err?.response?.status || err?.error?.status;
+    const error = `ERROR: code '${code}', message: '${err?.message}', url: '${err?.config?.url}'`;
 
     if (err?.response) {
         if (err.code === 'ERR_NETWORK') {
-            createErrorGeneral(err.response);
+            createErrorGeneral(err.response, error);
+            return Promise.reject(err);
         }
         switch (err?.response?.status || err?.error?.status) {
             case 400:
@@ -126,5 +126,8 @@ axios.interceptors.response.use(res => res, async err => {
     top: 30px;
     right: 30px;
     z-index: 1000;
+    max-width: 550px;
+    max-height: calc(100vh - 50px);
+    overflow: auto;
 }
 </style>

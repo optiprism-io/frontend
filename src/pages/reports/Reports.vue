@@ -177,7 +177,7 @@ const onDeleteReport = async () => {
     }
 }
 
-const onSaveReport = async () => {
+const onCreateReport = async () => {
     if (reportsStore.reportId) {
         await reportsStore.editReport(reportName.value, reportType.value)
     } else {
@@ -190,6 +190,10 @@ const onSaveReport = async () => {
             query: route.query,
         })
     }
+}
+
+const onSaveReport = async () => {
+    onCreateReport();
     await reportsStore.getList();
     reportsStore.updateDump(reportType.value);
 }
@@ -248,7 +252,7 @@ const initReportPage = async () => {
     if (reportId) {
         await onSelectReport(Number(reportId));
     } else {
-        await setNew();
+        await onCreateReport();
     }
 
     reportsStore.loading = false;

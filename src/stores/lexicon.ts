@@ -102,7 +102,7 @@ export const useLexiconStore = defineStore('lexicon', {
                     }
                 }
             } catch (e) {
-                throw new Error('error update event property')
+                console.log('error update event property');
             }
         },
         async updateUserProperty(payload: ApplyPayload) {
@@ -161,7 +161,7 @@ export const useLexiconStore = defineStore('lexicon', {
                     this.customEvents = <CustomEvent[]>responseCustomEvents.data?.data || [];
                 }
             } catch (error) {
-                throw new Error('error customEvents')
+                console.log('error customEvents')
             }
 
             this.eventsLoading = false
@@ -170,15 +170,20 @@ export const useLexiconStore = defineStore('lexicon', {
             const commonStore = useCommonStore()
 
             this.eventPropertiesLoading = true
-            const res = await schemaService.eventProperties(commonStore.organizationId, commonStore.projectId)
-            if (res?.data?.data) {
-                this.eventProperties = res.data.data
+            try {
+                const res = await schemaService.eventProperties(commonStore.organizationId, commonStore.projectId)
+                if (res?.data?.data) {
+                    this.eventProperties = res.data.data
+                }
+
+                const resCustom = await schemaService.eventCustomProperties(commonStore.organizationId, commonStore.projectId);
+                if (resCustom?.data?.events) {
+                    this.eventCustomProperties = resCustom.data.events;
+                }
+            } catch(e) {
+                console.log('error getEventProperties');
             }
 
-            const resCustom = await schemaService.eventCustomProperties(commonStore.organizationId, commonStore.projectId);
-            if (resCustom?.data?.events) {
-                this.eventCustomProperties = resCustom.data.events;
-            }
             this.eventPropertiesLoading = false;
         },
         async getUserProperties() {
@@ -189,7 +194,7 @@ export const useLexiconStore = defineStore('lexicon', {
 
                 this.userProperties = Array.isArray(res?.data?.data) ? res?.data?.data : [];
             } catch (error) {
-                throw new Error('error getUserProperties');
+                console.log('error getUserProperties');
             }
             this.eventPropertiesLoading = false;
         },
