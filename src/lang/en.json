@@ -14,7 +14,11 @@
   },
 
   "userMenu": {
-    "logout": "Logout"
+    "personalSettings": "Personal Settings",
+    "orgranizationSettings": "Orgranization Settings",
+    "projectSettings": "Project settings",
+    "integrateOptiPrism": "Integrate OptiPrism",
+    "logout": "Log Out"
   },
 
   "common": {

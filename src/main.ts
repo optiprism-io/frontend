@@ -27,7 +27,7 @@ app.use(i18nPlugin);
 
 const isEnabledMocks = localStorage.getItem('isEnabledMocks');
 if (import.meta.env.VITE_MOCK_API) {
-    if ((isEnabledMocks && Number(isEnabledMocks)) || !isEnabledMocks) {
+    if ((isEnabledMocks && Number(isEnabledMocks)) || !Number(isEnabledMocks)) {
         makeServer({ isSeed: localStorage.getItem('isEmptyMocks') !== '1' });
         localStorage.setItem('isEnabledMocks', '1');
     }

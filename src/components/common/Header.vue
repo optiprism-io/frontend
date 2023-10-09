@@ -48,12 +48,15 @@
                     </div>
                     <div class="pf-c-page__header-tools-item">
                         <UiDropdown
-                            class="pf-u-mr-md"
+                            class="pf-u-mr-lg"
                             :items="userMenu"
-                            :text-button="'User'"
+                            :text-button="''"
                             :transparent="true"
+                            :has-icon-arrow-button="false"
+                            :button-icon="'gear'"
+                            :placement-menu="'bottom-end'"
                             @select-value="selectUserMenu"
-                        />
+                        ></UiDropdown>
                     </div>
                 </div>
             </div>
@@ -78,15 +81,35 @@ const UiDropdown = GenericUiDropdown<string>()
 
 const userMenuMap = {
     LOGOUT: 'logout'
-}
+};
 
 const userMenu: UiDropdownItem<string>[] = [
     {
         key: 1,
-        value: userMenuMap.LOGOUT,
-        nameDisplay: i18n.$t(`userMenu.${userMenuMap.LOGOUT}`)
-    }
-]
+        value: '',
+        nameDisplay: i18n.$t('userMenu.personalSettings'),
+    },
+    {
+        key: 2,
+        value: '',
+        nameDisplay: i18n.$t('userMenu.orgranizationSettings')
+    },
+    {
+        key: 3,
+        value: '',
+        nameDisplay: i18n.$t('userMenu.projectSettings')
+    },
+    {
+        key: 4,
+        value: '',
+        nameDisplay: i18n.$t('userMenu.integrateOptiPrism')
+    },
+    {
+        key: 5,
+        value: 'logout',
+        nameDisplay: i18n.$t('userMenu.logout')
+    },
+];
 
 const selectUserMenu = (item: UiDropdownItem<string>) => {
     if (item.value === userMenuMap.LOGOUT) {

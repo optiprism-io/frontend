@@ -8,7 +8,7 @@ Startup and installation using standard commands from the vite (scripts in packa
 ## Info
 - Сoding style is based on rules from `.eslintrc.js`
 - Сheck with command before deployment: `$ yarn check:eslint && yarn check:vue-tsc`
-- For styles and html we use [Patternfly](https://www.patternfly.org/v4/) and [FloatingVue](https://github.com/Akryum/floating-vue) for floating elements such as popups, tooltips, dropdowns etc.
+- For styles and html templates use [Patternfly](https://www.patternfly.org/v4/) and [FloatingVue](https://github.com/Akryum/floating-vue) for floating elements such as popups, tooltips, dropdowns etc.
 
 ## Structure
  - **components** -
