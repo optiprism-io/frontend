@@ -46,7 +46,7 @@
 </template>
 
 <script lang="ts" setup>
-import {computed, onBeforeUnmount, onMounted, ref, watch} from 'vue'
+import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import FunnelChartStacked from '@/components/funnels/view/FunnelChartStacked.vue';
 import {useStepsStore} from '@/stores/funnels/steps';
 import {useEventName} from '@/helpers/useEventName';
@@ -139,7 +139,7 @@ const steps = computed(() => props.steps ?? stepsStore.steps)
 const stepNames = computed<string[]>(() => {
     const events = steps.value.map(step => step.events.map(event => event.event))
     return events.map(items => {
-        return items.map(eventName).join(' or ')
+        return items.map(item => item.name).join(' or ')
     })
 })
 
