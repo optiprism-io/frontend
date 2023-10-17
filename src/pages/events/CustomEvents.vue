@@ -51,7 +51,6 @@ import UiCellToolMenu from '@/components/uikit/cells/UiCellToolMenu.vue'
 import ConfirmPopup from '@/components/common/ConfirmPopup.vue'
 import ToolsLayout from '@/layout/tools/ToolsLayout.vue'
 import UiCardContainer from '@/components/uikit/UiCard/UiCardContainer.vue'
-import DataEmptyPlaceholder from '@/components/common/data/DataEmptyPlaceholder.vue';
 
 const i18n = inject<any>('i18n')
 const lexiconStore = useLexiconStore()

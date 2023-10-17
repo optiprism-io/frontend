@@ -43,15 +43,17 @@
             >
                 {{ $t('dashboards.delete') }}
             </UiButton>
-            <UiSelect
-                v-if="isShowDashboardContentAndControls && selectReportsList.length"
-                class="pf-u-ml-auto pf-u-mr-md dashboards__add-report"
-                :items="selectReportsList"
-                :text-button="t('dashboards.addReport')"
-                :placement="'bottom-end'"
-                :is-text-select="true"
-                @on-select="addReport"
-            />
+            <div class="pf-u-ml-auto">
+                <UiSelect
+                    v-if="isShowDashboardContentAndControls && selectReportsList.length"
+                    class=" pf-u-mr-md dashboards__add-report"
+                    :items="selectReportsList"
+                    :text-button="t('dashboards.addReport')"
+                    :placement="'bottom-end'"
+                    :is-text-select="true"
+                    @on-select="addReport"
+                />
+            </div>
         </div>
         <DataEmptyPlaceholder
             v-if="!isShowDashboardContentAndControls && !isLoading"

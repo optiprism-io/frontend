@@ -7,6 +7,7 @@
             :is-loading="liveStreamStore.loading"
             :items="tableData"
             :columns="tableColumnsValues"
+            :no-data-text="$t('events.noEventsText')"
             @on-action="onAction"
         >
             <template #before>
@@ -72,10 +73,6 @@
                 </div>
             </template>
         </UiTable>
-        <DataEmptyPlaceholder
-            v-if="liveStreamStore.isNoData"
-            :content="$t('events.noEventsText')"
-        />
         <LiveStreamEventPopup
             v-if="liveStreamStore.eventPopup"
             :name="eventPopupName"

@@ -9,11 +9,8 @@
                     :items="items"
                     :columns="columns"
                     :show-select-columns="true"
+                    :no-data-text="$t('events.noEventsText')"
                     @on-action="onAction"
-                />
-                <DataEmptyPlaceholder
-                    v-if="!items.length"
-                    :content="$t('events.noEventsText')"
                 />
             </UiCardContainer>
         </template>
