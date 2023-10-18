@@ -158,6 +158,44 @@ const items = computed(() => {
         }, [])];
     }
 
+    if (!props.eventRef && !props.eventRefs) {
+        if (lexiconStore.eventProperties.length) {
+            const items: Item<PropertyRef, null>[] = [];
+            lexiconStore.eventProperties.forEach((prop: Property): void => {
+                const propertyRef: PropertyRef = {
+                    type: PropertyType.Event,
+                    id: prop.id
+                };
+
+                items.push({
+                    item: propertyRef,
+                    name: prop.name,
+                    disabled: checkDisable(propertyRef),
+                    description: prop?.description
+                });
+            });
+            ret.push({ name: 'Event Properties', items: items });
+        }
+
+        if (lexiconStore.userProperties.length) {
+            const items: Item<PropertyRef, null>[] = [];
+            lexiconStore.userProperties.forEach((prop: Property): void => {
+                const propertyRef: PropertyRef = {
+                    type: PropertyType.User,
+                    id: prop.id
+                };
+
+                items.push({
+                    item: propertyRef,
+                    name: prop.name,
+                    disabled: checkDisable(propertyRef),
+                    description: prop?.description
+                });
+            });
+            ret.push({ name: 'User Properties', items: items });
+        }
+    }
+
     return ret;
 });
 
