@@ -23,6 +23,13 @@
             @apply="eventManagementPopupApply"
             @cancel="eventManagementPopupCancel"
             @on-action-property="onActionProperty"
+            @on-action-user-property="onActiononUserProperty"
+        />
+        <UserPropertyPopup
+            v-if="lexiconStore.userPropertyPopup"
+            :property="editProperty"
+            @apply="userPropertyPopupApply"
+            @cancel="userPropertyPopupCancel"
         />
     </section>
 </template>
@@ -35,6 +42,7 @@ import { useLiveStreamStore } from '@/stores/reports/liveStream'
 import { useCommonStore, PropertyTypeEnum } from '@/stores/common'
 import EventPropertyPopup, { ApplyPayload } from '@/components/events/EventPropertyPopup.vue'
 import EventManagementPopup, { ApplyPayload as ApplyPayloadEvent } from '@/components/events/EventManagementPopup.vue';
+import UserPropertyPopup, { ApplyPayload as ApplyPayloadUser } from '@/components/events/UserPropertyPopup.vue';
 import { Action } from '@/components/uikit/UiTable/UiTable'
 import navPagesConfig from '@/configs/events/navPages.json'
 import { pagesMap } from '@/router'
@@ -47,6 +55,8 @@ const commonStore = useCommonStore()
 
 const propertyPopupLoading = ref(false)
 const eventManagementPopupLoading = ref(false)
+const editProperty = ref<Property | null>(null);
+const popupLoading = ref(false);
 
 const items = computed(() => {
     return navPagesConfig.map(item => {
@@ -170,7 +180,34 @@ const onActionProperty = (payload: Action) => {
     commonStore.showEventManagementPopup = false
     commonStore.showEventPropertyPopup = true
 }
+
+
+const onActiononUserProperty = (payload: ApplyPayloadEvent) => {
+    if (typeof payload.type === 'number') {
+        commonStore.toggleEventManagementPopup(false)
+        const property = lexiconStore.findUserPropertyById(payload.type);
+
+        if (property) {
+            commonStore.editEventPropertyPopupId = Number(payload.type) || null;
+            editProperty.value = property;
+            lexiconStore.userPropertyPopup = true;
+        }
+    }
+};
+
+const userPropertyPopupApply = async (payload: ApplyPayloadUser) => {
+    popupLoading.value = true
+    await lexiconStore.updateUserProperty(payload);
+    popupLoading.value = false
+    commonStore.editEventPropertyPopupId = null;
+    lexiconStore.userPropertyPopup = false;
+    editProperty.value = null;
+};
+
+const userPropertyPopupCancel = () => {
+    lexiconStore.userPropertyPopup = false;
+};
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 </style>

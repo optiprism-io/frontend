@@ -114,7 +114,7 @@ const onAction = (payload: Action) => {
     if (payload?.name === 'edit' && typeof payload.type === 'number') {
         const property = lexiconStore.findUserPropertyById(payload.type);
         if (property) {
-            commonStore.editEventPropertyPopupId = Number(payload.type) || null
+            commonStore.editEventPropertyPopupId = Number(payload.type) || null;
             editProperty.value = property;
             setStatePopup(true);
         }

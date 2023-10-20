@@ -35,7 +35,7 @@
                 :items="itemsUserProperties"
                 :columns="columnsProperties"
                 :show-toolbar="false"
-                @on-action="onAction"
+                @on-action="onActionUserProperty"
             />
             <DataEmptyPlaceholder
                 v-if="noData"
@@ -91,10 +91,11 @@ const props = withDefaults(defineProps<Props>(), {
 })
 
 const emit = defineEmits<{
-    (e: 'cancel'): void
-    (e: 'apply', payload: ApplyPayload): void
-    (e: 'on-action-property', payload: Action): void
-}>()
+    (e: 'cancel'): void,
+    (e: 'apply', payload: ApplyPayload): void,
+    (e: 'on-action-property', payload: Action): void,
+    (e: 'on-action-user-property', payload: ApplyPayload): void,
+}>();
 
 const activeTab = ref('event')
 
@@ -238,7 +239,11 @@ const onInputEventItem = async (payload: ActionPayload) => {
     }
 }
 
+const onActionUserProperty = (payload: ActionPayload) => {
+    emit('on-action-user-property', payload);
+};
+
 const onActionProperty = (payload: Action) => {
-    emit('on-action-property', payload)
-}
+    emit('on-action-property', payload);
+};
 </script>
