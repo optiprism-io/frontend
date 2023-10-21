@@ -33,6 +33,15 @@
                     {{ textValue }}
                 </span>
                 <span
+                    v-if="buttonIconClass"
+                    class="pf-c-dropdown__icon"
+                >
+                    <i
+                        :class="buttonIconClass"
+                        aria-hidden="true"
+                    />
+                </span>
+                <span
                     v-if="hasIconArrowButton"
                     class="pf-c-dropdown__toggle-icon"
                 >
@@ -126,6 +135,10 @@ class UiDropdownFactory<T = unknown> {
                 },
                 isCompact: Boolean as PropType<boolean>,
                 transparent: Boolean as PropType<boolean>,
+                buttonIcon: {
+                    type: String as PropType<string>,
+                    default: '',
+                },
             },
             emits: {
                 deselectValue: (payload: UiDropdownItem<T>) => payload,
@@ -137,6 +150,10 @@ class UiDropdownFactory<T = unknown> {
                 const textValue = computed(() => {
                     return props.textButton ? props.textButton : props.placeholder;
                 })
+
+                const buttonIconClass = computed(() => {
+                    return props.buttonIcon ? `fas fa-${props.buttonIcon}` : '';
+                });
 
                 const onClick = (item: UiDropdownItem<T>) => {
                     emit('selectValue', item);
@@ -153,6 +170,7 @@ class UiDropdownFactory<T = unknown> {
                 return {
                     isOpen,
                     textValue,
+                    buttonIconClass,
                     onClick,
                     onHide,
                     onToggle,

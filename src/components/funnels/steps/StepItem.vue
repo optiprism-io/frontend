@@ -31,7 +31,9 @@
                         </VTooltip>
                     </UiActionListItem>
 
-                    <UiActionListItem>
+                    <UiActionListItem
+                        v-if="isShowAddFilter"
+                    >
                         <VTooltip class="ui-hint">
                             <UiIcon
                                 icon="fas fa-filter"
@@ -46,7 +48,7 @@
                     <UiActionListItem>
                         <VTooltip class="ui-hint">
                             <UiIcon
-                                icon="fas fa-trash"
+                                icon="fas fa-times"
                                 @click="deleteEventFromStep(i)"
                             />
                             <template #popper>
@@ -55,7 +57,6 @@
                         </VTooltip>
                     </UiActionListItem>
                 </UiActionList>
-
                 <Filter
                     v-for="(filter, idx) in event.filters"
                     :key="idx"
@@ -74,27 +75,24 @@
 </template>
 
 <script lang="ts" setup>
-import {useStepsStore} from '@/stores/funnels/steps';
+import { PropType, watch, computed } from 'vue';
+import { useStepsStore } from '@/stores/funnels/steps';
+import { useLexiconStore } from '@/stores/lexicon';
 import CommonIdentifier from '@/components/common/identifier/CommonIdentifier.vue';
-import {PropType, watch} from 'vue';
 import {Step} from '@/types/steps';
-import {useEventsStore} from '@/stores/eventSegmentation/events';
 import UiActionList from '@/components/uikit/UiActionList/UiActionList.vue';
 import {useEventName} from '@/helpers/useEventName';
 import {EventRef, PropertyRef} from '@/types/events';
-import {useLexiconStore} from '@/stores/lexicon';
 import EventSelector from '@/components/events/Events/EventSelector.vue';
 import UiActionListItem from '@/components/uikit/UiActionList/UiActionListItem.vue';
 import {OperationId, Value} from '@/types';
 import Filter from '@/components/events/Filter.vue';
-import schemaService from '@/api/services/schema.service';
 import {useFilter} from '@/hooks/useFilter';
 
-const lexiconStore = useLexiconStore();
-const eventsStore = useEventsStore();
 const stepsStore = useStepsStore();
-const eventName = useEventName()
-const { getValues } = useFilter()
+const lexiconStore = useLexiconStore();
+const eventName = useEventName();
+const { getValues } = useFilter();
 
 const props = defineProps({
     index: {
@@ -106,6 +104,10 @@ const props = defineProps({
         required: true,
     }
 })
+
+const isShowAddFilter = computed(() => {
+    return lexiconStore.propertiesLength;
+});
 
 const addStepToEvent = (index: number, event: EventRef): void => {
     stepsStore.addEventToStep({index, event})

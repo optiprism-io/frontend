@@ -1,11 +1,6 @@
 <template>
     <section class="pf-c-page__main-section reports">
-        <UiTabs
-            class="pf-u-mb-md"
-            :items="items"
-            @on-select="onSelectTab"
-        />
-        <div class="pf-u-mb-sm pf-u-display-flex pf-u-justify-content-space-between pf-u-align-items-center">
+        <div class="pf-u-display-flex pf-u-align-items-center">
             <UiSelect
                 v-if="!editableNameReport"
                 class="reports__select pf-u-mr-md"
@@ -40,7 +35,7 @@
             </UiButton>
             <UiButton
                 class="pf-m-link pf-m-danger"
-                :before-icon="'fas fa-trash'"
+                :before-icon="'fas fa-times'"
                 @click="onDeleteReport"
             >
                 {{ $t('reports.delete') }}
@@ -52,6 +47,11 @@
                 @input="(value: boolean) => commonStore.syncReports = value"
             />
         </div>
+        <UiTabs
+            class="pf-u-w-100 pf-u-mb-lg"
+            :items="items"
+            @on-select="onSelectTab"
+        />
         <div
             v-if="reportsStore.loading"
             class="pf-u-h-66vh pf-u-display-flex pf-u-align-items-center pf-u-justify-content-center"
@@ -167,7 +167,7 @@ const onDeleteReport = async () => {
             cancelButton: t('common.cancel'),
             title: t('reports.delete'),
             applyButtonClass: 'pf-m-danger',
-        })
+        });
 
         reportsStore.deleteReport(reportsStore.reportId)
         setNew();
@@ -177,7 +177,7 @@ const onDeleteReport = async () => {
     }
 }
 
-const onSaveReport = async () => {
+const onCreateReport = async () => {
     if (reportsStore.reportId) {
         await reportsStore.editReport(reportName.value, reportType.value)
     } else {
@@ -186,11 +186,16 @@ const onSaveReport = async () => {
         router.push({
             params: {
                 id: reportsStore.reportId,
-            }
+            },
+            query: route.query,
         })
     }
-    await reportsStore.getList()
-    reportsStore.updateDump(reportType.value)
+}
+
+const onSaveReport = async () => {
+    onCreateReport();
+    await reportsStore.getList();
+    reportsStore.updateDump(reportType.value);
 }
 
 const setNameReport = (payload: string) => {
@@ -223,19 +228,22 @@ const onSelectTab = () => {
 }
 
 const updateReport = async (id: number) => {
-    try {
-        await reportToStores(Number(id))
-    } catch(e) {
-        throw new Error('cannot update report');
-    }
-    reportName.value = reportsStore.activeReport?.name ?? t('reports.untitledReport')
-    reportsStore.updateDump(reportType.value)
-}
+    reportsStore.loading = true;
+    await reportToStores(Number(id));
+    reportName.value = reportsStore.activeReport?.name ?? t('reports.untitledReport');
+    reportsStore.updateDump(reportType.value);
+    reportsStore.loading = false;
+};
 
 const onSelectReport = async (id: number) => {
     await updateReport(id);
-    router.push({ params: { id } });
-}
+    router.push({
+        params: {
+            id
+        },
+        query: route.query,
+    });
+};
 
 const initReportPage = async () => {
     const reportId =
@@ -244,7 +252,7 @@ const initReportPage = async () => {
     if (reportId) {
         await onSelectReport(Number(reportId));
     } else {
-        await setNew();
+        await onCreateReport();
     }
 
     reportsStore.loading = false;

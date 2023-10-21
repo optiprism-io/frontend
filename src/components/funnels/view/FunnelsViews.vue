@@ -58,7 +58,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, inject, ref, watch } from 'vue'
+import { computed, ref, watch } from 'vue'
 import UiDatePicker from '@/components/uikit/UiDatePicker.vue'
 import {periodMap} from '@/configs/events/controls';
 import {UiToggleGroupItem} from '@/components/uikit/UiToggleGroup.vue';

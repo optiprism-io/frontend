@@ -9,39 +9,37 @@
 </template>
 
 <script lang="ts" setup>
-import { inject } from 'vue'
-import axios from 'axios'
-import { useAuthStore } from '@/stores/auth/auth'
-import { useAlertsStore } from '@/stores/alerts'
-import { ErrorResponse } from '@/api'
-import { I18N } from '@/utils/i18n'
-import UiAlertGroup from './components/uikit/UiAlertGroup.vue'
+import axios from 'axios';
+import { useAuthStore } from '@/stores/auth/auth';
+import { useAlertsStore } from '@/stores/alerts';
+import { ErrorResponse } from '@/api';
+import UiAlertGroup from './components/uikit/UiAlertGroup.vue';
+import usei18n from '@/hooks/useI18n';
 
-const { $t } = inject('i18n') as I18N
-const authStore = useAuthStore()
-const alertsStore = useAlertsStore()
+const { t } = usei18n();
+const authStore = useAuthStore();
+const alertsStore = useAlertsStore();
 
-const ERROR_UNAUTHORIZED_ID = 'Unauthorized'
-const ERROR_INTERNAL_ID = 'Internal'
+const ERROR_INTERNAL_ID = 'Internal';
 
-const closeAlert = (id: string) => alertsStore.closeAlert(id)
+const closeAlert = (id: string) => alertsStore.closeAlert(id);
 
-const createErrorGeneral = (res: ErrorResponse) => {
-    if (!alertsStore.items.find(item => item.id === ERROR_INTERNAL_ID)) {
-        alertsStore.createAlert({
-            id: ERROR_INTERNAL_ID,
-            type: 'danger',
-            text: res?.message ?? $t('errors.internal')
-        })
-    }
-}
+const createErrorGeneral = (res: ErrorResponse, text?: string) => {
+    alertsStore.createAlert({
+        time: 5000,
+        type: 'danger',
+        text: text ?? res?.message ?? t('errors.internal'),
+    });
+};
 
 axios.interceptors.response.use(res => res, async err => {
-    console.log(`ERROR: code '${err?.code}', message: '${err?.message}', url: '${err?.config?.url}'`);
+    const code = err?.code || err?.response?.status || err?.error?.status;
+    const error = `ERROR: code '${code}', message: '${err?.message}', url: '${err?.config?.url}'`;
 
     if (err?.response) {
         if (err.code === 'ERR_NETWORK') {
-            createErrorGeneral(err.response);
+            createErrorGeneral(err.response, error);
+            return Promise.reject(err);
         }
         switch (err?.response?.status || err?.error?.status) {
             case 400:
@@ -55,12 +53,12 @@ axios.interceptors.response.use(res => res, async err => {
             case 500:
             case 503:
                 createErrorGeneral(err.response);
-                break
+                break;
         }
     }
 
     return Promise.resolve();
-})
+});
 </script>
 
 <style lang="scss">
@@ -128,5 +126,8 @@ axios.interceptors.response.use(res => res, async err => {
     top: 30px;
     right: 30px;
     z-index: 1000;
+    max-width: 550px;
+    max-height: calc(100vh - 50px);
+    overflow: auto;
 }
 </style>

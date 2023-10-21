@@ -14,7 +14,7 @@
                 :is-link="true"
                 :before-icon="'fas fa-plus'"
             >
-                {{ $t('common.add_event') }}
+                {{ $t('common.addEvent') }}
             </UiButton>
         </slot>
         <template
@@ -41,27 +41,31 @@
 <script setup lang="ts">
 import Select from '@/components/Select/Select.vue';
 import SelectedEvent from '@/components/events/Events/SelectedEvent.vue';
-import {useLexiconStore} from '@/stores/lexicon';
-import {useCommonStore} from '@/stores/common';
-import {useEventsStore} from '@/stores/eventSegmentation/events';
+import { useLexiconStore } from '@/stores/lexicon';
+import { useCommonStore } from '@/stores/common';
+import { useEventsStore } from '@/stores/eventSegmentation/events';
 import useCustomEvent from '@/components/events/Events/CustomEventHooks';
 
 const lexiconStore = useLexiconStore();
 const commonStore = useCommonStore();
 const eventsStore = useEventsStore();
 
-const emit = defineEmits(['select'])
+const emit = defineEmits(['select']);
 
-const { hoveredCustomEventDescription, hoveredCustomEventId, onHoverEvent } = useCustomEvent()
+const {
+    hoveredCustomEventDescription,
+    hoveredCustomEventId,
+    onHoverEvent
+} = useCustomEvent();
 
 const selectAction = (payload: string) => {
     if (payload === 'createCustomEvent') {
-        commonStore.togglePopupCreateCustomEvent(true)
+        commonStore.togglePopupCreateCustomEvent(true);
     }
-}
+};
 
 const editEvent = (payload: number) => {
-    eventsStore.setEditCustomEvent(Number(payload))
-    commonStore.togglePopupCreateCustomEvent(true)
-}
+    eventsStore.setEditCustomEvent(Number(payload));
+    commonStore.togglePopupCreateCustomEvent(true);
+};
 </script>

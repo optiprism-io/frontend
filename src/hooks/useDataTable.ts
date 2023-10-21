@@ -17,7 +17,7 @@ export type ResponseUseDataTable = {
     pieChart: any[]
 }
 
-export default function useDataTable(payload: DataTableResponse): ResponseUseDataTable {
+export default function useDataTable(payload: DataTableResponse, noWrapContent = false): ResponseUseDataTable {
     const hasData = Boolean(payload?.columns && payload?.columns.length)
     const dimensionColumns = payload?.columns ? payload.columns.filter(column => column.type === 'dimension') : []
     const metricColumns = payload?.columns ? payload?.columns.filter(column => column.type === 'metric') : []
@@ -41,11 +41,13 @@ export default function useDataTable(payload: DataTableResponse): ResponseUseDat
                             truncate: true,
                             lastFixed: fixedColumnLength === i,
                             fixed: true,
+                            nowrap: noWrapContent,
                         }
                     } else {
                         acc[column.name] = {
                             value: column.name,
                             title: getStringDateByFormat(column.name, '%d %b, %Y'),
+                            nowrap: noWrapContent,
                         }
                     }
                 }
@@ -66,11 +68,13 @@ export default function useDataTable(payload: DataTableResponse): ResponseUseDat
                             key: column.type,
                             value: item,
                             title: item || '-',
+                            nowrap: noWrapContent,
                         }
 
                         if (FIXED_COLUMNS_TYPES.includes(column.type)) {
                             cell.lastFixed = indexColumn === fixedColumnLength
-                            cell.fixed = true
+                            cell.fixed = true;
+                            cell.nowrap = noWrapContent;
                         }
 
                         tableRows[i].push(cell)

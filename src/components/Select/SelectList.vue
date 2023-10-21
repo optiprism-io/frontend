@@ -82,6 +82,7 @@
                             :selected="selected"
                             :multiple="props.multiple"
                             :active="item.selected"
+                            :no-selected="item.noSelected"
                             @mouseenter="hover(item)"
                             @click="select"
                         />

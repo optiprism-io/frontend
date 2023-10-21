@@ -4,6 +4,7 @@
         :class="{
             'pf-c-menu__list-item--selected': isSelected,
             'pf-c-menu__list-item--disabled': isDisabled,
+            'pf-c-menu__list-item--noSelected': noSelected,
         }"
     >
         <template v-if="items">
@@ -49,7 +50,7 @@
             :class="{
                 'pf-m-selected': isActive,
             }"
-            @click="$emit('click', item)"
+            @click="onClick"
         >
             <span class="select-list-item__content">
                 <span class="pf-c-menu__item-text">{{ text }}</span>
@@ -79,7 +80,6 @@
 </template>
 
 <script lang="ts" setup>
-// TODO add generic
 import { computed } from 'vue';
 
 const props = defineProps<{
@@ -91,6 +91,7 @@ const props = defineProps<{
     editable?: boolean
     multiple?: boolean
     active?: boolean
+    noSelected?: boolean
 }>();
 
 const emit = defineEmits<{
@@ -117,6 +118,12 @@ const clickList = (payload: any) => {
     })
 }
 
+const onClick = () => {
+    if (!props.noSelected) {
+        emit('click', props.item);
+    }
+};
+
 const edit = (e: Event) => {
     e.stopPropagation()
     emit('edit', props.item.id)
@@ -134,6 +141,12 @@ const edit = (e: Event) => {
     opacity: .5;
     pointer-events: none;
     cursor: initial;
+}
+.pf-c-menu__list-item.pf-c-menu__list-item--noSelected {
+    cursor: initial;
+    .pf-c-menu__item {
+        cursor: initial;
+    }
 }
 
 .pf-c-menu {

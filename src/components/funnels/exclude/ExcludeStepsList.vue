@@ -57,7 +57,7 @@
 
             <UiActionListItem @click="stepsStore.deleteExcludedEvent(index)">
                 <VTooltip popper-class="ui-hint">
-                    <UiIcon icon="fas fa-trash" />
+                    <UiIcon icon="fas fa-times" />
                     <template #popper>
                         {{ $t('funnels.excludeSteps.remove') }}
                     </template>

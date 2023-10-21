@@ -9,17 +9,17 @@
                 </GridItem>
                 <GridItem :col-lg="6">
                     <UiCard :title="$t('events.segments.label')">
-                        <Segments />
+                        <Segments @on-change="getEventSegmentation" />
                     </UiCard>
                 </GridItem>
                 <GridItem :col-lg="6">
                     <UiCardContainer>
-                        <FilterReports />
+                        <FilterReports @on-change="getEventSegmentation" />
                     </UiCardContainer>
                 </GridItem>
                 <GridItem :col-lg="6">
                     <UiCard :title="$t('events.breakdowns')">
-                        <Breakdowns />
+                        <Breakdowns @on-change="getEventSegmentation" />
                     </UiCard>
                 </GridItem>
             </GridContainer>
@@ -35,7 +35,7 @@
 </template>
 
 <script setup lang="ts">
-import { onUnmounted, onMounted, watch, ref } from 'vue';
+import { onUnmounted, onMounted, ref } from 'vue';
 import Events from '@/components/events/Events/Events.vue';
 import Breakdowns from '@/components/events/Breakdowns.vue';
 import Segments from '@/components/events/Segments/Segments.vue';
@@ -52,7 +52,7 @@ import { eventsToFunnels } from '@/utils/reportsMappings'
 import { useEventsStore } from '@/stores/eventSegmentation/events'
 import { useFilterGroupsStore } from '@/stores/reports/filters'
 import { useCommonStore } from '@/stores/common'
-import { useSegmentsStore } from '@/stores/reports/segments'
+import { useSegmentsStore } from '@/stores/reports/segments';
 
 const eventsStore = useEventsStore();
 const filterGroupsStore = useFilterGroupsStore()
@@ -70,7 +70,7 @@ onUnmounted(() => {
         filterGroupsStore.$reset()
         segmentsStore.$reset()
     }
-})
+});
 
 const getEventSegmentation = async () => {
     eventSegmentationLoading.value = true;
@@ -80,16 +80,12 @@ const getEventSegmentation = async () => {
             eventSegmentation.value = res.data as DataTableResponse;
         }
     } catch (error) {
-        throw new Error('error event segmentation');
+        console.log('error event segmentation');
     }
     eventSegmentationLoading.value = false;
-}
+};
 
 onMounted(() => {
-    getEventSegmentation();
-});
-
-watch(() => eventsStore.propsForEventSegmentationResult, () => {
     getEventSegmentation();
 });
 </script>

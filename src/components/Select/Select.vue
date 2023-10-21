@@ -1,11 +1,12 @@
 <template>
     <VDropdown
         class="select"
-        placement="bottom-start"
         :popper-class="props.popperClass || ''"
         :shown="isOpen"
         :container="props.popperContainer || 'body'"
         :auto-hide="props.autoHide"
+        :placement="props.placement"
+        @apply-show="onShow"
         @hide="onHide"
     >
         <slot />
@@ -66,9 +67,10 @@
                             <div class="select__description-icon">
                                 <UiIcon icon="fas fa-info-circle" />
                             </div>
-                            <div class="select__description-text">
-                                {{ selectedDescription }}
-                            </div>
+                            <div
+                                class="select__description-text"
+                                v-html="selectedDescription"
+                            />
                         </div>
                     </div>
                 </div>
@@ -89,7 +91,8 @@ const emit = defineEmits<{
     (e: 'onHover', item: any): void;
     (e: 'action', payload: string): void
     (e: 'edit', payload: number): void
-    (e: 'on-hide'): void
+    (e: 'hide'): void
+    (e: 'show'): void
 }>();
 
 const props = withDefaults(
@@ -106,7 +109,9 @@ const props = withDefaults(
         popperContainer?: string
         autoHide?: boolean
         multiple?: boolean
-        cloaseAfterAction?: boolean
+        cloaseAfterAction?: boolean,
+        disabled?: boolean,
+        placement?: string,
     }>(),
     {
         showSearch: true,
@@ -119,6 +124,7 @@ const props = withDefaults(
         popperContainer: 'body',
         multiple: false,
         cloaseAfterAction: false,
+        placement: 'bottom-start',
     }
 );
 
@@ -220,7 +226,11 @@ const onSearch = (payload: string) => {
 const onHide = () => {
     isOpen.value = false;
     search.value = '';
-    emit('on-hide');
+    emit('hide');
+};
+
+const onShow = () => {
+    emit('show');
 };
 
 const onAction = (payload: string) => {

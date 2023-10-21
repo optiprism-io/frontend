@@ -1,6 +1,6 @@
 <template>
     <div
-        class="condition pf-l-flex"
+        class="condition"
         :class="{
             'condition_is-one': props.isOne,
             'pf-m-column': !props.isOne,
@@ -135,18 +135,22 @@
                     </template>
                 </UiDatePicker>
             </div>
-            <div
+            <PropertySelect
                 v-if="isHasFilter"
-                class="pf-c-action-list__item condition__control"
-                @click="addFilter"
+                class="pf-c-action-list__item"
+                :is-open-mount="false"
+                :update-open="false"
+                @select="addFilter"
             >
-                <VTooltip popper-class="ui-hint">
-                    <UiIcon icon="fas fa-filter" />
-                    <template #popper>
-                        {{ $t('common.addFilter') }}
-                    </template>
-                </VTooltip>
-            </div>
+                <div class="condition__control">
+                    <VTooltip popper-class="ui-hint">
+                        <UiIcon icon="fas fa-filter" />
+                        <template #popper>
+                            {{ $t('common.addFilter') }}
+                        </template>
+                    </VTooltip>
+                </div>
+            </PropertySelect>
             <div
                 v-if="props.showRemove"
                 class="pf-c-action-list__item condition__control"
@@ -190,7 +194,7 @@
                 :width-auto="true"
                 :is-open-mount="updateOpenBetweenCondition"
                 :update-open="updateOpenBetweenCondition"
-                @on-hide="onHideConditionBetweenAll"
+                @hide="onHideConditionBetweenAll"
                 @select="changeBetweenAdd"
             >
                 <UiButton
@@ -207,12 +211,10 @@
 </template>
 
 <script lang="ts" setup>
-import { inject, computed, ref, defineAsyncComponent } from 'vue'
-import { operationById, OperationId, Value } from '@/types'
-import { PropertyRef, Condition as ConditionType } from '@/types/events'
-import {
-    DidEventRelativeCountTypeEnum,
-} from '@/api';
+import { inject, computed, ref, defineAsyncComponent } from 'vue';
+import { operationById, OperationId, Value } from '@/types';
+import { PropertyRef, Condition as ConditionType } from '@/types/events';
+import { DidEventRelativeCountTypeEnum } from '@/api';
 import {
     ChangeFilterPropertyCondition,
     RemoveFilterCondition,
@@ -221,34 +223,26 @@ import {
     Ids,
     PeriodConditionPayload,
     PayloadChangeEach,
-} from '@/components/events/Segments/Segments'
-import { conditions } from '@/configs/events/segmentCondition'
-import { useLexiconStore } from '@/stores/lexicon'
-import { getStringDateByFormat } from '@/helpers/getStringDates'
-import { conditions as conditionsMap, conditionsBetween } from '@/configs/events/segmentCondition'
+} from '@/components/events/Segments/Segments';
+import { conditions } from '@/configs/events/segmentCondition';
+import { useLexiconStore } from '@/stores/lexicon';
+import { getStringDateByFormat } from '@/helpers/getStringDates';
+import { conditions as conditionsMap, conditionsBetween } from '@/configs/events/segmentCondition';
 import usei18n from '@/hooks/useI18n';
-import { Each, ApplyPayload } from '@/components/uikit/UiCalendar/UiCalendar'
-
-import Select from '@/components/Select/Select.vue'
-import UiButton from '@/components/uikit/UiButton.vue'
-import PropertySelect from '@/components/events/PropertySelect.vue'
-import OperationSelect from '@/components/events/OperationSelect.vue'
-import ValueSelect from '@/components/events/ValueSelect.vue'
-import Filter from '@/components/events/Filter.vue'
-import UiDatePicker from '@/components/uikit/UiDatePicker.vue'
-const ConditionDidEvent = defineAsyncComponent(() => import('./ConditionDidEvent.vue'))
+import { Each, ApplyPayload } from '@/components/uikit/UiCalendar/UiCalendar';
+import Select from '@/components/Select/Select.vue';
+import UiButton from '@/components/uikit/UiButton.vue';
+import PropertySelect from '@/components/events/PropertySelect.vue';
+import OperationSelect from '@/components/events/OperationSelect.vue';
+import ValueSelect from '@/components/events/ValueSelect.vue';
+import Filter from '@/components/events/Filter.vue';
+import UiDatePicker from '@/components/uikit/UiDatePicker.vue';
+const ConditionDidEvent = defineAsyncComponent(() => import('./ConditionDidEvent.vue'));
 const i18n = usei18n();
 
 type Item = {
     id: string,
     name: string,
-}
-
-interface ItemConditionType {
-    item: Item,
-    items?: ItemConditionType[],
-    name: string,
-    description: string,
 }
 
 interface Props {
@@ -261,6 +255,13 @@ interface Props {
     isOne?: boolean
     showRemove?: boolean
     allowAndOr?: boolean
+}
+
+interface ItemConditionType {
+    item: Item,
+    items?: ItemConditionType[],
+    name: string,
+    description: string,
 }
 
 const lexiconStore = useLexiconStore()
@@ -380,11 +381,11 @@ const conditionConfig = computed(() => {
 
 const isSelectedAction = computed(() => Boolean(props.condition.action))
 
-const displayNameAction = computed(() => props.condition?.action?.name || (props.isOne ? i18n.t('events.segments.add_condition') : i18n.t('events.segments.select_condition')))
+const displayNameAction = computed(() => props.condition?.action?.name || (props.isOne ? i18n.t('events.segments.addCondition') : i18n.t('events.segments.select_condition')))
 
 const isSelectedProp = computed(() =>  Boolean(props.condition.propRef))
 
-const displayNameProp = computed(() => props.condition.propRef ? lexiconStore.propertyName(props.condition.propRef) : i18n.t('events.select_property'))
+const displayNameProp = computed(() => props.condition.propRef ? lexiconStore.propertyName(props.condition.propRef) : i18n.t('events.selectProperty'))
 
 const isShowSelectProp = computed(() => {
     const id = props.condition?.action?.id
@@ -425,8 +426,7 @@ const changeOperationCondition = inject<(idx: number, indexParent: number, opId:
 const changeActionCondition = inject<(idx: number, indexParent: number, ref: { id: string, name: string }) => void>('changeActionCondition')
 const addValueCondition = inject<(idx: number, indexParent: number, value: Value) => void>('addValueCondition')
 const removeValueCondition = inject<(idx: number, indexParent: number, value: Value) => void>('removeValueCondition')
-
-const addFilterCondition = inject<(payload: Ids) => void>('addFilterCondition')
+const addFilterCondition = inject<(payload: Ids, propRef: PropertyRef) => void>('addFilterCondition')
 const removeFilterCondition = inject<(payload: RemoveFilterCondition) => void>('removeFilterCondition')
 const changeFilterPropertyCondition = inject<(payload: ChangeFilterPropertyCondition) => void>('changeFilterPropertyCondition')
 const changeFilterOperation = inject<(payload: ChangeFilterOperation) => void>('changeFilterOperation')
@@ -458,17 +458,12 @@ const onApplyPeriod = (payload: ApplyPayload) => {
     })
 }
 
-const addFilter = () => {
+const addFilter = (propRef: PropertyRef) => {
     addFilterCondition && addFilterCondition({
         idx: props.index,
         idxParent: props.indexParent,
-    })
-    updateOpenFilter.value = true
-
-    setTimeout(() => {
-        updateOpenFilter.value = false
-    })
-}
+    }, propRef);
+};
 
 const removeFilter = (idxFilter: number) => {
     removeFilterCondition && removeFilterCondition({
@@ -539,6 +534,19 @@ const onHideConditionBetweenAll = () => {
 <style lang="scss">
 .condition {
     position: relative;
+    .pf-c-action-list {
+        position: relative;
+        flex-wrap: wrap;
+        align-items: flex-start;
+        &__item {
+            margin-bottom: 11px;
+        }
+        .multi-select__action {
+            .pf-c-action-list {
+                margin-bottom: -11px;
+            }
+        }
+    }
     &__control {
         padding: 5px;
         opacity: 0;

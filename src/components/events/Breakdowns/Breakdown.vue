@@ -4,9 +4,10 @@
         @mouseenter="showControls = true"
         @mouseleave="showControls = false"
     >
-        <div class="pf-l-flex__item selected-list-item__identifier">
-            {{ identifier }}.
-        </div>
+        <CommonIdentifier
+            class="pf-l-flex__item"
+            :index="index"
+        />
         <div class="pf-c-action-list">
             <div class="pf-c-action-list__item">
                 <template v-if="isBreakdownCohort(breakdown)">
@@ -74,10 +75,11 @@
 </template>
 
 <script setup lang="ts">
+import { computed, ref } from 'vue';
 import { useLexiconStore } from '@/stores/lexicon';
 import BreakdownSelect from './BreakdownSelect.vue';
 import CohortSelect from './CohortSelect.vue';
-import { computed, ref } from 'vue';
+import CommonIdentifier from '@/components/common/identifier/CommonIdentifier.vue';
 import {
     Breakdown,
     BreakdownCohort,
@@ -90,7 +92,7 @@ import {
     isBreakdownUserCustomProperty,
     isBreakdownUserProperty,
     newBreakdownCohort
-} from '@/stores/reports/breakdowns'
+} from '@/stores/reports/breakdowns';
 
 const props = defineProps<{
     breakdown: Breakdown;
@@ -134,13 +136,13 @@ const breakdownName = (): string => {
     if (isBreakdownUserProperty(props.breakdown)) {
         return lexiconStore.findUserPropertyById(
             (props.breakdown as BreakdownUserProperty).propertyId
-        ).name;
+        )?.name || '';
     }
 
     if (isBreakdownEventCommonProperty(props.breakdown)) {
         return lexiconStore.findEventPropertyById(
             (props.breakdown as BreakdownEventCommonProperty).propertyId
-        ).name;
+        )?.name || '';
     }
 
     if (isBreakdownEventCommonCustomProperty(props.breakdown)) {
@@ -171,5 +173,4 @@ const breakdownCaption = (): string => {
     throw new Error('unhandled');
 };
 
-const identifier = computed((): number => props.index + 1);
 </script>

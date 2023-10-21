@@ -13,6 +13,7 @@ export interface Item<T, K = undefined>{
     items?: K | undefined;
     editable?: boolean
     selected?: boolean
+    noSelected?: boolean
 }
 
 export interface Group<T>{

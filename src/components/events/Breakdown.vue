@@ -1,7 +1,7 @@
 <template>
     <div class="breakdown pf-l-flex">
         <div class="pf-c-action-list">
-            <AlphabetIdentifier
+            <CommonIdentifier
                 v-if="showIdentifier"
                 :index="index"
             />
@@ -72,7 +72,7 @@ import { useLexiconStore } from '@/stores/lexicon';
 import PropertySelect from '@/components/events/PropertySelect.vue';
 import { EventRef, PropertyRef } from '@/types/events';
 import UiButton from '@/components/uikit/UiButton.vue';
-import AlphabetIdentifier from '@/components/common/identifier/AlphabetIdentifier.vue';
+import CommonIdentifier from '@/components/common/identifier/CommonIdentifier.vue';
 import { PropertyType } from '@/api'
 
 const lexiconStore = useLexiconStore();
@@ -107,13 +107,12 @@ const handleSelectProperty = (): void => {
 const propertyName = (ref: PropertyRef): string => {
     switch (ref.type) {
         case PropertyType.Event:
-            return lexiconStore.findEventPropertyById(ref.id).name
+            return lexiconStore.findEventPropertyById(ref.id)?.name || '';
         case PropertyType.Custom:
-            return lexiconStore.findEventCustomPropertyById(ref.id)?.name || ''
+            return lexiconStore.findEventCustomPropertyById(ref.id)?.name || '';
         case PropertyType.User:
-            return lexiconStore.findUserPropertyById(ref.id).name
+            return lexiconStore.findUserPropertyById(ref.id)?.name || '';
     }
-    throw new Error('unhandled');
 };
 </script>
 

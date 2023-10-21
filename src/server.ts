@@ -1,89 +1,83 @@
-import { createServer, Response } from 'miragejs'
-import { customAlphabet } from 'nanoid'
-
-import { DataType, TokensResponse } from '@/api'
-import { BASE_PATH } from '@/api/base'
+import { createServer, Response } from 'miragejs';
+import { useUrlSearchParams } from '@vueuse/core';
+import { customAlphabet } from 'nanoid';
+import { DataType, TokensResponse } from '@/api';
+import { BASE_PATH } from '@/api/base';
 import { EventStatus, UserCustomProperty } from '@/types/events';
 import splineChartMocks from '@/mocks/splineChart.json';
-import liveStreamMocks from '@/mocks/reports/liveStream.json'
-import funnelsMocks from '@/mocks/reports/funnels.json'
+import liveStreamMocks from '@/mocks/reports/liveStream.json';
+import funnelsMocks from '@/mocks/reports/funnels.json';
 import userPropertiesMocks from '@/mocks/eventSegmentations/userProperties.json';
 import eventSegmentationsMocks from '@/mocks/eventSegmentations/eventSegmentations.json';
-import eventMocks from '@/mocks/eventSegmentations/events.json';
 import eventPropertiesMocks from '@/mocks/eventSegmentations/eventProperties.json';
+import customProperties from '@/mocks/eventSegmentations/customProperties.json';
 import customEventsMocks from '@/mocks/eventSegmentations/customEvents.json';
+import eventMocks from '@/mocks/eventSegmentations/events.json';
 import reportsMocks from '@/mocks/reports/reports.json';
 import dashboardsMocks from '@/mocks/dashboards';
 import groupRecordsMocks from '@/mocks/groupRecords.json';
-
 const alphabet = '0123456789';
 const nanoid = customAlphabet(alphabet, 4);
-const accessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c'
-const refreshToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6Im5pa28ga3VzaCIsImlhdCI6MTUxNjIzOTAyMn0.FzpmXmStgiYEO15ZbwwPafVRQSOCO_xidYjrjRvVIbQ'
-const csrfToken = 'CIwNZNlR4XbisJF39I8yWnWX9wX4WFoz'
+const accessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c';
+const refreshToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6Im5pa28ga3VzaCIsImlhdCI6MTUxNjIzOTAyMn0.FzpmXmStgiYEO15ZbwwPafVRQSOCO_xidYjrjRvVIbQ';
+const csrfToken = 'CIwNZNlR4XbisJF39I8yWnWX9wX4WFoz';
+
+const dbTemplate: { [k: string]: any } = {
+    events: eventMocks,
+    customEvents: customEventsMocks,
+    eventProperties: eventPropertiesMocks,
+    userProperties: userPropertiesMocks,
+    customProperties: customProperties,
+    reports: reportsMocks,
+    dashboards: dashboardsMocks,
+    groupRecords: groupRecordsMocks,
+    liveStreamMocks: liveStreamMocks,
+};
+
+const dbTemplateKeys = Object.keys(dbTemplate);
+const getRandomTiming = (from = 0, to = 0) => {
+    // TODO ADD HEADER SWITCHER OR URL SEARCH PARAMETR LIKE => timingMocks=100-200
+    return Math.floor(Math.random() * (to - from)) + from;
+}
+
+const emptyDbTemplate = dbTemplateKeys.reduce((acc: { [key: string]: [] }, key) => {
+    acc[key] = [];
+    return acc;
+}, {});
 
 export default function ({ environment = 'development', isSeed = true } = {}) {
-    let usersCount = 0;
+    const params = useUrlSearchParams('history');
+
+    if (params?.emptyMocks) {
+        const values = (typeof params.emptyMocks === 'string' ? [params.emptyMocks] : params.emptyMocks).map(item => item.split(',')).flat();
+        values.forEach(key => {
+            if (dbTemplate && dbTemplate[key]) {
+                dbTemplate[key] = [];
+            }
+        });
+    }
 
     return createServer({
+        environment,
+        namespace: 'api',
         seeds(server) {
-            server.db.loadData({
-                events: isSeed ? eventMocks : [],
-                customEvents: isSeed ? customEventsMocks : [],
-                eventProperties: isSeed ? eventPropertiesMocks : [],
-                userProperties: isSeed ? userPropertiesMocks : [],
-                reports: isSeed ? reportsMocks : [],
-                dashboards: isSeed ? dashboardsMocks : [],
-                groupRecords: isSeed ? groupRecordsMocks.map(item => ({...item, id: nanoid()})) : [],
-                liveStreamMocks: isSeed ? liveStreamMocks : [],
-                customProperties: isSeed ? [
-                    {
-                        id: 1,
-                        eventId: 1,
-                        createdAt: new Date(),
-                        createdBy: 0,
-                        updatedBy: 0,
-                        tags: [],
-                        name: 'custom prop 1',
-                        dataType: DataType.String,
-                        isArray: false,
-                        nullable: false,
-                        isDictionary: false
-                    },
-                    {
-                        id: 2,
-                        eventId: 1,
-                        createdAt: new Date(),
-                        createdBy: 0,
-                        updatedBy: 0,
-                        tags: [],
-                        name: 'custom prop 2',
-                        dataType: DataType.String,
-                        isArray: false,
-                        nullable: false,
-                        isDictionary: false
-                    }
-                ] : [],
-            });
+            server.db.loadData(isSeed ? dbTemplate : emptyDbTemplate);
         },
-
         routes() {
             this.get(`${BASE_PATH}/shutdown`, () =>  {
                 this.shutdown();
                 return 'shutdown';
             });
 
-            this.namespace = 'api'
-
             this.get(`${BASE_PATH}/v1/organizations/:organization_id/projects/:project_id/schema/events`, (schema) => {
                 return { data: schema.db.events }
-            }, { timing: 100 })
+            }, { timing: getRandomTiming() })
 
             this.put(`${BASE_PATH}/v1/organizations/:organization_id/projects/:project_id/schema/events/:event_id`, (schema, request) => {
                 const customEvent = JSON.parse(request.requestBody)
 
                 return schema.db.events.update(request.params.event_id, customEvent)
-            }, { timing: 160 })
+            }, { timing: getRandomTiming() })
 
             this.get(`${BASE_PATH}/v1/organizations/:organization_id/projects/:project_id/schema/custom-events`, (schema) => {
                 return {
@@ -99,7 +93,7 @@ export default function ({ environment = 'development', isSeed = true } = {}) {
                 const customEvents = JSON.parse(request.requestBody)
 
                 return schema.db.customEvents.insert(customEvents)
-            }, { timing: 130 })
+            }, { timing: getRandomTiming() })
 
             this.put(`${BASE_PATH}/v1/organizations/:organization_id/projects/:project_id/schema/custom-events/:event_id`, (schema, request) => {
                 const customEvent = JSON.parse(request.requestBody)
@@ -124,13 +118,18 @@ export default function ({ environment = 'development', isSeed = true } = {}) {
             })
 
             this.get(`${BASE_PATH}/v1/organizations/:organization_id/projects/:project_id/schema/user-properties`, (schema) => {
-                return { data: schema.db.userProperties }
-            }, { timing: 140 })
+                return {
+                    data: schema.db.userProperties.map(item => ({
+                        ...item,
+                        id: Number(item.id),
+                    })),
+                };
+            }, { timing: getRandomTiming() })
 
             this.put(`${BASE_PATH}/v1/organizations/:organization_id/projects/:project_id/schema/user-properties/:property_id`, (schema, request) => {
                 const property = JSON.parse(request.requestBody)
                 return schema.db.userProperties.update(request.params.property_id, property)
-            }, { timing: 200 })
+            }, { timing: getRandomTiming() })
 
             this.get(`${BASE_PATH}/v1/organizations/:organization_id/projects/:project_id/schema/custom-properties`, () => {
                 return {
@@ -200,7 +199,7 @@ export default function ({ environment = 'development', isSeed = true } = {}) {
                     id: nanoid(),
                     ...body,
                 })
-            }, { timing: 1100 })
+            }, { timing: getRandomTiming() })
 
             this.get(`${BASE_PATH}/v1/organizations/:organization_id/projects/:project_id/reports/:report_id`, (schema, request) => {
                 return schema.db.reports.find(request.params.report_id);
@@ -209,7 +208,7 @@ export default function ({ environment = 'development', isSeed = true } = {}) {
             this.put(`${BASE_PATH}/v1/organizations/:organization_id/projects/:project_id/reports/:report_id`, (schema, request) => {
                 const body = JSON.parse(request.requestBody);
                 return schema.db.reports.update(request.params.report_id, body)
-            }, { timing: 1200 })
+            }, { timing: getRandomTiming() })
 
             this.delete(`${BASE_PATH}/v1/organizations/:organization_id/projects/:project_id/reports/:report_id`, (schema, request) => {
                 schema.db.reports.remove(request.params.report_id)
@@ -219,7 +218,7 @@ export default function ({ environment = 'development', isSeed = true } = {}) {
             this.post(`${BASE_PATH}/v1/organizations/:organization_id/projects/:project_id/queries/event-segmentation`, (_, request) => {
                 const body = JSON.parse(request.requestBody);
 
-                if (body.events.length || body.segments) {
+                if (body.events?.length || body?.segments?.length) {
                     return eventSegmentationsMocks;
                 } else {
                     return {
@@ -258,7 +257,7 @@ export default function ({ environment = 'development', isSeed = true } = {}) {
                     refreshToken,
                     csrfToken,
                 }
-            }, { timing: 200 })
+            }, { timing: getRandomTiming() })
 
             /**
              * dashboards
@@ -276,17 +275,17 @@ export default function ({ environment = 'development', isSeed = true } = {}) {
                     id: nanoid(),
                     ...body,
                 })
-            }, { timing: 130 })
+            }, { timing: getRandomTiming() })
 
             this.put(`${BASE_PATH}/v1/organizations/:organization_id/projects/:project_id/dashboards/:dashboard_id`, (schema, request) => {
                 const requestBody = JSON.parse(request.requestBody)
                 return schema.db.dashboards.update(request.params.dashboard_id, requestBody)
-            }, { timing: 135 })
+            }, { timing: getRandomTiming() })
 
             this.delete(`${BASE_PATH}/v1/organizations/:organization_id/projects/:project_id/dashboards/:dashboard_id`, (schema, request) => {
                 schema.db.dashboards.remove(request.params.dashboard_id)
                 return request.params.dashboard_id;
-            }, { timing: 110 })
+            }, { timing: getRandomTiming() })
 
             /**
              * Group-records
@@ -295,22 +294,14 @@ export default function ({ environment = 'development', isSeed = true } = {}) {
              * put
              */
             this.post(`${BASE_PATH}/v1/organizations/:organization_id/projects/:project_id/group-records/search`, (schema) => {
-                if (usersCount) {
-                    schema.db.groupRecords.insert({
-                        ...schema.db.groupRecords[schema.db.groupRecords.length - 1],
-                        id: nanoid(),
-                    });
-                } else {
-                    usersCount = ++usersCount;
-                }
                 return {
                     data: schema.db.groupRecords,
                 };
-            }, { timing: 1500 });
+            }, { timing: getRandomTiming() });
 
             this.put(`${BASE_PATH}/v1/organizations/:organization_id/projects/:project_id/group-records/:id`, (schema, request) => {
                 return schema.db.groupRecords.update(request.params.id, JSON.parse(request.requestBody));
-            }, { timing: 220 });
+            }, { timing: getRandomTiming() });
             /**
              * end Group-records
              */

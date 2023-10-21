@@ -50,7 +50,7 @@ const configNav = [
     },
     {
         name: 'users.title',
-        to: 'users',
+        to: pagesMap.usersGroupRecords,
         activeKey: 'users',
     },
 ]

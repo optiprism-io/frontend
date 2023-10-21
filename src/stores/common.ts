@@ -17,7 +17,7 @@ export type Common = {
     editEventPropertyPopupId: number | null
     editEventPropertyPopupType: PropertyTypeEnum
     syncReports: boolean
-}
+};
 
 export const useCommonStore = defineStore('common', {
     state: (): Common => ({
@@ -42,5 +42,5 @@ export const useCommonStore = defineStore('common', {
         togglePopupCreateCustomEvent(payload: boolean) {
             this.showCreateCustomEvent = payload
         },
-    }
-})
+    },
+});

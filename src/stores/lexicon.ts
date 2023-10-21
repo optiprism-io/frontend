@@ -1,3 +1,4 @@
+// import { ref, computed } from 'vue';
 import {defineStore} from 'pinia';
 import schemaService from '@/api/services/schema.service';
 import {
@@ -10,6 +11,7 @@ import {
     UserCustomProperty,
     EventQueryRef,
 } from '@/types/events';
+import { $T, $TKeyExists } from '@/utils/i18n';
 import { Cohort } from '@/types';
 import { aggregates } from '@/types/aggregate'
 import { Group, Item } from '@/components/Select/SelectTypes';
@@ -25,8 +27,14 @@ import {
     QueryAggregate,
 } from '@/api'
 import { useCommonStore, PropertyTypeEnum } from '@/stores/common'
+import useI18n from '@/hooks/useI18n';
+import { errorHandler } from '@/helpers/errorHandlerHelper';
 
 type Lexicon = {
+    i18n: {
+        t: $T,
+        keyExists: $TKeyExists,
+    },
     cohorts: Cohort[];
 
     events: Event[];
@@ -37,6 +45,7 @@ type Lexicon = {
     eventCustomProperties: CustomProperty[];
     eventPropertiesLoading: boolean;
 
+    userPropertyPopup: boolean;
     userProperties: Property[];
     userCustomProperties: UserCustomProperty[];
     userPropertiesLoading: boolean;
@@ -44,6 +53,7 @@ type Lexicon = {
 
 export const useLexiconStore = defineStore('lexicon', {
     state: (): Lexicon => ({
+        i18n: useI18n(),
         cohorts: [
             {
                 id: 1,
@@ -58,7 +68,6 @@ export const useLexiconStore = defineStore('lexicon', {
                 name: 'Profitable users'
             }
         ],
-
         eventsLoading: false,
         events: [],
         customEvents: [],
@@ -67,11 +76,15 @@ export const useLexiconStore = defineStore('lexicon', {
         eventProperties: [],
         eventCustomProperties: [],
 
+        userPropertyPopup: false,
         userPropertiesLoading: false,
         userProperties: [],
         userCustomProperties: [],
     }),
     actions: {
+        getI18n() {
+            return
+        },
         deleteCustomEvent(payload: number) {
             const indexEvent = this.customEvents.findIndex(event => event.id === payload)
             this.customEvents.splice(indexEvent, 1)
@@ -89,7 +102,7 @@ export const useLexiconStore = defineStore('lexicon', {
                     }
                 }
             } catch (e) {
-                throw new Error('error update event property')
+                console.log('error update event property');
             }
         },
         async updateUserProperty(payload: ApplyPayload) {
@@ -148,7 +161,7 @@ export const useLexiconStore = defineStore('lexicon', {
                     this.customEvents = <CustomEvent[]>responseCustomEvents.data?.data || [];
                 }
             } catch (error) {
-                throw new Error('error customEvents')
+                console.log('error customEvents')
             }
 
             this.eventsLoading = false
@@ -157,15 +170,20 @@ export const useLexiconStore = defineStore('lexicon', {
             const commonStore = useCommonStore()
 
             this.eventPropertiesLoading = true
-            const res = await schemaService.eventProperties(commonStore.organizationId, commonStore.projectId)
-            if (res?.data?.data) {
-                this.eventProperties = res.data.data
+            try {
+                const res = await schemaService.eventProperties(commonStore.organizationId, commonStore.projectId)
+                if (res?.data?.data) {
+                    this.eventProperties = res.data.data
+                }
+
+                const resCustom = await schemaService.eventCustomProperties(commonStore.organizationId, commonStore.projectId);
+                if (resCustom?.data?.events) {
+                    this.eventCustomProperties = resCustom.data.events;
+                }
+            } catch(e) {
+                console.log('error getEventProperties');
             }
 
-            const resCustom = await schemaService.eventCustomProperties(commonStore.organizationId, commonStore.projectId);
-            if (resCustom?.data?.events) {
-                this.eventCustomProperties = resCustom.data.events;
-            }
             this.eventPropertiesLoading = false;
         },
         async getUserProperties() {
@@ -174,16 +192,17 @@ export const useLexiconStore = defineStore('lexicon', {
             try {
                 const res = await schemaService.userProperties(commonStore.organizationId, commonStore.projectId);
 
-                if (res.data.data) {
-                    this.userProperties = res.data.data
-                }
+                this.userProperties = Array.isArray(res?.data?.data) ? res?.data?.data : [];
             } catch (error) {
-                throw new Error('error getUserProperties');
+                console.log('error getUserProperties');
             }
             this.eventPropertiesLoading = false;
-        }
+        },
     },
     getters: {
+        propertiesLength(state) {
+            return state.eventProperties?.length + state.eventCustomProperties?.length + state.userProperties?.length + state.userCustomProperties?.length;
+        },
         findEventById(state: Lexicon) {
             return (id: number): Event => {
                 const e = state.events.find((event): boolean => Number(event.id) === Number(id))
@@ -253,70 +272,70 @@ export const useLexiconStore = defineStore('lexicon', {
             };
         },
         findEventPropertyByName(state: Lexicon) {
-            return (name: string | number): Property => {
-                const e = state.eventProperties.find((prop): boolean => prop.name === name)
-                if (e) {
-                    return e
+            return (name: string | number): Property | undefined => {
+                const property = state.eventProperties.find((prop): boolean => prop.name === name);
+                if (!property) {
+                    errorHandler(`undefined property name: ${name}`);
                 }
-                throw new Error(`undefined property name: ${name}`)
+                return property;
             }
         },
-        findEventPropertyById(state: Lexicon) {
-            return (id: number): Property => {
-                const e = state.eventProperties.find((prop): boolean => Number(prop.id) === Number(id));
-                if (e) {
-                    return e;
-                }
-                throw new Error(`undefined property id: ${id}`)
-            };
-        },
-        findEventProperty(state: Lexicon) {
-            return (ref: PropertyRef): Property => {
-                const e = ref?.name ? state.eventProperties.find((prop): boolean => (prop.name || prop.displayName) === ref.name) : this.findEventPropertyById(ref.id);
-                if (e) {
-                    return e;
-                }
-                throw new Error(`undefined property: ${e}`)
-            };
-        },
         findEventCustomPropertyByName(state: Lexicon) {
-            return (name: string): CustomProperty => {
-                const e = state.eventCustomProperties.find((prop): boolean => prop.name === name)
-                if (e) {
-                    return e
+            return (name: string): CustomProperty | undefined => {
+                const property = state.eventCustomProperties.find((prop): boolean => prop.name === name)
+                if (!property) {
+                    errorHandler(`undefined custom property name: ${name}`)
                 }
-                throw new Error(`undefined custom property name: ${name}`)
+                return property;
             }
         },
         findEventCustomPropertyById(state: Lexicon) {
-            return (id: number): CustomProperty => {
-                const e = state.eventCustomProperties.find((prop): boolean => prop.id === id);
-                if (e) {
-                    return e;
+            return (id: number): CustomProperty | undefined => {
+                const property = state.eventCustomProperties.find((prop): boolean => prop.id === id);
+                if (!property) {
+                    errorHandler(`undefined custom property id: ${id}`)
                 }
-                throw new Error(`undefined custom property id: ${id}`)
+                return property;
             };
         },
         findUserPropertyByName(state: Lexicon) {
-            return (name: string): Property => {
-                const e = state.userProperties.find((prop): boolean => prop.name === name)
-                if (e) {
-                    return e
+            return (name: string | number): Property | undefined => {
+                const property = state.userProperties.find((prop): boolean => prop.name === name);
+                if (!property) {
+                    errorHandler(`undefined user property name: ${name}`);
                 }
-                throw new Error(`undefined user property name: ${name}`)
+                return property;
             }
         },
         findUserPropertyById(state: Lexicon) {
-            return (id: number): Property => {
-                const e = state.userProperties.find((prop): boolean => Number(prop.id) === Number(id));
-                if (e) {
-                    return e;
+            return (id: number): Property | undefined => {
+                const property = state.userProperties.find((prop): boolean => Number(prop.id) === Number(id));
+                if (!property) {
+                    errorHandler(`undefined user property id: ${id}`)
                 }
-                throw new Error(`undefined user property id: ${id}`)
+                return property;
+            };
+        },
+        findEventPropertyById(state: Lexicon) {
+            return (id: number): Property | undefined => {
+                const property = state.eventProperties.find((prop): boolean => Number(prop.id) === Number(id));
+                if (!property) {
+                    errorHandler(`undefined property id: ${id}`);
+                }
+                return property;
+            };
+        },
+        findEventProperty(state: Lexicon) {
+            return (ref: PropertyRef): Property | undefined => {
+                const property = ref?.name ? state.eventProperties.find((prop): boolean => (prop.name || prop.displayName) === ref.name) : this.findEventPropertyById(ref.id);
+                if (!property) {
+                    errorHandler(`undefined property name: ${ref?.name}`);
+                }
+                return property;
             };
         },
         property() {
-            return (ref: PropertyRef): Property | CustomProperty | UserCustomProperty => {
+            return (ref: PropertyRef): Property | CustomProperty | UserCustomProperty | undefined => {
                 switch (ref.type) {
                     case PropertyType.Event:
                         return this.findEventPropertyById(ref.id);
@@ -324,6 +343,8 @@ export const useLexiconStore = defineStore('lexicon', {
                         return this.findEventCustomPropertyById(ref.id);
                     case PropertyType.User:
                         return this.findUserPropertyById(ref.id);
+                    default:
+                        return undefined;
                 }
             };
         },
@@ -331,11 +352,11 @@ export const useLexiconStore = defineStore('lexicon', {
             return (ref: PropertyRef): string => {
                 switch (ref.type) {
                     case PropertyType.Event:
-                        return this.findEventPropertyById(ref.id).name;
+                        return this.findEventPropertyById(ref.id)?.name || '';
                     case PropertyType.Custom:
                         return this.findEventCustomPropertyById(ref.id)?.name || '';
                     case PropertyType.User:
-                        return this.findUserPropertyById(ref.id).name;
+                        return this.findUserPropertyById(ref.id)?.name || '';
                 }
             };
         },
@@ -350,10 +371,24 @@ export const useLexiconStore = defineStore('lexicon', {
         },
         eventsList(state: Lexicon) {
             const eventsList: Group<Item<EventRef, null>[]>[] = [];
-            const items: Item<EventRef, null>[] = [];
+            const eventsListCustom: Item<EventRef, null>[] = [];
+
+            const setToList = (name: string, item: Item<EventRef, null>) => {
+                const group = eventsList.find(g => g.name === name);
+
+                if (!group) {
+                    eventsList.push({
+                        name: name,
+                        items: [item],
+                    });
+                } else {
+                    group.items.push(item);
+                }
+            };
+
             if (state.customEvents) {
                 state.customEvents.forEach((e: CustomEvent) => {
-                    items.push({
+                    eventsListCustom.push({
                         item: customEventRef(e),
                         name: e.name,
                         description: e?.description,
@@ -361,35 +396,23 @@ export const useLexiconStore = defineStore('lexicon', {
                     });
                 });
             }
+
             eventsList.push({
                 type: 'custom',
                 name: 'Custom Events',
-                items,
+                items: eventsListCustom?.length ? eventsListCustom : [],
                 action: {
                     type: 'createCustomEvent',
                     icon: 'fas fa-plus-circle',
                     text: 'common.create',
-                }
-            })
+                },
+            });
 
             state.events.forEach((e: Event) => {
                 const item: Item<EventRef, null> = {
                     item: eventRef(e),
                     name: e.displayName || e.name,
                     description: e?.description
-                };
-
-                const setToList = (name: string, item: Item<EventRef, null>) => {
-                    const group = eventsList.find(g => g.name === name);
-
-                    if (!group) {
-                        eventsList.push({
-                            name: name,
-                            items: [item]
-                        });
-                    } else {
-                        group.items.push(item);
-                    }
                 };
 
                 if (Array.isArray(e.tags) && e.tags.length) {
@@ -400,6 +423,24 @@ export const useLexiconStore = defineStore('lexicon', {
                     setToList('Other', item);
                 }
             });
+
+            if (!state.events?.length && !state.customEvents?.length) {
+                eventsList.push({
+                    type: '',
+                    name: '',
+                    items: [{
+                        item: {
+                            type: EventType.Regular,
+                            id: 0,
+                            name: '',
+                        },
+                        name: this.i18n.t('events.noEvents'),
+                        description: this.i18n.t('events.noEventsText'),
+                        editable: false,
+                        noSelected: true,
+                    }],
+                });
+            }
 
             return eventsList;
         },

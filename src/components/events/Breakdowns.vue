@@ -29,6 +29,7 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
+import { debounce } from 'lodash';
 import { PropertyRef } from '@/types/events';
 import Breakdown from '@/components/events/Breakdown.vue';
 import PropertySelect from '@/components/events/PropertySelect.vue';
@@ -36,6 +37,10 @@ import { useEventsStore } from '@/stores/eventSegmentation/events';
 import { useBreakdownsStore } from '@/stores/reports/breakdowns'
 const eventsStore = useEventsStore();
 const breakdownsStore = useBreakdownsStore();
+
+const emit = defineEmits<{
+    (e: 'on-change'): void
+}>();
 
 const eventRefs = computed(() => eventsStore.events.map(item => item.ref));
 const breakdowns = computed(() => breakdownsStore.breakdowns);
@@ -51,4 +56,18 @@ const addBreakdown = (propRef: PropertyRef): void => {
 const removeBreakdown = (idx: number): void => {
     breakdownsStore.removeBreakdown(idx);
 };
+
+const onChange = () => {
+    emit('on-change');
+};
+
+const onChangeDebounce = debounce(() => {
+    onChange();
+}, 1100);
+
+breakdownsStore.$subscribe((mutation) => {
+    if (mutation.type === 'direct') {
+        onChangeDebounce();
+    }
+});
 </script>

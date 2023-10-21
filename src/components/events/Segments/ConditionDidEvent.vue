@@ -13,11 +13,12 @@
             <UiButton
                 :class="{
                     'pf-m-secondary': props.condition.event,
+                    'pf-m-link': !props.condition?.event?.name,
                 }"
                 type="button"
                 :before-icon="!props.condition.event ? 'fas fa-plus-circle' : ''"
             >
-                {{ props.condition?.event?.name || $t('common.add_event') }}
+                {{ props.condition?.event?.name || $t('common.addEvent') }}
             </UiButton>
             <template
                 v-if="hoveredCustomEventId"
@@ -101,11 +102,12 @@
             <UiButton
                 :class="{
                     'pf-m-secondary': props.condition.compareEvent,
+                    'pf-m-link': !props.condition?.compareEvent?.name,
                 }"
                 type="button"
                 :before-icon="!props.condition.compareEvent ? 'fas fa-plus-circle' : ''"
             >
-                {{ props.condition?.compareEvent?.name || $t('common.add_event') }}
+                {{ props.condition?.compareEvent?.name || $t('common.addEvent') }}
             </UiButton>
         </Select>
     </div>
@@ -292,7 +294,7 @@ const isShowSelectProp = computed(() => {
         return false
     }
 })
-const displayNameProp = computed(() => props.condition.propRef ? lexiconStore.propertyName(props.condition.propRef) : i18n.$t('events.select_property'))
+const displayNameProp = computed(() => props.condition.propRef ? lexiconStore.propertyName(props.condition.propRef) : i18n.$t('events.selectProperty'))
 const isSelectedProp = computed(() =>  Boolean(props.condition.propRef))
 const changeProperty = (propRef: PropertyRef) => emit('change-property', propRef)
 

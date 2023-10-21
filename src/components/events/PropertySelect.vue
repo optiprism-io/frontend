@@ -6,7 +6,13 @@
         :selected="selected"
         :update-open="updateOpen"
         :width-auto="true"
+        :disabled="disabled"
+        :placement="placement"
+        :popper-class="props.popperClass"
+        :popper-container="props.popperContainer"
         @select="select"
+        @hide="emit('hide')"
+        @show="emit('show')"
     >
         <slot />
     </Select>
@@ -14,20 +20,20 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
-import {
-    EventCustomProperty,
-    EventRef,
-    PropertyRef,
-} from '@/types/events';
+import { EventRef, PropertyRef } from '@/types/events';
 import Select from '@/components/Select/Select.vue';
 import { Group, Item } from '@/components/Select/SelectTypes';
 import { useLexiconStore } from '@/stores/lexicon';
-import { PropertyType, EventType, Property, CustomProperty } from '@/api'
+import { PropertyType, EventType, Property, CustomProperty } from '@/api';
+import usei18n from '@/hooks/useI18n';
+const { t } = usei18n();
 
 const lexiconStore = useLexiconStore();
 
 const emit = defineEmits<{
     (e: 'select', ref: PropertyRef): void;
+    (e: 'hide'): void;
+    (e: 'show'): void;
 }>();
 
 const props = defineProps<{
@@ -38,6 +44,9 @@ const props = defineProps<{
     updateOpen?: boolean;
     disabledItems?: any[];
     forceProps?: Property[];
+    placement?: string;
+    popperContainer?: string;
+    popperClass?: string
 }>();
 
 const checkDisable = (propRef: PropertyRef): boolean => {
@@ -96,43 +105,28 @@ const getEventProperties = (eventRef: EventRef) => {
     return properties;
 }
 
+const noDataPropertyes = computed(() => {
+    return !lexiconStore.propertiesLength;
+});
+
 const items = computed(() => {
     let ret: Group<Item<PropertyRef, null>[]>[] = [];
 
-    if (lexiconStore.eventProperties.length) {
-        const items: Item<PropertyRef, null>[] = [];
-        lexiconStore.eventProperties.forEach((prop: Property): void => {
-            const propertyRef: PropertyRef = {
-                type: PropertyType.Event,
-                id: prop.id
-            };
-
-            items.push({
-                item: propertyRef,
-                name: prop.name,
-                disabled: checkDisable(propertyRef),
-                description: prop?.description
-            });
-        });
-        ret.push({ name: 'Event Properties', items: items });
-    }
-
-    if (lexiconStore.userProperties.length) {
-        const items: Item<PropertyRef, null>[] = [];
-        lexiconStore.userProperties.forEach((prop: Property): void => {
-            const propertyRef: PropertyRef = {
-                type: PropertyType.User,
-                id: prop.id
-            };
-
-            items.push({
-                item: propertyRef,
-                name: prop.name,
-                disabled: checkDisable(propertyRef),
-                description: prop?.description
-            });
-        });
-        ret.push({ name: 'User Properties', items: items });
+    if (noDataPropertyes.value) {
+        return [{
+            name: '',
+            items: [{
+                item: {
+                    type: PropertyType.Event,
+                    id: 0,
+                    name: '',
+                },
+                name: t('common.noProperties'),
+                description: t('common.noPropertiesText'),
+                editable: false,
+                noSelected: true,
+            }],
+        }];
     }
 
     if (props.eventRef) {
@@ -164,7 +158,49 @@ const items = computed(() => {
         }, [])];
     }
 
+    if (!props.eventRef && !props.eventRefs) {
+        if (lexiconStore.eventProperties.length) {
+            const items: Item<PropertyRef, null>[] = [];
+            lexiconStore.eventProperties.forEach((prop: Property): void => {
+                const propertyRef: PropertyRef = {
+                    type: PropertyType.Event,
+                    id: prop.id
+                };
+
+                items.push({
+                    item: propertyRef,
+                    name: prop.name,
+                    disabled: checkDisable(propertyRef),
+                    description: prop?.description
+                });
+            });
+            ret.push({ name: 'Event Properties', items: items });
+        }
+
+        if (lexiconStore.userProperties.length) {
+            const items: Item<PropertyRef, null>[] = [];
+            lexiconStore.userProperties.forEach((prop: Property): void => {
+                const propertyRef: PropertyRef = {
+                    type: PropertyType.User,
+                    id: prop.id
+                };
+
+                items.push({
+                    item: propertyRef,
+                    name: prop.name,
+                    disabled: checkDisable(propertyRef),
+                    description: prop?.description
+                });
+            });
+            ret.push({ name: 'User Properties', items: items });
+        }
+    }
+
     return ret;
+});
+
+const disabled = computed(() => {
+    return !lexiconStore.propertiesLength;
 });
 
 const select = (item: PropertyRef) => {

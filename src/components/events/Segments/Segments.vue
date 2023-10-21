@@ -30,7 +30,8 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, inject, provide } from 'vue'
+import { computed, inject, provide } from 'vue';
+import { debounce } from 'lodash';
 import { OperationId, Value } from '@/types'
 import {
     ChangeEventCondition,
@@ -62,8 +63,8 @@ const lexiconStore = useLexiconStore()
 const commonStore = useCommonStore()
 
 const emit = defineEmits<{
-    (e: 'get-event-segmentation'): void
-}>()
+    (e: 'on-change'): void
+}>();
 
 type Props = {
     isOne?: boolean,
@@ -107,7 +108,11 @@ const addSegment = () => {
 }
 const deleteSegment = (idx: number) => segmentsStore.deleteSegment(idx)
 const onRenameSegment = (name: string, idx: number) => segmentsStore.renameSegment(name, idx)
-const addCondition = (idx: number) => segmentsStore.addConditionSegment(idx)
+
+const addCondition = (idx: number, ref?: { id: string, name: string }) => {
+    segmentsStore.addConditionSegment(idx, ref);
+};
+
 const changeActionCondition = (idx: number, idxSegment: number, ref: { id: string, name: string }) => {
     const segment = segmentsStore.segments[idxSegment];
     const conditions = segment?.conditions;
@@ -132,7 +137,7 @@ provide('removeValueCondition', removeValueCondition)
 provide('betweenAddCondition', (idx: number, indexParent: number, ref: {id: string, name: string}) => segmentsStore.betweenAddCondition(idx, indexParent, ref));
 provide('changeAgregateCondition', (payload: PayloadChangeAgregateCondition) => segmentsStore.changeAgregateCondition(payload))
 provide('onRemoveCondition', (payload: Ids) => segmentsStore.removeCondition(payload))
-provide('addFilterCondition', (payload: Ids) => segmentsStore.addFilterCondition(payload))
+provide('addFilterCondition', (payload: Ids, ref: PropertyRef) => segmentsStore.addFilterCondition(payload, ref))
 provide('removeFilterCondition', (payload: RemoveFilterCondition) => segmentsStore.removeFilterCondition(payload))
 provide('changeFilterPropertyCondition', (payload: ChangeFilterPropertyCondition) => segmentsStore.changeFilterPropertyCondition(payload))
 provide('changeFilterOperation', (payload: ChangeFilterOperation) => segmentsStore.changeFilterOperation(payload))
@@ -184,9 +189,17 @@ provide('editEvent', (payload: number) => {
     commonStore.togglePopupCreateCustomEvent(true)
 })
 
+const onChange = () => {
+    emit('on-change');
+};
+
+const onChangeDebounce = debounce(() => {
+    onChange();
+}, 1100);
+
 segmentsStore.$subscribe((mutation) => {
     if (mutation.type === 'direct') {
-        emit('get-event-segmentation');
+        onChangeDebounce();
     }
 });
 </script>

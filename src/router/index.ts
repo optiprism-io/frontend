@@ -1,4 +1,4 @@
-import {createRouter, createWebHistory} from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router';
 
 export const pagesMap = {
     login: {
@@ -19,7 +19,11 @@ export const pagesMap = {
     },
     funnels: {
         name: 'reports_funnels'
-    }
+    },
+    usersGroupRecords: 'usersGroupRecords',
+    usersProperties: 'usersProperties',
+    users: 'users',
+    reports: 'reports',
 }
 
 const routes = [
@@ -40,6 +44,18 @@ const routes = [
                 path: 'users',
                 name: 'users',
                 component: () => import('@/pages/users/Users.vue'),
+                children: [
+                    {
+                        path: '',
+                        name: pagesMap.usersGroupRecords,
+                        component: () => import('@/pages/users/GroupRecords.vue'),
+                    },
+                    {
+                        path: 'properties',
+                        name: pagesMap.usersProperties,
+                        component: () => import('@/pages/users/Properties.vue'),
+                    },
+                ],
             },
             {
                 path: 'events',

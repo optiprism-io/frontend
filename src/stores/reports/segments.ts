@@ -1,9 +1,9 @@
-import {defineStore} from 'pinia';
-import {Condition, ConditionFilter, PropertyRef,} from '@/types/events';
+import { defineStore } from 'pinia';
+import { Condition, ConditionFilter, PropertyRef, EventRef } from '@/types/events';
 import {OperationId, Value} from '@/types';
 import schemaService from '@/api/services/schema.service';
 import { useLexiconStore } from '@/stores/lexicon';
-import { useCommonStore } from '@/stores/common'
+import { useCommonStore } from '@/stores/common';
 import {
     ChangeEventCondition,
     ChangeFilterOperation,
@@ -87,17 +87,19 @@ const computedValueAggregate = (item: Condition): DidEventCount | DidEventRelati
     const operation = item.opId as PropertyFilterOperation
 
     if (item.aggregate?.id === DidEventAggregatePropertyTypeEnum.AggregateProperty && item.propRef) {
-        const property: Property = item.propRef.type === PropertyType.Event ? lexiconStore.findEventPropertyById(item.propRef.id) : lexiconStore.findUserPropertyById(item.propRef.id)
+        const property: Property | undefined = item.propRef.type === PropertyType.Event ? lexiconStore.findEventPropertyById(item.propRef.id) : lexiconStore.findUserPropertyById(item.propRef.id)
 
-        return {
-            type: DidEventAggregatePropertyTypeEnum.AggregateProperty,
-            time,
-            operation,
-            value: Number(item.valueItem),
-            propertyName: property.name,
-            propertyType: PropertyType.User,
-            propertyId: property.id,
-            aggregate: item.aggregate.typeAggregate as QueryAggregate,
+        if (property) {
+            return {
+                type: DidEventAggregatePropertyTypeEnum.AggregateProperty,
+                time,
+                operation,
+                value: Number(item.valueItem),
+                propertyName: property.name,
+                propertyType: PropertyType.User,
+                propertyId: property.id,
+                aggregate: item.aggregate.typeAggregate as QueryAggregate,
+            }
         }
     }
 
@@ -152,16 +154,18 @@ export const useSegmentsStore = defineStore('segments', {
                                 eventType: item.event.ref.type,
                                 filters: item.filters.filter(item => item.propRef).reduce((items: EventFilterByProperty[], filterRef) => {
                                     if (filterRef.propRef) {
-                                        const property: Property = filterRef?.propRef.type === PropertyType.Event ? lexiconStore.findEventPropertyById(filterRef.propRef.id) : lexiconStore.findUserPropertyById(filterRef.propRef.id)
+                                        const property: Property | undefined = filterRef?.propRef.type === PropertyType.Event ? lexiconStore.findEventPropertyById(filterRef.propRef.id) : lexiconStore.findUserPropertyById(filterRef.propRef.id)
 
-                                        items.push({
-                                            type: EventFilterByPropertyTypeEnum.Property,
-                                            propertyName: property.name,
-                                            propertyType: filterRef?.propRef.type,
-                                            propertyId: filterRef.propRef.id,
-                                            operation: filterRef.opId as PropertyFilterOperation,
-                                            value: filterRef.values,
-                                        })
+                                        if (property) {
+                                            items.push({
+                                                type: EventFilterByPropertyTypeEnum.Property,
+                                                propertyName: property.name,
+                                                propertyType: filterRef?.propRef.type,
+                                                propertyId: filterRef.propRef.id,
+                                                operation: filterRef.opId as PropertyFilterOperation,
+                                                value: filterRef.values,
+                                            });
+                                        }
                                     }
 
                                     return items
@@ -177,7 +181,7 @@ export const useSegmentsStore = defineStore('segments', {
                         }
 
                         if (item.propRef && item.action?.id) {
-                            const property: Property = item.propRef.type === PropertyType.Event ? lexiconStore.findEventPropertyById(item.propRef.id) : lexiconStore.findUserPropertyById(item.propRef.id)
+                            const property: Property | undefined = item.propRef.type === PropertyType.Event ? lexiconStore.findEventPropertyById(item.propRef.id) : lexiconStore.findUserPropertyById(item.propRef.id)
 
                             if (property) {
                                 if (item.action?.id === SegmentConditionHasPropertyValueTypeEnum.HasPropertyValue) {
@@ -322,6 +326,28 @@ export const useSegmentsStore = defineStore('segments', {
                 }
             }
         },
+        async getValuesList(eventRef: EventRef, propRef: PropertyRef) {
+            let valuesList: Value[] = []
+
+            try {
+                const lexiconStore = useLexiconStore()
+                const commonStore = useCommonStore()
+
+                const res = await schemaService.propertyValues(commonStore.organizationId, commonStore.projectId, {
+                    eventName: lexiconStore.eventName(eventRef),
+                    eventType: eventRef.type,
+                    propertyName: lexiconStore.propertyName(propRef),
+                    propertyType: propRef.type
+                })
+
+                if (res.data.data) {
+                    valuesList = res.data.data
+                }
+            } catch (error) {
+                throw new Error('error getEventsValues')
+            }
+            return valuesList;
+        },
         async changeFilterPropertyCondition(payload: ChangeFilterPropertyCondition) {
             const segment = this.segments[payload.idxParent]
             if (segment && segment.conditions) {
@@ -329,25 +355,7 @@ export const useSegmentsStore = defineStore('segments', {
 
                 if (condition && condition.event) {
                     const eventRef = condition.event.ref;
-                    let valuesList: Value[] = []
-
-                    try {
-                        const lexiconStore = useLexiconStore()
-                        const commonStore = useCommonStore()
-
-                        const res = await schemaService.propertyValues(commonStore.organizationId, commonStore.projectId, {
-                            eventName: lexiconStore.eventName(eventRef),
-                            eventType: eventRef.type,
-                            propertyName: lexiconStore.propertyName(payload.propRef),
-                            propertyType: payload.propRef.type
-                        })
-
-                        if (res.data.data) {
-                            valuesList = res.data.data
-                        }
-                    } catch (error) {
-                        throw new Error('error getEventsValues')
-                    }
+                    const valuesList: Value[] = await this.getValuesList(eventRef, payload.propRef);
 
                     condition.filters[payload.idxFilter] = {
                         propRef: payload.propRef,
@@ -368,23 +376,27 @@ export const useSegmentsStore = defineStore('segments', {
                 }
             }
         },
-        addFilterCondition(payload: Ids): void {
-            const segment = this.segments[payload.idxParent]
+        async addFilterCondition(payload: Ids, ref: PropertyRef) {
+            const segment = this.segments[payload.idxParent];
 
             if (segment && segment.conditions) {
-                const condition = segment.conditions[payload.idx]
-                const emptyFilter = condition.filters.find((filter): boolean => filter.propRef === undefined)
+                const condition = segment.conditions[payload.idx];
+                const emptyFilter = condition.filters.find((filter): boolean => filter.propRef === undefined);
 
                 if (emptyFilter) {
-                    return
+                    return;
                 }
 
-                if (condition && condition.filters) {
+                if (condition && condition.filters && condition.event) {
+                    const eventRef = condition.event.ref;
+                    const valuesList: Value[] = await this.getValuesList(eventRef, ref);
+
                     condition.filters.push(<ConditionFilter>{
+                        propRef: ref,
                         opId: OperationId.Eq,
                         values: [],
-                        valuesList: []
-                    })
+                        valuesList,
+                    });
                 }
             }
         },
@@ -497,20 +509,24 @@ export const useSegmentsStore = defineStore('segments', {
                 }
             }
         },
-        addConditionSegment(idx: number) {
+        addConditionSegment(idx: number, ref?: { id: string, name: string }) {
             const segment = this.segments[idx];
 
             if (segment.conditions) {
                 const length = segment.conditions.length - 1;
                 if (segment.conditions[length] && segment.conditions[length].action) {
                     segment.conditions.push({
-                        filters: []
-                    })
+                        filters: [],
+                        action: ref,
+                        period: {},
+                    });
                 }
             } else {
                 segment.conditions = [{
-                    filters: []
-                }]
+                    filters: [],
+                    action: ref,
+                    period: {},
+                }];
             }
         },
         renameSegment(name: string, idx: number) {

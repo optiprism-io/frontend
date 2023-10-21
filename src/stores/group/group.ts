@@ -53,7 +53,7 @@ export const useGroupStore = defineStore('group', {
                     this.items = res.data.data
                 }
             } catch (e) {
-                console.error('error update event property');
+                console.log('error update event property');
             }
             if (!noLoading) {
                 this.loading = false;

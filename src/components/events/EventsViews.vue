@@ -40,11 +40,17 @@
                                             }"
                                             type="button"
                                         >
-                                            <div class="pf-u-display-flex pf-u-align-items-center">
+                                            <span
+                                                class="pf-c-toggle-group__icon pf-c-toggle-group__text"
+                                            >
                                                 <UiIcon :icon="'far fa-calendar-alt'" />
-                                                &nbsp;
+                                            </span>
+                                            <span
+                                                v-if="calendarValueString"
+                                                class="pf-c-toggle-group__text"
+                                            >
                                                 {{ calendarValueString }}
-                                            </div>
+                                            </span>
                                         </button>
                                     </template>
                                 </UiDatePicker>
@@ -77,25 +83,16 @@
                 </div>
             </div>
         </div>
+        <DataEmptyPlaceholder
+            v-if="isNoData"
+            :content="$t('common.noData') "
+        />
         <div
+            v-else
             :class="{
                 'pf-u-p-md': !props.onlyView
             }"
         >
-            <div
-                v-if="isNoData"
-                class="content-info"
-            >
-                <div class="pf-u-display-flex content-info__icons pf-u-color-400">
-                    <UiIcon
-                        class="content-info__icon"
-                        :icon="'fas fa-search'"
-                    />
-                </div>
-                <div class="pf-c-card__title pf-u-text-align-center pf-u-font-size-lg pf-u-color-400">
-                    {{ $t('common.no_data') }}
-                </div>
-            </div>
             <ChartPie
                 v-if="chartEventsOptions.component === 'ChartPie'"
                 :options="chartEventsOptions"
@@ -115,21 +112,19 @@
     </div>
     <div
         v-if="isShowTable"
-        class="pf-c-card"
+        class="events-views__table pf-c-card"
     >
-        <div class="pf-c-scroll-inner-wrapper">
-            <UiTable
-                :is-loading="props.loading"
-                :items="dataTable.tableData"
-                :columns="dataTable.tableColumnsValues"
-            >
-                <template #before>
-                    <div class="pf-u-font-size-lg">
-                        {{ $t('events.breakdownTable') }}
-                    </div>
-                </template>
-            </UiTable>
-        </div>
+        <UiTable
+            :is-loading="props.loading"
+            :items="dataTable.tableData"
+            :columns="dataTable.tableColumnsValues"
+        >
+            <template #before>
+                <div class="pf-u-font-size-lg">
+                    {{ $t('events.breakdownTable') }}
+                </div>
+            </template>
+        </UiTable>
     </div>
 </template>
 
@@ -137,15 +132,14 @@
 import { computed } from 'vue';
 import { useEventsStore, ChartType } from '@/stores/eventSegmentation/events';
 import { groupByMap, periodMap } from '@/configs/events/controls';
-import { ApplyPayload } from '@/components/uikit/UiCalendar/UiCalendar'
-
+import { ApplyPayload } from '@/components/uikit/UiCalendar/UiCalendar';
 import { getStringDateByFormat } from '@/helpers/getStringDates';
-import { DataTableResponse, TimeUnit } from '@/api'
-import useDataTable from '@/hooks/useDataTable'
+import { DataTableResponse, TimeUnit } from '@/api';
+import useDataTable from '@/hooks/useDataTable';
 import usei18n from '@/hooks/useI18n';
-
 import UiSelect from '@/components/uikit/UiSelect.vue';
 import UiToggleGroup, { UiToggleGroupItem } from '@/components/uikit/UiToggleGroup.vue';
+import DataEmptyPlaceholder from '@/components/common/data/DataEmptyPlaceholder.vue';
 import UiIcon from '@/components/uikit/UiIcon.vue';
 import UiDatePicker from '@/components/uikit/UiDatePicker.vue';
 import UiLabelGroup from '@/components/uikit/UiLabelGroup.vue';
@@ -172,7 +166,7 @@ const chartTypeMap = [
 ];
 
 const eventsStore = useEventsStore();
-const { t } = usei18n()
+const { t } = usei18n();
 
 type Props = {
     eventSegmentation?: DataTableResponse | undefined
@@ -188,7 +182,7 @@ const props = withDefaults(defineProps<Props>(), {
     loading: false,
 })
 
-const dataTable = computed(() => useDataTable(props.eventSegmentation || {}))
+const dataTable = computed(() => useDataTable(props.eventSegmentation || {}, true))
 
 const emit = defineEmits<{
     (e: 'get-event-segmentation'): void
@@ -394,6 +388,18 @@ const updateEventSegmentationData = async () => {
 
     &__icon {
         margin: 0 15px;
+    }
+}
+
+.events-views {
+    &__table {
+        .ui-table-cell {
+            min-width: 100px;
+        }
+    }
+    .pf-c-toggle-group__button {
+        min-width: 38px;
+
     }
 }
 </style>

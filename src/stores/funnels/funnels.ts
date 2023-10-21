@@ -172,7 +172,7 @@ export const useFunnelsStore = defineStore('funnels', {
                     this.reports = res.data.columns
                 }
             } catch (e) {
-                throw new Error('Error while getting funnel reports')
+                console.log('Error while getting funnel reports')
             } finally {
                 this.loading = false
             }

@@ -9,11 +9,6 @@
         @apply="apply"
         @cancel="cancel"
     >
-        <UiTabs
-            class="pf-u-mb-md"
-            :items="itemsTabs"
-            @on-select="onSelectTab"
-        />
         <div class="event-management-popup__content">
             <UiDescriptionList
                 v-if="activeTab === 'property'"
@@ -21,27 +16,17 @@
                 :horizontal="true"
                 @on-input="onInputPropertyItem"
             />
-            <UiTable
-                v-if="activeTab === 'events'"
-                :items="itemsEvents"
-                :columns="itemsEventsColumns"
-                :show-toolbar="false"
-                @on-action="onActionEvent"
-            />
         </div>
     </UiPopupWindow>
 </template>
 
 <script lang="ts" setup>
-import { computed, inject, ref } from 'vue'
-import { Property, Event } from '@/api'
+import { computed, inject, ref } from 'vue';
+import { Property } from '@/api';
 
 import UiPopupWindow from '@/components/uikit/UiPopupWindow.vue'
-import UiTabs from '@/components/uikit/UiTabs.vue'
-import UiTable from '@/components/uikit/UiTable/UiTable.vue'
-import UiTablePressedCell from '@/components/uikit/UiTable/UiTablePressedCell.vue'
 import UiDescriptionList, { Item, ActionPayload } from '@/components/uikit/UiDescriptionList.vue'
-import { Action, Row } from '@/components/uikit/UiTable/UiTable'
+import { Action } from '@/components/uikit/UiTable/UiTable'
 import { propertyValuesConfig, Item as PropertyValueConfig, DisplayName } from '@/configs/events/eventValues'
 import { useCommonStore, PropertyTypeEnum } from '@/stores/common'
 
@@ -50,17 +35,15 @@ export type EventObject = {
 }
 export type ApplyPayload = EventObject;
 
-const commonStore = useCommonStore()
-const mapTabs = ['property', 'events']
+const commonStore = useCommonStore();
 
 const i18n = inject<any>('i18n')
 
 type Props = {
-    name?: string
-    loading?: boolean
-    events?: Event[] | null
-    property: Property | null
-}
+    name?: string,
+    loading?: boolean,
+    property: Property | null,
+};
 
 const props = withDefaults(defineProps<Props>(), {
     name: '',
@@ -76,16 +59,6 @@ const activeTab = ref('property')
 
 const editProperty = ref<EventObject | null>(null)
 const applyDisabled = computed(() => !editProperty.value)
-
-const itemsTabs = computed(() => {
-    return mapTabs.map(key => {
-        return {
-            name: i18n.$t(`events.event_management.popup.tabs.${key}`),
-            active: activeTab.value === key,
-            value: key,
-        }
-    })
-})
 
 const title = computed(() => props.property ? `${i18n.$t('events.event_management.popup.tabs.property')}: ${props.property.name}` : '')
 
@@ -129,49 +102,6 @@ const propertyItems = computed<Item[]>(() => {
     return items
 })
 
-const itemsEventsColumns = computed(() => {
-    return ['name', 'displayName', 'isSystem'].map(key => {
-        return {
-            value: key,
-            title: i18n.$t(`events.event_management.columns.${key}`),
-        }
-    })
-})
-
-const itemsEvents = computed(() => {
-    if (props.events) {
-        return props.events.map((event: Event): Row => {
-            return [
-                {
-                    key: 'name',
-                    title: event.name,
-                    value: event.name,
-                    component: UiTablePressedCell,
-                    action: {
-                        type: event.id,
-                        name: event.name,
-                    }
-                },
-                {
-                    key: 'displayName',
-                    title: event.displayName || '',
-                    nowrap: true,
-                },
-                {
-                    key: 'isSystem',
-                    title: String(event.isSystem),
-                }
-            ]
-        })
-    } else {
-        return []
-    }
-})
-
-const onSelectTab = (payload: string) => {
-    activeTab.value = payload
-}
-
 const apply = () => {
     if (editProperty.value) {
         emit('apply', editProperty.value)
@@ -196,9 +126,5 @@ const onInputPropertyItem = async (payload: ActionPayload) => {
             [payload.key]: value
         }
     }
-}
-
-const onActionEvent = (payload: Action) => {
-    emit('on-action-event', payload)
 }
 </script>

@@ -53,7 +53,7 @@
 
 <script lang="ts" setup>
 import { defineComponent, computed } from 'vue'
-import { Action, Cell } from '@/components/uikit/UiTable/UiTable'
+import { Action, Cell } from '@/components/uikit/UiTable/UiTable';
 
 export type EventCell = Cell & {
     customEvents: {
@@ -92,8 +92,6 @@ const onAction = (payload: Action) => {
 
 <style lang="scss">
 .ui-table-event-cell {
-    max-width: 25rem;
-
     &__action-list {
         opacity: 0;
         cursor: pointer;

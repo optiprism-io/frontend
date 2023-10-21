@@ -25,6 +25,9 @@
                     <slot />
                 </div>
             </label>
+            <div class="pf-c-form__group-control pf-u-mt-xs">
+                <slot name="after" />
+            </div>
         </div>
     </div>
 </template>

@@ -14,7 +14,11 @@
   },
 
   "userMenu": {
-    "logout": "Logout"
+    "personalSettings": "Personal Settings",
+    "orgranizationSettings": "Orgranization Settings",
+    "projectSettings": "Project settings",
+    "integrateOptiPrism": "Integrate OptiPrism",
+    "logout": "Log Out"
   },
 
   "common": {
@@ -33,7 +37,10 @@
     "select_period": "Select period",
     "select_aggregate": "Select aggregate",
     "addFilter": "Add Filter",
-    "add_event": "Add Event",
+    "addBreakdown": "Add breakdown",
+    "addQuery": "Add Query",
+    "removeEvent": "Remove event",
+    "addEvent": "Add Event",
     "add_step": "Add Step",
     "enter_value": "Enter a value",
     "create": "Create",
@@ -43,7 +50,7 @@
     "castom": "Castom",
     "list_of": "List of :types",
     "columns": "columns",
-    "no_data": "No data",
+    "noData": "No data",
     "fillField": "Please fill in this field",
     "calendar": {
       "last": "Last",
@@ -73,7 +80,11 @@
       "year": "years"
     },
     "chartType": "Chart type",
-    "groupBy": "Group by"
+    "groupBy": "Group by",
+    "noProperties": "No properties",
+    "noPropertiesText": "You don't have events yet. Please start tracking events. Click <a href=\"/events?help=start_tracking\" target=\"_blank\">here</a> for details",
+    "eventNoProperties": "Event doesn’t have properties",
+    "eventNoUserProperties": "Event doesn’t have user properties"
   },
 
   "users": {
@@ -102,6 +113,8 @@
   },
 
   "events": {
+    "noEvents": "No events",
+    "noEventsText": "You don't have events yet. Please start tracking. Click <a href=\"/events?help=start_tracking\" target=\"_blank\">here</a> for details",
     "addBreakdown": "Add Breakdown",
     "errorBreakdown": "This breakdown will not work because no event was found for the selected property",
     "breakdownTable": "Breakdown Table",
@@ -168,8 +181,7 @@
     "breakdowns": "Breakdowns",
     "events": "Events",
     "event_segmentation": "Event Segmentation",
-    "select_to_start": "Select an Event to get started",
-    "select_property": "Select property",
+    "selectProperty": "Select property",
     "select_value": "Select value",
     "editEvent": "Edit event",
     "editProperty": "Edit property",
@@ -178,7 +190,7 @@
       "label": "Segments",
       "add": "Add segment",
       "remove": "Remove segment",
-      "add_condition": "Add condition",
+      "addCondition": "Add condition",
       "select_condition": "Select condition",
       "remove_condition": "Remove condition"
     },
@@ -215,6 +227,10 @@
       "75thPercentile": "75th Percentile of property",
       "90thPercentile": "90th Percentile of property",
       "99thPercentile": "99th Percentile of property"
+    },
+    "query": {
+      "error": "This query will not work because no event was found for the selected property",
+      "removeQuery": "Remove query"
     }
   },
 
@@ -282,6 +298,7 @@
   },
 
   "filters": {
+    "with": "with",
     "conditions": {
       "and": "Any",
       "or": "All"
@@ -289,14 +306,18 @@
     "simple": "Simple",
     "advanced": "Advanced",
     "addGroup": "Add group",
-    "resetText": "When switching to simple filters, you must reset the selected groups. Reset all filters?"
+    "resetText": "When switching to simple filters, you must reset the selected groups. Reset all filters?",
+    "noPropertiesError": "This filter will not work because no event was found for the selected property"
   },
 
   "dashboards": {
-    "noReports": "No reports. Please add at least one report: ",
+    "noDashboards": "No dashboards. Please create one",
+    "noReportsInDashboard": "No reports. Please add at least one report: ",
+    "noReports": "No reports. Please create one",
     "title": "Dashboards",
     "selectDashboard": "Select Dashboard",
-    "createDashboard": "Create new dashboard",
+    "createDashboard": "Create dashboard",
+    "createReport": "Create report",
     "newDashboard": "New Dashboard",
     "delete": "Delete Dashboard",
     "deleteConfirm": "You definitely want to delete the dashboard: :name?",

@@ -6,7 +6,7 @@
         />
         <router-view />
         <EventPropertyPopup
-            v-if="commonStore.showEventPropertyPopup"
+            v-if="commonStore.showEventPropertyPopup && editPropertyPopup"
             :loading="propertyPopupLoading"
             :property="editPropertyPopup"
             :events="editPropertyEventsPopup"
@@ -15,7 +15,7 @@
             @on-action-event="onActionEvent"
         />
         <EventManagementPopup
-            v-if="commonStore.showEventManagementPopup"
+            v-if="commonStore.showEventManagementPopup "
             :event="editEventManagementPopup"
             :properties="eventProperties"
             :user-properties="userProperties"
@@ -23,21 +23,30 @@
             @apply="eventManagementPopupApply"
             @cancel="eventManagementPopupCancel"
             @on-action-property="onActionProperty"
+            @on-action-user-property="onActiononUserProperty"
+        />
+        <UserPropertyPopup
+            v-if="lexiconStore.userPropertyPopup"
+            :property="editProperty"
+            @apply="userPropertyPopupApply"
+            @cancel="userPropertyPopupCancel"
         />
     </section>
 </template>
 
 <script setup lang="ts">
-import { computed, inject, onMounted, ref } from 'vue'
+import { computed, inject, onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router'
 import { useLexiconStore } from '@/stores/lexicon'
 import { useLiveStreamStore } from '@/stores/reports/liveStream'
 import { useCommonStore, PropertyTypeEnum } from '@/stores/common'
 import EventPropertyPopup, { ApplyPayload } from '@/components/events/EventPropertyPopup.vue'
-import EventManagementPopup, { ApplyPayload as ApplyPayloadEvent } from '@/components/events/EventManagementPopup.vue'
+import EventManagementPopup, { ApplyPayload as ApplyPayloadEvent } from '@/components/events/EventManagementPopup.vue';
+import UserPropertyPopup, { ApplyPayload as ApplyPayloadUser } from '@/components/events/UserPropertyPopup.vue';
 import { Action } from '@/components/uikit/UiTable/UiTable'
 import navPagesConfig from '@/configs/events/navPages.json'
 import { pagesMap } from '@/router'
+import { Property } from '@/api';
 const i18n = inject<any>('i18n')
 const route = useRoute()
 const lexiconStore = useLexiconStore()
@@ -46,6 +55,8 @@ const commonStore = useCommonStore()
 
 const propertyPopupLoading = ref(false)
 const eventManagementPopupLoading = ref(false)
+const editProperty = ref<Property | null>(null);
+const popupLoading = ref(false);
 
 const items = computed(() => {
     return navPagesConfig.map(item => {
@@ -72,7 +83,7 @@ const editPropertyPopup = computed(() => {
 const editPropertyEventsPopup = computed(() => {
     if (commonStore.editEventPropertyPopupId) {
         const property = lexiconStore.findEventPropertyById(commonStore.editEventPropertyPopupId)
-        if (property.events?.length) {
+        if (property?.events?.length) {
             return property.events.map(id => {
                 return lexiconStore.findEventById(id)
             })
@@ -83,7 +94,6 @@ const editPropertyEventsPopup = computed(() => {
         return []
     }
 })
-
 
 const eventManagementPopupCancel = () => {
     commonStore.toggleEventManagementPopup(false)
@@ -104,18 +114,44 @@ const editEventManagementPopup = computed(() => {
     }
 })
 
+const eventPropertiesIds = computed(() => {
+    return editEventManagementPopup.value && editEventManagementPopup.value?.eventProperties || [];
+});
 const eventProperties = computed(() => {
-    return editEventManagementPopup.value && editEventManagementPopup.value?.eventProperties ?
-        editEventManagementPopup.value.eventProperties.map(id => lexiconStore.findEventPropertyById(id)) : []
-})
+    return eventPropertiesIds.value.reduce((acc: Property[], id) => {
+        const property = lexiconStore.findEventPropertyById(id);
+        if (property) {
+            acc.push(property);
+        }
+        return acc;
+    }, []);
+});
 
+const userPropertiesIds = computed(() => {
+    return editEventManagementPopup.value && editEventManagementPopup.value?.userProperties || [];
+});
 const userProperties = computed(() => {
-    return editEventManagementPopup.value && editEventManagementPopup.value?.userProperties ?
-        editEventManagementPopup.value?.userProperties.map(id => lexiconStore.findUserPropertyById(id)) : []
-})
+    return userPropertiesIds.value.reduce((acc: Property[], id) => {
+        const property = lexiconStore.findUserPropertyById(id);
+        if (property) {
+            acc.push(property);
+        }
+        return acc;
+    }, []);
+});
+
+const initEventsAndProperties = async () => {
+    await Promise.all([
+        lexiconStore.getEvents(),
+        lexiconStore.getEventProperties(),
+        lexiconStore.getUserProperties(),
+    ]);
+};
 
 onMounted(async () => {
-    liveStreamStore.getReportLiveStream()
+    liveStreamStore.loading = true;
+    await initEventsAndProperties();
+    liveStreamStore.getReportLiveStream();
 });
 
 const propertyPopupApply = async (payload: ApplyPayload) => {
@@ -144,7 +180,34 @@ const onActionProperty = (payload: Action) => {
     commonStore.showEventManagementPopup = false
     commonStore.showEventPropertyPopup = true
 }
+
+
+const onActiononUserProperty = (payload: ApplyPayloadEvent) => {
+    if (typeof payload.type === 'number') {
+        commonStore.toggleEventManagementPopup(false)
+        const property = lexiconStore.findUserPropertyById(payload.type);
+
+        if (property) {
+            commonStore.editEventPropertyPopupId = Number(payload.type) || null;
+            editProperty.value = property;
+            lexiconStore.userPropertyPopup = true;
+        }
+    }
+};
+
+const userPropertyPopupApply = async (payload: ApplyPayloadUser) => {
+    popupLoading.value = true
+    await lexiconStore.updateUserProperty(payload);
+    popupLoading.value = false
+    commonStore.editEventPropertyPopupId = null;
+    lexiconStore.userPropertyPopup = false;
+    editProperty.value = null;
+};
+
+const userPropertyPopupCancel = () => {
+    lexiconStore.userPropertyPopup = false;
+};
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 </style>

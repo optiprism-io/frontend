@@ -26,6 +26,7 @@
                 :compact="true"
                 :items="itemsProperties"
                 :columns="columnsProperties"
+                :show-toolbar="false"
                 @on-action="onActionProperty"
             />
             <UiTable
@@ -33,32 +34,38 @@
                 :compact="true"
                 :items="itemsUserProperties"
                 :columns="columnsProperties"
+                :show-toolbar="false"
+                @on-action="onActionUserProperty"
+            />
+            <DataEmptyPlaceholder
+                v-if="noData"
+                :content="noDataText"
             />
         </div>
     </UiPopupWindow>
 </template>
 
 <script lang="ts" setup>
-import { computed, inject, ref } from 'vue'
-import { EventCustomProperty } from '@/types/events'
-import { Action, Row } from '@/components/uikit/UiTable/UiTable'
-import { Property, Event } from '@/api'
-
-import UiPopupWindow from '@/components/uikit/UiPopupWindow.vue'
-import UiTabs from '@/components/uikit/UiTabs.vue'
-import UiTable from '@/components/uikit/UiTable/UiTable.vue'
-import UiDescriptionList, { Item, ActionPayload } from '@/components/uikit/UiDescriptionList.vue'
-import UiTablePressedCell from '@/components/uikit/UiTable/UiTablePressedCell.vue'
-
-import propertiesColumnsConfig from '@/configs/events/propertiesTable.json'
-import { eventValuesConfig, Item as EventValuesConfig, EventValuesConfigKeysEnum } from '@/configs/events/eventValues'
+import { computed, inject, ref } from 'vue';
+import { useRouter } from 'vue-router';
+import { EventCustomProperty } from '@/types/events';
+import { Action, Row } from '@/components/uikit/UiTable/UiTable';
+import { Property, Event } from '@/api';
+import DataEmptyPlaceholder from '@/components/common/data/DataEmptyPlaceholder.vue';
+import UiPopupWindow from '@/components/uikit/UiPopupWindow.vue';
+import UiTabs from '@/components/uikit/UiTabs.vue';
+import UiTable from '@/components/uikit/UiTable/UiTable.vue';
+import UiDescriptionList, { Item, ActionPayload } from '@/components/uikit/UiDescriptionList.vue';
+import UiTablePressedCell from '@/components/uikit/UiTable/UiTablePressedCell.vue';
+import propertiesColumnsConfig from '@/configs/events/propertiesTable.json';
+import { eventValuesConfig, Item as EventValuesConfig, EventValuesConfigKeysEnum } from '@/configs/events/eventValues';
+import usei18n from '@/hooks/useI18n';
+import { pagesMap } from '@/router';
 
 export type EventObject = {
     [key: string]: string | string[] | boolean
 }
-export type ApplyPayload = EventObject
-
-const mapTabs = ['event', 'properties', 'userProperties']
+export type ApplyPayload = EventObject;
 
 const i18n = inject<any>('i18n')
 
@@ -70,20 +77,44 @@ type Props = {
     userProperties: Property[]
 }
 
+const tabs = {
+    event: 'event',
+    properties: 'properties',
+    userProperties: 'userProperties',
+};
+
+const { t } = usei18n();
+const router = useRouter()
+
 const props = withDefaults(defineProps<Props>(), {
     name: '',
 })
 
 const emit = defineEmits<{
-    (e: 'cancel'): void
-    (e: 'apply', payload: ApplyPayload): void
-    (e: 'on-action-property', payload: Action): void
-}>()
+    (e: 'cancel'): void,
+    (e: 'apply', payload: ApplyPayload): void,
+    (e: 'on-action-property', payload: Action): void,
+    (e: 'on-action-user-property', payload: ApplyPayload): void,
+}>();
 
 const activeTab = ref('event')
 
 const editEvent = ref<EventObject | null>(null)
 const applyDisabled = computed(() => !editEvent.value)
+
+const noDataText = computed(() => {
+    if (activeTab.value === tabs.userProperties) {
+        return itemsUserProperties.value?.length ? '' : t('common.eventNoUserProperties');
+    }
+    if (activeTab.value === tabs.properties) {
+        return itemsProperties.value?.length ? '' : t('common.eventNoProperties');
+    }
+    return '';
+});
+
+const noData = computed(() => {
+    return (!props.loading && noDataText.value);
+});
 
 const getTableRows = (properties: Property[] | EventCustomProperty[]) => {
     return properties.map((prop: Property | EventCustomProperty): Row => {
@@ -129,14 +160,14 @@ const getValueEventItems = (key: EventValuesConfigKeysEnum) => {
 }
 
 const itemsTabs = computed(() => {
-    return mapTabs.map(key => {
+    return Object.values(tabs).map(key => {
         return {
             name: i18n.$t(`events.event_management.popup.tabs.${key}`),
             active: activeTab.value === key,
             value: key,
-        }
-    })
-})
+        };
+    });
+});
 
 const eventItems = computed<Item[]>(() => {
     const items: Item[] = [];
@@ -178,6 +209,10 @@ const onSelectTab = (payload: string) => {
     activeTab.value = payload
 }
 
+const onAction = () => {
+    router.push({ name: pagesMap.usersProperties });
+};
+
 const apply = () => {
     if (editEvent.value) {
         emit('apply', editEvent.value)
@@ -204,7 +239,11 @@ const onInputEventItem = async (payload: ActionPayload) => {
     }
 }
 
+const onActionUserProperty = (payload: ActionPayload) => {
+    emit('on-action-user-property', payload);
+};
+
 const onActionProperty = (payload: Action) => {
-    emit('on-action-property', payload)
-}
+    emit('on-action-property', payload);
+};
 </script>
