@@ -52,6 +52,8 @@
     "columns": "columns",
     "noData": "No data",
     "fillField": "Please fill in this field",
+    "compareToPast": "Compare to Past",
+    "compareToPrevious": "Compare to previous",
     "calendar": {
       "last": "Last",
       "since": "Since",

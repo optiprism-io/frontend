@@ -26,8 +26,8 @@ import { Group, Item } from '@/components/Select/SelectTypes';
 import { useLexiconStore } from '@/stores/lexicon';
 import { PropertyType, EventType, Property, CustomProperty } from '@/api';
 import usei18n from '@/hooks/useI18n';
-const { t } = usei18n();
 
+const { t } = usei18n();
 const lexiconStore = useLexiconStore();
 
 const emit = defineEmits<{
@@ -46,7 +46,7 @@ const props = defineProps<{
     forceProps?: Property[];
     placement?: string;
     popperContainer?: string;
-    popperClass?: string
+    popperClass?: string;
 }>();
 
 const checkDisable = (propRef: PropertyRef): boolean => {

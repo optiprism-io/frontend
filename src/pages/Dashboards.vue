@@ -69,6 +69,9 @@
                 {{ $t('dashboards.createDashboard') }}
             </UiButton>
         </DataEmptyPlaceholder>
+        <DashboardFilterToolbar
+            class="pf-u-mb-md"
+        />
         <GridLayout
             v-if="layout.length"
             v-model:layout="layout"
@@ -171,12 +174,13 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import usei18n from '@/hooks/useI18n'
 import dashboardService from '@/api/services/dashboards.service'
 import { DashboardPanel as DashboardPanelType, DashboardPanelTypeEnum } from '@/api'
 import { useDashboardsStore } from '@/stores/dashboards'
-import { useCommonStore } from '@/stores/common'
-import { useReportsStore } from '@/stores/reports/reports'
-import usei18n from '@/hooks/useI18n'
+import { useCommonStore } from '@/stores/common';
+import { useReportsStore } from '@/stores/reports/reports';
+import { useLexiconStore } from '@/stores/lexicon';
 import useConfirm from '@/hooks/useConfirm';
 import { pagesMap } from '@/router';
 
@@ -189,6 +193,7 @@ import UiSelect from '@/components/uikit/UiSelect.vue';
 import UiButton from '@/components/uikit/UiButton.vue';
 import UiSpinner from '@/components/uikit/UiSpinner.vue';
 import DataEmptyPlaceholder from '@/components/common/data/DataEmptyPlaceholder.vue';
+import DashboardFilterToolbar from '@/components/dashboards/DashboardFilterToolbar.vue';
 
 const { t } = usei18n()
 const route = useRoute()
@@ -196,6 +201,7 @@ const router = useRouter()
 const commonStore = useCommonStore()
 const dashboardsStore = useDashboardsStore()
 const reportsStore = useReportsStore()
+const lexiconStore = useLexiconStore();
 const { confirm } = useConfirm();
 const isLoading = ref(true);
 const updateLoading = ref(false);
@@ -409,6 +415,9 @@ const initDashboardPage = async () => {
     }
 
     isLoading.value = false;
+
+    lexiconStore.getEventProperties();
+    lexiconStore.getUserProperties();
 };
 
 const onEditNameDashboard = (payload: boolean) => {
