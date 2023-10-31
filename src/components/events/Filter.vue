@@ -1,16 +1,18 @@
 <template>
-    <div class="filter pf-l-flex">
+    <div
+        class="filter pf-l-flex"
+        :class="orientationClass"
+    >
         <div class="pf-c-action-list">
             <CommonIdentifier
                 v-if="showIdentifier"
                 :index="index"
             />
             <div
-                v-else
+                v-else-if="!hidePrefix"
                 class="pf-c-action-list__item pf-u-mb-0 pf-u-mt-xs min-w-50 pf-u-text-align-right"
             >
                 <slot
-                    v-if="!hidePrefix"
                     name="prefix"
                 >
                     {{ $t('filters.with') }}
@@ -167,10 +169,9 @@ import { EventRef, PropertyRef } from '@/types/events';
 import { operationById, OperationId, Value } from '@/types';
 import CommonIdentifier from '@/components/common/identifier/CommonIdentifier.vue';
 import { PropertyType } from '@/api';
+import { OrientationTypeEnum, OrientationEnum } from '@/types/filters';
 
-const lexiconStore = useLexiconStore();
-
-const props = defineProps<{
+type Props = {
     eventRef?: EventRef;
     eventRefs?: EventRef[];
     filter: EventFilter;
@@ -180,7 +181,14 @@ const props = defineProps<{
     popperContainer?: string;
     forPreview?: boolean;
     hidePrefix?: boolean;
-}>();
+    orientation?: OrientationEnum
+}
+
+const lexiconStore = useLexiconStore();
+
+const props = withDefaults(defineProps<Props>(), {
+    orientation: OrientationTypeEnum.VERTICAL,
+});
 
 const emit = defineEmits<{
     (e: 'removeFilter', index: number): void;
@@ -190,6 +198,8 @@ const emit = defineEmits<{
     (e: 'removeFilterValue', filterIdx: number, value: Value): void;
     (e: 'handleSelectProperty'): void;
 }>();
+
+const orientationClass = computed(() => `filter_${props.orientation}`);
 
 const operationButtonText = computed(() => {
     return props.filter.opId ? operationById?.get(props.filter.opId)?.shortName || operationById?.get(props.filter.opId)?.name : '';
@@ -262,11 +272,11 @@ const removeValue = (value: Value) => {
 const removeValueButton = (value: Value) => {
     emit('removeFilterValue', props.index, value);
 };
+
 </script>
 
 <style scoped lang="scss">
 .filter {
-    margin-bottom: 0;
     &:hover {
         .filter__control-item {
             opacity: 1;
@@ -275,17 +285,34 @@ const removeValueButton = (value: Value) => {
     &__control-item {
         opacity: 0;
     }
+    &_horizontal {
+        .pf-c-action-list {
+            &__item {
+                margin-bottom: 0;
+            }
+        }
+        > .pf-c-action-list {
+            padding-right: 0;
+        }
+    }
+    &_vertical {
+        margin-bottom: 0;
+        .pf-c-action-list {
+            &__item {
+                margin-bottom: 11px;
+            }
+        }
+        > .pf-c-action-list {
+            padding-right: 30px;
+        }
+    }
     > .pf-c-action-list {
         position: relative;
-        padding-right: 30px;
     }
     .pf-c-action-list {
         position: relative;
         flex-wrap: wrap;
         align-items: flex-start;
-        &__item {
-            margin-bottom: 11px;
-        }
         .multi-select__action {
             .pf-c-action-list {
                 margin-bottom: -11px;

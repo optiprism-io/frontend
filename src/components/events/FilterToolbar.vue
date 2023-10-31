@@ -2,7 +2,7 @@
     <div class="filter-toolbar">
         <div class="filter-toolbar__content">
             <div class="filter-toolbar__left">
-                <div class="filter-toolbar__item pf-u-mr-md">
+                <div class="filter-toolbar__item pf-u-mr-md pf-u-mb-md">
                     <UiSelect
                         :items="itemsGroupBy"
                         :text-button="selectedGroupByString"
@@ -10,7 +10,7 @@
                         @on-select="onSelectGroupBy"
                     />
                 </div>
-                <div class="filter-toolbar__item pf-u-mr-md">
+                <div class="filter-toolbar__item pf-u-mr-md pf-u-mb-md">
                     <UiToggleGroup
                         :items="itemsPeriod"
                         @select="onSelectPerion"
@@ -183,6 +183,10 @@ const onApplyPeriod = (payload: ApplyPayload): void => {
     &__left {
         display: flex;
         align-items: center;
+        flex-wrap: wrap;
+    }
+    &__item {
+        white-space: nowrap;
     }
 }
 </style>

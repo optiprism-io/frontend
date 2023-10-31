@@ -3,12 +3,13 @@
         <template #content>
             <template v-if="filterGroup">
                 <Filter
-                    class="filter-toolbar__item"
+                    class="filter-toolbar__item pf-u-mb-md"
                     v-for="(filter, i) in filterGroup.filters"
                     :key="i"
                     :index="i"
                     :filter="filter"
                     :hide-prefix="i === 0"
+                    :orientation="OrientationTypeEnum.HORIZONTAL"
                     @remove-filter="removeFilterForGroup(i)"
                     @change-filter-property="changeFilterPropertyForGroup"
                     @change-filter-operation="changeFilterOperationForGroup"
@@ -21,7 +22,7 @@
                 </Filter>
             </template>
             <PropertySelect
-                class="filter-toolbar__item"
+                class="filter-toolbar__item pf-u-mb-md"
                 :is-open-mount="false"
                 @select="addFilterToGroup"
             >
@@ -40,8 +41,9 @@
 import { computed, onUnmounted } from 'vue';
 import { FilterGroup, useFilterGroupsStore } from '@/stores/reports/filters';
 import { PropertyRef } from '@/types/events';
-import { OperationId, Value } from '@/types';
 import { useFilter } from '@/hooks/useFilter';
+import { OperationId, Value } from '@/types';
+import { OrientationTypeEnum } from '@/types/filters';
 
 import Filter from '@/components/events/Filter.vue';
 import UiButton from '@/components/uikit/UiButton.vue';
