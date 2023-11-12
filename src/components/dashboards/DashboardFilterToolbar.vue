@@ -1,15 +1,16 @@
 <template>
-    <FilterToolbar>
+    <FilterToolbar class="dashboard-filter-toolbar pf-u-px-sm">
         <template #content>
             <template v-if="filterGroup">
                 <Filter
-                    class="filter-toolbar__item pf-u-mb-md"
                     v-for="(filter, i) in filterGroup.filters"
                     :key="i"
+                    class="filter-toolbar__item pf-u-mb-md"
                     :index="i"
                     :filter="filter"
                     :hide-prefix="i === 0"
                     :orientation="OrientationTypeEnum.HORIZONTAL"
+                    :min-width-prefix="false"
                     @remove-filter="removeFilterForGroup(i)"
                     @change-filter-property="changeFilterPropertyForGroup"
                     @change-filter-operation="changeFilterOperationForGroup"
@@ -129,3 +130,11 @@ onUnmounted(() => {
     filterGroupsStore.$reset();
 });
 </script>
+
+<style lang="scss">
+.dashboard-filter-toolbar {
+    .pf-c-action-list__item.filter__control-item {
+        margin-left: 0 !important;
+    }
+}
+</style>

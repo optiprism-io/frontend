@@ -200,7 +200,7 @@ export const useLiveStreamStore = defineStore('liveStream', {
                     }
                 }
             } catch (error) {
-               console.log('error get report live stream');
+                console.log('error get report live stream');
             }
 
             this.loading = false

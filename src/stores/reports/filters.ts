@@ -88,6 +88,9 @@ export const useFilterGroupsStore = defineStore('filter-groups', {
         }
     },
     getters: {
+        isSelectedAnyFilter(): boolean {
+            return Boolean(this.filterGroups.length && this.filterGroups[0].filters?.length);
+        },
         filters(): EventGroupedFilters {
             return {
                 groupsCondition: this.condition,

@@ -1,6 +1,6 @@
 <template>
     <div class="dashboards pf-c-page__main-section pf-u-p-md pf-u-pb-3xl">
-        <div class="dashboards__nav pf-u-mb-sm pf-u-display-flex pf-u-justify-content-space-between pf-u-align-items-center">
+        <div class="dashboards__nav pf-u-px-sm pf-u-mb-sm pf-u-display-flex pf-u-justify-content-space-between pf-u-align-items-center">
             <UiSelect
                 v-if="isLoading || isShowDashboardContentAndControls"
                 class="dashboards__select pf-u-mr-md"
@@ -55,6 +55,7 @@
                 />
             </div>
         </div>
+        <DashboardFilterToolbar />
         <DataEmptyPlaceholder
             v-if="!isShowDashboardContentAndControls && !isLoading"
             :hide-icon="true"
@@ -69,9 +70,6 @@
                 {{ $t('dashboards.createDashboard') }}
             </UiButton>
         </DataEmptyPlaceholder>
-        <DashboardFilterToolbar
-            class="pf-u-mb-md"
-        />
         <GridLayout
             v-if="layout.length"
             v-model:layout="layout"
@@ -177,10 +175,14 @@ import { useRoute, useRouter } from 'vue-router'
 import usei18n from '@/hooks/useI18n'
 import dashboardService from '@/api/services/dashboards.service'
 import { DashboardPanel as DashboardPanelType, DashboardPanelTypeEnum } from '@/api'
+
 import { useDashboardsStore } from '@/stores/dashboards'
 import { useCommonStore } from '@/stores/common';
 import { useReportsStore } from '@/stores/reports/reports';
 import { useLexiconStore } from '@/stores/lexicon';
+import { useFilterGroupsStore } from '@/stores/reports/filters';
+import { useEventsStore } from '@/stores/eventSegmentation/events';
+
 import useConfirm from '@/hooks/useConfirm';
 import { pagesMap } from '@/router';
 
@@ -202,6 +204,9 @@ const commonStore = useCommonStore()
 const dashboardsStore = useDashboardsStore()
 const reportsStore = useReportsStore()
 const lexiconStore = useLexiconStore();
+const filterGroupsStore = useFilterGroupsStore();
+const eventsStore = useEventsStore();
+
 const { confirm } = useConfirm();
 const isLoading = ref(true);
 const updateLoading = ref(false);
@@ -463,6 +468,8 @@ onMounted(async () => {
 
 onUnmounted(() => {
     activeDashboardId.value = null;
+    eventsStore.$reset();
+    filterGroupsStore.$reset();
 });
 </script>
 
