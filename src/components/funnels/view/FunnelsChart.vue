@@ -174,7 +174,7 @@ const observer = ref<ResizeObserver | null>(null)
 onMounted(() => {
     observer.value = new ResizeObserver(onResize)
     if (container.value) {
-        observer.value.observe(container.value)
+        observer.value.observe(container.value as Element)
     }
     window.addEventListener('resize', onResize)
 })

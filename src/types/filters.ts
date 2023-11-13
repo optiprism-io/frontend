@@ -7,3 +7,10 @@ export interface Filter {
     values: Value[];
     valuesList: Value[]
 }
+
+export const OrientationTypeEnum = {
+    HORIZONTAL: 'horizontal',
+    VERTICAL: 'vertical',
+};
+
+export type OrientationEnum = typeof OrientationTypeEnum[keyof typeof OrientationTypeEnum];

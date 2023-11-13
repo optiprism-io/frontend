@@ -10,6 +10,9 @@ import { getLastNDaysRange } from '@/helpers/calendarHelper';
 import {
     PropertyType,
     TimeUnit,
+    TimeLastTypeEnum,
+    TimeBetweenTypeEnum,
+    TimeFromTypeEnum,
     EventSegmentation,
     EventRecordsListRequestTime,
     EventChartType,
@@ -128,30 +131,33 @@ export const useEventsStore = defineStore('events', {
         editCustomEvent: null,
     }),
     getters: {
+        ifTimeFilterChange(): boolean {
+            return false;
+        },
         timeRequest(): EventRecordsListRequestTime {
             switch (this.period.type) {
                 case 'last':
                     return {
-                        type: this.period.type,
-                        last: this.period.last,
-                        unit: 'day'
+                        type: TimeLastTypeEnum.Last,
+                        last: Number(this.controlsPeriod),
+                        unit: this.controlsGroupBy,
                     }
                 case 'since':
                     return {
-                        type: 'from',
+                        type: TimeFromTypeEnum.From,
                         from: this.period.from,
                     }
                 case 'between':
                     return {
-                        type: this.period.type,
+                        type: TimeBetweenTypeEnum.Between,
                         from: this.period.from,
                         to: this.period.to,
                     }
                 default:
                     return {
-                        type: 'last',
+                        type: TimeLastTypeEnum.Last,
                         last: Number(this.controlsPeriod),
-                        unit: 'day'
+                        unit: TimeUnit.Day,
                     }
             }
         },

@@ -1,6 +1,6 @@
 <template>
     <button
-        class="pf-c-button"
+        class="ui-button pf-c-button"
         :class="{
             'pf-m-in-progress': props.progress,
             'pf-m-link': props.isLink,
@@ -60,4 +60,7 @@ const props = withDefaults(defineProps<Props>(), {
 </script>
 
 <style lang="scss">
+.ui-button.pf-c-button.pf-m-secondary {
+    --pf-c-button--m-secondary--BackgroundColor: #FFF;
+}
 </style>

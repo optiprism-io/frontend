@@ -1,6 +1,6 @@
 <template>
     <div class="dashboards pf-c-page__main-section pf-u-p-md pf-u-pb-3xl">
-        <div class="dashboards__nav pf-u-mb-sm pf-u-display-flex pf-u-justify-content-space-between pf-u-align-items-center">
+        <div class="dashboards__nav pf-u-px-sm pf-u-mb-sm pf-u-display-flex pf-u-justify-content-space-between pf-u-align-items-center">
             <UiSelect
                 v-if="isLoading || isShowDashboardContentAndControls"
                 class="dashboards__select pf-u-mr-md"
@@ -55,6 +55,7 @@
                 />
             </div>
         </div>
+        <DashboardFilterToolbar />
         <DataEmptyPlaceholder
             v-if="!isShowDashboardContentAndControls && !isLoading"
             :hide-icon="true"
@@ -171,12 +172,17 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import usei18n from '@/hooks/useI18n'
 import dashboardService from '@/api/services/dashboards.service'
 import { DashboardPanel as DashboardPanelType, DashboardPanelTypeEnum } from '@/api'
+
 import { useDashboardsStore } from '@/stores/dashboards'
-import { useCommonStore } from '@/stores/common'
-import { useReportsStore } from '@/stores/reports/reports'
-import usei18n from '@/hooks/useI18n'
+import { useCommonStore } from '@/stores/common';
+import { useReportsStore } from '@/stores/reports/reports';
+import { useLexiconStore } from '@/stores/lexicon';
+import { useFilterGroupsStore } from '@/stores/reports/filters';
+import { useEventsStore } from '@/stores/eventSegmentation/events';
+
 import useConfirm from '@/hooks/useConfirm';
 import { pagesMap } from '@/router';
 
@@ -189,6 +195,7 @@ import UiSelect from '@/components/uikit/UiSelect.vue';
 import UiButton from '@/components/uikit/UiButton.vue';
 import UiSpinner from '@/components/uikit/UiSpinner.vue';
 import DataEmptyPlaceholder from '@/components/common/data/DataEmptyPlaceholder.vue';
+import DashboardFilterToolbar from '@/components/dashboards/DashboardFilterToolbar.vue';
 
 const { t } = usei18n()
 const route = useRoute()
@@ -196,6 +203,10 @@ const router = useRouter()
 const commonStore = useCommonStore()
 const dashboardsStore = useDashboardsStore()
 const reportsStore = useReportsStore()
+const lexiconStore = useLexiconStore();
+const filterGroupsStore = useFilterGroupsStore();
+const eventsStore = useEventsStore();
+
 const { confirm } = useConfirm();
 const isLoading = ref(true);
 const updateLoading = ref(false);
@@ -409,6 +420,9 @@ const initDashboardPage = async () => {
     }
 
     isLoading.value = false;
+
+    lexiconStore.getEventProperties();
+    lexiconStore.getUserProperties();
 };
 
 const onEditNameDashboard = (payload: boolean) => {
@@ -454,6 +468,8 @@ onMounted(async () => {
 
 onUnmounted(() => {
     activeDashboardId.value = null;
+    eventsStore.$reset();
+    filterGroupsStore.$reset();
 });
 </script>
 

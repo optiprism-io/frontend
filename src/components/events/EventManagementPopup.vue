@@ -239,8 +239,8 @@ const onInputEventItem = async (payload: ActionPayload) => {
     }
 }
 
-const onActionUserProperty = (payload: ActionPayload) => {
-    emit('on-action-user-property', payload);
+const onActionUserProperty = (payload: Action) => {
+    emit('on-action-user-property', payload as ApplyPayload);
 };
 
 const onActionProperty = (payload: Action) => {

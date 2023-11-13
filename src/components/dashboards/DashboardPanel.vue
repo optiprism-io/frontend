@@ -29,7 +29,9 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed, onMounted, watch } from 'vue'
+import { ref, computed, onMounted, watch } from 'vue';
+import { watchDebounced } from '@vueuse/core';
+import { pagesMap } from '@/router';
 import {
     Report,
     EventChartType,
@@ -38,34 +40,45 @@ import {
     DataTableResponseColumnsInner,
     FunnelQuery,
     EventSegmentation as EventSegmentationType,
+    EventRecordsListRequestTime,
 } from '@/api';
 
 import reportsService from '@/api/services/reports.service'
 import { ChartType } from '@/stores/eventSegmentation/events';
-import { useCommonStore } from '@/stores/common'
+
+import { useCommonStore } from '@/stores/common';
 import { useReportsStore } from '@/stores/reports/reports';
+import { useFilterGroupsStore } from '@/stores/reports/filters';
+import { useEventsStore } from '@/stores/eventSegmentation/events';
+
 import dataService from '@/api/services/datas.service'
 import { Step } from '@/types/steps'
 import { mapReportToSteps } from '@/utils/reportsMappings'
-import { pagesMap } from '@/router'
 
 import EventsViews from '@/components/events/EventsViews.vue';
 import FunnelsChart from '@/components/funnels/view/FunnelsChart.vue';
 
-const commonStore = useCommonStore()
-const reportsStore = useReportsStore()
+const commonStore = useCommonStore();
+const reportsStore = useReportsStore();
+const filterGroupsStore = useFilterGroupsStore();
+const eventsStore = useEventsStore();
 
 const props = defineProps<{
     report?: Report
     reportId?: number
     heightChart?: number
-}>()
+}>();
+
+const DebounceUpdate = 700;
 
 const loading = ref(false)
 const eventSegmentation = ref<DataTableResponse>()
 const funnelsReport = ref<DataTableResponseColumnsInner[]>()
-const steps = ref<Step[]>()
+const steps = ref<Step[]>();
+const filterTimeInitState = ref<EventRecordsListRequestTime | null>(null);
 
+const filters = computed(() => filterGroupsStore.filters);
+const filterTime = computed(() => eventsStore.timeRequest);
 const activeReport = computed(() => reportsStore.list.find(item => item.id === props.reportId));
 const funnelsChartHeight = computed(() => props.heightChart ? props.heightChart - 40 : 190);
 const report = computed(() => props.report || activeReport.value);
@@ -86,14 +99,22 @@ const reportLink = computed(() => {
     return null;
 })
 
+const ifChangeAnyInFilterTime = computed(() => {
+    return JSON.stringify(filterTimeInitState.value) !== JSON.stringify(eventsStore.timeRequest);
+});
+
 const getEventSegmentation = async () => {
     loading.value = true
-    if (query.value) {
+    if (report.value?.query) {
         try {
-            const res = await reportsService.eventSegmentation(commonStore.organizationId, commonStore.projectId, {
-                ...query.value as EventSegmentationType,
-                chartType: query.value.chartType as EventChartType,
-            })
+            const query = report.value.query as EventSegmentationType;
+            if (filterGroupsStore.isSelectedAnyFilter) {
+                query.filters = filterGroupsStore.filters;
+            }
+            if (ifChangeAnyInFilterTime.value) {
+                query.time = filterTime.value;
+            }
+            const res = await reportsService.eventSegmentation(commonStore.organizationId, commonStore.projectId, query);
             if (res) {
                 eventSegmentation.value = res.data as DataTableResponse
             }
@@ -109,7 +130,13 @@ const getFunnelsReport = async () => {
     if (query.value) {
         try {
             const query = report.value?.query as FunnelQuery;
-            const res = await dataService.funnelQuery(commonStore.organizationId, commonStore.projectId, query)
+            if (filterGroupsStore.isSelectedAnyFilter) {
+                query.filters = filterGroupsStore.filters;
+            }
+            if (ifChangeAnyInFilterTime.value) {
+                query.time = filterTime.value;
+            }
+            const res = await dataService.funnelQuery(commonStore.organizationId, commonStore.projectId, query);
 
             if (res?.data?.columns) {
                 funnelsReport.value = res.data.columns as DataTableResponseColumnsInner[]
@@ -133,15 +160,25 @@ const updateState = async () => {
     }
 }
 
-onMounted( () => {
-    updateState()
-})
+onMounted(() => {
+    filterTimeInitState.value = eventsStore.timeRequest;
+
+    updateState();
+});
 
 watch(() => props.reportId, (id, oldValue) => {
     if (id && id !== oldValue) {
         updateState()
     }
-})
+});
+
+watchDebounced(filterTime, () => {
+    updateState();
+}, { debounce: DebounceUpdate });
+
+watchDebounced(filters, () => {
+    updateState();
+}, { debounce: DebounceUpdate });
 </script>
 
 <style lang="scss">

@@ -1,16 +1,26 @@
 <template>
-    <div class="filter pf-l-flex">
-        <div class="pf-c-action-list">
+    <div
+        class="filter pf-l-flex"
+        :class="orientationClass"
+    >
+        <div
+            class="filter__items pf-c-action-list"
+            :class="{
+                'filter__items_hover': isAnyButtonHovered
+            }"
+        >
             <CommonIdentifier
                 v-if="showIdentifier"
                 :index="index"
             />
             <div
-                v-else
-                class="pf-c-action-list__item pf-u-mb-0 pf-u-mt-xs min-w-50 pf-u-text-align-right"
+                v-else-if="!hidePrefix"
+                :class="{
+                    'min-w-50': minWidthPrefix,
+                }"
+                class="pf-c-action-list__item pf-u-mb-0 pf-u-mt-xs pf-u-text-align-right"
             >
                 <slot
-                    v-if="!hidePrefix"
                     name="prefix"
                 >
                     {{ $t('filters.with') }}
@@ -110,6 +120,7 @@
                                 class="pf-c-action-list__item filter__control-item"
                             >
                                 <UiButton
+                                    ref="elButtonValues"
                                     class="pf-m-plain"
                                     icon="fas fa-times"
                                     @click="removeFilter"
@@ -147,6 +158,7 @@
                 class="pf-c-action-list__item filter__control-item"
             >
                 <UiButton
+                    ref="elButtonMain"
                     class="pf-m-plain"
                     icon="fas fa-times"
                     @click="removeFilter"
@@ -157,7 +169,8 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
+import { ref, reactive, computed } from 'vue';
+import { useElementHover } from '@vueuse/core';
 import { EventFilter } from '@/stores/eventSegmentation/events';
 import { useLexiconStore } from '@/stores/lexicon';
 import PropertySelect from '@/components/events/PropertySelect.vue';
@@ -167,10 +180,9 @@ import { EventRef, PropertyRef } from '@/types/events';
 import { operationById, OperationId, Value } from '@/types';
 import CommonIdentifier from '@/components/common/identifier/CommonIdentifier.vue';
 import { PropertyType } from '@/api';
+import { OrientationTypeEnum, OrientationEnum } from '@/types/filters';
 
-const lexiconStore = useLexiconStore();
-
-const props = defineProps<{
+type Props = {
     eventRef?: EventRef;
     eventRefs?: EventRef[];
     filter: EventFilter;
@@ -180,16 +192,36 @@ const props = defineProps<{
     popperContainer?: string;
     forPreview?: boolean;
     hidePrefix?: boolean;
-}>();
+    orientation?: OrientationEnum;
+    minWidthPrefix?: boolean;
+}
+
+const lexiconStore = useLexiconStore();
+
+const props = withDefaults(defineProps<Props>(), {
+    orientation: OrientationTypeEnum.VERTICAL,
+    minWidthPrefix: true,
+});
+
+const elButtonMain = ref(null);
+const elButtonValues = ref(null);
+const isHoveredButtonMain = useElementHover(elButtonMain);
+const isHoveredButtonValues = useElementHover(elButtonValues);
+
+const isAnyButtonHovered = computed(() => {
+    return isHoveredButtonMain.value || isHoveredButtonValues.value;
+});
 
 const emit = defineEmits<{
-    (e: 'removeFilter', index: number): void;
     (e: 'changeFilterProperty', filterIdx: number, propRef: PropertyRef): void;
+    (e: 'removeFilter', index: number): void;
     (e: 'changeFilterOperation', filterIdx: number, opId: OperationId): void;
     (e: 'addFilterValue', filterIdx: number, value: Value): void;
     (e: 'removeFilterValue', filterIdx: number, value: Value): void;
     (e: 'handleSelectProperty'): void;
 }>();
+
+const orientationClass = computed(() => `filter_${props.orientation}`);
 
 const operationButtonText = computed(() => {
     return props.filter.opId ? operationById?.get(props.filter.opId)?.shortName || operationById?.get(props.filter.opId)?.name : '';
@@ -262,11 +294,11 @@ const removeValue = (value: Value) => {
 const removeValueButton = (value: Value) => {
     emit('removeFilterValue', props.index, value);
 };
+
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 .filter {
-    margin-bottom: 0;
     &:hover {
         .filter__control-item {
             opacity: 1;
@@ -275,17 +307,48 @@ const removeValueButton = (value: Value) => {
     &__control-item {
         opacity: 0;
     }
+    &__items {
+        &_hover {
+            .pf-c-button {
+                --pf-c-button--after--BorderWidth: var(--pf-c-button--hover--after--BorderWidth);
+                text-decoration: none;
+                &.pf-m-secondary {
+                    --pf-c-button--m-secondary--Color: var(--pf-c-button--m-secondary--hover--Color);
+                    --pf-c-button--m-secondary--BackgroundColor: #fff;
+                    --pf-c-button--after--BorderColor: var(--pf-c-button--m-secondary--hover--after--BorderColor);
+                }
+            }
+
+        }
+    }
+    &_horizontal {
+        .pf-c-action-list {
+            &__item {
+                margin-bottom: 0;
+            }
+        }
+        > .pf-c-action-list {
+            padding-right: 0;
+        }
+    }
+    &_vertical {
+        margin-bottom: 0;
+        .pf-c-action-list {
+            &__item {
+                margin-bottom: 11px;
+            }
+        }
+        > .pf-c-action-list {
+            padding-right: 30px;
+        }
+    }
     > .pf-c-action-list {
         position: relative;
-        padding-right: 30px;
     }
     .pf-c-action-list {
         position: relative;
         flex-wrap: wrap;
         align-items: flex-start;
-        &__item {
-            margin-bottom: 11px;
-        }
         .multi-select__action {
             .pf-c-action-list {
                 margin-bottom: -11px;

@@ -56,7 +56,7 @@
                             :button-icon="'gear'"
                             :placement-menu="'bottom-end'"
                             @select-value="selectUserMenu"
-                        ></UiDropdown>
+                        />
                     </div>
                 </div>
             </div>

@@ -98,7 +98,7 @@ const update = () => {
     }
 
     chart.value = new Chart({
-        container: container.value,
+        container: container.value as HTMLElement,
         height: props.height,
         width: props.width,
         autoFit: true,
@@ -181,11 +181,11 @@ const update = () => {
                     const dropOffCountText = humanReadable(dropOffCount)
                     const dropOffRatioText = `${dropOffRatio}%`
 
-                    const hasDropOff = dropOffCount > 0 && dropOffRatio > 0
+                    const hasDropOff = +dropOffCount > 0 && +dropOffRatio > 0
 
                     const group = new G.Group({})
 
-                    if (conversionCount > 0) {
+                    if (+conversionCount > 0) {
                         group.addShape({
                             type: 'text',
                             attrs: {
@@ -197,7 +197,7 @@ const update = () => {
                         })
                     }
 
-                    if (conversionRatio > 0) {
+                    if (+conversionRatio > 0) {
                         group.addShape({
                             type: 'text',
                             attrs: {
@@ -210,11 +210,11 @@ const update = () => {
                         })
                     }
 
-                    if (dropOffCount > 0) {
+                    if (+dropOffCount > 0) {
                         group.addShape({
                             type: 'text',
                             attrs: {
-                                x: dropOffRatio > 0 ? 0 : width / 2,
+                                x: +dropOffRatio > 0 ? 0 : width / 2,
                                 y: 4 * size,
                                 text: dropOffCountText,
                                 ...numberProps
@@ -222,7 +222,7 @@ const update = () => {
                         })
                     }
 
-                    if (dropOffRatio > 0) {
+                    if (+dropOffRatio > 0) {
                         group.addShape({
                             type: 'text',
                             attrs: {
