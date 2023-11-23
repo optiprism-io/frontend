@@ -114,9 +114,11 @@ const getEventSegmentation = async () => {
             if (ifChangeAnyInFilterTime.value) {
                 query.time = filterTime.value;
             }
-            const res = await reportsService.eventSegmentation(commonStore.organizationId, commonStore.projectId, query);
-            if (res) {
-                eventSegmentation.value = res.data as DataTableResponse
+            if (query.events.length) {
+                const res = await reportsService.eventSegmentation(commonStore.organizationId, commonStore.projectId, query);
+                if (res) {
+                    eventSegmentation.value = res.data as DataTableResponse
+                }
             }
         } catch (error) {
             throw Error(JSON.stringify(error))

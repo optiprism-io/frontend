@@ -1,6 +1,9 @@
 <template>
     <div class="dashboards pf-c-page__main-section pf-u-p-md pf-u-pb-3xl">
-        <div class="dashboards__nav pf-u-px-sm pf-u-mb-sm pf-u-display-flex pf-u-justify-content-space-between pf-u-align-items-center">
+        <div
+            v-if="dashboards.length"
+            class="dashboards__nav pf-u-px-sm pf-u-mb-sm pf-u-display-flex pf-u-justify-content-space-between pf-u-align-items-center"
+        >
             <UiSelect
                 v-if="isLoading || isShowDashboardContentAndControls"
                 class="dashboards__select pf-u-mr-md"
@@ -128,7 +131,7 @@
             </template>
         </GridLayout>
         <DataEmptyPlaceholder
-            v-else-if="!isLoading && selectReportsList.length"
+            v-else-if="showReportdPlacholder"
             :hide-icon="true"
             :h-100="true"
         >
@@ -143,7 +146,7 @@
             />
         </DataEmptyPlaceholder>
         <DataEmptyPlaceholder
-            v-else-if="!isLoading"
+            v-else-if="dashboards.length && !isLoading"
             :hide-icon="true"
             :h-100="true"
         >
@@ -276,6 +279,10 @@ const untitledDashboardName = computed(() => {
 
 const untitledDashboardsList = computed(() => {
     return dashboards.value.filter(item => (`${item.name.split(' ')[0]}` + ' ' + `${item.name.split(' ')[1]}`) === t('dashboards.untitledDashboard'));
+});
+
+const showReportdPlacholder = computed(() => {
+    return !isLoading.value && !layout.value.length && selectReportsList.value.length && activeDashboardId.value;
 });
 
 const selectReportsList = computed(() => {

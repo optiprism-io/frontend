@@ -114,14 +114,4 @@ const editEvent = (payload: number) => {
 const onChange = () => {
     emit('on-change');
 };
-
-const onChangeDebounce = debounce(() => {
-    onChange();
-}, 1100);
-
-eventsStore.$subscribe((mutation) => {
-    if (mutation.type === 'direct') {
-        onChangeDebounce();
-    }
-});
 </script>

@@ -28,7 +28,6 @@
             <EventsViews
                 :event-segmentation="eventSegmentation"
                 :loading="eventSegmentationLoading"
-                @get-event-segmentation="getEventSegmentation"
             />
         </template>
     </TemplateReport>
@@ -36,6 +35,7 @@
 
 <script setup lang="ts">
 import { onUnmounted, onMounted, ref } from 'vue';
+import { debounce } from 'lodash';
 import Events from '@/components/events/Events/Events.vue';
 import Breakdowns from '@/components/events/Breakdowns.vue';
 import Segments from '@/components/events/Segments/Segments.vue';
@@ -55,12 +55,12 @@ import { useCommonStore } from '@/stores/common'
 import { useSegmentsStore } from '@/stores/reports/segments';
 
 const eventsStore = useEventsStore();
-const filterGroupsStore = useFilterGroupsStore()
-const commonStore = useCommonStore()
-const segmentsStore = useSegmentsStore()
+const filterGroupsStore = useFilterGroupsStore();
+const commonStore = useCommonStore();
+const segmentsStore = useSegmentsStore();
 
-const eventSegmentationLoading = ref(false)
-const eventSegmentation = ref<DataTableResponse>()
+const eventSegmentationLoading = ref(false);
+const eventSegmentation = ref<DataTableResponse>();
 
 onUnmounted(() => {
     if (commonStore.syncReports) {
@@ -73,20 +73,32 @@ onUnmounted(() => {
 });
 
 const getEventSegmentation = async () => {
-    eventSegmentationLoading.value = true;
-    try {
-        const res = await reportsService.eventSegmentation(commonStore.organizationId, commonStore.projectId,  eventsStore.propsForEventSegmentationResult);
-        if (res) {
-            eventSegmentation.value = res.data as DataTableResponse;
+    if (eventsStore.propsForEventSegmentationResult.events.length) {
+        eventSegmentationLoading.value = true;
+        try {
+            const res = await reportsService.eventSegmentation(commonStore.organizationId, commonStore.projectId,  eventsStore.propsForEventSegmentationResult);
+            if (res) {
+                eventSegmentation.value = res.data as DataTableResponse;
+            }
+        } catch (error) {
+            console.log('error event segmentation');
         }
-    } catch (error) {
-        console.log('error event segmentation');
+        eventSegmentationLoading.value = false;
     }
-    eventSegmentationLoading.value = false;
 };
 
 onMounted(() => {
     getEventSegmentation();
+});
+
+const onChangeDebounce = debounce(() => {
+    getEventSegmentation();
+}, 1100);
+
+eventsStore.$subscribe((mutation) => {
+    if (mutation.type === 'direct') {
+        onChangeDebounce();
+    }
 });
 </script>
 
