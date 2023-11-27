@@ -1,5 +1,5 @@
-// import { ref, computed } from 'vue';
 import {defineStore} from 'pinia';
+import useI18n from '@/hooks/useI18n';
 import schemaService from '@/api/services/schema.service';
 import {
     customEventRef,
@@ -12,11 +12,10 @@ import {
     EventQueryRef,
 } from '@/types/events';
 import { $T, $TKeyExists } from '@/utils/i18n';
-import { Cohort } from '@/types';
-import { aggregates } from '@/types/aggregate'
+import { Cohort, ApplyPayload } from '@/types';
+import { aggregates } from '@/types/aggregate';
 import { Group, Item } from '@/components/Select/SelectTypes';
 import { useEventsStore, Events } from '@/stores/eventSegmentation/events';
-import { ApplyPayload } from '@/components/events/EventManagementPopup.vue'
 import {
     PropertyType,
     CustomEvent,
@@ -25,9 +24,11 @@ import {
     Event,
     CustomProperty,
     QueryAggregate,
-} from '@/api'
-import { useCommonStore, PropertyTypeEnum } from '@/stores/common'
-import useI18n from '@/hooks/useI18n';
+} from '@/api';
+import {
+    useCommonStore,
+    PropertyTypeEnum,
+} from '@/stores/common';
 import { errorHandler } from '@/helpers/errorHandlerHelper';
 
 type Lexicon = {
@@ -82,12 +83,9 @@ export const useLexiconStore = defineStore('lexicon', {
         userCustomProperties: [],
     }),
     actions: {
-        getI18n() {
-            return
-        },
         deleteCustomEvent(payload: number) {
-            const indexEvent = this.customEvents.findIndex(event => event.id === payload)
-            this.customEvents.splice(indexEvent, 1)
+            const indexEvent = this.customEvents.findIndex(event => event.id === payload);
+            this.customEvents.splice(indexEvent, 1);
         },
         async updateEventProperty(payload: ApplyPayload) {
             const commonStore = useCommonStore()
@@ -98,7 +96,7 @@ export const useLexiconStore = defineStore('lexicon', {
                     const index: number = this.eventProperties.findIndex(property => Number(property.id) === commonStore.editEventPropertyPopupId)
 
                     if (~index) {
-                        this.eventProperties[index] = newProperty
+                        this.eventProperties[index] = newProperty;
                     }
                 }
             } catch (e) {
@@ -164,7 +162,7 @@ export const useLexiconStore = defineStore('lexicon', {
                 console.log('error customEvents')
             }
 
-            this.eventsLoading = false
+            this.eventsLoading = false;
         },
         async getEventProperties() {
             const commonStore = useCommonStore()

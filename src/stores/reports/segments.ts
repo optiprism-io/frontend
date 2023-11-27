@@ -47,7 +47,7 @@ import {
     EventFilterByPropertyTypeEnum,
     SegmentConditionAnd,
     SegmentConditionOr,
-} from '@/api'
+} from '@/api';
 
 export interface Segment {
     name: string
@@ -451,7 +451,7 @@ export const useSegmentsStore = defineStore('segments', {
             }
         },
         async changePropertyCondition(idx: number, idxSegment: number, ref: PropertyRef) {
-            const segment = this.segments[idxSegment]
+            const segment = this.segments[idxSegment];
 
             if (segment && segment.conditions) {
                 const condition = segment.conditions[idx]
@@ -462,14 +462,12 @@ export const useSegmentsStore = defineStore('segments', {
 
                     try {
                         const res = await schemaService.propertyValues(commonStore.organizationId, commonStore.projectId, {
-                            // TODO integration with backand
-                            // check condition type
-                            propertyType: condition.propRef?.type as PropertyType,
+                            propertyType: condition.propRef?.type as PropertyType || PropertyType.User,
                             eventType: condition.event?.ref?.type as EventType,
                             propertyName: lexiconStore.propertyName(ref),
                         })
 
-                        if (res.data.data) {
+                        if (res?.data.data) {
                             condition.valuesList = res.data.data
                         }
                     } catch (error) {

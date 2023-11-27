@@ -30,11 +30,10 @@
 
 <script lang="ts" setup>
 import { ref, computed, onMounted, watch } from 'vue';
-import { watchDebounced } from '@vueuse/core';
+import { debounce } from 'lodash';
 import { pagesMap } from '@/router';
 import {
     Report,
-    EventChartType,
     DataTableResponse,
     ReportType,
     DataTableResponseColumnsInner,
@@ -174,13 +173,21 @@ watch(() => props.reportId, (id, oldValue) => {
     }
 });
 
-watchDebounced(filterTime, () => {
+const onChangeDebounce = debounce(() => {
     updateState();
-}, { debounce: DebounceUpdate });
+}, DebounceUpdate);
 
-watchDebounced(filters, () => {
-    updateState();
-}, { debounce: DebounceUpdate });
+filterGroupsStore.$subscribe((mutation) => {
+    if (mutation.type === 'direct') {
+        onChangeDebounce();
+    }
+});
+
+eventsStore.$subscribe((mutation) => {
+    if (mutation.type === 'direct') {
+        onChangeDebounce();
+    }
+});
 </script>
 
 <style lang="scss">

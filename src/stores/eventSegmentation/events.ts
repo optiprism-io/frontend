@@ -1,4 +1,4 @@
-import { defineStore } from 'pinia'
+import { defineStore } from 'pinia';
 import {
     EventRef,
     PropertyRef,
@@ -21,10 +21,8 @@ import {
     QueryAggregatePropertyPerGroupTypeEnum,
     QueryCountPerGroupTypeEnum,
     QueryFormulaTypeEnum,
-    QuerySimpleTypeEnum,
     EventFilterByProperty,
     EventType,
-    QueryAggregatePerGroup,
     QueryAggregatePropertyPerGroup,
     QueryAggregateProperty,
     QueryAggregate,

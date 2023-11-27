@@ -298,13 +298,13 @@ const getPropertyValues = async (propRef: PropertyRef) => {
             eventType: props.event.ref.type as EventType,
             propertyName: lexiconStore.propertyName(propRef),
             propertyType: propRef.type
-        })
+        });
 
         if (res.data.data) {
-            valuesList = res.data.data
+            valuesList = res.data.data;
         }
     } catch (e) {
-        console.error(e);
+        console.log('fee ', e);
     }
 
     return valuesList;

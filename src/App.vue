@@ -20,27 +20,26 @@ const { t } = usei18n();
 const authStore = useAuthStore();
 const alertsStore = useAlertsStore();
 
-const ERROR_INTERNAL_ID = 'Internal';
-
 const closeAlert = (id: string) => alertsStore.closeAlert(id);
 
 const createErrorGeneral = (res: ErrorResponse, text?: string) => {
     alertsStore.createAlert({
-        time: 5000,
+        time: 7000,
         type: 'danger',
         text: text ?? res?.message ?? t('errors.internal'),
     });
 };
 
 axios.interceptors.response.use(res => res, async err => {
-    const code = err?.code || err?.response?.status || err?.error?.status;
-    const error = `ERROR: code '${code}', message: '${err?.message}', url: '${err?.config?.url}'`;
+    const error = `${err?.response?.status || err?.error?.status || ''} ${err?.code || ''} ${err?.message}`;
+
 
     if (err?.response) {
         if (err.code === 'ERR_NETWORK') {
             createErrorGeneral(err.response, error);
             return Promise.reject(err);
         }
+
         switch (err?.response?.status || err?.error?.status) {
             case 400:
                 if (err.response?.data) {
@@ -52,8 +51,10 @@ axios.interceptors.response.use(res => res, async err => {
                 return Promise.reject(err);
             case 500:
             case 503:
-                createErrorGeneral(err.response);
+            default:
+                createErrorGeneral(err, error);
                 break;
+
         }
     }
 
