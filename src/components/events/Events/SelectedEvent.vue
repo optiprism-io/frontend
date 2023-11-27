@@ -304,7 +304,7 @@ const getPropertyValues = async (propRef: PropertyRef) => {
             valuesList = res.data.data;
         }
     } catch (e) {
-        console.log('fee ', e);
+        console.error(e);
     }
 
     return valuesList;
