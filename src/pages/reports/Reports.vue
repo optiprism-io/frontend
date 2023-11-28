@@ -55,13 +55,12 @@
             @on-select="onSelectTab"
         />
         <div
-            v-if="reportsStore.loading"
-            class="pf-u-h-66vh pf-u-display-flex pf-u-align-items-center pf-u-justify-content-center"
+            v-if="!itemsReports.length"
+            class="reports__loading pf-u-h-66vh pf-u-display-flex pf-u-align-items-center pf-u-justify-content-center"
         >
             <UiSpinner />
         </div>
         <router-view
-            v-else
             @on-change="onChange"
         />
     </section>
@@ -119,27 +118,28 @@ const items = computed(() => {
         },
         {
             name: t('funnels.funnels'),
-            value: 'reports_funnels',
+            value: pagesMap.funnels.name,
             link: {
-                name: 'reports_funnels'
+                name: pagesMap.funnels.name,
             },
-        }
+        },
     ];
 
     return mapTabs.map(item => {
         return {
             ...item,
             active: route.name === item.value,
-        }
+        };
     });
 })
 
 const reportSelectText = computed(() => {
-    return reportsStore.activeReport ? reportsStore.activeReport.name : t('reports.selectReport')
-})
+    return reportsStore.activeReport ? reportsStore.activeReport.name : t('reports.selectReport');
+});
 
-const reportType = computed(() => pagesMap.reportsEventSegmentation.name === route.name ?
-    ReportType.EventSegmentation : ReportType.Funnel)
+const reportType = computed(() => {
+    return pagesMap.reportsEventSegmentation.name === route.name ? ReportType.EventSegmentation : ReportType.Funnel;
+});
 
 const itemsReports = computed(() => {
     return reportsStore.list.map(item => {
@@ -183,7 +183,7 @@ const onDeleteReport = async () => {
 
 const onCreateReport = async () => {
     if (reportsStore.reportId) {
-        await reportsStore.editReport(reportName.value, reportType.value)
+        await reportsStore.editReport(reportName.value || untitledReportName.value, reportType.value)
     } else {
         await reportsStore.createReport(reportName.value || untitledReportName.value, reportType.value)
 
@@ -197,8 +197,6 @@ const onCreateReport = async () => {
 }
 
 const onSaveReport = async () => {
-    console.log('onSaveReport');
-
     onCreateReport();
     await reportsStore.getList();
     reportsStore.updateDump(reportType.value);
@@ -210,8 +208,6 @@ const setNameReport = (payload: string) => {
 }
 
 const onChange = async () => {
-    console.log('onChange');
-
     reportsStore.loading = true;
     await onSaveReport();
     await reportsStore.getList();
@@ -298,6 +294,11 @@ onMounted(async () => {
                 margin-left: -12px;
             }
         }
+    }
+    &__loading {
+        position: absolute;
+        z-index: 2;
+        background-color: #fff;
     }
 }
 </style>

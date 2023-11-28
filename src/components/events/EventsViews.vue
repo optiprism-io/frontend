@@ -185,7 +185,7 @@ const props = withDefaults(defineProps<Props>(), {
 const dataTable = computed(() => useDataTable(props.eventSegmentation || {}, true))
 
 const emit = defineEmits<{
-    (e: 'get-event-segmentation'): void
+    (e: 'on-change'): void
 }>()
 
 const isNoData = computed(() => !props.loading && !dataTable.value.hasData)
@@ -368,7 +368,7 @@ const onSelectChartType = (payload: string): void => {
 
 const updateEventSegmentationData = async () => {
     if (eventsStore.hasSelectedEvents) {
-        emit('get-event-segmentation')
+        emit('on-change')
     }
 }
 </script>

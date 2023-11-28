@@ -4,22 +4,22 @@
             <GridContainer>
                 <GridItem :col-lg="6">
                     <UiCard :title="$t('events.events')">
-                        <Events @on-change="getEventSegmentation" />
+                        <Events @on-change="onChange" />
                     </UiCard>
                 </GridItem>
                 <GridItem :col-lg="6">
                     <UiCard :title="$t('events.segments.label')">
-                        <Segments @on-change="getEventSegmentation" />
+                        <Segments @on-change="onChangeDebounce" />
                     </UiCard>
                 </GridItem>
                 <GridItem :col-lg="6">
                     <UiCardContainer>
-                        <FilterReports @on-change="getEventSegmentation" />
+                        <FilterReports @on-change="onChangeDebounce" />
                     </UiCardContainer>
                 </GridItem>
                 <GridItem :col-lg="6">
                     <UiCard :title="$t('events.breakdowns')">
-                        <Breakdowns @on-change="getEventSegmentation" />
+                        <Breakdowns @on-change="onChangeDebounce" />
                     </UiCard>
                 </GridItem>
             </GridContainer>
@@ -28,6 +28,7 @@
             <EventsViews
                 :event-segmentation="eventSegmentation"
                 :loading="eventSegmentationLoading"
+                @on-change="onChangeDebounce"
             />
         </template>
     </TemplateReport>
@@ -87,7 +88,6 @@ const getEventSegmentation = async () => {
         } catch (error) {
             console.log('error event segmentation');
         }
-        emit('on-change');
         eventSegmentationLoading.value = false;
     }
 };
@@ -96,15 +96,14 @@ onMounted(() => {
     getEventSegmentation();
 });
 
-const onChangeDebounce = debounce(() => {
+const onChange = () => {
     getEventSegmentation();
-}, 1100);
+    emit('on-change');
+};
 
-eventsStore.$subscribe((mutation) => {
-    if (mutation.type === 'direct') {
-        onChangeDebounce();
-    }
-});
+const onChangeDebounce = debounce(() => {
+    onChange();
+}, 1100);
 </script>
 
 <style scoped lang="scss">
