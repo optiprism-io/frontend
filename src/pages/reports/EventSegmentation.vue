@@ -1,5 +1,7 @@
 <template>
-    <TemplateReport>
+    <TemplateReport
+        :loading="reportsLoadingInit"
+    >
         <template #content>
             <GridContainer>
                 <GridItem :col-lg="6">
@@ -35,7 +37,7 @@
 </template>
 
 <script setup lang="ts">
-import { onUnmounted, onMounted, ref } from 'vue';
+import { onUnmounted, onMounted, ref, computed } from 'vue';
 import { debounce } from 'lodash';
 import Events from '@/components/events/Events/Events.vue';
 import Breakdowns from '@/components/events/Breakdowns.vue';
@@ -54,11 +56,13 @@ import { useEventsStore } from '@/stores/eventSegmentation/events'
 import { useFilterGroupsStore } from '@/stores/reports/filters'
 import { useCommonStore } from '@/stores/common'
 import { useSegmentsStore } from '@/stores/reports/segments';
+import { useReportsStore } from '@/stores/reports/reports';
 
 const eventsStore = useEventsStore();
 const filterGroupsStore = useFilterGroupsStore();
 const commonStore = useCommonStore();
 const segmentsStore = useSegmentsStore();
+const reportsStore = useReportsStore();
 
 const eventSegmentationLoading = ref(false);
 const eventSegmentation = ref<DataTableResponse>();
@@ -66,6 +70,10 @@ const eventSegmentation = ref<DataTableResponse>();
 const emit = defineEmits<{
     (e: 'on-change'): void
 }>();
+
+const reportsLoadingInit = computed(() => {
+    return reportsStore.loading && !reportsStore.list.length;
+});
 
 onUnmounted(() => {
     if (commonStore.syncReports) {

@@ -54,12 +54,6 @@
             :items="items"
             @on-select="onSelectTab"
         />
-        <div
-            v-if="!itemsReports.length"
-            class="reports__loading pf-u-h-66vh pf-u-display-flex pf-u-align-items-center pf-u-justify-content-center"
-        >
-            <UiSpinner />
-        </div>
         <router-view
             @on-change="onChange"
         />
@@ -76,7 +70,7 @@ import { reportToStores } from '@/utils/reportsMappings'
 
 import useConfirm from '@/hooks/useConfirm'
 import { useEventsStore } from '@/stores/eventSegmentation/events'
-import { useReportsStore } from '@/stores/reports/reports'
+import { useReportsStore } from '@/stores/reports/reports';
 import { useCommonStore } from '@/stores/common'
 import { useFilterGroupsStore } from '@/stores/reports/filters'
 import { useSegmentsStore } from '@/stores/reports/segments'
@@ -131,7 +125,7 @@ const items = computed(() => {
             active: route.name === item.value,
         };
     });
-})
+});
 
 const reportSelectText = computed(() => {
     return reportsStore.activeReport ? reportsStore.activeReport.name : t('reports.selectReport');
@@ -294,11 +288,6 @@ onMounted(async () => {
                 margin-left: -12px;
             }
         }
-    }
-    &__loading {
-        position: absolute;
-        z-index: 2;
-        background-color: #fff;
     }
 }
 </style>

@@ -1,5 +1,7 @@
 <template>
-    <TemplateReport>
+    <TemplateReport
+        :loading="reportsLoadingInit"
+    >
         <template #content>
             <GridContainer>
                 <GridItem :col-lg="6">
@@ -48,7 +50,7 @@
 </template>
 
 <script setup lang="ts">
-import { onUnmounted } from 'vue'
+import { onUnmounted, computed } from 'vue'
 import UiCardContainer from '@/components/uikit/UiCard/UiCardContainer.vue';
 import TimeWindow from '@/components/funnels/time-window/TimeWindow.vue';
 import UiCardTitle from '@/components/uikit/UiCard/UiCardTitle.vue';
@@ -72,11 +74,17 @@ import { useEventsStore } from '@/stores/eventSegmentation/events'
 import { useFilterGroupsStore } from '@/stores/reports/filters'
 import { useSegmentsStore } from '@/stores/reports/segments'
 import { useCommonStore } from '@/stores/common'
+import { useReportsStore } from '@/stores/reports/reports';
 
 const eventsStore = useEventsStore()
 const filterGroupsStore = useFilterGroupsStore()
 const segmentsStore = useSegmentsStore()
 const commonStore = useCommonStore()
+const reportsStore = useReportsStore();
+
+const reportsLoadingInit = computed(() => {
+    return reportsStore.loading && !reportsStore.list.length;
+});
 
 onUnmounted(() => {
     if (commonStore.syncReports) {
