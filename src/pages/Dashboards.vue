@@ -350,7 +350,7 @@ const updateCreateDashboard = async (panels?: Layout[]) => {
             }
         }
     } catch (e) {
-        console.error(e);
+        throw new Error('error updateCreateDashboard');
     }
 }
 

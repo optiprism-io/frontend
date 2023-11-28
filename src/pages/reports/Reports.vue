@@ -2,7 +2,7 @@
     <section class="pf-c-page__main-section reports">
         <div class="pf-u-display-flex pf-u-align-items-center">
             <UiSelect
-                v-if="!editableNameReport"
+                v-if="!editableNameReport && itemsReports.length"
                 class="reports__select pf-u-mr-md"
                 :items="itemsReports"
                 :text-button="reportSelectText"
@@ -20,6 +20,7 @@
                 </template>
             </UiSelect>
             <UiInlineEdit
+                v-if="itemsReports.length"
                 class="reports__name pf-u-mr-md"
                 :value="reportName"
                 :hide-text="true"
@@ -34,6 +35,7 @@
                 {{ $t('reports.createReport') }}
             </UiButton>
             <UiButton
+                v-if="itemsReports.length"
                 class="pf-m-link pf-m-danger"
                 :before-icon="'fas fa-times'"
                 @click="onDeleteReport"
@@ -58,7 +60,10 @@
         >
             <UiSpinner />
         </div>
-        <router-view v-else />
+        <router-view
+            v-else
+            @on-change="onChange"
+        />
     </section>
 </template>
 
@@ -155,7 +160,6 @@ const untitledReportName = computed(() => {
     return `${t('reports.untitledReport')} #${untitledReportsList.value.length + 1}`;
 });
 
-
 const onEditNameReport = (payload: boolean) => {
     editableNameReport.value = payload;
 };
@@ -193,6 +197,8 @@ const onCreateReport = async () => {
 }
 
 const onSaveReport = async () => {
+    console.log('onSaveReport');
+
     onCreateReport();
     await reportsStore.getList();
     reportsStore.updateDump(reportType.value);
@@ -204,6 +210,8 @@ const setNameReport = (payload: string) => {
 }
 
 const onChange = async () => {
+    console.log('onChange');
+
     reportsStore.loading = true;
     await onSaveReport();
     await reportsStore.getList();
@@ -251,8 +259,6 @@ const initReportPage = async () => {
 
     if (reportId) {
         await onSelectReport(Number(reportId));
-    } else {
-        await onCreateReport();
     }
 
     reportsStore.loading = false;

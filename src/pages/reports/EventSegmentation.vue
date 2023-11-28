@@ -62,6 +62,10 @@ const segmentsStore = useSegmentsStore();
 const eventSegmentationLoading = ref(false);
 const eventSegmentation = ref<DataTableResponse>();
 
+const emit = defineEmits<{
+    (e: 'on-change'): void
+}>();
+
 onUnmounted(() => {
     if (commonStore.syncReports) {
         eventsToFunnels()
@@ -83,6 +87,7 @@ const getEventSegmentation = async () => {
         } catch (error) {
             console.log('error event segmentation');
         }
+        emit('on-change');
         eventSegmentationLoading.value = false;
     }
 };
