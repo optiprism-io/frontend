@@ -204,7 +204,6 @@ const setNameReport = (payload: string) => {
 const onChange = async () => {
     reportsStore.loading = true;
     await onSaveReport();
-    await reportsStore.getList();
     reportsStore.loading = false;
 };
 
