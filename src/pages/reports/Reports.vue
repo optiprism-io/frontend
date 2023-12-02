@@ -167,9 +167,9 @@ const onDeleteReport = async () => {
             applyButtonClass: 'pf-m-danger',
         });
 
-        reportsStore.deleteReport(reportsStore.reportId)
-        setNew();
-        reportsStore.getList()
+        reportsStore.deleteReport(reportsStore.reportId);
+
+        // reportsStore.reportId = 0;
     } catch(error) {
         reportsStore.loading = false
     }
