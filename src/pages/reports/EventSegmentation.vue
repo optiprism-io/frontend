@@ -94,7 +94,7 @@ const getEventSegmentation = async () => {
                 eventSegmentation.value = res.data as DataTableResponse;
             }
         } catch (error) {
-            console.log('error event segmentation');
+            throw new Error('error getEventSegmentation');
         }
         eventSegmentationLoading.value = false;
     }
@@ -105,6 +105,7 @@ onMounted(() => {
 });
 
 const onChange = () => {
+    // TODO check who update in start
     getEventSegmentation();
     emit('on-change');
 };
