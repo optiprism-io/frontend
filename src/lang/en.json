@@ -10,6 +10,7 @@
     "unauthorized": "We're sorry, but we can't authenticate you. You must be logged in to access these pages.",
     "internal": "Something gone wrong, please try again later",
     "requiredInput": "Input is required",
+    "emailIncorrect": "Please enter a valid email address",
     "loginIncorrect": "That email and password combination is incorrect"
   },
 
