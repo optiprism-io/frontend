@@ -15,6 +15,7 @@ import {
     UpdatePropertyRequest,
     UpdateCustomEventRequest,
     ListPropertyValuesRequest,
+    SystemPropertiesApi,
 } from '@/api'
 import {config} from '@/api/services/config';
 
@@ -24,6 +25,7 @@ const propertiesApi = new PropertiesApi(config)
 const propertyValuesApi = new PropertyValuesApi(config)
 const eventPropertiesApi = new EventPropertiesApi(config)
 const userPropertiesApi = new UserPropertiesApi(config)
+const systemPropertiesApi = new SystemPropertiesApi(config)
 
 export type FilterCustomEvent = {
     filterType: string
@@ -56,6 +58,7 @@ const schemaService = {
     userProperties: async (organizationId: number, projectId: number) => await userPropertiesApi.userPropertiesList(organizationId, projectId),
     updateUserProperty: async(organizationId: number, projectId: number, propertyId: number, params: UpdatePropertyRequest) => await userPropertiesApi.updateUserProperty(organizationId, projectId, propertyId, params),
     propertyValues: async(organizationId: number, projectId: number, params: ListPropertyValuesRequest) => await propertyValuesApi.propertyValuesList(organizationId, projectId, params),
+    systemProperties: async(organizationId: number, projectId: number) => await systemPropertiesApi.systemPropertiesList(organizationId, projectId),
 };
 
 export default schemaService

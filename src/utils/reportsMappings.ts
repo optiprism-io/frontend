@@ -51,9 +51,8 @@ import {
     QueryAggregate,
     QueryAggregatePerGroup,
     EventFilterByPropertyTypeEnum,
-    SegmentConditionAnd,
-    SegmentConditionOr
-} from '@/api'
+    EventGroupedFiltersGroupsConditionEnum,
+} from '@/api';
 
 type Queries = QuerySimple | QueryCountPerGroup | QueryAggregatePropertyPerGroup | QueryAggregateProperty | QueryFormula
 
@@ -158,8 +157,9 @@ const mapReportToEvents = async (items: EventSegmentationEvent[]): Promise<Event
                         break;
                     case QuerySimpleTypeEnum.CountEvents:
                     case QuerySimpleTypeEnum.CountUniqueGroups:
-                    case QuerySimpleTypeEnum.MonthlyActiveGroups:
+                    case QuerySimpleTypeEnum.DailyActiveGroups:
                     case QuerySimpleTypeEnum.WeeklyActiveGroups:
+                    case QuerySimpleTypeEnum.MonthlyActiveGroups:
                         break;
                     case QueryAggregatePropertyPerGroupTypeEnum.AggregatePropertyPerGroup:
                         queryRef.typeGroupAggregate = query.aggregatePerGroup as QueryAggregatePerGroup
@@ -240,7 +240,10 @@ const mapReportToSegments = async (items: EventSegmentationSegment[]): Promise<S
             conditions: await Promise.all(item.conditions.map(async (row): Promise<Condition> => {
                 const condition = row
 
-                if (condition === SegmentConditionAnd.And || condition === SegmentConditionOr.Or) {
+                if (
+                    condition === EventGroupedFiltersGroupsConditionEnum.And ||
+                    condition === EventGroupedFiltersGroupsConditionEnum.Or
+                ) {
                     return {
                         action: {
                             name: i18n.t(`events.condition.${row}`),

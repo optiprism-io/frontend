@@ -45,9 +45,10 @@ import {
     QueryAggregate,
     EventFilterByProperty,
     EventFilterByPropertyTypeEnum,
-    SegmentConditionAnd,
-    SegmentConditionOr,
+    EventGroupedFiltersGroupsConditionEnum,
 } from '@/api';
+
+type EventGroupedFiltersGroupsConditionEnumType = EventGroupedFiltersGroupsConditionEnum;
 
 export interface Segment {
     name: string
@@ -176,9 +177,9 @@ export const useSegmentsStore = defineStore('segments', {
                             items.push(condition)
                         }
 
-                        if (SegmentConditionAnd.And === item.action?.id || SegmentConditionOr.Or === item.action?.id) {
-                            items.push(item.action?.id)
-                        }
+                        // if (EventGroupedFiltersGroupsConditionEnum.And === item.action?.id || EventGroupedFiltersGroupsConditionEnum.Or === item.action?.id) {
+                        //     items.push(item.action?.id)
+                        // }
 
                         if (item.propRef && item.action?.id) {
                             const property: Property | undefined = item.propRef.type === PropertyType.Event ? lexiconStore.findEventPropertyById(item.propRef.id) : lexiconStore.findUserPropertyById(item.propRef.id)
