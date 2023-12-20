@@ -50,6 +50,9 @@ type Lexicon = {
     userProperties: Property[];
     userCustomProperties: UserCustomProperty[];
     userPropertiesLoading: boolean;
+
+    systemProperties: Property[];
+    systemPropertiesLoading: boolean;
 };
 
 export const useLexiconStore = defineStore('lexicon', {
@@ -81,6 +84,9 @@ export const useLexiconStore = defineStore('lexicon', {
         userPropertiesLoading: false,
         userProperties: [],
         userCustomProperties: [],
+
+        systemProperties: [],
+        systemPropertiesLoading: false,
     }),
     actions: {
         deleteCustomEvent(payload: number) {
@@ -184,6 +190,22 @@ export const useLexiconStore = defineStore('lexicon', {
 
             this.eventPropertiesLoading = false;
         },
+        async getSystemProperties() {
+            const commonStore = useCommonStore();
+
+            this.systemPropertiesLoading = true;
+
+            try {
+                const res = await schemaService.systemProperties(commonStore.organizationId, commonStore.projectId);
+                if (res?.data?.data) {
+                    this.systemProperties = res.data.data;
+                }
+            } catch(e) {
+                console.log('Error Get System Properties');
+            }
+
+            this.systemPropertiesLoading = false;
+        },
         async getUserProperties() {
             const commonStore = useCommonStore()
             this.eventPropertiesLoading = true;
@@ -199,7 +221,11 @@ export const useLexiconStore = defineStore('lexicon', {
     },
     getters: {
         propertiesLength(state) {
-            return state.eventProperties?.length + state.eventCustomProperties?.length + state.userProperties?.length + state.userCustomProperties?.length;
+            return state.eventProperties?.length +
+                state.eventCustomProperties?.length +
+                state.userProperties?.length +
+                state.userCustomProperties?.length +
+                state.systemProperties?.length;
         },
         findEventById(state: Lexicon) {
             return (id: number): Event => {
@@ -292,6 +318,24 @@ export const useLexiconStore = defineStore('lexicon', {
                 const property = state.eventCustomProperties.find((prop): boolean => prop.id === id);
                 if (!property) {
                     errorHandler(`undefined custom property id: ${id}`)
+                }
+                return property;
+            };
+        },
+        findSystemPropertyByName(state: Lexicon) {
+            return (name: string | number): Property | undefined => {
+                const property = state.systemProperties.find((prop): boolean => prop.name === name);
+                if (!property) {
+                    errorHandler(`undefined System property name: ${name}`);
+                }
+                return property;
+            }
+        },
+        findSystemPropertyById(state: Lexicon) {
+            return (id: number): Property | undefined => {
+                const property = state.systemProperties.find((prop): boolean => Number(prop.id) === Number(id));
+                if (!property) {
+                    errorHandler(`undefined System property id: ${id}`)
                 }
                 return property;
             };

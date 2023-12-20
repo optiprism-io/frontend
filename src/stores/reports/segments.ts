@@ -45,10 +45,7 @@ import {
     QueryAggregate,
     EventFilterByProperty,
     EventFilterByPropertyTypeEnum,
-    EventGroupedFiltersGroupsConditionEnum,
 } from '@/api';
-
-type EventGroupedFiltersGroupsConditionEnumType = EventGroupedFiltersGroupsConditionEnum;
 
 export interface Segment {
     name: string

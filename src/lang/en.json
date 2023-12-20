@@ -116,6 +116,7 @@
   },
 
   "events": {
+    "systemProperties": "System Properties",
     "noEvents": "No events",
     "noEventsText": "You don't have events yet. Please start tracking. Click <a href=\"/events?help=start_tracking\" target=\"_blank\">here</a> for details",
     "addBreakdown": "Add Breakdown",

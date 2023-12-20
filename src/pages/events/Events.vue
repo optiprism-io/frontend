@@ -143,6 +143,7 @@ const userProperties = computed(() => {
 const initEventsAndProperties = async () => {
     await Promise.all([
         lexiconStore.getEvents(),
+        lexiconStore.getSystemProperties(),
         lexiconStore.getEventProperties(),
         lexiconStore.getUserProperties(),
     ]);

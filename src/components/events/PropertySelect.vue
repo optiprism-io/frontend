@@ -133,6 +133,29 @@ const items = computed(() => {
         ret = [...ret, ...getEventProperties(props.eventRef)];
     }
 
+    if (lexiconStore.systemProperties.length) {
+        const items: Item<PropertyRef, null>[] = [];
+
+        lexiconStore.systemProperties.forEach((prop: Property): void => {
+            const propertyRef: PropertyRef = {
+                type: PropertyType.System,
+                id: prop.id
+            };
+
+            items.push({
+                item: propertyRef,
+                name: prop.name,
+                disabled: checkDisable(propertyRef),
+                description: prop?.description
+            });
+        });
+
+        ret.push({
+            name: t('events.systemProperties'),
+            items,
+        });
+    }
+
     if (props.eventRefs) {
         const allEventRefs = props.eventRefs.map(eventRef => {
             return getEventProperties(eventRef)

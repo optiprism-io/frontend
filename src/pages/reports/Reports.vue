@@ -256,6 +256,7 @@ const initReportPage = async () => {
 const initEventsAndProperties = async () => {
     await Promise.all([
         lexiconStore.getEvents(),
+        lexiconStore.getSystemProperties(),
         lexiconStore.getEventProperties(),
         lexiconStore.getUserProperties(),
     ]);

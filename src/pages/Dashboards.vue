@@ -428,6 +428,7 @@ const initDashboardPage = async () => {
 
     isLoading.value = false;
 
+    lexiconStore.getSystemProperties();
     lexiconStore.getEventProperties();
     lexiconStore.getUserProperties();
 };
