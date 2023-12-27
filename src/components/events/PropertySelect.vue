@@ -196,7 +196,11 @@ const items = computed(() => {
                     description: prop?.description
                 });
             });
-            ret.push({ name: 'Event Properties', items: items });
+
+            ret.push({
+                name: 'Event Properties',
+                items: items
+            });
         }
     }
 

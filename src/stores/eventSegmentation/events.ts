@@ -29,6 +29,7 @@ import {
     QuerySimple,
     QueryCountPerGroup,
     QueryFormula,
+    BreakdownByProperty,
 } from '@/api'
 
 import { useLexiconStore } from '@/stores/lexicon'
@@ -240,6 +241,14 @@ export const useEventsStore = defineStore('events', {
                             return {
                                 type: query.queryRef?.type,
                             } as QuerySimple
+                        }),
+                        breakdowns: item.breakdowns.map((item) => {
+                            return {
+                                type: 'property',
+                                propertyType: item.propRef?.type as BreakdownByProperty['propertyType'],
+                                propertyId: item.propRef?.id,
+                                propertyName: item.propRef ? lexiconStore.propertyName(item.propRef) : ''
+                            };
                         }),
                         eventType: item.ref.type as EventType,
                         eventId: item.ref.id,

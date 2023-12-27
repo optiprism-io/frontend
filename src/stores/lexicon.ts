@@ -385,6 +385,8 @@ export const useLexiconStore = defineStore('lexicon', {
                         return this.findEventCustomPropertyById(ref.id);
                     case PropertyType.User:
                         return this.findUserPropertyById(ref.id);
+                    case PropertyType.System:
+                        return this.findSystemPropertyById(ref.id);
                     default:
                         return undefined;
                 }
@@ -399,7 +401,10 @@ export const useLexiconStore = defineStore('lexicon', {
                         return this.findEventCustomPropertyById(ref.id)?.name || '';
                     case PropertyType.User:
                         return this.findUserPropertyById(ref.id)?.name || '';
+                    case PropertyType.System:
+                        return this.findSystemPropertyById(ref.id)?.name || '';
                 }
+                return '';
             };
         },
         findCohortById(state: Lexicon) {

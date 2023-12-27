@@ -43,6 +43,7 @@
                 {{ $t('reports.delete') }}
             </UiButton>
             <UiSwitch
+                v-if="showSyncReports"
                 class="pf-u-ml-auto pf-u-mr-md"
                 :value="commonStore.syncReports"
                 :label="$t('reports.sync')"
@@ -98,6 +99,7 @@ const { confirm } = useConfirm()
 
 const editableNameReport = ref(false);
 const reportName = ref('');
+const showSyncReports = ref(false);
 
 const reportsId = computed((): number[] => reportsStore.reportsId);
 

@@ -240,7 +240,7 @@ const activeDashboard = computed(() => {
 })
 
 const isShowDashboardContentAndControls = computed(() => {
-    return dashboards.value.length && activeDashboardId.value;
+    return !editableNameDashboard.value && dashboards.value.length && activeDashboardId.value;
 });
 
 const menuCardReport = computed<UiDropdownItem<string>[]>(() => {
