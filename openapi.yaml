@@ -1,4 +1,4 @@
-openapi: 3.0.0
+fvgopenapi: 3.0.0
 info:
   version: 1.0.0
   title: OptiPrism
@@ -139,8 +139,12 @@ paths:
             schema:
               $ref: '#/components/schemas/UpdateProfileNameRequest'
       responses:
-        204:
-          description: the name was changed successfully
+        200:
+          description: profile
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Profile'
         '401':
           $ref: '#/components/responses/Unauthorized'
         '500':
@@ -149,8 +153,8 @@ paths:
           $ref: '#/components/responses/ServiceUnavailable'
   /v1/profile/email:
     put:
-      summary: Update email
-      operationId: updateProfileEmail
+      summary: Update name
+      operationId: updateProfileName
       security:
         - bearerAuth: [ ]
       tags:
@@ -167,7 +171,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TokensResponse'
+                $ref: '#/components/schemas/Profile'
         '401':
           $ref: '#/components/responses/Unauthorized'
         '500':
@@ -176,8 +180,8 @@ paths:
           $ref: '#/components/responses/ServiceUnavailable'
   /v1/profile/password:
     put:
-      summary: Update password
-      operationId: updateProfilePassword
+      summary: Update name
+      operationId: updateProfileName
       security:
         - bearerAuth: [ ]
       tags:
@@ -194,54 +198,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TokensResponse'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '500':
-          $ref: '#/components/responses/Internal'
-        '503':
-          $ref: '#/components/responses/ServiceUnavailable'
-  /v1/projects/{projectId}:
-    get:
-      summary: Get project
-      operationId: getProject
-      security:
-        - bearerAuth: [ ]
-      tags:
-        - profile
-      responses:
-        200:
-          description: project
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Project'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '500':
-          $ref: '#/components/responses/Internal'
-        '503':
-          $ref: '#/components/responses/ServiceUnavailable'
-    patch:
-      summary: Update project
-      operationId: updateProject
-      security:
-        - bearerAuth: [ ]
-      tags:
-        - project
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/UpdateProjectRequest'
-      responses:
-        200:
-          description: project
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Project'
+                $ref: '#/components/schemas/Profile'
         '401':
           $ref: '#/components/responses/Unauthorized'
         '500':
@@ -1677,19 +1634,16 @@ components:
     ErrorResponse:
       type: object
       properties:
-        error:
+        code:
+          type: string
+          enum:
+            - 1000_invalid_token
+        message:
+          type: string
+        fields:
           type: object
-          properties:
-            code:
-              type: string
-              enum:
-                - 1000_invalid_token
-            message:
-              type: string
-            fields:
-              type: object
-              additionalProperties:
-                type: string
+          additionalProperties:
+            type: string
     JWTToken:
       type: object
       required: [ 'accountId', 'iss', 'exp', 'nbf', 'iat', 'jti' ]
@@ -1857,17 +1811,16 @@ components:
           format: int64
         name:
           type: string
-        token:
-          type: string
         sessionTimeoutSeconds:
           type: integer
-    UpdateProjectRequest:
-      type: object
-      properties:
-        name:
-          type: string
-        sessionTimeoutSeconds:
-          type: integer
+        teams:
+          type: array
+          items:
+            type: integer
+        users:
+          type: array
+          items:
+            type: integer
     Organization:
       type: object
       properties:
