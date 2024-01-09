@@ -65,60 +65,71 @@
 </template>
 
 <script setup lang="ts">
-import { inject, ref, onMounted } from 'vue'
-import { GenericUiDropdown, UiDropdownItem } from '@/components/uikit/UiDropdown.vue'
-import Nav from '@/components/common/Nav.vue'
+import { inject, onMounted, ref } from 'vue';
+import {
+    GenericUiDropdown,
+    UiDropdownItem,
+} from '@/components/uikit/UiDropdown.vue';
+import Nav from '@/components/common/Nav.vue';
 import UiSwitch from '@/components/uikit/UiSwitch.vue';
-import { useAuthStore } from '@/stores/auth/auth'
-import { useDashboardsStore } from '@/stores/dashboards'
-import { useRouter } from 'vue-router'
+import { useAuthStore } from '@/stores/auth/auth';
+import { useDashboardsStore } from '@/stores/dashboards';
+import { useRouter } from 'vue-router';
+import { pagesMap } from '@/router';
 
-const authStore = useAuthStore()
-const dashboardsStore = useDashboardsStore()
-const router = useRouter()
-const i18n = inject<any>('i18n')
-const UiDropdown = GenericUiDropdown<string>()
+const authStore = useAuthStore();
+const dashboardsStore = useDashboardsStore();
+const router = useRouter();
+const i18n = inject<any>('i18n');
+const UiDropdown = GenericUiDropdown<string>();
 
+/* TODO: remove the stub key after implementing all menu items  */
 const userMenuMap = {
-    LOGOUT: 'logout'
-};
+    LOGOUT: 'logout',
+    PROFILE: 'profile',
+    STUB: 'stub',
+} as const;
 
-const userMenu: UiDropdownItem<string>[] = [
+type MenuValues = (typeof userMenuMap)[keyof typeof userMenuMap];
+
+const userMenu: UiDropdownItem<MenuValues>[] = [
     {
         key: 1,
-        value: '',
+        value: userMenuMap.PROFILE,
         nameDisplay: i18n.$t('userMenu.personalSettings'),
     },
     {
         key: 2,
-        value: '',
-        nameDisplay: i18n.$t('userMenu.orgranizationSettings')
+        value: userMenuMap.STUB,
+        nameDisplay: i18n.$t('userMenu.orgranizationSettings'),
     },
     {
         key: 3,
-        value: '',
-        nameDisplay: i18n.$t('userMenu.projectSettings')
+        value: userMenuMap.STUB,
+        nameDisplay: i18n.$t('userMenu.projectSettings'),
     },
     {
         key: 4,
-        value: '',
-        nameDisplay: i18n.$t('userMenu.integrateOptiPrism')
+        value: userMenuMap.STUB,
+        nameDisplay: i18n.$t('userMenu.integrateOptiPrism'),
     },
     {
         key: 5,
-        value: 'logout',
-        nameDisplay: i18n.$t('userMenu.logout')
+        value: userMenuMap.LOGOUT,
+        nameDisplay: i18n.$t('userMenu.logout'),
     },
 ];
 
 const selectUserMenu = (item: UiDropdownItem<string>) => {
     if (item.value === userMenuMap.LOGOUT) {
-        authStore.reset()
-        authStore.$reset()
-        dashboardsStore.$reset()
-        router.replace({ name: 'login' })
+        authStore.reset();
+        authStore.$reset();
+        dashboardsStore.$reset();
+        router.replace({ name: 'login' });
+    } else if (item.value === userMenuMap.PROFILE) {
+        router.push({ name: pagesMap.profile });
     }
-}
+};
 
 /**
  * mocks env store
@@ -144,22 +155,22 @@ onMounted(() => {
 
 <style scoped lang="scss">
 .app-header {
-    position: sticky;
-    top: 0;
-    z-index: var(--pf-global--ZIndex--2xl);
-    height: 44px;
-    grid-area: header;
-    background-color: var(--op-base-color);
+  position: sticky;
+  top: 0;
+  z-index: var(--pf-global--ZIndex--2xl);
+  height: 44px;
+  grid-area: header;
+  background-color: var(--op-base-color);
 
-    &__tools {
-        margin-left: auto;
-        display: flex;
-        color: #fff;
-    }
-    &__logo {
-        display: inline-block;
-        width: 110px;
-        margin-top: 6px;
-    }
+  &__tools {
+    margin-left: auto;
+    display: flex;
+    color: #fff;
+  }
+  &__logo {
+    display: inline-block;
+    width: 110px;
+    margin-top: 6px;
+  }
 }
 </style>
