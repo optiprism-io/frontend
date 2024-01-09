@@ -112,6 +112,8 @@ const propertyName = (ref: PropertyRef): string => {
             return lexiconStore.findEventCustomPropertyById(ref.id)?.name || '';
         case PropertyType.User:
             return lexiconStore.findUserPropertyById(ref.id)?.name || '';
+        default:
+            return ''
     }
 };
 </script>
