@@ -151,7 +151,7 @@ const itemsWithSearch = computed(() => {
                 const innerItems: Item<any, any>[] = item.items.filter((item: Item<any, any>) => {
                     const name = item.name.toLowerCase();
 
-                    return name.search(search.value) >= 0;
+                    return name.search(search.value) === 0;
                 });
 
                 if (innerItems.length) {
@@ -167,7 +167,7 @@ const itemsWithSearch = computed(() => {
             return props.items.filter((item: any) => {
                 const name = item.name.toLowerCase();
 
-                return name.search(search.value) >= 0;
+                return name.search(search.value) === 0;
             });
         }
     } else {
