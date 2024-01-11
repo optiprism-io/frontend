@@ -1,4 +1,8 @@
-import { DataTableResponse, DataTableResponseColumnsInner } from '@/api'
+import {
+    DataTableResponse,
+    DataTableResponseColumnsInner,
+    DataTableResponseColumnsInnerData,
+} from '@/api'
 import {getStringDateByFormat} from '@/helpers/getStringDates'
 import {Cell, Column, Row} from '@/components/uikit/UiTable/UiTable'
 
@@ -18,12 +22,18 @@ export type ResponseUseDataTable = {
 }
 
 export default function useDataTable(payload: DataTableResponse, noWrapContent = false): ResponseUseDataTable {
-    const hasData = Boolean(payload?.columns && payload?.columns.length)
-    const dimensionColumns = payload?.columns ? payload.columns.filter(column => column.type === 'dimension') : []
-    const metricColumns = payload?.columns ? payload?.columns.filter(column => column.type === 'metric') : []
-    const metricValueColumns = payload?.columns ? payload?.columns.filter(column => column.type === 'metricValue') : []
-    const totalColumn = metricValueColumns.find(item => item.name === 'total')
-    const fixedColumnLength = dimensionColumns.length + metricColumns.length - 1
+    const columnsData = (payload?.columns || []).reduce((acc: DataTableResponseColumnsInnerData[], item) => {
+        if (Array.isArray(item.data) && item.data.length) {
+            acc.push(item.data);
+        }
+        return acc;
+    }, []);
+    const hasData = Boolean(payload?.columns && payload?.columns.length && columnsData.length);
+    const dimensionColumns = payload?.columns ? payload.columns.filter(column => column.type === 'dimension') : [];
+    const metricColumns = payload?.columns ? payload?.columns.filter(column => column.type === 'metric') : [];
+    const metricValueColumns = payload?.columns ? payload?.columns.filter(column => column.type === 'metricValue') : [];
+    const totalColumn = metricValueColumns.find(item => item.name === 'total');
+    const fixedColumnLength = dimensionColumns.length + metricColumns.length - 1;
 
     let tableColumns = {}
     let tableData: Row[] = []
