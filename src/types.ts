@@ -144,3 +144,7 @@ export const AlertTypeEnum = {
     Warning: 'warning',
     Danger: 'danger',
 } as const
+
+export type ApplyPayload = {
+    [key: string]: string | string[] | boolean
+}

@@ -48,8 +48,7 @@ const searchRef = ref('');
 const itemsSelect = computed(() => {
     if (searchRef.value) {
         return props.items.filter((item: any) => {
-            const name = item.name.toLowerCase();
-
+            const name = item?.name || '';
             return name.search(searchRef.value) >= 0;
         });
     } else {
@@ -66,7 +65,7 @@ const deselect = (item: any): void => {
 };
 
 const search = (payload: string) => {
-    searchRef.value = payload.toLowerCase();
+    searchRef.value = payload;
     emit('search', payload);
 };
 </script>

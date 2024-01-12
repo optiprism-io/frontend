@@ -2,7 +2,7 @@
     <section class="pf-c-page__main-section reports">
         <div class="pf-u-display-flex pf-u-align-items-center">
             <UiSelect
-                v-if="!editableNameReport"
+                v-if="!editableNameReport && itemsReports.length"
                 class="reports__select pf-u-mr-md"
                 :items="itemsReports"
                 :text-button="reportSelectText"
@@ -20,6 +20,7 @@
                 </template>
             </UiSelect>
             <UiInlineEdit
+                v-if="itemsReports.length"
                 class="reports__name pf-u-mr-md"
                 :value="reportName"
                 :hide-text="true"
@@ -34,6 +35,7 @@
                 {{ $t('reports.createReport') }}
             </UiButton>
             <UiButton
+                v-if="itemsReports.length"
                 class="pf-m-link pf-m-danger"
                 :before-icon="'fas fa-times'"
                 @click="onDeleteReport"
@@ -41,6 +43,7 @@
                 {{ $t('reports.delete') }}
             </UiButton>
             <UiSwitch
+                v-if="showSyncReports"
                 class="pf-u-ml-auto pf-u-mr-md"
                 :value="commonStore.syncReports"
                 :label="$t('reports.sync')"
@@ -52,13 +55,9 @@
             :items="items"
             @on-select="onSelectTab"
         />
-        <div
-            v-if="reportsStore.loading"
-            class="pf-u-h-66vh pf-u-display-flex pf-u-align-items-center pf-u-justify-content-center"
-        >
-            <UiSpinner />
-        </div>
-        <router-view v-else />
+        <router-view
+            @on-change="onChange"
+        />
     </section>
 </template>
 
@@ -72,7 +71,7 @@ import { reportToStores } from '@/utils/reportsMappings'
 
 import useConfirm from '@/hooks/useConfirm'
 import { useEventsStore } from '@/stores/eventSegmentation/events'
-import { useReportsStore } from '@/stores/reports/reports'
+import { useReportsStore } from '@/stores/reports/reports';
 import { useCommonStore } from '@/stores/common'
 import { useFilterGroupsStore } from '@/stores/reports/filters'
 import { useSegmentsStore } from '@/stores/reports/segments'
@@ -100,6 +99,7 @@ const { confirm } = useConfirm()
 
 const editableNameReport = ref(false);
 const reportName = ref('');
+const showSyncReports = ref(false);
 
 const reportsId = computed((): number[] => reportsStore.reportsId);
 
@@ -114,27 +114,28 @@ const items = computed(() => {
         },
         {
             name: t('funnels.funnels'),
-            value: 'reports_funnels',
+            value: pagesMap.funnels.name,
             link: {
-                name: 'reports_funnels'
+                name: pagesMap.funnels.name,
             },
-        }
+        },
     ];
 
     return mapTabs.map(item => {
         return {
             ...item,
             active: route.name === item.value,
-        }
+        };
     });
-})
+});
 
 const reportSelectText = computed(() => {
-    return reportsStore.activeReport ? reportsStore.activeReport.name : t('reports.selectReport')
-})
+    return reportsStore.activeReport ? reportsStore.activeReport.name : t('reports.selectReport');
+});
 
-const reportType = computed(() => pagesMap.reportsEventSegmentation.name === route.name ?
-    ReportType.EventSegmentation : ReportType.Funnel)
+const reportType = computed(() => {
+    return pagesMap.reportsEventSegmentation.name === route.name ? ReportType.EventSegmentation : ReportType.Funnel;
+});
 
 const itemsReports = computed(() => {
     return reportsStore.list.map(item => {
@@ -155,7 +156,6 @@ const untitledReportName = computed(() => {
     return `${t('reports.untitledReport')} #${untitledReportsList.value.length + 1}`;
 });
 
-
 const onEditNameReport = (payload: boolean) => {
     editableNameReport.value = payload;
 };
@@ -169,9 +169,9 @@ const onDeleteReport = async () => {
             applyButtonClass: 'pf-m-danger',
         });
 
-        reportsStore.deleteReport(reportsStore.reportId)
-        setNew();
-        reportsStore.getList()
+        reportsStore.deleteReport(reportsStore.reportId);
+
+        // reportsStore.reportId = 0;
     } catch(error) {
         reportsStore.loading = false
     }
@@ -179,7 +179,7 @@ const onDeleteReport = async () => {
 
 const onCreateReport = async () => {
     if (reportsStore.reportId) {
-        await reportsStore.editReport(reportName.value, reportType.value)
+        await reportsStore.editReport(reportName.value || untitledReportName.value, reportType.value)
     } else {
         await reportsStore.createReport(reportName.value || untitledReportName.value, reportType.value)
 
@@ -206,7 +206,6 @@ const setNameReport = (payload: string) => {
 const onChange = async () => {
     reportsStore.loading = true;
     await onSaveReport();
-    await reportsStore.getList();
     reportsStore.loading = false;
 };
 
@@ -251,8 +250,6 @@ const initReportPage = async () => {
 
     if (reportId) {
         await onSelectReport(Number(reportId));
-    } else {
-        await onCreateReport();
     }
 
     reportsStore.loading = false;
@@ -261,6 +258,7 @@ const initReportPage = async () => {
 const initEventsAndProperties = async () => {
     await Promise.all([
         lexiconStore.getEvents(),
+        lexiconStore.getSystemProperties(),
         lexiconStore.getEventProperties(),
         lexiconStore.getUserProperties(),
     ]);

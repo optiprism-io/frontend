@@ -27,6 +27,7 @@
                 :items="itemsProperties"
                 :columns="columnsProperties"
                 :show-toolbar="false"
+                :enable-placeholder="false"
                 @on-action="onActionProperty"
             />
             <UiTable
@@ -35,6 +36,7 @@
                 :items="itemsUserProperties"
                 :columns="columnsProperties"
                 :show-toolbar="false"
+                :enable-placeholder="false"
                 @on-action="onActionUserProperty"
             />
             <DataEmptyPlaceholder

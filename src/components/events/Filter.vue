@@ -231,11 +231,14 @@ const propertyButtonText = computed(() => {
     return props.filter?.propRef?.name || filterProperty.value?.name || props.filter?.propRef?.id;
 });
 
-const filterItemValues = computed(() =>
-    props.filter.valuesList.map((item: any) => {
-        return { item, name: item };
-    })
-);
+const filterItemValues = computed(() => {
+    return props.filter.valuesList.map((item: any) => {
+        return {
+            item,
+            name: String(item),
+        };
+    });
+});
 
 const isShowOperation = computed(() => {
     return !(props.forPreview && !props.filter.values.length)

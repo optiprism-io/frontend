@@ -4,8 +4,8 @@ import { useLexiconStore } from '@/stores/lexicon'
 import {
     EventType,
     Value,
-} from '@/api'
-import { useCommonStore } from '@/stores/common'
+} from '@/api';
+import { useCommonStore } from '@/stores/common';
 
 interface UseFilter {
     getEventRef: (id: number) => EventRef | undefined;

@@ -298,13 +298,13 @@ const getPropertyValues = async (propRef: PropertyRef) => {
             eventType: props.event.ref.type as EventType,
             propertyName: lexiconStore.propertyName(propRef),
             propertyType: propRef.type
-        })
+        });
 
-        if (res.data.data) {
-            valuesList = res.data.data
+        if (res?.data?.data) {
+            valuesList = res.data.data;
         }
-    } catch (e) {
-        console.error(e);
+    } catch (_) {
+        throw new Error('error getPropertyValues');
     }
 
     return valuesList;
@@ -332,7 +332,7 @@ const hide = () => {
 
 const changeFilterProperty = async (filterIdx: number, propRef: PropertyRef) => {
     const event = props.event
-    const valuesList: Value[] = await getPropertyValues(propRef);
+    const valuesList: Value[] = await getPropertyValues(propRef) || [];
 
     event.filters[filterIdx] = {
         propRef: propRef,

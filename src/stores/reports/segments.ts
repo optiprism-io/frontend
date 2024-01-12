@@ -45,9 +45,7 @@ import {
     QueryAggregate,
     EventFilterByProperty,
     EventFilterByPropertyTypeEnum,
-    SegmentConditionAnd,
-    SegmentConditionOr,
-} from '@/api'
+} from '@/api';
 
 export interface Segment {
     name: string
@@ -176,9 +174,9 @@ export const useSegmentsStore = defineStore('segments', {
                             items.push(condition)
                         }
 
-                        if (SegmentConditionAnd.And === item.action?.id || SegmentConditionOr.Or === item.action?.id) {
-                            items.push(item.action?.id)
-                        }
+                        // if (EventGroupedFiltersGroupsConditionEnum.And === item.action?.id || EventGroupedFiltersGroupsConditionEnum.Or === item.action?.id) {
+                        //     items.push(item.action?.id)
+                        // }
 
                         if (item.propRef && item.action?.id) {
                             const property: Property | undefined = item.propRef.type === PropertyType.Event ? lexiconStore.findEventPropertyById(item.propRef.id) : lexiconStore.findUserPropertyById(item.propRef.id)
@@ -451,7 +449,7 @@ export const useSegmentsStore = defineStore('segments', {
             }
         },
         async changePropertyCondition(idx: number, idxSegment: number, ref: PropertyRef) {
-            const segment = this.segments[idxSegment]
+            const segment = this.segments[idxSegment];
 
             if (segment && segment.conditions) {
                 const condition = segment.conditions[idx]
@@ -462,14 +460,12 @@ export const useSegmentsStore = defineStore('segments', {
 
                     try {
                         const res = await schemaService.propertyValues(commonStore.organizationId, commonStore.projectId, {
-                            // TODO integration with backand
-                            // check condition type
-                            propertyType: condition.propRef?.type as PropertyType,
+                            propertyType: condition.propRef?.type as PropertyType || PropertyType.User,
                             eventType: condition.event?.ref?.type as EventType,
                             propertyName: lexiconStore.propertyName(ref),
                         })
 
-                        if (res.data.data) {
+                        if (res?.data.data) {
                             condition.valuesList = res.data.data
                         }
                     } catch (error) {

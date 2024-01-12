@@ -132,7 +132,7 @@ export const useBreakdownsStore = defineStore('breakdowns', {
                     type: 'property',
                     propertyType: item.propRef?.type as BreakdownByProperty['propertyType'],
                     propertyId: item.propRef?.id,
-                    propertyName: item.propRef?.type === PropertyType.User ? lexiconStore.propertyName(item.propRef) : undefined,
+                    propertyName: item.propRef ? lexiconStore.propertyName(item.propRef) : '',
                 }
             })
         }

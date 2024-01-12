@@ -1,18 +1,18 @@
 <template>
     <div class="pf-l-flex pf-m-column">
         <FilterGroup
-            v-for="(_, index) in filterGroups.filterGroups"
+            v-for="(_, index) in groups"
             :key="index"
             :index="index"
         />
         <div
-            v-if="filterGroups.isFiltersAdvanced && filterGroups.filterGroups.length === 0"
+            v-if="filterGroupsStore.isFiltersAdvanced && groups.length === 0"
             class="pf-l-flex"
         >
             <UiButton
                 :is-link="true"
                 :before-icon="'fas fa-plus'"
-                @click="filterGroups.addFilterGroup"
+                @click="filterGroupsStore.addFilterGroup"
             >
                 {{ $t('filters.addGroup') }}
             </UiButton>
@@ -21,8 +21,11 @@
 </template>
 
 <script lang="ts" setup>
+import { computed } from 'vue';
 import FilterGroup from '@/components/funnels/filters/FilterGroup.vue';
 import { useFilterGroupsStore } from '@/stores/reports/filters';
 
-const filterGroups = useFilterGroupsStore();
+const filterGroupsStore = useFilterGroupsStore();
+
+const groups = computed(() => filterGroupsStore.filterGroups)
 </script>

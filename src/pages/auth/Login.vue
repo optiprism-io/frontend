@@ -109,8 +109,8 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
+import { computed, ref } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import { useAuthStore } from '@/stores/auth/auth'
 import { pagesMap } from '@/router'
 import usei18n from '@/hooks/useI18n'
@@ -141,10 +141,27 @@ const onInput = (e: string, type: string) => {
     errorMain.value = '';
 }
 
+const validateEmail = (email: string) => {
+  return String(email)
+    .toLowerCase()
+    .match(
+      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    );
+};
+
 const login = async (): Promise<void | Error> => {
     loading.value = true;
     errorFields.value = {};
     errorMain.value = '';
+
+    if (!validateEmail(email.value)) {
+        errorFields.value = {
+            ...errorFields.value,
+            email: t('errors.emailIncorrect'),
+        }
+        return;
+    }
+
     try {
         await authStore.login({
             email: email.value,

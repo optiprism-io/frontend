@@ -57,7 +57,10 @@
                             </template>
                         </UiToggleGroup>
                     </div>
-                    <div class="pf-c-toolbar__item">
+                    <div
+                        v-if="showCompareTo"
+                        class="pf-c-toolbar__item"
+                    >
                         <UiSelect
                             :items="compareToItems"
                             :text-button="textSelectCompareTo"
@@ -129,7 +132,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import { useEventsStore, ChartType } from '@/stores/eventSegmentation/events';
 import { groupByMap, periodMap } from '@/configs/events/controls';
 import { ApplyPayload } from '@/components/uikit/UiCalendar/UiCalendar';
@@ -155,14 +158,6 @@ const chartTypeMap = [
         value: 'line',
         icon: 'fas fa-chart-line',
     },
-    {
-        value: 'column',
-        icon: 'fas fa-chart-bar',
-    },
-    {
-        value: 'pie',
-        icon: 'fas fa-chart-pie',
-    },
 ];
 
 const eventsStore = useEventsStore();
@@ -182,10 +177,12 @@ const props = withDefaults(defineProps<Props>(), {
     loading: false,
 })
 
+const showCompareTo = ref(false);
+
 const dataTable = computed(() => useDataTable(props.eventSegmentation || {}, true))
 
 const emit = defineEmits<{
-    (e: 'get-event-segmentation'): void
+    (e: 'on-change'): void
 }>()
 
 const isNoData = computed(() => !props.loading && !dataTable.value.hasData)
@@ -368,7 +365,7 @@ const onSelectChartType = (payload: string): void => {
 
 const updateEventSegmentationData = async () => {
     if (eventsStore.hasSelectedEvents) {
-        emit('get-event-segmentation')
+        emit('on-change')
     }
 }
 </script>

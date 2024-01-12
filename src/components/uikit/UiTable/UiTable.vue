@@ -156,6 +156,7 @@ type Props = {
     showToolbar?: boolean
     noDataTitle?: string
     noDataText?: string
+    enablePlaceholder?: boolean;
 };
 
 const props = withDefaults(defineProps<Props>(), {
@@ -166,6 +167,7 @@ const props = withDefaults(defineProps<Props>(), {
     showToolbar: true,
     noDataTitle: '',
     noDataText: '',
+    enablePlaceholder: true,
 })
 
 const emit = defineEmits<{
@@ -175,7 +177,7 @@ const emit = defineEmits<{
 const defaultColumns = ref<string[]>([])
 const disabledColumns = ref<string[]>([])
 
-const showPlacehilder = computed(() => !props.isLoading && !props.items?.length);
+const showPlacehilder = computed(() => props.enablePlaceholder && !props.isLoading && !props.items?.length);
 const columnsSelect = computed(() => {
     return props.columns.reduce((acc: UiSelectItem<string>[], column) => {
         if (!column.default) {

@@ -10,6 +10,7 @@
     "unauthorized": "We're sorry, but we can't authenticate you. You must be logged in to access these pages.",
     "internal": "Something gone wrong, please try again later",
     "requiredInput": "Input is required",
+    "emailIncorrect": "Please enter a valid email address",
     "loginIncorrect": "That email and password combination is incorrect"
   },
 
@@ -115,6 +116,7 @@
   },
 
   "events": {
+    "systemProperties": "System Properties",
     "noEvents": "No events",
     "noEventsText": "You don't have events yet. Please start tracking. Click <a href=\"/events?help=start_tracking\" target=\"_blank\">here</a> for details",
     "addBreakdown": "Add Breakdown",
@@ -225,10 +227,10 @@
       "min": "Minimum of property",
       "max": "Maximum of property",
       "distinctCount": "Distinct count of property",
-      "25thPercentile": "25th Percentile of property",
-      "75thPercentile": "75th Percentile of property",
-      "90thPercentile": "90th Percentile of property",
-      "99thPercentile": "99th Percentile of property"
+      "percentile25": "25th Percentile of property",
+      "percentile75": "75th Percentile of property",
+      "percentile90": "90th Percentile of property",
+      "percentile99": "99th Percentile of property"
     },
     "query": {
       "error": "This query will not work because no event was found for the selected property",

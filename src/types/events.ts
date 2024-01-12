@@ -15,9 +15,10 @@ import {
     QueryFormulaTypeEnum,
     QueryAggregatePerGroup,
     QueryAggregate,
-    SegmentConditionAnd,
-    SegmentConditionOr,
-} from '@/api'
+    EventGroupedFiltersGroupsConditionEnum,
+} from '@/api';
+
+type EventGroupedFiltersGroupsConditionEnumType = EventGroupedFiltersGroupsConditionEnum;
 
 export type QueryType = QuerySimpleTypeEnum | QueryCountPerGroupTypeEnum | DidEventAggregatePropertyTypeEnum | QueryAggregatePropertyPerGroupTypeEnum | QueryFormulaTypeEnum;
 
@@ -182,7 +183,7 @@ export const eventsQueries: EventsQuery[] = [
         grouped: true,
     },
     {
-        type: QuerySimpleTypeEnum.WeeklyActiveGroups,
+        type: QuerySimpleTypeEnum.DailyActiveGroups,
         name: 'dailyActive',
         displayName: 'Daily Active',
         grouped: true,
@@ -241,7 +242,7 @@ export interface ConditionFilter {
 export interface Condition {
     action?: {
         name?: string
-        id: string | SegmentConditionAnd | SegmentConditionOr
+        id: string | EventGroupedFiltersGroupsConditionEnumType
     }
     propRef?: PropertyRef
     opId?: OperationId

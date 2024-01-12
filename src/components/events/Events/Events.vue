@@ -40,7 +40,7 @@ import { useEventsStore, EventPayload } from '@/stores/eventSegmentation/events'
 import { useLexiconStore } from '@/stores/lexicon';
 import { useCommonStore } from '@/stores/common'
 import EventSelector from '@/components/events/Events/EventSelector.vue';
-const SelectedEvent = defineAsyncComponent(() => import('@/components/events/Events/SelectedEvent.vue'))
+import SelectedEvent from '@/components/events/Events/SelectedEvent.vue';
 
 const props = defineProps({
     identifier: {
@@ -65,38 +65,47 @@ const events = computed(() => eventsStore.events);
 
 const setEvent = (payload: EventPayload) => {
     eventsStore.setEvent(payload);
+    onChange();
 }
 
 const addEvent = (ref: EventRef) => {
     eventsStore.addEventByRef(ref, props.createWithQuery);
+    onChange();
 };
 
 const removeEvent = (idx: number): void => {
     eventsStore.deleteEvent(idx);
+    onChange();
 };
 
 const addBreakdown = (idx: number): void => {
     eventsStore.addBreakdown(idx);
+    onChange();
 };
 
 const changeBreakdownProperty = (eventIdx: number, breakdownIdx: number, propRef: PropertyRef) => {
     eventsStore.changeBreakdownProperty(eventIdx, breakdownIdx, propRef);
+    onChange();
 };
 
 const removeBreakdown = (eventIdx: number, breakdownIdx: number): void => {
     eventsStore.removeBreakdown(eventIdx, breakdownIdx);
+    onChange();
 };
 
 const addQuery = (idx: number): void => {
     eventsStore.addQuery(idx);
+    onChange();
 };
 
 const removeQuery = (eventIdx: number, queryIdx: number): void => {
     eventsStore.removeQuery(eventIdx, queryIdx);
+    onChange();
 };
 
 const changeQuery = (eventIdx: number, queryIdx: number, ref: EventQueryRef) => {
     eventsStore.changeQuery(eventIdx, queryIdx, ref);
+    onChange();
 };
 
 const selectAction = (payload: string) => {
@@ -107,21 +116,16 @@ const selectAction = (payload: string) => {
 }
 
 const editEvent = (payload: number) => {
-    eventsStore.setEditCustomEvent(Number(payload))
-    commonStore.togglePopupCreateCustomEvent(true)
+    eventsStore.setEditCustomEvent(Number(payload));
+    commonStore.togglePopupCreateCustomEvent(true);
+    onChange();
 }
 
-const onChange = () => {
-    emit('on-change');
-};
-
 const onChangeDebounce = debounce(() => {
-    onChange();
-}, 1100);
+    emit('on-change');
+}, 1000);
 
-eventsStore.$subscribe((mutation) => {
-    if (mutation.type === 'direct') {
-        onChangeDebounce();
-    }
-});
+const onChange = () => {
+    onChangeDebounce();
+};
 </script>

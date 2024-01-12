@@ -1,5 +1,5 @@
-// import { ref, computed } from 'vue';
 import {defineStore} from 'pinia';
+import useI18n from '@/hooks/useI18n';
 import schemaService from '@/api/services/schema.service';
 import {
     customEventRef,
@@ -12,11 +12,10 @@ import {
     EventQueryRef,
 } from '@/types/events';
 import { $T, $TKeyExists } from '@/utils/i18n';
-import { Cohort } from '@/types';
-import { aggregates } from '@/types/aggregate'
+import { Cohort, ApplyPayload } from '@/types';
+import { aggregates } from '@/types/aggregate';
 import { Group, Item } from '@/components/Select/SelectTypes';
 import { useEventsStore, Events } from '@/stores/eventSegmentation/events';
-import { ApplyPayload } from '@/components/events/EventManagementPopup.vue'
 import {
     PropertyType,
     CustomEvent,
@@ -25,9 +24,11 @@ import {
     Event,
     CustomProperty,
     QueryAggregate,
-} from '@/api'
-import { useCommonStore, PropertyTypeEnum } from '@/stores/common'
-import useI18n from '@/hooks/useI18n';
+} from '@/api';
+import {
+    useCommonStore,
+    PropertyTypeEnum,
+} from '@/stores/common';
 import { errorHandler } from '@/helpers/errorHandlerHelper';
 
 type Lexicon = {
@@ -49,6 +50,9 @@ type Lexicon = {
     userProperties: Property[];
     userCustomProperties: UserCustomProperty[];
     userPropertiesLoading: boolean;
+
+    systemProperties: Property[];
+    systemPropertiesLoading: boolean;
 };
 
 export const useLexiconStore = defineStore('lexicon', {
@@ -80,14 +84,14 @@ export const useLexiconStore = defineStore('lexicon', {
         userPropertiesLoading: false,
         userProperties: [],
         userCustomProperties: [],
+
+        systemProperties: [],
+        systemPropertiesLoading: false,
     }),
     actions: {
-        getI18n() {
-            return
-        },
         deleteCustomEvent(payload: number) {
-            const indexEvent = this.customEvents.findIndex(event => event.id === payload)
-            this.customEvents.splice(indexEvent, 1)
+            const indexEvent = this.customEvents.findIndex(event => event.id === payload);
+            this.customEvents.splice(indexEvent, 1);
         },
         async updateEventProperty(payload: ApplyPayload) {
             const commonStore = useCommonStore()
@@ -98,7 +102,7 @@ export const useLexiconStore = defineStore('lexicon', {
                     const index: number = this.eventProperties.findIndex(property => Number(property.id) === commonStore.editEventPropertyPopupId)
 
                     if (~index) {
-                        this.eventProperties[index] = newProperty
+                        this.eventProperties[index] = newProperty;
                     }
                 }
             } catch (e) {
@@ -164,7 +168,7 @@ export const useLexiconStore = defineStore('lexicon', {
                 console.log('error customEvents')
             }
 
-            this.eventsLoading = false
+            this.eventsLoading = false;
         },
         async getEventProperties() {
             const commonStore = useCommonStore()
@@ -186,6 +190,22 @@ export const useLexiconStore = defineStore('lexicon', {
 
             this.eventPropertiesLoading = false;
         },
+        async getSystemProperties() {
+            const commonStore = useCommonStore();
+
+            this.systemPropertiesLoading = true;
+
+            try {
+                const res = await schemaService.systemProperties(commonStore.organizationId, commonStore.projectId);
+                if (res?.data?.data) {
+                    this.systemProperties = res.data.data;
+                }
+            } catch(e) {
+                console.log('Error Get System Properties');
+            }
+
+            this.systemPropertiesLoading = false;
+        },
         async getUserProperties() {
             const commonStore = useCommonStore()
             this.eventPropertiesLoading = true;
@@ -201,7 +221,11 @@ export const useLexiconStore = defineStore('lexicon', {
     },
     getters: {
         propertiesLength(state) {
-            return state.eventProperties?.length + state.eventCustomProperties?.length + state.userProperties?.length + state.userCustomProperties?.length;
+            return state.eventProperties?.length +
+                state.eventCustomProperties?.length +
+                state.userProperties?.length +
+                state.userCustomProperties?.length +
+                state.systemProperties?.length;
         },
         findEventById(state: Lexicon) {
             return (id: number): Event => {
@@ -298,6 +322,24 @@ export const useLexiconStore = defineStore('lexicon', {
                 return property;
             };
         },
+        findSystemPropertyByName(state: Lexicon) {
+            return (name: string | number): Property | undefined => {
+                const property = state.systemProperties.find((prop): boolean => prop.name === name);
+                if (!property) {
+                    errorHandler(`undefined System property name: ${name}`);
+                }
+                return property;
+            }
+        },
+        findSystemPropertyById(state: Lexicon) {
+            return (id: number): Property | undefined => {
+                const property = state.systemProperties.find((prop): boolean => Number(prop.id) === Number(id));
+                if (!property) {
+                    errorHandler(`undefined System property id: ${id}`)
+                }
+                return property;
+            };
+        },
         findUserPropertyByName(state: Lexicon) {
             return (name: string | number): Property | undefined => {
                 const property = state.userProperties.find((prop): boolean => prop.name === name);
@@ -343,6 +385,8 @@ export const useLexiconStore = defineStore('lexicon', {
                         return this.findEventCustomPropertyById(ref.id);
                     case PropertyType.User:
                         return this.findUserPropertyById(ref.id);
+                    case PropertyType.System:
+                        return this.findSystemPropertyById(ref.id);
                     default:
                         return undefined;
                 }
@@ -357,7 +401,10 @@ export const useLexiconStore = defineStore('lexicon', {
                         return this.findEventCustomPropertyById(ref.id)?.name || '';
                     case PropertyType.User:
                         return this.findUserPropertyById(ref.id)?.name || '';
+                    case PropertyType.System:
+                        return this.findSystemPropertyById(ref.id)?.name || '';
                 }
+                return '';
             };
         },
         findCohortById(state: Lexicon) {
