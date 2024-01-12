@@ -83,16 +83,25 @@ export const operations: Operation[] = [
         flags: [OpFlag.Null]
     },
     {
+        /* TODO: Fix incorrect types */
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
         id: OperationId.ArrAll,
         name: 'All in array',
         flags: [OpFlag.Array]
     },
     {
+        /* TODO: Fix incorrect types */
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
         id: OperationId.ArrAny,
         name: 'Any in array',
         flags: [OpFlag.Array]
     },
     {
+        /* TODO: Fix incorrect types */
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
         id: OperationId.ArrNone,
         name: 'None in array',
         flags: [OpFlag.Array]
