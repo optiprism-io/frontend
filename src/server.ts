@@ -16,6 +16,8 @@ import eventMocks from '@/mocks/eventSegmentations/events.json';
 import reportsMocks from '@/mocks/reports/reports.json';
 import dashboardsMocks from '@/mocks/dashboards';
 import groupRecordsMocks from '@/mocks/groupRecords.json';
+import profileMocks, { userId } from '@/mocks/profile';
+
 const alphabet = '0123456789';
 const nanoid = customAlphabet(alphabet, 4);
 const accessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c';
@@ -32,6 +34,7 @@ const dbTemplate: { [k: string]: any } = {
     dashboards: dashboardsMocks,
     groupRecords: groupRecordsMocks,
     liveStreamMocks: liveStreamMocks,
+    profile: profileMocks
 };
 
 const dbTemplateKeys = Object.keys(dbTemplate);
@@ -305,6 +308,28 @@ export default function ({ environment = 'development', isSeed = true } = {}) {
             /**
              * end Group-records
              */
+
+            /**
+             * Profile
+             */
+            this.get(`${BASE_PATH}/v1/profile`, (schema) => {
+                return schema.db.profile.at(0)
+            }, { timing: 1000 }),
+
+            this.put(`${BASE_PATH}/v1/profile/name`, (schema, request) => {
+                const body = JSON.parse(request.requestBody)
+                return schema.db.profile.update(userId, body)
+            }, { timing: 1000 })
+
+            this.put(`${BASE_PATH}/v1/profile/email`, (schema, request) => {
+                const body = JSON.parse(request.requestBody)
+                return schema.db.profile.update(userId, { email: body.email })
+            }, { timing: 1000 })
+
+            this.put(`${BASE_PATH}/v1/profile/password`, (schema, request) => {
+                const body = JSON.parse(request.requestBody)
+                return schema.db.profile.update(userId, { password: body.newPassword })
+            }, { timing: 1000 })
         }
     });
 }
