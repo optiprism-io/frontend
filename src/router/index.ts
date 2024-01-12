@@ -24,6 +24,7 @@ export const pagesMap = {
     usersProperties: 'usersProperties',
     users: 'users',
     reports: 'reports',
+    profile: 'profile'
 }
 
 const routes = [
@@ -106,6 +107,11 @@ const routes = [
                         component: () => import('@/pages/reports/Funnels.vue'),
                     }
                 ]
+            },
+            {
+                path: pagesMap.profile,
+                name: pagesMap.profile,
+                component: () => import('@/pages/ProfilePage.vue')
             },
             {
                 path: ':pathMatch(.*)*',
