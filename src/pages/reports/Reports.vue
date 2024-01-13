@@ -35,6 +35,13 @@
                 {{ $t('reports.createReport') }}
             </UiButton>
             <UiButton
+                class="pf-m-link reports__nav-item reports__nav-item_new"
+                :before-icon="'fas fa-plus'"
+                @click="onSaveReport"
+            >
+                {{ $t('reports.save') }}
+            </UiButton>
+            <UiButton
                 v-if="itemsReports.length"
                 class="pf-m-link pf-m-danger"
                 :before-icon="'fas fa-times'"
