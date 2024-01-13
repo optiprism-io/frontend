@@ -140,11 +140,7 @@ paths:
               $ref: '#/components/schemas/UpdateProfileNameRequest'
       responses:
         200:
-          description: profile
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Profile'
+          description: nothing
         '401':
           $ref: '#/components/responses/Unauthorized'
         '500':
@@ -171,7 +167,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Profile'
+                $ref: '#/components/schemas/TokensResponse'
         '401':
           $ref: '#/components/responses/Unauthorized'
         '500':
