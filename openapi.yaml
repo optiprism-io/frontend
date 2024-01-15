@@ -149,8 +149,8 @@ paths:
           $ref: '#/components/responses/ServiceUnavailable'
   /v1/profile/email:
     put:
-      summary: Update name
-      operationId: updateProfileName
+      summary: Update email
+      operationId: updateProfileEmail
       security:
         - bearerAuth: [ ]
       tags:
@@ -176,8 +176,8 @@ paths:
           $ref: '#/components/responses/ServiceUnavailable'
   /v1/profile/password:
     put:
-      summary: Update name
-      operationId: updateProfileName
+      summary: Update password
+      operationId: updateProfilePassword
       security:
         - bearerAuth: [ ]
       tags:
