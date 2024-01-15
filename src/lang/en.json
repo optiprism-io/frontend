@@ -331,6 +331,7 @@
   },
 
   "profile": {
+    "title": "Profile",
     "name": "Name",
     "email": "E-mail",
     "password": "Password",
