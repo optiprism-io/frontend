@@ -6481,6 +6481,46 @@ export const ProfileApiAxiosParamCreator = function (configuration?: Configurati
         },
         /**
          * 
+         * @summary Update email
+         * @param {UpdateProfileEmailRequest} updateProfileEmailRequest 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        updateProfileEmail: async (updateProfileEmailRequest: UpdateProfileEmailRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'updateProfileEmailRequest' is not null or undefined
+            assertParamExists('updateProfileEmail', 'updateProfileEmailRequest', updateProfileEmailRequest)
+            const localVarPath = `/v1/profile/email`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearerAuth required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(updateProfileEmailRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @summary Update name
          * @param {UpdateProfileNameRequest} updateProfileNameRequest 
          * @param {*} [options] Override http request option.
@@ -6521,54 +6561,14 @@ export const ProfileApiAxiosParamCreator = function (configuration?: Configurati
         },
         /**
          * 
-         * @summary Update name
-         * @param {UpdateProfileEmailRequest} updateProfileEmailRequest 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        updateProfileName_1: async (updateProfileEmailRequest: UpdateProfileEmailRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'updateProfileEmailRequest' is not null or undefined
-            assertParamExists('updateProfileName_1', 'updateProfileEmailRequest', updateProfileEmailRequest)
-            const localVarPath = `/v1/profile/email`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication bearerAuth required
-            // http bearer authentication required
-            await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
-
-    
-            localVarHeaderParameter['Content-Type'] = 'application/json';
-
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(updateProfileEmailRequest, localVarRequestOptions, configuration)
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @summary Update name
+         * @summary Update password
          * @param {UpdateProfilePasswordRequest} updateProfilePasswordRequest 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateProfileName_2: async (updateProfilePasswordRequest: UpdateProfilePasswordRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        updateProfilePassword: async (updateProfilePasswordRequest: UpdateProfilePasswordRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'updateProfilePasswordRequest' is not null or undefined
-            assertParamExists('updateProfileName_2', 'updateProfilePasswordRequest', updateProfilePasswordRequest)
+            assertParamExists('updateProfilePassword', 'updateProfilePasswordRequest', updateProfilePasswordRequest)
             const localVarPath = `/v1/profile/password`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -6623,12 +6623,25 @@ export const ProfileApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @summary Update email
+         * @param {UpdateProfileEmailRequest} updateProfileEmailRequest 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async updateProfileEmail(updateProfileEmailRequest: UpdateProfileEmailRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<TokensResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.updateProfileEmail(updateProfileEmailRequest, options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['ProfileApi.updateProfileEmail']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
+        /**
+         * 
          * @summary Update name
          * @param {UpdateProfileNameRequest} updateProfileNameRequest 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async updateProfileName(updateProfileNameRequest: UpdateProfileNameRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Profile>> {
+        async updateProfileName(updateProfileNameRequest: UpdateProfileNameRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.updateProfileName(updateProfileNameRequest, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['ProfileApi.updateProfileName']?.[index]?.url;
@@ -6636,28 +6649,15 @@ export const ProfileApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @summary Update name
-         * @param {UpdateProfileEmailRequest} updateProfileEmailRequest 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async updateProfileName_1(updateProfileEmailRequest: UpdateProfileEmailRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Profile>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.updateProfileName_1(updateProfileEmailRequest, options);
-            const index = configuration?.serverIndex ?? 0;
-            const operationBasePath = operationServerMap['ProfileApi.updateProfileName_1']?.[index]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
-        },
-        /**
-         * 
-         * @summary Update name
+         * @summary Update password
          * @param {UpdateProfilePasswordRequest} updateProfilePasswordRequest 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async updateProfileName_2(updateProfilePasswordRequest: UpdateProfilePasswordRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Profile>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.updateProfileName_2(updateProfilePasswordRequest, options);
+        async updateProfilePassword(updateProfilePasswordRequest: UpdateProfilePasswordRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<TokensResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.updateProfilePassword(updateProfilePasswordRequest, options);
             const index = configuration?.serverIndex ?? 0;
-            const operationBasePath = operationServerMap['ProfileApi.updateProfileName_2']?.[index]?.url;
+            const operationBasePath = operationServerMap['ProfileApi.updateProfilePassword']?.[index]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
         },
     }
@@ -6681,33 +6681,33 @@ export const ProfileApiFactory = function (configuration?: Configuration, basePa
         },
         /**
          * 
+         * @summary Update email
+         * @param {UpdateProfileEmailRequest} updateProfileEmailRequest 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        updateProfileEmail(updateProfileEmailRequest: UpdateProfileEmailRequest, options?: any): AxiosPromise<TokensResponse> {
+            return localVarFp.updateProfileEmail(updateProfileEmailRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @summary Update name
          * @param {UpdateProfileNameRequest} updateProfileNameRequest 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateProfileName(updateProfileNameRequest: UpdateProfileNameRequest, options?: any): AxiosPromise<Profile> {
+        updateProfileName(updateProfileNameRequest: UpdateProfileNameRequest, options?: any): AxiosPromise<void> {
             return localVarFp.updateProfileName(updateProfileNameRequest, options).then((request) => request(axios, basePath));
         },
         /**
          * 
-         * @summary Update name
-         * @param {UpdateProfileEmailRequest} updateProfileEmailRequest 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        updateProfileName_1(updateProfileEmailRequest: UpdateProfileEmailRequest, options?: any): AxiosPromise<Profile> {
-            return localVarFp.updateProfileName_1(updateProfileEmailRequest, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @summary Update name
+         * @summary Update password
          * @param {UpdateProfilePasswordRequest} updateProfilePasswordRequest 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateProfileName_2(updateProfilePasswordRequest: UpdateProfilePasswordRequest, options?: any): AxiosPromise<Profile> {
-            return localVarFp.updateProfileName_2(updateProfilePasswordRequest, options).then((request) => request(axios, basePath));
+        updateProfilePassword(updateProfilePasswordRequest: UpdateProfilePasswordRequest, options?: any): AxiosPromise<TokensResponse> {
+            return localVarFp.updateProfilePassword(updateProfilePasswordRequest, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -6732,6 +6732,18 @@ export class ProfileApi extends BaseAPI {
 
     /**
      * 
+     * @summary Update email
+     * @param {UpdateProfileEmailRequest} updateProfileEmailRequest 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ProfileApi
+     */
+    public updateProfileEmail(updateProfileEmailRequest: UpdateProfileEmailRequest, options?: RawAxiosRequestConfig) {
+        return ProfileApiFp(this.configuration).updateProfileEmail(updateProfileEmailRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
      * @summary Update name
      * @param {UpdateProfileNameRequest} updateProfileNameRequest 
      * @param {*} [options] Override http request option.
@@ -6744,26 +6756,14 @@ export class ProfileApi extends BaseAPI {
 
     /**
      * 
-     * @summary Update name
-     * @param {UpdateProfileEmailRequest} updateProfileEmailRequest 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof ProfileApi
-     */
-    public updateProfileName_1(updateProfileEmailRequest: UpdateProfileEmailRequest, options?: RawAxiosRequestConfig) {
-        return ProfileApiFp(this.configuration).updateProfileName_1(updateProfileEmailRequest, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
-     * @summary Update name
+     * @summary Update password
      * @param {UpdateProfilePasswordRequest} updateProfilePasswordRequest 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ProfileApi
      */
-    public updateProfileName_2(updateProfilePasswordRequest: UpdateProfilePasswordRequest, options?: RawAxiosRequestConfig) {
-        return ProfileApiFp(this.configuration).updateProfileName_2(updateProfilePasswordRequest, options).then((request) => request(this.axios, this.basePath));
+    public updateProfilePassword(updateProfilePasswordRequest: UpdateProfilePasswordRequest, options?: RawAxiosRequestConfig) {
+        return ProfileApiFp(this.configuration).updateProfilePassword(updateProfilePasswordRequest, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
