@@ -6,7 +6,10 @@
         }"
     >
         <div class="pf-c-inline-edit__group">
-            <div class="pf-c-inline-edit__value">
+            <div
+                class="pf-c-inline-edit__value"
+                @click="curIsEditable = true"
+            >
                 {{ placeholder }}
             </div>
             <div class="pf-c-inline-edit__action pf-m-enable-editable pf-u-ml-auto">
