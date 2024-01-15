@@ -24,6 +24,7 @@
     "nanoid": "^4.0.0",
     "pinia": "^2.0.22",
     "typescript-cookie": "^1.0.4",
+    "valibot": "^0.25.0",
     "vue": "^3.2.39",
     "vue-grid-layout": "^2.4.0",
     "vue-router": "^4.1.5",
