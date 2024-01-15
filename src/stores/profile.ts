@@ -6,6 +6,7 @@ import {
     UpdateProfilePasswordRequest,
 } from '@/api';
 import profileService from '@/api/services/profile.service';
+import { useAuthStore } from '@/stores/auth/auth';
 
 interface ProfileState {
   profile: {
@@ -29,7 +30,7 @@ export const useProfileStore = defineStore('profile', {
         },
         isLoading: false,
     }),
-    
+
     actions: {
         async getProfile() {
             this.isLoading = true;
@@ -46,8 +47,11 @@ export const useProfileStore = defineStore('profile', {
 
         async updateName({ name }: UpdateProfileNameRequest) {
             try {
-                const { data } = await profileService.updateName({ name });
-                this.profile = data;
+                await profileService.updateName({ name });
+                this.profile = {
+                    ...this.profile,
+                    name,
+                };
             } catch (error) {
                 /* TODO: add handle errors from server */
                 throw new Error('error update name');
@@ -55,22 +59,36 @@ export const useProfileStore = defineStore('profile', {
         },
 
         async updateEmail({ email, password }: UpdateProfileEmailRequest) {
+            const authStore = useAuthStore();
+
             try {
                 const { data } = await profileService.updateEmail({
                     email,
                     password,
                 });
-                this.profile = data;
+                this.profile = {
+                    ...this.profile,
+                    email,
+                };
+                authStore.setToken(data);
             } catch (error) {
                 /* TODO: add handle errors from server */
                 throw new Error('error update email');
             }
         },
 
-        async updatePassword({ password, newPassword }: UpdateProfilePasswordRequest) {
+        async updatePassword({
+            password,
+            newPassword,
+        }: UpdateProfilePasswordRequest) {
+            const authStore = useAuthStore();
+
             try {
-                const { data } = await profileService.updatePassword({ password, newPassword })
-                this.profile = data;
+                const { data } = await profileService.updatePassword({
+                    password,
+                    newPassword,
+                });
+                authStore.setToken(data);
             } catch (error) {
                 /* TODO: add handle errors from server */
                 throw new Error('error update email');

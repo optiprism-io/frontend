@@ -24,6 +24,12 @@ const accessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3OD
 const refreshToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6Im5pa28ga3VzaCIsImlhdCI6MTUxNjIzOTAyMn0.FzpmXmStgiYEO15ZbwwPafVRQSOCO_xidYjrjRvVIbQ';
 const csrfToken = 'CIwNZNlR4XbisJF39I8yWnWX9wX4WFoz';
 
+const TokensResponse = {
+    accessToken,
+    refreshToken,
+    csrfToken,
+}
+
 const dbTemplate: { [k: string]: any } = {
     events: eventMocks,
     customEvents: customEventsMocks,
@@ -42,6 +48,8 @@ const getRandomTiming = (from = 0, to = 0) => {
     // TODO ADD HEADER SWITCHER OR URL SEARCH PARAMETR LIKE => timingMocks=100-200
     return Math.floor(Math.random() * (to - from)) + from;
 }
+
+const EMPTY_SUCCESS_RES = 'done'
 
 const emptyDbTemplate = dbTemplateKeys.reduce((acc: { [key: string]: [] }, key) => {
     acc[key] = [];
@@ -89,7 +97,7 @@ export default function ({ environment = 'development', isSeed = true } = {}) {
             })
 
             this.delete(`${BASE_PATH}/v1/organizations/:organization_id/projects/:project_id/schema/custom-events/:event_id`, (schema, request) => {
-                return 'done';
+                return EMPTY_SUCCESS_RES;
             })
 
             this.post(`${BASE_PATH}/v1/organizations/:organization_id/projects/:project_id/schema/custom-events`, (schema, request) => {
@@ -246,20 +254,12 @@ export default function ({ environment = 'development', isSeed = true } = {}) {
                         }
                     });
                 } else {
-                    return {
-                        accessToken,
-                        refreshToken,
-                        csrfToken,
-                    }
+                    return TokensResponse
                 }
             })
 
             this.post(`${BASE_PATH}/v1/auth/refresh-token`, (): TokensResponse => {
-                return {
-                    accessToken,
-                    refreshToken,
-                    csrfToken,
-                }
+                return TokensResponse
             }, { timing: getRandomTiming() })
 
             /**
@@ -318,12 +318,14 @@ export default function ({ environment = 'development', isSeed = true } = {}) {
 
             this.put(`${BASE_PATH}/v1/profile/name`, (schema, request) => {
                 const body = JSON.parse(request.requestBody)
-                return schema.db.profile.update(userId, body)
+                schema.db.profile.update(userId, body)
+                return EMPTY_SUCCESS_RES
             }, { timing: 1000 })
 
             this.put(`${BASE_PATH}/v1/profile/email`, (schema, request) => {
                 const body = JSON.parse(request.requestBody)
-                return schema.db.profile.update(userId, { email: body.email })
+                schema.db.profile.update(userId, { email: body.email })
+                return TokensResponse
             }, { timing: 1000 })
 
             this.put(`${BASE_PATH}/v1/profile/password`, (schema, request) => {
