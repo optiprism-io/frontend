@@ -9,13 +9,13 @@ module.exports = {
     extends: [
         'plugin:vue/vue3-recommended',
         'eslint:recommended',
-        '@vue/typescript/recommended'
+        '@vue/typescript/recommended',
+        'prettier', /* Turns off all rules that are unnecessary or might conflict with Prettier. */
     ],
     parserOptions: {
         ecmaVersion: 2021
     },
     rules: {
-        quotes: ['warn', 'single'],
         'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
         'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
         'no-duplicate-case': 'off',
@@ -26,17 +26,7 @@ module.exports = {
         '@typescript-eslint/no-explicit-any': 'off',
         '@typescript-eslint/no-non-null-assertion': 'off',
         '@typescript-eslint/no-unused-vars': ['off', { argsIgnorePattern: '^_' }],
-        'indent': ['warn', 4, {
-            'SwitchCase': 1
-        }],
         'vue/no-v-html': 0,
-        'vue/html-indent': ['warn', 4, {
-            'attribute': 1,
-            'baseIndent': 1,
-            'closeBracket': 0,
-            'alignAttributesVertically': true,
-            'ignores': []
-        }],
         'vue/script-setup-uses-vars': 'error',
         'vue/require-default-prop': 'off',
         'vue/multi-word-component-names': 'off'
