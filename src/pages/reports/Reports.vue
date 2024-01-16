@@ -35,6 +35,7 @@
                 {{ $t('reports.createReport') }}
             </UiButton>
             <UiButton
+                v-if="isShowSaveReport"
                 class="pf-m-link reports__nav-item reports__nav-item_new"
                 :before-icon="'fas fa-plus'"
                 @click="onSaveReport"
@@ -62,9 +63,7 @@
             :items="items"
             @on-select="onSelectTab"
         />
-        <router-view
-            @on-change="onChange"
-        />
+        <router-view />
     </section>
 </template>
 
@@ -155,13 +154,14 @@ const itemsReports = computed(() => {
     })
 })
 
-
 const untitledReportsList = computed(() => {
     return reportsStore.list.filter(item => (`${item.name.split(' ')[0]}` + ' ' + `${item.name.split(' ')[1]}`) === t('reports.untitledReport'));
 });
 const untitledReportName = computed(() => {
     return `${t('reports.untitledReport')} #${untitledReportsList.value.length + 1}`;
 });
+
+const isShowSaveReport = computed(() => reportsStore.isChangedReport);
 
 const onEditNameReport = (payload: boolean) => {
     editableNameReport.value = payload;
@@ -184,37 +184,43 @@ const onDeleteReport = async () => {
     }
 }
 
-const onCreateReport = async () => {
-    if (reportsStore.reportId) {
-        await reportsStore.editReport(reportName.value || untitledReportName.value, reportType.value)
-    } else {
-        await reportsStore.createReport(reportName.value || untitledReportName.value, reportType.value)
+const onEditReport = () => {
+    reportsStore.editReport(reportName.value || untitledReportName.value, reportType.value)
+};
 
-        router.push({
-            params: {
-                id: reportsStore.reportId,
-            },
-            query: route.query,
-        })
+const onCreateReport = async () => {
+    await reportsStore.createReport(reportName.value || untitledReportName.value, reportType.value)
+
+    router.push({
+        params: {
+            id: reportsStore.reportId,
+        },
+        query: route.query,
+    })
+}
+
+const onUpdateReport = () => {
+    if (reportsStore.reportId) {
+        onEditReport();
+    } else {
+        onCreateReport();
     }
 }
 
 const onSaveReport = async () => {
-    onCreateReport();
+    reportsStore.loading = true;
+
+    onUpdateReport();
     await reportsStore.getList();
     reportsStore.updateDump(reportType.value);
+
+    reportsStore.loading = false;
 }
 
 const setNameReport = (payload: string) => {
     reportName.value = payload
     onSaveReport();
 }
-
-const onChange = async () => {
-    reportsStore.loading = true;
-    await onSaveReport();
-    reportsStore.loading = false;
-};
 
 const setNew = async () => {
     reportsStore.reportId = 0;
@@ -224,7 +230,7 @@ const setNew = async () => {
     segmentsStore.$reset();
     breakdownsStore.$reset();
     stepsStore.$reset();
-    onChange();
+    onSaveReport();
 }
 
 const onSelectTab = () => {
