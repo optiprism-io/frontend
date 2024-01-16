@@ -5,7 +5,7 @@
             class="dashboards__nav pf-u-px-sm pf-u-mb-sm pf-u-display-flex pf-u-justify-content-space-between pf-u-align-items-center"
         >
             <UiSelect
-                v-if="isLoading || isShowDashboardContentAndControls"
+                v-if="isShowSelectDashboard"
                 class="dashboards__select pf-u-mr-md"
                 :items="dashboardsList"
                 :text-button="dashboardSelectText"
@@ -240,7 +240,11 @@ const activeDashboard = computed(() => {
 })
 
 const isShowDashboardContentAndControls = computed(() => {
-    return !editableNameDashboard.value && dashboards.value.length && activeDashboardId.value;
+    return dashboards.value.length && activeDashboardId.value;
+});
+
+const isShowSelectDashboard = computed(() => {
+    return !editableNameDashboard.value && (isLoading.value || isShowDashboardContentAndControls.value)
 });
 
 const menuCardReport = computed<UiDropdownItem<string>[]>(() => {
