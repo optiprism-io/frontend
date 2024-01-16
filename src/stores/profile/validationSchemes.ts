@@ -12,32 +12,26 @@ import i18n from '@/utils/i18n';
 export const notEmptyStringScheme = string([
     toTrimmed(),
     minLength(1, i18n.t('profile.errors.emptyField')),
-]);
+]); 
 
 export const notEmptyEmailScheme = string([
     toTrimmed(),
     minLength(1, i18n.t('profile.errors.emptyField')),
     email(),
-]);
+])
 
 export const confirmPasswordScheme = object(
     {
-        newPassword: string([
-            toTrimmed(),
-            minLength(1, i18n.t('profile.errors.emptyField')),
-        ]),
-        confirmPassword: string([
-            toTrimmed(),
-            minLength(1, i18n.t('profile.errors.emptyField')),
-        ]),
+        newPassword: string([toTrimmed(), minLength(1, i18n.t('profile.errors.emptyField'))]),
+        confirmPassword: string([toTrimmed(), minLength(1, i18n.t('profile.errors.emptyField'))]),
     },
     [
         forward(
             custom(
-                (input) => input.newPassword === input.confirmPassword,
+                input => input.newPassword === input.confirmPassword,
                 i18n.t('profile.errors.notMatchPassword')
             ),
             ['confirmPassword']
         ),
     ]
-);
+)

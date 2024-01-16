@@ -9,15 +9,22 @@
                     <UiSpinner
                         v-if="isLoading"
                         class="pf-u-display-flex pf-u-m-auto"
-                        :size="'xl'"
+                        size="lg"
                     />
                     <ProfileForm
                         v-else
+                        v-model:is-edit="isEdit"
                         :name="profile.name"
                         :email="profile.email"
-                        @update-name="updateName"
-                        @update-email="updateEmail"
-                        @update-password="updatePassword"
+                        :errors="errors"
+                        @input-name="clearNameError"
+                        @input-email="clearEmailError"
+                        @input-pass-email="clearCurPasswordForEmailError"
+                        @input-pass="clearCurPasswordError"
+                        @input-pass-confirm="clearNewAndConfirmPasswordError"
+                        @save-name="saveEditName"
+                        @save-email="saveEditEmail"
+                        @save-password="saveEditPassword"
                     />
                 </UiCard>
             </template>
@@ -33,11 +40,21 @@ import UiSpinner from '@/components/uikit/UiSpinner.vue';
 import UiCard from '@/components/uikit/UiCard/UiCard.vue';
 import ToolsLayout from '@/layout/tools/ToolsLayout.vue';
 
-import { useProfileStore } from '@/stores/profile';
+import { useProfileStore } from '@/stores/profile/profile';
 
 const profileStore = useProfileStore();
-const { getProfile, updateName, updateEmail, updatePassword } = profileStore;
-const { profile, isLoading } = storeToRefs(profileStore);
+const {
+    getProfile,
+    saveEditName,
+    saveEditEmail,
+    saveEditPassword,
+    clearNameError,
+    clearEmailError,
+    clearCurPasswordForEmailError,
+    clearCurPasswordError,
+    clearNewAndConfirmPasswordError,
+} = profileStore;
+const { profile, isLoading, errors, isEdit } = storeToRefs(profileStore);
 
 getProfile();
 </script>

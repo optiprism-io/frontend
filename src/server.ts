@@ -1,7 +1,13 @@
 import { createServer, Response } from 'miragejs';
 import { useUrlSearchParams } from '@vueuse/core';
 import { customAlphabet } from 'nanoid';
-import { DataType, TokensResponse } from '@/api';
+import {
+    DataType,
+    TokensResponse,
+    UpdateProfileEmailRequest,
+    UpdateProfileNameRequest,
+    UpdateProfilePasswordRequest,
+} from '@/api';
 import { BASE_PATH } from '@/api/base';
 import { EventStatus, UserCustomProperty } from '@/types/events';
 import splineChartMocks from '@/mocks/splineChart.json';
@@ -43,6 +49,22 @@ const dbTemplate: { [k: string]: any } = {
     profile: profileMocks
 };
 
+/* TODO: move to separate file */
+enum HttpStatusCode {
+    OK = 200,
+    CREATED = 201,
+    NO_CONTENT = 204,
+    BAD_REQUEST = 400,
+    UNAUTHORIZED = 401,
+    FORBIDDEN = 403,
+    NOT_FOUND = 404,
+    INTERNAL_SERVER_ERROR = 500,
+}
+
+enum Stub {
+    ERROR= 'error'
+}
+
 const dbTemplateKeys = Object.keys(dbTemplate);
 const getRandomTiming = (from = 0, to = 0) => {
     // TODO ADD HEADER SWITCHER OR URL SEARCH PARAMETR LIKE => timingMocks=100-200
@@ -50,6 +72,7 @@ const getRandomTiming = (from = 0, to = 0) => {
 }
 
 const EMPTY_SUCCESS_RES = 'done'
+const EMPTY_HEADER_RESPONSE = { some: 'header' }
 
 const emptyDbTemplate = dbTemplateKeys.reduce((acc: { [key: string]: [] }, key) => {
     acc[key] = [];
@@ -247,7 +270,7 @@ export default function ({ environment = 'development', isSeed = true } = {}) {
                 const property = JSON.parse(request.requestBody)
 
                 if (property.email.length <= 5 || property.password.length < 5) {
-                    return new Response(400, { some: 'header' }, {
+                    return new Response(HttpStatusCode.BAD_REQUEST, EMPTY_HEADER_RESPONSE, {
                         'code': '1000_invalid_token',
                         'fields': {
                             'email': 'Email is too short',
@@ -317,20 +340,59 @@ export default function ({ environment = 'development', isSeed = true } = {}) {
             }, { timing: 1000 }),
 
             this.put(`${BASE_PATH}/v1/profile/name`, (schema, request) => {
-                const body = JSON.parse(request.requestBody)
-                schema.db.profile.update(userId, body)
+                const { name } = JSON.parse(request.requestBody) as UpdateProfileNameRequest
+ 
+                if (name.toLowerCase() === Stub.ERROR) return new Response(HttpStatusCode.BAD_REQUEST, EMPTY_HEADER_RESPONSE, {
+                    'fields': {
+                        'name': 'Name is incorrect',
+                    }
+                })
+                
+                schema.db.profile.update(userId, { name })
                 return EMPTY_SUCCESS_RES
             }, { timing: 1000 })
 
             this.put(`${BASE_PATH}/v1/profile/email`, (schema, request) => {
-                const body = JSON.parse(request.requestBody)
-                schema.db.profile.update(userId, { email: body.email })
+                const { email, password } = JSON.parse(
+                    request.requestBody
+                ) as UpdateProfileEmailRequest;
+
+                if (password.toLowerCase() === Stub.ERROR) return new Response(HttpStatusCode.BAD_REQUEST, EMPTY_HEADER_RESPONSE, {
+                    'fields': {
+                        'password': 'Password is incorrect',
+                    }
+                })
+
+                schema.db.profile.update(userId, { email })
                 return TokensResponse
             }, { timing: 1000 })
 
             this.put(`${BASE_PATH}/v1/profile/password`, (schema, request) => {
-                const body = JSON.parse(request.requestBody)
-                return schema.db.profile.update(userId, { password: body.newPassword })
+                const { password, newPassword } = JSON.parse(
+                    request.requestBody
+                ) as UpdateProfilePasswordRequest;
+
+                if (password.toLowerCase() === Stub.ERROR && newPassword.toLowerCase() === Stub.ERROR) return new Response(HttpStatusCode.BAD_REQUEST, EMPTY_HEADER_RESPONSE, {
+                    'fields': {
+                        'password': 'Password is incorrect',
+                        'newPassword': 'Password is incorrect',
+                    }
+                })
+
+                if (password.toLowerCase() === Stub.ERROR) return new Response(HttpStatusCode.BAD_REQUEST, EMPTY_HEADER_RESPONSE, {
+                    'fields': {
+                        'password': 'Password is incorrect',
+                    }
+                })
+                
+                if (newPassword.toLowerCase() === Stub.ERROR) return new Response(HttpStatusCode.BAD_REQUEST, EMPTY_HEADER_RESPONSE, {
+                    'fields': {
+                        'newPassword': 'Password is incorrect',
+                    }
+                })
+
+                schema.db.profile.update(userId, { password: newPassword })
+                return TokensResponse
             }, { timing: 1000 })
         }
     });

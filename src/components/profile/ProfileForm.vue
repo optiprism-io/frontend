@@ -2,29 +2,31 @@
     <form class="pf-u-w-50 pf-c-form pf-u-mb-auto">
         <UiLabelAndSlot label="Name">
             <UiInlineEditSlot
-                v-model:is-editable="isEditableName"
+                :is-editable="curIsEdit.name"
                 :placeholder="name"
-                @cancel="cancelEditName"
-                @save="saveEditName"
+                @update:is-editable="editNameHandler"
+                @cancel="cancelNameHandler"
+                @save="saveNameHandler"
             >
                 <UiInput
                     v-model="name"
-                    :invalid="!!nameError"
-                    @input="clearNameError"
+                    :invalid="!!errors.updateName.name?.message"
+                    @input="emit('input-name')"
                 />
             </UiInlineEditSlot>
-            <UiFormError :error="nameError?.message" />
+            <UiFormError :error="errors.updateName.name?.message" />
         </UiLabelAndSlot>
 
         <UiLabelAndSlot
             :label="t('profile.email')"
-            :hide-label="isEditableEmail"
+            :hide-label="isEdit.email"
         >
             <UiInlineEditSlot
-                v-model:is-editable="isEditableEmail"
+                :is-editable="curIsEdit.email"
                 :placeholder="email"
-                @cancel="cancelEditEmail"
-                @save="saveEditEmail"
+                @update:is-editable="editEmailHandler"
+                @cancel="cancelEmailHandler"
+                @save="saveEmailHandler"
             >
                 <div class="pf-l-flex">
                     <div class="pf-m-flex-1">
@@ -32,11 +34,11 @@
                             <UiInput
                                 v-model="email"
                                 type="email"
-                                :invalid="!!emailError"
-                                @input="clearEmailError"
+                                :invalid="!!errors.updateEmail.email?.message"
+                                @input="emit('input-email')"
                             />
                         </UiLabelAndSlot>
-                        <UiFormError :error="emailError?.message" />
+                        <UiFormError :error="errors.updateEmail.email?.message" />
                     </div>
 
                     <div class="pf-m-flex-1">
@@ -44,11 +46,11 @@
                             <UiInput
                                 v-model="curPasswordForEmail"
                                 type="password"
-                                :invalid="!!curPasswordForEmailError"
-                                @input="clearCurPasswordForEmailError"
+                                :invalid="!!errors.updateEmail.password?.message"
+                                @input="emit('input-pass-email')"
                             />
                         </UiLabelAndSlot>
-                        <UiFormError :error="curPasswordForEmailError?.message" />
+                        <UiFormError :error="errors.updateEmail.password?.message" />
                     </div>
                 </div>
             </UiInlineEditSlot>
@@ -56,13 +58,14 @@
 
         <UiLabelAndSlot
             :label="t('profile.password')"
-            :hide-label="isEditablePassword"
+            :hide-label="isEdit.password"
         >
             <UiInlineEditSlot
-                v-model:is-editable="isEditablePassword"
+                :is-editable="curIsEdit.password"
                 placeholder="********"
-                @cancel="resetEditPassword"
-                @save="saveEditPassword"
+                @update:is-editable="editPassHandler"
+                @cancel="cancelPasswordHandler"
+                @save="savePassHandler"
             >
                 <div class="pf-l-flex">
                     <div class="pf-m-flex-1">
@@ -70,33 +73,35 @@
                             <UiInput
                                 v-model="curPassword"
                                 type="password"
-                                :invalid="!!curPasswordError"
-                                @input="clearCurPasswordError"
+                                :invalid="!!errors.updatePassword.password?.message"
+                                @input="emit('input-pass')"
                             />
                         </UiLabelAndSlot>
-                        <UiFormError :error="curPasswordError?.message" />
+                        <UiFormError :error="errors.updatePassword.password?.message" />
                     </div>
                     <div class="pf-m-flex-1">
                         <UiLabelAndSlot :label="t('profile.newPassword')">
                             <UiInput
                                 v-model="newPassword"
                                 type="password"
-                                :invalid="!!newPasswordError"
-                                @input="clearNewAndConfirmPasswordError"
+                                :invalid="!!errors.updatePassword.newPassword?.message"
+                                @input="emit('input-pass-confirm')"
                             />
                         </UiLabelAndSlot>
-                        <UiFormError :error="newPasswordError?.message" />
+                        <UiFormError :error="errors.updatePassword.newPassword?.message" />
                     </div>
                     <div class="pf-m-flex-1">
                         <UiLabelAndSlot :label="t('profile.confirmPassword')">
                             <UiInput
                                 v-model="confirmPassword"
                                 type="password"
-                                :invalid="!!confirmPasswordError"
-                                @input="clearNewAndConfirmPasswordError"
+                                :invalid="!!errors.updatePassword.confirmPassword?.message"
+                                @input="emit('input-pass-confirm')"
                             />
                         </UiLabelAndSlot>
-                        <UiFormError :error="confirmPasswordError?.message" />
+                        <UiFormError
+                            :error="errors.updatePassword.confirmPassword?.message"
+                        />
                     </div>
                 </div>
             </UiInlineEditSlot>
@@ -105,27 +110,31 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
-import { safeParse, type ValiError } from 'valibot';
+import { ref, watch } from 'vue';
 
+import UiFormError from '@/components/uikit/UiFormError.vue';
 import UiInlineEditSlot from '@/components/uikit/UiInlineEditSlot.vue';
 import UiInput from '@/components/uikit/UiInput.vue';
 import UiLabelAndSlot from '@/components/uikit/UiLabelAndSlot.vue';
 
 import usei18n from '@/hooks/useI18n';
 
-import UiFormError from '@/components/uikit/UiFormError.vue';
+import { UpdateProfileEmailRequest, UpdateProfileNameRequest } from '@/api';
+import { useVModel } from '@vueuse/core';
+import { cloneDeep } from 'lodash';
 import {
-    confirmPasswordScheme,
-    notEmptyEmailScheme,
-    notEmptyStringScheme,
-} from '@/components/profile/validationSchemes';
+    ProfileEdit,
+    ProfileErrors,
+    UpdateProfilePasswordRequestExt,
+} from '@/stores/profile/types';
 
 const { t } = usei18n();
 
 interface IProps {
   name?: string;
   email?: string;
+  errors: ProfileErrors;
+  isEdit: ProfileEdit;
 }
 
 const props = withDefaults(defineProps<IProps>(), {
@@ -133,119 +142,104 @@ const props = withDefaults(defineProps<IProps>(), {
     email: '',
 });
 
-const emit = defineEmits(['update-name', 'update-email', 'update-password']);
+const emit = defineEmits<{
+  (e: 'save-name', value: UpdateProfileNameRequest): void;
+  (e: 'save-email', value: UpdateProfileEmailRequest): void;
+  (e: 'save-password', value: UpdateProfilePasswordRequestExt): void;
+  (e: 'input-name'): void;
+  (e: 'input-email'): void;
+  (e: 'input-pass-email'): void;
+  (e: 'input-pass'): void;
+  (e: 'input-pass-confirm'): void;
+  (e: 'update:isEdit', value: (typeof props)['isEdit']): void;
+}>();
+
+const curIsEdit = useVModel(props, 'isEdit', emit);
 
 const name = ref(props.name);
-const isEditableName = ref(false);
-const nameError = ref<ValiError | undefined>();
 
 const email = ref(props.email);
 const curPasswordForEmail = ref('');
-const isEditableEmail = ref(false);
-const emailError = ref<ValiError | undefined>();
-const curPasswordForEmailError = ref<ValiError | undefined>();
 
 const curPassword = ref('');
 const newPassword = ref('');
 const confirmPassword = ref('');
-const isEditablePassword = ref(false);
-const curPasswordError = ref<ValiError | undefined>();
-const newPasswordError = ref<ValiError | undefined>();
-const confirmPasswordError = ref<ValiError | undefined>();
 
-function resetEditName() {
-    isEditableName.value = false;
-    clearNameError();
+function saveNameHandler() {
+    emit('save-name', { name: name.value });
 }
 
-function resetEditEmail() {
-    curPasswordForEmail.value = '';
-    isEditableEmail.value = false;
-    clearEmailError();
-    clearCurPasswordForEmailError();
+function saveEmailHandler() {
+    emit('save-email', {
+        email: email.value,
+        password: curPasswordForEmail.value,
+    });
 }
 
-function resetEditPassword() {
-    curPassword.value = '';
-    newPassword.value = '';
-    confirmPassword.value = '';
-    isEditablePassword.value = false;
-    clearCurPasswordError();
-    clearNewAndConfirmPasswordError();
-}
-
-function cancelEditName() {
-    name.value = props.name;
-    resetEditName();
-}
-
-function cancelEditEmail() {
-    email.value = props.email;
-    resetEditEmail();
-}
-
-function saveEditName() {
-    const nCheck = safeParse(notEmptyStringScheme, name.value);
-    if (!nCheck.success) {
-        nameError.value = nCheck.error;
-        return;
-    }
-    emit('update-name', { name: name.value });
-    resetEditName();
-}
-
-function saveEditEmail() {
-    const eCheck = safeParse(notEmptyEmailScheme, email.value);
-    const pCheck = safeParse(notEmptyStringScheme, curPasswordForEmail.value);
-    if (!eCheck.success || !pCheck.success) {
-        emailError.value = eCheck.error;
-        curPasswordForEmailError.value = pCheck.error;
-        return;
-    }
-    emit('update-email', { email: email.value });
-    resetEditEmail();
-}
-
-function saveEditPassword() {
-    const curPCheck = safeParse(notEmptyStringScheme, curPassword.value);
-    const newPCheck = safeParse(notEmptyStringScheme, newPassword.value);
-    const conPCheck = safeParse(confirmPasswordScheme, {
+function savePassHandler() {
+    emit('save-password', {
+        password: curPassword.value,
         newPassword: newPassword.value,
         confirmPassword: confirmPassword.value,
     });
+}
 
-    if (!curPCheck.success || !newPCheck.success || !conPCheck.success) {
-        curPasswordError.value = curPCheck.error;
-        newPasswordError.value = newPCheck.error;
-        confirmPasswordError.value = conPCheck.error;
-        return;
+function editNameHandler(val: boolean) {
+    const copyIsEdit = cloneDeep(curIsEdit.value);
+    copyIsEdit.name = val;
+    curIsEdit.value = copyIsEdit;
+}
+
+function editEmailHandler(val: boolean) {
+    const copyIsEdit = cloneDeep(curIsEdit.value);
+    copyIsEdit.email = val;
+    curIsEdit.value = copyIsEdit;
+}
+
+function editPassHandler(val: boolean) {
+    const copyIsEdit = cloneDeep(curIsEdit.value);
+    copyIsEdit.password = val;
+    curIsEdit.value = copyIsEdit;
+}
+
+function cancelNameHandler() {
+    editNameHandler(false);
+    emit('input-name');
+}
+
+function cancelEmailHandler() {
+    editEmailHandler(false);
+    emit('input-email');
+    emit('input-pass-email');
+}
+
+function cancelPasswordHandler() {
+    editPassHandler(false);
+    emit('input-pass');
+    emit('input-pass-confirm');
+}
+
+watch(
+    () => props.isEdit.name,
+    () => {
+        name.value = props.name;
     }
+);
 
-    emit('update-password', {
-        password: curPassword.value,
-        newPassword: newPassword.value,
-    });
-    resetEditPassword();
-}
+watch(
+    () => props.isEdit.email,
+    () => {
+        email.value = props.email;
+        curPasswordForEmail.value = '';
+    }
+);
 
-function clearNameError() {
-    nameError.value = undefined;
-}
-
-function clearEmailError() {
-    emailError.value = undefined;
-}
-
-function clearCurPasswordForEmailError() {
-    curPasswordForEmailError.value = undefined;
-}
-
-function clearCurPasswordError() {
-    curPasswordError.value = undefined;
-}
-
-function clearNewAndConfirmPasswordError() {
-    newPasswordError.value = undefined;
-    confirmPasswordError.value = undefined;
-}
+watch(
+    () => props.isEdit.password,
+    () => {
+        curPassword.value = '';
+        newPassword.value = '';
+        confirmPassword.value = '';
+    }
+);
 </script>
