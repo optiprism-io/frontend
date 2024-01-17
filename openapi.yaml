@@ -201,7 +201,7 @@ paths:
           $ref: '#/components/responses/Internal'
         '503':
           $ref: '#/components/responses/ServiceUnavailable'
-  /v1/organizations/{organizationId}/projects/{projectId}/dashboards:
+  /v1/projects/{projectId}/dashboards:
     get:
       summary: Dashboards list
       operationId: dashboardsList
@@ -262,7 +262,7 @@ paths:
           $ref: '#/components/responses/Internal'
         '503':
           $ref: '#/components/responses/ServiceUnavailable'
-  /v1/organizations/{organizationId}/projects/{projectId}/dashboards/{dashboardId}:
+  /v1/projects/{projectId}/dashboards/{dashboardId}:
     get:
       summary: Get dashboard
       operationId: getDashboard
@@ -374,7 +374,7 @@ paths:
           $ref: '#/components/responses/Internal'
         '503':
           $ref: '#/components/responses/ServiceUnavailable'
-  /v1/organizations/{organizationId}/projects/{projectId}/reports:
+  /v1/projects/{projectId}/reports:
     get:
       summary: Reports list
       operationId: reportsList
@@ -446,7 +446,7 @@ paths:
           $ref: '#/components/responses/Internal'
         '503':
           $ref: '#/components/responses/ServiceUnavailable'
-  /v1/organizations/{organizationId}/projects/{projectId}/reports/{reportId}:
+  /v1/projects/{projectId}/reports/{reportId}:
     get:
       summary: Get report
       operationId: getReport
@@ -554,7 +554,7 @@ paths:
           $ref: '#/components/responses/Internal'
         '503':
           $ref: '#/components/responses/ServiceUnavailable'
-  /v1/organizations/{organizationId}/projects/{projectId}/schema/events:
+  /v1/projects/{projectId}/schema/events:
     get:
       summary: Events list
       operationId: eventsList
@@ -591,7 +591,7 @@ paths:
           $ref: '#/components/responses/Internal'
         '503':
           $ref: '#/components/responses/ServiceUnavailable'
-  /v1/organizations/{organizationId}/projects/{projectId}/schema/events/{eventId}:
+  /v1/projects/{projectId}/schema/events/{eventId}:
     get:
       summary: Get event
       operationId: getEvent
@@ -668,7 +668,7 @@ paths:
           $ref: '#/components/responses/Internal'
         '503':
           $ref: '#/components/responses/ServiceUnavailable'
-  /v1/organizations/{organizationId}/projects/{projectId}/schema/custom-events:
+  /v1/projects/{projectId}/schema/custom-events:
     get:
       summary: Custom events list
       operationId: customEventsList
@@ -741,7 +741,7 @@ paths:
           $ref: '#/components/responses/Internal'
         '503':
           $ref: '#/components/responses/ServiceUnavailable'
-  /v1/organizations/{organizationId}/projects/{projectId}/schema/custom-events/{eventId}:
+  /v1/projects/{projectId}/schema/custom-events/{eventId}:
     get:
       summary: Get custom event
       operationId: getCustomEvent
@@ -849,7 +849,7 @@ paths:
           $ref: '#/components/responses/Internal'
         '503':
           $ref: '#/components/responses/ServiceUnavailable'
-  /v1/organizations/{organizationId}/projects/{projectId}/schema/user-properties:
+  /v1/projects/{projectId}/schema/user-properties:
     get:
       summary: User properties list
       operationId: userPropertiesList
@@ -882,7 +882,7 @@ paths:
           $ref: '#/components/responses/Internal'
         '503':
           $ref: '#/components/responses/ServiceUnavailable'
-  /v1/organizations/{organizationId}/projects/{projectId}/schema/user-properties/{propertyId}:
+  /v1/projects/{projectId}/schema/user-properties/{propertyId}:
     get:
       summary: Get user property
       operationId: getUserProperty
@@ -959,7 +959,7 @@ paths:
           $ref: '#/components/responses/Internal'
         '503':
           $ref: '#/components/responses/ServiceUnavailable'
-  /v1/organizations/{organizationId}/projects/{projectId}/schema/event-properties:
+  /v1/projects/{projectId}/schema/event-properties:
     get:
       summary: Event properties list
       operationId: eventPropertiesList
@@ -992,7 +992,7 @@ paths:
           $ref: '#/components/responses/Internal'
         '503':
           $ref: '#/components/responses/ServiceUnavailable'
-  /v1/organizations/{organizationId}/projects/{projectId}/schema/event-properties/{propertyId}:
+  /v1/projects/{projectId}/schema/event-properties/{propertyId}:
     get:
       summary: Get event property
       operationId: getEventProperty
@@ -1069,7 +1069,7 @@ paths:
           $ref: '#/components/responses/Internal'
         '503':
           $ref: '#/components/responses/ServiceUnavailable'
-  /v1/organizations/{organizationId}/projects/{projectId}/schema/system-properties:
+  /v1/projects/{projectId}/schema/system-properties:
     get:
       summary: System properties list
       operationId: systemPropertiesList
@@ -1102,7 +1102,7 @@ paths:
           $ref: '#/components/responses/Internal'
         '503':
           $ref: '#/components/responses/ServiceUnavailable'
-  /v1/organizations/{organizationId}/projects/{projectId}/schema/system-properties/{propertyId}:
+  /v1/projects/{projectId}/schema/system-properties/{propertyId}:
     get:
       summary: Get system property
       operationId: getSystemProperty
@@ -1138,7 +1138,7 @@ paths:
           $ref: '#/components/responses/Internal'
         '503':
           $ref: '#/components/responses/ServiceUnavailable'
-  /v1/organizations/{organizationId}/projects/{projectId}/schema/custom-properties:
+  /v1/projects/{projectId}/schema/custom-properties:
     get:
       summary: Event custom properties list
       operationId: customPropertiesList
@@ -1171,7 +1171,7 @@ paths:
           $ref: '#/components/responses/Internal'
         '503':
           $ref: '#/components/responses/ServiceUnavailable'
-  /v1/organizations/{organizationId}/projects/{projectId}/event-records/{id}:
+  /v1/projects/{projectId}/event-records/{id}:
     get:
       summary: Get event record
       operationId: getEventRecord
@@ -1208,7 +1208,7 @@ paths:
           $ref: '#/components/responses/Internal'
         '503':
           $ref: '#/components/responses/ServiceUnavailable'
-  /v1/organizations/{organizationId}/projects/{projectId}/event-records/search:
+  /v1/projects/{projectId}/event-records/search:
     post:
       summary: Get event records
       operationId: eventRecordsList
@@ -1247,7 +1247,7 @@ paths:
           $ref: '#/components/responses/Internal'
         '503':
           $ref: '#/components/responses/ServiceUnavailable'
-  /v1/organizations/{organizationId}/projects/{projectId}/group-records/{id}:
+  /v1/projects/{projectId}/group-records/{id}:
     get:
       summary: Get group record
       operationId: getGroupRecord
@@ -1326,7 +1326,7 @@ paths:
           $ref: '#/components/responses/Internal'
         '503':
           $ref: '#/components/responses/ServiceUnavailable'
-  /v1/organizations/{organizationId}/projects/{projectId}/group-records/search:
+  /v1/projects/{projectId}/group-records/search:
     post:
       summary: List group records
       operationId: groupRecordsList
@@ -1365,7 +1365,7 @@ paths:
           $ref: '#/components/responses/Internal'
         '503':
           $ref: '#/components/responses/ServiceUnavailable'
-  /v1/organizations/{organizationId}/projects/{projectId}/property-values:
+  /v1/projects/{projectId}/property-values:
     post:
       summary: List of property values
       operationId: PropertyValuesList
@@ -1406,7 +1406,7 @@ paths:
           $ref: '#/components/responses/Internal'
         '503':
           $ref: '#/components/responses/ServiceUnavailable'
-  /v1/organizations/{organizationId}/projects/{projectId}/queries/event-segmentation:
+  /v1/projects/{projectId}/queries/event-segmentation:
     post:
       summary: Event segmentation query
       operationId: eventSegmentationQuery
@@ -1449,7 +1449,7 @@ paths:
           $ref: '#/components/responses/Internal'
         '503':
           $ref: '#/components/responses/ServiceUnavailable'
-  /organizations/{organizationId}/projects/{projectId}/queries/funnel:
+  /projects/{projectId}/queries/funnel:
     post:
       summary: Funnel query
       operationId: funnelQuery
