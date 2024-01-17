@@ -328,5 +328,20 @@
     "addReport": "Add report",
     "untitledDashboard": "Untitled Dashboard",
     "changeReport": "Change report"
+  },
+
+  "profile": {
+    "title": "Profile",
+    "name": "Name",
+    "email": "E-mail",
+    "password": "Password",
+    "curPassword": "Current Password",
+    "newPassword": "New Password",
+    "confirmPassword": "Confirm Password",
+    "errors": {
+      "emptyField": "Field can't be empty",
+      "emptyCurPassword": "Enter the current password",
+      "notMatchPassword": "The passwords do not match"
+    }
   }
 }

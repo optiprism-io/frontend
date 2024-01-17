@@ -1,7 +1,13 @@
 import { createServer, Response } from 'miragejs';
 import { useUrlSearchParams } from '@vueuse/core';
 import { customAlphabet } from 'nanoid';
-import { DataType, TokensResponse } from '@/api';
+import {
+    DataType,
+    TokensResponse,
+    UpdateProfileEmailRequest,
+    UpdateProfileNameRequest,
+    UpdateProfilePasswordRequest,
+} from '@/api';
 import { BASE_PATH } from '@/api/base';
 import { EventStatus, UserCustomProperty } from '@/types/events';
 import splineChartMocks from '@/mocks/splineChart.json';
@@ -16,11 +22,28 @@ import eventMocks from '@/mocks/eventSegmentations/events.json';
 import reportsMocks from '@/mocks/reports/reports.json';
 import dashboardsMocks from '@/mocks/dashboards';
 import groupRecordsMocks from '@/mocks/groupRecords.json';
+import profileMocks, { userId } from '@/mocks/profile';
+import { fromPairs } from 'lodash';
+
+interface ServerErrorResponse {
+  error: {
+    status: number;
+    fields?: Record<string, string>;
+    message?: string;
+  };
+}
+
 const alphabet = '0123456789';
 const nanoid = customAlphabet(alphabet, 4);
 const accessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c';
 const refreshToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6Im5pa28ga3VzaCIsImlhdCI6MTUxNjIzOTAyMn0.FzpmXmStgiYEO15ZbwwPafVRQSOCO_xidYjrjRvVIbQ';
 const csrfToken = 'CIwNZNlR4XbisJF39I8yWnWX9wX4WFoz';
+
+const TokensResponse = {
+    accessToken,
+    refreshToken,
+    csrfToken,
+}
 
 const dbTemplate: { [k: string]: any } = {
     events: eventMocks,
@@ -32,7 +55,25 @@ const dbTemplate: { [k: string]: any } = {
     dashboards: dashboardsMocks,
     groupRecords: groupRecordsMocks,
     liveStreamMocks: liveStreamMocks,
+    profile: profileMocks
 };
+
+/* TODO: move to separate file */
+enum HttpStatusCode {
+    OK = 200,
+    CREATED = 201,
+    NO_CONTENT = 204,
+    BAD_REQUEST = 400,
+    UNAUTHORIZED = 401,
+    FORBIDDEN = 403,
+    NOT_FOUND = 404,
+    INTERNAL_SERVER_ERROR = 500,
+}
+
+enum Stub {
+    ERROR = 'error',
+    TOAST = 'toast'
+}
 
 const dbTemplateKeys = Object.keys(dbTemplate);
 const getRandomTiming = (from = 0, to = 0) => {
@@ -40,10 +81,27 @@ const getRandomTiming = (from = 0, to = 0) => {
     return Math.floor(Math.random() * (to - from)) + from;
 }
 
+const EMPTY_SUCCESS_RES = 'done'
+const EMPTY_HEADER_RESPONSE = { some: 'header' }
+
 const emptyDbTemplate = dbTemplateKeys.reduce((acc: { [key: string]: [] }, key) => {
     acc[key] = [];
     return acc;
 }, {});
+
+type KeyError = string
+type MessageError = string
+
+function getErrorResponse(errors: [KeyError, MessageError][]): ServerErrorResponse {
+    const fields = fromPairs(errors)
+
+    return {
+        error: {
+            status: HttpStatusCode.BAD_REQUEST,
+            fields
+        },
+    }
+}
 
 export default function ({ environment = 'development', isSeed = true } = {}) {
     const params = useUrlSearchParams('history');
@@ -86,7 +144,7 @@ export default function ({ environment = 'development', isSeed = true } = {}) {
             })
 
             this.delete(`${BASE_PATH}/v1/organizations/:organization_id/projects/:project_id/schema/custom-events/:event_id`, (schema, request) => {
-                return 'done';
+                return EMPTY_SUCCESS_RES;
             })
 
             this.post(`${BASE_PATH}/v1/organizations/:organization_id/projects/:project_id/schema/custom-events`, (schema, request) => {
@@ -236,27 +294,19 @@ export default function ({ environment = 'development', isSeed = true } = {}) {
                 const property = JSON.parse(request.requestBody)
 
                 if (property.email.length <= 5 || property.password.length < 5) {
-                    return new Response(400, { some: 'header' }, {
+                    return new Response(HttpStatusCode.BAD_REQUEST, EMPTY_HEADER_RESPONSE, {
                         'code': '1000_invalid_token',
                         'fields': {
                             'email': 'Email is too short',
                         }
                     });
                 } else {
-                    return {
-                        accessToken,
-                        refreshToken,
-                        csrfToken,
-                    }
+                    return TokensResponse
                 }
             })
 
             this.post(`${BASE_PATH}/v1/auth/refresh-token`, (): TokensResponse => {
-                return {
-                    accessToken,
-                    refreshToken,
-                    csrfToken,
-                }
+                return TokensResponse
             }, { timing: getRandomTiming() })
 
             /**
@@ -305,6 +355,101 @@ export default function ({ environment = 'development', isSeed = true } = {}) {
             /**
              * end Group-records
              */
+
+            /**
+             * Profile
+             */
+            this.get(`${BASE_PATH}/v1/profile`, (schema) => {
+                return schema.db.profile.at(0)
+            }, { timing: 1000 }),
+
+            this.put(`${BASE_PATH}/v1/profile/name`, (schema, request) => {
+                const { name } = JSON.parse(request.requestBody) as UpdateProfileNameRequest
+
+                if (name.toLowerCase() === Stub.TOAST)
+                    return new Response(
+                        HttpStatusCode.BAD_REQUEST,
+                        EMPTY_HEADER_RESPONSE,
+                        {
+                            'error': {
+                                'status': HttpStatusCode.BAD_REQUEST,
+                                'message': Stub.ERROR
+                            }
+                        })
+
+                if (name.toLowerCase() === Stub.ERROR)
+                    return new Response(
+                        HttpStatusCode.BAD_REQUEST,
+                        EMPTY_HEADER_RESPONSE,
+                        getErrorResponse([['name', 'Name is incorrect']]))
+                
+                schema.db.profile.update(userId, { name })
+                return EMPTY_SUCCESS_RES
+            }, { timing: 1000 })
+
+            this.put(`${BASE_PATH}/v1/profile/email`, (schema, request) => {
+                const { email, password } = JSON.parse(
+                    request.requestBody
+                ) as UpdateProfileEmailRequest;
+
+                if (password.toLowerCase() === Stub.TOAST)
+                    return new Response(
+                        HttpStatusCode.BAD_REQUEST,
+                        EMPTY_HEADER_RESPONSE,
+                        {
+                            'error': {
+                                'status': HttpStatusCode.BAD_REQUEST,
+                                'message': Stub.ERROR
+                            }
+                        })
+
+                if (password.toLowerCase() === Stub.ERROR)
+                    return new Response(
+                        HttpStatusCode.BAD_REQUEST,
+                        EMPTY_HEADER_RESPONSE,
+                        getErrorResponse([['password', 'Password is incorrect']]))
+
+                schema.db.profile.update(userId, { email })
+                return TokensResponse
+            }, { timing: 1000 })
+
+            this.put(`${BASE_PATH}/v1/profile/password`, (schema, request) => {
+                const { password, newPassword } = JSON.parse(
+                    request.requestBody
+                ) as UpdateProfilePasswordRequest;
+
+                if (password.toLowerCase() === Stub.TOAST || newPassword.toLowerCase() === Stub.TOAST)
+                    return new Response(
+                        HttpStatusCode.BAD_REQUEST,
+                        EMPTY_HEADER_RESPONSE,
+                        {
+                            'error': {
+                                'status': HttpStatusCode.BAD_REQUEST,
+                                'message': Stub.ERROR
+                            }
+                        })
+                
+                if (password.toLowerCase() === Stub.ERROR && newPassword.toLowerCase() === Stub.ERROR)
+                    return new Response(
+                        HttpStatusCode.BAD_REQUEST,
+                        EMPTY_HEADER_RESPONSE,
+                        getErrorResponse([['password', 'Password is incorrect'], ['newPassword', 'Password is incorrect']]))
+
+                if (password.toLowerCase() === Stub.ERROR)
+                    return new Response(
+                        HttpStatusCode.BAD_REQUEST,
+                        EMPTY_HEADER_RESPONSE,
+                        getErrorResponse([['password', 'Password is incorrect']]))
+
+                if (newPassword.toLowerCase() === Stub.ERROR)
+                    return new Response(
+                        HttpStatusCode.BAD_REQUEST,
+                        EMPTY_HEADER_RESPONSE,
+                        getErrorResponse([['newPassword', 'Password is incorrect']]))
+
+                schema.db.profile.update(userId, { password: newPassword })
+                return TokensResponse
+            }, { timing: 1000 })
         }
     });
 }

@@ -24,6 +24,7 @@ export const pagesMap = {
     usersProperties: 'usersProperties',
     users: 'users',
     reports: 'reports',
+    profile: 'profile'
 }
 
 const routes = [
@@ -41,8 +42,8 @@ const routes = [
                 redirect: { name: pagesMap.dashboards.name }
             },
             {
-                path: 'users',
-                name: 'users',
+                path: pagesMap.users,
+                name: pagesMap.users,
                 component: () => import('@/pages/users/Users.vue'),
                 children: [
                     {
@@ -91,8 +92,8 @@ const routes = [
                 component: () => import('@/pages/Dashboards.vue'),
             },
             {
-                path: 'reports',
-                name: 'reports',
+                path: pagesMap.reports,
+                name: pagesMap.reports,
                 component: () => import('@/pages/reports/Reports.vue'),
                 children: [
                     {
@@ -106,6 +107,11 @@ const routes = [
                         component: () => import('@/pages/reports/Funnels.vue'),
                     }
                 ]
+            },
+            {
+                path: pagesMap.profile,
+                name: pagesMap.profile,
+                component: () => import('@/pages/ProfilePage.vue')
             },
             {
                 path: ':pathMatch(.*)*',

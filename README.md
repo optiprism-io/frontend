@@ -71,5 +71,5 @@ VITE_MOCK_API=true yarn build
 - [Doc](https://openapi-generator.tech/docs/generators/typescript-axios/)
 - [Install Doc](https://openapi-generator.tech/docs/installation/) `(min version 6.0.1)`
 ```
-openapi-generator generate -i ./api/openapi.yaml -g typescript-axios --skip-validate-spec -o ./src/api
+yarn generate:openapi
 ```

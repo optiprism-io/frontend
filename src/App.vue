@@ -43,6 +43,12 @@ axios.interceptors.response.use(res => res, async err => {
         switch (err?.response?.status || err?.error?.status) {
             case 400:
                 if (err.response?.data) {
+                    if (err.response?.data?.error?.message) {
+                        createErrorGeneral(
+                            err.response,
+                            err.response.data.error.message
+                        );
+                    }
                     return Promise.reject(err.response.data);
                 }
                 break;
