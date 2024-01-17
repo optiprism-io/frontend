@@ -14,7 +14,7 @@
 
 
 import type { Configuration } from './configuration';
-import type { AxiosPromise, AxiosInstance, AxiosRequestConfig } from 'axios';
+import type { AxiosPromise, AxiosInstance, RawAxiosRequestConfig } from 'axios';
 import globalAxios from 'axios';
 // Some imports not used depending on template conditions
 // @ts-ignore
@@ -932,10 +932,10 @@ export interface DidEventAggregateProperty {
     'value'?: Value;
     /**
      * 
-     * @type {DidEventCountTime}
+     * @type {DidEventAggregatePropertyAllOfTime}
      * @memberof DidEventAggregateProperty
      */
-    'time': DidEventCountTime;
+    'time': DidEventAggregatePropertyAllOfTime;
 }
 
 export const DidEventAggregatePropertyTypeEnum = {
@@ -943,6 +943,13 @@ export const DidEventAggregatePropertyTypeEnum = {
 } as const;
 
 export type DidEventAggregatePropertyTypeEnum = typeof DidEventAggregatePropertyTypeEnum[keyof typeof DidEventAggregatePropertyTypeEnum];
+
+/**
+ * @type DidEventAggregatePropertyAllOfTime
+ * time frame
+ * @export
+ */
+export type DidEventAggregatePropertyAllOfTime = TimeAfterFirstUse | TimeBetween | TimeLast | TimeWindowEach;
 
 /**
  * find all users who made event X times
@@ -1751,43 +1758,43 @@ export interface EventSegmentationEvent {
     'eventType': EventType;
     /**
      * array of event filters
-     * @type {Array<EventSegmentationEventAllOfFiltersInner>}
+     * @type {Array<EventSegmentationEventAllOfFilters>}
      * @memberof EventSegmentationEvent
      */
-    'filters'?: Array<EventSegmentationEventAllOfFiltersInner>;
+    'filters'?: Array<EventSegmentationEventAllOfFilters>;
     /**
      * 
-     * @type {Array<EventSegmentationEventAllOfBreakdownsInner>}
+     * @type {Array<EventSegmentationEventAllOfBreakdowns>}
      * @memberof EventSegmentationEvent
      */
-    'breakdowns'?: Array<EventSegmentationEventAllOfBreakdownsInner>;
+    'breakdowns'?: Array<EventSegmentationEventAllOfBreakdowns>;
     /**
      * array of event queries
-     * @type {Array<EventSegmentationEventAllOfQueriesInner>}
+     * @type {Array<EventSegmentationEventAllOfQueries>}
      * @memberof EventSegmentationEvent
      */
-    'queries': Array<EventSegmentationEventAllOfQueriesInner>;
+    'queries': Array<EventSegmentationEventAllOfQueries>;
 }
 
 
 /**
- * @type EventSegmentationEventAllOfBreakdownsInner
+ * @type EventSegmentationEventAllOfBreakdowns
  * array of event breakdowns
  * @export
  */
-export type EventSegmentationEventAllOfBreakdownsInner = BreakdownByProperty;
+export type EventSegmentationEventAllOfBreakdowns = BreakdownByProperty;
 
 /**
- * @type EventSegmentationEventAllOfFiltersInner
+ * @type EventSegmentationEventAllOfFilters
  * @export
  */
-export type EventSegmentationEventAllOfFiltersInner = EventFilterByProperty;
+export type EventSegmentationEventAllOfFilters = EventFilterByProperty;
 
 /**
- * @type EventSegmentationEventAllOfQueriesInner
+ * @type EventSegmentationEventAllOfQueries
  * @export
  */
-export type EventSegmentationEventAllOfQueriesInner = QueryAggregateProperty | QueryAggregatePropertyPerGroup | QueryCountPerGroup | QueryFormula | QuerySimple;
+export type EventSegmentationEventAllOfQueries = QueryAggregateProperty | QueryAggregatePropertyPerGroup | QueryCountPerGroup | QueryFormula | QuerySimple;
 
 /**
  * segment
@@ -1977,18 +1984,18 @@ export interface FunnelEvent {
     'eventType': EventType;
     /**
      * array of event filters
-     * @type {Array<FunnelEventAllOfFiltersInner>}
+     * @type {Array<FunnelEventAllOfFilters>}
      * @memberof FunnelEvent
      */
-    'filters': Array<FunnelEventAllOfFiltersInner>;
+    'filters': Array<FunnelEventAllOfFilters>;
 }
 
 
 /**
- * @type FunnelEventAllOfFiltersInner
+ * @type FunnelEventAllOfFilters
  * @export
  */
-export type FunnelEventAllOfFiltersInner = EventFilterByProperty;
+export type FunnelEventAllOfFilters = EventFilterByProperty;
 
 /**
  * 
@@ -2301,10 +2308,10 @@ export interface FunnelQueryExcludeInner {
     'eventType': EventType;
     /**
      * array of event filters
-     * @type {Array<FunnelEventAllOfFiltersInner>}
+     * @type {Array<FunnelEventAllOfFilters>}
      * @memberof FunnelQueryExcludeInner
      */
-    'filters': Array<FunnelEventAllOfFiltersInner>;
+    'filters': Array<FunnelEventAllOfFilters>;
     /**
      * 
      * @type {FunnelExcludeStepsSteps}
@@ -4107,7 +4114,7 @@ export const AuthApiAxiosParamCreator = function (configuration?: Configuration)
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        basicLogin: async (loginRequest: LoginRequest, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        basicLogin: async (loginRequest: LoginRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'loginRequest' is not null or undefined
             assertParamExists('basicLogin', 'loginRequest', loginRequest)
             const localVarPath = `/v1/auth/login`;
@@ -4143,7 +4150,7 @@ export const AuthApiAxiosParamCreator = function (configuration?: Configuration)
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        basicSignup: async (signupRequest: SignupRequest, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        basicSignup: async (signupRequest: SignupRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'signupRequest' is not null or undefined
             assertParamExists('basicSignup', 'signupRequest', signupRequest)
             const localVarPath = `/v1/auth/signup`;
@@ -4179,7 +4186,7 @@ export const AuthApiAxiosParamCreator = function (configuration?: Configuration)
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        refreshToken: async (refreshTokenRequest: RefreshTokenRequest, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        refreshToken: async (refreshTokenRequest: RefreshTokenRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'refreshTokenRequest' is not null or undefined
             assertParamExists('refreshToken', 'refreshTokenRequest', refreshTokenRequest)
             const localVarPath = `/v1/auth/refresh-token`;
@@ -4225,7 +4232,7 @@ export const AuthApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async basicLogin(loginRequest: LoginRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<TokensResponse>> {
+        async basicLogin(loginRequest: LoginRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<TokensResponse>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.basicLogin(loginRequest, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['AuthApi.basicLogin']?.[index]?.url;
@@ -4238,7 +4245,7 @@ export const AuthApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async basicSignup(signupRequest: SignupRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<TokensResponse>> {
+        async basicSignup(signupRequest: SignupRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<TokensResponse>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.basicSignup(signupRequest, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['AuthApi.basicSignup']?.[index]?.url;
@@ -4251,7 +4258,7 @@ export const AuthApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async refreshToken(refreshTokenRequest: RefreshTokenRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<TokensResponse>> {
+        async refreshToken(refreshTokenRequest: RefreshTokenRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<TokensResponse>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.refreshToken(refreshTokenRequest, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['AuthApi.refreshToken']?.[index]?.url;
@@ -4315,7 +4322,7 @@ export class AuthApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof AuthApi
      */
-    public basicLogin(loginRequest: LoginRequest, options?: AxiosRequestConfig) {
+    public basicLogin(loginRequest: LoginRequest, options?: RawAxiosRequestConfig) {
         return AuthApiFp(this.configuration).basicLogin(loginRequest, options).then((request) => request(this.axios, this.basePath));
     }
 
@@ -4327,7 +4334,7 @@ export class AuthApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof AuthApi
      */
-    public basicSignup(signupRequest: SignupRequest, options?: AxiosRequestConfig) {
+    public basicSignup(signupRequest: SignupRequest, options?: RawAxiosRequestConfig) {
         return AuthApiFp(this.configuration).basicSignup(signupRequest, options).then((request) => request(this.axios, this.basePath));
     }
 
@@ -4339,7 +4346,7 @@ export class AuthApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof AuthApi
      */
-    public refreshToken(refreshTokenRequest: RefreshTokenRequest, options?: AxiosRequestConfig) {
+    public refreshToken(refreshTokenRequest: RefreshTokenRequest, options?: RawAxiosRequestConfig) {
         return AuthApiFp(this.configuration).refreshToken(refreshTokenRequest, options).then((request) => request(this.axios, this.basePath));
     }
 }
@@ -4361,14 +4368,14 @@ export const CustomEventsApiAxiosParamCreator = function (configuration?: Config
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createCustomEvent: async (organizationId: number, projectId: number, createCustomEventRequest: CreateCustomEventRequest, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        createCustomEvent: async (organizationId: number, projectId: number, createCustomEventRequest: CreateCustomEventRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'organizationId' is not null or undefined
             assertParamExists('createCustomEvent', 'organizationId', organizationId)
             // verify required parameter 'projectId' is not null or undefined
             assertParamExists('createCustomEvent', 'projectId', projectId)
             // verify required parameter 'createCustomEventRequest' is not null or undefined
             assertParamExists('createCustomEvent', 'createCustomEventRequest', createCustomEventRequest)
-            const localVarPath = `/v1/projects/{projectId}/schema/custom-events`
+            const localVarPath = `/v1/organizations/{organizationId}/projects/{projectId}/schema/custom-events`
                 .replace(`{${"organizationId"}}`, encodeURIComponent(String(organizationId)))
                 .replace(`{${"projectId"}}`, encodeURIComponent(String(projectId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -4408,12 +4415,12 @@ export const CustomEventsApiAxiosParamCreator = function (configuration?: Config
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        customEventsList: async (organizationId: number, projectId: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        customEventsList: async (organizationId: number, projectId: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'organizationId' is not null or undefined
             assertParamExists('customEventsList', 'organizationId', organizationId)
             // verify required parameter 'projectId' is not null or undefined
             assertParamExists('customEventsList', 'projectId', projectId)
-            const localVarPath = `/v1/projects/{projectId}/schema/custom-events`
+            const localVarPath = `/v1/organizations/{organizationId}/projects/{projectId}/schema/custom-events`
                 .replace(`{${"organizationId"}}`, encodeURIComponent(String(organizationId)))
                 .replace(`{${"projectId"}}`, encodeURIComponent(String(projectId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -4451,14 +4458,14 @@ export const CustomEventsApiAxiosParamCreator = function (configuration?: Config
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deleteCustomEvent: async (organizationId: number, projectId: number, eventId: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        deleteCustomEvent: async (organizationId: number, projectId: number, eventId: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'organizationId' is not null or undefined
             assertParamExists('deleteCustomEvent', 'organizationId', organizationId)
             // verify required parameter 'projectId' is not null or undefined
             assertParamExists('deleteCustomEvent', 'projectId', projectId)
             // verify required parameter 'eventId' is not null or undefined
             assertParamExists('deleteCustomEvent', 'eventId', eventId)
-            const localVarPath = `/v1/projects/{projectId}/schema/custom-events/{eventId}`
+            const localVarPath = `/v1/organizations/{organizationId}/projects/{projectId}/schema/custom-events/{eventId}`
                 .replace(`{${"organizationId"}}`, encodeURIComponent(String(organizationId)))
                 .replace(`{${"projectId"}}`, encodeURIComponent(String(projectId)))
                 .replace(`{${"eventId"}}`, encodeURIComponent(String(eventId)));
@@ -4497,14 +4504,14 @@ export const CustomEventsApiAxiosParamCreator = function (configuration?: Config
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getCustomEvent: async (organizationId: number, projectId: number, eventId: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        getCustomEvent: async (organizationId: number, projectId: number, eventId: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'organizationId' is not null or undefined
             assertParamExists('getCustomEvent', 'organizationId', organizationId)
             // verify required parameter 'projectId' is not null or undefined
             assertParamExists('getCustomEvent', 'projectId', projectId)
             // verify required parameter 'eventId' is not null or undefined
             assertParamExists('getCustomEvent', 'eventId', eventId)
-            const localVarPath = `/v1/projects/{projectId}/schema/custom-events/{eventId}`
+            const localVarPath = `/v1/organizations/{organizationId}/projects/{projectId}/schema/custom-events/{eventId}`
                 .replace(`{${"organizationId"}}`, encodeURIComponent(String(organizationId)))
                 .replace(`{${"projectId"}}`, encodeURIComponent(String(projectId)))
                 .replace(`{${"eventId"}}`, encodeURIComponent(String(eventId)));
@@ -4544,7 +4551,7 @@ export const CustomEventsApiAxiosParamCreator = function (configuration?: Config
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateCustomEvent: async (organizationId: number, projectId: number, eventId: string, updateCustomEventRequest: UpdateCustomEventRequest, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        updateCustomEvent: async (organizationId: number, projectId: number, eventId: string, updateCustomEventRequest: UpdateCustomEventRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'organizationId' is not null or undefined
             assertParamExists('updateCustomEvent', 'organizationId', organizationId)
             // verify required parameter 'projectId' is not null or undefined
@@ -4553,7 +4560,7 @@ export const CustomEventsApiAxiosParamCreator = function (configuration?: Config
             assertParamExists('updateCustomEvent', 'eventId', eventId)
             // verify required parameter 'updateCustomEventRequest' is not null or undefined
             assertParamExists('updateCustomEvent', 'updateCustomEventRequest', updateCustomEventRequest)
-            const localVarPath = `/v1/projects/{projectId}/schema/custom-events/{eventId}`
+            const localVarPath = `/v1/organizations/{organizationId}/projects/{projectId}/schema/custom-events/{eventId}`
                 .replace(`{${"organizationId"}}`, encodeURIComponent(String(organizationId)))
                 .replace(`{${"projectId"}}`, encodeURIComponent(String(projectId)))
                 .replace(`{${"eventId"}}`, encodeURIComponent(String(eventId)));
@@ -4605,7 +4612,7 @@ export const CustomEventsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async createCustomEvent(organizationId: number, projectId: number, createCustomEventRequest: CreateCustomEventRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CustomEvent>> {
+        async createCustomEvent(organizationId: number, projectId: number, createCustomEventRequest: CreateCustomEventRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CustomEvent>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.createCustomEvent(organizationId, projectId, createCustomEventRequest, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['CustomEventsApi.createCustomEvent']?.[index]?.url;
@@ -4619,7 +4626,7 @@ export const CustomEventsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async customEventsList(organizationId: number, projectId: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CustomEventsList200Response>> {
+        async customEventsList(organizationId: number, projectId: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CustomEventsList200Response>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.customEventsList(organizationId, projectId, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['CustomEventsApi.customEventsList']?.[index]?.url;
@@ -4634,7 +4641,7 @@ export const CustomEventsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async deleteCustomEvent(organizationId: number, projectId: number, eventId: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+        async deleteCustomEvent(organizationId: number, projectId: number, eventId: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.deleteCustomEvent(organizationId, projectId, eventId, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['CustomEventsApi.deleteCustomEvent']?.[index]?.url;
@@ -4649,7 +4656,7 @@ export const CustomEventsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getCustomEvent(organizationId: number, projectId: number, eventId: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CustomEvent>> {
+        async getCustomEvent(organizationId: number, projectId: number, eventId: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CustomEvent>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getCustomEvent(organizationId, projectId, eventId, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['CustomEventsApi.getCustomEvent']?.[index]?.url;
@@ -4665,7 +4672,7 @@ export const CustomEventsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async updateCustomEvent(organizationId: number, projectId: number, eventId: string, updateCustomEventRequest: UpdateCustomEventRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CustomEvent>> {
+        async updateCustomEvent(organizationId: number, projectId: number, eventId: string, updateCustomEventRequest: UpdateCustomEventRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CustomEvent>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.updateCustomEvent(organizationId, projectId, eventId, updateCustomEventRequest, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['CustomEventsApi.updateCustomEvent']?.[index]?.url;
@@ -4761,7 +4768,7 @@ export class CustomEventsApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof CustomEventsApi
      */
-    public createCustomEvent(organizationId: number, projectId: number, createCustomEventRequest: CreateCustomEventRequest, options?: AxiosRequestConfig) {
+    public createCustomEvent(organizationId: number, projectId: number, createCustomEventRequest: CreateCustomEventRequest, options?: RawAxiosRequestConfig) {
         return CustomEventsApiFp(this.configuration).createCustomEvent(organizationId, projectId, createCustomEventRequest, options).then((request) => request(this.axios, this.basePath));
     }
 
@@ -4774,7 +4781,7 @@ export class CustomEventsApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof CustomEventsApi
      */
-    public customEventsList(organizationId: number, projectId: number, options?: AxiosRequestConfig) {
+    public customEventsList(organizationId: number, projectId: number, options?: RawAxiosRequestConfig) {
         return CustomEventsApiFp(this.configuration).customEventsList(organizationId, projectId, options).then((request) => request(this.axios, this.basePath));
     }
 
@@ -4788,7 +4795,7 @@ export class CustomEventsApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof CustomEventsApi
      */
-    public deleteCustomEvent(organizationId: number, projectId: number, eventId: number, options?: AxiosRequestConfig) {
+    public deleteCustomEvent(organizationId: number, projectId: number, eventId: number, options?: RawAxiosRequestConfig) {
         return CustomEventsApiFp(this.configuration).deleteCustomEvent(organizationId, projectId, eventId, options).then((request) => request(this.axios, this.basePath));
     }
 
@@ -4802,7 +4809,7 @@ export class CustomEventsApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof CustomEventsApi
      */
-    public getCustomEvent(organizationId: number, projectId: number, eventId: number, options?: AxiosRequestConfig) {
+    public getCustomEvent(organizationId: number, projectId: number, eventId: number, options?: RawAxiosRequestConfig) {
         return CustomEventsApiFp(this.configuration).getCustomEvent(organizationId, projectId, eventId, options).then((request) => request(this.axios, this.basePath));
     }
 
@@ -4817,7 +4824,7 @@ export class CustomEventsApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof CustomEventsApi
      */
-    public updateCustomEvent(organizationId: number, projectId: number, eventId: string, updateCustomEventRequest: UpdateCustomEventRequest, options?: AxiosRequestConfig) {
+    public updateCustomEvent(organizationId: number, projectId: number, eventId: string, updateCustomEventRequest: UpdateCustomEventRequest, options?: RawAxiosRequestConfig) {
         return CustomEventsApiFp(this.configuration).updateCustomEvent(organizationId, projectId, eventId, updateCustomEventRequest, options).then((request) => request(this.axios, this.basePath));
     }
 }
@@ -4839,14 +4846,14 @@ export const DashboardsApiAxiosParamCreator = function (configuration?: Configur
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createDashboard: async (organizationId: number, projectId: number, createDashboardRequest: CreateDashboardRequest, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        createDashboard: async (organizationId: number, projectId: number, createDashboardRequest: CreateDashboardRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'organizationId' is not null or undefined
             assertParamExists('createDashboard', 'organizationId', organizationId)
             // verify required parameter 'projectId' is not null or undefined
             assertParamExists('createDashboard', 'projectId', projectId)
             // verify required parameter 'createDashboardRequest' is not null or undefined
             assertParamExists('createDashboard', 'createDashboardRequest', createDashboardRequest)
-            const localVarPath = `/v1/projects/{projectId}/dashboards`
+            const localVarPath = `/v1/organizations/{organizationId}/projects/{projectId}/dashboards`
                 .replace(`{${"organizationId"}}`, encodeURIComponent(String(organizationId)))
                 .replace(`{${"projectId"}}`, encodeURIComponent(String(projectId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -4886,12 +4893,12 @@ export const DashboardsApiAxiosParamCreator = function (configuration?: Configur
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        dashboardsList: async (organizationId: number, projectId: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        dashboardsList: async (organizationId: number, projectId: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'organizationId' is not null or undefined
             assertParamExists('dashboardsList', 'organizationId', organizationId)
             // verify required parameter 'projectId' is not null or undefined
             assertParamExists('dashboardsList', 'projectId', projectId)
-            const localVarPath = `/v1/projects/{projectId}/dashboards`
+            const localVarPath = `/v1/organizations/{organizationId}/projects/{projectId}/dashboards`
                 .replace(`{${"organizationId"}}`, encodeURIComponent(String(organizationId)))
                 .replace(`{${"projectId"}}`, encodeURIComponent(String(projectId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -4929,14 +4936,14 @@ export const DashboardsApiAxiosParamCreator = function (configuration?: Configur
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deleteDashboard: async (organizationId: number, projectId: number, dashboardId: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        deleteDashboard: async (organizationId: number, projectId: number, dashboardId: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'organizationId' is not null or undefined
             assertParamExists('deleteDashboard', 'organizationId', organizationId)
             // verify required parameter 'projectId' is not null or undefined
             assertParamExists('deleteDashboard', 'projectId', projectId)
             // verify required parameter 'dashboardId' is not null or undefined
             assertParamExists('deleteDashboard', 'dashboardId', dashboardId)
-            const localVarPath = `/v1/projects/{projectId}/dashboards/{dashboardId}`
+            const localVarPath = `/v1/organizations/{organizationId}/projects/{projectId}/dashboards/{dashboardId}`
                 .replace(`{${"organizationId"}}`, encodeURIComponent(String(organizationId)))
                 .replace(`{${"projectId"}}`, encodeURIComponent(String(projectId)))
                 .replace(`{${"dashboardId"}}`, encodeURIComponent(String(dashboardId)));
@@ -4975,14 +4982,14 @@ export const DashboardsApiAxiosParamCreator = function (configuration?: Configur
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getDashboard: async (organizationId: number, projectId: number, dashboardId: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        getDashboard: async (organizationId: number, projectId: number, dashboardId: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'organizationId' is not null or undefined
             assertParamExists('getDashboard', 'organizationId', organizationId)
             // verify required parameter 'projectId' is not null or undefined
             assertParamExists('getDashboard', 'projectId', projectId)
             // verify required parameter 'dashboardId' is not null or undefined
             assertParamExists('getDashboard', 'dashboardId', dashboardId)
-            const localVarPath = `/v1/projects/{projectId}/dashboards/{dashboardId}`
+            const localVarPath = `/v1/organizations/{organizationId}/projects/{projectId}/dashboards/{dashboardId}`
                 .replace(`{${"organizationId"}}`, encodeURIComponent(String(organizationId)))
                 .replace(`{${"projectId"}}`, encodeURIComponent(String(projectId)))
                 .replace(`{${"dashboardId"}}`, encodeURIComponent(String(dashboardId)));
@@ -5022,7 +5029,7 @@ export const DashboardsApiAxiosParamCreator = function (configuration?: Configur
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateDashboard: async (organizationId: number, projectId: number, dashboardId: number, updateDashboardRequest: UpdateDashboardRequest, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        updateDashboard: async (organizationId: number, projectId: number, dashboardId: number, updateDashboardRequest: UpdateDashboardRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'organizationId' is not null or undefined
             assertParamExists('updateDashboard', 'organizationId', organizationId)
             // verify required parameter 'projectId' is not null or undefined
@@ -5031,7 +5038,7 @@ export const DashboardsApiAxiosParamCreator = function (configuration?: Configur
             assertParamExists('updateDashboard', 'dashboardId', dashboardId)
             // verify required parameter 'updateDashboardRequest' is not null or undefined
             assertParamExists('updateDashboard', 'updateDashboardRequest', updateDashboardRequest)
-            const localVarPath = `/v1/projects/{projectId}/dashboards/{dashboardId}`
+            const localVarPath = `/v1/organizations/{organizationId}/projects/{projectId}/dashboards/{dashboardId}`
                 .replace(`{${"organizationId"}}`, encodeURIComponent(String(organizationId)))
                 .replace(`{${"projectId"}}`, encodeURIComponent(String(projectId)))
                 .replace(`{${"dashboardId"}}`, encodeURIComponent(String(dashboardId)));
@@ -5083,7 +5090,7 @@ export const DashboardsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async createDashboard(organizationId: number, projectId: number, createDashboardRequest: CreateDashboardRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Dashboard>> {
+        async createDashboard(organizationId: number, projectId: number, createDashboardRequest: CreateDashboardRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Dashboard>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.createDashboard(organizationId, projectId, createDashboardRequest, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['DashboardsApi.createDashboard']?.[index]?.url;
@@ -5097,7 +5104,7 @@ export const DashboardsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async dashboardsList(organizationId: number, projectId: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<DashboardsList200Response>> {
+        async dashboardsList(organizationId: number, projectId: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<DashboardsList200Response>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.dashboardsList(organizationId, projectId, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['DashboardsApi.dashboardsList']?.[index]?.url;
@@ -5112,7 +5119,7 @@ export const DashboardsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async deleteDashboard(organizationId: number, projectId: number, dashboardId: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Dashboard>> {
+        async deleteDashboard(organizationId: number, projectId: number, dashboardId: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Dashboard>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.deleteDashboard(organizationId, projectId, dashboardId, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['DashboardsApi.deleteDashboard']?.[index]?.url;
@@ -5127,7 +5134,7 @@ export const DashboardsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getDashboard(organizationId: number, projectId: number, dashboardId: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Dashboard>> {
+        async getDashboard(organizationId: number, projectId: number, dashboardId: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Dashboard>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getDashboard(organizationId, projectId, dashboardId, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['DashboardsApi.getDashboard']?.[index]?.url;
@@ -5143,7 +5150,7 @@ export const DashboardsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async updateDashboard(organizationId: number, projectId: number, dashboardId: number, updateDashboardRequest: UpdateDashboardRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Dashboard>> {
+        async updateDashboard(organizationId: number, projectId: number, dashboardId: number, updateDashboardRequest: UpdateDashboardRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Dashboard>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.updateDashboard(organizationId, projectId, dashboardId, updateDashboardRequest, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['DashboardsApi.updateDashboard']?.[index]?.url;
@@ -5239,7 +5246,7 @@ export class DashboardsApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof DashboardsApi
      */
-    public createDashboard(organizationId: number, projectId: number, createDashboardRequest: CreateDashboardRequest, options?: AxiosRequestConfig) {
+    public createDashboard(organizationId: number, projectId: number, createDashboardRequest: CreateDashboardRequest, options?: RawAxiosRequestConfig) {
         return DashboardsApiFp(this.configuration).createDashboard(organizationId, projectId, createDashboardRequest, options).then((request) => request(this.axios, this.basePath));
     }
 
@@ -5252,7 +5259,7 @@ export class DashboardsApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof DashboardsApi
      */
-    public dashboardsList(organizationId: number, projectId: number, options?: AxiosRequestConfig) {
+    public dashboardsList(organizationId: number, projectId: number, options?: RawAxiosRequestConfig) {
         return DashboardsApiFp(this.configuration).dashboardsList(organizationId, projectId, options).then((request) => request(this.axios, this.basePath));
     }
 
@@ -5266,7 +5273,7 @@ export class DashboardsApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof DashboardsApi
      */
-    public deleteDashboard(organizationId: number, projectId: number, dashboardId: number, options?: AxiosRequestConfig) {
+    public deleteDashboard(organizationId: number, projectId: number, dashboardId: number, options?: RawAxiosRequestConfig) {
         return DashboardsApiFp(this.configuration).deleteDashboard(organizationId, projectId, dashboardId, options).then((request) => request(this.axios, this.basePath));
     }
 
@@ -5280,7 +5287,7 @@ export class DashboardsApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof DashboardsApi
      */
-    public getDashboard(organizationId: number, projectId: number, dashboardId: number, options?: AxiosRequestConfig) {
+    public getDashboard(organizationId: number, projectId: number, dashboardId: number, options?: RawAxiosRequestConfig) {
         return DashboardsApiFp(this.configuration).getDashboard(organizationId, projectId, dashboardId, options).then((request) => request(this.axios, this.basePath));
     }
 
@@ -5295,7 +5302,7 @@ export class DashboardsApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof DashboardsApi
      */
-    public updateDashboard(organizationId: number, projectId: number, dashboardId: number, updateDashboardRequest: UpdateDashboardRequest, options?: AxiosRequestConfig) {
+    public updateDashboard(organizationId: number, projectId: number, dashboardId: number, updateDashboardRequest: UpdateDashboardRequest, options?: RawAxiosRequestConfig) {
         return DashboardsApiFp(this.configuration).updateDashboard(organizationId, projectId, dashboardId, updateDashboardRequest, options).then((request) => request(this.axios, this.basePath));
     }
 }
@@ -5316,12 +5323,12 @@ export const EventPropertiesApiAxiosParamCreator = function (configuration?: Con
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        eventPropertiesList: async (organizationId: number, projectId: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        eventPropertiesList: async (organizationId: number, projectId: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'organizationId' is not null or undefined
             assertParamExists('eventPropertiesList', 'organizationId', organizationId)
             // verify required parameter 'projectId' is not null or undefined
             assertParamExists('eventPropertiesList', 'projectId', projectId)
-            const localVarPath = `/v1/projects/{projectId}/schema/event-properties`
+            const localVarPath = `/v1/organizations/{organizationId}/projects/{projectId}/schema/event-properties`
                 .replace(`{${"organizationId"}}`, encodeURIComponent(String(organizationId)))
                 .replace(`{${"projectId"}}`, encodeURIComponent(String(projectId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -5359,14 +5366,14 @@ export const EventPropertiesApiAxiosParamCreator = function (configuration?: Con
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getEventProperty: async (organizationId: number, projectId: number, propertyId: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        getEventProperty: async (organizationId: number, projectId: number, propertyId: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'organizationId' is not null or undefined
             assertParamExists('getEventProperty', 'organizationId', organizationId)
             // verify required parameter 'projectId' is not null or undefined
             assertParamExists('getEventProperty', 'projectId', projectId)
             // verify required parameter 'propertyId' is not null or undefined
             assertParamExists('getEventProperty', 'propertyId', propertyId)
-            const localVarPath = `/v1/projects/{projectId}/schema/event-properties/{propertyId}`
+            const localVarPath = `/v1/organizations/{organizationId}/projects/{projectId}/schema/event-properties/{propertyId}`
                 .replace(`{${"organizationId"}}`, encodeURIComponent(String(organizationId)))
                 .replace(`{${"projectId"}}`, encodeURIComponent(String(projectId)))
                 .replace(`{${"propertyId"}}`, encodeURIComponent(String(propertyId)));
@@ -5406,7 +5413,7 @@ export const EventPropertiesApiAxiosParamCreator = function (configuration?: Con
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateEventProperty: async (organizationId: number, projectId: number, propertyId: string, updatePropertyRequest: UpdatePropertyRequest, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        updateEventProperty: async (organizationId: number, projectId: number, propertyId: string, updatePropertyRequest: UpdatePropertyRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'organizationId' is not null or undefined
             assertParamExists('updateEventProperty', 'organizationId', organizationId)
             // verify required parameter 'projectId' is not null or undefined
@@ -5415,7 +5422,7 @@ export const EventPropertiesApiAxiosParamCreator = function (configuration?: Con
             assertParamExists('updateEventProperty', 'propertyId', propertyId)
             // verify required parameter 'updatePropertyRequest' is not null or undefined
             assertParamExists('updateEventProperty', 'updatePropertyRequest', updatePropertyRequest)
-            const localVarPath = `/v1/projects/{projectId}/schema/event-properties/{propertyId}`
+            const localVarPath = `/v1/organizations/{organizationId}/projects/{projectId}/schema/event-properties/{propertyId}`
                 .replace(`{${"organizationId"}}`, encodeURIComponent(String(organizationId)))
                 .replace(`{${"projectId"}}`, encodeURIComponent(String(projectId)))
                 .replace(`{${"propertyId"}}`, encodeURIComponent(String(propertyId)));
@@ -5466,7 +5473,7 @@ export const EventPropertiesApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async eventPropertiesList(organizationId: number, projectId: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UserPropertiesList200Response>> {
+        async eventPropertiesList(organizationId: number, projectId: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UserPropertiesList200Response>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.eventPropertiesList(organizationId, projectId, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['EventPropertiesApi.eventPropertiesList']?.[index]?.url;
@@ -5481,7 +5488,7 @@ export const EventPropertiesApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getEventProperty(organizationId: number, projectId: number, propertyId: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Property>> {
+        async getEventProperty(organizationId: number, projectId: number, propertyId: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Property>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getEventProperty(organizationId, projectId, propertyId, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['EventPropertiesApi.getEventProperty']?.[index]?.url;
@@ -5497,7 +5504,7 @@ export const EventPropertiesApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async updateEventProperty(organizationId: number, projectId: number, propertyId: string, updatePropertyRequest: UpdatePropertyRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Property>> {
+        async updateEventProperty(organizationId: number, projectId: number, propertyId: string, updatePropertyRequest: UpdatePropertyRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Property>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.updateEventProperty(organizationId, projectId, propertyId, updatePropertyRequest, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['EventPropertiesApi.updateEventProperty']?.[index]?.url;
@@ -5568,7 +5575,7 @@ export class EventPropertiesApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof EventPropertiesApi
      */
-    public eventPropertiesList(organizationId: number, projectId: number, options?: AxiosRequestConfig) {
+    public eventPropertiesList(organizationId: number, projectId: number, options?: RawAxiosRequestConfig) {
         return EventPropertiesApiFp(this.configuration).eventPropertiesList(organizationId, projectId, options).then((request) => request(this.axios, this.basePath));
     }
 
@@ -5582,7 +5589,7 @@ export class EventPropertiesApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof EventPropertiesApi
      */
-    public getEventProperty(organizationId: number, projectId: number, propertyId: number, options?: AxiosRequestConfig) {
+    public getEventProperty(organizationId: number, projectId: number, propertyId: number, options?: RawAxiosRequestConfig) {
         return EventPropertiesApiFp(this.configuration).getEventProperty(organizationId, projectId, propertyId, options).then((request) => request(this.axios, this.basePath));
     }
 
@@ -5597,7 +5604,7 @@ export class EventPropertiesApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof EventPropertiesApi
      */
-    public updateEventProperty(organizationId: number, projectId: number, propertyId: string, updatePropertyRequest: UpdatePropertyRequest, options?: AxiosRequestConfig) {
+    public updateEventProperty(organizationId: number, projectId: number, propertyId: string, updatePropertyRequest: UpdatePropertyRequest, options?: RawAxiosRequestConfig) {
         return EventPropertiesApiFp(this.configuration).updateEventProperty(organizationId, projectId, propertyId, updatePropertyRequest, options).then((request) => request(this.axios, this.basePath));
     }
 }
@@ -5619,14 +5626,14 @@ export const EventRecordsApiAxiosParamCreator = function (configuration?: Config
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        eventRecordsList: async (organizationId: number, projectId: number, eventRecordsListRequest: EventRecordsListRequest, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        eventRecordsList: async (organizationId: number, projectId: number, eventRecordsListRequest: EventRecordsListRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'organizationId' is not null or undefined
             assertParamExists('eventRecordsList', 'organizationId', organizationId)
             // verify required parameter 'projectId' is not null or undefined
             assertParamExists('eventRecordsList', 'projectId', projectId)
             // verify required parameter 'eventRecordsListRequest' is not null or undefined
             assertParamExists('eventRecordsList', 'eventRecordsListRequest', eventRecordsListRequest)
-            const localVarPath = `/v1/projects/{projectId}/event-records/search`
+            const localVarPath = `/v1/organizations/{organizationId}/projects/{projectId}/event-records/search`
                 .replace(`{${"organizationId"}}`, encodeURIComponent(String(organizationId)))
                 .replace(`{${"projectId"}}`, encodeURIComponent(String(projectId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -5667,14 +5674,14 @@ export const EventRecordsApiAxiosParamCreator = function (configuration?: Config
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getEventRecord: async (organizationId: number, projectId: number, id: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        getEventRecord: async (organizationId: number, projectId: number, id: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'organizationId' is not null or undefined
             assertParamExists('getEventRecord', 'organizationId', organizationId)
             // verify required parameter 'projectId' is not null or undefined
             assertParamExists('getEventRecord', 'projectId', projectId)
             // verify required parameter 'id' is not null or undefined
             assertParamExists('getEventRecord', 'id', id)
-            const localVarPath = `/v1/projects/{projectId}/event-records/{id}`
+            const localVarPath = `/v1/organizations/{organizationId}/projects/{projectId}/event-records/{id}`
                 .replace(`{${"organizationId"}}`, encodeURIComponent(String(organizationId)))
                 .replace(`{${"projectId"}}`, encodeURIComponent(String(projectId)))
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
@@ -5723,7 +5730,7 @@ export const EventRecordsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async eventRecordsList(organizationId: number, projectId: number, eventRecordsListRequest: EventRecordsListRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EventRecordsList200Response>> {
+        async eventRecordsList(organizationId: number, projectId: number, eventRecordsListRequest: EventRecordsListRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EventRecordsList200Response>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.eventRecordsList(organizationId, projectId, eventRecordsListRequest, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['EventRecordsApi.eventRecordsList']?.[index]?.url;
@@ -5738,7 +5745,7 @@ export const EventRecordsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getEventRecord(organizationId: number, projectId: number, id: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EventRecord>> {
+        async getEventRecord(organizationId: number, projectId: number, id: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EventRecord>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getEventRecord(organizationId, projectId, id, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['EventRecordsApi.getEventRecord']?.[index]?.url;
@@ -5798,7 +5805,7 @@ export class EventRecordsApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof EventRecordsApi
      */
-    public eventRecordsList(organizationId: number, projectId: number, eventRecordsListRequest: EventRecordsListRequest, options?: AxiosRequestConfig) {
+    public eventRecordsList(organizationId: number, projectId: number, eventRecordsListRequest: EventRecordsListRequest, options?: RawAxiosRequestConfig) {
         return EventRecordsApiFp(this.configuration).eventRecordsList(organizationId, projectId, eventRecordsListRequest, options).then((request) => request(this.axios, this.basePath));
     }
 
@@ -5812,7 +5819,7 @@ export class EventRecordsApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof EventRecordsApi
      */
-    public getEventRecord(organizationId: number, projectId: number, id: number, options?: AxiosRequestConfig) {
+    public getEventRecord(organizationId: number, projectId: number, id: number, options?: RawAxiosRequestConfig) {
         return EventRecordsApiFp(this.configuration).getEventRecord(organizationId, projectId, id, options).then((request) => request(this.axios, this.basePath));
     }
 }
@@ -5833,12 +5840,12 @@ export const EventsApiAxiosParamCreator = function (configuration?: Configuratio
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        eventsList: async (organizationId: number, projectId: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        eventsList: async (organizationId: number, projectId: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'organizationId' is not null or undefined
             assertParamExists('eventsList', 'organizationId', organizationId)
             // verify required parameter 'projectId' is not null or undefined
             assertParamExists('eventsList', 'projectId', projectId)
-            const localVarPath = `/v1/projects/{projectId}/schema/events`
+            const localVarPath = `/v1/organizations/{organizationId}/projects/{projectId}/schema/events`
                 .replace(`{${"organizationId"}}`, encodeURIComponent(String(organizationId)))
                 .replace(`{${"projectId"}}`, encodeURIComponent(String(projectId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -5876,14 +5883,14 @@ export const EventsApiAxiosParamCreator = function (configuration?: Configuratio
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getEvent: async (organizationId: number, projectId: number, eventId: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        getEvent: async (organizationId: number, projectId: number, eventId: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'organizationId' is not null or undefined
             assertParamExists('getEvent', 'organizationId', organizationId)
             // verify required parameter 'projectId' is not null or undefined
             assertParamExists('getEvent', 'projectId', projectId)
             // verify required parameter 'eventId' is not null or undefined
             assertParamExists('getEvent', 'eventId', eventId)
-            const localVarPath = `/v1/projects/{projectId}/schema/events/{eventId}`
+            const localVarPath = `/v1/organizations/{organizationId}/projects/{projectId}/schema/events/{eventId}`
                 .replace(`{${"organizationId"}}`, encodeURIComponent(String(organizationId)))
                 .replace(`{${"projectId"}}`, encodeURIComponent(String(projectId)))
                 .replace(`{${"eventId"}}`, encodeURIComponent(String(eventId)));
@@ -5923,7 +5930,7 @@ export const EventsApiAxiosParamCreator = function (configuration?: Configuratio
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateEvent: async (organizationId: number, projectId: number, eventId: string, updateEventRequest: UpdateEventRequest, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        updateEvent: async (organizationId: number, projectId: number, eventId: string, updateEventRequest: UpdateEventRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'organizationId' is not null or undefined
             assertParamExists('updateEvent', 'organizationId', organizationId)
             // verify required parameter 'projectId' is not null or undefined
@@ -5932,7 +5939,7 @@ export const EventsApiAxiosParamCreator = function (configuration?: Configuratio
             assertParamExists('updateEvent', 'eventId', eventId)
             // verify required parameter 'updateEventRequest' is not null or undefined
             assertParamExists('updateEvent', 'updateEventRequest', updateEventRequest)
-            const localVarPath = `/v1/projects/{projectId}/schema/events/{eventId}`
+            const localVarPath = `/v1/organizations/{organizationId}/projects/{projectId}/schema/events/{eventId}`
                 .replace(`{${"organizationId"}}`, encodeURIComponent(String(organizationId)))
                 .replace(`{${"projectId"}}`, encodeURIComponent(String(projectId)))
                 .replace(`{${"eventId"}}`, encodeURIComponent(String(eventId)));
@@ -5983,7 +5990,7 @@ export const EventsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async eventsList(organizationId: number, projectId: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EventsList200Response>> {
+        async eventsList(organizationId: number, projectId: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EventsList200Response>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.eventsList(organizationId, projectId, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['EventsApi.eventsList']?.[index]?.url;
@@ -5998,7 +6005,7 @@ export const EventsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getEvent(organizationId: number, projectId: number, eventId: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Event>> {
+        async getEvent(organizationId: number, projectId: number, eventId: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Event>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getEvent(organizationId, projectId, eventId, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['EventsApi.getEvent']?.[index]?.url;
@@ -6014,7 +6021,7 @@ export const EventsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async updateEvent(organizationId: number, projectId: number, eventId: string, updateEventRequest: UpdateEventRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Event>> {
+        async updateEvent(organizationId: number, projectId: number, eventId: string, updateEventRequest: UpdateEventRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Event>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.updateEvent(organizationId, projectId, eventId, updateEventRequest, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['EventsApi.updateEvent']?.[index]?.url;
@@ -6085,7 +6092,7 @@ export class EventsApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof EventsApi
      */
-    public eventsList(organizationId: number, projectId: number, options?: AxiosRequestConfig) {
+    public eventsList(organizationId: number, projectId: number, options?: RawAxiosRequestConfig) {
         return EventsApiFp(this.configuration).eventsList(organizationId, projectId, options).then((request) => request(this.axios, this.basePath));
     }
 
@@ -6099,7 +6106,7 @@ export class EventsApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof EventsApi
      */
-    public getEvent(organizationId: number, projectId: number, eventId: number, options?: AxiosRequestConfig) {
+    public getEvent(organizationId: number, projectId: number, eventId: number, options?: RawAxiosRequestConfig) {
         return EventsApiFp(this.configuration).getEvent(organizationId, projectId, eventId, options).then((request) => request(this.axios, this.basePath));
     }
 
@@ -6114,7 +6121,7 @@ export class EventsApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof EventsApi
      */
-    public updateEvent(organizationId: number, projectId: number, eventId: string, updateEventRequest: UpdateEventRequest, options?: AxiosRequestConfig) {
+    public updateEvent(organizationId: number, projectId: number, eventId: string, updateEventRequest: UpdateEventRequest, options?: RawAxiosRequestConfig) {
         return EventsApiFp(this.configuration).updateEvent(organizationId, projectId, eventId, updateEventRequest, options).then((request) => request(this.axios, this.basePath));
     }
 }
@@ -6136,14 +6143,14 @@ export const GroupRecordsApiAxiosParamCreator = function (configuration?: Config
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getGroupRecord: async (organizationId: number, projectId: number, id: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        getGroupRecord: async (organizationId: number, projectId: number, id: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'organizationId' is not null or undefined
             assertParamExists('getGroupRecord', 'organizationId', organizationId)
             // verify required parameter 'projectId' is not null or undefined
             assertParamExists('getGroupRecord', 'projectId', projectId)
             // verify required parameter 'id' is not null or undefined
             assertParamExists('getGroupRecord', 'id', id)
-            const localVarPath = `/v1/projects/{projectId}/group-records/{id}`
+            const localVarPath = `/v1/organizations/{organizationId}/projects/{projectId}/group-records/{id}`
                 .replace(`{${"organizationId"}}`, encodeURIComponent(String(organizationId)))
                 .replace(`{${"projectId"}}`, encodeURIComponent(String(projectId)))
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
@@ -6182,14 +6189,14 @@ export const GroupRecordsApiAxiosParamCreator = function (configuration?: Config
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        groupRecordsList: async (organizationId: number, projectId: number, groupRecordsListRequest: GroupRecordsListRequest, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        groupRecordsList: async (organizationId: number, projectId: number, groupRecordsListRequest: GroupRecordsListRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'organizationId' is not null or undefined
             assertParamExists('groupRecordsList', 'organizationId', organizationId)
             // verify required parameter 'projectId' is not null or undefined
             assertParamExists('groupRecordsList', 'projectId', projectId)
             // verify required parameter 'groupRecordsListRequest' is not null or undefined
             assertParamExists('groupRecordsList', 'groupRecordsListRequest', groupRecordsListRequest)
-            const localVarPath = `/v1/projects/{projectId}/group-records/search`
+            const localVarPath = `/v1/organizations/{organizationId}/projects/{projectId}/group-records/search`
                 .replace(`{${"organizationId"}}`, encodeURIComponent(String(organizationId)))
                 .replace(`{${"projectId"}}`, encodeURIComponent(String(projectId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -6231,7 +6238,7 @@ export const GroupRecordsApiAxiosParamCreator = function (configuration?: Config
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateGroupRecord: async (organizationId: number, projectId: number, id: number, updateGroupRecordRequest: UpdateGroupRecordRequest, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        updateGroupRecord: async (organizationId: number, projectId: number, id: number, updateGroupRecordRequest: UpdateGroupRecordRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'organizationId' is not null or undefined
             assertParamExists('updateGroupRecord', 'organizationId', organizationId)
             // verify required parameter 'projectId' is not null or undefined
@@ -6240,7 +6247,7 @@ export const GroupRecordsApiAxiosParamCreator = function (configuration?: Config
             assertParamExists('updateGroupRecord', 'id', id)
             // verify required parameter 'updateGroupRecordRequest' is not null or undefined
             assertParamExists('updateGroupRecord', 'updateGroupRecordRequest', updateGroupRecordRequest)
-            const localVarPath = `/v1/projects/{projectId}/group-records/{id}`
+            const localVarPath = `/v1/organizations/{organizationId}/projects/{projectId}/group-records/{id}`
                 .replace(`{${"organizationId"}}`, encodeURIComponent(String(organizationId)))
                 .replace(`{${"projectId"}}`, encodeURIComponent(String(projectId)))
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
@@ -6292,7 +6299,7 @@ export const GroupRecordsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getGroupRecord(organizationId: number, projectId: number, id: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GroupRecord>> {
+        async getGroupRecord(organizationId: number, projectId: number, id: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GroupRecord>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getGroupRecord(organizationId, projectId, id, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['GroupRecordsApi.getGroupRecord']?.[index]?.url;
@@ -6307,7 +6314,7 @@ export const GroupRecordsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async groupRecordsList(organizationId: number, projectId: number, groupRecordsListRequest: GroupRecordsListRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GroupRecordsList200Response>> {
+        async groupRecordsList(organizationId: number, projectId: number, groupRecordsListRequest: GroupRecordsListRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GroupRecordsList200Response>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.groupRecordsList(organizationId, projectId, groupRecordsListRequest, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['GroupRecordsApi.groupRecordsList']?.[index]?.url;
@@ -6323,7 +6330,7 @@ export const GroupRecordsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async updateGroupRecord(organizationId: number, projectId: number, id: number, updateGroupRecordRequest: UpdateGroupRecordRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GroupRecord>> {
+        async updateGroupRecord(organizationId: number, projectId: number, id: number, updateGroupRecordRequest: UpdateGroupRecordRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GroupRecord>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.updateGroupRecord(organizationId, projectId, id, updateGroupRecordRequest, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['GroupRecordsApi.updateGroupRecord']?.[index]?.url;
@@ -6396,7 +6403,7 @@ export class GroupRecordsApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof GroupRecordsApi
      */
-    public getGroupRecord(organizationId: number, projectId: number, id: number, options?: AxiosRequestConfig) {
+    public getGroupRecord(organizationId: number, projectId: number, id: number, options?: RawAxiosRequestConfig) {
         return GroupRecordsApiFp(this.configuration).getGroupRecord(organizationId, projectId, id, options).then((request) => request(this.axios, this.basePath));
     }
 
@@ -6410,7 +6417,7 @@ export class GroupRecordsApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof GroupRecordsApi
      */
-    public groupRecordsList(organizationId: number, projectId: number, groupRecordsListRequest: GroupRecordsListRequest, options?: AxiosRequestConfig) {
+    public groupRecordsList(organizationId: number, projectId: number, groupRecordsListRequest: GroupRecordsListRequest, options?: RawAxiosRequestConfig) {
         return GroupRecordsApiFp(this.configuration).groupRecordsList(organizationId, projectId, groupRecordsListRequest, options).then((request) => request(this.axios, this.basePath));
     }
 
@@ -6425,7 +6432,7 @@ export class GroupRecordsApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof GroupRecordsApi
      */
-    public updateGroupRecord(organizationId: number, projectId: number, id: number, updateGroupRecordRequest: UpdateGroupRecordRequest, options?: AxiosRequestConfig) {
+    public updateGroupRecord(organizationId: number, projectId: number, id: number, updateGroupRecordRequest: UpdateGroupRecordRequest, options?: RawAxiosRequestConfig) {
         return GroupRecordsApiFp(this.configuration).updateGroupRecord(organizationId, projectId, id, updateGroupRecordRequest, options).then((request) => request(this.axios, this.basePath));
     }
 }
@@ -6444,7 +6451,7 @@ export const ProfileApiAxiosParamCreator = function (configuration?: Configurati
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getProfile: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        getProfile: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/v1/profile`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -6479,7 +6486,7 @@ export const ProfileApiAxiosParamCreator = function (configuration?: Configurati
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateProfileEmail: async (updateProfileEmailRequest: UpdateProfileEmailRequest, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        updateProfileEmail: async (updateProfileEmailRequest: UpdateProfileEmailRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'updateProfileEmailRequest' is not null or undefined
             assertParamExists('updateProfileEmail', 'updateProfileEmailRequest', updateProfileEmailRequest)
             const localVarPath = `/v1/profile/email`;
@@ -6519,7 +6526,7 @@ export const ProfileApiAxiosParamCreator = function (configuration?: Configurati
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateProfileName: async (updateProfileNameRequest: UpdateProfileNameRequest, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        updateProfileName: async (updateProfileNameRequest: UpdateProfileNameRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'updateProfileNameRequest' is not null or undefined
             assertParamExists('updateProfileName', 'updateProfileNameRequest', updateProfileNameRequest)
             const localVarPath = `/v1/profile/name`;
@@ -6559,7 +6566,7 @@ export const ProfileApiAxiosParamCreator = function (configuration?: Configurati
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateProfilePassword: async (updateProfilePasswordRequest: UpdateProfilePasswordRequest, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        updateProfilePassword: async (updateProfilePasswordRequest: UpdateProfilePasswordRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'updateProfilePasswordRequest' is not null or undefined
             assertParamExists('updateProfilePassword', 'updateProfilePasswordRequest', updateProfilePasswordRequest)
             const localVarPath = `/v1/profile/password`;
@@ -6608,7 +6615,7 @@ export const ProfileApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getProfile(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Profile>> {
+        async getProfile(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Profile>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getProfile(options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['ProfileApi.getProfile']?.[index]?.url;
@@ -6621,7 +6628,7 @@ export const ProfileApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async updateProfileEmail(updateProfileEmailRequest: UpdateProfileEmailRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<TokensResponse>> {
+        async updateProfileEmail(updateProfileEmailRequest: UpdateProfileEmailRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<TokensResponse>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.updateProfileEmail(updateProfileEmailRequest, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['ProfileApi.updateProfileEmail']?.[index]?.url;
@@ -6634,7 +6641,7 @@ export const ProfileApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async updateProfileName(updateProfileNameRequest: UpdateProfileNameRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+        async updateProfileName(updateProfileNameRequest: UpdateProfileNameRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.updateProfileName(updateProfileNameRequest, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['ProfileApi.updateProfileName']?.[index]?.url;
@@ -6647,7 +6654,7 @@ export const ProfileApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async updateProfilePassword(updateProfilePasswordRequest: UpdateProfilePasswordRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<TokensResponse>> {
+        async updateProfilePassword(updateProfilePasswordRequest: UpdateProfilePasswordRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<TokensResponse>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.updateProfilePassword(updateProfilePasswordRequest, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['ProfileApi.updateProfilePassword']?.[index]?.url;
@@ -6719,7 +6726,7 @@ export class ProfileApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof ProfileApi
      */
-    public getProfile(options?: AxiosRequestConfig) {
+    public getProfile(options?: RawAxiosRequestConfig) {
         return ProfileApiFp(this.configuration).getProfile(options).then((request) => request(this.axios, this.basePath));
     }
 
@@ -6731,7 +6738,7 @@ export class ProfileApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof ProfileApi
      */
-    public updateProfileEmail(updateProfileEmailRequest: UpdateProfileEmailRequest, options?: AxiosRequestConfig) {
+    public updateProfileEmail(updateProfileEmailRequest: UpdateProfileEmailRequest, options?: RawAxiosRequestConfig) {
         return ProfileApiFp(this.configuration).updateProfileEmail(updateProfileEmailRequest, options).then((request) => request(this.axios, this.basePath));
     }
 
@@ -6743,7 +6750,7 @@ export class ProfileApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof ProfileApi
      */
-    public updateProfileName(updateProfileNameRequest: UpdateProfileNameRequest, options?: AxiosRequestConfig) {
+    public updateProfileName(updateProfileNameRequest: UpdateProfileNameRequest, options?: RawAxiosRequestConfig) {
         return ProfileApiFp(this.configuration).updateProfileName(updateProfileNameRequest, options).then((request) => request(this.axios, this.basePath));
     }
 
@@ -6755,7 +6762,7 @@ export class ProfileApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof ProfileApi
      */
-    public updateProfilePassword(updateProfilePasswordRequest: UpdateProfilePasswordRequest, options?: AxiosRequestConfig) {
+    public updateProfilePassword(updateProfilePasswordRequest: UpdateProfilePasswordRequest, options?: RawAxiosRequestConfig) {
         return ProfileApiFp(this.configuration).updateProfilePassword(updateProfilePasswordRequest, options).then((request) => request(this.axios, this.basePath));
     }
 }
@@ -6776,12 +6783,12 @@ export const PropertiesApiAxiosParamCreator = function (configuration?: Configur
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        customPropertiesList: async (organizationId: number, projectId: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        customPropertiesList: async (organizationId: number, projectId: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'organizationId' is not null or undefined
             assertParamExists('customPropertiesList', 'organizationId', organizationId)
             // verify required parameter 'projectId' is not null or undefined
             assertParamExists('customPropertiesList', 'projectId', projectId)
-            const localVarPath = `/v1/projects/{projectId}/schema/custom-properties`
+            const localVarPath = `/v1/organizations/{organizationId}/projects/{projectId}/schema/custom-properties`
                 .replace(`{${"organizationId"}}`, encodeURIComponent(String(organizationId)))
                 .replace(`{${"projectId"}}`, encodeURIComponent(String(projectId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -6828,7 +6835,7 @@ export const PropertiesApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async customPropertiesList(organizationId: number, projectId: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CustomPropertiesList200Response>> {
+        async customPropertiesList(organizationId: number, projectId: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CustomPropertiesList200Response>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.customPropertiesList(organizationId, projectId, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['PropertiesApi.customPropertiesList']?.[index]?.url;
@@ -6874,7 +6881,7 @@ export class PropertiesApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof PropertiesApi
      */
-    public customPropertiesList(organizationId: number, projectId: number, options?: AxiosRequestConfig) {
+    public customPropertiesList(organizationId: number, projectId: number, options?: RawAxiosRequestConfig) {
         return PropertiesApiFp(this.configuration).customPropertiesList(organizationId, projectId, options).then((request) => request(this.axios, this.basePath));
     }
 }
@@ -6896,14 +6903,14 @@ export const PropertyValuesApiAxiosParamCreator = function (configuration?: Conf
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        propertyValuesList: async (organizationId: number, projectId: number, listPropertyValuesRequest: ListPropertyValuesRequest, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        propertyValuesList: async (organizationId: number, projectId: number, listPropertyValuesRequest: ListPropertyValuesRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'organizationId' is not null or undefined
             assertParamExists('propertyValuesList', 'organizationId', organizationId)
             // verify required parameter 'projectId' is not null or undefined
             assertParamExists('propertyValuesList', 'projectId', projectId)
             // verify required parameter 'listPropertyValuesRequest' is not null or undefined
             assertParamExists('propertyValuesList', 'listPropertyValuesRequest', listPropertyValuesRequest)
-            const localVarPath = `/v1/projects/{projectId}/property-values`
+            const localVarPath = `/v1/organizations/{organizationId}/projects/{projectId}/property-values`
                 .replace(`{${"organizationId"}}`, encodeURIComponent(String(organizationId)))
                 .replace(`{${"projectId"}}`, encodeURIComponent(String(projectId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -6954,7 +6961,7 @@ export const PropertyValuesApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async propertyValuesList(organizationId: number, projectId: number, listPropertyValuesRequest: ListPropertyValuesRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PropertyValuesList200Response>> {
+        async propertyValuesList(organizationId: number, projectId: number, listPropertyValuesRequest: ListPropertyValuesRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PropertyValuesList200Response>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.propertyValuesList(organizationId, projectId, listPropertyValuesRequest, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['PropertyValuesApi.propertyValuesList']?.[index]?.url;
@@ -7002,7 +7009,7 @@ export class PropertyValuesApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof PropertyValuesApi
      */
-    public propertyValuesList(organizationId: number, projectId: number, listPropertyValuesRequest: ListPropertyValuesRequest, options?: AxiosRequestConfig) {
+    public propertyValuesList(organizationId: number, projectId: number, listPropertyValuesRequest: ListPropertyValuesRequest, options?: RawAxiosRequestConfig) {
         return PropertyValuesApiFp(this.configuration).propertyValuesList(organizationId, projectId, listPropertyValuesRequest, options).then((request) => request(this.axios, this.basePath));
     }
 }
@@ -7025,14 +7032,14 @@ export const QueryApiAxiosParamCreator = function (configuration?: Configuration
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        eventSegmentationQuery: async (organizationId: number, projectId: number, format: EventSegmentationQueryFormatEnum, eventSegmentation?: EventSegmentation, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        eventSegmentationQuery: async (organizationId: number, projectId: number, format: EventSegmentationQueryFormatEnum, eventSegmentation?: EventSegmentation, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'organizationId' is not null or undefined
             assertParamExists('eventSegmentationQuery', 'organizationId', organizationId)
             // verify required parameter 'projectId' is not null or undefined
             assertParamExists('eventSegmentationQuery', 'projectId', projectId)
             // verify required parameter 'format' is not null or undefined
             assertParamExists('eventSegmentationQuery', 'format', format)
-            const localVarPath = `/v1/projects/{projectId}/queries/event-segmentation`
+            const localVarPath = `/v1/organizations/{organizationId}/projects/{projectId}/queries/event-segmentation`
                 .replace(`{${"organizationId"}}`, encodeURIComponent(String(organizationId)))
                 .replace(`{${"projectId"}}`, encodeURIComponent(String(projectId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -7077,12 +7084,12 @@ export const QueryApiAxiosParamCreator = function (configuration?: Configuration
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        funnelQuery: async (organizationId: number, projectId: number, funnelQuery?: FunnelQuery, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        funnelQuery: async (organizationId: number, projectId: number, funnelQuery?: FunnelQuery, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'organizationId' is not null or undefined
             assertParamExists('funnelQuery', 'organizationId', organizationId)
             // verify required parameter 'projectId' is not null or undefined
             assertParamExists('funnelQuery', 'projectId', projectId)
-            const localVarPath = `/projects/{projectId}/queries/funnel`
+            const localVarPath = `/organizations/{organizationId}/projects/{projectId}/queries/funnel`
                 .replace(`{${"organizationId"}}`, encodeURIComponent(String(organizationId)))
                 .replace(`{${"projectId"}}`, encodeURIComponent(String(projectId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -7134,7 +7141,7 @@ export const QueryApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async eventSegmentationQuery(organizationId: number, projectId: number, format: EventSegmentationQueryFormatEnum, eventSegmentation?: EventSegmentation, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<DataTableResponse>> {
+        async eventSegmentationQuery(organizationId: number, projectId: number, format: EventSegmentationQueryFormatEnum, eventSegmentation?: EventSegmentation, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<DataTableResponse>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.eventSegmentationQuery(organizationId, projectId, format, eventSegmentation, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['QueryApi.eventSegmentationQuery']?.[index]?.url;
@@ -7149,7 +7156,7 @@ export const QueryApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async funnelQuery(organizationId: number, projectId: number, funnelQuery?: FunnelQuery, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<DataTableResponse>> {
+        async funnelQuery(organizationId: number, projectId: number, funnelQuery?: FunnelQuery, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<DataTableResponse>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.funnelQuery(organizationId, projectId, funnelQuery, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['QueryApi.funnelQuery']?.[index]?.url;
@@ -7211,7 +7218,7 @@ export class QueryApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof QueryApi
      */
-    public eventSegmentationQuery(organizationId: number, projectId: number, format: EventSegmentationQueryFormatEnum, eventSegmentation?: EventSegmentation, options?: AxiosRequestConfig) {
+    public eventSegmentationQuery(organizationId: number, projectId: number, format: EventSegmentationQueryFormatEnum, eventSegmentation?: EventSegmentation, options?: RawAxiosRequestConfig) {
         return QueryApiFp(this.configuration).eventSegmentationQuery(organizationId, projectId, format, eventSegmentation, options).then((request) => request(this.axios, this.basePath));
     }
 
@@ -7225,7 +7232,7 @@ export class QueryApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof QueryApi
      */
-    public funnelQuery(organizationId: number, projectId: number, funnelQuery?: FunnelQuery, options?: AxiosRequestConfig) {
+    public funnelQuery(organizationId: number, projectId: number, funnelQuery?: FunnelQuery, options?: RawAxiosRequestConfig) {
         return QueryApiFp(this.configuration).funnelQuery(organizationId, projectId, funnelQuery, options).then((request) => request(this.axios, this.basePath));
     }
 }
@@ -7255,14 +7262,14 @@ export const ReportsApiAxiosParamCreator = function (configuration?: Configurati
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createReport: async (organizationId: number, projectId: number, createReportRequest: CreateReportRequest, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        createReport: async (organizationId: number, projectId: number, createReportRequest: CreateReportRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'organizationId' is not null or undefined
             assertParamExists('createReport', 'organizationId', organizationId)
             // verify required parameter 'projectId' is not null or undefined
             assertParamExists('createReport', 'projectId', projectId)
             // verify required parameter 'createReportRequest' is not null or undefined
             assertParamExists('createReport', 'createReportRequest', createReportRequest)
-            const localVarPath = `/v1/projects/{projectId}/reports`
+            const localVarPath = `/v1/organizations/{organizationId}/projects/{projectId}/reports`
                 .replace(`{${"organizationId"}}`, encodeURIComponent(String(organizationId)))
                 .replace(`{${"projectId"}}`, encodeURIComponent(String(projectId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -7303,14 +7310,14 @@ export const ReportsApiAxiosParamCreator = function (configuration?: Configurati
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deleteReport: async (organizationId: number, projectId: number, reportId: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        deleteReport: async (organizationId: number, projectId: number, reportId: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'organizationId' is not null or undefined
             assertParamExists('deleteReport', 'organizationId', organizationId)
             // verify required parameter 'projectId' is not null or undefined
             assertParamExists('deleteReport', 'projectId', projectId)
             // verify required parameter 'reportId' is not null or undefined
             assertParamExists('deleteReport', 'reportId', reportId)
-            const localVarPath = `/v1/projects/{projectId}/reports/{reportId}`
+            const localVarPath = `/v1/organizations/{organizationId}/projects/{projectId}/reports/{reportId}`
                 .replace(`{${"organizationId"}}`, encodeURIComponent(String(organizationId)))
                 .replace(`{${"projectId"}}`, encodeURIComponent(String(projectId)))
                 .replace(`{${"reportId"}}`, encodeURIComponent(String(reportId)));
@@ -7349,14 +7356,14 @@ export const ReportsApiAxiosParamCreator = function (configuration?: Configurati
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getReport: async (organizationId: number, projectId: number, reportId: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        getReport: async (organizationId: number, projectId: number, reportId: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'organizationId' is not null or undefined
             assertParamExists('getReport', 'organizationId', organizationId)
             // verify required parameter 'projectId' is not null or undefined
             assertParamExists('getReport', 'projectId', projectId)
             // verify required parameter 'reportId' is not null or undefined
             assertParamExists('getReport', 'reportId', reportId)
-            const localVarPath = `/v1/projects/{projectId}/reports/{reportId}`
+            const localVarPath = `/v1/organizations/{organizationId}/projects/{projectId}/reports/{reportId}`
                 .replace(`{${"organizationId"}}`, encodeURIComponent(String(organizationId)))
                 .replace(`{${"projectId"}}`, encodeURIComponent(String(projectId)))
                 .replace(`{${"reportId"}}`, encodeURIComponent(String(reportId)));
@@ -7394,12 +7401,12 @@ export const ReportsApiAxiosParamCreator = function (configuration?: Configurati
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        reportsList: async (organizationId: number, projectId: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        reportsList: async (organizationId: number, projectId: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'organizationId' is not null or undefined
             assertParamExists('reportsList', 'organizationId', organizationId)
             // verify required parameter 'projectId' is not null or undefined
             assertParamExists('reportsList', 'projectId', projectId)
-            const localVarPath = `/v1/projects/{projectId}/reports`
+            const localVarPath = `/v1/organizations/{organizationId}/projects/{projectId}/reports`
                 .replace(`{${"organizationId"}}`, encodeURIComponent(String(organizationId)))
                 .replace(`{${"projectId"}}`, encodeURIComponent(String(projectId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -7438,7 +7445,7 @@ export const ReportsApiAxiosParamCreator = function (configuration?: Configurati
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateReport: async (organizationId: number, projectId: number, reportId: number, updateReportRequest: UpdateReportRequest, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        updateReport: async (organizationId: number, projectId: number, reportId: number, updateReportRequest: UpdateReportRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'organizationId' is not null or undefined
             assertParamExists('updateReport', 'organizationId', organizationId)
             // verify required parameter 'projectId' is not null or undefined
@@ -7447,7 +7454,7 @@ export const ReportsApiAxiosParamCreator = function (configuration?: Configurati
             assertParamExists('updateReport', 'reportId', reportId)
             // verify required parameter 'updateReportRequest' is not null or undefined
             assertParamExists('updateReport', 'updateReportRequest', updateReportRequest)
-            const localVarPath = `/v1/projects/{projectId}/reports/{reportId}`
+            const localVarPath = `/v1/organizations/{organizationId}/projects/{projectId}/reports/{reportId}`
                 .replace(`{${"organizationId"}}`, encodeURIComponent(String(organizationId)))
                 .replace(`{${"projectId"}}`, encodeURIComponent(String(projectId)))
                 .replace(`{${"reportId"}}`, encodeURIComponent(String(reportId)));
@@ -7499,7 +7506,7 @@ export const ReportsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async createReport(organizationId: number, projectId: number, createReportRequest: CreateReportRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Report>> {
+        async createReport(organizationId: number, projectId: number, createReportRequest: CreateReportRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Report>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.createReport(organizationId, projectId, createReportRequest, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['ReportsApi.createReport']?.[index]?.url;
@@ -7514,7 +7521,7 @@ export const ReportsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async deleteReport(organizationId: number, projectId: number, reportId: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+        async deleteReport(organizationId: number, projectId: number, reportId: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.deleteReport(organizationId, projectId, reportId, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['ReportsApi.deleteReport']?.[index]?.url;
@@ -7529,7 +7536,7 @@ export const ReportsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getReport(organizationId: number, projectId: number, reportId: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Report>> {
+        async getReport(organizationId: number, projectId: number, reportId: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Report>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getReport(organizationId, projectId, reportId, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['ReportsApi.getReport']?.[index]?.url;
@@ -7543,7 +7550,7 @@ export const ReportsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async reportsList(organizationId: number, projectId: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ReportsList200Response>> {
+        async reportsList(organizationId: number, projectId: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ReportsList200Response>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.reportsList(organizationId, projectId, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['ReportsApi.reportsList']?.[index]?.url;
@@ -7559,7 +7566,7 @@ export const ReportsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async updateReport(organizationId: number, projectId: number, reportId: number, updateReportRequest: UpdateReportRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Report>> {
+        async updateReport(organizationId: number, projectId: number, reportId: number, updateReportRequest: UpdateReportRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Report>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.updateReport(organizationId, projectId, reportId, updateReportRequest, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['ReportsApi.updateReport']?.[index]?.url;
@@ -7655,7 +7662,7 @@ export class ReportsApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof ReportsApi
      */
-    public createReport(organizationId: number, projectId: number, createReportRequest: CreateReportRequest, options?: AxiosRequestConfig) {
+    public createReport(organizationId: number, projectId: number, createReportRequest: CreateReportRequest, options?: RawAxiosRequestConfig) {
         return ReportsApiFp(this.configuration).createReport(organizationId, projectId, createReportRequest, options).then((request) => request(this.axios, this.basePath));
     }
 
@@ -7669,7 +7676,7 @@ export class ReportsApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof ReportsApi
      */
-    public deleteReport(organizationId: number, projectId: number, reportId: number, options?: AxiosRequestConfig) {
+    public deleteReport(organizationId: number, projectId: number, reportId: number, options?: RawAxiosRequestConfig) {
         return ReportsApiFp(this.configuration).deleteReport(organizationId, projectId, reportId, options).then((request) => request(this.axios, this.basePath));
     }
 
@@ -7683,7 +7690,7 @@ export class ReportsApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof ReportsApi
      */
-    public getReport(organizationId: number, projectId: number, reportId: number, options?: AxiosRequestConfig) {
+    public getReport(organizationId: number, projectId: number, reportId: number, options?: RawAxiosRequestConfig) {
         return ReportsApiFp(this.configuration).getReport(organizationId, projectId, reportId, options).then((request) => request(this.axios, this.basePath));
     }
 
@@ -7696,7 +7703,7 @@ export class ReportsApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof ReportsApi
      */
-    public reportsList(organizationId: number, projectId: number, options?: AxiosRequestConfig) {
+    public reportsList(organizationId: number, projectId: number, options?: RawAxiosRequestConfig) {
         return ReportsApiFp(this.configuration).reportsList(organizationId, projectId, options).then((request) => request(this.axios, this.basePath));
     }
 
@@ -7711,7 +7718,7 @@ export class ReportsApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof ReportsApi
      */
-    public updateReport(organizationId: number, projectId: number, reportId: number, updateReportRequest: UpdateReportRequest, options?: AxiosRequestConfig) {
+    public updateReport(organizationId: number, projectId: number, reportId: number, updateReportRequest: UpdateReportRequest, options?: RawAxiosRequestConfig) {
         return ReportsApiFp(this.configuration).updateReport(organizationId, projectId, reportId, updateReportRequest, options).then((request) => request(this.axios, this.basePath));
     }
 }
@@ -7733,14 +7740,14 @@ export const SystemPropertiesApiAxiosParamCreator = function (configuration?: Co
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getSystemProperty: async (organizationId: number, projectId: number, propertyId: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        getSystemProperty: async (organizationId: number, projectId: number, propertyId: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'organizationId' is not null or undefined
             assertParamExists('getSystemProperty', 'organizationId', organizationId)
             // verify required parameter 'projectId' is not null or undefined
             assertParamExists('getSystemProperty', 'projectId', projectId)
             // verify required parameter 'propertyId' is not null or undefined
             assertParamExists('getSystemProperty', 'propertyId', propertyId)
-            const localVarPath = `/v1/projects/{projectId}/schema/system-properties/{propertyId}`
+            const localVarPath = `/v1/organizations/{organizationId}/projects/{projectId}/schema/system-properties/{propertyId}`
                 .replace(`{${"organizationId"}}`, encodeURIComponent(String(organizationId)))
                 .replace(`{${"projectId"}}`, encodeURIComponent(String(projectId)))
                 .replace(`{${"propertyId"}}`, encodeURIComponent(String(propertyId)));
@@ -7778,12 +7785,12 @@ export const SystemPropertiesApiAxiosParamCreator = function (configuration?: Co
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        systemPropertiesList: async (organizationId: number, projectId: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        systemPropertiesList: async (organizationId: number, projectId: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'organizationId' is not null or undefined
             assertParamExists('systemPropertiesList', 'organizationId', organizationId)
             // verify required parameter 'projectId' is not null or undefined
             assertParamExists('systemPropertiesList', 'projectId', projectId)
-            const localVarPath = `/v1/projects/{projectId}/schema/system-properties`
+            const localVarPath = `/v1/organizations/{organizationId}/projects/{projectId}/schema/system-properties`
                 .replace(`{${"organizationId"}}`, encodeURIComponent(String(organizationId)))
                 .replace(`{${"projectId"}}`, encodeURIComponent(String(projectId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -7831,7 +7838,7 @@ export const SystemPropertiesApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getSystemProperty(organizationId: number, projectId: number, propertyId: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Property>> {
+        async getSystemProperty(organizationId: number, projectId: number, propertyId: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Property>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getSystemProperty(organizationId, projectId, propertyId, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['SystemPropertiesApi.getSystemProperty']?.[index]?.url;
@@ -7845,7 +7852,7 @@ export const SystemPropertiesApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async systemPropertiesList(organizationId: number, projectId: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UserPropertiesList200Response>> {
+        async systemPropertiesList(organizationId: number, projectId: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UserPropertiesList200Response>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.systemPropertiesList(organizationId, projectId, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['SystemPropertiesApi.systemPropertiesList']?.[index]?.url;
@@ -7904,7 +7911,7 @@ export class SystemPropertiesApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SystemPropertiesApi
      */
-    public getSystemProperty(organizationId: number, projectId: number, propertyId: number, options?: AxiosRequestConfig) {
+    public getSystemProperty(organizationId: number, projectId: number, propertyId: number, options?: RawAxiosRequestConfig) {
         return SystemPropertiesApiFp(this.configuration).getSystemProperty(organizationId, projectId, propertyId, options).then((request) => request(this.axios, this.basePath));
     }
 
@@ -7917,7 +7924,7 @@ export class SystemPropertiesApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SystemPropertiesApi
      */
-    public systemPropertiesList(organizationId: number, projectId: number, options?: AxiosRequestConfig) {
+    public systemPropertiesList(organizationId: number, projectId: number, options?: RawAxiosRequestConfig) {
         return SystemPropertiesApiFp(this.configuration).systemPropertiesList(organizationId, projectId, options).then((request) => request(this.axios, this.basePath));
     }
 }
@@ -7939,14 +7946,14 @@ export const UserPropertiesApiAxiosParamCreator = function (configuration?: Conf
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getUserProperty: async (organizationId: number, projectId: number, propertyId: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        getUserProperty: async (organizationId: number, projectId: number, propertyId: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'organizationId' is not null or undefined
             assertParamExists('getUserProperty', 'organizationId', organizationId)
             // verify required parameter 'projectId' is not null or undefined
             assertParamExists('getUserProperty', 'projectId', projectId)
             // verify required parameter 'propertyId' is not null or undefined
             assertParamExists('getUserProperty', 'propertyId', propertyId)
-            const localVarPath = `/v1/projects/{projectId}/schema/user-properties/{propertyId}`
+            const localVarPath = `/v1/organizations/{organizationId}/projects/{projectId}/schema/user-properties/{propertyId}`
                 .replace(`{${"organizationId"}}`, encodeURIComponent(String(organizationId)))
                 .replace(`{${"projectId"}}`, encodeURIComponent(String(projectId)))
                 .replace(`{${"propertyId"}}`, encodeURIComponent(String(propertyId)));
@@ -7986,7 +7993,7 @@ export const UserPropertiesApiAxiosParamCreator = function (configuration?: Conf
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateUserProperty: async (organizationId: number, projectId: number, propertyId: number, updatePropertyRequest: UpdatePropertyRequest, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        updateUserProperty: async (organizationId: number, projectId: number, propertyId: number, updatePropertyRequest: UpdatePropertyRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'organizationId' is not null or undefined
             assertParamExists('updateUserProperty', 'organizationId', organizationId)
             // verify required parameter 'projectId' is not null or undefined
@@ -7995,7 +8002,7 @@ export const UserPropertiesApiAxiosParamCreator = function (configuration?: Conf
             assertParamExists('updateUserProperty', 'propertyId', propertyId)
             // verify required parameter 'updatePropertyRequest' is not null or undefined
             assertParamExists('updateUserProperty', 'updatePropertyRequest', updatePropertyRequest)
-            const localVarPath = `/v1/projects/{projectId}/schema/user-properties/{propertyId}`
+            const localVarPath = `/v1/organizations/{organizationId}/projects/{projectId}/schema/user-properties/{propertyId}`
                 .replace(`{${"organizationId"}}`, encodeURIComponent(String(organizationId)))
                 .replace(`{${"projectId"}}`, encodeURIComponent(String(projectId)))
                 .replace(`{${"propertyId"}}`, encodeURIComponent(String(propertyId)));
@@ -8036,12 +8043,12 @@ export const UserPropertiesApiAxiosParamCreator = function (configuration?: Conf
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        userPropertiesList: async (organizationId: number, projectId: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        userPropertiesList: async (organizationId: number, projectId: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'organizationId' is not null or undefined
             assertParamExists('userPropertiesList', 'organizationId', organizationId)
             // verify required parameter 'projectId' is not null or undefined
             assertParamExists('userPropertiesList', 'projectId', projectId)
-            const localVarPath = `/v1/projects/{projectId}/schema/user-properties`
+            const localVarPath = `/v1/organizations/{organizationId}/projects/{projectId}/schema/user-properties`
                 .replace(`{${"organizationId"}}`, encodeURIComponent(String(organizationId)))
                 .replace(`{${"projectId"}}`, encodeURIComponent(String(projectId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -8089,7 +8096,7 @@ export const UserPropertiesApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getUserProperty(organizationId: number, projectId: number, propertyId: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Property>> {
+        async getUserProperty(organizationId: number, projectId: number, propertyId: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Property>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getUserProperty(organizationId, projectId, propertyId, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['UserPropertiesApi.getUserProperty']?.[index]?.url;
@@ -8105,7 +8112,7 @@ export const UserPropertiesApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async updateUserProperty(organizationId: number, projectId: number, propertyId: number, updatePropertyRequest: UpdatePropertyRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Property>> {
+        async updateUserProperty(organizationId: number, projectId: number, propertyId: number, updatePropertyRequest: UpdatePropertyRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Property>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.updateUserProperty(organizationId, projectId, propertyId, updatePropertyRequest, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['UserPropertiesApi.updateUserProperty']?.[index]?.url;
@@ -8119,7 +8126,7 @@ export const UserPropertiesApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async userPropertiesList(organizationId: number, projectId: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UserPropertiesList200Response>> {
+        async userPropertiesList(organizationId: number, projectId: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UserPropertiesList200Response>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.userPropertiesList(organizationId, projectId, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['UserPropertiesApi.userPropertiesList']?.[index]?.url;
@@ -8191,7 +8198,7 @@ export class UserPropertiesApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof UserPropertiesApi
      */
-    public getUserProperty(organizationId: number, projectId: number, propertyId: number, options?: AxiosRequestConfig) {
+    public getUserProperty(organizationId: number, projectId: number, propertyId: number, options?: RawAxiosRequestConfig) {
         return UserPropertiesApiFp(this.configuration).getUserProperty(organizationId, projectId, propertyId, options).then((request) => request(this.axios, this.basePath));
     }
 
@@ -8206,7 +8213,7 @@ export class UserPropertiesApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof UserPropertiesApi
      */
-    public updateUserProperty(organizationId: number, projectId: number, propertyId: number, updatePropertyRequest: UpdatePropertyRequest, options?: AxiosRequestConfig) {
+    public updateUserProperty(organizationId: number, projectId: number, propertyId: number, updatePropertyRequest: UpdatePropertyRequest, options?: RawAxiosRequestConfig) {
         return UserPropertiesApiFp(this.configuration).updateUserProperty(organizationId, projectId, propertyId, updatePropertyRequest, options).then((request) => request(this.axios, this.basePath));
     }
 
@@ -8219,7 +8226,7 @@ export class UserPropertiesApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof UserPropertiesApi
      */
-    public userPropertiesList(organizationId: number, projectId: number, options?: AxiosRequestConfig) {
+    public userPropertiesList(organizationId: number, projectId: number, options?: RawAxiosRequestConfig) {
         return UserPropertiesApiFp(this.configuration).userPropertiesList(organizationId, projectId, options).then((request) => request(this.axios, this.basePath));
     }
 }
