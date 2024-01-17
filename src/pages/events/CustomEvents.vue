@@ -164,7 +164,7 @@ const addCustomEvent = () => {
 const applyDelete = async () => {
     if (actionEventId.value) {
         try {
-            await schemaService.deleteCustomEvents(commonStore.organizationId, commonStore.projectId, actionEventId.value)
+            await schemaService.deleteCustomEvents(commonStore.projectId, actionEventId.value)
             lexiconStore.deleteCustomEvent(actionEventId.value)
         } catch (e) {
             throw new Error('error Delete Custom Events')

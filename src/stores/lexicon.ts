@@ -96,7 +96,7 @@ export const useLexiconStore = defineStore('lexicon', {
         async updateEventProperty(payload: ApplyPayload) {
             const commonStore = useCommonStore()
             try {
-                const res = await schemaService.updateEventProperty(commonStore.organizationId, commonStore.projectId, String(commonStore.editEventPropertyPopupId), payload)
+                const res = await schemaService.updateEventProperty(commonStore.projectId, String(commonStore.editEventPropertyPopupId), payload)
                 if (res?.data) {
                     const newProperty: Property = res.data;
                     const index: number = this.eventProperties.findIndex(property => Number(property.id) === commonStore.editEventPropertyPopupId)
@@ -112,7 +112,7 @@ export const useLexiconStore = defineStore('lexicon', {
         async updateUserProperty(payload: ApplyPayload) {
             const commonStore = useCommonStore()
             try {
-                const res = await schemaService.updateUserProperty(commonStore.organizationId, commonStore.projectId, Number(commonStore.editEventPropertyPopupId), payload)
+                const res = await schemaService.updateUserProperty(commonStore.projectId, Number(commonStore.editEventPropertyPopupId), payload)
                 if (res?.data) {
                     const newProperty: Property = res.data;
                     const index: number = this.userProperties.findIndex(property => Number(property.id) === Number(commonStore.editEventPropertyPopupId))
@@ -137,7 +137,7 @@ export const useLexiconStore = defineStore('lexicon', {
             const commonStore = useCommonStore()
 
             try {
-                const res = await schemaService.updateEvent(commonStore.organizationId, commonStore.projectId, String(commonStore.editEventManagementPopupId), payload)
+                const res = await schemaService.updateEvent(commonStore.projectId, String(commonStore.editEventManagementPopupId), payload)
 
                 if (res?.data) {
                     const newEvent: Event = res.data;
@@ -156,11 +156,11 @@ export const useLexiconStore = defineStore('lexicon', {
             this.eventsLoading = true
 
             try {
-                const res = await schemaService.events(commonStore.organizationId, commonStore.projectId)
+                const res = await schemaService.events(commonStore.projectId)
                 if (res.data?.data) {
                     this.events = res.data?.data;
                 }
-                const responseCustomEvents = await schemaService.customEvents(commonStore.organizationId, commonStore.projectId)
+                const responseCustomEvents = await schemaService.customEvents(commonStore.projectId)
                 if (responseCustomEvents?.data?.data) {
                     this.customEvents = <CustomEvent[]>responseCustomEvents.data?.data || [];
                 }
@@ -175,12 +175,12 @@ export const useLexiconStore = defineStore('lexicon', {
 
             this.eventPropertiesLoading = true
             try {
-                const res = await schemaService.eventProperties(commonStore.organizationId, commonStore.projectId)
+                const res = await schemaService.eventProperties(commonStore.projectId)
                 if (res?.data?.data) {
                     this.eventProperties = res.data.data
                 }
 
-                const resCustom = await schemaService.eventCustomProperties(commonStore.organizationId, commonStore.projectId);
+                const resCustom = await schemaService.eventCustomProperties(commonStore.projectId);
                 if (resCustom?.data?.events) {
                     this.eventCustomProperties = resCustom.data.events;
                 }
@@ -196,7 +196,7 @@ export const useLexiconStore = defineStore('lexicon', {
             this.systemPropertiesLoading = true;
 
             try {
-                const res = await schemaService.systemProperties(commonStore.organizationId, commonStore.projectId);
+                const res = await schemaService.systemProperties(commonStore.projectId);
                 if (res?.data?.data) {
                     this.systemProperties = res.data.data;
                 }
@@ -210,7 +210,7 @@ export const useLexiconStore = defineStore('lexicon', {
             const commonStore = useCommonStore()
             this.eventPropertiesLoading = true;
             try {
-                const res = await schemaService.userProperties(commonStore.organizationId, commonStore.projectId);
+                const res = await schemaService.userProperties(commonStore.projectId);
 
                 this.userProperties = Array.isArray(res?.data?.data) ? res?.data?.data : [];
             } catch (error) {

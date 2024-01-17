@@ -44,7 +44,7 @@ export const useGroupStore = defineStore('group', {
             const commonStore = useCommonStore();
             const segmentsStore = useSegmentsStore();
             try {
-                const res = await groupRecordsService.getList(commonStore.organizationId, commonStore.projectId, {
+                const res = await groupRecordsService.getList(commonStore.projectId, {
                     time: this.timeRequest,
                     group: 'users', // TODO any group to use
                     segments: segmentsStore.segmentationItems,
@@ -65,7 +65,7 @@ export const useGroupStore = defineStore('group', {
                 this.loading = true;
             }
             try {
-                await groupRecordsService.updated(commonStore.organizationId, commonStore.projectId, payload.id, { properties: payload.properties });
+                await groupRecordsService.updated(commonStore.projectId, payload.id, { properties: payload.properties });
                 await this.getList(payload.noLoading || true);
             } catch (e) {
                 if (!payload.noLoading) {

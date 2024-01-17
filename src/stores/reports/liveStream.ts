@@ -189,7 +189,7 @@ export const useLiveStreamStore = defineStore('liveStream', {
             const commonStore = useCommonStore()
 
             try {
-                const res = await dataService.createEventsStream(commonStore.organizationId, commonStore.projectId, {
+                const res = await dataService.createEventsStream(commonStore.projectId, {
                     time: this.timeRequest,
                     events: this.eventsRequest,
                 })

@@ -147,7 +147,7 @@ export const useFunnelsStore = defineStore('funnels', {
             this.loading = true
 
             try {
-                const res = await dataService.funnelQuery(commonStore.organizationId, commonStore.projectId, {
+                const res = await dataService.funnelQuery(commonStore.projectId, {
                     time: this.timeRequest as EventRecordsListRequestTime,
                     group: '',
                     steps: stepsStore.getSteps,
