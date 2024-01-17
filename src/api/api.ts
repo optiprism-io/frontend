@@ -4375,7 +4375,7 @@ export const CustomEventsApiAxiosParamCreator = function (configuration?: Config
             assertParamExists('createCustomEvent', 'projectId', projectId)
             // verify required parameter 'createCustomEventRequest' is not null or undefined
             assertParamExists('createCustomEvent', 'createCustomEventRequest', createCustomEventRequest)
-            const localVarPath = `/v1/organizations/{organizationId}/projects/{projectId}/schema/custom-events`
+            const localVarPath = `/v1/projects/{projectId}/schema/custom-events`
                 .replace(`{${"organizationId"}}`, encodeURIComponent(String(organizationId)))
                 .replace(`{${"projectId"}}`, encodeURIComponent(String(projectId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -4420,7 +4420,7 @@ export const CustomEventsApiAxiosParamCreator = function (configuration?: Config
             assertParamExists('customEventsList', 'organizationId', organizationId)
             // verify required parameter 'projectId' is not null or undefined
             assertParamExists('customEventsList', 'projectId', projectId)
-            const localVarPath = `/v1/organizations/{organizationId}/projects/{projectId}/schema/custom-events`
+            const localVarPath = `/v1/projects/{projectId}/schema/custom-events`
                 .replace(`{${"organizationId"}}`, encodeURIComponent(String(organizationId)))
                 .replace(`{${"projectId"}}`, encodeURIComponent(String(projectId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -4465,7 +4465,7 @@ export const CustomEventsApiAxiosParamCreator = function (configuration?: Config
             assertParamExists('deleteCustomEvent', 'projectId', projectId)
             // verify required parameter 'eventId' is not null or undefined
             assertParamExists('deleteCustomEvent', 'eventId', eventId)
-            const localVarPath = `/v1/organizations/{organizationId}/projects/{projectId}/schema/custom-events/{eventId}`
+            const localVarPath = `/v1/projects/{projectId}/schema/custom-events/{eventId}`
                 .replace(`{${"organizationId"}}`, encodeURIComponent(String(organizationId)))
                 .replace(`{${"projectId"}}`, encodeURIComponent(String(projectId)))
                 .replace(`{${"eventId"}}`, encodeURIComponent(String(eventId)));
@@ -4511,7 +4511,7 @@ export const CustomEventsApiAxiosParamCreator = function (configuration?: Config
             assertParamExists('getCustomEvent', 'projectId', projectId)
             // verify required parameter 'eventId' is not null or undefined
             assertParamExists('getCustomEvent', 'eventId', eventId)
-            const localVarPath = `/v1/organizations/{organizationId}/projects/{projectId}/schema/custom-events/{eventId}`
+            const localVarPath = `/v1/projects/{projectId}/schema/custom-events/{eventId}`
                 .replace(`{${"organizationId"}}`, encodeURIComponent(String(organizationId)))
                 .replace(`{${"projectId"}}`, encodeURIComponent(String(projectId)))
                 .replace(`{${"eventId"}}`, encodeURIComponent(String(eventId)));
@@ -4560,7 +4560,7 @@ export const CustomEventsApiAxiosParamCreator = function (configuration?: Config
             assertParamExists('updateCustomEvent', 'eventId', eventId)
             // verify required parameter 'updateCustomEventRequest' is not null or undefined
             assertParamExists('updateCustomEvent', 'updateCustomEventRequest', updateCustomEventRequest)
-            const localVarPath = `/v1/organizations/{organizationId}/projects/{projectId}/schema/custom-events/{eventId}`
+            const localVarPath = `/v1/projects/{projectId}/schema/custom-events/{eventId}`
                 .replace(`{${"organizationId"}}`, encodeURIComponent(String(organizationId)))
                 .replace(`{${"projectId"}}`, encodeURIComponent(String(projectId)))
                 .replace(`{${"eventId"}}`, encodeURIComponent(String(eventId)));
@@ -4853,7 +4853,7 @@ export const DashboardsApiAxiosParamCreator = function (configuration?: Configur
             assertParamExists('createDashboard', 'projectId', projectId)
             // verify required parameter 'createDashboardRequest' is not null or undefined
             assertParamExists('createDashboard', 'createDashboardRequest', createDashboardRequest)
-            const localVarPath = `/v1/organizations/{organizationId}/projects/{projectId}/dashboards`
+            const localVarPath = `/v1/projects/{projectId}/dashboards`
                 .replace(`{${"organizationId"}}`, encodeURIComponent(String(organizationId)))
                 .replace(`{${"projectId"}}`, encodeURIComponent(String(projectId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -4898,7 +4898,7 @@ export const DashboardsApiAxiosParamCreator = function (configuration?: Configur
             assertParamExists('dashboardsList', 'organizationId', organizationId)
             // verify required parameter 'projectId' is not null or undefined
             assertParamExists('dashboardsList', 'projectId', projectId)
-            const localVarPath = `/v1/organizations/{organizationId}/projects/{projectId}/dashboards`
+            const localVarPath = `/v1/projects/{projectId}/dashboards`
                 .replace(`{${"organizationId"}}`, encodeURIComponent(String(organizationId)))
                 .replace(`{${"projectId"}}`, encodeURIComponent(String(projectId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -4943,7 +4943,7 @@ export const DashboardsApiAxiosParamCreator = function (configuration?: Configur
             assertParamExists('deleteDashboard', 'projectId', projectId)
             // verify required parameter 'dashboardId' is not null or undefined
             assertParamExists('deleteDashboard', 'dashboardId', dashboardId)
-            const localVarPath = `/v1/organizations/{organizationId}/projects/{projectId}/dashboards/{dashboardId}`
+            const localVarPath = `/v1/projects/{projectId}/dashboards/{dashboardId}`
                 .replace(`{${"organizationId"}}`, encodeURIComponent(String(organizationId)))
                 .replace(`{${"projectId"}}`, encodeURIComponent(String(projectId)))
                 .replace(`{${"dashboardId"}}`, encodeURIComponent(String(dashboardId)));
@@ -4989,7 +4989,7 @@ export const DashboardsApiAxiosParamCreator = function (configuration?: Configur
             assertParamExists('getDashboard', 'projectId', projectId)
             // verify required parameter 'dashboardId' is not null or undefined
             assertParamExists('getDashboard', 'dashboardId', dashboardId)
-            const localVarPath = `/v1/organizations/{organizationId}/projects/{projectId}/dashboards/{dashboardId}`
+            const localVarPath = `/v1/projects/{projectId}/dashboards/{dashboardId}`
                 .replace(`{${"organizationId"}}`, encodeURIComponent(String(organizationId)))
                 .replace(`{${"projectId"}}`, encodeURIComponent(String(projectId)))
                 .replace(`{${"dashboardId"}}`, encodeURIComponent(String(dashboardId)));
@@ -5038,7 +5038,7 @@ export const DashboardsApiAxiosParamCreator = function (configuration?: Configur
             assertParamExists('updateDashboard', 'dashboardId', dashboardId)
             // verify required parameter 'updateDashboardRequest' is not null or undefined
             assertParamExists('updateDashboard', 'updateDashboardRequest', updateDashboardRequest)
-            const localVarPath = `/v1/organizations/{organizationId}/projects/{projectId}/dashboards/{dashboardId}`
+            const localVarPath = `/v1/projects/{projectId}/dashboards/{dashboardId}`
                 .replace(`{${"organizationId"}}`, encodeURIComponent(String(organizationId)))
                 .replace(`{${"projectId"}}`, encodeURIComponent(String(projectId)))
                 .replace(`{${"dashboardId"}}`, encodeURIComponent(String(dashboardId)));
@@ -5328,7 +5328,7 @@ export const EventPropertiesApiAxiosParamCreator = function (configuration?: Con
             assertParamExists('eventPropertiesList', 'organizationId', organizationId)
             // verify required parameter 'projectId' is not null or undefined
             assertParamExists('eventPropertiesList', 'projectId', projectId)
-            const localVarPath = `/v1/organizations/{organizationId}/projects/{projectId}/schema/event-properties`
+            const localVarPath = `/v1/projects/{projectId}/schema/event-properties`
                 .replace(`{${"organizationId"}}`, encodeURIComponent(String(organizationId)))
                 .replace(`{${"projectId"}}`, encodeURIComponent(String(projectId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -5373,7 +5373,7 @@ export const EventPropertiesApiAxiosParamCreator = function (configuration?: Con
             assertParamExists('getEventProperty', 'projectId', projectId)
             // verify required parameter 'propertyId' is not null or undefined
             assertParamExists('getEventProperty', 'propertyId', propertyId)
-            const localVarPath = `/v1/organizations/{organizationId}/projects/{projectId}/schema/event-properties/{propertyId}`
+            const localVarPath = `/v1/projects/{projectId}/schema/event-properties/{propertyId}`
                 .replace(`{${"organizationId"}}`, encodeURIComponent(String(organizationId)))
                 .replace(`{${"projectId"}}`, encodeURIComponent(String(projectId)))
                 .replace(`{${"propertyId"}}`, encodeURIComponent(String(propertyId)));
@@ -5422,7 +5422,7 @@ export const EventPropertiesApiAxiosParamCreator = function (configuration?: Con
             assertParamExists('updateEventProperty', 'propertyId', propertyId)
             // verify required parameter 'updatePropertyRequest' is not null or undefined
             assertParamExists('updateEventProperty', 'updatePropertyRequest', updatePropertyRequest)
-            const localVarPath = `/v1/organizations/{organizationId}/projects/{projectId}/schema/event-properties/{propertyId}`
+            const localVarPath = `/v1/projects/{projectId}/schema/event-properties/{propertyId}`
                 .replace(`{${"organizationId"}}`, encodeURIComponent(String(organizationId)))
                 .replace(`{${"projectId"}}`, encodeURIComponent(String(projectId)))
                 .replace(`{${"propertyId"}}`, encodeURIComponent(String(propertyId)));
@@ -5633,7 +5633,7 @@ export const EventRecordsApiAxiosParamCreator = function (configuration?: Config
             assertParamExists('eventRecordsList', 'projectId', projectId)
             // verify required parameter 'eventRecordsListRequest' is not null or undefined
             assertParamExists('eventRecordsList', 'eventRecordsListRequest', eventRecordsListRequest)
-            const localVarPath = `/v1/organizations/{organizationId}/projects/{projectId}/event-records/search`
+            const localVarPath = `/v1/projects/{projectId}/event-records/search`
                 .replace(`{${"organizationId"}}`, encodeURIComponent(String(organizationId)))
                 .replace(`{${"projectId"}}`, encodeURIComponent(String(projectId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -5681,7 +5681,7 @@ export const EventRecordsApiAxiosParamCreator = function (configuration?: Config
             assertParamExists('getEventRecord', 'projectId', projectId)
             // verify required parameter 'id' is not null or undefined
             assertParamExists('getEventRecord', 'id', id)
-            const localVarPath = `/v1/organizations/{organizationId}/projects/{projectId}/event-records/{id}`
+            const localVarPath = `/v1/projects/{projectId}/event-records/{id}`
                 .replace(`{${"organizationId"}}`, encodeURIComponent(String(organizationId)))
                 .replace(`{${"projectId"}}`, encodeURIComponent(String(projectId)))
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
@@ -5845,7 +5845,7 @@ export const EventsApiAxiosParamCreator = function (configuration?: Configuratio
             assertParamExists('eventsList', 'organizationId', organizationId)
             // verify required parameter 'projectId' is not null or undefined
             assertParamExists('eventsList', 'projectId', projectId)
-            const localVarPath = `/v1/organizations/{organizationId}/projects/{projectId}/schema/events`
+            const localVarPath = `/v1/projects/{projectId}/schema/events`
                 .replace(`{${"organizationId"}}`, encodeURIComponent(String(organizationId)))
                 .replace(`{${"projectId"}}`, encodeURIComponent(String(projectId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -5890,7 +5890,7 @@ export const EventsApiAxiosParamCreator = function (configuration?: Configuratio
             assertParamExists('getEvent', 'projectId', projectId)
             // verify required parameter 'eventId' is not null or undefined
             assertParamExists('getEvent', 'eventId', eventId)
-            const localVarPath = `/v1/organizations/{organizationId}/projects/{projectId}/schema/events/{eventId}`
+            const localVarPath = `/v1/projects/{projectId}/schema/events/{eventId}`
                 .replace(`{${"organizationId"}}`, encodeURIComponent(String(organizationId)))
                 .replace(`{${"projectId"}}`, encodeURIComponent(String(projectId)))
                 .replace(`{${"eventId"}}`, encodeURIComponent(String(eventId)));
@@ -5939,7 +5939,7 @@ export const EventsApiAxiosParamCreator = function (configuration?: Configuratio
             assertParamExists('updateEvent', 'eventId', eventId)
             // verify required parameter 'updateEventRequest' is not null or undefined
             assertParamExists('updateEvent', 'updateEventRequest', updateEventRequest)
-            const localVarPath = `/v1/organizations/{organizationId}/projects/{projectId}/schema/events/{eventId}`
+            const localVarPath = `/v1/projects/{projectId}/schema/events/{eventId}`
                 .replace(`{${"organizationId"}}`, encodeURIComponent(String(organizationId)))
                 .replace(`{${"projectId"}}`, encodeURIComponent(String(projectId)))
                 .replace(`{${"eventId"}}`, encodeURIComponent(String(eventId)));
@@ -6150,7 +6150,7 @@ export const GroupRecordsApiAxiosParamCreator = function (configuration?: Config
             assertParamExists('getGroupRecord', 'projectId', projectId)
             // verify required parameter 'id' is not null or undefined
             assertParamExists('getGroupRecord', 'id', id)
-            const localVarPath = `/v1/organizations/{organizationId}/projects/{projectId}/group-records/{id}`
+            const localVarPath = `/v1/projects/{projectId}/group-records/{id}`
                 .replace(`{${"organizationId"}}`, encodeURIComponent(String(organizationId)))
                 .replace(`{${"projectId"}}`, encodeURIComponent(String(projectId)))
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
@@ -6196,7 +6196,7 @@ export const GroupRecordsApiAxiosParamCreator = function (configuration?: Config
             assertParamExists('groupRecordsList', 'projectId', projectId)
             // verify required parameter 'groupRecordsListRequest' is not null or undefined
             assertParamExists('groupRecordsList', 'groupRecordsListRequest', groupRecordsListRequest)
-            const localVarPath = `/v1/organizations/{organizationId}/projects/{projectId}/group-records/search`
+            const localVarPath = `/v1/projects/{projectId}/group-records/search`
                 .replace(`{${"organizationId"}}`, encodeURIComponent(String(organizationId)))
                 .replace(`{${"projectId"}}`, encodeURIComponent(String(projectId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -6247,7 +6247,7 @@ export const GroupRecordsApiAxiosParamCreator = function (configuration?: Config
             assertParamExists('updateGroupRecord', 'id', id)
             // verify required parameter 'updateGroupRecordRequest' is not null or undefined
             assertParamExists('updateGroupRecord', 'updateGroupRecordRequest', updateGroupRecordRequest)
-            const localVarPath = `/v1/organizations/{organizationId}/projects/{projectId}/group-records/{id}`
+            const localVarPath = `/v1/projects/{projectId}/group-records/{id}`
                 .replace(`{${"organizationId"}}`, encodeURIComponent(String(organizationId)))
                 .replace(`{${"projectId"}}`, encodeURIComponent(String(projectId)))
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
@@ -6788,7 +6788,7 @@ export const PropertiesApiAxiosParamCreator = function (configuration?: Configur
             assertParamExists('customPropertiesList', 'organizationId', organizationId)
             // verify required parameter 'projectId' is not null or undefined
             assertParamExists('customPropertiesList', 'projectId', projectId)
-            const localVarPath = `/v1/organizations/{organizationId}/projects/{projectId}/schema/custom-properties`
+            const localVarPath = `/v1/projects/{projectId}/schema/custom-properties`
                 .replace(`{${"organizationId"}}`, encodeURIComponent(String(organizationId)))
                 .replace(`{${"projectId"}}`, encodeURIComponent(String(projectId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -6910,7 +6910,7 @@ export const PropertyValuesApiAxiosParamCreator = function (configuration?: Conf
             assertParamExists('propertyValuesList', 'projectId', projectId)
             // verify required parameter 'listPropertyValuesRequest' is not null or undefined
             assertParamExists('propertyValuesList', 'listPropertyValuesRequest', listPropertyValuesRequest)
-            const localVarPath = `/v1/organizations/{organizationId}/projects/{projectId}/property-values`
+            const localVarPath = `/v1/projects/{projectId}/property-values`
                 .replace(`{${"organizationId"}}`, encodeURIComponent(String(organizationId)))
                 .replace(`{${"projectId"}}`, encodeURIComponent(String(projectId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -7039,7 +7039,7 @@ export const QueryApiAxiosParamCreator = function (configuration?: Configuration
             assertParamExists('eventSegmentationQuery', 'projectId', projectId)
             // verify required parameter 'format' is not null or undefined
             assertParamExists('eventSegmentationQuery', 'format', format)
-            const localVarPath = `/v1/organizations/{organizationId}/projects/{projectId}/queries/event-segmentation`
+            const localVarPath = `/v1/projects/{projectId}/queries/event-segmentation`
                 .replace(`{${"organizationId"}}`, encodeURIComponent(String(organizationId)))
                 .replace(`{${"projectId"}}`, encodeURIComponent(String(projectId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -7089,7 +7089,7 @@ export const QueryApiAxiosParamCreator = function (configuration?: Configuration
             assertParamExists('funnelQuery', 'organizationId', organizationId)
             // verify required parameter 'projectId' is not null or undefined
             assertParamExists('funnelQuery', 'projectId', projectId)
-            const localVarPath = `/organizations/{organizationId}/projects/{projectId}/queries/funnel`
+            const localVarPath = `/projects/{projectId}/queries/funnel`
                 .replace(`{${"organizationId"}}`, encodeURIComponent(String(organizationId)))
                 .replace(`{${"projectId"}}`, encodeURIComponent(String(projectId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -7269,7 +7269,7 @@ export const ReportsApiAxiosParamCreator = function (configuration?: Configurati
             assertParamExists('createReport', 'projectId', projectId)
             // verify required parameter 'createReportRequest' is not null or undefined
             assertParamExists('createReport', 'createReportRequest', createReportRequest)
-            const localVarPath = `/v1/organizations/{organizationId}/projects/{projectId}/reports`
+            const localVarPath = `/v1/projects/{projectId}/reports`
                 .replace(`{${"organizationId"}}`, encodeURIComponent(String(organizationId)))
                 .replace(`{${"projectId"}}`, encodeURIComponent(String(projectId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -7317,7 +7317,7 @@ export const ReportsApiAxiosParamCreator = function (configuration?: Configurati
             assertParamExists('deleteReport', 'projectId', projectId)
             // verify required parameter 'reportId' is not null or undefined
             assertParamExists('deleteReport', 'reportId', reportId)
-            const localVarPath = `/v1/organizations/{organizationId}/projects/{projectId}/reports/{reportId}`
+            const localVarPath = `/v1/projects/{projectId}/reports/{reportId}`
                 .replace(`{${"organizationId"}}`, encodeURIComponent(String(organizationId)))
                 .replace(`{${"projectId"}}`, encodeURIComponent(String(projectId)))
                 .replace(`{${"reportId"}}`, encodeURIComponent(String(reportId)));
@@ -7363,7 +7363,7 @@ export const ReportsApiAxiosParamCreator = function (configuration?: Configurati
             assertParamExists('getReport', 'projectId', projectId)
             // verify required parameter 'reportId' is not null or undefined
             assertParamExists('getReport', 'reportId', reportId)
-            const localVarPath = `/v1/organizations/{organizationId}/projects/{projectId}/reports/{reportId}`
+            const localVarPath = `/v1/projects/{projectId}/reports/{reportId}`
                 .replace(`{${"organizationId"}}`, encodeURIComponent(String(organizationId)))
                 .replace(`{${"projectId"}}`, encodeURIComponent(String(projectId)))
                 .replace(`{${"reportId"}}`, encodeURIComponent(String(reportId)));
@@ -7406,7 +7406,7 @@ export const ReportsApiAxiosParamCreator = function (configuration?: Configurati
             assertParamExists('reportsList', 'organizationId', organizationId)
             // verify required parameter 'projectId' is not null or undefined
             assertParamExists('reportsList', 'projectId', projectId)
-            const localVarPath = `/v1/organizations/{organizationId}/projects/{projectId}/reports`
+            const localVarPath = `/v1/projects/{projectId}/reports`
                 .replace(`{${"organizationId"}}`, encodeURIComponent(String(organizationId)))
                 .replace(`{${"projectId"}}`, encodeURIComponent(String(projectId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -7454,7 +7454,7 @@ export const ReportsApiAxiosParamCreator = function (configuration?: Configurati
             assertParamExists('updateReport', 'reportId', reportId)
             // verify required parameter 'updateReportRequest' is not null or undefined
             assertParamExists('updateReport', 'updateReportRequest', updateReportRequest)
-            const localVarPath = `/v1/organizations/{organizationId}/projects/{projectId}/reports/{reportId}`
+            const localVarPath = `/v1/projects/{projectId}/reports/{reportId}`
                 .replace(`{${"organizationId"}}`, encodeURIComponent(String(organizationId)))
                 .replace(`{${"projectId"}}`, encodeURIComponent(String(projectId)))
                 .replace(`{${"reportId"}}`, encodeURIComponent(String(reportId)));
@@ -7747,7 +7747,7 @@ export const SystemPropertiesApiAxiosParamCreator = function (configuration?: Co
             assertParamExists('getSystemProperty', 'projectId', projectId)
             // verify required parameter 'propertyId' is not null or undefined
             assertParamExists('getSystemProperty', 'propertyId', propertyId)
-            const localVarPath = `/v1/organizations/{organizationId}/projects/{projectId}/schema/system-properties/{propertyId}`
+            const localVarPath = `/v1/projects/{projectId}/schema/system-properties/{propertyId}`
                 .replace(`{${"organizationId"}}`, encodeURIComponent(String(organizationId)))
                 .replace(`{${"projectId"}}`, encodeURIComponent(String(projectId)))
                 .replace(`{${"propertyId"}}`, encodeURIComponent(String(propertyId)));
@@ -7790,7 +7790,7 @@ export const SystemPropertiesApiAxiosParamCreator = function (configuration?: Co
             assertParamExists('systemPropertiesList', 'organizationId', organizationId)
             // verify required parameter 'projectId' is not null or undefined
             assertParamExists('systemPropertiesList', 'projectId', projectId)
-            const localVarPath = `/v1/organizations/{organizationId}/projects/{projectId}/schema/system-properties`
+            const localVarPath = `/v1/projects/{projectId}/schema/system-properties`
                 .replace(`{${"organizationId"}}`, encodeURIComponent(String(organizationId)))
                 .replace(`{${"projectId"}}`, encodeURIComponent(String(projectId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -7953,7 +7953,7 @@ export const UserPropertiesApiAxiosParamCreator = function (configuration?: Conf
             assertParamExists('getUserProperty', 'projectId', projectId)
             // verify required parameter 'propertyId' is not null or undefined
             assertParamExists('getUserProperty', 'propertyId', propertyId)
-            const localVarPath = `/v1/organizations/{organizationId}/projects/{projectId}/schema/user-properties/{propertyId}`
+            const localVarPath = `/v1/projects/{projectId}/schema/user-properties/{propertyId}`
                 .replace(`{${"organizationId"}}`, encodeURIComponent(String(organizationId)))
                 .replace(`{${"projectId"}}`, encodeURIComponent(String(projectId)))
                 .replace(`{${"propertyId"}}`, encodeURIComponent(String(propertyId)));
@@ -8002,7 +8002,7 @@ export const UserPropertiesApiAxiosParamCreator = function (configuration?: Conf
             assertParamExists('updateUserProperty', 'propertyId', propertyId)
             // verify required parameter 'updatePropertyRequest' is not null or undefined
             assertParamExists('updateUserProperty', 'updatePropertyRequest', updatePropertyRequest)
-            const localVarPath = `/v1/organizations/{organizationId}/projects/{projectId}/schema/user-properties/{propertyId}`
+            const localVarPath = `/v1/projects/{projectId}/schema/user-properties/{propertyId}`
                 .replace(`{${"organizationId"}}`, encodeURIComponent(String(organizationId)))
                 .replace(`{${"projectId"}}`, encodeURIComponent(String(projectId)))
                 .replace(`{${"propertyId"}}`, encodeURIComponent(String(propertyId)));
@@ -8048,7 +8048,7 @@ export const UserPropertiesApiAxiosParamCreator = function (configuration?: Conf
             assertParamExists('userPropertiesList', 'organizationId', organizationId)
             // verify required parameter 'projectId' is not null or undefined
             assertParamExists('userPropertiesList', 'projectId', projectId)
-            const localVarPath = `/v1/organizations/{organizationId}/projects/{projectId}/schema/user-properties`
+            const localVarPath = `/v1/projects/{projectId}/schema/user-properties`
                 .replace(`{${"organizationId"}}`, encodeURIComponent(String(organizationId)))
                 .replace(`{${"projectId"}}`, encodeURIComponent(String(projectId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
