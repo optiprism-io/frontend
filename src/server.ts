@@ -23,6 +23,15 @@ import reportsMocks from '@/mocks/reports/reports.json';
 import dashboardsMocks from '@/mocks/dashboards';
 import groupRecordsMocks from '@/mocks/groupRecords.json';
 import profileMocks, { userId } from '@/mocks/profile';
+import { fromPairs } from 'lodash';
+
+interface ServerErrorResponse {
+  error: {
+    status: number;
+    fields?: Record<string, string>;
+    message?: string;
+  };
+}
 
 const alphabet = '0123456789';
 const nanoid = customAlphabet(alphabet, 4);
@@ -62,7 +71,8 @@ enum HttpStatusCode {
 }
 
 enum Stub {
-    ERROR= 'error'
+    ERROR = 'error',
+    TOAST = 'toast'
 }
 
 const dbTemplateKeys = Object.keys(dbTemplate);
@@ -78,6 +88,20 @@ const emptyDbTemplate = dbTemplateKeys.reduce((acc: { [key: string]: [] }, key) 
     acc[key] = [];
     return acc;
 }, {});
+
+type KeyError = string
+type MessageError = string
+
+function getErrorResponse(errors: [KeyError, MessageError][]): ServerErrorResponse {
+    const fields = fromPairs(errors)
+
+    return {
+        error: {
+            status: HttpStatusCode.BAD_REQUEST,
+            fields
+        },
+    }
+}
 
 export default function ({ environment = 'development', isSeed = true } = {}) {
     const params = useUrlSearchParams('history');
@@ -341,12 +365,23 @@ export default function ({ environment = 'development', isSeed = true } = {}) {
 
             this.put(`${BASE_PATH}/v1/profile/name`, (schema, request) => {
                 const { name } = JSON.parse(request.requestBody) as UpdateProfileNameRequest
- 
-                if (name.toLowerCase() === Stub.ERROR) return new Response(HttpStatusCode.BAD_REQUEST, EMPTY_HEADER_RESPONSE, {
-                    'fields': {
-                        'name': 'Name is incorrect',
-                    }
-                })
+
+                if (name.toLowerCase() === Stub.TOAST)
+                    return new Response(
+                        HttpStatusCode.BAD_REQUEST,
+                        EMPTY_HEADER_RESPONSE,
+                        {
+                            'error': {
+                                'status': HttpStatusCode.BAD_REQUEST,
+                                'message': Stub.ERROR
+                            }
+                        })
+
+                if (name.toLowerCase() === Stub.ERROR)
+                    return new Response(
+                        HttpStatusCode.BAD_REQUEST,
+                        EMPTY_HEADER_RESPONSE,
+                        getErrorResponse([['name', 'Name is incorrect']]))
                 
                 schema.db.profile.update(userId, { name })
                 return EMPTY_SUCCESS_RES
@@ -357,11 +392,22 @@ export default function ({ environment = 'development', isSeed = true } = {}) {
                     request.requestBody
                 ) as UpdateProfileEmailRequest;
 
-                if (password.toLowerCase() === Stub.ERROR) return new Response(HttpStatusCode.BAD_REQUEST, EMPTY_HEADER_RESPONSE, {
-                    'fields': {
-                        'password': 'Password is incorrect',
-                    }
-                })
+                if (password.toLowerCase() === Stub.TOAST)
+                    return new Response(
+                        HttpStatusCode.BAD_REQUEST,
+                        EMPTY_HEADER_RESPONSE,
+                        {
+                            'error': {
+                                'status': HttpStatusCode.BAD_REQUEST,
+                                'message': Stub.ERROR
+                            }
+                        })
+
+                if (password.toLowerCase() === Stub.ERROR)
+                    return new Response(
+                        HttpStatusCode.BAD_REQUEST,
+                        EMPTY_HEADER_RESPONSE,
+                        getErrorResponse([['password', 'Password is incorrect']]))
 
                 schema.db.profile.update(userId, { email })
                 return TokensResponse
@@ -372,24 +418,34 @@ export default function ({ environment = 'development', isSeed = true } = {}) {
                     request.requestBody
                 ) as UpdateProfilePasswordRequest;
 
-                if (password.toLowerCase() === Stub.ERROR && newPassword.toLowerCase() === Stub.ERROR) return new Response(HttpStatusCode.BAD_REQUEST, EMPTY_HEADER_RESPONSE, {
-                    'fields': {
-                        'password': 'Password is incorrect',
-                        'newPassword': 'Password is incorrect',
-                    }
-                })
-
-                if (password.toLowerCase() === Stub.ERROR) return new Response(HttpStatusCode.BAD_REQUEST, EMPTY_HEADER_RESPONSE, {
-                    'fields': {
-                        'password': 'Password is incorrect',
-                    }
-                })
+                if (password.toLowerCase() === Stub.TOAST || newPassword.toLowerCase() === Stub.TOAST)
+                    return new Response(
+                        HttpStatusCode.BAD_REQUEST,
+                        EMPTY_HEADER_RESPONSE,
+                        {
+                            'error': {
+                                'status': HttpStatusCode.BAD_REQUEST,
+                                'message': Stub.ERROR
+                            }
+                        })
                 
-                if (newPassword.toLowerCase() === Stub.ERROR) return new Response(HttpStatusCode.BAD_REQUEST, EMPTY_HEADER_RESPONSE, {
-                    'fields': {
-                        'newPassword': 'Password is incorrect',
-                    }
-                })
+                if (password.toLowerCase() === Stub.ERROR && newPassword.toLowerCase() === Stub.ERROR)
+                    return new Response(
+                        HttpStatusCode.BAD_REQUEST,
+                        EMPTY_HEADER_RESPONSE,
+                        getErrorResponse([['password', 'Password is incorrect'], ['newPassword', 'Password is incorrect']]))
+
+                if (password.toLowerCase() === Stub.ERROR)
+                    return new Response(
+                        HttpStatusCode.BAD_REQUEST,
+                        EMPTY_HEADER_RESPONSE,
+                        getErrorResponse([['password', 'Password is incorrect']]))
+
+                if (newPassword.toLowerCase() === Stub.ERROR)
+                    return new Response(
+                        HttpStatusCode.BAD_REQUEST,
+                        EMPTY_HEADER_RESPONSE,
+                        getErrorResponse([['newPassword', 'Password is incorrect']]))
 
                 schema.db.profile.update(userId, { password: newPassword })
                 return TokensResponse

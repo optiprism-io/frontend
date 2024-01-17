@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia';
 import {
+    ErrorResponse,
     UpdateProfileEmailRequest,
     UpdateProfileNameRequest,
     UpdateProfilePasswordRequest,
@@ -81,9 +82,14 @@ export const useProfileStore = defineStore('profile', {
             try {
                 await this.__updateName({ name })
             } catch (error: any) {
-                if (error?.fields?.name) {
-                    this.errors.updateName.name = new Error(error.fields.name)
-                    return
+                if (error.error) {
+                    const err = error.error as ErrorResponse
+
+                    if (err?.fields?.name) {
+                        this.errors.updateName.name = new Error(err.fields.name)
+                        return
+                    }
+                    throw new Error(err?.message || 'error update email')
                 }
                 throw new Error(error?.message || 'error update name')
             }
@@ -103,11 +109,15 @@ export const useProfileStore = defineStore('profile', {
             try {
                 await this.__updateEmail({ email, password })
             } catch (error: any) {
-                if (error?.fields) {
-                    if (error.fields?.email) this.errors.updateEmail.email = new Error(error.fields.email)
-                    if (error.fields?.password)
-                        this.errors.updateEmail.password = new Error(error.fields.password)
-                    return
+                if (error.error) {
+                    const err = error.error as ErrorResponse
+
+                    if (err.fields) {
+                        if (err.fields.email) this.errors.updateEmail.email = new Error(err.fields.email)
+                        if (err.fields.password) this.errors.updateEmail.password = new Error(err.fields.password)
+                        return 
+                    }
+                    throw new Error(err?.message || 'error update email')
                 }
                 throw new Error(error?.message || 'error update email')
             }
@@ -137,12 +147,17 @@ export const useProfileStore = defineStore('profile', {
             try {
                 await this.__updatePassword({ password, newPassword })
             } catch (error: any) {
-                if (error?.fields) {
-                    if (error.fields?.password)
-                        this.errors.updatePassword.password = new Error(error.fields.password)
-                    if (error.fields?.newPassword)
-                        this.errors.updatePassword.newPassword = new Error(error.fields.newPassword)
-                    return
+                if (error.error) {
+                    const err = error.error as ErrorResponse
+
+                    if (err?.fields) {
+                        if (err.fields?.password)
+                            this.errors.updatePassword.password = new Error(err.fields.password)
+                        if (err.fields?.newPassword)
+                            this.errors.updatePassword.newPassword = new Error(err.fields.newPassword)
+                        return
+                    }
+                    throw new Error(err?.message || 'error update email')
                 }
                 throw new Error(error?.message || 'error update password')
             }
