@@ -12,6 +12,7 @@
                     v-model="name"
                     :invalid="!!errors.updateName.name?.message"
                     @input="emit('input-name')"
+                    @keyup.enter="saveNameHandler"
                 />
             </UiInlineEditSlot>
             <UiFormError :error="errors.updateName.name?.message" />
@@ -36,6 +37,7 @@
                                 type="email"
                                 :invalid="!!errors.updateEmail.email?.message"
                                 @input="emit('input-email')"
+                                @keyup.enter="saveEmailHandler"
                             />
                         </UiLabelAndSlot>
                         <UiFormError :error="errors.updateEmail.email?.message" />
@@ -48,6 +50,7 @@
                                 type="password"
                                 :invalid="!!errors.updateEmail.password?.message"
                                 @input="emit('input-pass-email')"
+                                @keyup.enter="saveEmailHandler"
                             />
                         </UiLabelAndSlot>
                         <UiFormError :error="errors.updateEmail.password?.message" />
@@ -75,6 +78,7 @@
                                 type="password"
                                 :invalid="!!errors.updatePassword.password?.message"
                                 @input="emit('input-pass')"
+                                @keyup.enter="savePassHandler"
                             />
                         </UiLabelAndSlot>
                         <UiFormError :error="errors.updatePassword.password?.message" />
@@ -86,6 +90,7 @@
                                 type="password"
                                 :invalid="!!errors.updatePassword.newPassword?.message"
                                 @input="emit('input-pass-confirm')"
+                                @keyup.enter="savePassHandler"
                             />
                         </UiLabelAndSlot>
                         <UiFormError :error="errors.updatePassword.newPassword?.message" />
@@ -97,6 +102,7 @@
                                 type="password"
                                 :invalid="!!errors.updatePassword.confirmPassword?.message"
                                 @input="emit('input-pass-confirm')"
+                                @keyup.enter="savePassHandler"
                             />
                         </UiLabelAndSlot>
                         <UiFormError
