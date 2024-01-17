@@ -222,13 +222,13 @@ paths:
           $ref: '#/components/responses/Internal'
         '503':
           $ref: '#/components/responses/ServiceUnavailable'
-    put:
+    patch:
       summary: Update project
       operationId: updateProject
       security:
         - bearerAuth: [ ]
       tags:
-        - profile
+        - project
       requestBody:
         required: true
         content:
