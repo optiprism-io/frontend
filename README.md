@@ -1,9 +1,9 @@
 # Vue 3 + Typescript + Vite
 
-`node v16.11.1 (npm v8.0.0)`
-
 Startup and installation using standard commands from the vite (scripts in package.json)
 
+## System requirements
+Minimum system requirements are listed in `package.json` in the `engines` section
 
 ## Info
 - Сoding style is based on rules from `.eslintrc.cjs`
