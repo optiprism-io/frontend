@@ -1,4 +1,4 @@
-import { UpdateProfilePasswordRequest } from '@/api';
+import { ErrorResponse, UpdateProfilePasswordRequest } from '@/api'
 
 export interface ProfileErrors {
   updateName: {
@@ -23,4 +23,8 @@ export interface ProfileEdit {
  
 export interface UpdateProfilePasswordRequestExt extends UpdateProfilePasswordRequest {
     confirmPassword: string;
+}
+
+export function isErrorResponseError(err: any):err is ErrorResponse {
+  return "error" in err
 }

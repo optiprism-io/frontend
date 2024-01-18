@@ -26,7 +26,7 @@ const createErrorGeneral = (res: ErrorResponse, text?: string) => {
     alertsStore.createAlert({
         time: 7000,
         type: 'danger',
-        text: text ?? res?.message ?? t('errors.internal'),
+        text: text ?? res.error?.message ?? t('errors.internal'),
     });
 };
 
