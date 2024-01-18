@@ -14,10 +14,11 @@ import {
     notEmptyStringScheme,
 } from '@/stores/profile/validationSchemes';
 import {
+    isErrorResponseError,
     ProfileEdit,
     ProfileErrors,
     UpdateProfilePasswordRequestExt,
-} from '@/stores/profile/types';
+} from '@/stores/profile/types'
 
 interface ProfileState {
   profile: {
@@ -81,17 +82,18 @@ export const useProfileStore = defineStore('profile', {
 
             try {
                 await this.__updateName({ name })
-            } catch (error: any) {
-                if (error.error) {
-                    const err = error.error as ErrorResponse
+            } catch (error) {
+                if (isErrorResponseError(error)) {
+                    const err = error.error
 
                     if (err?.fields?.name) {
                         this.errors.updateName.name = new Error(err.fields.name)
                         return
                     }
-                    throw new Error(err?.message || 'error update email')
+
+                    if (err?.message) throw new Error(err.message)
                 }
-                throw new Error(error?.message || 'error update name')
+                throw new Error('error update name')
             }
 
             this.resetEditName()
@@ -108,18 +110,19 @@ export const useProfileStore = defineStore('profile', {
 
             try {
                 await this.__updateEmail({ email, password })
-            } catch (error: any) {
-                if (error.error) {
-                    const err = error.error as ErrorResponse
+            } catch (error) {
+                if (isErrorResponseError(error)) {
+                    const err = error.error
 
-                    if (err.fields) {
+                    if (err?.fields) {
                         if (err.fields.email) this.errors.updateEmail.email = new Error(err.fields.email)
                         if (err.fields.password) this.errors.updateEmail.password = new Error(err.fields.password)
                         return 
                     }
-                    throw new Error(err?.message || 'error update email')
+
+                    if (err?.message) throw new Error(err.message)
                 }
-                throw new Error(error?.message || 'error update email')
+                throw new Error('error update email')
             }
 
             this.resetEditEmail()
@@ -146,9 +149,9 @@ export const useProfileStore = defineStore('profile', {
 
             try {
                 await this.__updatePassword({ password, newPassword })
-            } catch (error: any) {
-                if (error.error) {
-                    const err = error.error as ErrorResponse
+            } catch (error) {
+                if (isErrorResponseError(error)) {
+                    const err = error.error
 
                     if (err?.fields) {
                         if (err.fields?.password)
@@ -157,9 +160,10 @@ export const useProfileStore = defineStore('profile', {
                             this.errors.updatePassword.newPassword = new Error(err.fields.newPassword)
                         return
                     }
-                    throw new Error(err?.message || 'error update email')
+
+                    if (err?.message) throw new Error(err.message)
                 }
-                throw new Error(error?.message || 'error update password')
+                throw new Error('error update password')
             }
 
             this.resetEditPassword()
