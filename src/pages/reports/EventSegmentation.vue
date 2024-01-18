@@ -89,7 +89,7 @@ const getEventSegmentation = async () => {
     if (eventsStore.propsForEventSegmentationResult.events.length) {
         eventSegmentationLoading.value = true;
         try {
-            const res = await reportsService.eventSegmentation(commonStore.organizationId, commonStore.projectId,  eventsStore.propsForEventSegmentationResult);
+            const res = await reportsService.eventSegmentation(commonStore.projectId,  eventsStore.propsForEventSegmentationResult);
             if (res) {
                 eventSegmentation.value = res.data as DataTableResponse;
             }

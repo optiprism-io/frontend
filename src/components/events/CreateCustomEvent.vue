@@ -237,10 +237,10 @@ const apply = async () => {
         if (isEdit.value) {
             const data: UpdateCustomEventRequest = resultEvent.value
             data.status = eventStatus.value ? EventStatus.Enabled : EventStatus.Disabled;
-            await schemaService.updateCustomEvent(commonStore.organizationId, commonStore.projectId, String(editedEvent.value?.id), data)
+            await schemaService.updateCustomEvent(commonStore.projectId, String(editedEvent.value?.id), data)
         } else {
             const data: CreateCustomEventRequest = resultEvent.value
-            await schemaService.createCustomEvent(commonStore.organizationId, commonStore.projectId, data)
+            await schemaService.createCustomEvent(commonStore.projectId, data)
         }
 
         await lexiconStore.getEvents()
@@ -275,7 +275,7 @@ onBeforeMount(async () => {
                         let valuesList: Array<Value> = []
 
                         try {
-                            const res = await schemaService.propertyValues(commonStore.organizationId, commonStore.projectId, {
+                            const res = await schemaService.propertyValues(commonStore.projectId, {
                                 eventName: item.eventName,
                                 eventType: item.eventType,
                                 propertyName: filter.propertyName || '',

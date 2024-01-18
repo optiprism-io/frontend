@@ -104,7 +104,7 @@ const getTime = (props: GetTime) => {
 const getValues = async (props: GetValues) => {
     const commonStore = useCommonStore()
     let valuesList: Value[] = []
-    const res = await schemaService.propertyValues(commonStore.organizationId, commonStore.projectId, {
+    const res = await schemaService.propertyValues(commonStore.projectId, {
         propertyType: props.propertyType || PropertyType.User,
         eventType: props.eventType || EventType.Regular,
         propertyName: props.propertyName,
@@ -204,7 +204,7 @@ const mapReportToFilterGroups = async (items: EventGroupedFiltersGroupsInner[]):
             filters: item.filters ? await Promise.all(item.filters.map(async (filter): Promise<Filter> => {
                 let valuesList: Value[] = []
                 try {
-                    const res = await schemaService.propertyValues(commonStore.organizationId, commonStore.projectId, {
+                    const res = await schemaService.propertyValues(commonStore.projectId, {
                         propertyName: filter.propertyName || '',
                         propertyType: filter.propertyType,
                         eventType: EventType.Regular,

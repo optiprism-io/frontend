@@ -10,8 +10,8 @@ const queryApi = new QueryApi(config)
 const eventRecordsApi = new EventRecordsApi(config)
 
 const dataService = {
-    createEventsStream: async(organizationId: number, projectId: number, eventListRequest: EventRecordsListRequest) => await eventRecordsApi.eventRecordsList(organizationId, projectId, eventListRequest),
-    funnelQuery: async (organizationId: number, projectId: number, query: FunnelQuery) => await queryApi.funnelQuery(organizationId, projectId, query)
+    createEventsStream: async(projectId: number, eventListRequest: EventRecordsListRequest) => await eventRecordsApi.eventRecordsList(projectId, eventListRequest),
+    funnelQuery: async (projectId: number, query: FunnelQuery) => await queryApi.funnelQuery(projectId, query)
 }
 
 export default dataService

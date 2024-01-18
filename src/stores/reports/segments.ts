@@ -331,7 +331,7 @@ export const useSegmentsStore = defineStore('segments', {
                 const lexiconStore = useLexiconStore()
                 const commonStore = useCommonStore()
 
-                const res = await schemaService.propertyValues(commonStore.organizationId, commonStore.projectId, {
+                const res = await schemaService.propertyValues(commonStore.projectId, {
                     eventName: lexiconStore.eventName(eventRef),
                     eventType: eventRef.type,
                     propertyName: lexiconStore.propertyName(propRef),
@@ -459,7 +459,7 @@ export const useSegmentsStore = defineStore('segments', {
                     const commonStore = useCommonStore()
 
                     try {
-                        const res = await schemaService.propertyValues(commonStore.organizationId, commonStore.projectId, {
+                        const res = await schemaService.propertyValues(commonStore.projectId, {
                             propertyType: condition.propRef?.type as PropertyType || PropertyType.User,
                             eventType: condition.event?.ref?.type as EventType,
                             propertyName: lexiconStore.propertyName(ref),

@@ -114,7 +114,7 @@ const getEventSegmentation = async () => {
                 query.time = filterTime.value;
             }
             if (query.events.length) {
-                const res = await reportsService.eventSegmentation(commonStore.organizationId, commonStore.projectId, query);
+                const res = await reportsService.eventSegmentation(commonStore.projectId, query);
                 if (res) {
                     eventSegmentation.value = res.data as DataTableResponse
                 }
@@ -137,7 +137,7 @@ const getFunnelsReport = async () => {
             if (ifChangeAnyInFilterTime.value) {
                 query.time = filterTime.value;
             }
-            const res = await dataService.funnelQuery(commonStore.organizationId, commonStore.projectId, query);
+            const res = await dataService.funnelQuery(commonStore.projectId, query);
 
             if (res?.data?.columns) {
                 funnelsReport.value = res.data.columns as DataTableResponseColumnsInner[]

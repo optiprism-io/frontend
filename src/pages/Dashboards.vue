@@ -345,9 +345,9 @@ const updateCreateDashboard = async (panels?: Layout[]) => {
             })
         }
         if (activeDashboardId.value) {
-            await dashboardService.updateDashboard(commonStore.organizationId, commonStore.projectId, activeDashboardId.value, dataForRequest)
+            await dashboardService.updateDashboard(commonStore.projectId, activeDashboardId.value, dataForRequest)
         } else {
-            const res = await dashboardService.createDashboard(commonStore.organizationId, commonStore.projectId, dataForRequest)
+            const res = await dashboardService.createDashboard(commonStore.projectId, dataForRequest)
             if (res.data?.id) {
                 dashboardName.value = res.data?.name || dashboardName.value || untitledDashboardName.value;
                 onSelectDashboard(res.data?.id);
@@ -367,7 +367,7 @@ const onDeleteDashboard = async () => {
             applyButtonClass: 'pf-m-danger',
         });
 
-        await dashboardService.deleteDashboard(commonStore.organizationId, commonStore.projectId, activeDashboardId.value);
+        await dashboardService.deleteDashboard(commonStore.projectId, activeDashboardId.value);
         await getDashboardsList();
 
         if (dashboardsId.value?.length) {

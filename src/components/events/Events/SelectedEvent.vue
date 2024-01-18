@@ -293,7 +293,7 @@ const getPropertyValues = async (propRef: PropertyRef) => {
     let valuesList: Value[] = []
 
     try {
-        const res = await schemaService.propertyValues(commonStore.organizationId, commonStore.projectId, {
+        const res = await schemaService.propertyValues(commonStore.projectId, {
             eventName: lexiconStore.eventName(props.event.ref),
             eventType: props.event.ref.type as EventType,
             propertyName: lexiconStore.propertyName(propRef),

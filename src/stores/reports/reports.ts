@@ -87,7 +87,7 @@ export const useReportsStore = defineStore('reports', {
         async getList() {
             const commonStore = useCommonStore();
             try {
-                const res = await reportsService.reportsList(commonStore.organizationId, commonStore.projectId)
+                const res = await reportsService.reportsList(commonStore.projectId)
                 if (res.data?.data) {
                     this.list = res.data.data
                 }
@@ -99,7 +99,7 @@ export const useReportsStore = defineStore('reports', {
             this.saveLoading = true
             const commonStore = useCommonStore()
             try {
-                const res = await reportsService.createReport(commonStore.organizationId, commonStore.projectId, {
+                const res = await reportsService.createReport(commonStore.projectId, {
                     type,
                     name,
                     query: getReport(type)
@@ -116,7 +116,7 @@ export const useReportsStore = defineStore('reports', {
         async editReport(name: string, type: ReportType) {
             this.saveLoading = true
             const commonStore = useCommonStore()
-            await reportsService.updateReport(commonStore.organizationId, commonStore.projectId, Number(this.reportId), {
+            await reportsService.updateReport(commonStore.projectId, Number(this.reportId), {
                 name,
                 query: getReport(type)
             })
@@ -124,7 +124,7 @@ export const useReportsStore = defineStore('reports', {
         },
         async deleteReport(reportId: number) {
             const commonStore = useCommonStore()
-            await reportsService.deleteReport(commonStore.organizationId, commonStore.projectId, Number(reportId))
+            await reportsService.deleteReport(commonStore.projectId, Number(reportId))
         },
     },
 })

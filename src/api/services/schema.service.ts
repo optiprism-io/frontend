@@ -46,19 +46,19 @@ export interface CustomEvents extends Omit<CreateCustomEventRequest, 'events'> {
 }
 
 const schemaService = {
-    events: async (organizationId: number, projectId: number) => await api.eventsList(organizationId, projectId),
-    updateEvent: async(organizationId: number, projectId: number, eventId: string, params: UpdateEventRequest) => await api.updateEvent(organizationId, projectId, eventId, params),
-    customEvents: async (organizationId: number, projectId: number) => await customEventsApi.customEventsList(organizationId, projectId),
-    createCustomEvent: async (organizationId: number, projectId: number, params: CreateCustomEventRequest) => await customEventsApi.createCustomEvent(organizationId, projectId, params),
-    updateCustomEvent: async(organizationId: number, projectId: number, eventId: string, params: UpdateCustomEventRequest) => await customEventsApi.updateCustomEvent(organizationId, projectId, eventId, params),
-    deleteCustomEvents: async (organizationId: number, projectId: number, eventId: number) => await customEventsApi.deleteCustomEvent(organizationId, projectId, eventId),
-    eventCustomProperties: async (organizationId: number, projectId: number) => await propertiesApi.customPropertiesList(organizationId, projectId),
-    eventProperties: async (organizationId: number, projectId: number) => await eventPropertiesApi.eventPropertiesList(organizationId, projectId),
-    updateEventProperty: async(organizationId: number, projectId: number, propertyId: string, params: UpdatePropertyRequest) => await eventPropertiesApi.updateEventProperty(organizationId, projectId, propertyId, params),
-    userProperties: async (organizationId: number, projectId: number) => await userPropertiesApi.userPropertiesList(organizationId, projectId),
-    updateUserProperty: async(organizationId: number, projectId: number, propertyId: number, params: UpdatePropertyRequest) => await userPropertiesApi.updateUserProperty(organizationId, projectId, propertyId, params),
-    propertyValues: async(organizationId: number, projectId: number, params: ListPropertyValuesRequest) => await propertyValuesApi.propertyValuesList(organizationId, projectId, params),
-    systemProperties: async(organizationId: number, projectId: number) => await systemPropertiesApi.systemPropertiesList(organizationId, projectId),
+    events: async (projectId: number) => await api.eventsList(projectId),
+    updateEvent: async(projectId: number, eventId: string, params: UpdateEventRequest) => await api.updateEvent(projectId, eventId, params),
+    customEvents: async (projectId: number) => await customEventsApi.customEventsList(projectId),
+    createCustomEvent: async (projectId: number, params: CreateCustomEventRequest) => await customEventsApi.createCustomEvent(projectId, params),
+    updateCustomEvent: async(projectId: number, eventId: string, params: UpdateCustomEventRequest) => await customEventsApi.updateCustomEvent(projectId, eventId, params),
+    deleteCustomEvents: async (projectId: number, eventId: number) => await customEventsApi.deleteCustomEvent(projectId, eventId),
+    eventCustomProperties: async (projectId: number) => await propertiesApi.customPropertiesList(projectId),
+    eventProperties: async (projectId: number) => await eventPropertiesApi.eventPropertiesList(projectId),
+    updateEventProperty: async(projectId: number, propertyId: string, params: UpdatePropertyRequest) => await eventPropertiesApi.updateEventProperty(projectId, propertyId, params),
+    userProperties: async (projectId: number) => await userPropertiesApi.userPropertiesList(projectId),
+    updateUserProperty: async(projectId: number, propertyId: number, params: UpdatePropertyRequest) => await userPropertiesApi.updateUserProperty(projectId, propertyId, params),
+    propertyValues: async(projectId: number, params: ListPropertyValuesRequest) => await propertyValuesApi.propertyValuesList(projectId, params),
+    systemProperties: async(projectId: number) => await systemPropertiesApi.systemPropertiesList(projectId),
 };
 
 export default schemaService
