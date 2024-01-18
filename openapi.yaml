@@ -201,7 +201,156 @@ paths:
           $ref: '#/components/responses/Internal'
         '503':
           $ref: '#/components/responses/ServiceUnavailable'
-  /v1/organizations/{organizationId}/projects/{projectId}/dashboards:
+  /v1/projects:
+    get:
+      summary: Projects list
+      operationId: projectsList
+      security:
+        - bearerAuth: [ ]
+      tags:
+        - projects
+      parameters:
+        - $ref: '#/components/parameters/ProjectID'
+      responses:
+        '200':
+          $ref: '#/components/responses/ListProjectsResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/Internal'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+    post:
+      summary: Create project
+      operationId: createProject
+      security:
+        - bearerAuth: [ ]
+      tags:
+        - projects
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateProjectRequest'
+      responses:
+        201:
+          description: project
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/Internal'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+  /v1/projects/{projectId}:
+    get:
+      summary: Get project
+      operationId: project
+      security:
+        - bearerAuth: [ ]
+      tags:
+        - projects
+      parameters:
+        - $ref: '#/components/parameters/ProjectID'
+      responses:
+        200:
+          description: project
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/Internal'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+    put:
+      summary: Update project
+      operationId: updateProject
+      security:
+        - bearerAuth: [ ]
+      tags:
+        - projects
+      parameters:
+        - $ref: '#/components/parameters/ProjectID'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateProjectRequest'
+      responses:
+        200:
+          description: project
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/Internal'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+    delete:
+      summary: Delete project
+      operationId: deleteProject
+      security:
+        - bearerAuth: [ ]
+      tags:
+        - projects
+      parameters:
+        - $ref: '#/components/parameters/ProjectID'
+      responses:
+        200:
+          description: deleted successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/Internal'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+## ##
+  /v1/projects/{projectId}/dashboards:
     get:
       summary: Dashboards list
       operationId: dashboardsList
@@ -210,7 +359,6 @@ paths:
       tags:
         - dashboards
       parameters:
-        - $ref: '#/components/parameters/OrganizationID'
         - $ref: '#/components/parameters/ProjectID'
       responses:
         '200':
@@ -235,7 +383,6 @@ paths:
       tags:
         - dashboards
       parameters:
-        - $ref: '#/components/parameters/OrganizationID'
         - $ref: '#/components/parameters/ProjectID'
       requestBody:
         required: true
@@ -262,7 +409,7 @@ paths:
           $ref: '#/components/responses/Internal'
         '503':
           $ref: '#/components/responses/ServiceUnavailable'
-  /v1/organizations/{organizationId}/projects/{projectId}/dashboards/{dashboardId}:
+  /v1/projects/{projectId}/dashboards/{dashboardId}:
     get:
       summary: Get dashboard
       operationId: getDashboard
@@ -271,7 +418,6 @@ paths:
       tags:
         - dashboards
       parameters:
-        - $ref: '#/components/parameters/OrganizationID'
         - $ref: '#/components/parameters/ProjectID'
         - name: dashboardId
           in: path
@@ -306,7 +452,6 @@ paths:
       tags:
         - dashboards
       parameters:
-        - $ref: '#/components/parameters/OrganizationID'
         - $ref: '#/components/parameters/ProjectID'
         - name: dashboardId
           in: path
@@ -347,7 +492,6 @@ paths:
       tags:
         - dashboards
       parameters:
-        - $ref: '#/components/parameters/OrganizationID'
         - $ref: '#/components/parameters/ProjectID'
         - name: dashboardId
           in: path
@@ -374,7 +518,7 @@ paths:
           $ref: '#/components/responses/Internal'
         '503':
           $ref: '#/components/responses/ServiceUnavailable'
-  /v1/organizations/{organizationId}/projects/{projectId}/reports:
+  /v1/projects/{projectId}/reports:
     get:
       summary: Reports list
       operationId: reportsList
@@ -383,7 +527,6 @@ paths:
       tags:
         - reports
       parameters:
-        - $ref: '#/components/parameters/OrganizationID'
         - $ref: '#/components/parameters/ProjectID'
       responses:
         '200':
@@ -419,7 +562,6 @@ paths:
       tags:
         - reports
       parameters:
-        - $ref: '#/components/parameters/OrganizationID'
         - $ref: '#/components/parameters/ProjectID'
       requestBody:
         required: true
@@ -446,7 +588,7 @@ paths:
           $ref: '#/components/responses/Internal'
         '503':
           $ref: '#/components/responses/ServiceUnavailable'
-  /v1/organizations/{organizationId}/projects/{projectId}/reports/{reportId}:
+  /v1/projects/{projectId}/reports/{reportId}:
     get:
       summary: Get report
       operationId: getReport
@@ -455,7 +597,6 @@ paths:
       tags:
         - reports
       parameters:
-        - $ref: '#/components/parameters/OrganizationID'
         - $ref: '#/components/parameters/ProjectID'
         - name: reportId
           in: path
@@ -490,7 +631,6 @@ paths:
       tags:
         - reports
       parameters:
-        - $ref: '#/components/parameters/OrganizationID'
         - $ref: '#/components/parameters/ProjectID'
         - name: reportId
           in: path
@@ -531,7 +671,6 @@ paths:
       tags:
         - reports
       parameters:
-        - $ref: '#/components/parameters/OrganizationID'
         - $ref: '#/components/parameters/ProjectID'
         - name: reportId
           in: path
@@ -554,7 +693,7 @@ paths:
           $ref: '#/components/responses/Internal'
         '503':
           $ref: '#/components/responses/ServiceUnavailable'
-  /v1/organizations/{organizationId}/projects/{projectId}/schema/events:
+  /v1/projects/{projectId}/schema/events:
     get:
       summary: Events list
       operationId: eventsList
@@ -563,7 +702,6 @@ paths:
       tags:
         - events
       parameters:
-        - $ref: '#/components/parameters/OrganizationID'
         - $ref: '#/components/parameters/ProjectID'
       responses:
         '200':
@@ -591,7 +729,7 @@ paths:
           $ref: '#/components/responses/Internal'
         '503':
           $ref: '#/components/responses/ServiceUnavailable'
-  /v1/organizations/{organizationId}/projects/{projectId}/schema/events/{eventId}:
+  /v1/projects/{projectId}/schema/events/{eventId}:
     get:
       summary: Get event
       operationId: getEvent
@@ -600,7 +738,6 @@ paths:
       tags:
         - events
       parameters:
-        - $ref: '#/components/parameters/OrganizationID'
         - $ref: '#/components/parameters/ProjectID'
         - name: eventId
           in: path
@@ -635,7 +772,6 @@ paths:
       tags:
         - events
       parameters:
-        - $ref: '#/components/parameters/OrganizationID'
         - $ref: '#/components/parameters/ProjectID'
         - name: eventId
           in: path
@@ -668,7 +804,7 @@ paths:
           $ref: '#/components/responses/Internal'
         '503':
           $ref: '#/components/responses/ServiceUnavailable'
-  /v1/organizations/{organizationId}/projects/{projectId}/schema/custom-events:
+  /v1/projects/{projectId}/schema/custom-events:
     get:
       summary: Custom events list
       operationId: customEventsList
@@ -677,7 +813,6 @@ paths:
       tags:
         - custom events
       parameters:
-        - $ref: '#/components/parameters/OrganizationID'
         - $ref: '#/components/parameters/ProjectID'
       responses:
         '200':
@@ -714,7 +849,6 @@ paths:
       tags:
         - custom events
       parameters:
-        - $ref: '#/components/parameters/OrganizationID'
         - $ref: '#/components/parameters/ProjectID'
       requestBody:
         required: true
@@ -741,7 +875,7 @@ paths:
           $ref: '#/components/responses/Internal'
         '503':
           $ref: '#/components/responses/ServiceUnavailable'
-  /v1/organizations/{organizationId}/projects/{projectId}/schema/custom-events/{eventId}:
+  /v1/projects/{projectId}/schema/custom-events/{eventId}:
     get:
       summary: Get custom event
       operationId: getCustomEvent
@@ -750,7 +884,6 @@ paths:
       tags:
         - custom events
       parameters:
-        - $ref: '#/components/parameters/OrganizationID'
         - $ref: '#/components/parameters/ProjectID'
         - name: eventId
           in: path
@@ -785,7 +918,6 @@ paths:
       tags:
         - custom events
       parameters:
-        - $ref: '#/components/parameters/OrganizationID'
         - $ref: '#/components/parameters/ProjectID'
         - name: eventId
           in: path
@@ -816,7 +948,6 @@ paths:
       tags:
         - custom events
       parameters:
-        - $ref: '#/components/parameters/OrganizationID'
         - $ref: '#/components/parameters/ProjectID'
         - name: eventId
           in: path
@@ -849,7 +980,7 @@ paths:
           $ref: '#/components/responses/Internal'
         '503':
           $ref: '#/components/responses/ServiceUnavailable'
-  /v1/organizations/{organizationId}/projects/{projectId}/schema/user-properties:
+  /v1/projects/{projectId}/schema/user-properties:
     get:
       summary: User properties list
       operationId: userPropertiesList
@@ -858,7 +989,6 @@ paths:
       tags:
         - user properties
       parameters:
-        - $ref: '#/components/parameters/OrganizationID'
         - $ref: '#/components/parameters/ProjectID'
       responses:
         '200':
@@ -882,7 +1012,7 @@ paths:
           $ref: '#/components/responses/Internal'
         '503':
           $ref: '#/components/responses/ServiceUnavailable'
-  /v1/organizations/{organizationId}/projects/{projectId}/schema/user-properties/{propertyId}:
+  /v1/projects/{projectId}/schema/user-properties/{propertyId}:
     get:
       summary: Get user property
       operationId: getUserProperty
@@ -891,7 +1021,6 @@ paths:
       tags:
         - user properties
       parameters:
-        - $ref: '#/components/parameters/OrganizationID'
         - $ref: '#/components/parameters/ProjectID'
         - name: propertyId
           in: path
@@ -926,7 +1055,6 @@ paths:
       tags:
         - user properties
       parameters:
-        - $ref: '#/components/parameters/OrganizationID'
         - $ref: '#/components/parameters/ProjectID'
         - name: propertyId
           in: path
@@ -959,7 +1087,7 @@ paths:
           $ref: '#/components/responses/Internal'
         '503':
           $ref: '#/components/responses/ServiceUnavailable'
-  /v1/organizations/{organizationId}/projects/{projectId}/schema/event-properties:
+  /v1/projects/{projectId}/schema/event-properties:
     get:
       summary: Event properties list
       operationId: eventPropertiesList
@@ -968,7 +1096,6 @@ paths:
       tags:
         - event properties
       parameters:
-        - $ref: '#/components/parameters/OrganizationID'
         - $ref: '#/components/parameters/ProjectID'
       responses:
         '200':
@@ -992,7 +1119,7 @@ paths:
           $ref: '#/components/responses/Internal'
         '503':
           $ref: '#/components/responses/ServiceUnavailable'
-  /v1/organizations/{organizationId}/projects/{projectId}/schema/event-properties/{propertyId}:
+  /v1/projects/{projectId}/schema/event-properties/{propertyId}:
     get:
       summary: Get event property
       operationId: getEventProperty
@@ -1001,7 +1128,6 @@ paths:
       tags:
         - event properties
       parameters:
-        - $ref: '#/components/parameters/OrganizationID'
         - $ref: '#/components/parameters/ProjectID'
         - name: propertyId
           in: path
@@ -1036,7 +1162,6 @@ paths:
       tags:
         - event properties
       parameters:
-        - $ref: '#/components/parameters/OrganizationID'
         - $ref: '#/components/parameters/ProjectID'
         - name: propertyId
           in: path
@@ -1069,7 +1194,7 @@ paths:
           $ref: '#/components/responses/Internal'
         '503':
           $ref: '#/components/responses/ServiceUnavailable'
-  /v1/organizations/{organizationId}/projects/{projectId}/schema/system-properties:
+  /v1/projects/{projectId}/schema/system-properties:
     get:
       summary: System properties list
       operationId: systemPropertiesList
@@ -1078,7 +1203,6 @@ paths:
       tags:
         - system properties
       parameters:
-        - $ref: '#/components/parameters/OrganizationID'
         - $ref: '#/components/parameters/ProjectID'
       responses:
         '200':
@@ -1102,7 +1226,7 @@ paths:
           $ref: '#/components/responses/Internal'
         '503':
           $ref: '#/components/responses/ServiceUnavailable'
-  /v1/organizations/{organizationId}/projects/{projectId}/schema/system-properties/{propertyId}:
+  /v1/projects/{projectId}/schema/system-properties/{propertyId}:
     get:
       summary: Get system property
       operationId: getSystemProperty
@@ -1111,7 +1235,6 @@ paths:
       tags:
         - system properties
       parameters:
-        - $ref: '#/components/parameters/OrganizationID'
         - $ref: '#/components/parameters/ProjectID'
         - name: propertyId
           in: path
@@ -1138,7 +1261,7 @@ paths:
           $ref: '#/components/responses/Internal'
         '503':
           $ref: '#/components/responses/ServiceUnavailable'
-  /v1/organizations/{organizationId}/projects/{projectId}/schema/custom-properties:
+  /v1/projects/{projectId}/schema/custom-properties:
     get:
       summary: Event custom properties list
       operationId: customPropertiesList
@@ -1147,7 +1270,6 @@ paths:
       tags:
         - properties
       parameters:
-        - $ref: '#/components/parameters/OrganizationID'
         - $ref: '#/components/parameters/ProjectID'
       responses:
         '200':
@@ -1171,7 +1293,7 @@ paths:
           $ref: '#/components/responses/Internal'
         '503':
           $ref: '#/components/responses/ServiceUnavailable'
-  /v1/organizations/{organizationId}/projects/{projectId}/event-records/{id}:
+  /v1/projects/{projectId}/event-records/{id}:
     get:
       summary: Get event record
       operationId: getEventRecord
@@ -1180,7 +1302,6 @@ paths:
       tags:
         - event records
       parameters:
-        - $ref: '#/components/parameters/OrganizationID'
         - $ref: '#/components/parameters/ProjectID'
         - name: id
           in: path
@@ -1208,7 +1329,7 @@ paths:
           $ref: '#/components/responses/Internal'
         '503':
           $ref: '#/components/responses/ServiceUnavailable'
-  /v1/organizations/{organizationId}/projects/{projectId}/event-records/search:
+  /v1/projects/{projectId}/event-records/search:
     post:
       summary: Get event records
       operationId: eventRecordsList
@@ -1217,7 +1338,6 @@ paths:
       tags:
         - event records
       parameters:
-        - $ref: '#/components/parameters/OrganizationID'
         - $ref: '#/components/parameters/ProjectID'
       requestBody:
         required: true
@@ -1231,10 +1351,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                allOf:
-                  - $ref: '#/components/schemas/ListEventRecordsResponse'
-                  - $ref: '#/components/schemas/ListResponseMetadata'
+                $ref: '#/components/schemas/DataTableResponse'
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -1247,7 +1364,7 @@ paths:
           $ref: '#/components/responses/Internal'
         '503':
           $ref: '#/components/responses/ServiceUnavailable'
-  /v1/organizations/{organizationId}/projects/{projectId}/group-records/{id}:
+  /v1/projects/{projectId}/group-records/{id}:
     get:
       summary: Get group record
       operationId: getGroupRecord
@@ -1256,7 +1373,6 @@ paths:
       tags:
         - group records
       parameters:
-        - $ref: '#/components/parameters/OrganizationID'
         - $ref: '#/components/parameters/ProjectID'
         - name: id
           in: path
@@ -1292,7 +1408,6 @@ paths:
       tags:
         - group records
       parameters:
-        - $ref: '#/components/parameters/OrganizationID'
         - $ref: '#/components/parameters/ProjectID'
         - name: id
           in: path
@@ -1326,7 +1441,7 @@ paths:
           $ref: '#/components/responses/Internal'
         '503':
           $ref: '#/components/responses/ServiceUnavailable'
-  /v1/organizations/{organizationId}/projects/{projectId}/group-records/search:
+  /v1/projects/{projectId}/group-records/search:
     post:
       summary: List group records
       operationId: groupRecordsList
@@ -1335,7 +1450,6 @@ paths:
       tags:
         - group records
       parameters:
-        - $ref: '#/components/parameters/OrganizationID'
         - $ref: '#/components/parameters/ProjectID'
       requestBody:
         required: true
@@ -1365,7 +1479,7 @@ paths:
           $ref: '#/components/responses/Internal'
         '503':
           $ref: '#/components/responses/ServiceUnavailable'
-  /v1/organizations/{organizationId}/projects/{projectId}/property-values:
+  /v1/projects/{projectId}/property-values:
     post:
       summary: List of property values
       operationId: PropertyValuesList
@@ -1374,7 +1488,6 @@ paths:
       tags:
         - property values
       parameters:
-        - $ref: '#/components/parameters/OrganizationID'
         - $ref: '#/components/parameters/ProjectID'
       requestBody:
         required: true
@@ -1406,7 +1519,7 @@ paths:
           $ref: '#/components/responses/Internal'
         '503':
           $ref: '#/components/responses/ServiceUnavailable'
-  /v1/organizations/{organizationId}/projects/{projectId}/queries/event-segmentation:
+  /v1/projects/{projectId}/queries/event-segmentation:
     post:
       summary: Event segmentation query
       operationId: eventSegmentationQuery
@@ -1415,7 +1528,6 @@ paths:
       tags:
         - query
       parameters:
-        - $ref: '#/components/parameters/OrganizationID'
         - $ref: '#/components/parameters/ProjectID'
         - in: query
           name: format
@@ -1449,7 +1561,7 @@ paths:
           $ref: '#/components/responses/Internal'
         '503':
           $ref: '#/components/responses/ServiceUnavailable'
-  /organizations/{organizationId}/projects/{projectId}/queries/funnel:
+  /projects/{projectId}/queries/funnel:
     post:
       summary: Funnel query
       operationId: funnelQuery
@@ -1458,7 +1570,6 @@ paths:
       tags:
         - query
       parameters:
-        - $ref: '#/components/parameters/OrganizationID'
         - $ref: '#/components/parameters/ProjectID'
       requestBody:
         content:
@@ -1553,6 +1664,19 @@ components:
                     items:
                       $ref: '#/components/schemas/Dashboard'
               - $ref: '#/components/schemas/ListResponseMetadata'
+    ListProjectsResponse:
+      description: project list
+      content:
+        application/json:
+          schema:
+            type: object
+            allOf:
+              - properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Project'
+              - $ref: '#/components/schemas/ListResponseMetadata'
   schemas:
     LoginRequest:
       type: object
@@ -1630,16 +1754,19 @@ components:
     ErrorResponse:
       type: object
       properties:
-        code:
-          type: string
-          enum:
-            - 1000_invalid_token
-        message:
-          type: string
-        fields:
+        error:
           type: object
-          additionalProperties:
-            type: string
+          properties:
+            code:
+              type: string
+              enum:
+                - 1000_invalid_token
+            message:
+              type: string
+            fields:
+              type: object
+              additionalProperties:
+                type: string
     JWTToken:
       type: object
       required: [ 'accountId', 'iss', 'exp', 'nbf', 'iat', 'jti' ]
@@ -1724,13 +1851,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/CustomProperty'
-    ListEventRecordsResponse:
-      type: object
-      properties:
-        events:
-          type: array
-          items:
-            $ref: '#/components/schemas/EventRecord'
     ListResponseMetadata:
       description: list response metadata
       type: object
@@ -1809,14 +1929,23 @@ components:
           type: string
         sessionTimeoutSeconds:
           type: integer
-        teams:
-          type: array
-          items:
-            type: integer
-        users:
-          type: array
-          items:
-            type: integer
+        eventsCount:
+          type: integer
+    CreateProjectRequest:
+      type: object
+      required: [ 'name','sessionTimeoutSeconds' ]
+      properties:
+        name:
+          type: string
+        sessionTimeoutSeconds:
+          type: integer
+    UpdateProjectRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        sessionTimeoutSeconds:
+          type: integer
     Organization:
       type: object
       properties:
