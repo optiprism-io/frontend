@@ -179,11 +179,6 @@ export const useLexiconStore = defineStore('lexicon', {
                 if (res?.data?.data) {
                     this.eventProperties = res.data.data
                 }
-
-                const resCustom = await schemaService.eventCustomProperties(commonStore.projectId);
-                if (resCustom?.data?.events) {
-                    this.eventCustomProperties = resCustom.data.events;
-                }
             } catch(e) {
                 console.log('error getEventProperties');
             }
