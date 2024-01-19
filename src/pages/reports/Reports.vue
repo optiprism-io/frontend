@@ -20,7 +20,6 @@
                 </template>
             </UiSelect>
             <UiInlineEdit
-                v-if="itemsReports.length"
                 class="reports__name pf-u-mr-md"
                 :value="reportName"
                 :hide-text="true"
@@ -144,14 +143,21 @@ const reportType = computed(() => {
 });
 
 const itemsReports = computed(() => {
-    return reportsStore.list.map(item => {
-        const id = Number(item.id)
-        return {
-            value: id,
-            key: id,
-            nameDisplay: item.name || '',
-        }
-    })
+    return [
+        {
+            value: 0,
+            key: 0,
+            nameDisplay: untitledReportName.value,
+        },
+        ...reportsStore.list.map(item => {
+            const id = Number(item.id)
+            return {
+                value: id,
+                key: id,
+                nameDisplay: item.name || '',
+            }
+        })
+    ]
 })
 
 const untitledReportsList = computed(() => {
@@ -223,14 +229,13 @@ const setNameReport = (payload: string) => {
 }
 
 const setNew = async () => {
-    reportsStore.reportId = 0;
-    reportName.value = untitledReportName.value;
-    eventsStore.$reset();
-    filterGroupsStore.$reset();
-    segmentsStore.$reset();
-    breakdownsStore.$reset();
-    stepsStore.$reset();
-    onSaveReport();
+    router.push(pagesMap.reportsEventSegmentation.name);
+
+    const routeData = router.resolve({
+        name:pagesMap.reportsEventSegmentation.name,
+    });
+
+    window.open(routeData.href, '_blank');
 }
 
 const onSelectTab = () => {
@@ -282,7 +287,7 @@ onMounted(async () => {
     eventsStore.initPeriod();
     await initEventsAndProperties();
     await reportsStore.getList();
-    initReportPage();
+    reportsStore.loading = false;
 })
 </script>
 
