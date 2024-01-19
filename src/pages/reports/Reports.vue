@@ -27,7 +27,7 @@
                 @on-edit="onEditNameReport"
             />
             <UiButton
-                class="pf-m-link reports__nav-item reports__nav-item_new"
+                class="pf-m-link reports__nav-item reports__nav-item_new pf-u-mr-md"
                 :before-icon="'fas fa-plus'"
                 @click="setNew"
             >
@@ -36,7 +36,7 @@
             <UiButton
                 v-if="isShowSaveReport"
                 class="pf-m-link reports__nav-item reports__nav-item_new"
-                :before-icon="'fas fa-plus'"
+                :before-icon="'fas fa-floppy-disk'"
                 @click="onSaveReport"
             >
                 {{ $t('reports.save') }}
@@ -143,21 +143,14 @@ const reportType = computed(() => {
 });
 
 const itemsReports = computed(() => {
-    return [
-        {
-            value: 0,
-            key: 0,
-            nameDisplay: untitledReportName.value,
-        },
-        ...reportsStore.list.map(item => {
-            const id = Number(item.id)
-            return {
-                value: id,
-                key: id,
-                nameDisplay: item.name || '',
-            }
-        })
-    ]
+    return reportsStore.list.map(item => {
+        const id = Number(item.id)
+        return {
+            value: id,
+            key: id,
+            nameDisplay: item.name || '',
+        }
+    })
 })
 
 const untitledReportsList = computed(() => {

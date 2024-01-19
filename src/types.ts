@@ -110,7 +110,12 @@ export const operations: Operation[] = [
         id: OperationId.Regex,
         name: 'Regex',
         dataTypes: [DataType.String]
-    }
+    },
+    {
+        id: OperationId.NotRegex,
+        name: 'Not Regex',
+        dataTypes: [DataType.String],
+    },
 ];
 
 export const operationById: Map<OperationId, Operation> = new Map();
