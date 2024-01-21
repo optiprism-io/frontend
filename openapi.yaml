@@ -1202,10 +1202,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                allOf:
-                  - $ref: '#/components/schemas/ListEventRecordsResponse'
-                  - $ref: '#/components/schemas/ListResponseMetadata'
+                $ref: '#/components/schemas/DataTableResponse'
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -1689,13 +1686,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/CustomProperty'
-    ListEventRecordsResponse:
-      type: object
-      properties:
-        events:
-          type: array
-          items:
-            $ref: '#/components/schemas/EventRecord'
     ListResponseMetadata:
       description: list response metadata
       type: object
@@ -1773,6 +1763,8 @@ components:
         name:
           type: string
         sessionTimeoutSeconds:
+          type: integer
+        eventsCount:
           type: integer
         teams:
           type: array
