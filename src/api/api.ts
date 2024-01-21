@@ -2982,7 +2982,9 @@ export const PropertyFilterOperation = {
     Exists: 'exists',
     Empty: 'empty',
     Regex: 'regex',
-    NotRegex: 'notRegex'
+    NotRegex: 'notRegex',
+    Like: 'like',
+    NotLike: 'notLike'
 } as const;
 
 export type PropertyFilterOperation = typeof PropertyFilterOperation[keyof typeof PropertyFilterOperation];

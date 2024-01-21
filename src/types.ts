@@ -116,9 +116,20 @@ export const operations: Operation[] = [
         name: 'Not Regex',
         dataTypes: [DataType.String],
     },
+    {
+        id: OperationId.Like,
+        name: 'Like',
+        dataTypes: [DataType.String],
+    },
+    {
+        id: OperationId.NotLike,
+        name: 'Not Like',
+        dataTypes: [DataType.String],
+    }
 ];
 
 export const operationById: Map<OperationId, Operation> = new Map();
+
 operations.forEach(op => operationById.set(op.id, op));
 
 export const findOperations = (

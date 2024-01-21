@@ -85,7 +85,17 @@
                 v-if="isShowValues && filter.propRef"
                 class="pf-c-action-list__item"
             >
+                <div
+                    v-if="isShowInputForValue"
+                >
+                    <UiInput
+                        v-model="valueInput"
+                        class="pf-u-px-lg pf-u-py-md"
+                        @blur="onBlurInput"
+                    />
+                </div>
                 <ValueSelect
+                    v-else
                     :property-ref="filter.propRef"
                     :selected="filter.values"
                     :items="filterItemValues"
@@ -173,13 +183,17 @@ import { ref, reactive, computed } from 'vue';
 import { useElementHover } from '@vueuse/core';
 import { EventFilter } from '@/stores/eventSegmentation/events';
 import { useLexiconStore } from '@/stores/lexicon';
+import UiInput from '@/components/uikit/UiInput.vue';
 import PropertySelect from '@/components/events/PropertySelect.vue';
 import OperationSelect from '@/components/events/OperationSelect.vue';
 import ValueSelect from '@/components/events/ValueSelect.vue';
 import { EventRef, PropertyRef } from '@/types/events';
 import { operationById, OperationId, Value } from '@/types';
 import CommonIdentifier from '@/components/common/identifier/CommonIdentifier.vue';
-import { PropertyType } from '@/api';
+import {
+    PropertyType,
+    DataType,
+} from '@/api';
 import { OrientationTypeEnum, OrientationEnum } from '@/types/filters';
 
 type Props = {
@@ -221,10 +235,24 @@ const emit = defineEmits<{
     (e: 'handleSelectProperty'): void;
 }>();
 
+const valueInput = ref('');
+
+const onBlurInput = () => {
+    addValue(valueInput.value);
+};
+
+const selectedOperation = computed(() => {
+    return props.filter.opId ? operationById?.get(props.filter.opId) || null : null;
+});
+
 const orientationClass = computed(() => `filter_${props.orientation}`);
 
 const operationButtonText = computed(() => {
-    return props.filter.opId ? operationById?.get(props.filter.opId)?.shortName || operationById?.get(props.filter.opId)?.name : '';
+    return props.filter.opId ? selectedOperation.value?.shortName || selectedOperation.value?.name : '';
+});
+
+const isShowInputForValue = computed(() => {
+    return (selectedOperation.value?.dataTypes || []).includes(DataType.String);
 });
 
 const propertyButtonText = computed(() => {
