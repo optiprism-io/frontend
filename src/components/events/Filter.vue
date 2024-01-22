@@ -233,6 +233,7 @@ const emit = defineEmits<{
     (e: 'addFilterValue', filterIdx: number, value: Value): void;
     (e: 'removeFilterValue', filterIdx: number, value: Value): void;
     (e: 'handleSelectProperty'): void;
+    (e: 'changeAllValues', filterIdx: number, values: Value[]): void;
 }>();
 
 const valueInput = ref('');
@@ -315,7 +316,19 @@ const changeOperation = (opId: OperationId): void => {
 };
 
 const addValue = (value: Value): void => {
-    emit('addFilterValue', props.index, value);
+    if (false === value || null === value) {
+        changeOperation(OperationId.Empty);
+        emit('changeAllValues', props.index, [])
+        return
+    }
+
+    if (value === true) {
+        changeOperation(OperationId.Exists);
+        emit('changeAllValues', props.index, [])
+        return
+    }
+
+    emit('addFilterValue', props.index, value)
 };
 
 const removeValue = (value: Value) => {

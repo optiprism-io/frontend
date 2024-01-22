@@ -128,7 +128,7 @@ export const operations: Operation[] = [
     }
 ];
 
-export const operationById: Map<OperationId, Operation> = new Map();
+export const operationById: Map<OperationId, Operation> = new Map() || {};
 
 operations.forEach(op => operationById.set(op.id, op));
 
