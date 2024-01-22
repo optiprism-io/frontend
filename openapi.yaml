@@ -201,6 +201,155 @@ paths:
           $ref: '#/components/responses/Internal'
         '503':
           $ref: '#/components/responses/ServiceUnavailable'
+  /v1/projects:
+    get:
+      summary: Projects list
+      operationId: projectsList
+      security:
+        - bearerAuth: [ ]
+      tags:
+        - projects
+      parameters:
+        - $ref: '#/components/parameters/ProjectID'
+      responses:
+        '200':
+          $ref: '#/components/responses/ListProjectsResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/Internal'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+    post:
+      summary: Create project
+      operationId: createProject
+      security:
+        - bearerAuth: [ ]
+      tags:
+        - projects
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateProjectRequest'
+      responses:
+        201:
+          description: project
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/Internal'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+  /v1/projects/{projectId}:
+    get:
+      summary: Get project
+      operationId: project
+      security:
+        - bearerAuth: [ ]
+      tags:
+        - projects
+      parameters:
+        - $ref: '#/components/parameters/ProjectID'
+      responses:
+        200:
+          description: project
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/Internal'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+    put:
+      summary: Update project
+      operationId: updateProject
+      security:
+        - bearerAuth: [ ]
+      tags:
+        - projects
+      parameters:
+        - $ref: '#/components/parameters/ProjectID'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateProjectRequest'
+      responses:
+        200:
+          description: dashboard
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dashboard'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/Internal'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+    delete:
+      summary: Delete project
+      operationId: deleteProject
+      security:
+        - bearerAuth: [ ]
+      tags:
+        - projects
+      parameters:
+        - $ref: '#/components/parameters/ProjectID'
+      responses:
+        200:
+          description: deleted successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/Internal'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+## ##
   /v1/projects/{projectId}/dashboards:
     get:
       summary: Dashboards list
@@ -1515,6 +1664,19 @@ components:
                     items:
                       $ref: '#/components/schemas/Dashboard'
               - $ref: '#/components/schemas/ListResponseMetadata'
+    ListProjectsResponse:
+      description: project list
+      content:
+        application/json:
+          schema:
+            type: object
+            allOf:
+              - properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Project'
+              - $ref: '#/components/schemas/ListResponseMetadata'
   schemas:
     LoginRequest:
       type: object
@@ -1766,14 +1928,21 @@ components:
           type: integer
         eventsCount:
           type: integer
-        teams:
-          type: array
-          items:
-            type: integer
-        users:
-          type: array
-          items:
-            type: integer
+    CreateProjectRequest:
+      type: object
+      required: [ 'name','sessionTimeoutSeconds' ]
+      properties:
+        name:
+          type: string
+        sessionTimeoutSeconds:
+          type: integer
+    UpdateProjectRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        sessionTimeoutSeconds:
+          type: integer
     Organization:
       type: object
       properties:
