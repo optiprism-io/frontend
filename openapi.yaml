@@ -304,11 +304,11 @@ paths:
               $ref: '#/components/schemas/UpdateProjectRequest'
       responses:
         200:
-          description: dashboard
+          description: project
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Dashboard'
+                $ref: '#/components/schemas/Project'
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
