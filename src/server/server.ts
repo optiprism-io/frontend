@@ -1,49 +1,30 @@
-import { createServer, Response } from 'miragejs';
-import { useUrlSearchParams } from '@vueuse/core';
-import { customAlphabet } from 'nanoid';
-import {
-    DataType,
-    TokensResponse,
-    UpdateProfileEmailRequest,
-    UpdateProfileNameRequest,
-    UpdateProfilePasswordRequest,
-} from '@/api';
-import { BASE_PATH } from '@/api/base';
-import { EventStatus, UserCustomProperty } from '@/types/events';
-import splineChartMocks from '@/mocks/splineChart.json';
-import liveStreamMocks from '@/mocks/reports/liveStream.json';
-import funnelsMocks from '@/mocks/reports/funnels.json';
-import userPropertiesMocks from '@/mocks/eventSegmentations/userProperties.json';
-import eventSegmentationsMocks from '@/mocks/eventSegmentations/eventSegmentations.json';
-import eventPropertiesMocks from '@/mocks/eventSegmentations/eventProperties.json';
-import customProperties from '@/mocks/eventSegmentations/customProperties.json';
-import customEventsMocks from '@/mocks/eventSegmentations/customEvents.json';
-import eventMocks from '@/mocks/eventSegmentations/events.json';
-import reportsMocks from '@/mocks/reports/reports.json';
-import dashboardsMocks from '@/mocks/dashboards';
-import groupRecordsMocks from '@/mocks/groupRecords.json';
-import profileMocks, { userId } from '@/mocks/profile';
-import { fromPairs } from 'lodash';
+import { createServer, Response } from 'miragejs'
+import { useUrlSearchParams } from '@vueuse/core'
+import { customAlphabet } from 'nanoid'
+import { DataType, TokensResponse } from '@/api'
+import { BASE_PATH } from '@/api/base'
+import { EventStatus, UserCustomProperty } from '@/types/events'
+import splineChartMocks from '@/mocks/splineChart.json'
+import liveStreamMocks from '@/mocks/reports/liveStream.json'
+import funnelsMocks from '@/mocks/reports/funnels.json'
+import userPropertiesMocks from '@/mocks/eventSegmentations/userProperties.json'
+import eventSegmentationsMocks from '@/mocks/eventSegmentations/eventSegmentations.json'
+import eventPropertiesMocks from '@/mocks/eventSegmentations/eventProperties.json'
+import customProperties from '@/mocks/eventSegmentations/customProperties.json'
+import customEventsMocks from '@/mocks/eventSegmentations/customEvents.json'
+import eventMocks from '@/mocks/eventSegmentations/events.json'
+import reportsMocks from '@/mocks/reports/reports.json'
+import dashboardsMocks from '@/mocks/dashboards'
+import groupRecordsMocks from '@/mocks/groupRecords.json'
+import profileMocks from '@/mocks/profile'
+import { HttpStatusCode } from '@/server/constants/httpStatusCode'
+import { profileRoutes } from '@/server/services/profile.service'
+import { EMPTY_HEADER_RESPONSE, EMPTY_SUCCESS_RES } from '@/server/constants/empty'
+import { Tokens } from '@/server/constants/tokens'
+import { getRandomTiming } from '@/server/utils/getRandomTiming'
 
-interface ServerErrorResponse {
-  error: {
-    status: number;
-    fields?: Record<string, string>;
-    message?: string;
-  };
-}
-
-const alphabet = '0123456789';
+const alphabet = '0123456789'
 const nanoid = customAlphabet(alphabet, 4);
-const accessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c';
-const refreshToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6Im5pa28ga3VzaCIsImlhdCI6MTUxNjIzOTAyMn0.FzpmXmStgiYEO15ZbwwPafVRQSOCO_xidYjrjRvVIbQ';
-const csrfToken = 'CIwNZNlR4XbisJF39I8yWnWX9wX4WFoz';
-
-const TokensResponse = {
-    accessToken,
-    refreshToken,
-    csrfToken,
-}
 
 const dbTemplate: { [k: string]: any } = {
     events: eventMocks,
@@ -58,50 +39,12 @@ const dbTemplate: { [k: string]: any } = {
     profile: profileMocks
 };
 
-/* TODO: move to separate file */
-enum HttpStatusCode {
-    OK = 200,
-    CREATED = 201,
-    NO_CONTENT = 204,
-    BAD_REQUEST = 400,
-    UNAUTHORIZED = 401,
-    FORBIDDEN = 403,
-    NOT_FOUND = 404,
-    INTERNAL_SERVER_ERROR = 500,
-}
-
-enum Stub {
-    ERROR = 'error',
-    TOAST = 'toast'
-}
-
 const dbTemplateKeys = Object.keys(dbTemplate);
-const getRandomTiming = (from = 0, to = 0) => {
-    // TODO ADD HEADER SWITCHER OR URL SEARCH PARAMETR LIKE => timingMocks=100-200
-    return Math.floor(Math.random() * (to - from)) + from;
-}
-
-const EMPTY_SUCCESS_RES = 'done'
-const EMPTY_HEADER_RESPONSE = { some: 'header' }
 
 const emptyDbTemplate = dbTemplateKeys.reduce((acc: { [key: string]: [] }, key) => {
     acc[key] = [];
     return acc;
 }, {});
-
-type KeyError = string
-type MessageError = string
-
-function getErrorResponse(errors: [KeyError, MessageError][]): ServerErrorResponse {
-    const fields = fromPairs(errors)
-
-    return {
-        error: {
-            status: HttpStatusCode.BAD_REQUEST,
-            fields
-        },
-    }
-}
 
 export default function ({ environment = 'development', isSeed = true } = {}) {
     const params = useUrlSearchParams('history');
@@ -301,12 +244,12 @@ export default function ({ environment = 'development', isSeed = true } = {}) {
                         }
                     });
                 } else {
-                    return TokensResponse
+                    return Tokens
                 }
             })
 
             this.post(`${BASE_PATH}/v1/auth/refresh-token`, (): TokensResponse => {
-                return TokensResponse
+                return Tokens
             }, { timing: getRandomTiming() })
 
             /**
@@ -356,100 +299,7 @@ export default function ({ environment = 'development', isSeed = true } = {}) {
              * end Group-records
              */
 
-            /**
-             * Profile
-             */
-            this.get(`${BASE_PATH}/v1/profile`, (schema) => {
-                return schema.db.profile.at(0)
-            }, { timing: 1000 }),
-
-            this.put(`${BASE_PATH}/v1/profile/name`, (schema, request) => {
-                const { name } = JSON.parse(request.requestBody) as UpdateProfileNameRequest
-
-                if (name.toLowerCase() === Stub.TOAST)
-                    return new Response(
-                        HttpStatusCode.BAD_REQUEST,
-                        EMPTY_HEADER_RESPONSE,
-                        {
-                            'error': {
-                                'status': HttpStatusCode.BAD_REQUEST,
-                                'message': Stub.ERROR
-                            }
-                        })
-
-                if (name.toLowerCase() === Stub.ERROR)
-                    return new Response(
-                        HttpStatusCode.BAD_REQUEST,
-                        EMPTY_HEADER_RESPONSE,
-                        getErrorResponse([['name', 'Name is incorrect']]))
-                
-                schema.db.profile.update(userId, { name })
-                return EMPTY_SUCCESS_RES
-            }, { timing: 1000 })
-
-            this.put(`${BASE_PATH}/v1/profile/email`, (schema, request) => {
-                const { email, password } = JSON.parse(
-                    request.requestBody
-                ) as UpdateProfileEmailRequest;
-
-                if (password.toLowerCase() === Stub.TOAST)
-                    return new Response(
-                        HttpStatusCode.BAD_REQUEST,
-                        EMPTY_HEADER_RESPONSE,
-                        {
-                            'error': {
-                                'status': HttpStatusCode.BAD_REQUEST,
-                                'message': Stub.ERROR
-                            }
-                        })
-
-                if (password.toLowerCase() === Stub.ERROR)
-                    return new Response(
-                        HttpStatusCode.BAD_REQUEST,
-                        EMPTY_HEADER_RESPONSE,
-                        getErrorResponse([['password', 'Password is incorrect']]))
-
-                schema.db.profile.update(userId, { email })
-                return TokensResponse
-            }, { timing: 1000 })
-
-            this.put(`${BASE_PATH}/v1/profile/password`, (schema, request) => {
-                const { password, newPassword } = JSON.parse(
-                    request.requestBody
-                ) as UpdateProfilePasswordRequest;
-
-                if (password.toLowerCase() === Stub.TOAST || newPassword.toLowerCase() === Stub.TOAST)
-                    return new Response(
-                        HttpStatusCode.BAD_REQUEST,
-                        EMPTY_HEADER_RESPONSE,
-                        {
-                            'error': {
-                                'status': HttpStatusCode.BAD_REQUEST,
-                                'message': Stub.ERROR
-                            }
-                        })
-                
-                if (password.toLowerCase() === Stub.ERROR && newPassword.toLowerCase() === Stub.ERROR)
-                    return new Response(
-                        HttpStatusCode.BAD_REQUEST,
-                        EMPTY_HEADER_RESPONSE,
-                        getErrorResponse([['password', 'Password is incorrect'], ['newPassword', 'Password is incorrect']]))
-
-                if (password.toLowerCase() === Stub.ERROR)
-                    return new Response(
-                        HttpStatusCode.BAD_REQUEST,
-                        EMPTY_HEADER_RESPONSE,
-                        getErrorResponse([['password', 'Password is incorrect']]))
-
-                if (newPassword.toLowerCase() === Stub.ERROR)
-                    return new Response(
-                        HttpStatusCode.BAD_REQUEST,
-                        EMPTY_HEADER_RESPONSE,
-                        getErrorResponse([['newPassword', 'Password is incorrect']]))
-
-                schema.db.profile.update(userId, { password: newPassword })
-                return TokensResponse
-            }, { timing: 1000 })
+            profileRoutes(this)
         }
     });
 }

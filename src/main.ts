@@ -1,18 +1,18 @@
-import '@patternfly/patternfly/patternfly.scss';
-import '@patternfly/patternfly/patternfly-addons.scss';
-import 'floating-vue/dist/style.css';
-import '@/assets/styles/main.scss';
-import 'vue3-drr-grid-layout/dist/style.css';
-import { createApp } from 'vue';
-import { createPinia } from 'pinia';
-import lang from '@/lang';
-import App from '@/App.vue';
-import makeServer from '@/server';
-import FloatingVue from 'floating-vue';
-import { router } from '@/router';
-import uikitPlugin from '@/plugins/uikit';
-import i18nPlugin from '@/plugins/i18n';
-import GridLayout from 'vue3-drr-grid-layout';
+import '@patternfly/patternfly/patternfly.scss'
+import '@patternfly/patternfly/patternfly-addons.scss'
+import 'floating-vue/dist/style.css'
+import '@/assets/styles/main.scss'
+import 'vue3-drr-grid-layout/dist/style.css'
+import { createApp } from 'vue'
+import { createPinia } from 'pinia'
+import lang from '@/lang'
+import App from '@/App.vue'
+import makeServer from '@/server/server'
+import FloatingVue from 'floating-vue'
+import { router } from '@/router'
+import uikitPlugin from '@/plugins/uikit'
+import i18nPlugin from '@/plugins/i18n'
+import GridLayout from 'vue3-drr-grid-layout'
 
 const pinia = createPinia();
 const app = createApp(App);
