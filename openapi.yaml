@@ -1754,16 +1754,19 @@ components:
     ErrorResponse:
       type: object
       properties:
-        code:
-          type: string
-          enum:
-            - 1000_invalid_token
-        message:
-          type: string
-        fields:
+        error:
           type: object
-          additionalProperties:
-            type: string
+          properties:
+            code:
+              type: string
+              enum:
+                - 1000_invalid_token
+            message:
+              type: string
+            fields:
+              type: object
+              additionalProperties:
+                type: string
     JWTToken:
       type: object
       required: [ 'accountId', 'iss', 'exp', 'nbf', 'iat', 'jti' ]
