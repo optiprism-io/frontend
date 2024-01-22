@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router';
+import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 
 export const pagesMap = {
     login: {
@@ -27,7 +27,7 @@ export const pagesMap = {
     profile: 'profile'
 }
 
-const routes = [
+const routes: RouteRecordRaw[] = [
     {
         path: pagesMap.login.path,
         name: pagesMap.login.name,
