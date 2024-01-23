@@ -201,6 +201,53 @@ paths:
           $ref: '#/components/responses/Internal'
         '503':
           $ref: '#/components/responses/ServiceUnavailable'
+  /v1/projects/{projectId}:
+    get:
+      summary: Get project
+      operationId: getProject
+      security:
+        - bearerAuth: [ ]
+      tags:
+        - profile
+      responses:
+        200:
+          description: project
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/Internal'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+    patch:
+      summary: Update project
+      operationId: updateProject
+      security:
+        - bearerAuth: [ ]
+      tags:
+        - project
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateProjectRequest'
+      responses:
+        200:
+          description: project
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/Internal'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
   /v1/organizations/{organizationId}/projects/{projectId}/dashboards:
     get:
       summary: Dashboards list
@@ -1630,16 +1677,19 @@ components:
     ErrorResponse:
       type: object
       properties:
-        code:
-          type: string
-          enum:
-            - 1000_invalid_token
-        message:
-          type: string
-        fields:
+        error:
           type: object
-          additionalProperties:
-            type: string
+          properties:
+            code:
+              type: string
+              enum:
+                - 1000_invalid_token
+            message:
+              type: string
+            fields:
+              type: object
+              additionalProperties:
+                type: string
     JWTToken:
       type: object
       required: [ 'accountId', 'iss', 'exp', 'nbf', 'iat', 'jti' ]
@@ -1807,16 +1857,17 @@ components:
           format: int64
         name:
           type: string
+        token:
+          type: string
         sessionTimeoutSeconds:
           type: integer
-        teams:
-          type: array
-          items:
-            type: integer
-        users:
-          type: array
-          items:
-            type: integer
+    UpdateProjectRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        sessionTimeoutSeconds:
+          type: integer
     Organization:
       type: object
       properties:
