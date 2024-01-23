@@ -22,6 +22,8 @@ import { profileRoutes } from '@/server/services/profile.service'
 import { EMPTY_HEADER_RESPONSE, EMPTY_SUCCESS_RES } from '@/server/constants/empty'
 import { Tokens } from '@/server/constants/tokens'
 import { getRandomTiming } from '@/server/utils/getRandomTiming'
+import { projectsRoutes } from '@/server/services/projects.service'
+import projectsMocks from '@/mocks/projects'
 
 const alphabet = '0123456789'
 const nanoid = customAlphabet(alphabet, 4);
@@ -36,7 +38,8 @@ const dbTemplate: { [k: string]: any } = {
     dashboards: dashboardsMocks,
     groupRecords: groupRecordsMocks,
     liveStreamMocks: liveStreamMocks,
-    profile: profileMocks
+    profile: profileMocks,
+    projects: projectsMocks
 };
 
 const dbTemplateKeys = Object.keys(dbTemplate);
@@ -300,6 +303,7 @@ export default function ({ environment = 'development', isSeed = true } = {}) {
              */
 
             profileRoutes(this)
+            projectsRoutes(this)
         }
     });
 }
