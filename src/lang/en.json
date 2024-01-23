@@ -343,5 +343,14 @@
       "emptyCurPassword": "Enter the current password",
       "notMatchPassword": "The passwords do not match"
     }
+  },
+
+  "project": {
+    "title": "Project",
+    "settings": {
+      "title": "Project settings"
+    },
+    "name": "Name",
+    "sessionDuration": "Session Duration"
   }
 }
