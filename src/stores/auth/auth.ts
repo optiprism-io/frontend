@@ -3,7 +3,8 @@ import axios from 'axios'
 import { LoginRequest, TokensResponse } from '@/api'
 import { authService } from '@/api/services/auth.service'
 import { LocalStorageAccessor } from '@/utils/localStorageAccessor'
-import { getCookie, setCookie, removeCookie } from 'typescript-cookie'
+import { getCookie, removeCookie, setCookie } from 'typescript-cookie'
+import { DecodedJwt, parseJwt } from '@/utils/parseJwt'
 
 const TOKEN_KEY = 'accessToken'
 const REFRESH_KEY = 'refreshToken'
@@ -30,6 +31,9 @@ export const useAuthStore = defineStore('auth', {
     getters: {
         isAuthenticated(): boolean {
             return !!this.accessToken && !!localStorage.getItem(REFRESH_KEY)
+        },
+        decodedAccessToken(): DecodedJwt | null {
+            return parseJwt(this.accessToken)
         },
     },
     actions: {
