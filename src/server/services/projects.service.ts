@@ -7,11 +7,11 @@ import { projectId } from '@/mocks/projects'
 
 export function projectsRoutes(server: Server) {
   server.get(`${BASE_PATH}/v1/projects/:project_id`, getProject, {
-    timing: getRandomTiming(3000),
+    timing: getRandomTiming(),
   })
 
   server.put(`${BASE_PATH}/v1/projects/:project_id`, putProject, {
-    timing: getRandomTiming(3000),
+    timing: getRandomTiming(),
   })
 }
 
