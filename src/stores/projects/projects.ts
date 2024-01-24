@@ -21,7 +21,7 @@ export const useProjectsStore = defineStore('projects', {
     errors: {
       updateProject: {
         name: undefined,
-        sessionTimeoutSeconds: undefined
+        sessionTimeoutSeconds: undefined,
       },
     },
     isEdit: {
@@ -45,7 +45,6 @@ export const useProjectsStore = defineStore('projects', {
         const { data } = await projectsService.project(this.projectId)
         this.project = data
       } catch (error) {
-        debugger
         throw new Error('error get project')
       } finally {
         this.isLoading = false
@@ -73,7 +72,9 @@ export const useProjectsStore = defineStore('projects', {
           }
 
           if (err?.fields?.sessionTimeoutSeconds) {
-            this.errors.updateProject.sessionTimeoutSeconds = new Error(err.fields.sessionTimeoutSeconds)
+            this.errors.updateProject.sessionTimeoutSeconds = new Error(
+              err.fields.sessionTimeoutSeconds
+            )
             return
           }
 
@@ -91,7 +92,7 @@ export const useProjectsStore = defineStore('projects', {
       this.project = {
         ...this.project,
         name,
-        sessionTimeoutSeconds
+        sessionTimeoutSeconds,
       }
     },
 
@@ -104,6 +105,6 @@ export const useProjectsStore = defineStore('projects', {
     clearErrors() {
       this.errors.updateProject.name = undefined
       this.errors.updateProject.sessionTimeoutSeconds = undefined
-    }
-  }
+    },
+  },
 })
