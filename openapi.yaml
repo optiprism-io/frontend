@@ -201,53 +201,6 @@ paths:
           $ref: '#/components/responses/Internal'
         '503':
           $ref: '#/components/responses/ServiceUnavailable'
-  /v1/projects/{projectId}:
-    get:
-      summary: Get project
-      operationId: getProject
-      security:
-        - bearerAuth: [ ]
-      tags:
-        - profile
-      responses:
-        200:
-          description: project
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Project'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '500':
-          $ref: '#/components/responses/Internal'
-        '503':
-          $ref: '#/components/responses/ServiceUnavailable'
-    patch:
-      summary: Update project
-      operationId: updateProject
-      security:
-        - bearerAuth: [ ]
-      tags:
-        - project
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/UpdateProjectRequest'
-      responses:
-        200:
-          description: project
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Project'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '500':
-          $ref: '#/components/responses/Internal'
-        '503':
-          $ref: '#/components/responses/ServiceUnavailable'
   /v1/projects:
     get:
       summary: Projects list
@@ -1724,6 +1677,19 @@ components:
                     items:
                       $ref: '#/components/schemas/Project'
               - $ref: '#/components/schemas/ListResponseMetadata'
+    ListProjectsResponse:
+      description: project list
+      content:
+        application/json:
+          schema:
+            type: object
+            allOf:
+              - properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Project'
+              - $ref: '#/components/schemas/ListResponseMetadata'
   schemas:
     LoginRequest:
       type: object
@@ -1974,7 +1940,15 @@ components:
           format: int64
         name:
           type: string
-        token:
+        sessionTimeoutSeconds:
+          type: integer
+        eventsCount:
+          type: integer
+    CreateProjectRequest:
+      type: object
+      required: [ 'name','sessionTimeoutSeconds' ]
+      properties:
+        name:
           type: string
         sessionTimeoutSeconds:
           type: integer
