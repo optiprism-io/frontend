@@ -164,8 +164,8 @@ export default function ({ environment = 'development', isSeed = true } = {}) {
 
             this.post(`${BASE_PATH}/v1/projects/:project_id/event-records/search`, (schema, request) => {
                 return {
-                    events: schema.db.liveStreamMocks,
-                };
+                    data: schema.db.liveStreamMocks
+                }
             })
 
             this.get(`${BASE_PATH}/v1/projects/:project_id/schema/event-properties`, (schema) => {

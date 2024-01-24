@@ -193,8 +193,8 @@ export const useLiveStreamStore = defineStore('liveStream', {
                     time: this.timeRequest,
                     events: this.eventsRequest,
                 })
-                if (res?.data?.events) {
-                    this.reports = res.data.events
+                if (res?.data) {
+                    this.reports = res.data;
                     if (this.columnsMap) {
                         this.activeColumns = this.columnsMap
                     }
