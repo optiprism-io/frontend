@@ -63,8 +63,12 @@
                             v-close-popper
                             @click="onClick(item)"
                         >
+                            <Component
+                              v-if="item.vNode"
+                              :is="item.vNode"
+                              class="pf-c-dropdown__menu-item" />
                             <a
-                                v-if="item.href"
+                                v-else-if="item.href"
                                 class="pf-c-dropdown__menu-item"
                                 href="#"
                             >
@@ -89,11 +93,11 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, ref, computed } from 'vue';
+import { defineComponent, PropType, ref, computed, VNode } from 'vue'
 
 export interface UiDropdownItem<T> {
     key: string | number;
-    nameDisplay: string;
+    nameDisplay?: string;
     value: T;
     selected?: boolean;
     disabled?: boolean;
@@ -102,6 +106,7 @@ export interface UiDropdownItem<T> {
     href?: string;
     typeButton?: string
     transparent?: boolean
+    vNode?: VNode
 }
 
 class UiDropdownFactory<T = unknown> {
