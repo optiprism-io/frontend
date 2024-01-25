@@ -3,46 +3,18 @@
         {
             "type": "dimension",
             "dataType": "string",
-            "name": "Event Name",
+            "name": "agg_name",
             "data": [
-                "Buy Product",
-                "Buy Product",
-                "View Product",
-                "Search"
+                "0_0_count",
+                "0_1_count",
+                "0_2_partitioned_count"
             ]
         },
         {
             "type": "dimension",
             "dataType": "string",
-            "name": "Country",
-            "data": [
-                "Spain",
-                "United Kingdom",
-                "Spain",
-                null
-            ]
-        },
-        {
-            "type": "dimension",
-            "dataType": "number",
-            "name": "Age",
-            "data": [
-                null,
-                null,
-                null,
-                19
-            ]
-        },
-        {
-            "type": "metric",
-            "dataType": "string",
-            "name": "Metric",
-            "data": [
-                "count",
-                "count",
-                "count",
-                "count"
-            ]
+            "name": "segment",
+            "data": null
         },
         {
             "type": "metricValue",
@@ -51,8 +23,7 @@
             "data": [
                 1123,
                 2123,
-                8123,
-                123
+                8123
             ]
         },
         {
@@ -62,8 +33,7 @@
             "data": [
                 126,
                 14126,
-                20126,
-                4526
+                20126
             ]
         },
         {
@@ -73,8 +43,7 @@
             "data": [
                 5126,
                 2126,
-                3126,
-                226
+                3126
             ]
         },
         {
@@ -84,8 +53,7 @@
             "data": [
                 9126,
                 2126,
-                7126,
-                4026
+                7126
             ]
         },
         {
@@ -95,8 +63,7 @@
             "data": [
                 19126,
                 126,
-                7126,
-                3262
+                7126
             ]
         },
         {
@@ -106,8 +73,7 @@
             "data": [
                 3126,
                 2126,
-                3126,
-                6262
+                3126
             ]
         },
         {
@@ -117,8 +83,7 @@
             "data": [
                 9126,
                 2126,
-                7126,
-                326
+                7126
             ]
         }
     ]

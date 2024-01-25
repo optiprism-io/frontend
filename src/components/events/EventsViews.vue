@@ -137,7 +137,7 @@ import { useEventsStore, ChartType } from '@/stores/eventSegmentation/events';
 import { groupByMap, periodMap } from '@/configs/events/controls';
 import { ApplyPayload } from '@/components/uikit/UiCalendar/UiCalendar';
 import { getStringDateByFormat } from '@/helpers/getStringDates';
-import { DataTableResponse, TimeUnit } from '@/api';
+import { Report, DataTableResponse, TimeUnit } from '@/api';
 import useDataTable from '@/hooks/useDataTable';
 import usei18n from '@/hooks/useI18n';
 import UiSelect from '@/components/uikit/UiSelect.vue';
@@ -150,6 +150,9 @@ import UiTable from '@/components/uikit/UiTable/UiTable.vue';
 import ChartPie from '@/components/charts/ChartPie.vue';
 import ChartLine from '@/components/charts/ChartLine.vue';
 import ChartColumn from '@/components/charts/ChartColumn.vue';
+import {
+    getEventString,
+} from '@/helpers/reportTableHelper';
 
 const compareToMap = ['day', 'week', 'month', 'year'];
 
@@ -170,6 +173,7 @@ type Props = {
     chartType?: ChartType
     heightChart?: number
     liteChart?: boolean
+    report?: Report | null
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -179,7 +183,29 @@ const props = withDefaults(defineProps<Props>(), {
 
 const showCompareTo = ref(false);
 
-const dataTable = computed(() => useDataTable(props.eventSegmentation || {}, true))
+const dataTable = computed(() => {
+    const table = useDataTable(props.eventSegmentation || {}, true);
+
+    if (table?.tableColumns?.agg_name) {
+        table.tableColumns.agg_name.title = t('reports.table.accName');
+    }
+
+    table.tableData = table.tableData.map(row => {
+        return row.map(cell => {
+            if (
+                cell.column === 'agg_name' &&
+                typeof cell.value === 'string' &&
+                props.report
+            ) {
+                cell.title = getEventString(cell.value, props.report) || cell.value;
+            }
+
+            return cell;
+        });
+    });
+
+    return table;
+})
 
 const emit = defineEmits<{
     (e: 'on-change'): void

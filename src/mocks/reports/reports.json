@@ -1,5 +1,154 @@
 [
     {
+        "id": "33",
+        "name": "Bug/Feature3 - Report from Example",
+        "type": "eventSegmentation",
+        "query": {
+            "time": {
+                "type": "last",
+                "last": 30,
+                "unit": "day"
+            },
+            "group": "user",
+            "intervalUnit": "day",
+            "chartType": "line",
+            "analysis": {
+                "type": "linear"
+            },
+            "events": [
+                {
+                    "eventName": "sign_up",
+                    "queries": [
+                        {
+                            "type": "countPerGroup",
+                            "aggregate": "median"
+                        },
+                        {
+                            "type": "countEvents"
+                        },
+                        {
+                            "type": "aggregateProperty",
+                            "propertyType": "event",
+                            "propertyId": "5",
+                            "aggregate": "distinctCount"
+                        }
+                    ],
+                    "breakdowns": [],
+                    "eventType": "regular",
+                    "eventId": "1",
+                    "filters": []
+                }
+            ],
+            "filters": {
+                "groupsCondition": "or",
+                "groups": [
+                    {
+                        "filtersCondition": "and",
+                        "filters": [
+                            {
+                                "type": "property",
+                                "cohortId": 0,
+                                "groupId": 0,
+                                "propertyType": "event",
+                                "operation": "eq",
+                                "value": [
+                                    "Lamp"
+                                ],
+                                "propertyId": "2"
+                            }
+                        ]
+                    },
+                    {
+                        "filtersCondition": "and",
+                        "filters": []
+                    }
+                ]
+            },
+            "breakdowns": [
+                {
+                    "type": "property",
+                    "propertyType": "event",
+                    "propertyId": "5",
+                    "propertyName": "product_length"
+                }
+            ],
+            "segments": [
+                {
+                    "name": "Segment 1",
+                    "conditions": [
+                        {
+                            "type": "hasPropertyValue",
+                            "propertyName": "Age",
+                            "operation": "eq"
+                        },
+                        {
+                            "type": "hadPropertyValue",
+                            "propertyName": "element",
+                            "operation": "lte",
+                            "time": {
+                                "type": "between",
+                                "from": "2022-09-22",
+                                "to": "2022-09-28"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "Segment Test",
+                    "conditions": [
+                        {
+                            "type": "didEvent",
+                            "eventName": "sign_up",
+                            "eventId": "1",
+                            "eventType": "regular",
+                            "filters": [
+                                {
+                                    "type": "property",
+                                    "propertyName": "product_category",
+                                    "propertyType": "event",
+                                    "propertyId": "3",
+                                    "operation": "eq",
+                                    "value": [
+                                        "Tables",
+                                        "Doors"
+                                    ]
+                                }
+                            ],
+                            "aggregate": {
+                                "type": "count",
+                                "value": 1,
+                                "operation": "gte",
+                                "time": {
+                                    "type": "windowEach",
+                                    "unit": "day"
+                                }
+                            }
+                        },
+                        {
+                            "type": "didEvent",
+                            "eventName": "Find Product",
+                            "eventId": 2,
+                            "eventType": "custom",
+                            "filters": [],
+                            "aggregate": {
+                                "type": "count",
+                                "value": null,
+                                "operation": "lt",
+                                "time": {
+                                    "type": "windowEach",
+                                    "unit": "minute"
+                                }
+                            }
+                        }
+                    ]
+                }
+            ],
+            "steps": [],
+            "holdingConstants": [],
+            "exclude": []
+        }
+    },
+    {
         "id": 31,
         "name": "New Report for Test",
         "type": "eventSegmentation",

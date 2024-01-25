@@ -21,7 +21,14 @@ export type ResponseUseDataTable = {
     pieChart: any[]
 }
 
-export default function useDataTable(payload: DataTableResponse, noWrapContent = false): ResponseUseDataTable {
+type OptionsType = {
+    accName: string | null,
+}
+
+export default function useDataTable(
+    payload: DataTableResponse,
+    noWrapContent = false,
+): ResponseUseDataTable {
     const columnsData = (payload?.columns || []).reduce((acc: DataTableResponseColumnsInnerData[], item) => {
         if (Array.isArray(item.data) && item.data.length) {
             acc.push(item.data);
@@ -76,6 +83,7 @@ export default function useDataTable(payload: DataTableResponse, noWrapContent =
                     if (column?.type) {
                         const cell: Cell = {
                             key: column.type,
+                            column: column.name,
                             value: item,
                             title: item || '-',
                             nowrap: noWrapContent,

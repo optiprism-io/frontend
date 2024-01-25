@@ -280,6 +280,10 @@ onMounted(async () => {
     eventsStore.initPeriod();
     await initEventsAndProperties();
     await reportsStore.getList();
+
+    if (route.params?.id && reportsStore.reportsId.includes(Number(route.params.id))) {
+        await updateReport(Number(route.params.id));
+    }
     reportsStore.loading = false;
 })
 </script>

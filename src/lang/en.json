@@ -112,7 +112,10 @@
     "selectReport": "Select Report",
     "delete": "Delete report",
     "deleteConfirm": "You definitely want to delete the report: :name?",
-    "deleteDashboardConfirm": "Deleting is permanent. Doing so will not delete any related cards. Are you sure you want to delete?"
+    "deleteDashboardConfirm": "Deleting is permanent. Doing so will not delete any related cards. Are you sure you want to delete?",
+    "table": {
+      "accName": "Event"
+    }
   },
 
   "events": {
@@ -218,7 +221,8 @@
       "aggregateProperty": "Aggregate property",
       "historicalCount": "Historical count",
       "didEventCount": "Count",
-      "didEventRelativeCount": "Relative count"
+      "didEventRelativeCount": "Relative count",
+      "distinctCount": "Distinct count"
     },
     "aggregateProperty": {
       "sum": "Sum of property",
@@ -234,7 +238,12 @@
     },
     "query": {
       "error": "This query will not work because no event was found for the selected property",
-      "removeQuery": "Remove query"
+      "removeQuery": "Remove query",
+      "countEvents": "Count",
+      "countUniqueGroups": "Count Unique",
+      "dailyActiveGroups": "Daily Active",
+      "weeklyActiveGroups": "Weekly Active",
+      "monthlyActiveGroups": "Monthly Active"
     }
   },
 

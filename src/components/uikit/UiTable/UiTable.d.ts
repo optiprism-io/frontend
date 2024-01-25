@@ -64,6 +64,7 @@ export type Cell = {
     fixed?: boolean
     type?: string
     items?: ToolMenuItem[]
+    column?: string
 }
 
 export type ColumnMap = {
