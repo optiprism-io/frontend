@@ -1,7 +1,7 @@
 import { BASE_PATH } from '@/api/base'
 import { UpdateProjectRequest } from '@/api'
 import { Request, Server } from 'miragejs'
-import { Schema } from '@/server/types/types'
+import { Schema } from '@/server/types'
 import { getRandomTiming } from '@/server/utils/getRandomTiming'
 import { projectId } from '@/mocks/projects'
 

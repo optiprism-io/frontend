@@ -4,13 +4,11 @@ import {
   UpdateProfileNameRequest,
   UpdateProfilePasswordRequest,
 } from '@/api'
-import { Stub } from '@/server/constants/stub'
 import { Request, Response, Server } from 'miragejs'
 import { getErrorResponse } from '@/server/utils/getErrorResponse'
 import { userId } from '@/mocks/profile'
-import { EMPTY_HEADER_RESPONSE, EMPTY_SUCCESS_RES } from '@/server/constants/empty'
-import { Tokens } from '@/server/constants/tokens'
-import { Schema } from '@/server/types/types'
+import { EMPTY_HEADER_RESPONSE, EMPTY_SUCCESS_RES, Stub, Tokens } from '@/server/constants'
+import { Schema } from '@/server/types'
 import { getRandomTiming } from '@/server/utils/getRandomTiming'
 import { HttpStatusCode } from 'axios'
 
