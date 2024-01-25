@@ -9,7 +9,7 @@
 </template>
 
 <script lang="ts" setup>
-import axios from 'axios';
+import axios, { HttpStatusCode } from 'axios'
 import { useAuthStore } from '@/stores/auth/auth';
 import { useAlertsStore } from '@/stores/alerts';
 import { ErrorResponse } from '@/api';
@@ -41,7 +41,7 @@ axios.interceptors.response.use(res => res, async err => {
         }
 
         switch (err?.response?.status || err?.error?.status) {
-            case 400:
+            case HttpStatusCode.BadRequest:
                 if (err.response?.data) {
                     if (err.response?.data?.error?.message) {
                         createErrorGeneral(
@@ -52,11 +52,11 @@ axios.interceptors.response.use(res => res, async err => {
                     return Promise.reject(err.response.data);
                 }
                 break;
-            case 401:
+            case HttpStatusCode.Unauthorized:
                 await authStore.onRefreshToken();
                 return Promise.reject(err);
-            case 500:
-            case 503:
+            case HttpStatusCode.InternalServerError:
+            case HttpStatusCode.ServiceUnavailable:
             default:
                 createErrorGeneral(err, error);
                 break;
