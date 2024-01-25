@@ -35,6 +35,7 @@
               v-model.number="sessionTimeout"
               class="pf-u-w-initial"
               type="number"
+              :min="1"
               :invalid="!!errors.updateProject.sessionTimeoutSeconds?.message"
               @input="emit('input-duration')"
               @keyup.enter="saveSessionDurationHandler"
