@@ -44,7 +44,6 @@
               class="pf-u-w-initial"
               :items="sessionPeriodOptions"
               :text-button="sessionPeriod"
-              :is-text-select="true"
               @on-select="selectPeriod"
             />
           </div>
