@@ -51,17 +51,15 @@ export const useProjectsStore = defineStore('projects', {
       }
     },
 
-    async saveProject({ name, sessionTimeoutSeconds }: UpdateProjectRequest) {
+    async saveProjectName(name: string) {
       const nCheck = safeParse(notEmptyStringScheme, name)
-      const dCheck = safeParse(moreThanZeroScheme, sessionTimeoutSeconds)
-      if (!nCheck.success || !dCheck.success) {
+      if (!nCheck.success) {
         this.errors.updateProject.name = nCheck.error
-        this.errors.updateProject.sessionTimeoutSeconds = dCheck.error
         return
       }
 
       try {
-        await this.__updateProject({ name, sessionTimeoutSeconds })
+        await this.__updateProject({ name })
       } catch (error) {
         if (isErrorResponseError(error)) {
           const err = error.error
@@ -70,6 +68,27 @@ export const useProjectsStore = defineStore('projects', {
             this.errors.updateProject.name = new Error(err.fields.name)
             return
           }
+
+          if (err?.message) throw new Error(err.message)
+        }
+        throw new Error('error save project name')
+      }
+
+      this.resetEditName()
+    },
+
+    async saveSessionDuration(sessionTimeoutSeconds: number) {
+      const dCheck = safeParse(moreThanZeroScheme, sessionTimeoutSeconds)
+      if (!dCheck.success) {
+        this.errors.updateProject.sessionTimeoutSeconds = dCheck.error
+        return
+      }
+
+      try {
+        await this.__updateProject({ sessionTimeoutSeconds })
+      } catch (error) {
+        if (isErrorResponseError(error)) {
+          const err = error.error
 
           if (err?.fields?.sessionTimeoutSeconds) {
             this.errors.updateProject.sessionTimeoutSeconds = new Error(
@@ -80,30 +99,33 @@ export const useProjectsStore = defineStore('projects', {
 
           if (err?.message) throw new Error(err.message)
         }
-        throw new Error('error save project')
+        throw new Error('error session duration')
       }
 
-      this.resetEdit()
+      this.resetEditSessionDuration()
     },
 
-    async __updateProject({ name, sessionTimeoutSeconds }: UpdateProjectRequest) {
+    async __updateProject(req: UpdateProjectRequest) {
       if (!this.projectId) throw Error
-      await projectsService.updateProject(this.projectId, { name, sessionTimeoutSeconds })
-      this.project = {
-        ...this.project,
-        name,
-        sessionTimeoutSeconds,
-      }
+      const { data } = await projectsService.updateProject(this.projectId, req)
+      this.project = data
     },
 
-    resetEdit() {
+    resetEditName() {
       this.isEdit.name = false
-      this.isEdit.sessionTimeoutSeconds = false
-      this.clearErrors()
+      this.clearErrorName()
     },
 
-    clearErrors() {
+    resetEditSessionDuration() {
+      this.isEdit.sessionTimeoutSeconds = false
+      this.clearErrorSessionDuration()
+    },
+
+    clearErrorName() {
       this.errors.updateProject.name = undefined
+    },
+
+    clearErrorSessionDuration() {
       this.errors.updateProject.sessionTimeoutSeconds = undefined
     },
   },

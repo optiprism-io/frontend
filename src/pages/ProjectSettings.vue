@@ -13,9 +13,10 @@
             :name="project.name"
             :session-timeout-seconds="project.sessionTimeoutSeconds"
             :errors="errors"
-            @input-name="clearErrors"
-            @input-duration="clearErrors"
-            @save-project="saveProject"
+            @input-name="clearErrorName"
+            @input-duration="clearErrorSessionDuration"
+            @save-project-name="saveProjectName"
+            @save-session-duration="saveSessionDuration"
           />
         </UiCard>
       </template>
@@ -32,7 +33,13 @@ import { storeToRefs } from 'pinia'
 import ProjectsForm from '@/components/projects/ProjectsForm.vue'
 
 const projectsStore = useProjectsStore()
-const { getProject, saveProject, clearErrors } = projectsStore
+const {
+  getProject,
+  saveProjectName,
+  saveSessionDuration,
+  clearErrorName,
+  clearErrorSessionDuration,
+} = projectsStore
 const { isLoading, project, errors, isEdit } = storeToRefs(projectsStore)
 
 getProject()

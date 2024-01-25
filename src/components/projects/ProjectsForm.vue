@@ -6,13 +6,13 @@
         :placeholder="name"
         @update:is-editable="editNameHandler"
         @cancel="cancelNameHandler"
-        @save="saveProjectHandler"
+        @save="saveProjectNameHandler"
       >
         <UiInput
           v-model="name"
           :invalid="!!errors.updateProject.name?.message"
           @input="emit('input-name')"
-          @keyup.enter="saveProjectHandler"
+          @keyup.enter="saveProjectNameHandler"
         />
       </UiInlineEditSlot>
       <UiFormError :error="errors.updateProject.name?.message" />
@@ -27,7 +27,7 @@
         :placeholder="`${sessionTimeout} ${sessionPeriod}`"
         @update:is-editable="editDurationHandler"
         @cancel="cancelDurationHandler"
-        @save="saveProjectHandler"
+        @save="saveSessionDurationHandler"
       >
         <UiLabelAndSlot :label="t('project.sessionDuration')">
           <div class="pf-l-flex">
@@ -37,7 +37,7 @@
               type="number"
               :invalid="!!errors.updateProject.sessionTimeoutSeconds?.message"
               @input="emit('input-duration')"
-              @keyup.enter="saveProjectHandler"
+              @keyup.enter="saveSessionDurationHandler"
             />
             <UiSelect
               class="pf-u-w-initial"
@@ -64,8 +64,6 @@ import UiLabelAndSlot from '@/components/uikit/UiLabelAndSlot.vue'
 import UiSelect from '@/components/uikit/UiSelect.vue'
 
 import usei18n from '@/hooks/useI18n'
-
-import { UpdateProjectRequest } from '@/api'
 import { useVModel } from '@vueuse/core'
 import { cloneDeep } from 'lodash'
 import { ProjectEdit, ProjectErrors } from '@/stores/projects/types'
@@ -91,7 +89,8 @@ const props = withDefaults(defineProps<IProps>(), {
 })
 
 const emit = defineEmits<{
-  (e: 'save-project', value: UpdateProjectRequest): void
+  (e: 'save-project-name', value: string): void
+  (e: 'save-session-duration', value: number): void
   (e: 'input-name'): void
   (e: 'input-duration'): void
   (e: 'update:isEdit', value: (typeof props)['isEdit']): void
@@ -105,9 +104,13 @@ const [timeout, period] = fromSessionTimeout(props.sessionTimeoutSeconds)
 const sessionTimeout = ref(timeout)
 const sessionPeriod = ref(period)
 
-function saveProjectHandler() {
+function saveSessionDurationHandler() {
   const sessionTimeoutSeconds = toSessionTimeout([sessionTimeout.value, sessionPeriod.value])
-  emit('save-project', { name: name.value, sessionTimeoutSeconds })
+  emit('save-session-duration', sessionTimeoutSeconds)
+}
+
+function saveProjectNameHandler() {
+  emit('save-project-name', name.value)
 }
 
 function editNameHandler(val: boolean) {

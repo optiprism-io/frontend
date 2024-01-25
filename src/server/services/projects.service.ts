@@ -20,6 +20,6 @@ function getProject(schema: Schema) {
 }
 
 function putProject(schema: Schema, request: Request) {
-  const { name, sessionTimeoutSeconds } = JSON.parse(request.requestBody) as UpdateProjectRequest
-  return schema.db.projects.update(projectId, { name, sessionTimeoutSeconds })
+  const req = JSON.parse(request.requestBody) as UpdateProjectRequest
+  return schema.db.projects.update(projectId, { ...req })
 }
