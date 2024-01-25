@@ -326,20 +326,20 @@ export interface CreateDashboardRequest {
  */
 export interface CreateProjectRequest {
     /**
-     *
+     * 
      * @type {string}
      * @memberof CreateProjectRequest
      */
     'name': string;
     /**
-     *
+     * 
      * @type {number}
      * @memberof CreateProjectRequest
      */
     'sessionTimeoutSeconds': number;
 }
 /**
- *
+ * 
  * @export
  * @interface CreateReportRequest
  */
@@ -1129,13 +1129,13 @@ export interface ErrorResponse {
     'error'?: ErrorResponseError;
 }
 /**
- *
+ * 
  * @export
  * @interface ErrorResponseError
  */
 export interface ErrorResponseError {
     /**
-     *
+     * 
      * @type {string}
      * @memberof ErrorResponseError
      */
@@ -2583,7 +2583,7 @@ export interface ListCustomPropertiesResponse {
     'events'?: Array<CustomProperty>;
 }
 /**
- *
+ * 
  * @export
  * @interface ListGroupRecordsResponse
  */
@@ -2817,12 +2817,6 @@ export interface Project {
     'name'?: string;
     /**
      * 
-     * @type {string}
-     * @memberof Project
-     */
-    'token'?: string;
-    /**
-     *
      * @type {number}
      * @memberof Project
      */
@@ -2835,19 +2829,19 @@ export interface Project {
     'eventsCount'?: number;
 }
 /**
- *
+ * 
  * @export
  * @interface ProjectsList200Response
  */
 export interface ProjectsList200Response {
     /**
-     *
+     * 
      * @type {ListResponseMetadataMeta}
      * @memberof ProjectsList200Response
      */
     'meta'?: ListResponseMetadataMeta;
     /**
-     *
+     * 
      * @type {Array<Project>}
      * @memberof ProjectsList200Response
      */
@@ -4022,19 +4016,19 @@ export interface UpdateProfilePasswordRequest {
     'newPassword': string;
 }
 /**
- *
+ * 
  * @export
  * @interface UpdateProjectRequest
  */
 export interface UpdateProjectRequest {
     /**
-     *
+     * 
      * @type {string}
      * @memberof UpdateProjectRequest
      */
     'name'?: string;
     /**
-     *
+     * 
      * @type {number}
      * @memberof UpdateProjectRequest
      */
@@ -6371,40 +6365,6 @@ export const ProfileApiAxiosParamCreator = function (configuration?: Configurati
             };
         },
         /**
-         *
-         * @summary Get project
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getProject: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/v1/projects/{projectId}`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication bearerAuth required
-            // http bearer authentication required
-            await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
-
-
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
          * 
          * @summary Update email
          * @param {UpdateProfileEmailRequest} updateProfileEmailRequest 
@@ -6548,18 +6508,6 @@ export const ProfileApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @summary Get project
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async getProject(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Project>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getProject(options);
-            const index = configuration?.serverIndex ?? 0;
-            const operationBasePath = operationServerMap['ProfileApi.getProject']?.[index]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
-        },
-        /**
-         *
          * @summary Update email
          * @param {UpdateProfileEmailRequest} updateProfileEmailRequest 
          * @param {*} [options] Override http request option.
@@ -6618,15 +6566,6 @@ export const ProfileApiFactory = function (configuration?: Configuration, basePa
         },
         /**
          * 
-         * @summary Get project
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getProject(options?: any): AxiosPromise<Project> {
-            return localVarFp.getProject(options).then((request) => request(axios, basePath));
-        },
-        /**
-         *
          * @summary Update email
          * @param {UpdateProfileEmailRequest} updateProfileEmailRequest 
          * @param {*} [options] Override http request option.
@@ -6677,17 +6616,6 @@ export class ProfileApi extends BaseAPI {
     }
 
     /**
-     *
-     * @summary Get project
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof ProfileApi
-     */
-    public getProject(options?: RawAxiosRequestConfig) {
-        return ProfileApiFp(this.configuration).getProject(options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
      * 
      * @summary Update email
      * @param {UpdateProfileEmailRequest} updateProfileEmailRequest 
@@ -6733,9 +6661,9 @@ export class ProfileApi extends BaseAPI {
 export const ProjectsApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
-         *
+         * 
          * @summary Create project
-         * @param {CreateProjectRequest} createProjectRequest
+         * @param {CreateProjectRequest} createProjectRequest 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -6759,7 +6687,7 @@ export const ProjectsApiAxiosParamCreator = function (configuration?: Configurat
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
 
-
+    
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -6773,9 +6701,9 @@ export const ProjectsApiAxiosParamCreator = function (configuration?: Configurat
             };
         },
         /**
-         *
+         * 
          * @summary Delete project
-         * @param {number} projectId
+         * @param {number} projectId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -6800,7 +6728,7 @@ export const ProjectsApiAxiosParamCreator = function (configuration?: Configurat
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
 
-
+    
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -6811,9 +6739,9 @@ export const ProjectsApiAxiosParamCreator = function (configuration?: Configurat
             };
         },
         /**
-         *
+         * 
          * @summary Get project
-         * @param {number} projectId
+         * @param {number} projectId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -6838,7 +6766,7 @@ export const ProjectsApiAxiosParamCreator = function (configuration?: Configurat
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
 
-
+    
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -6849,9 +6777,9 @@ export const ProjectsApiAxiosParamCreator = function (configuration?: Configurat
             };
         },
         /**
-         *
+         * 
          * @summary Projects list
-         * @param {number} projectId
+         * @param {number} projectId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -6876,7 +6804,7 @@ export const ProjectsApiAxiosParamCreator = function (configuration?: Configurat
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
 
-
+    
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -6887,10 +6815,10 @@ export const ProjectsApiAxiosParamCreator = function (configuration?: Configurat
             };
         },
         /**
-         *
+         * 
          * @summary Update project
-         * @param {number} projectId
-         * @param {UpdateProjectRequest} updateProjectRequest
+         * @param {number} projectId 
+         * @param {UpdateProjectRequest} updateProjectRequest 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -6917,7 +6845,7 @@ export const ProjectsApiAxiosParamCreator = function (configuration?: Configurat
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
 
-
+    
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -6941,9 +6869,9 @@ export const ProjectsApiFp = function(configuration?: Configuration) {
     const localVarAxiosParamCreator = ProjectsApiAxiosParamCreator(configuration)
     return {
         /**
-         *
+         * 
          * @summary Create project
-         * @param {CreateProjectRequest} createProjectRequest
+         * @param {CreateProjectRequest} createProjectRequest 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -6954,9 +6882,9 @@ export const ProjectsApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
         },
         /**
-         *
+         * 
          * @summary Delete project
-         * @param {number} projectId
+         * @param {number} projectId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -6967,9 +6895,9 @@ export const ProjectsApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
         },
         /**
-         *
+         * 
          * @summary Get project
-         * @param {number} projectId
+         * @param {number} projectId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -6980,9 +6908,9 @@ export const ProjectsApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
         },
         /**
-         *
+         * 
          * @summary Projects list
-         * @param {number} projectId
+         * @param {number} projectId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -6993,10 +6921,10 @@ export const ProjectsApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
         },
         /**
-         *
+         * 
          * @summary Update project
-         * @param {number} projectId
-         * @param {UpdateProjectRequest} updateProjectRequest
+         * @param {number} projectId 
+         * @param {UpdateProjectRequest} updateProjectRequest 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -7017,9 +6945,9 @@ export const ProjectsApiFactory = function (configuration?: Configuration, baseP
     const localVarFp = ProjectsApiFp(configuration)
     return {
         /**
-         *
+         * 
          * @summary Create project
-         * @param {CreateProjectRequest} createProjectRequest
+         * @param {CreateProjectRequest} createProjectRequest 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -7027,9 +6955,9 @@ export const ProjectsApiFactory = function (configuration?: Configuration, baseP
             return localVarFp.createProject(createProjectRequest, options).then((request) => request(axios, basePath));
         },
         /**
-         *
+         * 
          * @summary Delete project
-         * @param {number} projectId
+         * @param {number} projectId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -7037,9 +6965,9 @@ export const ProjectsApiFactory = function (configuration?: Configuration, baseP
             return localVarFp.deleteProject(projectId, options).then((request) => request(axios, basePath));
         },
         /**
-         *
+         * 
          * @summary Get project
-         * @param {number} projectId
+         * @param {number} projectId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -7047,9 +6975,9 @@ export const ProjectsApiFactory = function (configuration?: Configuration, baseP
             return localVarFp.project(projectId, options).then((request) => request(axios, basePath));
         },
         /**
-         *
+         * 
          * @summary Projects list
-         * @param {number} projectId
+         * @param {number} projectId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -7057,10 +6985,10 @@ export const ProjectsApiFactory = function (configuration?: Configuration, baseP
             return localVarFp.projectsList(projectId, options).then((request) => request(axios, basePath));
         },
         /**
-         *
+         * 
          * @summary Update project
-         * @param {number} projectId
-         * @param {UpdateProjectRequest} updateProjectRequest
+         * @param {number} projectId 
+         * @param {UpdateProjectRequest} updateProjectRequest 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -7078,9 +7006,9 @@ export const ProjectsApiFactory = function (configuration?: Configuration, baseP
  */
 export class ProjectsApi extends BaseAPI {
     /**
-     *
+     * 
      * @summary Create project
-     * @param {CreateProjectRequest} createProjectRequest
+     * @param {CreateProjectRequest} createProjectRequest 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ProjectsApi
@@ -7090,9 +7018,9 @@ export class ProjectsApi extends BaseAPI {
     }
 
     /**
-     *
+     * 
      * @summary Delete project
-     * @param {number} projectId
+     * @param {number} projectId 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ProjectsApi
@@ -7102,9 +7030,9 @@ export class ProjectsApi extends BaseAPI {
     }
 
     /**
-     *
+     * 
      * @summary Get project
-     * @param {number} projectId
+     * @param {number} projectId 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ProjectsApi
@@ -7114,9 +7042,9 @@ export class ProjectsApi extends BaseAPI {
     }
 
     /**
-     *
+     * 
      * @summary Projects list
-     * @param {number} projectId
+     * @param {number} projectId 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ProjectsApi
@@ -7126,10 +7054,10 @@ export class ProjectsApi extends BaseAPI {
     }
 
     /**
-     *
+     * 
      * @summary Update project
-     * @param {number} projectId
-     * @param {UpdateProjectRequest} updateProjectRequest
+     * @param {number} projectId 
+     * @param {UpdateProjectRequest} updateProjectRequest 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ProjectsApi

@@ -15,7 +15,7 @@ export const useDashboardsStore = defineStore('dashboards', {
         async getDashboards() {
             const commonStore = useCommonStore();
             try {
-                const res = await dashboardService.dashboardsList();
+                const res = await dashboardService.dashboardsList(commonStore.projectId);
                 if (res?.data?.data) {
                     this.dashboards = res.data.data
                 }
