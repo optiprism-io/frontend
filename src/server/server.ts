@@ -1,10 +1,8 @@
 import { createServer, Response } from 'miragejs'
 import { useUrlSearchParams } from '@vueuse/core'
-import { customAlphabet } from 'nanoid'
 import { DataType, TokensResponse } from '@/api'
 import { BASE_PATH } from '@/api/base'
 import { EventStatus, UserCustomProperty } from '@/types/events'
-import splineChartMocks from '@/mocks/splineChart.json'
 import liveStreamMocks from '@/mocks/reports/liveStream.json'
 import funnelsMocks from '@/mocks/reports/funnels.json'
 import userPropertiesMocks from '@/mocks/eventSegmentations/userProperties.json'
@@ -18,14 +16,11 @@ import dashboardsMocks from '@/mocks/dashboards'
 import groupRecordsMocks from '@/mocks/groupRecords.json'
 import profileMocks from '@/mocks/profile'
 import { profileRoutes } from '@/server/services/profile.service'
-import { EMPTY_HEADER_RESPONSE, EMPTY_SUCCESS_RES, Tokens } from '@/server/constants'
+import { EMPTY_HEADER_RESPONSE, EMPTY_SUCCESS_RES, nanoid, Tokens } from '@/server/constants'
 import { getRandomTiming } from '@/server/utils/getRandomTiming'
 import { projectsRoutes } from '@/server/services/projects.service'
 import projectsMocks from '@/mocks/projects'
 import { HttpStatusCode } from 'axios'
-
-const alphabet = '0123456789'
-const nanoid = customAlphabet(alphabet, 4);
 
 const dbTemplate: { [k: string]: any } = {
     events: eventMocks,
