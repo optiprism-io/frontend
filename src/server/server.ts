@@ -17,13 +17,13 @@ import reportsMocks from '@/mocks/reports/reports.json'
 import dashboardsMocks from '@/mocks/dashboards'
 import groupRecordsMocks from '@/mocks/groupRecords.json'
 import profileMocks from '@/mocks/profile'
-import { HttpStatusCode } from '@/server/constants/httpStatusCode'
 import { profileRoutes } from '@/server/services/profile.service'
 import { EMPTY_HEADER_RESPONSE, EMPTY_SUCCESS_RES } from '@/server/constants/empty'
 import { Tokens } from '@/server/constants/tokens'
 import { getRandomTiming } from '@/server/utils/getRandomTiming'
 import { projectsRoutes } from '@/server/services/projects.service'
 import projectsMocks from '@/mocks/projects'
+import { HttpStatusCode } from 'axios'
 
 const alphabet = '0123456789'
 const nanoid = customAlphabet(alphabet, 4);
@@ -240,7 +240,7 @@ export default function ({ environment = 'development', isSeed = true } = {}) {
                 const property = JSON.parse(request.requestBody)
 
                 if (property.email.length <= 5 || property.password.length < 5) {
-                    return new Response(HttpStatusCode.BAD_REQUEST, EMPTY_HEADER_RESPONSE, {
+                    return new Response(HttpStatusCode.BadRequest, EMPTY_HEADER_RESPONSE, {
                         'code': '1000_invalid_token',
                         'fields': {
                             'email': 'Email is too short',

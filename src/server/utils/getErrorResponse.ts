@@ -1,5 +1,5 @@
 import { fromPairs } from 'lodash'
-import { HttpStatusCode } from '@/server/constants/httpStatusCode'
+import { HttpStatusCode } from 'axios'
 
 type KeyError = string
 type MessageError = string
@@ -17,7 +17,7 @@ export function getErrorResponse(errors: [KeyError, MessageError][]): ServerErro
 
   return {
     error: {
-      status: HttpStatusCode.BAD_REQUEST,
+      status: HttpStatusCode.BadRequest,
       fields,
     },
   }
