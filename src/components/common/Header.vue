@@ -65,7 +65,7 @@
 </template>
 
 <script setup lang="ts">
-import { inject, onMounted, ref } from 'vue';
+import { h, inject, onMounted, ref } from 'vue';
 import {
     GenericUiDropdown,
     UiDropdownItem,
@@ -74,11 +74,13 @@ import Nav from '@/components/common/Nav.vue';
 import UiSwitch from '@/components/uikit/UiSwitch.vue';
 import { useAuthStore } from '@/stores/auth/auth';
 import { useDashboardsStore } from '@/stores/dashboards';
-import { useRouter } from 'vue-router';
+import { RouterLink, useRouter } from 'vue-router';
 import { pagesMap } from '@/router';
+import { useProjectsStore } from '@/stores/projects/projects'
 
 const authStore = useAuthStore();
 const dashboardsStore = useDashboardsStore();
+const projectStore = useProjectsStore()
 const router = useRouter();
 const i18n = inject<any>('i18n');
 const UiDropdown = GenericUiDropdown<MenuValues>()
@@ -97,7 +99,7 @@ const userMenu: UiDropdownItem<MenuValues>[] = [
   {
     key: 1,
     value: userMenuMap.PROFILE,
-    nameDisplay: i18n.$t('userMenu.personalSettings'),
+    vNode: h(RouterLink, { to: { name: pagesMap.profile } }, i18n.$t('userMenu.personalSettings')),
   },
   {
     key: 2,
@@ -108,6 +110,7 @@ const userMenu: UiDropdownItem<MenuValues>[] = [
     key: 3,
     value: userMenuMap.PROJECT,
     nameDisplay: i18n.$t('userMenu.projectSettings'),
+    vNode: h(RouterLink, { to: { name: pagesMap.projects.settings, params: { id: projectStore.projectId } } }, i18n.$t('userMenu.projectSettings')),
   },
   {
     key: 4,
@@ -128,12 +131,6 @@ const selectUserMenu = (item: UiDropdownItem<MenuValues>) => {
       authStore.$reset()
       dashboardsStore.$reset()
       router.replace({ name: 'login' })
-      break
-    case userMenuMap.PROFILE:
-      router.push({ name: pagesMap.profile })
-      break
-    case userMenuMap.PROJECT:
-      router.push({ name: pagesMap.projects.settings, params: { id: 1 } })
       break
   }
 }
