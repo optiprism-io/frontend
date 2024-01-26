@@ -83,6 +83,16 @@ export default function useDataTable(
         }
 
         tableData = payload?.columns.reduce((tableRows: Row[], column: DataTableResponseColumnsInner, indexColumn: number) => {
+            const isFixedColumn = FIXED_COLUMNS_TYPES.includes(column.type);
+            const cell: Cell = {
+                key: column.name,
+                value: undefined,
+                title: '-',
+                nowrap: isFixedColumn && noWrapContent,
+                lastFixed: isFixedColumn && indexColumn === fixedColumnLength,
+                fixed: isFixedColumn,
+            };
+
             if (column.data) {
                 column.data.forEach((item, i) => {
                     if (!tableRows[i]) {
@@ -90,33 +100,14 @@ export default function useDataTable(
                     }
 
                     if (column?.type) {
-                        const cell: Cell = {
-                            key: column.type,
-                            column: column.name,
-                            value: item,
-                            title: item || '-',
-                            nowrap: noWrapContent,
-                        }
-
-                        if (FIXED_COLUMNS_TYPES.includes(column.type)) {
-                            cell.lastFixed = indexColumn === fixedColumnLength
-                            cell.fixed = true;
-                            cell.nowrap = noWrapContent;
-                        }
+                        cell.value = item
+                        cell.title = item || '-'
+                        cell.nowrap = noWrapContent
 
                         tableRows[i].push(cell)
                     }
                 })
             } else {
-                const cell = {
-                    key: column.type,
-                    column: column.name,
-                    value: undefined,
-                    title: '-',
-                    nowrap: noWrapContent,
-                    lastFixed: FIXED_COLUMNS_TYPES.includes(column.type) && indexColumn === fixedColumnLength,
-                    fixed: FIXED_COLUMNS_TYPES.includes(column.type),
-                };
                 for (let i = 0; i < tableRowsLength; i++) {
                     tableRows[i][indexColumn] = cell;
                 }

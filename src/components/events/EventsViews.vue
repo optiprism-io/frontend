@@ -195,7 +195,7 @@ const dataTable = computed(() => {
     table.tableData = table.tableData.map(row => {
         return row.map(cell => {
             if (
-                cell.column === 'agg_name' &&
+                cell.key === 'agg_name' &&
                 typeof cell.value === 'string' &&
                 props.report
             ) {

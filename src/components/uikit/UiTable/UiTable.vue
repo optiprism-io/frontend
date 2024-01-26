@@ -209,7 +209,7 @@ const visibleColumnsKeys = computed(() => {
 
 const visibleItems = computed(() => {
     return props.items.map(row => {
-        return row.filter(cell => visibleColumnsKeys.value.includes(cell.column) && (!props.showSelectColumns || defaultColumns.value.includes(cell.key) || !disabledColumns.value.includes(cell.key)))
+        return row.filter(cell => visibleColumnsKeys.value.includes(cell.key) && (!props.showSelectColumns || defaultColumns.value.includes(cell.key) || !disabledColumns.value.includes(cell.key)))
     })
 })
 
