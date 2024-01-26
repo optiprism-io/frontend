@@ -64,8 +64,8 @@
                             @click="onClick(item)"
                         >
                             <Component
-                              v-if="item.vNode"
                               :is="item.vNode"
+                              v-if="item.vNode"
                               class="pf-c-dropdown__menu-item" />
                             <a
                                 v-else-if="item.href"
