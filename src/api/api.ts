@@ -336,7 +336,7 @@ export interface CreateProjectRequest {
      * @type {number}
      * @memberof CreateProjectRequest
      */
-    'sessionTimeoutSeconds': number;
+    'sessionDurationSeconds': number;
 }
 /**
  * 
@@ -2820,7 +2820,7 @@ export interface Project {
      * @type {number}
      * @memberof Project
      */
-    'sessionTimeoutSeconds'?: number;
+    'sessionDurationSeconds'?: number;
     /**
      * 
      * @type {number}
@@ -4032,7 +4032,7 @@ export interface UpdateProjectRequest {
      * @type {number}
      * @memberof UpdateProjectRequest
      */
-    'sessionTimeoutSeconds'?: number;
+    'sessionDurationSeconds'?: number;
 }
 /**
  * Propetty update

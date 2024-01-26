@@ -11,7 +11,7 @@ import {
   confirmPasswordScheme,
   notEmptyEmailScheme,
   notEmptyStringScheme,
-} from '@/stores/profile/validationSchemes'
+} from '@/utils/validationSchemes'
 import {
   isErrorResponseError,
   ProfileEdit,

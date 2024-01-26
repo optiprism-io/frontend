@@ -1927,24 +1927,24 @@ components:
           format: int64
         name:
           type: string
-        sessionTimeoutSeconds:
+        sessionDurationSeconds:
           type: integer
         eventsCount:
           type: integer
     CreateProjectRequest:
       type: object
-      required: [ 'name','sessionTimeoutSeconds' ]
+      required: [ 'name','sessionDurationSeconds' ]
       properties:
         name:
           type: string
-        sessionTimeoutSeconds:
+        sessionDurationSeconds:
           type: integer
     UpdateProjectRequest:
       type: object
       properties:
         name:
           type: string
-        sessionTimeoutSeconds:
+        sessionDurationSeconds:
           type: integer
     Organization:
       type: object

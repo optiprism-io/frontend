@@ -1,33 +1,37 @@
-import { createRouter, createWebHistory } from 'vue-router';
+import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 
 export const pagesMap = {
-    login: {
-        path: '/login',
-        name: 'login',
-    },
-    eventsLiveStream: {
-        path: '/events',
-        name: 'eventsLiveStream'
-    },
-    reportsEventSegmentation: {
-        path: '/reports',
-        name: 'reportsEventSegmentation',
-    },
-    dashboards: {
-        path: '/dashboards',
-        name: 'dashboards',
-    },
-    funnels: {
-        name: 'reports_funnels'
-    },
-    usersGroupRecords: 'usersGroupRecords',
-    usersProperties: 'usersProperties',
-    users: 'users',
-    reports: 'reports',
-    profile: 'profile'
+  login: {
+    path: '/login',
+    name: 'login',
+  },
+  eventsLiveStream: {
+    path: '/events',
+    name: 'eventsLiveStream',
+  },
+  reportsEventSegmentation: {
+    path: '/reports',
+    name: 'reportsEventSegmentation',
+  },
+  dashboards: {
+    path: '/dashboards',
+    name: 'dashboards',
+  },
+  funnels: {
+    name: 'reports_funnels',
+  },
+  usersGroupRecords: 'usersGroupRecords',
+  usersProperties: 'usersProperties',
+  users: 'users',
+  reports: 'reports',
+  profile: 'profile',
+  projects: {
+    main: 'projects',
+    settings: 'projectsSettings',
+  },
 }
 
-const routes = [
+const routes: RouteRecordRaw[] = [
     {
         path: pagesMap.login.path,
         name: pagesMap.login.name,
@@ -112,6 +116,22 @@ const routes = [
                 path: pagesMap.profile,
                 name: pagesMap.profile,
                 component: () => import('@/pages/ProfilePage.vue')
+            },
+            {
+                path: pagesMap.projects.main,
+                name: pagesMap.projects.main,
+                redirect: { name: pagesMap.projects.settings },
+                children: [
+                    {
+                        path: ':id?/settings',
+                        name: pagesMap.projects.settings,
+                        component: () => import('@/pages/ProjectSettings.vue'),
+                        beforeEnter: (to, from) => {
+                          if (!to.params.id) return false
+                          return true
+                        },
+                    },
+                ]
             },
             {
                 path: ':pathMatch(.*)*',

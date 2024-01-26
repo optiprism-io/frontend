@@ -65,7 +65,7 @@
 </template>
 
 <script setup lang="ts">
-import { inject, onMounted, ref } from 'vue';
+import { h, inject, onMounted, ref } from 'vue';
 import {
     GenericUiDropdown,
     UiDropdownItem,
@@ -74,62 +74,66 @@ import Nav from '@/components/common/Nav.vue';
 import UiSwitch from '@/components/uikit/UiSwitch.vue';
 import { useAuthStore } from '@/stores/auth/auth';
 import { useDashboardsStore } from '@/stores/dashboards';
-import { useRouter } from 'vue-router';
+import { RouterLink, useRouter } from 'vue-router';
 import { pagesMap } from '@/router';
+import { useProjectsStore } from '@/stores/projects/projects'
 
 const authStore = useAuthStore();
 const dashboardsStore = useDashboardsStore();
+const projectStore = useProjectsStore()
 const router = useRouter();
 const i18n = inject<any>('i18n');
-const UiDropdown = GenericUiDropdown<string>();
+const UiDropdown = GenericUiDropdown<MenuValues>()
 
 /* TODO: remove the stub key after implementing all menu items  */
 const userMenuMap = {
-    LOGOUT: 'logout',
-    PROFILE: 'profile',
-    STUB: 'stub',
-} as const;
+  LOGOUT: 'logout',
+  PROFILE: 'profile',
+  PROJECT: 'project',
+  STUB: 'stub',
+} as const
 
 type MenuValues = (typeof userMenuMap)[keyof typeof userMenuMap];
 
 const userMenu: UiDropdownItem<MenuValues>[] = [
-    {
-        key: 1,
-        value: userMenuMap.PROFILE,
-        nameDisplay: i18n.$t('userMenu.personalSettings'),
-    },
-    {
-        key: 2,
-        value: userMenuMap.STUB,
-        nameDisplay: i18n.$t('userMenu.orgranizationSettings'),
-    },
-    {
-        key: 3,
-        value: userMenuMap.STUB,
-        nameDisplay: i18n.$t('userMenu.projectSettings'),
-    },
-    {
-        key: 4,
-        value: userMenuMap.STUB,
-        nameDisplay: i18n.$t('userMenu.integrateOptiPrism'),
-    },
-    {
-        key: 5,
-        value: userMenuMap.LOGOUT,
-        nameDisplay: i18n.$t('userMenu.logout'),
-    },
-];
+  {
+    key: 1,
+    value: userMenuMap.PROFILE,
+    vNode: h(RouterLink, { to: { name: pagesMap.profile } }, i18n.$t('userMenu.personalSettings')),
+  },
+  {
+    key: 2,
+    value: userMenuMap.STUB,
+    nameDisplay: i18n.$t('userMenu.orgranizationSettings'),
+  },
+  {
+    key: 3,
+    value: userMenuMap.PROJECT,
+    nameDisplay: i18n.$t('userMenu.projectSettings'),
+    vNode: h(RouterLink, { to: { name: pagesMap.projects.settings, params: { id: projectStore.projectId } } }, i18n.$t('userMenu.projectSettings')),
+  },
+  {
+    key: 4,
+    value: userMenuMap.STUB,
+    nameDisplay: i18n.$t('userMenu.integrateOptiPrism'),
+  },
+  {
+    key: 5,
+    value: userMenuMap.LOGOUT,
+    nameDisplay: i18n.$t('userMenu.logout'),
+  },
+]
 
-const selectUserMenu = (item: UiDropdownItem<string>) => {
-    if (item.value === userMenuMap.LOGOUT) {
-        authStore.reset();
-        authStore.$reset();
-        dashboardsStore.$reset();
-        router.replace({ name: 'login' });
-    } else if (item.value === userMenuMap.PROFILE) {
-        router.push({ name: pagesMap.profile });
-    }
-};
+const selectUserMenu = (item: UiDropdownItem<MenuValues>) => {
+  switch (item.value) {
+    case userMenuMap.LOGOUT:
+      authStore.reset()
+      authStore.$reset()
+      dashboardsStore.$reset()
+      router.replace({ name: 'login' })
+      break
+  }
+}
 
 /**
  * mocks env store

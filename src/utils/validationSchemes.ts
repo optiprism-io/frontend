@@ -1,4 +1,4 @@
-import { custom, email, forward, minLength, object, string, toTrimmed } from 'valibot'
+import { custom, email, forward, minLength, minValue, number, object, string, toTrimmed } from 'valibot'
 import i18n from '@/utils/i18n'
 
 export const notEmptyStringScheme = string([
@@ -10,6 +10,10 @@ export const notEmptyEmailScheme = string([
   toTrimmed(),
   minLength(1, i18n.t('profile.errors.emptyField')),
   email(),
+])
+
+export const moreThanZeroScheme = number([
+  minValue(1)
 ])
 
 export const confirmPasswordScheme = object(
