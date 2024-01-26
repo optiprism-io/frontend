@@ -150,6 +150,8 @@ import UiTable from '@/components/uikit/UiTable/UiTable.vue';
 import ChartPie from '@/components/charts/ChartPie.vue';
 import ChartLine from '@/components/charts/ChartLine.vue';
 import ChartColumn from '@/components/charts/ChartColumn.vue';
+import { Column } from '@/components/uikit/UiTable/UiTable'
+
 import {
     getEventString,
 } from '@/helpers/reportTableHelper';
@@ -203,6 +205,10 @@ const dataTable = computed(() => {
             return cell;
         });
     });
+
+    if (table.tableColumns?.segment && !props.report?.query?.segments?.length) {
+        table.tableColumns.segment.hidden = true;
+    }
 
     return table;
 })

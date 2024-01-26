@@ -46,7 +46,9 @@ export type Column = {
     type?: string
     notActiveStart?: boolean
     fitContent?: boolean
-    nowrap?: boolean;
+    nowrap?: boolean
+    hidden?: boolean
+    index: boolean,
 }
 
 export type Cell = {
@@ -64,7 +66,7 @@ export type Cell = {
     fixed?: boolean
     type?: string
     items?: ToolMenuItem[]
-    column?: string
+    column: string
 }
 
 export type ColumnMap = {

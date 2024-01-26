@@ -134,7 +134,7 @@
 </template>
 
 <script lang="ts" setup name="UiTable">
-import { computed, inject, useSlots, ref } from 'vue';
+import { computed, inject, useSlots, ref, watch } from 'vue';
 import { Row, Column, Action, ColumnGroup } from '@/components/uikit/UiTable/UiTable';
 import UiTableHeadCell from '@/components/uikit/UiTable/UiTableHeadCell.vue';
 import UiTableCell from '@/components/uikit/UiTable/UiTableCell.vue';
@@ -193,19 +193,23 @@ const columnsSelect = computed(() => {
 
 const activeColumns = computed(() => {
     return props.columns.filter(item => !disabledColumns.value.includes(item.value)).map(item => item.value);
-});
+})
 
 const columnsButtonText = computed(() => {
     return `${columnsSelect.value.length} ${i18n.$t('common.columns')}`
 })
 
 const visibleColumns = computed(() => {
-    return props.columns.filter(item => !props.showSelectColumns || item.default || !disabledColumns.value.includes(item.value))
+    return props.columns.filter(item => !item.hidden && (!props.showSelectColumns || item.default || !disabledColumns.value.includes(item.value)))
+})
+
+const visibleColumnsKeys = computed(() => {
+    return visibleColumns.value.map(col => col.value)
 })
 
 const visibleItems = computed(() => {
     return props.items.map(row => {
-        return row.filter(cell => !props.showSelectColumns || defaultColumns.value.includes(cell.key) || !disabledColumns.value.includes(cell.key))
+        return row.filter(cell => visibleColumnsKeys.value.includes(cell.column) && (!props.showSelectColumns || defaultColumns.value.includes(cell.key) || !disabledColumns.value.includes(cell.key)))
     })
 })
 

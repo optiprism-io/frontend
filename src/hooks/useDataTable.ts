@@ -32,9 +32,16 @@ export default function useDataTable(
     const columnsData = (payload?.columns || []).reduce((acc: DataTableResponseColumnsInnerData[], item) => {
         if (Array.isArray(item.data) && item.data.length) {
             acc.push(item.data);
+        } else {
+            acc.push([]);
         }
         return acc;
     }, []);
+
+    const tableRowsLength = columnsData.reduce((sum, columnData) => {
+        return columnData.length > sum ? columnData.length : sum;;
+    }, 0);
+
     const hasData = Boolean(payload?.columns && payload?.columns.length && columnsData.length);
     const dimensionColumns = payload?.columns ? payload.columns.filter(column => column.type === 'dimension') : [];
     const metricColumns = payload?.columns ? payload?.columns.filter(column => column.type === 'metric') : [];
@@ -59,12 +66,14 @@ export default function useDataTable(
                             lastFixed: fixedColumnLength === i,
                             fixed: true,
                             nowrap: noWrapContent,
+                            index: i,
                         }
                     } else {
                         acc[column.name] = {
                             value: column.name,
                             title: getStringDateByFormat(column.name, '%d %b, %Y'),
                             nowrap: noWrapContent,
+                            index: i,
                         }
                     }
                 }
@@ -98,6 +107,19 @@ export default function useDataTable(
                         tableRows[i].push(cell)
                     }
                 })
+            } else {
+                const cell = {
+                    key: column.type,
+                    column: column.name,
+                    value: undefined,
+                    title: '-',
+                    nowrap: noWrapContent,
+                    lastFixed: FIXED_COLUMNS_TYPES.includes(column.type) && indexColumn === fixedColumnLength,
+                    fixed: FIXED_COLUMNS_TYPES.includes(column.type),
+                };
+                for (let i = 0; i < tableRowsLength; i++) {
+                    tableRows[i][indexColumn] = cell;
+                }
             }
 
             return tableRows
