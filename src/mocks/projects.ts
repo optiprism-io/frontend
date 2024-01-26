@@ -7,6 +7,6 @@ export default {
   createdBy: 0,
   updatedBy: 0,
   name: 'Project Stub',
-  sessionTimeoutSeconds: 7500,
+  sessionDurationSeconds: 7500,
   eventsCount: 0,
 }

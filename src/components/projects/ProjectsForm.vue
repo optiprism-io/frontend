@@ -20,10 +20,10 @@
 
     <UiLabelAndSlot
       :label="t('project.sessionDuration')"
-      :hide-label="isEdit.sessionTimeoutSeconds"
+      :hide-label="isEdit.sessionDurationSeconds"
     >
       <UiInlineEditSlot
-        :is-editable="curIsEdit.sessionTimeoutSeconds"
+        :is-editable="curIsEdit.sessionDurationSeconds"
         :placeholder="`${sessionTimeout} ${sessionPeriod}`"
         @update:is-editable="editDurationHandler"
         @cancel="cancelDurationHandler"
@@ -36,7 +36,7 @@
               class="pf-u-w-initial"
               type="number"
               :min="1"
-              :invalid="!!errors.updateProject.sessionTimeoutSeconds?.message"
+              :invalid="!!errors.updateProject.sessionDurationSeconds?.message"
               @input="emit('input-duration')"
               @keyup.enter="saveSessionDurationHandler"
             />
@@ -48,7 +48,7 @@
             />
           </div>
         </UiLabelAndSlot>
-        <UiFormError :error="errors.updateProject.sessionTimeoutSeconds?.message" />
+        <UiFormError :error="errors.updateProject.sessionDurationSeconds?.message" />
       </UiInlineEditSlot>
     </UiLabelAndSlot>
   </form>
@@ -78,14 +78,14 @@ const { t } = usei18n()
 
 interface IProps {
   name?: string
-  sessionTimeoutSeconds?: number
+  sessionDurationSeconds?: number
   errors: ProjectErrors
   isEdit: ProjectEdit
 }
 
 const props = withDefaults(defineProps<IProps>(), {
   name: '',
-  sessionTimeoutSeconds: 0,
+  sessionDurationSeconds: 0,
 })
 
 const emit = defineEmits<{
@@ -100,13 +100,13 @@ const curIsEdit = useVModel(props, 'isEdit', emit)
 
 const name = ref(props.name)
 
-const [timeout, period] = fromSessionTimeout(props.sessionTimeoutSeconds)
+const [timeout, period] = fromSessionTimeout(props.sessionDurationSeconds)
 const sessionTimeout = ref(timeout)
 const sessionPeriod = ref(period)
 
 function saveSessionDurationHandler() {
-  const sessionTimeoutSeconds = toSessionTimeout([sessionTimeout.value, sessionPeriod.value])
-  emit('save-session-duration', sessionTimeoutSeconds)
+  const sessionDurationSeconds = toSessionTimeout([sessionTimeout.value, sessionPeriod.value])
+  emit('save-session-duration', sessionDurationSeconds)
 }
 
 function saveProjectNameHandler() {
@@ -121,7 +121,7 @@ function editNameHandler(val: boolean) {
 
 function editDurationHandler(val: boolean) {
   const copyIsEdit = cloneDeep(curIsEdit.value)
-  copyIsEdit.sessionTimeoutSeconds = val
+  copyIsEdit.sessionDurationSeconds = val
   curIsEdit.value = copyIsEdit
 }
 
@@ -147,9 +147,9 @@ watch(
 )
 
 watch(
-  () => props.isEdit.sessionTimeoutSeconds,
+  () => props.isEdit.sessionDurationSeconds,
   () => {
-    const [timeout, period] = fromSessionTimeout(props.sessionTimeoutSeconds)
+    const [timeout, period] = fromSessionTimeout(props.sessionDurationSeconds)
     sessionTimeout.value = timeout
     sessionPeriod.value = period
   }

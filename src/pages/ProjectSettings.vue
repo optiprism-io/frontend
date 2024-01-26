@@ -11,7 +11,7 @@
             v-else-if="project"
             v-model:is-edit="isEdit"
             :name="project.name"
-            :session-timeout-seconds="project.sessionTimeoutSeconds"
+            :session-duration-seconds="project.sessionDurationSeconds"
             :errors="errors"
             @input-name="clearErrorName"
             @input-duration="clearErrorSessionDuration"

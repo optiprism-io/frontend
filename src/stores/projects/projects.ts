@@ -21,12 +21,12 @@ export const useProjectsStore = defineStore('projects', {
     errors: {
       updateProject: {
         name: undefined,
-        sessionTimeoutSeconds: undefined,
+        sessionDurationSeconds: undefined,
       },
     },
     isEdit: {
       name: false,
-      sessionTimeoutSeconds: false,
+      sessionDurationSeconds: false,
     },
   }),
 
@@ -77,22 +77,22 @@ export const useProjectsStore = defineStore('projects', {
       this.resetEditName()
     },
 
-    async saveSessionDuration(sessionTimeoutSeconds: number) {
-      const dCheck = safeParse(moreThanZeroScheme, sessionTimeoutSeconds)
+    async saveSessionDuration(sessionDurationSeconds: number) {
+      const dCheck = safeParse(moreThanZeroScheme, sessionDurationSeconds)
       if (!dCheck.success) {
-        this.errors.updateProject.sessionTimeoutSeconds = dCheck.error
+        this.errors.updateProject.sessionDurationSeconds = dCheck.error
         return
       }
 
       try {
-        await this.__updateProject({ sessionTimeoutSeconds })
+        await this.__updateProject({ sessionDurationSeconds })
       } catch (error) {
         if (isErrorResponseError(error)) {
           const err = error.error
 
-          if (err?.fields?.sessionTimeoutSeconds) {
-            this.errors.updateProject.sessionTimeoutSeconds = new Error(
-              err.fields.sessionTimeoutSeconds
+          if (err?.fields?.sessionDurationSeconds) {
+            this.errors.updateProject.sessionDurationSeconds = new Error(
+              err.fields.sessionDurationSeconds
             )
             return
           }
@@ -117,7 +117,7 @@ export const useProjectsStore = defineStore('projects', {
     },
 
     resetEditSessionDuration() {
-      this.isEdit.sessionTimeoutSeconds = false
+      this.isEdit.sessionDurationSeconds = false
       this.clearErrorSessionDuration()
     },
 
@@ -126,7 +126,7 @@ export const useProjectsStore = defineStore('projects', {
     },
 
     clearErrorSessionDuration() {
-      this.errors.updateProject.sessionTimeoutSeconds = undefined
+      this.errors.updateProject.sessionDurationSeconds = undefined
     },
   },
 })
