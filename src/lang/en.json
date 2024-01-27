@@ -192,6 +192,9 @@
     "select_value": "Select value",
     "editEvent": "Edit event",
     "editProperty": "Edit property",
+    "selectAggregate": "Select aggregate",
+    "selectQuery": "Select Query",
+    "perGroupAggregateBy": "per :group, aggregate by",
     "segments": {
       "segment": "Segment",
       "label": "Segments",
