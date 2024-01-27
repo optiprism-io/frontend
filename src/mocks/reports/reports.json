@@ -31,6 +31,12 @@
                             "propertyType": "event",
                             "propertyId": "5",
                             "aggregate": "distinctCount"
+                        },
+                        {
+                            "type": "aggregateProperty",
+                            "propertyType": "event",
+                            "propertyId": "2",
+                            "aggregate": "sum"
                         }
                     ],
                     "breakdowns": [],

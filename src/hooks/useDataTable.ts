@@ -84,14 +84,6 @@ export default function useDataTable(
 
         tableData = payload?.columns.reduce((tableRows: Row[], column: DataTableResponseColumnsInner, indexColumn: number) => {
             const isFixedColumn = FIXED_COLUMNS_TYPES.includes(column.type);
-            const cell: Cell = {
-                key: column.name,
-                value: undefined,
-                title: '-',
-                nowrap: isFixedColumn && noWrapContent,
-                lastFixed: isFixedColumn && indexColumn === fixedColumnLength,
-                fixed: isFixedColumn,
-            };
 
             if (column.data) {
                 column.data.forEach((item, i) => {
@@ -99,17 +91,25 @@ export default function useDataTable(
                         tableRows[i] = []
                     }
 
-                    if (column?.type) {
-                        cell.value = item
-                        cell.title = item || '-'
-                        cell.nowrap = noWrapContent
-
-                        tableRows[i].push(cell)
+                    tableRows[i][indexColumn] = {
+                        key: column.name,
+                        value: item,
+                        title: item || '-',
+                        nowrap: isFixedColumn && noWrapContent,
+                        lastFixed: isFixedColumn && indexColumn === fixedColumnLength,
+                        fixed: isFixedColumn,
                     }
                 })
             } else {
                 for (let i = 0; i < tableRowsLength; i++) {
-                    tableRows[i][indexColumn] = cell;
+                    tableRows[i][indexColumn] = {
+                        key: column.name,
+                        value: undefined,
+                        title: '-',
+                        nowrap: isFixedColumn && noWrapContent,
+                        lastFixed: isFixedColumn && indexColumn === fixedColumnLength,
+                        fixed: isFixedColumn,
+                    };
                 }
             }
 

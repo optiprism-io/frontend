@@ -7,7 +7,8 @@
             "data": [
                 "0_0_count",
                 "0_1_count",
-                "0_2_partitioned_count"
+                "0_2_partitioned_count",
+                "0_3_sum"
             ]
         },
         {

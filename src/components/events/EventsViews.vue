@@ -150,10 +150,9 @@ import UiTable from '@/components/uikit/UiTable/UiTable.vue';
 import ChartPie from '@/components/charts/ChartPie.vue';
 import ChartLine from '@/components/charts/ChartLine.vue';
 import ChartColumn from '@/components/charts/ChartColumn.vue';
-import { Column } from '@/components/uikit/UiTable/UiTable'
 
 import {
-    getEventString,
+    getQueryFormattedValue,
 } from '@/helpers/reportTableHelper';
 
 const compareToMap = ['day', 'week', 'month', 'year'];
@@ -199,7 +198,7 @@ const dataTable = computed(() => {
                 typeof cell.value === 'string' &&
                 props.report
             ) {
-                cell.title = getEventString(cell.value, props.report) || cell.value;
+                cell.title = getQueryFormattedValue(cell.value, props.report) || cell.value;
             }
 
             return cell;
