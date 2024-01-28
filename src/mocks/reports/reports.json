@@ -27,10 +27,11 @@
                             "type": "countEvents"
                         },
                         {
-                            "type": "aggregateProperty",
+                            "type": "aggregatePropertyPerGroup",
                             "propertyType": "event",
-                            "propertyId": "5",
-                            "aggregate": "distinctCount"
+                            "propertyId": "11",
+                            "aggregate": "percentile75",
+                            "aggregatePerGroup": "median"
                         },
                         {
                             "type": "aggregateProperty",

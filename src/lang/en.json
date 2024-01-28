@@ -195,6 +195,7 @@
     "selectAggregate": "Select aggregate",
     "selectQuery": "Select Query",
     "perGroupAggregateBy": "per :group, aggregate by",
+    "per": "per",
     "segments": {
       "segment": "Segment",
       "label": "Segments",
@@ -220,12 +221,23 @@
     },
     "aggregates": {
       "count": "Count",
+      "countPerGroup": "Count",
       "relativeCount": "Relative count",
       "aggregateProperty": "Aggregate property",
       "historicalCount": "Historical count",
       "didEventCount": "Count",
       "didEventRelativeCount": "Relative count",
-      "distinctCount": "Distinct count"
+      "distinctCount": "Distinct count",
+      "sum": "Sum",
+      "avg": "Average",
+      "median": "Median",
+      "min": "Minimum",
+      "max": "Maximum",
+      "percentile25": "25th Percentile",
+      "percentile75": "75th Percentile",
+      "percentile90": "90th Percentile",
+      "percentile99": "99th Percentile",
+      "formula": "Formula"
     },
     "aggregateProperty": {
       "sum": "Sum of property",
