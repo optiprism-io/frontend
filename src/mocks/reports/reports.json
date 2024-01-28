@@ -24,7 +24,8 @@
                             "aggregate": "median"
                         },
                         {
-                            "type": "countEvents"
+                            "type": "formula",
+                            "formula": "124+123-33*(2/2)=x"
                         },
                         {
                             "type": "aggregatePropertyPerGroup",

@@ -85,7 +85,10 @@
         </Select>
       </div>
       <div v-if="queryInfo?.hasValue" class="pf-c-action-list__item">
-        <UiInput @input="changeFormula" />
+        <UiInput
+          :value="queryValue"
+          @input="changeFormula"
+        />
       </div>
       <div v-if="propertySelectError" class="pf-c-action-list__item pf-u-mt-xs">
         <VTooltip popper-class="ui-hint">
@@ -149,6 +152,8 @@ const queryInfo = computed((): EventsQuery | undefined => {
 const propRef = computed((): PropertyRef | undefined => {
   return props?.item?.queryRef?.propRef
 })
+
+const queryValue = computed(() => props.item.queryRef?.value || '')
 
 const showProperty = computed(() => queryInfo.value?.hasProperty)
 
