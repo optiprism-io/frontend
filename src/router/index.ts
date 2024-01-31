@@ -31,10 +31,7 @@ export const pagesMap = {
   users: 'users',
   reports: 'reports',
   profile: 'profile',
-  projects: {
-    main: 'projects',
-    settings: 'projectsSettings',
-  },
+  projectsSettings: 'projectsSettings',
   integration: 'integration',
 }
 
@@ -124,20 +121,9 @@ const routes: RouteRecordRaw[] = [
         component: () => import('@/pages/ProfilePage.vue'),
       },
       {
-        path: pagesMap.projects.main,
-        name: pagesMap.projects.main,
-        redirect: { name: pagesMap.projects.settings },
-        children: [
-          {
-            path: ':id?/settings',
-            name: pagesMap.projects.settings,
-            component: () => import('@/pages/ProjectSettings.vue'),
-            beforeEnter: (to, from) => {
-              if (!to.params.id) return false
-              return true
-            },
-          },
-        ],
+        path: 'projects/:id/settings',
+        name: pagesMap.projectsSettings,
+        component: () => import('@/pages/ProjectSettings.vue'),
       },
       {
         path: 'integration/:integration',
