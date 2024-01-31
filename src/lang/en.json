@@ -16,7 +16,7 @@
 
   "userMenu": {
     "personalSettings": "Personal Settings",
-    "orgranizationSettings": "Orgranization Settings",
+    "organizationSettings": "Organization Settings",
     "projectSettings": "Project settings",
     "integrateOptiPrism": "Integrate OptiPrism",
     "logout": "Log Out"
@@ -352,5 +352,11 @@
     },
     "name": "Name",
     "sessionDuration": "Session Duration"
+  },
+
+  "integration": {
+    "javascript": "javascript",
+    "android": "android",
+    "ios": "ios"
   }
 }

@@ -88,7 +88,7 @@ const userMenu: UiDropdownItem<MenuValues>[] = [
   {
     key: 2,
     value: userMenuMap.STUB,
-    nameDisplay: i18n.$t('userMenu.orgranizationSettings'),
+    nameDisplay: i18n.$t('userMenu.organizationSettings'),
   },
   {
     key: 3,
@@ -96,7 +96,7 @@ const userMenu: UiDropdownItem<MenuValues>[] = [
     nameDisplay: i18n.$t('userMenu.projectSettings'),
     vNode: h(
       RouterLink,
-      { to: { name: pagesMap.projects.settings, params: { id: projectStore.projectId } } },
+      { to: { name: pagesMap.projectsSettings, params: { id: projectStore.projectId } } },
       i18n.$t('userMenu.projectSettings')
     ),
   },
