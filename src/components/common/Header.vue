@@ -9,6 +9,14 @@
       <div class="pf-l-flex__item">
         <Nav />
       </div>
+      <RouterLink
+        v-if="!projectStore.project?.eventsCount"
+        class="pf-c-button pf-m-small pf-m-warning"
+        :to="{ name: pagesMap.integration, params: { integration: SDKIntegration.javascript } }"
+      >
+        <UiIcon icon="fas fa-exclamation-circle" />
+        Click here to integrate and start using OptiPrism
+      </RouterLink>
       <div
         class="app-header__tools"
         :class="{
@@ -60,6 +68,7 @@ import { useDashboardsStore } from '@/stores/dashboards'
 import { RouterLink, useRouter } from 'vue-router'
 import { pagesMap, SDKIntegration } from '@/router'
 import { useProjectsStore } from '@/stores/projects/projects'
+import UiIcon from '@/components/uikit/UiIcon.vue'
 
 const authStore = useAuthStore()
 const dashboardsStore = useDashboardsStore()
@@ -160,7 +169,7 @@ onMounted(() => {
   position: sticky;
   top: 0;
   z-index: var(--pf-global--ZIndex--2xl);
-  height: 44px;
+  padding: 0.2rem 0;
   grid-area: header;
   background-color: var(--op-base-color);
 
