@@ -68,13 +68,12 @@ const router = useRouter()
 const i18n = inject<any>('i18n')
 const UiDropdown = GenericUiDropdown<MenuValues>()
 
-/* TODO: remove the stub key after implementing all menu items  */
 const userMenuMap = {
-  LOGOUT: 'logout',
   PROFILE: 'profile',
+  ORGANIZATION: 'organization',
   PROJECT: 'project',
   INTEGRATION: 'integration',
-  STUB: 'stub',
+  LOGOUT: 'logout',
 } as const
 
 type MenuValues = (typeof userMenuMap)[keyof typeof userMenuMap]
@@ -87,7 +86,7 @@ const userMenu: UiDropdownItem<MenuValues>[] = [
   },
   {
     key: 2,
-    value: userMenuMap.STUB,
+    value: userMenuMap.ORGANIZATION,
     nameDisplay: i18n.$t('userMenu.organizationSettings'),
   },
   {
