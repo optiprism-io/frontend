@@ -82,7 +82,9 @@ const userMenu: UiDropdownItem<MenuValues>[] = [
   {
     key: 1,
     value: userMenuMap.PROFILE,
-    vNode: h(RouterLink, { to: { name: pagesMap.profile } }, i18n.$t('userMenu.personalSettings')),
+    vNode: h(RouterLink, { to: { name: pagesMap.profile } }, () =>
+      i18n.$t('userMenu.personalSettings')
+    ),
   },
   {
     key: 2,
@@ -95,8 +97,10 @@ const userMenu: UiDropdownItem<MenuValues>[] = [
     nameDisplay: i18n.$t('userMenu.projectSettings'),
     vNode: h(
       RouterLink,
-      { to: { name: pagesMap.projectsSettings, params: { id: projectStore.projectId } } },
-      i18n.$t('userMenu.projectSettings')
+      {
+        to: { name: pagesMap.projectsSettings, params: { id: projectStore.projectId } },
+      },
+      () => i18n.$t('userMenu.projectSettings')
     ),
   },
   {
@@ -105,8 +109,10 @@ const userMenu: UiDropdownItem<MenuValues>[] = [
     nameDisplay: i18n.$t('userMenu.integrateOptiPrism'),
     vNode: h(
       RouterLink,
-      { to: { name: pagesMap.integration, params: { integration: SDKIntegration.javascript } } },
-      i18n.$t('userMenu.integrateOptiPrism')
+      {
+        to: { name: pagesMap.integration, params: { integration: SDKIntegration.javascript } },
+      },
+      () => i18n.$t('userMenu.integrateOptiPrism')
     ),
   },
   {
