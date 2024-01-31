@@ -3,6 +3,8 @@
         class="pf-c-tabs"
         :class="{
             'pf-m-box': props.box,
+            'pf-m-vertical': props.isVertical,
+            'pf-u-flex-direction-row': props.isVertical
         }"
     >
         <ul class="pf-c-tabs__list">
@@ -54,6 +56,7 @@ type Item = {
 interface Props {
     items: Item[],
     box?: boolean,
+    isVertical?: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {});
