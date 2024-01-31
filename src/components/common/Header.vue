@@ -58,7 +58,7 @@ import UiSwitch from '@/components/uikit/UiSwitch.vue'
 import { useAuthStore } from '@/stores/auth/auth'
 import { useDashboardsStore } from '@/stores/dashboards'
 import { RouterLink, useRouter } from 'vue-router'
-import { pagesMap } from '@/router'
+import { pagesMap, SDKIntegration } from '@/router'
 import { useProjectsStore } from '@/stores/projects/projects'
 
 const authStore = useAuthStore()
@@ -73,6 +73,7 @@ const userMenuMap = {
   LOGOUT: 'logout',
   PROFILE: 'profile',
   PROJECT: 'project',
+  INTEGRATION: 'integration',
   STUB: 'stub',
 } as const
 
@@ -101,8 +102,13 @@ const userMenu: UiDropdownItem<MenuValues>[] = [
   },
   {
     key: 4,
-    value: userMenuMap.STUB,
+    value: userMenuMap.INTEGRATION,
     nameDisplay: i18n.$t('userMenu.integrateOptiPrism'),
+    vNode: h(
+      RouterLink,
+      { to: { name: pagesMap.integration, params: { integration: SDKIntegration.javascript } } },
+      i18n.$t('userMenu.integrateOptiPrism')
+    ),
   },
   {
     key: 5,
