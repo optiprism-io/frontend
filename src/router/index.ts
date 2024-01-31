@@ -1,5 +1,11 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 
+export const SDKIntegration = {
+  javascript: 'java-script',
+  android: 'android',
+  ios: 'ios',
+} as const
+
 export const pagesMap = {
   login: {
     path: '/login',
@@ -29,6 +35,7 @@ export const pagesMap = {
     main: 'projects',
     settings: 'projectsSettings',
   },
+  integration: 'integration',
 }
 
 const routes: RouteRecordRaw[] = [
@@ -131,6 +138,19 @@ const routes: RouteRecordRaw[] = [
             },
           },
         ],
+      },
+      {
+        path: 'integration/:integration',
+        name: pagesMap.integration,
+        component: () => import('@/pages/IntegrationPage.vue'),
+        beforeEnter: (to, from) => {
+          if (!Object.values(SDKIntegration).some(x => x === to.params.integration))
+            return {
+              name: pagesMap.integration,
+              params: { integration: SDKIntegration.javascript },
+            }
+          return true
+        },
       },
       {
         path: ':pathMatch(.*)*',
