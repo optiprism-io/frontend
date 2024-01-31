@@ -1,88 +1,71 @@
 <template>
-    <header class="app-header">
-        <div class="pf-l-flex pf-u-align-items-center">
-            <div class="pf-l-flex__item pf-u-ml-md">
-                <router-link
-                    class="app-header__logo"
-                    to="/dashboards"
-                    aria-current="page"
-                >
-                    <img
-                        class="pf-c-brand"
-                        src="@/assets/img/logo-black.svg"
-                        alt="Optyprism"
-                    >
-                </router-link>
-            </div>
-            <div class="pf-l-flex__item">
-                <Nav />
-            </div>
-            <div
-                class="app-header__tools"
-                :class="{
-                    'pf-m-align-r': !viteMockApi,
-                }"
-            >
-                <div class="pf-c-page__header-tools-group">
-                    <div
-                        v-if="viteMockApi"
-                        class="pf-c-page__header-tools-item pf-u-mr-lg"
-                    >
-                        <UiSwitch
-                            class="pf-m-reverse pf-c-switch-white"
-                            :value="isEmptyMocks"
-                            :label="'Mocks empty'"
-                            @input="onClearStore"
-                        />
-                    </div>
-                    <div
-                        v-if="viteMockApi"
-                        class="pf-c-page__header-tools-item pf-u-mr-lg"
-                    >
-                        <UiSwitch
-                            class="pf-m-reverse pf-c-switch-white"
-                            :value="isEnabledMocks"
-                            :label="'Mocks enabled'"
-                            @input="changeMocks"
-                        />
-                    </div>
-                    <div class="pf-c-page__header-tools-item">
-                        <UiDropdown
-                            class="pf-u-mr-lg"
-                            :items="userMenu"
-                            :text-button="''"
-                            :transparent="true"
-                            :has-icon-arrow-button="false"
-                            :button-icon="'gear'"
-                            :placement-menu="'bottom-end'"
-                            @select-value="selectUserMenu"
-                        />
-                    </div>
-                </div>
-            </div>
+  <header class="app-header">
+    <div class="pf-l-flex pf-u-align-items-center">
+      <div class="pf-l-flex__item pf-u-ml-md">
+        <router-link class="app-header__logo" to="/dashboards" aria-current="page">
+          <img class="pf-c-brand" src="@/assets/img/logo-black.svg" alt="Optyprism" />
+        </router-link>
+      </div>
+      <div class="pf-l-flex__item">
+        <Nav />
+      </div>
+      <div
+        class="app-header__tools"
+        :class="{
+          'pf-m-align-r': !viteMockApi,
+        }"
+      >
+        <div class="pf-c-page__header-tools-group">
+          <div v-if="viteMockApi" class="pf-c-page__header-tools-item pf-u-mr-lg">
+            <UiSwitch
+              class="pf-m-reverse pf-c-switch-white"
+              :value="isEmptyMocks"
+              :label="'Mocks empty'"
+              @input="onClearStore"
+            />
+          </div>
+          <div v-if="viteMockApi" class="pf-c-page__header-tools-item pf-u-mr-lg">
+            <UiSwitch
+              class="pf-m-reverse pf-c-switch-white"
+              :value="isEnabledMocks"
+              :label="'Mocks enabled'"
+              @input="changeMocks"
+            />
+          </div>
+          <div class="pf-c-page__header-tools-item">
+            <UiDropdown
+              class="pf-u-mr-lg"
+              :items="userMenu"
+              :text-button="''"
+              :transparent="true"
+              :has-icon-arrow-button="false"
+              :button-icon="'gear'"
+              :placement-menu="'bottom-end'"
+              @select-value="selectUserMenu"
+            />
+          </div>
         </div>
-    </header>
+      </div>
+    </div>
+  </header>
 </template>
 
 <script setup lang="ts">
-import { h, inject, onMounted, ref } from 'vue';
-import {
-    GenericUiDropdown,
-    UiDropdownItem,
-} from '@/components/uikit/UiDropdown.vue';
-import Nav from '@/components/common/Nav.vue';
-import UiSwitch from '@/components/uikit/UiSwitch.vue';
-import { useAuthStore } from '@/stores/auth/auth';
-import { useDashboardsStore } from '@/stores/dashboards';
-import { RouterLink, useRouter } from 'vue-router';
-import { pagesMap } from '@/router';
+import { h, inject, onMounted, ref } from 'vue'
+import { GenericUiDropdown, UiDropdownItem } from '@/components/uikit/UiDropdown.vue'
+import Nav from '@/components/common/Nav.vue'
+import UiSwitch from '@/components/uikit/UiSwitch.vue'
+import { useAuthStore } from '@/stores/auth/auth'
+import { useDashboardsStore } from '@/stores/dashboards'
+import { RouterLink, useRouter } from 'vue-router'
+import { pagesMap } from '@/router'
 import { useProjectsStore } from '@/stores/projects/projects'
 
-const authStore = useAuthStore();
-const dashboardsStore = useDashboardsStore();
+const authStore = useAuthStore()
+const dashboardsStore = useDashboardsStore()
 const projectStore = useProjectsStore()
-const router = useRouter();
-const i18n = inject<any>('i18n');
+const router = useRouter()
+const i18n = inject<any>('i18n')
 const UiDropdown = GenericUiDropdown<MenuValues>()
 
 /* TODO: remove the stub key after implementing all menu items  */
@@ -93,7 +76,7 @@ const userMenuMap = {
   STUB: 'stub',
 } as const
 
-type MenuValues = (typeof userMenuMap)[keyof typeof userMenuMap];
+type MenuValues = (typeof userMenuMap)[keyof typeof userMenuMap]
 
 const userMenu: UiDropdownItem<MenuValues>[] = [
   {
@@ -110,7 +93,11 @@ const userMenu: UiDropdownItem<MenuValues>[] = [
     key: 3,
     value: userMenuMap.PROJECT,
     nameDisplay: i18n.$t('userMenu.projectSettings'),
-    vNode: h(RouterLink, { to: { name: pagesMap.projects.settings, params: { id: projectStore.projectId } } }, i18n.$t('userMenu.projectSettings')),
+    vNode: h(
+      RouterLink,
+      { to: { name: pagesMap.projects.settings, params: { id: projectStore.projectId } } },
+      i18n.$t('userMenu.projectSettings')
+    ),
   },
   {
     key: 4,
@@ -138,23 +125,23 @@ const selectUserMenu = (item: UiDropdownItem<MenuValues>) => {
 /**
  * mocks env store
  */
-const isEnabledMocks = ref(false);
-const viteMockApi = import.meta.env.VITE_MOCK_API;
+const isEnabledMocks = ref(false)
+const viteMockApi = import.meta.env.VITE_MOCK_API
 const changeMocks = () => {
-    localStorage.setItem('isEnabledMocks', isEnabledMocks.value ? '0' : '1');
-    location.reload();
-};
+  localStorage.setItem('isEnabledMocks', isEnabledMocks.value ? '0' : '1')
+  location.reload()
+}
 
-const isEmptyMocks = ref(false);
+const isEmptyMocks = ref(false)
 const onClearStore = () => {
-    localStorage.setItem('isEmptyMocks', isEmptyMocks.value ? '0' : '1');
-    location.reload();
-};
+  localStorage.setItem('isEmptyMocks', isEmptyMocks.value ? '0' : '1')
+  location.reload()
+}
 
 onMounted(() => {
-    isEnabledMocks.value = localStorage.getItem('isEnabledMocks') === '1';
-    isEmptyMocks.value = localStorage.getItem('isEmptyMocks') === '1';
-});
+  isEnabledMocks.value = localStorage.getItem('isEnabledMocks') === '1'
+  isEmptyMocks.value = localStorage.getItem('isEmptyMocks') === '1'
+})
 </script>
 
 <style scoped lang="scss">
