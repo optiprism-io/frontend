@@ -3,7 +3,7 @@
     <div class="pf-l-flex pf-u-align-items-center">
       <div class="pf-l-flex__item pf-u-ml-md">
         <router-link class="app-header__logo" to="/dashboards" aria-current="page">
-          <img class="pf-c-brand" src="@/assets/img/logo-black.svg" alt="Optyprism" />
+          <img class="pf-c-brand" src="@/assets/img/logo-black.svg" alt="OptiPrism" />
         </router-link>
       </div>
       <div class="pf-l-flex__item">
