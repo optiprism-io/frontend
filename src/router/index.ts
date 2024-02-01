@@ -1,10 +1,10 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 
-export const SDKIntegration = {
-  javascript: 'java-script',
-  android: 'android',
-  ios: 'ios',
-} as const
+export enum SDKIntegration {
+  javascript = 'javascript',
+  android = 'android',
+  ios = 'ios',
+}
 
 export const pagesMap = {
   login: {
