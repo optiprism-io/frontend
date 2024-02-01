@@ -12,6 +12,7 @@
                 v-for="item in props.items"
                 :key="item.name"
                 class="pf-c-tabs__item"
+                :title="item.tooltip"
                 :class="{
                     'pf-m-current': item.active,
                 }"
@@ -53,6 +54,7 @@ type Item = {
     active?: boolean,
     link?: any,
     disabled?: boolean,
+    tooltip?: string,
 }
 
 interface Props {
