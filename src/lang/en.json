@@ -87,7 +87,8 @@
     "noProperties": "No properties",
     "noPropertiesText": "You don't have events yet. Please start tracking events. Click <a href=\"/events?help=start_tracking\" target=\"_blank\">here</a> for details",
     "eventNoProperties": "Event doesn’t have properties",
-    "eventNoUserProperties": "Event doesn’t have user properties"
+    "eventNoUserProperties": "Event doesn’t have user properties",
+    "comingSoon": "Coming soon"
   },
 
   "users": {
@@ -355,8 +356,10 @@
   },
 
   "integration": {
-    "javascript": "javascript",
-    "android": "android",
-    "ios": "ios"
+    "title": "Integration",
+    "javascript": "JavaScript",
+    "android": "Android",
+    "ios": "iOS",
+    "noEventsText": "You don't have any events registered in the current project. Select and integrate SDK to begin"
   }
 }
