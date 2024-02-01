@@ -1,6 +1,6 @@
 <template>
     <div
-        class="pf-c-tabs"
+        class="pf-c-tabs pf-u-w-initial"
         :class="{
             'pf-m-box': props.box,
             'pf-m-vertical': props.isVertical,
