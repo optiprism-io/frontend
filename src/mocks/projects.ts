@@ -8,5 +8,6 @@ export default {
   updatedBy: 0,
   name: 'Project Stub',
   sessionDurationSeconds: 7500,
+  sdkToken: '3463f4e9-8151-48cd-ae96-2c9e06daeaf8',
   eventsCount: 0,
 }
