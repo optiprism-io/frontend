@@ -2823,6 +2823,12 @@ export interface Project {
     'sessionDurationSeconds'?: number;
     /**
      * 
+     * @type {string}
+     * @memberof Project
+     */
+    'sdkToken'?: string;
+    /**
+     * 
      * @type {number}
      * @memberof Project
      */
