@@ -15,12 +15,13 @@
                 :class="{
                     'pf-m-current': item.active,
                 }"
-                @click="onSelect(item.value)"
             >
                 <component
                     :is="item.link ? 'router-link' : 'button'"
                     class="pf-c-tabs__link"
                     :to="item.link"
+                    :disabled="item.disabled"
+                    @click="onSelect(item.value)"
                 >
                     <span
                         v-if="item.icon"
@@ -51,6 +52,7 @@ type Item = {
     icon?: string,
     active?: boolean,
     link?: any,
+    disabled?: boolean,
 }
 
 interface Props {
