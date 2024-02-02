@@ -12,7 +12,7 @@
                 v-for="item in props.items"
                 :key="item.name"
                 class="pf-c-tabs__item"
-                :title="item.tooltip"
+                v-tooltip="item.tooltip"
                 :class="{
                     'pf-m-current': item.active,
                 }"
