@@ -2784,55 +2784,55 @@ export interface Project {
      * @type {number}
      * @memberof Project
      */
-    'id'?: number;
+    'id': number;
     /**
      * 
      * @type {string}
      * @memberof Project
      */
-    'createdAt'?: string;
+    'createdAt': string;
     /**
      * 
      * @type {string}
      * @memberof Project
      */
-    'updatedAt'?: string;
+    'updatedAt': string;
     /**
      * 
      * @type {number}
      * @memberof Project
      */
-    'createdBy'?: number;
+    'createdBy': number;
     /**
      * 
      * @type {number}
      * @memberof Project
      */
-    'updatedBy'?: number;
+    'updatedBy': number;
     /**
      * 
      * @type {string}
      * @memberof Project
      */
-    'name'?: string;
+    'name': string;
     /**
      * 
      * @type {number}
      * @memberof Project
      */
-    'sessionDurationSeconds'?: number;
+    'sessionDurationSeconds': number;
     /**
      * 
      * @type {string}
      * @memberof Project
      */
-    'sdkToken'?: string;
+    'sdkToken': string;
     /**
      * 
      * @type {number}
      * @memberof Project
      */
-    'eventsCount'?: number;
+    'eventsCount': number;
 }
 /**
  * 

@@ -1909,6 +1909,7 @@ components:
           type: string
     Project:
       type: object
+      required: ['id', 'createdAt', 'updatedAt', 'createdBy', 'updatedBy', 'name', 'sessionDurationSeconds', 'sdkToken', 'eventsCount']
       properties:
         id:
           type: integer
