@@ -126,23 +126,32 @@ const routes: RouteRecordRaw[] = [
         component: () => import('@/pages/ProjectSettings.vue'),
       },
       {
-        path: 'integration/:integration',
-        name: pagesMap.integration,
-        component: () => import('@/pages/IntegrationPage.vue'),
-        beforeEnter: (to, from) => {
-          const JsIntegrationRoute = {
-            name: pagesMap.integration,
-            params: { integration: SDKIntegration.javascript },
-          }
-
-          if (!Object.values(SDKIntegration).some(x => x === to.params.integration))
-            return JsIntegrationRoute
-
-          /* TODO: remove that when will exists ios and android integration page */
-          if (to.params.integration !== SDKIntegration.javascript) return JsIntegrationRoute
-
-          return true
+        path: 'integration',
+        redirect: {
+          name: pagesMap.integration,
+          params: { integration: SDKIntegration.javascript },
         },
+        children: [
+          {
+            path: ':integration',
+            name: pagesMap.integration,
+            component: () => import('@/pages/IntegrationPage.vue'),
+            beforeEnter: (to, from) => {
+              const JsIntegrationRoute = {
+                name: pagesMap.integration,
+                params: { integration: SDKIntegration.javascript },
+              }
+
+              if (!Object.values(SDKIntegration).some(x => x === to.params.integration))
+                return JsIntegrationRoute
+
+              /* TODO: remove that when will exists ios and android integration page */
+              if (to.params.integration !== SDKIntegration.javascript) return JsIntegrationRoute
+
+              return true
+            },
+          },
+        ],
       },
       {
         path: ':pathMatch(.*)*',
