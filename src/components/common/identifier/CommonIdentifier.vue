@@ -11,7 +11,7 @@
     />
 </template>
 
-<script setup lang="ts" name="CommonIdentifier">
+<script setup lang="ts">
 import NumericIdentifier from '@/components/common/identifier/NumericIdentifier.vue';
 import AlphabetIdentifier from '@/components/common/identifier/AlphabetIdentifier.vue';
 

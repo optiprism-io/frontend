@@ -133,7 +133,7 @@
     </div>
 </template>
 
-<script lang="ts" setup name="UiTable">
+<script lang="ts" setup>
 import { computed, inject, useSlots, ref } from 'vue';
 import { Row, Column, Action, ColumnGroup } from '@/components/uikit/UiTable/UiTable';
 import UiTableHeadCell from '@/components/uikit/UiTable/UiTableHeadCell.vue';
