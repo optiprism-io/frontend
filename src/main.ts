@@ -33,20 +33,6 @@ if (import.meta.env.VITE_MOCK_API) {
     }
 }
 
-app.directive('click-outside', {
-    mounted(el, binding, vnode) {
-        el.clickOutsideEvent = function(event: Event) {
-            if (!(el === event.target || el.contains(event.target))) {
-                binding.value(event, el)
-            }
-        }
-        document.body.addEventListener('mousedown', el.clickOutsideEvent)
-    },
-    unmounted(el) {
-        document.body.removeEventListener('mousedown', el.clickOutsideEvent)
-    }
-});
-
 app.config.globalProperties.loadDictionary(lang.en);
 app.mount('#app');
 
