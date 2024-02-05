@@ -228,7 +228,7 @@ const toggleColumns = (payload: string) => {
         min-height: 34px;
     }
     .pf-c-table {
-        --pf-c-table__sticky-column--cell-min-width--base: 10rem;
+        --pf-c-table__sticky-column--cell-min-width--base: 4rem;
     }
     .pf-c-scroll-outer-wrapper {
         min-height: auto;
