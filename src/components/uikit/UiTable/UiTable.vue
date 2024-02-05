@@ -1,7 +1,7 @@
 <template>
     <div class="ui-table">
         <DataEmptyPlaceholder
-            v-if="showPlacehilder"
+            v-if="showPlaceholder"
             :content="props?.noDataText || $t('common.noData')"
         />
         <div
@@ -177,7 +177,7 @@ const emit = defineEmits<{
 const defaultColumns = ref<string[]>([])
 const disabledColumns = ref<string[]>([])
 
-const showPlacehilder = computed(() => props.enablePlaceholder && !props.isLoading && !props.items?.length);
+const showPlaceholder = computed(() => props.enablePlaceholder && !props.isLoading && !props.items?.length);
 const columnsSelect = computed(() => {
     return props.columns.reduce((acc: UiSelectItem<string>[], column) => {
         if (!column.default) {
