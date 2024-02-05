@@ -17,6 +17,7 @@
         <span
             v-else
             class="pf-c-table__text"
+            :title="title.toString()"
         >{{ title }}</span>
     </div>
 </template>
