@@ -21,6 +21,7 @@ import {Chart, getEngine} from '@antv/g2';
 import {lighten} from '@/helpers/colorHelper';
 import {I18N} from '@/utils/i18n';
 import iconArrow from '@/assets/img/arrow-down.png';
+import { humanReadable } from '@/utils/humanReadable'
 
 const {$t} = inject('i18n') as I18N
 const G = getEngine('canvas')
@@ -74,19 +75,6 @@ const dataView = computed(() => {
         })
         .flat()
 })
-
-/* Human-readable number */
-const humanReadable = (number: number | string): string => {
-    number = Number(number)
-
-    if (number > 1e6) {
-        return (number / 1e6).toFixed(1) + 'M'
-    }
-    const [integer, fractional] = String(number).split('.')
-    const thousands = integer.length > 3 ? integer.slice(0, integer.length - 3) : null
-    const smallValue = String(number - Number(thousands) * 1e3).padStart(3, '0')
-    return `${thousands ? thousands + ',' : ''}${smallValue}${fractional ? '.' + fractional : ''}`
-}
 
 const update = () => {
     if (!container.value) {
