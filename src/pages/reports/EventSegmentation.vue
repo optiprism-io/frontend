@@ -30,6 +30,7 @@
             <EventsViews
                 :event-segmentation="eventSegmentation"
                 :loading="eventSegmentationLoading"
+                :report="activeReport"
                 @on-change="onChangeDebounce"
             />
         </template>
@@ -74,6 +75,8 @@ const emit = defineEmits<{
 const reportsLoadingInit = computed(() => {
     return reportsStore.loading && !reportsStore.list.length;
 });
+
+const activeReport = computed(() => reportsStore.activeReport);
 
 onUnmounted(() => {
     if (commonStore.syncReports) {

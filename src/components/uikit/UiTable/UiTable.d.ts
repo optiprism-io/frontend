@@ -46,7 +46,9 @@ export type Column = {
     type?: string
     notActiveStart?: boolean
     fitContent?: boolean
-    nowrap?: boolean;
+    nowrap?: boolean
+    hidden?: boolean
+    index?: boolean
 }
 
 export type Cell = {

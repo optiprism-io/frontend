@@ -3695,6 +3695,8 @@ components:
         - "empty"
         - "regex"
         - "notRegex"
+        - "like"
+        - "notLike"
     PropertyRef:
       type: object
       required: [ 'propertyType' ]

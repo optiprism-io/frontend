@@ -143,7 +143,7 @@ import useCustomEvent from '@/components/events/Events/CustomEventHooks'
 import { Item } from '@/components/Select/SelectTypes';
 import { findOperations, operationById, OperationId } from '@/types'
 import { PropertyRef, Condition as ConditionType, EventRef } from '@/types/events'
-import { ChangeEventCondition, PayloadChangeAgregateCondition, PayloadChangeValueItem } from '@/components/events/Segments/Segments'
+import { ChangeEventCondition, PayloadChangeAggregateCondition, PayloadChangeValueItem } from '@/components/events/Segments/Segments'
 
 import { aggregates } from '@/configs/events/segmentConditionDidEventAggregate'
 import { conditions } from '@/configs/events/segmentCondition'
@@ -247,7 +247,7 @@ const compareEventItems = computed(() => {
 })
 
 /**
- * Agregate
+ * Aggregate
  */
 const didEventAggregateSelectedConfig = computed(() => {
     if (props.condition.aggregate) {
@@ -271,10 +271,10 @@ const displayNameAggregate = computed(() => {
     }
 })
 
-const changeAgregateCondition = inject<(payload: PayloadChangeAgregateCondition) => void>('changeAgregateCondition')
+const changeAggregateCondition = inject<(payload: PayloadChangeAggregateCondition) => void>('changeAggregateCondition')
 
 const changeConditionAggregate = (payload: { id: string, name: string }) => {
-    changeAgregateCondition && changeAgregateCondition({
+    changeAggregateCondition && changeAggregateCondition({
         ...allIds.value,
         value: payload,
     })

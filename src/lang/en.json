@@ -112,7 +112,10 @@
     "selectReport": "Select Report",
     "delete": "Delete report",
     "deleteConfirm": "You definitely want to delete the report: :name?",
-    "deleteDashboardConfirm": "Deleting is permanent. Doing so will not delete any related cards. Are you sure you want to delete?"
+    "deleteDashboardConfirm": "Deleting is permanent. Doing so will not delete any related cards. Are you sure you want to delete?",
+    "table": {
+      "accName": "Event"
+    }
   },
 
   "events": {
@@ -189,6 +192,10 @@
     "select_value": "Select value",
     "editEvent": "Edit event",
     "editProperty": "Edit property",
+    "selectAggregate": "Select aggregate",
+    "selectQuery": "Select Query",
+    "perGroupAggregateBy": "per :group, aggregate by",
+    "per": "per",
     "segments": {
       "segment": "Segment",
       "label": "Segments",
@@ -214,11 +221,23 @@
     },
     "aggregates": {
       "count": "Count",
+      "countPerGroup": "Count",
       "relativeCount": "Relative count",
       "aggregateProperty": "Aggregate property",
       "historicalCount": "Historical count",
       "didEventCount": "Count",
-      "didEventRelativeCount": "Relative count"
+      "didEventRelativeCount": "Relative count",
+      "distinctCount": "Distinct count",
+      "sum": "Sum",
+      "avg": "Average",
+      "median": "Median",
+      "min": "Minimum",
+      "max": "Maximum",
+      "percentile25": "25th Percentile",
+      "percentile75": "75th Percentile",
+      "percentile90": "90th Percentile",
+      "percentile99": "99th Percentile",
+      "formula": "Formula"
     },
     "aggregateProperty": {
       "sum": "Sum of property",
@@ -234,7 +253,12 @@
     },
     "query": {
       "error": "This query will not work because no event was found for the selected property",
-      "removeQuery": "Remove query"
+      "removeQuery": "Remove query",
+      "countEvents": "Count",
+      "countUniqueGroups": "Count Unique",
+      "dailyActiveGroups": "Daily Active",
+      "weeklyActiveGroups": "Weekly Active",
+      "monthlyActiveGroups": "Monthly Active"
     }
   },
 
