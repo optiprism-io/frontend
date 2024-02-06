@@ -1,24 +1,28 @@
 <template>
     <div
-        class="pf-c-tabs"
+        class="pf-c-tabs pf-u-w-initial"
         :class="{
             'pf-m-box': props.box,
+            'pf-m-vertical': props.isVertical,
+            'pf-u-flex-direction-row': props.isVertical
         }"
     >
         <ul class="pf-c-tabs__list">
             <li
                 v-for="item in props.items"
                 :key="item.name"
+                v-tooltip="item.tooltip"
                 class="pf-c-tabs__item"
                 :class="{
                     'pf-m-current': item.active,
                 }"
-                @click="onSelect(item.value)"
             >
                 <component
                     :is="item.link ? 'router-link' : 'button'"
                     class="pf-c-tabs__link"
                     :to="item.link"
+                    :disabled="item.disabled"
+                    @click="onSelect(item.value)"
                 >
                     <span
                         v-if="item.icon"
@@ -49,11 +53,14 @@ type Item = {
     icon?: string,
     active?: boolean,
     link?: any,
+    disabled?: boolean,
+    tooltip?: string,
 }
 
 interface Props {
     items: Item[],
     box?: boolean,
+    isVertical?: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {});
