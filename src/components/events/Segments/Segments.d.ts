@@ -33,7 +33,7 @@ export interface PeriodConditionPayload extends Ids {
     value: ApplyPayload
 }
 
-export interface PayloadChangeAgregateCondition extends Ids {
+export interface PayloadChangeAggregateCondition extends Ids {
     value: {
         id: string
         name: string

@@ -10,7 +10,7 @@ import {
     ChangeFilterPropertyCondition,
     FilterValueCondition,
     Ids,
-    PayloadChangeAgregateCondition,
+    PayloadChangeAggregateCondition,
     PayloadChangeEach,
     PayloadChangeValueItem,
     PeriodConditionPayload,
@@ -238,7 +238,7 @@ export const useSegmentsStore = defineStore('segments', {
                 }
             }
         },
-        changeAgregateCondition(payload: PayloadChangeAgregateCondition) {
+        changeAggregateCondition(payload: PayloadChangeAggregateCondition) {
             const segment = this.segments[payload.idxParent]
 
             if (segment && segment.conditions) {

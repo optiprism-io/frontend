@@ -11,8 +11,8 @@
             <li
                 v-for="item in props.items"
                 :key="item.name"
-                class="pf-c-tabs__item"
                 v-tooltip="item.tooltip"
+                class="pf-c-tabs__item"
                 :class="{
                     'pf-m-current': item.active,
                 }"

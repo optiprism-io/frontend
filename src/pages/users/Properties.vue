@@ -99,7 +99,7 @@ const items = computed(() => {
                 ],
                 type: 'action'
             },
-        ];
+        ]
     });
 });
 

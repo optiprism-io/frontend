@@ -21,13 +21,27 @@ export type ResponseUseDataTable = {
     pieChart: any[]
 }
 
-export default function useDataTable(payload: DataTableResponse, noWrapContent = false): ResponseUseDataTable {
+type OptionsType = {
+    accName: string | null,
+}
+
+export default function useDataTable(
+    payload: DataTableResponse,
+    noWrapContent = false,
+): ResponseUseDataTable {
     const columnsData = (payload?.columns || []).reduce((acc: DataTableResponseColumnsInnerData[], item) => {
         if (Array.isArray(item.data) && item.data.length) {
             acc.push(item.data);
+        } else {
+            acc.push([]);
         }
         return acc;
     }, []);
+
+    const tableRowsLength = columnsData.reduce((sum, columnData) => {
+        return columnData.length > sum ? columnData.length : sum;;
+    }, 0);
+
     const hasData = Boolean(payload?.columns && payload?.columns.length && columnsData.length);
     const dimensionColumns = payload?.columns ? payload.columns.filter(column => column.type === 'dimension') : [];
     const metricColumns = payload?.columns ? payload?.columns.filter(column => column.type === 'metric') : [];
@@ -52,12 +66,14 @@ export default function useDataTable(payload: DataTableResponse, noWrapContent =
                             lastFixed: fixedColumnLength === i,
                             fixed: true,
                             nowrap: noWrapContent,
+                            index: i,
                         }
                     } else {
                         acc[column.name] = {
                             value: column.name,
                             title: getStringDateByFormat(column.name, '%d %b, %Y'),
                             nowrap: noWrapContent,
+                            index: i,
                         }
                     }
                 }
@@ -67,29 +83,34 @@ export default function useDataTable(payload: DataTableResponse, noWrapContent =
         }
 
         tableData = payload?.columns.reduce((tableRows: Row[], column: DataTableResponseColumnsInner, indexColumn: number) => {
+            const isFixedColumn = FIXED_COLUMNS_TYPES.includes(column.type);
+
             if (column.data) {
                 column.data.forEach((item, i) => {
                     if (!tableRows[i]) {
                         tableRows[i] = []
                     }
 
-                    if (column?.type) {
-                        const cell: Cell = {
-                            key: column.type,
-                            value: item,
-                            title: item || '-',
-                            nowrap: noWrapContent,
-                        }
-
-                        if (FIXED_COLUMNS_TYPES.includes(column.type)) {
-                            cell.lastFixed = indexColumn === fixedColumnLength
-                            cell.fixed = true;
-                            cell.nowrap = noWrapContent;
-                        }
-
-                        tableRows[i].push(cell)
+                    tableRows[i][indexColumn] = {
+                        key: column.name,
+                        value: item,
+                        title: item || '-',
+                        nowrap: isFixedColumn && noWrapContent,
+                        lastFixed: isFixedColumn && indexColumn === fixedColumnLength,
+                        fixed: isFixedColumn,
                     }
                 })
+            } else {
+                for (let i = 0; i < tableRowsLength; i++) {
+                    tableRows[i][indexColumn] = {
+                        key: column.name,
+                        value: undefined,
+                        title: '-',
+                        nowrap: isFixedColumn && noWrapContent,
+                        lastFixed: isFixedColumn && indexColumn === fixedColumnLength,
+                        fixed: isFixedColumn,
+                    };
+                }
             }
 
             return tableRows

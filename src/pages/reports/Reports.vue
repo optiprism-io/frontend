@@ -20,7 +20,6 @@
                 </template>
             </UiSelect>
             <UiInlineEdit
-                v-if="itemsReports.length"
                 class="reports__name pf-u-mr-md"
                 :value="reportName"
                 :hide-text="true"
@@ -28,11 +27,19 @@
                 @on-edit="onEditNameReport"
             />
             <UiButton
-                class="pf-m-link reports__nav-item reports__nav-item_new"
+                class="pf-m-link reports__nav-item reports__nav-item_new pf-u-mr-md"
                 :before-icon="'fas fa-plus'"
                 @click="setNew"
             >
                 {{ $t('reports.createReport') }}
+            </UiButton>
+            <UiButton
+                v-if="isShowSaveReport"
+                class="pf-m-link reports__nav-item reports__nav-item_new"
+                :before-icon="'fas fa-floppy-disk'"
+                @click="onSaveReport"
+            >
+                {{ $t('reports.save') }}
             </UiButton>
             <UiButton
                 v-if="itemsReports.length"
@@ -55,9 +62,7 @@
             :items="items"
             @on-select="onSelectTab"
         />
-        <router-view
-            @on-change="onChange"
-        />
+        <router-view />
     </section>
 </template>
 
@@ -148,13 +153,14 @@ const itemsReports = computed(() => {
     })
 })
 
-
 const untitledReportsList = computed(() => {
     return reportsStore.list.filter(item => (`${item.name.split(' ')[0]}` + ' ' + `${item.name.split(' ')[1]}`) === t('reports.untitledReport'));
 });
 const untitledReportName = computed(() => {
     return `${t('reports.untitledReport')} #${untitledReportsList.value.length + 1}`;
 });
+
+const isShowSaveReport = computed(() => reportsStore.isChangedReport);
 
 const onEditNameReport = (payload: boolean) => {
     editableNameReport.value = payload;
@@ -177,25 +183,37 @@ const onDeleteReport = async () => {
     }
 }
 
-const onCreateReport = async () => {
-    if (reportsStore.reportId) {
-        await reportsStore.editReport(reportName.value || untitledReportName.value, reportType.value)
-    } else {
-        await reportsStore.createReport(reportName.value || untitledReportName.value, reportType.value)
+const onEditReport = () => {
+    reportsStore.editReport(reportName.value || untitledReportName.value, reportType.value)
+};
 
-        router.push({
-            params: {
-                id: reportsStore.reportId,
-            },
-            query: route.query,
-        })
+const onCreateReport = async () => {
+    await reportsStore.createReport(reportName.value || untitledReportName.value, reportType.value)
+
+    router.push({
+        params: {
+            id: reportsStore.reportId,
+        },
+        query: route.query,
+    })
+}
+
+const onUpdateReport = () => {
+    if (reportsStore.reportId) {
+        onEditReport();
+    } else {
+        onCreateReport();
     }
 }
 
 const onSaveReport = async () => {
-    onCreateReport();
+    reportsStore.loading = true;
+
+    onUpdateReport();
     await reportsStore.getList();
     reportsStore.updateDump(reportType.value);
+
+    reportsStore.loading = false;
 }
 
 const setNameReport = (payload: string) => {
@@ -203,21 +221,14 @@ const setNameReport = (payload: string) => {
     onSaveReport();
 }
 
-const onChange = async () => {
-    reportsStore.loading = true;
-    await onSaveReport();
-    reportsStore.loading = false;
-};
-
 const setNew = async () => {
-    reportsStore.reportId = 0;
-    reportName.value = untitledReportName.value;
-    eventsStore.$reset();
-    filterGroupsStore.$reset();
-    segmentsStore.$reset();
-    breakdownsStore.$reset();
-    stepsStore.$reset();
-    onChange();
+    router.push(pagesMap.reportsEventSegmentation.name);
+
+    const routeData = router.resolve({
+        name:pagesMap.reportsEventSegmentation.name,
+    });
+
+    window.open(routeData.href, '_blank');
 }
 
 const onSelectTab = () => {
@@ -269,7 +280,11 @@ onMounted(async () => {
     eventsStore.initPeriod();
     await initEventsAndProperties();
     await reportsStore.getList();
-    initReportPage();
+
+    if (route.params?.id && reportsStore.reportsId.includes(Number(route.params.id))) {
+        await updateReport(Number(route.params.id));
+    }
+    reportsStore.loading = false;
 })
 </script>
 

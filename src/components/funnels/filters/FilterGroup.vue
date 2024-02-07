@@ -40,7 +40,7 @@
                 </VTooltip>
             </UiActionListItem>
         </UiActionList>
-        <div class="pf-l-flex pf-m-column">
+        <div>
             <Filter
                 v-for="(filter, i) in filterGroup.filters"
                 :key="i"
@@ -53,6 +53,7 @@
                 @change-filter-operation="changeFilterOperationForGroup"
                 @add-filter-value="addFilterValueForGroup"
                 @remove-filter-value="removeFilterValueForGroup"
+                @change-all-values="changeAllValues"
             >
                 <template #prefix>
                     {{ filterGroup.condition }}
@@ -85,6 +86,7 @@
 
 <script lang="ts" setup>
 import {computed, inject} from 'vue';
+import { operationById } from '@/types';
 import UiActionList from '@/components/uikit/UiActionList/UiActionList.vue';
 import UiActionListItem from '@/components/uikit/UiActionList/UiActionListItem.vue';
 import Filter from '@/components/events/Filter.vue';
@@ -97,6 +99,9 @@ import {useStepsStore} from '@/stores/funnels/steps';
 import { FilterCondition, filterConditions, FilterGroup, useFilterGroupsStore } from '@/stores/reports/filters';
 import {useFilter} from '@/hooks/useFilter';
 import {I18N} from '@/utils/i18n';
+import {
+    DataType,
+} from '@/api';
 
 const UiSelectMatch = UiSelectGeneric<FilterCondition>();
 
@@ -191,29 +196,43 @@ const changeFilterOperationForGroup = (filterIndex: number, opId: OperationId): 
 }
 
 const addFilterValueForGroup = (filterIdx: number, value: Value) => {
+    const operationId = filterGroup.value?.filters[filterIdx].opId;
+    const operationsSelect = operationById?.get(operationId || 'empty');
+    const isStringTypeValue = (operationsSelect?.dataTypes || []).includes(DataType.String);
+    const values = isStringTypeValue ? [value] : [
+        ...filterGroup.value?.filters[filterIdx].values ?? [],
+        value,
+    ];
+
     filterGroupsStore.editFilterForGroup({
         index: props.index,
         filterIndex: filterIdx,
         filter: {
-            values: [
-                ...filterGroup.value?.filters[filterIdx].values ?? [],
-                value,
-            ]
+            values,
+        },
+    });
+}
+
+const setValues = (filterIdx: number, values: Value[]) => {
+    filterGroupsStore.editFilterForGroup({
+        index: props.index,
+        filterIndex: filterIdx,
+        filter: {
+            values,
         },
     });
 }
 
 const removeFilterValueForGroup = (filterIdx: number, value: Value) => {
-    filterGroupsStore.editFilterForGroup({
-        index: props.index,
-        filterIndex: filterIdx,
-        filter: {
-            values: filterGroup.value
-                ?.filters[filterIdx]
-                .values
-                .filter(item => item !== value)
-            ?? [],
-        },
-    });
+    const values = filterGroup.value
+        ?.filters[filterIdx]
+        .values
+        .filter(item => item !== value) || [];
+
+    setValues(filterIdx, values);
+}
+
+const changeAllValues = (filterIdx: number, values: Value[]) => {
+    setValues(filterIdx, values);
 }
 </script>

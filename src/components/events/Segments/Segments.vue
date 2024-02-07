@@ -41,7 +41,7 @@ import {
     FilterValueCondition,
     Ids,
     PeriodConditionPayload,
-    PayloadChangeAgregateCondition,
+    PayloadChangeAggregateCondition,
     PayloadChangeValueItem,
     PayloadChangeEach,
 } from '@/components/events/Segments/Segments'
@@ -135,7 +135,7 @@ provide('changeActionCondition', changeActionCondition)
 provide('addValueCondition', addValueCondition)
 provide('removeValueCondition', removeValueCondition)
 provide('betweenAddCondition', (idx: number, indexParent: number, ref: {id: string, name: string}) => segmentsStore.betweenAddCondition(idx, indexParent, ref));
-provide('changeAgregateCondition', (payload: PayloadChangeAgregateCondition) => segmentsStore.changeAgregateCondition(payload))
+provide('changeAggregateCondition', (payload: PayloadChangeAggregateCondition) => segmentsStore.changeAggregateCondition(payload))
 provide('onRemoveCondition', (payload: Ids) => segmentsStore.removeCondition(payload))
 provide('addFilterCondition', (payload: Ids, ref: PropertyRef) => segmentsStore.addFilterCondition(payload, ref))
 provide('removeFilterCondition', (payload: RemoveFilterCondition) => segmentsStore.removeFilterCondition(payload))
@@ -163,7 +163,7 @@ provide('changePeriodCondition', (payload: PeriodConditionPayload) => {
  */
 provide('changeEventCondition', (payload: ChangeEventCondition) => {
     segmentsStore.changeEventCondition(payload)
-    segmentsStore.changeAgregateCondition({
+    segmentsStore.changeAggregateCondition({
         idx: payload.idx,
         idxParent: payload.idxParent,
         value: {
