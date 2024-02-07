@@ -6,6 +6,16 @@
           <img class="pf-c-brand" src="@/assets/img/logo-black.svg" alt="OptiPrism" />
         </router-link>
       </div>
+      <!-- <div class="pf-l-flex__item">
+            <UiSelect
+                class=" pf-u-mr-md dashboards__add-report"
+                :items="projectList"
+                :text-button="'TODO Name'"
+                :placement="'bottom-end'"
+                :is-text-select="true"
+                @on-select="selectProject"
+            />
+      </div> -->
       <div class="pf-l-flex__item">
         <Nav />
       </div>
@@ -137,6 +147,7 @@ const selectUserMenu = (item: UiDropdownItem<MenuValues>) => {
       authStore.reset()
       authStore.$reset()
       dashboardsStore.$reset()
+      projectStore.$reset()
       router.replace({ name: 'login' })
       break
   }
@@ -179,8 +190,13 @@ onMounted(() => {
   }
   &__logo {
     display: inline-block;
-    width: 110px;
-    margin-top: 6px;
+    width: 30px;
+    margin-top: 14px;
+    overflow: hidden;
+    img {
+      width: 130px;
+      max-width: initial;
+    }
   }
 }
 </style>

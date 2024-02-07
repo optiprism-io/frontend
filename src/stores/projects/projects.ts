@@ -9,14 +9,20 @@ import { ProjectEdit, ProjectErrors } from '@/stores/projects/types'
 
 interface ProjectState {
   project: Project | null
+  projectId: number | null
   isLoading: boolean
   errors: ProjectErrors
   isEdit: ProjectEdit
+  projects: Project[]
 }
+
+const STORAGE_PROJECT_ID_KEY = 'projectId'
 
 export const useProjectsStore = defineStore('projects', {
   state: (): ProjectState => ({
     project: null,
+    projectId: null,
+    projects: [],
     isLoading: false,
     errors: {
       updateProject: {
@@ -31,13 +37,31 @@ export const useProjectsStore = defineStore('projects', {
   }),
 
   getters: {
-    projectId(): number | undefined {
-      const authStore = useAuthStore()
-      return authStore.decodedAccessToken?.projectId
+    projectIds(): number[] {
+      return this.projects.map(item => item.id)
+    },
+    projectsLength(): number {
+      return this.projects.length
     },
   },
 
   actions: {
+    async getProjectId() {
+      if (!this.projectId) {
+        const projectId = Number(
+          localStorage.getItem(STORAGE_PROJECT_ID_KEY) || this.projects[0]?.id || null
+        )
+
+        if (projectId && this.projectIds.includes(projectId)) {
+          this.projectId = projectId
+          localStorage.setItem(STORAGE_PROJECT_ID_KEY, String(this.projectId))
+        }
+      }
+    },
+    setProjectId(projectId: number) {
+      this.projectId = projectId
+      localStorage.setItem(STORAGE_PROJECT_ID_KEY, String(this.projectId))
+    },
     async getProject() {
       this.isLoading = true
       try {
@@ -50,7 +74,33 @@ export const useProjectsStore = defineStore('projects', {
         this.isLoading = false
       }
     },
+    async getProjectsList() {
+      this.isLoading = true
+      try {
+        const res = await projectsService.projectsList()
 
+        this.projects = res.data?.data || []
+      } catch (error) {
+        throw new Error('error get projects list')
+      } finally {
+        this.isLoading = false
+      }
+    },
+    async init() {
+      await this.getProjectsList()
+
+      if (!this.projectId) {
+        let projectId = Number(localStorage.getItem(STORAGE_PROJECT_ID_KEY))
+
+        if (!this.projectIds.includes(projectId)) {
+          projectId = this.projectIds[0]
+        }
+
+        if (projectId && this.projectIds.includes(projectId)) {
+          this.setProjectId(projectId)
+        }
+      }
+    },
     async saveProjectName(name: string) {
       const nCheck = safeParse(notEmptyStringScheme, name)
       if (!nCheck.success) {

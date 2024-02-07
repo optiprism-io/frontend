@@ -23,6 +23,7 @@ import CreateCustomEvent from '@/components/events/CreateCustomEvent.vue'
 import { useCommonStore } from '@/stores/common'
 import { useRoute, useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth/auth'
+import { useProjectsStore } from '@/stores/projects/projects'
 
 import { pagesMap } from '@/router';
 
@@ -33,6 +34,7 @@ const route = useRoute()
 const router = useRouter()
 const commonStore = useCommonStore()
 const authStore = useAuthStore()
+const projectStore = useProjectsStore()
 
 const togglePopupCreateCustomEvent = (payload: boolean) => {
     commonStore.togglePopupCreateCustomEvent(payload)
@@ -62,6 +64,7 @@ watch(() => authStore.isAuthenticated, isAuthenticated => {
     if (!isAuthenticated) {
         router.replace({ name: pagesMap.login.name })
     } else {
+        projectStore.init()
         state.value = 'ok'
     }
 })
