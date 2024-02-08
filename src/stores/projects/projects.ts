@@ -63,10 +63,7 @@ export const useProjectsStore = defineStore('projects', {
       })
     },
     selectedProject(): Project | null {
-      return this.projectId ? this.projectsMap[this.projectId] || null : null
-    },
-    projectIds(): number[] {
-      return this.projects.map(item => Number(item.id))
+      return this.projectsMap[this.projectId] || null
     },
     projectsLength(): number {
       return this.projects.length
@@ -77,10 +74,10 @@ export const useProjectsStore = defineStore('projects', {
     async getProjectId() {
       if (!this.projectId) {
         const projectId = Number(
-          localStorage.getItem(STORAGE_PROJECT_ID_KEY) || this.projects[0]?.id || null
+          localStorage.getItem(STORAGE_PROJECT_ID_KEY) || this.projects[0]?.id || 0
         )
 
-        if (projectId && this.projectIds.includes(projectId)) {
+        if (projectId && this.projectsMap[projectId]) {
           this.projectId = projectId
           localStorage.setItem(STORAGE_PROJECT_ID_KEY, String(this.projectId))
         }
@@ -88,7 +85,7 @@ export const useProjectsStore = defineStore('projects', {
     },
     setProjectId(projectId: number) {
       this.projectId = projectId
-      localStorage.setItem(STORAGE_PROJECT_ID_KEY, String(this.projectId))
+      localStorage.setItem(STORAGE_PROJECT_ID_KEY, String(projectId))
     },
     async getProject() {
       this.isLoading = true
@@ -117,16 +114,11 @@ export const useProjectsStore = defineStore('projects', {
     async init() {
       await this.getProjectsList()
 
-      if (!this.projectId) {
-        let projectId = Number(localStorage.getItem(STORAGE_PROJECT_ID_KEY))
-        if (projectId) {
-          if (!this.projectIds.includes(projectId)) {
-            projectId = this.projectIds[0]
-          } else {
-            this.setProjectId(projectId)
-          }
-        }
+      let projectId = Number(localStorage.getItem(STORAGE_PROJECT_ID_KEY))
+      if (!this.projectsMap[projectId]) {
+        projectId = Number(this.projects[0]?.id || 0)
       }
+      this.setProjectId(projectId)
     },
     async saveProjectName(name: string) {
       const nCheck = safeParse(notEmptyStringScheme, name)
