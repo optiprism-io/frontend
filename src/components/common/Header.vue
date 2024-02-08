@@ -6,16 +6,17 @@
           <img class="pf-c-brand" src="@/assets/img/logo-black.svg" alt="OptiPrism" />
         </router-link>
       </div>
-      <!-- <div class="pf-l-flex__item">
-            <UiSelect
-                class=" pf-u-mr-md dashboards__add-report"
-                :items="projectList"
-                :text-button="'TODO Name'"
-                :placement="'bottom-end'"
-                :is-text-select="true"
-                @on-select="selectProject"
-            />
-      </div> -->
+      <div class="pf-l-flex__item">
+        <UiSelect
+          class="pf-u-mr-md app-header__project-select"
+          :items="projectStore.projectList"
+          :text-button="activeProjectName"
+          :placement="'bottom-start'"
+          :is-text-select="true"
+          :selections="projectListSelected"
+          @on-select="selectProject"
+        />
+      </div>
       <div class="pf-l-flex__item">
         <Nav />
       </div>
@@ -25,7 +26,7 @@
         :to="{ name: pagesMap.integration, params: { integration: SDKIntegration.javascript } }"
       >
         <UiIcon icon="fas fa-exclamation-circle" />
-        Click here to integrate and start using OptiPrism
+        {{ $t('integration.clickIntegrate') }}
       </RouterLink>
       <div
         class="app-header__tools"
@@ -69,8 +70,9 @@
 </template>
 
 <script setup lang="ts">
-import { h, inject, onMounted, ref } from 'vue'
+import { computed, h, inject, onMounted, ref } from 'vue'
 import { GenericUiDropdown, UiDropdownItem } from '@/components/uikit/UiDropdown.vue'
+import UiSelect from '@/components/uikit/UiSelect.vue'
 import Nav from '@/components/common/Nav.vue'
 import UiSwitch from '@/components/uikit/UiSwitch.vue'
 import { useAuthStore } from '@/stores/auth/auth'
@@ -153,6 +155,23 @@ const selectUserMenu = (item: UiDropdownItem<MenuValues>) => {
   }
 }
 
+const selectProject = (value: number) => {
+  if (value !== projectStore.projectId) {
+    projectStore.setProjectId(value)
+    location.reload()
+  }
+}
+
+const projectListSelected = computed(() => {
+  return projectStore.projectId ? [projectStore.projectId] : []
+})
+
+const activeProjectName = computed(() => {
+  return projectStore.selectedProject
+    ? projectStore.selectedProject.name
+    : i18n.$t('project.selectProject')
+})
+
 /**
  * mocks env store
  */
@@ -197,6 +216,9 @@ onMounted(() => {
       width: 130px;
       max-width: initial;
     }
+  }
+  &__project-select {
+    width: 150px;
   }
 }
 </style>

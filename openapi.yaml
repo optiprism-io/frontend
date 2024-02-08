@@ -1600,12 +1600,6 @@ components:
       scheme: bearer
       bearerFormat: JWT
   parameters:
-    OrganizationID:
-      name: organizationId
-      in: path
-      required: true
-      schema:
-        type: number
     ProjectID:
       name: projectId
       in: path

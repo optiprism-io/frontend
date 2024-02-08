@@ -7,6 +7,8 @@ import { useStepsStore } from '@/stores/funnels/steps'
 import { useFilterGroupsStore } from '@/stores/reports/filters'
 import { useBreakdownsStore } from '@/stores/reports/breakdowns'
 import { useSegmentsStore } from '@/stores/reports/segments'
+import { useProjectsStore } from '@/stores/projects/projects'
+
 import {
     Report,
     ReportQuery,
@@ -85,9 +87,9 @@ export const useReportsStore = defineStore('reports', {
             this.reportDump = JSON.stringify(getReport(type))
         },
         async getList() {
-            const commonStore = useCommonStore();
+            const projectsStore = useProjectsStore()
             try {
-                const res = await reportsService.reportsList(commonStore.projectId)
+                const res = await reportsService.reportsList(projectsStore.projectId)
                 if (res.data?.data) {
                     this.list = res.data.data
                 }
@@ -97,9 +99,9 @@ export const useReportsStore = defineStore('reports', {
         },
         async createReport(name: string, type: ReportType) {
             this.saveLoading = true
-            const commonStore = useCommonStore()
+            const projectsStore = useProjectsStore()
             try {
-                const res = await reportsService.createReport(commonStore.projectId, {
+                const res = await reportsService.createReport(projectsStore.projectId, {
                     type,
                     name,
                     query: getReport(type)
@@ -115,16 +117,16 @@ export const useReportsStore = defineStore('reports', {
         },
         async editReport(name: string, type: ReportType) {
             this.saveLoading = true
-            const commonStore = useCommonStore()
-            await reportsService.updateReport(commonStore.projectId, Number(this.reportId), {
+            const projectsStore = useProjectsStore()
+            await reportsService.updateReport(projectsStore.projectId, Number(this.reportId), {
                 name,
                 query: getReport(type)
             })
             this.saveLoading = false
         },
         async deleteReport(reportId: number) {
-            const commonStore = useCommonStore()
-            await reportsService.deleteReport(commonStore.projectId, Number(reportId))
+            const projectsStore = useProjectsStore()
+            await reportsService.deleteReport(projectsStore.projectId, Number(reportId))
         },
     },
 })

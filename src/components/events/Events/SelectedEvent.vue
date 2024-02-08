@@ -192,10 +192,10 @@ import { useEventName } from '@/helpers/useEventName';
 import { EventType } from '@/api';
 import CommonIdentifier from '@/components/common/identifier/CommonIdentifier.vue';
 import PropertySelect from '@/components/events/PropertySelect.vue';
-import { useCommonStore } from '@/stores/common';
 import { useEventsStore } from '@/stores/eventSegmentation/events';
+import { useProjectsStore } from '@/stores/projects/projects'
 
-const commonStore = useCommonStore();
+const projectsStore = useProjectsStore()
 const eventsStore = useEventsStore();
 
 type Props = {
@@ -293,7 +293,7 @@ const getPropertyValues = async (propRef: PropertyRef) => {
     let valuesList: Value[] = []
 
     try {
-        const res = await schemaService.propertyValues(commonStore.projectId, {
+        const res = await schemaService.propertyValues(projectsStore.projectId, {
             eventName: lexiconStore.eventName(props.event.ref),
             eventType: props.event.ref.type as EventType,
             propertyName: lexiconStore.propertyName(propRef),

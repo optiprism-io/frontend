@@ -180,11 +180,11 @@ import dashboardService from '@/api/services/dashboards.service'
 import { DashboardPanel as DashboardPanelType, DashboardPanelTypeEnum } from '@/api'
 
 import { useDashboardsStore } from '@/stores/dashboards'
-import { useCommonStore } from '@/stores/common';
 import { useReportsStore } from '@/stores/reports/reports';
 import { useLexiconStore } from '@/stores/lexicon';
 import { useFilterGroupsStore } from '@/stores/reports/filters';
 import { useEventsStore } from '@/stores/eventSegmentation/events';
+import { useProjectsStore } from '@/stores/projects/projects'
 
 import useConfirm from '@/hooks/useConfirm';
 import { pagesMap } from '@/router';
@@ -203,12 +203,12 @@ import DashboardFilterToolbar from '@/components/dashboards/DashboardFilterToolb
 const { t } = usei18n()
 const route = useRoute()
 const router = useRouter()
-const commonStore = useCommonStore()
 const dashboardsStore = useDashboardsStore()
 const reportsStore = useReportsStore()
 const lexiconStore = useLexiconStore();
 const filterGroupsStore = useFilterGroupsStore();
 const eventsStore = useEventsStore();
+const projectsStore = useProjectsStore()
 
 const { confirm } = useConfirm();
 const isLoading = ref(true);
@@ -345,9 +345,9 @@ const updateCreateDashboard = async (panels?: Layout[]) => {
             })
         }
         if (activeDashboardId.value) {
-            await dashboardService.updateDashboard(commonStore.projectId, activeDashboardId.value, dataForRequest)
+            await dashboardService.updateDashboard(projectsStore.projectId, activeDashboardId.value, dataForRequest)
         } else {
-            const res = await dashboardService.createDashboard(commonStore.projectId, dataForRequest)
+            const res = await dashboardService.createDashboard(projectsStore.projectId, dataForRequest)
             if (res.data?.id) {
                 dashboardName.value = res.data?.name || dashboardName.value || untitledDashboardName.value;
                 onSelectDashboard(res.data?.id);
@@ -367,7 +367,7 @@ const onDeleteDashboard = async () => {
             applyButtonClass: 'pf-m-danger',
         });
 
-        await dashboardService.deleteDashboard(commonStore.projectId, activeDashboardId.value);
+        await dashboardService.deleteDashboard(projectsStore.projectId, activeDashboardId.value);
         await getDashboardsList();
 
         if (dashboardsId.value?.length) {

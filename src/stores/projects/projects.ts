@@ -9,11 +9,21 @@ import { ProjectEdit, ProjectErrors } from '@/stores/projects/types'
 
 interface ProjectState {
   project: Project | null
-  projectId: number | null
+  projectId: number
   isLoading: boolean
   errors: ProjectErrors
   isEdit: ProjectEdit
   projects: Project[]
+}
+
+type ProjectsMap = {
+  [key: number]: Project
+}
+
+interface ProjectsListItem {
+  key: number
+  nameDisplay: string
+  value: number
 }
 
 const STORAGE_PROJECT_ID_KEY = 'projectId'
@@ -21,7 +31,7 @@ const STORAGE_PROJECT_ID_KEY = 'projectId'
 export const useProjectsStore = defineStore('projects', {
   state: (): ProjectState => ({
     project: null,
-    projectId: null,
+    projectId: 0,
     projects: [],
     isLoading: false,
     errors: {
@@ -37,8 +47,26 @@ export const useProjectsStore = defineStore('projects', {
   }),
 
   getters: {
+    projectsMap(): ProjectsMap {
+      return this.projects.reduce((objMap: ProjectsMap, item) => {
+        objMap[Number(item.id)] = item
+        return objMap
+      }, {})
+    },
+    projectList(): ProjectsListItem[] {
+      return this.projects.map((item: Project) => {
+        return {
+          key: item.id,
+          nameDisplay: item.name,
+          value: Number(item.id),
+        }
+      })
+    },
+    selectedProject(): Project | null {
+      return this.projectId ? this.projectsMap[this.projectId] || null : null
+    },
     projectIds(): number[] {
-      return this.projects.map(item => item.id)
+      return this.projects.map(item => Number(item.id))
     },
     projectsLength(): number {
       return this.projects.length
@@ -91,13 +119,12 @@ export const useProjectsStore = defineStore('projects', {
 
       if (!this.projectId) {
         let projectId = Number(localStorage.getItem(STORAGE_PROJECT_ID_KEY))
-
-        if (!this.projectIds.includes(projectId)) {
-          projectId = this.projectIds[0]
-        }
-
-        if (projectId && this.projectIds.includes(projectId)) {
-          this.setProjectId(projectId)
+        if (projectId) {
+          if (!this.projectIds.includes(projectId)) {
+            projectId = this.projectIds[0]
+          } else {
+            this.setProjectId(projectId)
+          }
         }
       }
     },

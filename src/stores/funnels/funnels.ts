@@ -12,11 +12,11 @@ import {
     FunnelQueryCountEnum,
 } from '@/api'
 import dataService from '@/api/services/datas.service';
-import { useCommonStore } from '@/stores/common';
 import { useStepsStore } from '@/stores/funnels/steps';
 import { useFilterGroupsStore } from '@/stores/reports/filters'
 import { useBreakdownsStore } from '@/stores/reports/breakdowns'
 import { useSegmentsStore } from '@/stores/reports/segments'
+import { useProjectsStore } from '@/stores/projects/projects'
 
 export const convertColumns = (columns: DataTableResponseColumnsInner[], stepNumbers: number[]): number[][] => {
     const result: number[][] = []
@@ -138,7 +138,7 @@ export const useFunnelsStore = defineStore('funnels', {
             };
         },
         async getReports(): Promise<void> {
-            const commonStore = useCommonStore()
+            const projectsStore = useProjectsStore()
             const stepsStore = useStepsStore()
             const breakdownsStore = useBreakdownsStore()
             const filterGroupsStore = useFilterGroupsStore()
@@ -147,7 +147,7 @@ export const useFunnelsStore = defineStore('funnels', {
             this.loading = true
 
             try {
-                const res = await dataService.funnelQuery(commonStore.projectId, {
+                const res = await dataService.funnelQuery(projectsStore.projectId, {
                     time: this.timeRequest as EventRecordsListRequestTime,
                     group: '',
                     steps: stepsStore.getSteps,
