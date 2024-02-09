@@ -2,16 +2,16 @@ import { ErrorResponse, UpdateProfilePasswordRequest } from '@/api'
 
 export interface ProfileErrors {
   updateName: {
-    name?: Error
+    name?: string
   }
   updateEmail: {
-    email?: Error
-    password?: Error
+    email?: string
+    password?: string
   }
   updatePassword: {
-    password?: Error
-    newPassword?: Error
-    confirmPassword?: Error
+    password?: string
+    newPassword?: string
+    confirmPassword?: string
   }
 }
 

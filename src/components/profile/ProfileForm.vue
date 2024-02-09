@@ -10,12 +10,12 @@
       >
         <UiInput
           v-model="name"
-          :invalid="!!errors.updateName.name?.message"
+          :invalid="!!errors.updateName.name"
           @input="emit('input-name')"
           @keyup.enter="saveNameHandler"
         />
       </UiInlineEditSlot>
-      <UiFormError :error="errors.updateName.name?.message" />
+      <UiFormError :error="errors.updateName.name" />
     </UiLabelAndSlot>
 
     <UiLabelAndSlot :label="t('profile.email')" :hide-label="isEdit.email">
@@ -32,12 +32,12 @@
               <UiInput
                 v-model="email"
                 type="email"
-                :invalid="!!errors.updateEmail.email?.message"
+                :invalid="!!errors.updateEmail.email"
                 @input="emit('input-email')"
                 @keyup.enter="saveEmailHandler"
               />
             </UiLabelAndSlot>
-            <UiFormError :error="errors.updateEmail.email?.message" />
+            <UiFormError :error="errors.updateEmail.email" />
           </div>
 
           <div class="pf-m-flex-1">
@@ -45,12 +45,12 @@
               <UiInput
                 v-model="curPasswordForEmail"
                 type="password"
-                :invalid="!!errors.updateEmail.password?.message"
+                :invalid="!!errors.updateEmail.password"
                 @input="emit('input-pass-email')"
                 @keyup.enter="saveEmailHandler"
               />
             </UiLabelAndSlot>
-            <UiFormError :error="errors.updateEmail.password?.message" />
+            <UiFormError :error="errors.updateEmail.password" />
           </div>
         </div>
       </UiInlineEditSlot>
@@ -70,36 +70,36 @@
               <UiInput
                 v-model="curPassword"
                 type="password"
-                :invalid="!!errors.updatePassword.password?.message"
+                :invalid="!!errors.updatePassword.password"
                 @input="emit('input-pass')"
                 @keyup.enter="savePassHandler"
               />
             </UiLabelAndSlot>
-            <UiFormError :error="errors.updatePassword.password?.message" />
+            <UiFormError :error="errors.updatePassword.password" />
           </div>
           <div class="pf-m-flex-1">
             <UiLabelAndSlot :label="t('profile.newPassword')">
               <UiInput
                 v-model="newPassword"
                 type="password"
-                :invalid="!!errors.updatePassword.newPassword?.message"
+                :invalid="!!errors.updatePassword.newPassword"
                 @input="emit('input-pass-confirm')"
                 @keyup.enter="savePassHandler"
               />
             </UiLabelAndSlot>
-            <UiFormError :error="errors.updatePassword.newPassword?.message" />
+            <UiFormError :error="errors.updatePassword.newPassword" />
           </div>
           <div class="pf-m-flex-1">
             <UiLabelAndSlot :label="t('profile.confirmPassword')">
               <UiInput
                 v-model="confirmPassword"
                 type="password"
-                :invalid="!!errors.updatePassword.confirmPassword?.message"
+                :invalid="!!errors.updatePassword.confirmPassword"
                 @input="emit('input-pass-confirm')"
                 @keyup.enter="savePassHandler"
               />
             </UiLabelAndSlot>
-            <UiFormError :error="errors.updatePassword.confirmPassword?.message" />
+            <UiFormError :error="errors.updatePassword.confirmPassword" />
           </div>
         </div>
       </UiInlineEditSlot>
