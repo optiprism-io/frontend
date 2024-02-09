@@ -16,11 +16,11 @@ import dashboardsMocks from '@/mocks/dashboards'
 import groupRecordsMocks from '@/mocks/groupRecords.json'
 import profileMocks from '@/mocks/profile'
 import { profileRoutes } from '@/server/services/profile.service'
-import { EMPTY_HEADER_RESPONSE, EMPTY_SUCCESS_RES, nanoid, Tokens } from '@/server/constants'
+import { EMPTY_SUCCESS_RES, nanoid } from '@/server/constants'
 import { getRandomTiming } from '@/server/utils/getRandomTiming'
 import { projectsRoutes } from '@/server/services/projects.service'
 import projectsMocks from '@/mocks/projects'
-import { HttpStatusCode } from 'axios'
+import { authRoutes } from '@/server/services/auth.service'
 
 const dbTemplate: { [k: string]: any } = {
     events: eventMocks,
@@ -229,26 +229,6 @@ export default function ({ environment = 'development', isSeed = true } = {}) {
                 return funnelsMocks
             })
 
-            /** AUTH */
-            this.post(`${BASE_PATH}/v1/auth/login`, (_, request) => {
-                const property = JSON.parse(request.requestBody)
-
-                if (property.email.length <= 5 || property.password.length < 5) {
-                    return new Response(HttpStatusCode.BadRequest, EMPTY_HEADER_RESPONSE, {
-                        'code': '1000_invalid_token',
-                        'fields': {
-                            'email': 'Email is too short',
-                        }
-                    });
-                } else {
-                    return Tokens
-                }
-            })
-
-            this.post(`${BASE_PATH}/v1/auth/refresh-token`, (): TokensResponse => {
-                return Tokens
-            }, { timing: getRandomTiming() })
-
             this.get(`${BASE_PATH}/v1/projects/:project_id/dashboards`, (schema) => {
                 return {
                     data: schema.db.dashboards,
@@ -293,6 +273,7 @@ export default function ({ environment = 'development', isSeed = true } = {}) {
              * end Group-records
              */
 
+            authRoutes(this),
             profileRoutes(this)
             projectsRoutes(this)
         }
