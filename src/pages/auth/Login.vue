@@ -90,7 +90,7 @@ import UiFormGroup from '@/components/uikit/UiFormGroup.vue'
 import UiIcon from '@/components/uikit/UiIcon.vue'
 import UiInputGroup from '@/components/uikit/UiInputGroup.vue'
 import { safeParse } from 'valibot'
-import { notEmptyEmailScheme, notEmptyStringScheme } from '@/utils/validationSchemes'
+import { notEmptyEmail, notEmptyString } from '@/utils/validationSchemes'
 import { merge } from 'lodash'
 
 const route = useRoute()
@@ -147,8 +147,8 @@ const login = async (): Promise<void | Error> => {
 }
 
 const actionForm = () => {
-  const eCheck = safeParse(notEmptyEmailScheme, email.value)
-  const pCheck = safeParse(notEmptyStringScheme, password.value)
+  const eCheck = safeParse(notEmptyEmail, email.value)
+  const pCheck = safeParse(notEmptyString, password.value)
 
   if (!eCheck.success) {
     errorFields.value = merge(errorFields.value, {

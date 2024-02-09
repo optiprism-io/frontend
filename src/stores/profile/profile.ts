@@ -8,9 +8,9 @@ import profileService from '@/api/services/profile.service'
 import { useAuthStore } from '@/stores/auth/auth'
 import { safeParse } from 'valibot'
 import {
-  confirmPasswordScheme,
-  notEmptyEmailScheme,
-  notEmptyStringScheme,
+  confirmPassword as confirmPasswordScheme,
+  notEmptyEmail,
+  notEmptyString,
 } from '@/utils/validationSchemes'
 import {
   isErrorResponseError,
@@ -73,7 +73,7 @@ export const useProfileStore = defineStore('profile', {
     },
 
     async saveEditName({ name }: UpdateProfileNameRequest) {
-      const nCheck = safeParse(notEmptyStringScheme, name)
+      const nCheck = safeParse(notEmptyString, name)
       if (!nCheck.success) {
         this.errors.updateName.name = nCheck.issues[0].message
         return
@@ -99,8 +99,8 @@ export const useProfileStore = defineStore('profile', {
     },
 
     async saveEditEmail({ email, password }: UpdateProfileEmailRequest) {
-      const eCheck = safeParse(notEmptyEmailScheme, email)
-      const pCheck = safeParse(notEmptyStringScheme, password)
+      const eCheck = safeParse(notEmptyEmail, email)
+      const pCheck = safeParse(notEmptyString, password)
       if (!eCheck.success || !pCheck.success) {
         this.errors.updateEmail.email = eCheck.issues?.[0].message
         this.errors.updateEmail.password = pCheck.issues?.[0].message
@@ -132,8 +132,8 @@ export const useProfileStore = defineStore('profile', {
       newPassword,
       confirmPassword,
     }: UpdateProfilePasswordRequestExt) {
-      const curPCheck = safeParse(notEmptyStringScheme, password)
-      const newPCheck = safeParse(notEmptyStringScheme, newPassword)
+      const curPCheck = safeParse(notEmptyString, password)
+      const newPCheck = safeParse(notEmptyString, newPassword)
       const conPCheck = safeParse(confirmPasswordScheme, {
         newPassword,
         confirmPassword,
