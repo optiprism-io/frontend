@@ -7,17 +7,6 @@
         </router-link>
       </div>
       <div class="pf-l-flex__item">
-        <UiSelect
-          class="pf-u-mr-md app-header__project-select"
-          :items="projectStore.projectList"
-          :text-button="activeProjectName"
-          :placement="'bottom-start'"
-          :is-text-select="true"
-          :selections="projectListSelected"
-          @on-select="selectProject"
-        />
-      </div>
-      <div class="pf-l-flex__item">
         <Nav />
       </div>
       <RouterLink
@@ -35,25 +24,20 @@
         }"
       >
         <div class="pf-c-page__header-tools-group">
-          <div v-if="viteMockApi" class="pf-c-page__header-tools-item pf-u-mr-lg">
-            <UiSwitch
-              class="pf-m-reverse pf-c-switch-white"
-              :value="isEmptyMocks"
-              :label="'Mocks empty'"
-              @input="onClearStore"
-            />
-          </div>
-          <div v-if="viteMockApi" class="pf-c-page__header-tools-item pf-u-mr-lg">
-            <UiSwitch
-              class="pf-m-reverse pf-c-switch-white"
-              :value="isEnabledMocks"
-              :label="'Mocks enabled'"
-              @input="changeMocks"
-            />
-          </div>
           <div class="pf-c-page__header-tools-item">
+            <UiSelect
+              class="pf-u-mr-md app-header__project-select"
+              :items="projectStore.projectList"
+              :text-button="activeProjectName"
+              :placement="'bottom-end'"
+              :is-text-select="true"
+              :selections="projectListSelected"
+              @on-select="selectProject"
+            />
+          </div>
+          <div class="pf-c-page__header-tools-item pf-u-ml-md pf-u-mr-lg">
             <UiDropdown
-              class="pf-u-mr-lg"
+              class=""
               :items="userMenu"
               :text-button="''"
               :transparent="true"
@@ -74,7 +58,6 @@ import { computed, h, inject, onMounted, ref } from 'vue'
 import { GenericUiDropdown, UiDropdownItem } from '@/components/uikit/UiDropdown.vue'
 import UiSelect from '@/components/uikit/UiSelect.vue'
 import Nav from '@/components/common/Nav.vue'
-import UiSwitch from '@/components/uikit/UiSwitch.vue'
 import { useAuthStore } from '@/stores/auth/auth'
 import { useDashboardsStore } from '@/stores/dashboards'
 import { RouterLink, useRouter } from 'vue-router'
@@ -201,7 +184,6 @@ onMounted(() => {
   z-index: var(--pf-global--ZIndex--2xl);
   grid-area: header;
   background-color: var(--op-base-color);
-
   &__tools {
     margin-left: auto;
     display: flex;
@@ -209,8 +191,7 @@ onMounted(() => {
   }
   &__logo {
     display: inline-block;
-    width: 30px;
-    height: 24px;
+    margin-top: 4px;
     overflow: hidden;
     img {
       width: 130px;
@@ -218,7 +199,7 @@ onMounted(() => {
     }
   }
   &__project-select {
-    width: 150px;
+    width: 190px;
   }
 }
 </style>
