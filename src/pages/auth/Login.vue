@@ -83,18 +83,19 @@ import { computed, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth/auth'
 import { pagesMap } from '@/router'
-import usei18n from '@/hooks/useI18n'
 import UiInput from '@/components/uikit/UiInput.vue'
 import UiCheckbox from '@/components/uikit/UiCheckbox.vue'
 import UiForm from '@/components/uikit/UiForm.vue'
 import UiFormGroup from '@/components/uikit/UiFormGroup.vue'
 import UiIcon from '@/components/uikit/UiIcon.vue'
 import UiInputGroup from '@/components/uikit/UiInputGroup.vue'
+import { safeParse } from 'valibot'
+import { notEmptyEmailScheme, notEmptyStringScheme } from '@/utils/validationSchemes'
+import { merge } from 'lodash'
 
 const route = useRoute()
 const router = useRouter()
 const authStore = useAuthStore()
-const { t } = usei18n()
 
 const email = ref('')
 const password = ref('')
@@ -114,26 +115,10 @@ const onInput = (e: string, type: string) => {
   errorMain.value = ''
 }
 
-const validateEmail = (email: string) => {
-  return String(email)
-    .toLowerCase()
-    .match(
-      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-    )
-}
-
 const login = async (): Promise<void | Error> => {
   loading.value = true
   errorFields.value = {}
   errorMain.value = ''
-
-  if (!validateEmail(email.value)) {
-    errorFields.value = {
-      ...errorFields.value,
-      email: t('errors.emailIncorrect'),
-    }
-    return
-  }
 
   try {
     await authStore.login({
@@ -162,22 +147,24 @@ const login = async (): Promise<void | Error> => {
 }
 
 const actionForm = () => {
-  if (!email.value.trim() || !password.value.trim()) {
-    if (!email.value) {
-      errorFields.value = {
-        ...errorFields.value,
-        email: t('errors.requiredInput'),
-      }
-    }
-    if (!password.value) {
-      errorFields.value = {
-        ...errorFields.value,
-        password: t('errors.requiredInput'),
-      }
-    }
-  } else {
-    login()
+  const eCheck = safeParse(notEmptyEmailScheme, email.value)
+  const pCheck = safeParse(notEmptyStringScheme, password.value)
+
+  if (!eCheck.success) {
+    errorFields.value = merge(errorFields.value, {
+      email: eCheck.issues[0].message,
+    })
   }
+
+  if (!pCheck.success) {
+    errorFields.value = merge(errorFields.value, {
+      password: pCheck.issues[0].message,
+    })
+  }
+
+  if (!eCheck.success || !pCheck.success) return
+
+  login()
 }
 </script>
 
