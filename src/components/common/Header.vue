@@ -1,7 +1,7 @@
 <template>
   <header class="app-header">
     <div class="pf-l-flex pf-u-align-items-center">
-      <div class="pf-l-flex__item pf-u-ml-md">
+      <div class="pf-l-flex__item pf-u-ml-md pf-l-flex pf-u-align-items-center">
         <router-link class="app-header__logo" to="/dashboards" aria-current="page">
           <img class="pf-c-brand" src="@/assets/img/logo-black.svg" alt="OptiPrism" />
         </router-link>
@@ -210,7 +210,7 @@ onMounted(() => {
   &__logo {
     display: inline-block;
     width: 30px;
-    margin-top: 14px;
+    height: 24px;
     overflow: hidden;
     img {
       width: 130px;
