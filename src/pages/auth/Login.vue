@@ -49,13 +49,18 @@
               :for="'login-password'"
               :required="true"
             >
-              <UiInput
-                v-model="password"
-                name="login-password"
-                type="password"
-                :invalid="Boolean(errorFields?.password)"
-                @input="e => onInput(e, 'password')"
-              />
+              <UiInputGroup>
+                <UiInput
+                  v-model="password"
+                  name="login-password"
+                  :type="showPassword ? 'text' : 'password'"
+                  :invalid="Boolean(errorFields?.password)"
+                  @input="e => onInput(e, 'password')"
+                />
+                <UiButton class="pf-m-control" @click="showPassword = !showPassword">
+                  <UiIcon :icon="['fas', showPassword ? 'fa-eye-slash' : 'fa-eye']" />
+                </UiButton>
+              </UiInputGroup>
             </UiFormGroup>
             <UiFormGroup>
               <UiCheckbox v-model="keepLogged" :label="$t('login.keep')" class="pf-u-mb-md" />
@@ -83,6 +88,8 @@ import UiInput from '@/components/uikit/UiInput.vue'
 import UiCheckbox from '@/components/uikit/UiCheckbox.vue'
 import UiForm from '@/components/uikit/UiForm.vue'
 import UiFormGroup from '@/components/uikit/UiFormGroup.vue'
+import UiIcon from '@/components/uikit/UiIcon.vue'
+import UiInputGroup from '@/components/uikit/UiInputGroup.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -92,6 +99,7 @@ const { t } = usei18n()
 const email = ref('')
 const password = ref('')
 const keepLogged = ref(true)
+const showPassword = ref(false)
 const errorFields = ref<{ [key: string]: string }>({})
 const errorMain = ref('')
 const loading = ref(false)
