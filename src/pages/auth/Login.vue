@@ -20,7 +20,7 @@
   <div class="pf-c-login">
     <div class="pf-c-login__container">
       <header class="pf-c-login__header">
-        <img class="pf-c-brand" src="@/assets/img/logo-black.svg" alt="Optyprism" />
+        <img class="pf-c-brand" src="@/assets/img/logo-black.svg" alt="OptiPrism" />
       </header>
       <main class="pf-c-login__main">
         <header class="pf-c-login__main-header">
