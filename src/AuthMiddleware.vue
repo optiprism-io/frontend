@@ -21,7 +21,6 @@ import { useCommonStore } from '@/stores/common'
 import { useRoute, useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth/auth'
 import { useProjectsStore } from '@/stores/projects/projects'
-
 import { pagesMap } from '@/router'
 
 const state = ref<'pending' | 'ok' | 'error'>('pending')
@@ -53,6 +52,7 @@ const init = async (): Promise<void> => {
 
     return Promise.resolve()
   }
+  state.value = 'ok'
 }
 
 onMounted(init)
