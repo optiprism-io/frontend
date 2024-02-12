@@ -40,19 +40,25 @@ const applyCreateCustomEvent = () => {
   togglePopupCreateCustomEvent(false)
 }
 
-const init = async (): Promise<void> => {
+const getInitialData = async () => {
+  if (!projectStore.projects.length && !projectStore.isLoading) {
+    await projectStore.init()
+  }
+  state.value = 'ok'
+}
+
+const init = async () => {
   await authStore.authAccess()
   const isAuth = !!authStore.accessToken && !!localStorage.getItem(REFRESH_KEY)
 
   if (!isAuth) {
-    await router.replace({
+    await router.push({
       name: pagesMap.login.name,
       query: { next: route.path },
     })
-
-    return Promise.resolve()
+  } else {
+    await getInitialData();
   }
-  state.value = 'ok'
 }
 
 onMounted(init)
@@ -63,7 +69,7 @@ watch(
     if (!isAuthenticated) {
       router.replace({ name: pagesMap.login.name })
     } else {
-      await projectStore.init()
+      await getInitialData();
       state.value = 'ok'
     }
   }
