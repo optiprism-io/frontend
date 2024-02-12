@@ -118,7 +118,7 @@ export const useProjectsStore = defineStore('projects', {
       if (!this.projectsMap[projectId]) {
         projectId = Number(this.projects[0]?.id || 0)
       }
-      this.setProjectId(projectId)
+      await this.setProjectId(projectId)
     },
     async saveProjectName(name: string) {
       const nCheck = safeParse(notEmptyStringScheme, name)
@@ -177,6 +177,12 @@ export const useProjectsStore = defineStore('projects', {
     async __updateProject(req: UpdateProjectRequest) {
       if (!this.projectId) throw Error
       const { data } = await projectsService.updateProject(this.projectId, req)
+
+      if (data) {
+        this.projects = this.projects.map((item) => {
+          return Number(item.id) === Number(data.id) ? data : item;
+        });
+      }
       this.project = data
     },
 

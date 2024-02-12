@@ -1,8 +1,6 @@
-export const projectId = 1
-
 export default [
   {
-    id: projectId,
+    id: 1,
     createdAt: '2024-01-22T16:11:34.530Z',
     updatedAt: '2024-01-22T16:11:34.530Z',
     createdBy: 0,

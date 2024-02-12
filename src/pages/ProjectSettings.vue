@@ -25,6 +25,7 @@
 </template>
 
 <script setup lang="ts">
+import { onMounted } from 'vue'
 import UiSpinner from '@/components/uikit/UiSpinner.vue'
 import UiCard from '@/components/uikit/UiCard/UiCard.vue'
 import ToolsLayout from '@/layout/tools/ToolsLayout.vue'
@@ -42,5 +43,7 @@ const {
 } = projectsStore
 const { isLoading, project, errors, isEdit } = storeToRefs(projectsStore)
 
-getProject()
+onMounted(() => {
+  getProject()
+})
 </script>

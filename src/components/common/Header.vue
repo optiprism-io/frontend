@@ -12,7 +12,10 @@
       <RouterLink
         v-if="!projectStore.project?.eventsCount"
         class="pf-c-button pf-m-small pf-m-warning"
-        :to="{ name: pagesMap.integration, params: { integration: SDKIntegration.javascript } }"
+        :to="{
+          name: pagesMap.integration,
+          params: { integration: SDKIntegration.javascript },
+        }"
       >
         <UiIcon icon="fas fa-exclamation-circle" />
         {{ $t('integration.clickIntegrate') }}
@@ -54,7 +57,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, h, inject, onMounted, ref } from 'vue'
+import { computed, inject, onMounted, ref } from 'vue'
 import { GenericUiDropdown, UiDropdownItem } from '@/components/uikit/UiDropdown.vue'
 import UiSelect from '@/components/uikit/UiSelect.vue'
 import Nav from '@/components/common/Nav.vue'
@@ -82,49 +85,38 @@ const userMenuMap = {
 
 type MenuValues = (typeof userMenuMap)[keyof typeof userMenuMap]
 
-const userMenu: UiDropdownItem<MenuValues>[] = [
-  {
-    key: 1,
-    value: userMenuMap.PROFILE,
-    vNode: h(RouterLink, { to: { name: pagesMap.profile } }, () =>
-      i18n.$t('userMenu.personalSettings')
-    ),
-  },
-  {
-    key: 2,
-    value: userMenuMap.ORGANIZATION,
-    nameDisplay: i18n.$t('userMenu.organizationSettings'),
-  },
-  {
-    key: 3,
-    value: userMenuMap.PROJECT,
-    nameDisplay: i18n.$t('userMenu.projectSettings'),
-    vNode: h(
-      RouterLink,
-      {
-        to: { name: pagesMap.projectsSettings, params: { id: projectStore.projectId } },
-      },
-      () => i18n.$t('userMenu.projectSettings')
-    ),
-  },
-  {
-    key: 4,
-    value: userMenuMap.INTEGRATION,
-    nameDisplay: i18n.$t('userMenu.integrateOptiPrism'),
-    vNode: h(
-      RouterLink,
-      {
-        to: { name: pagesMap.integration, params: { integration: SDKIntegration.javascript } },
-      },
-      () => i18n.$t('userMenu.integrateOptiPrism')
-    ),
-  },
-  {
-    key: 5,
-    value: userMenuMap.LOGOUT,
-    nameDisplay: i18n.$t('userMenu.logout'),
-  },
-]
+const userMenu = computed<UiDropdownItem<MenuValues>[]>(() => {
+  return [
+    {
+      key: 1,
+      value: userMenuMap.PROFILE,
+      to: { name: pagesMap.profile },
+      nameDisplay: i18n.$t('userMenu.personalSettings'),
+    },
+    {
+      key: 2,
+      value: userMenuMap.ORGANIZATION,
+      nameDisplay: i18n.$t('userMenu.organizationSettings'),
+    },
+    {
+      key: 3,
+      value: userMenuMap.PROJECT,
+      nameDisplay: i18n.$t('userMenu.projectSettings'),
+      to: { name: pagesMap.projectsSettings, params: { id: projectStore.projectId } },
+    },
+    {
+      key: 4,
+      value: userMenuMap.INTEGRATION,
+      nameDisplay: i18n.$t('userMenu.integrateOptiPrism'),
+      to: { name: pagesMap.integration, params: { integration: SDKIntegration.javascript } },
+    },
+    {
+      key: 5,
+      value: userMenuMap.LOGOUT,
+      nameDisplay: i18n.$t('userMenu.logout'),
+    },
+  ]
+})
 
 const selectUserMenu = (item: UiDropdownItem<MenuValues>) => {
   switch (item.value) {
@@ -191,6 +183,8 @@ onMounted(() => {
   }
   &__logo {
     display: inline-block;
+    width: 30px;
+    height: 24px;
     margin-top: 4px;
     overflow: hidden;
     img {
