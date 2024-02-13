@@ -1928,7 +1928,7 @@ components:
           type: integer
     CreateProjectRequest:
       type: object
-      required: [ 'name','sessionDurationSeconds' ]
+      required: [ 'name' ]
       properties:
         name:
           type: string
