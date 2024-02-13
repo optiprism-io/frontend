@@ -14,7 +14,7 @@ import uikitPlugin from '@/plugins/uikit'
 import i18nPlugin from '@/plugins/i18n'
 import GridLayout from 'vue3-drr-grid-layout'
 
-const pinia = createPinia();
+const pinia = createPinia()
 const app = createApp(App);
 
 app.use(router);
@@ -25,12 +25,11 @@ app.use(GridLayout);
 app.use(uikitPlugin);
 app.use(i18nPlugin);
 
-const isEnabledMocks = localStorage.getItem('isEnabledMocks');
-if (import.meta.env.VITE_MOCK_API) {
-    if ((isEnabledMocks && Number(isEnabledMocks)) || !Number(isEnabledMocks)) {
-        makeServer({ isSeed: localStorage.getItem('isEmptyMocks') !== '1' });
-        localStorage.setItem('isEnabledMocks', '1');
-    }
+const MOCK_API = import.meta.env.VITE_MOCK_API === 'true'
+const IS_EMPTY_MOCKS = import.meta.env.VITE_IS_EMPTY_MOCKS === 'true'
+
+if (MOCK_API) {
+  makeServer({ isSeed: !IS_EMPTY_MOCKS })
 }
 
 app.config.globalProperties.loadDictionary(lang.en);

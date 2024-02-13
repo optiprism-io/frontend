@@ -1,6 +1,5 @@
-import { createServer, Response } from 'miragejs'
-import { useUrlSearchParams } from '@vueuse/core'
-import { DataType, TokensResponse } from '@/api'
+import { createServer } from 'miragejs'
+import { DataType } from '@/api'
 import { BASE_PATH } from '@/api/base'
 import { EventStatus, UserCustomProperty } from '@/types/events'
 import liveStreamMocks from '@/mocks/reports/liveStream.json'
@@ -23,18 +22,18 @@ import projectsMocks from '@/mocks/projects'
 import { authRoutes } from '@/server/services/auth.service'
 
 const dbTemplate: { [k: string]: any } = {
-    events: eventMocks,
-    customEvents: customEventsMocks,
-    eventProperties: eventPropertiesMocks,
-    userProperties: userPropertiesMocks,
-    customProperties: customProperties,
-    reports: reportsMocks,
-    dashboards: dashboardsMocks,
-    groupRecords: groupRecordsMocks,
-    liveStreamMocks: liveStreamMocks,
-    profile: profileMocks,
-    projects: projectsMocks
-};
+  events: eventMocks,
+  customEvents: customEventsMocks,
+  eventProperties: eventPropertiesMocks,
+  userProperties: userPropertiesMocks,
+  customProperties: customProperties,
+  reports: reportsMocks,
+  dashboards: dashboardsMocks,
+  groupRecords: groupRecordsMocks,
+  liveStreamMocks: liveStreamMocks,
+  profile: profileMocks,
+  projects: projectsMocks,
+}
 
 const dbTemplateKeys = Object.keys(dbTemplate);
 
@@ -44,17 +43,6 @@ const emptyDbTemplate = dbTemplateKeys.reduce((acc: { [key: string]: [] }, key) 
 }, {});
 
 export default function ({ environment = 'development', isSeed = true } = {}) {
-    const params = useUrlSearchParams('history');
-
-    if (params?.emptyMocks) {
-        const values = (typeof params.emptyMocks === 'string' ? [params.emptyMocks] : params.emptyMocks).map(item => item.split(',')).flat();
-        values.forEach(key => {
-            if (dbTemplate && dbTemplate[key]) {
-                dbTemplate[key] = [];
-            }
-        });
-    }
-
     return createServer({
         environment,
         namespace: 'api',

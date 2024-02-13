@@ -20,12 +20,7 @@
         <UiIcon icon="fas fa-exclamation-circle" />
         {{ $t('integration.clickIntegrate') }}
       </RouterLink>
-      <div
-        class="app-header__tools"
-        :class="{
-          'pf-m-align-r': !viteMockApi,
-        }"
-      >
+      <div class="app-header__tools">
         <div class="pf-c-page__header-tools-group">
           <div class="pf-c-page__header-tools-item">
             <UiSelect
@@ -57,7 +52,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, inject, onMounted, ref } from 'vue'
+import { computed, inject } from 'vue'
 import { GenericUiDropdown, UiDropdownItem } from '@/components/uikit/UiDropdown.vue'
 import UiSelect from '@/components/uikit/UiSelect.vue'
 import Nav from '@/components/common/Nav.vue'
@@ -145,27 +140,6 @@ const activeProjectName = computed(() => {
   return projectStore.selectedProject
     ? projectStore.selectedProject.name
     : i18n.$t('project.selectProject')
-})
-
-/**
- * mocks env store
- */
-const isEnabledMocks = ref(false)
-const viteMockApi = import.meta.env.VITE_MOCK_API
-const changeMocks = () => {
-  localStorage.setItem('isEnabledMocks', isEnabledMocks.value ? '0' : '1')
-  location.reload()
-}
-
-const isEmptyMocks = ref(false)
-const onClearStore = () => {
-  localStorage.setItem('isEmptyMocks', isEmptyMocks.value ? '0' : '1')
-  location.reload()
-}
-
-onMounted(() => {
-  isEnabledMocks.value = localStorage.getItem('isEnabledMocks') === '1'
-  isEmptyMocks.value = localStorage.getItem('isEmptyMocks') === '1'
 })
 </script>
 
