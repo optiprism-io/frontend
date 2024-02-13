@@ -6787,15 +6787,11 @@ export const ProjectsApiAxiosParamCreator = function (configuration?: Configurat
         /**
          * 
          * @summary Projects list
-         * @param {number} projectId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        projectsList: async (projectId: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'projectId' is not null or undefined
-            assertParamExists('projectsList', 'projectId', projectId)
-            const localVarPath = `/v1/projects`
-                .replace(`{${"projectId"}}`, encodeURIComponent(String(projectId)));
+        projectsList: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/v1/projects`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -6918,12 +6914,11 @@ export const ProjectsApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @summary Projects list
-         * @param {number} projectId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async projectsList(projectId: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ProjectsList200Response>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.projectsList(projectId, options);
+        async projectsList(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ProjectsList200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.projectsList(options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['ProjectsApi.projectsList']?.[index]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
@@ -6985,12 +6980,11 @@ export const ProjectsApiFactory = function (configuration?: Configuration, baseP
         /**
          * 
          * @summary Projects list
-         * @param {number} projectId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        projectsList(projectId: number, options?: any): AxiosPromise<ProjectsList200Response> {
-            return localVarFp.projectsList(projectId, options).then((request) => request(axios, basePath));
+        projectsList(options?: any): AxiosPromise<ProjectsList200Response> {
+            return localVarFp.projectsList(options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -7052,13 +7046,12 @@ export class ProjectsApi extends BaseAPI {
     /**
      * 
      * @summary Projects list
-     * @param {number} projectId 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ProjectsApi
      */
-    public projectsList(projectId: number, options?: RawAxiosRequestConfig) {
-        return ProjectsApiFp(this.configuration).projectsList(projectId, options).then((request) => request(this.axios, this.basePath));
+    public projectsList(options?: RawAxiosRequestConfig) {
+        return ProjectsApiFp(this.configuration).projectsList(options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

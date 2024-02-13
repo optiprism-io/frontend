@@ -10,8 +10,8 @@ import {
 } from '@/api'
 import {Event} from '@/stores/eventSegmentation/events'
 import dataService from '@/api/services/datas.service'
-import {useCommonStore} from '@/stores/common'
 import {useLexiconStore} from '@/stores/lexicon'
+import { useProjectsStore } from '@/stores/projects/projects'
 
 export interface Report {
     name: string
@@ -186,10 +186,9 @@ export const useLiveStreamStore = defineStore('liveStream', {
         },
         async getReportLiveStream() {
             this.loading = true
-            const commonStore = useCommonStore()
-
+            const projectsStore = useProjectsStore()
             try {
-                const res = await dataService.createEventsStream(commonStore.projectId, {
+                const res = await dataService.createEventsStream(projectsStore.projectId, {
                     time: this.timeRequest,
                     events: this.eventsRequest,
                 })

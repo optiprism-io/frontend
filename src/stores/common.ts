@@ -10,9 +10,7 @@ export type PropertyTypeEnum = typeof PropertyTypeEnum[keyof typeof PropertyType
 export type Common = {
     showCreateCustomEvent: boolean
     showEventManagementPopup: boolean
-    projectId: number
     editEventManagementPopupId: number | null
-    organizationId: number
     showEventPropertyPopup: boolean
     editEventPropertyPopupId: number | null
     editEventPropertyPopupType: PropertyTypeEnum
@@ -28,9 +26,6 @@ export const useCommonStore = defineStore('common', {
         editEventPropertyPopupId: null,
         editEventPropertyPopupType: PropertyTypeEnum.EventProperty,
         syncReports: false,
-
-        projectId: 1, // TODO
-        organizationId: 1,
     }),
     actions: {
         updateEditEventManagementPopupId(payload: number | null) {

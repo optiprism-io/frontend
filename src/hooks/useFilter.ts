@@ -1,11 +1,12 @@
 import schemaService from '@/api/services/schema.service'
 import { EventRef, PropertyRef } from '@/types/events'
 import { useLexiconStore } from '@/stores/lexicon'
+import { useProjectsStore } from '@/stores/projects/projects'
+
 import {
     EventType,
     Value,
 } from '@/api';
-import { useCommonStore } from '@/stores/common';
 
 interface UseFilter {
     getEventRef: (id: number) => EventRef | undefined;
@@ -14,7 +15,7 @@ interface UseFilter {
 
 export const useFilter = (): UseFilter => {
     const lexiconStore = useLexiconStore();
-    const commonStore = useCommonStore()
+    const projectsStore = useProjectsStore()
 
     const getEventRef = (id: number): EventRef | undefined => {
         const event = lexiconStore.events.find(item => {
@@ -43,7 +44,7 @@ export const useFilter = (): UseFilter => {
             const eventRef = property.id ? getEventRef(property.id) : null
 
             try {
-                const res = await schemaService.propertyValues(commonStore.projectId, {
+                const res = await schemaService.propertyValues(projectsStore.projectId, {
                     eventName: eventRef ? lexiconStore.eventName(eventRef) : '',
                     eventType: eventRef?.type as EventType,
                     propertyName: property.name || '',

@@ -100,6 +100,7 @@ import { EventRef } from '@/types/events'
 import { useLexiconStore } from '@/stores/lexicon'
 import { Event, useEventsStore, EventPayload } from '@/stores/eventSegmentation/events'
 import { useCommonStore } from '@/stores/common'
+import { useProjectsStore } from '@/stores/projects/projects'
 
 import UiPopupWindow from '@/components/uikit/UiPopupWindow.vue'
 import UiInput from '@/components/uikit/UiInput.vue'
@@ -123,6 +124,7 @@ const i18n = inject<any>('i18n')
 
 const lexiconStore = useLexiconStore()
 const eventsStore = useEventsStore()
+const projectsStore = useProjectsStore()
 const commonStore = useCommonStore()
 
 const emit = defineEmits<{
@@ -237,10 +239,10 @@ const apply = async () => {
         if (isEdit.value) {
             const data: UpdateCustomEventRequest = resultEvent.value
             data.status = eventStatus.value ? EventStatus.Enabled : EventStatus.Disabled;
-            await schemaService.updateCustomEvent(commonStore.projectId, String(editedEvent.value?.id), data)
+            await schemaService.updateCustomEvent(projectsStore.projectId, String(editedEvent.value?.id), data)
         } else {
             const data: CreateCustomEventRequest = resultEvent.value
-            await schemaService.createCustomEvent(commonStore.projectId, data)
+            await schemaService.createCustomEvent(projectsStore.projectId, data)
         }
 
         await lexiconStore.getEvents()
@@ -275,7 +277,7 @@ onBeforeMount(async () => {
                         let valuesList: Array<Value> = []
 
                         try {
-                            const res = await schemaService.propertyValues(commonStore.projectId, {
+                            const res = await schemaService.propertyValues(projectsStore.projectId, {
                                 eventName: item.eventName,
                                 eventType: item.eventType,
                                 propertyName: filter.propertyName || '',

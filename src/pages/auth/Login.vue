@@ -92,10 +92,12 @@ import UiInputGroup from '@/components/uikit/UiInputGroup.vue'
 import { safeParse } from 'valibot'
 import { notEmptyEmail, notEmptyString } from '@/utils/validationSchemes'
 import { merge } from 'lodash'
+import { useProjectsStore } from '@/stores/projects/projects'
 
 const route = useRoute()
 const router = useRouter()
 const authStore = useAuthStore()
+const projectStore = useProjectsStore()
 
 const email = ref('')
 const password = ref('')
@@ -127,6 +129,7 @@ const login = async (): Promise<void | Error> => {
       keepLogged: keepLogged.value,
     })
     if (authStore.accessToken) {
+      projectStore.init()
       router.push({ path: nextPath.value })
     }
   } catch (e: any) {

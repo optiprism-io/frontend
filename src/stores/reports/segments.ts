@@ -3,7 +3,8 @@ import { Condition, ConditionFilter, PropertyRef, EventRef } from '@/types/event
 import {OperationId, Value} from '@/types';
 import schemaService from '@/api/services/schema.service';
 import { useLexiconStore } from '@/stores/lexicon';
-import { useCommonStore } from '@/stores/common';
+import { useProjectsStore } from '@/stores/projects/projects'
+
 import {
     ChangeEventCondition,
     ChangeFilterOperation,
@@ -329,9 +330,10 @@ export const useSegmentsStore = defineStore('segments', {
 
             try {
                 const lexiconStore = useLexiconStore()
-                const commonStore = useCommonStore()
+                const projectsStore = useProjectsStore()
 
-                const res = await schemaService.propertyValues(commonStore.projectId, {
+
+                const res = await schemaService.propertyValues(projectsStore.projectId, {
                     eventName: lexiconStore.eventName(eventRef),
                     eventType: eventRef.type,
                     propertyName: lexiconStore.propertyName(propRef),
@@ -456,10 +458,10 @@ export const useSegmentsStore = defineStore('segments', {
 
                 if (condition) {
                     const lexiconStore = useLexiconStore()
-                    const commonStore = useCommonStore()
+                    const projectsStore = useProjectsStore()
 
                     try {
-                        const res = await schemaService.propertyValues(commonStore.projectId, {
+                        const res = await schemaService.propertyValues(projectsStore.projectId, {
                             propertyType: condition.propRef?.type as PropertyType || PropertyType.User,
                             eventType: condition.event?.ref?.type as EventType,
                             propertyName: lexiconStore.propertyName(ref),

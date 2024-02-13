@@ -371,6 +371,7 @@
   },
 
   "project": {
+    "selectProject": "Select Project",
     "title": "Project",
     "settings": {
       "title": "Project settings"
@@ -384,6 +385,7 @@
     "javascript": "JavaScript",
     "android": "Android",
     "ios": "iOS",
+    "clickIntegrate": "Click here to integrate and start using OptiPrism",
     "noEventsText": "You don't have any events registered in the current project. Select and integrate SDK to begin"
   }
 }
