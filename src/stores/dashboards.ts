@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia';
 import { Dashboard } from '@/api';
-import { useCommonStore } from '@/stores/common';
+import { useProjectsStore } from '@/stores/projects/projects'
+
 import dashboardService from '@/api/services/dashboards.service';
 
 type DashboardsStore = {
@@ -13,9 +14,9 @@ export const useDashboardsStore = defineStore('dashboards', {
     }),
     actions: {
         async getDashboards() {
-            const commonStore = useCommonStore();
+            const projectsStore = useProjectsStore()
             try {
-                const res = await dashboardService.dashboardsList(commonStore.projectId);
+                const res = await dashboardService.dashboardsList(projectsStore.projectId);
                 if (res?.data?.data) {
                     this.dashboards = res.data.data
                 }

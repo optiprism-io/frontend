@@ -40,6 +40,8 @@ import { ref, computed, inject } from 'vue'
 import { useLexiconStore } from '@/stores/lexicon'
 import { useEventsStore } from '@/stores/eventSegmentation/events'
 import { useCommonStore } from '@/stores/common'
+import { useProjectsStore } from '@/stores/projects/projects'
+
 import { Row, Action } from '@/components/uikit/UiTable/UiTable'
 import { CustomEvent } from '@/api'
 import schemaService from '@/api/services/schema.service'
@@ -56,6 +58,7 @@ const i18n = inject<any>('i18n')
 const lexiconStore = useLexiconStore()
 const eventsStore = useEventsStore()
 const commonStore = useCommonStore()
+const projectsStore = useProjectsStore()
 
 const actionEventId = ref<number | null>(null)
 const openConfirmPopup = ref(false)
@@ -164,7 +167,7 @@ const addCustomEvent = () => {
 const applyDelete = async () => {
     if (actionEventId.value) {
         try {
-            await schemaService.deleteCustomEvents(commonStore.projectId, actionEventId.value)
+            await schemaService.deleteCustomEvents(projectsStore.projectId, actionEventId.value)
             lexiconStore.deleteCustomEvent(actionEventId.value)
         } catch (e) {
             throw new Error('error Delete Custom Events')

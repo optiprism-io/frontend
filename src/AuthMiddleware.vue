@@ -1,19 +1,16 @@
 <template>
-    <div
-        v-if="state === 'ok'"
-        class="pf-c-page"
-    >
-        <Header />
-        <main class="pf-c-page__main">
-            <router-view />
-        </main>
+  <div v-if="state === 'ok'" class="pf-c-page">
+    <Header />
+    <main class="pf-c-page__main">
+      <router-view />
+    </main>
 
-        <CreateCustomEvent
-            v-if="commonStore.showCreateCustomEvent"
-            @apply="applyCreateCustomEvent"
-            @cancel="togglePopupCreateCustomEvent(false)"
-        />
-    </div>
+    <CreateCustomEvent
+      v-if="commonStore.showCreateCustomEvent"
+      @apply="applyCreateCustomEvent"
+      @cancel="togglePopupCreateCustomEvent(false)"
+    />
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -23,8 +20,8 @@ import CreateCustomEvent from '@/components/events/CreateCustomEvent.vue'
 import { useCommonStore } from '@/stores/common'
 import { useRoute, useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth/auth'
-
-import { pagesMap } from '@/router';
+import { useProjectsStore } from '@/stores/projects/projects'
+import { pagesMap } from '@/router'
 
 const state = ref<'pending' | 'ok' | 'error'>('pending')
 const REFRESH_KEY = 'refreshToken'
@@ -33,36 +30,48 @@ const route = useRoute()
 const router = useRouter()
 const commonStore = useCommonStore()
 const authStore = useAuthStore()
+const projectStore = useProjectsStore()
 
 const togglePopupCreateCustomEvent = (payload: boolean) => {
-    commonStore.togglePopupCreateCustomEvent(payload)
+  commonStore.togglePopupCreateCustomEvent(payload)
 }
 
 const applyCreateCustomEvent = () => {
-    togglePopupCreateCustomEvent(false)
+  togglePopupCreateCustomEvent(false)
 }
 
-const init = async (): Promise<void> => {
-    await authStore.authAccess();
-    const isAuth = !!authStore.accessToken && !!localStorage.getItem(REFRESH_KEY);
-    if (!isAuth) {
-        await router.replace({
-            name: pagesMap.login.name,
-            query: { next: route.path }
-        })
-        return Promise.resolve()
-    } else {
-        state.value = 'ok'
-    }
+const getInitialData = async () => {
+  if (!projectStore.projects.length && !projectStore.isLoading) {
+    await projectStore.init()
+  }
+  state.value = 'ok'
+}
+
+const init = async () => {
+  await authStore.authAccess()
+  const isAuth = !!authStore.accessToken && !!localStorage.getItem(REFRESH_KEY)
+
+  if (!isAuth) {
+    await router.push({
+      name: pagesMap.login.name,
+      query: { next: route.path },
+    })
+  } else {
+    await getInitialData();
+  }
 }
 
 onMounted(init)
 
-watch(() => authStore.isAuthenticated, isAuthenticated => {
+watch(
+  () => authStore.isAuthenticated,
+  async isAuthenticated => {
     if (!isAuthenticated) {
-        router.replace({ name: pagesMap.login.name })
+      router.replace({ name: pagesMap.login.name })
     } else {
-        state.value = 'ok'
+      await getInitialData();
+      state.value = 'ok'
     }
-})
+  }
+)
 </script>

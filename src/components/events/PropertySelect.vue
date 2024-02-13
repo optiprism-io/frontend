@@ -110,7 +110,7 @@ const noDataPropertyes = computed(() => {
 });
 
 const items = computed(() => {
-    let ret: Group<Item<PropertyRef, null>[]>[] = [];
+    const ret: Group<Item<PropertyRef, null>[]>[] = [];
 
     if (noDataPropertyes.value) {
         return [{
@@ -127,10 +127,6 @@ const items = computed(() => {
                 noSelected: true,
             }],
         }];
-    }
-
-    if (props.eventRef) {
-        ret = [...ret, ...getEventProperties(props.eventRef)];
     }
 
     if (lexiconStore.systemProperties.length) {
@@ -156,52 +152,26 @@ const items = computed(() => {
         });
     }
 
-    if (props.eventRefs) {
-        const allEventRefs = props.eventRefs.map(eventRef => {
-            return getEventProperties(eventRef)
+    if (lexiconStore.eventProperties.length) {
+        const items: Item<PropertyRef, null>[] = [];
+        lexiconStore.eventProperties.forEach((prop: Property): void => {
+            const propertyRef: PropertyRef = {
+                type: PropertyType.Event,
+                id: prop.id
+            };
+
+            items.push({
+                item: propertyRef,
+                name: prop.name,
+                disabled: checkDisable(propertyRef),
+                description: prop?.description
+            });
         });
-        ret = [...ret, ...allEventRefs.reduce((refs, item) => {
-            item.forEach(itemInner => {
-                const existItem = refs.find(ref => ref.name === itemInner.name);
 
-                if (existItem) {
-                    itemInner.items.forEach(item => {
-                        const i = existItem.items.find(existItemInner => JSON.stringify(existItemInner.item) === JSON.stringify(item.item));
-                        if (!i) {
-                            existItem.items.push(item);
-                        }
-                    });
-                } else {
-                    refs.push(itemInner);
-                }
-            });
-
-            return refs;
-        }, [])];
-    }
-
-    if (!props.eventRef && !props.eventRefs) {
-        if (lexiconStore.eventProperties.length) {
-            const items: Item<PropertyRef, null>[] = [];
-            lexiconStore.eventProperties.forEach((prop: Property): void => {
-                const propertyRef: PropertyRef = {
-                    type: PropertyType.Event,
-                    id: prop.id
-                };
-
-                items.push({
-                    item: propertyRef,
-                    name: prop.name,
-                    disabled: checkDisable(propertyRef),
-                    description: prop?.description
-                });
-            });
-
-            ret.push({
-                name: 'Event Properties',
-                items: items
-            });
-        }
+        ret.push({
+            name: 'Event Properties',
+            items
+        });
     }
 
     if (lexiconStore.userProperties.length) {

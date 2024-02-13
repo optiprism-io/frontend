@@ -118,10 +118,12 @@ import UiInput from '@/components/uikit/UiInput.vue'
 import UiCheckbox from '@/components/uikit/UiCheckbox.vue'
 import UiForm from '@/components/uikit/UiForm.vue'
 import UiFormGroup from '@/components/uikit/UiFormGroup.vue'
+import { useProjectsStore } from '@/stores/projects/projects'
 
 const route = useRoute()
 const router = useRouter()
 const authStore = useAuthStore()
+const projectStore = useProjectsStore()
 const { t } = usei18n()
 
 const email = ref('')
@@ -169,6 +171,7 @@ const login = async (): Promise<void | Error> => {
             keepLogged: keepLogged.value,
         })
         if (authStore.accessToken) {
+            projectStore.init()
             router.push({ path: nextPath.value })
         }
     } catch (e: any) {

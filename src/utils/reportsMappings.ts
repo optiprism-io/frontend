@@ -3,13 +3,13 @@ import schemaService from '@/api/services/schema.service'
 
 import { useStepsStore, HoldingProperty } from '@/stores/funnels/steps'
 import { useReportsStore } from '@/stores/reports/reports'
-import { useCommonStore } from '@/stores/common'
 import { useLexiconStore } from '@/stores/lexicon'
 import { useBreakdownsStore } from '@/stores/reports/breakdowns'
 import { useFilterGroupsStore, FilterGroup } from '@/stores/reports/filters'
 import { useSegmentsStore, Segment } from '@/stores/reports/segments'
 import { Each } from '@/components/uikit/UiCalendar/UiCalendar'
 import { Value } from '@/api'
+import { useProjectsStore } from '@/stores/projects/projects'
 
 import {
     Property,
@@ -102,9 +102,10 @@ const getTime = (props: GetTime) => {
 }
 
 const getValues = async (props: GetValues) => {
-    const commonStore = useCommonStore()
+    const projectsStore = useProjectsStore()
     let valuesList: Value[] = []
-    const res = await schemaService.propertyValues(commonStore.projectId, {
+
+    const res = await schemaService.propertyValues(projectsStore.projectId, {
         propertyType: props.propertyType || PropertyType.User,
         eventType: props.eventType || EventType.Regular,
         propertyName: props.propertyName,
@@ -196,7 +197,7 @@ const mapReportToEvents = async (items: EventSegmentationEvent[]): Promise<Event
 }
 
 const mapReportToFilterGroups = async (items: EventGroupedFiltersGroupsInner[]): Promise<FilterGroup[]> => {
-    const commonStore = useCommonStore()
+    const projectsStore = useProjectsStore()
 
     return await Promise.all(items.map(async (item): Promise<FilterGroup> => {
         return {
@@ -204,7 +205,7 @@ const mapReportToFilterGroups = async (items: EventGroupedFiltersGroupsInner[]):
             filters: item.filters ? await Promise.all(item.filters.map(async (filter): Promise<Filter> => {
                 let valuesList: Value[] = []
                 try {
-                    const res = await schemaService.propertyValues(commonStore.projectId, {
+                    const res = await schemaService.propertyValues(projectsStore.projectId, {
                         propertyName: filter.propertyName || '',
                         propertyType: filter.propertyType,
                         eventType: EventType.Regular,
