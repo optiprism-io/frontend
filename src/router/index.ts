@@ -11,6 +11,7 @@ export const pagesMap = {
     path: '/login',
     name: 'login',
   },
+  createProject: 'createProject',
   eventsLiveStream: {
     path: '/events',
     name: 'eventsLiveStream',
@@ -40,6 +41,11 @@ const routes: RouteRecordRaw[] = [
     path: pagesMap.login.path,
     name: pagesMap.login.name,
     component: () => import('@/pages/auth/Login.vue'),
+  },
+  {
+    path: '/create_project',
+    name: pagesMap.createProject,
+    component: () => import('@/pages/CreateProject.vue'),
   },
   {
     path: '',
