@@ -47,21 +47,7 @@ const getInitialData = async () => {
   state.value = 'ok'
 }
 
-const init = async () => {
-  await authStore.authAccess()
-  const isAuth = !!authStore.accessToken && !!localStorage.getItem(REFRESH_KEY)
-
-  if (!isAuth) {
-    await router.push({
-      name: pagesMap.login.name,
-      query: { next: route.path },
-    })
-  } else {
-    await getInitialData();
-  }
-}
-
-onMounted(init)
+onMounted(getInitialData)
 
 watch(
   () => authStore.isAuthenticated,
