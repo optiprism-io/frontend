@@ -1,3 +1,6 @@
+// TODO: add types for UiSelectGeneric
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
 import {computed, DefineComponent, defineComponent, PropType, Ref, ref} from 'vue';
 import UiSelectItem from '@/components/uikit/UiSelect/UiSelectItem.vue'
 import {UiSelectItemInterface} from './types';

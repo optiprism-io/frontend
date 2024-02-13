@@ -3,7 +3,7 @@ import { useAuthStore } from '@/stores/auth/auth'
 import projectsService from '@/api/services/projects.service'
 import { Project, UpdateProjectRequest } from '@/api'
 import { safeParse } from 'valibot'
-import { moreThanZeroScheme, notEmptyStringScheme } from '@/utils/validationSchemes'
+import { moreThanZeroNumber, notEmptyString } from '@/utils/validationSchemes'
 import { isErrorResponseError } from '@/stores/profile/types'
 import { ProjectEdit, ProjectErrors } from '@/stores/projects/types'
 
@@ -121,7 +121,7 @@ export const useProjectsStore = defineStore('projects', {
       await this.setProjectId(projectId)
     },
     async saveProjectName(name: string) {
-      const nCheck = safeParse(notEmptyStringScheme, name)
+      const nCheck = safeParse(notEmptyString, name)
       if (!nCheck.success) {
         this.errors.updateProject.name = nCheck.error
         return
@@ -147,7 +147,7 @@ export const useProjectsStore = defineStore('projects', {
     },
 
     async saveSessionDuration(sessionDurationSeconds: number) {
-      const dCheck = safeParse(moreThanZeroScheme, sessionDurationSeconds)
+      const dCheck = safeParse(moreThanZeroNumber, sessionDurationSeconds)
       if (!dCheck.success) {
         this.errors.updateProject.sessionDurationSeconds = dCheck.error
         return

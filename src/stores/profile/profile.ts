@@ -8,9 +8,9 @@ import profileService from '@/api/services/profile.service'
 import { useAuthStore } from '@/stores/auth/auth'
 import { safeParse } from 'valibot'
 import {
-  confirmPasswordScheme,
-  notEmptyEmailScheme,
-  notEmptyStringScheme,
+  confirmPassword as confirmPasswordScheme,
+  notEmptyEmail,
+  notEmptyString,
 } from '@/utils/validationSchemes'
 import {
   isErrorResponseError,
@@ -73,9 +73,9 @@ export const useProfileStore = defineStore('profile', {
     },
 
     async saveEditName({ name }: UpdateProfileNameRequest) {
-      const nCheck = safeParse(notEmptyStringScheme, name)
+      const nCheck = safeParse(notEmptyString, name)
       if (!nCheck.success) {
-        this.errors.updateName.name = nCheck.error
+        this.errors.updateName.name = nCheck.issues[0].message
         return
       }
 
@@ -86,7 +86,7 @@ export const useProfileStore = defineStore('profile', {
           const err = error.error
 
           if (err?.fields?.name) {
-            this.errors.updateName.name = new Error(err.fields.name)
+            this.errors.updateName.name = err.fields.name
             return
           }
 
@@ -99,11 +99,11 @@ export const useProfileStore = defineStore('profile', {
     },
 
     async saveEditEmail({ email, password }: UpdateProfileEmailRequest) {
-      const eCheck = safeParse(notEmptyEmailScheme, email)
-      const pCheck = safeParse(notEmptyStringScheme, password)
+      const eCheck = safeParse(notEmptyEmail, email)
+      const pCheck = safeParse(notEmptyString, password)
       if (!eCheck.success || !pCheck.success) {
-        this.errors.updateEmail.email = eCheck.error
-        this.errors.updateEmail.password = pCheck.error
+        this.errors.updateEmail.email = eCheck.issues?.[0].message
+        this.errors.updateEmail.password = pCheck.issues?.[0].message
         return
       }
 
@@ -114,9 +114,8 @@ export const useProfileStore = defineStore('profile', {
           const err = error.error
 
           if (err?.fields) {
-            if (err.fields.email) this.errors.updateEmail.email = new Error(err.fields.email)
-            if (err.fields.password)
-              this.errors.updateEmail.password = new Error(err.fields.password)
+            if (err.fields.email) this.errors.updateEmail.email = err.fields.email
+            if (err.fields.password) this.errors.updateEmail.password = err.fields.password
             return
           }
 
@@ -133,17 +132,17 @@ export const useProfileStore = defineStore('profile', {
       newPassword,
       confirmPassword,
     }: UpdateProfilePasswordRequestExt) {
-      const curPCheck = safeParse(notEmptyStringScheme, password)
-      const newPCheck = safeParse(notEmptyStringScheme, newPassword)
+      const curPCheck = safeParse(notEmptyString, password)
+      const newPCheck = safeParse(notEmptyString, newPassword)
       const conPCheck = safeParse(confirmPasswordScheme, {
         newPassword,
         confirmPassword,
       })
 
       if (!curPCheck.success || !newPCheck.success || !conPCheck.success) {
-        this.errors.updatePassword.password = curPCheck.error
-        this.errors.updatePassword.newPassword = newPCheck.error
-        this.errors.updatePassword.confirmPassword = conPCheck.error
+        this.errors.updatePassword.password = curPCheck.issues?.[0].message
+        this.errors.updatePassword.newPassword = newPCheck.issues?.[0].message
+        this.errors.updatePassword.confirmPassword = conPCheck.issues?.[0].message
         return
       }
 
@@ -154,10 +153,9 @@ export const useProfileStore = defineStore('profile', {
           const err = error.error
 
           if (err?.fields) {
-            if (err.fields?.password)
-              this.errors.updatePassword.password = new Error(err.fields.password)
+            if (err.fields?.password) this.errors.updatePassword.password = err.fields.password
             if (err.fields?.newPassword)
-              this.errors.updatePassword.newPassword = new Error(err.fields.newPassword)
+              this.errors.updatePassword.newPassword = err.fields.newPassword
             return
           }
 
