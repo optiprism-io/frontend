@@ -89,6 +89,10 @@ export const useAuthStore = defineStore('auth', {
             removeCookie(TOKEN_KEY)
             this.accessToken = null
             this.refreshToken.value = null
+        },
+        logout(): void {
+            this.reset()
+            window.open('/login', '_self')
         }
     }
 })

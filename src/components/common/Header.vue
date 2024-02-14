@@ -57,16 +57,13 @@ import { GenericUiDropdown, UiDropdownItem } from '@/components/uikit/UiDropdown
 import UiSelect from '@/components/uikit/UiSelect.vue'
 import Nav from '@/components/common/Nav.vue'
 import { useAuthStore } from '@/stores/auth/auth'
-import { useDashboardsStore } from '@/stores/dashboards'
-import { RouterLink, useRouter } from 'vue-router'
+import { RouterLink } from 'vue-router'
 import { pagesMap, SDKIntegration } from '@/router'
 import { useProjectsStore } from '@/stores/projects/projects'
 import UiIcon from '@/components/uikit/UiIcon.vue'
 
 const authStore = useAuthStore()
-const dashboardsStore = useDashboardsStore()
 const projectStore = useProjectsStore()
-const router = useRouter()
 const i18n = inject<any>('i18n')
 const UiDropdown = GenericUiDropdown<MenuValues>()
 
@@ -116,11 +113,7 @@ const userMenu = computed<UiDropdownItem<MenuValues>[]>(() => {
 const selectUserMenu = (item: UiDropdownItem<MenuValues>) => {
   switch (item.value) {
     case userMenuMap.LOGOUT:
-      authStore.reset()
-      authStore.$reset()
-      dashboardsStore.$reset()
-      projectStore.$reset()
-      router.replace({ name: 'login' })
+      authStore.logout()
       break
   }
 }
