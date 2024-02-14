@@ -371,12 +371,14 @@
   },
 
   "project": {
+    "createProject": "Create project",
     "selectProject": "Select Project",
+    "noProject": "No projects. Please create one",
     "title": "Project",
     "settings": {
       "title": "Project settings"
     },
-    "name": "Name",
+    "name": "Project Name",
     "sessionDuration": "Session Duration"
   },
 
