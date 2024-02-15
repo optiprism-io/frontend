@@ -1,4 +1,3 @@
-import { BASE_PATH } from '@/api/base'
 import {
   UpdateProfileEmailRequest,
   UpdateProfileNameRequest,
@@ -13,10 +12,10 @@ import { getRandomTiming } from '@/server/utils/getRandomTiming'
 import { HttpStatusCode } from 'axios'
 
 export function profileRoutes(server: Server) {
-  server.get(`${BASE_PATH}/v1/profile`, getProfile, { timing: getRandomTiming() })
-  server.put(`${BASE_PATH}/v1/profile/name`, putProfileName, { timing: getRandomTiming() })
-  server.put(`${BASE_PATH}/v1/profile/email`, putProfileEmail, { timing: getRandomTiming() })
-  server.put(`${BASE_PATH}/v1/profile/password`, putProfilePassword, { timing: getRandomTiming() })
+  server.get('/profile', getProfile, { timing: getRandomTiming() })
+  server.put('/profile/name', putProfileName, { timing: getRandomTiming() })
+  server.put('/profile/email', putProfileEmail, { timing: getRandomTiming() })
+  server.put('/profile/password', putProfilePassword, { timing: getRandomTiming() })
 }
 
 function getProfile(schema: Schema) {

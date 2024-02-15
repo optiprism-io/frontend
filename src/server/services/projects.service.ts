@@ -1,4 +1,3 @@
-import { BASE_PATH } from '@/api/base'
 import { CreateProjectRequest, UpdateProjectRequest } from '@/api'
 import { Request, Server } from 'miragejs'
 import { Schema } from '@/server/types'
@@ -6,19 +5,19 @@ import { getRandomTiming } from '@/server/utils/getRandomTiming'
 import { getNewProject } from '@/mocks/projects'
 
 export function projectsRoutes(server: Server) {
-  server.get(`${BASE_PATH}/v1/projects/:project_id`, getProject, {
+  server.get('/projects/:project_id', getProject, {
     timing: getRandomTiming(),
   })
 
-  server.post(`${BASE_PATH}/v1/projects`, postProject, {
+  server.post('/projects', postProject, {
     timing: getRandomTiming(),
   })
 
-  server.put(`${BASE_PATH}/v1/projects/:project_id`, putProject, {
+  server.put('/projects/:project_id', putProject, {
     timing: getRandomTiming(),
   })
 
-  server.get(`${BASE_PATH}/v1/projects`, getProjects, {
+  server.get('/projects', getProjects, {
     timing: getRandomTiming(),
   })
 }
