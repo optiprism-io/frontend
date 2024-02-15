@@ -2,9 +2,9 @@
   <header class="app-header">
     <div class="pf-l-flex pf-u-align-items-center">
       <div class="pf-l-flex__item pf-u-ml-md pf-l-flex pf-u-align-items-center">
-        <router-link class="app-header__logo" to="/dashboards" aria-current="page">
+        <RouterLink class="app-header__logo" to="/dashboards" aria-current="page">
           <img class="pf-c-brand" src="@/assets/img/logo-black.svg" alt="OptiPrism" />
-        </router-link>
+        </RouterLink>
       </div>
       <div class="pf-l-flex__item">
         <Nav />
@@ -24,6 +24,7 @@
         <div class="pf-c-page__header-tools-group">
           <div class="pf-c-page__header-tools-item">
             <UiSelect
+              v-if="projectStore.projectList.length"
               class="pf-u-mr-md app-header__project-select"
               :items="projectStore.projectList"
               :text-button="activeProjectName"
