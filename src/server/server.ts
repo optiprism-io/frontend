@@ -33,8 +33,11 @@ const dbTemplate: { [k: string]: any } = {
   dashboards: dashboardsMocks,
   groupRecords: groupRecordsMocks,
   liveStreamMocks: liveStreamMocks,
-  profile: profileMocks,
   projects: projectsMocks,
+}
+
+const requiredTemplate = {
+  profile: profileMocks,
 }
 
 const dbTemplateKeys = Object.keys(dbTemplate);
@@ -54,6 +57,7 @@ export default function ({ environment = 'development', isSeed = true } = {}) {
 
         seeds(server) {
             server.db.loadData(isSeed ? dbTemplate : emptyDbTemplate);
+            server.db.loadData(requiredTemplate)
         },
 
         routes() {
