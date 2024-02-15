@@ -1,8 +1,8 @@
 <template>
-  <div v-if="state === 'ok'" class="pf-c-page">
+  <div class="pf-c-page">
     <Header />
     <main class="pf-c-page__main">
-      <router-view />
+      <RouterView />
     </main>
 
     <CreateCustomEvent
@@ -14,23 +14,11 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, watch } from 'vue'
 import Header from '@/components/common/Header.vue'
 import CreateCustomEvent from '@/components/events/CreateCustomEvent.vue'
 import { useCommonStore } from '@/stores/common'
-import { useRoute, useRouter } from 'vue-router'
-import { useAuthStore } from '@/stores/auth/auth'
-import { useProjectsStore } from '@/stores/projects/projects'
-import { pagesMap } from '@/router'
 
-const state = ref<'pending' | 'ok' | 'error'>('pending')
-const REFRESH_KEY = 'refreshToken'
-
-const route = useRoute()
-const router = useRouter()
 const commonStore = useCommonStore()
-const authStore = useAuthStore()
-const projectStore = useProjectsStore()
 
 const togglePopupCreateCustomEvent = (payload: boolean) => {
   commonStore.togglePopupCreateCustomEvent(payload)
@@ -39,25 +27,4 @@ const togglePopupCreateCustomEvent = (payload: boolean) => {
 const applyCreateCustomEvent = () => {
   togglePopupCreateCustomEvent(false)
 }
-
-const getInitialData = async () => {
-  if (!projectStore.projects.length && !projectStore.isLoading) {
-    await projectStore.init()
-  }
-  state.value = 'ok'
-}
-
-onMounted(getInitialData)
-
-watch(
-  () => authStore.isAuthenticated,
-  async isAuthenticated => {
-    if (!isAuthenticated) {
-      router.replace({ name: pagesMap.login.name })
-    } else {
-      await getInitialData();
-      state.value = 'ok'
-    }
-  }
-)
 </script>
