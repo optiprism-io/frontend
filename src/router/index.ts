@@ -51,7 +51,7 @@ const routes: RouteRecordRaw[] = [
   },
   {
     path: '',
-    component: () => import('@/AuthMiddleware.vue'),
+    component: () => import('@/layout/MainLayout.vue'),
     beforeEnter: [isAuth, checkCreatedProject],
     children: [
       {
