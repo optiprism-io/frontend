@@ -8,6 +8,7 @@
   >
     <UiFormLabel :text="$t('project.name')" :required="true" for="project-name">
       <UiInput
+        ref="input"
         v-model="projectName"
         :required="true"
         name="project-name"
@@ -18,17 +19,24 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import UiPopupWindow from '@/components/uikit/UiPopupWindow.vue'
 import UiInput from '@/components/uikit/UiInput.vue'
 import UiFormLabel from '@/components/uikit/UiFormLabel.vue'
 import projectsService from '@/api/services/projects.service'
 import { DEFAULT_SESSION_DURATION } from '@/stores/projects/projects'
 import { Project } from '@/api'
+import { useFocus } from '@vueuse/core'
 
 const emit = defineEmits<{
   (e: 'created-project', project: Project): void
 }>()
+
+const input = ref()
+const { focused } = useFocus(input)
+onMounted(() => {
+  focused.value = true
+})
 
 const projectName = ref('')
 
