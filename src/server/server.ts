@@ -54,11 +54,6 @@ export default function ({ environment = 'development', isSeed = true } = {}) {
         },
 
         routes() {
-            this.get(`${BASE_PATH}/shutdown`, () =>  {
-                this.shutdown();
-                return 'shutdown';
-            });
-
             this.get('/projects/:project_id/schema/events', (schema) => {
                 return { data: schema.db.events }
             }, { timing: getRandomTiming() })
