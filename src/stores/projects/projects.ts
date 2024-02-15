@@ -1,5 +1,4 @@
 import { defineStore } from 'pinia'
-import { useAuthStore } from '@/stores/auth/auth'
 import projectsService from '@/api/services/projects.service'
 import { Project, UpdateProjectRequest } from '@/api'
 import { safeParse } from 'valibot'
@@ -27,6 +26,7 @@ interface ProjectsListItem {
 }
 
 const STORAGE_PROJECT_ID_KEY = 'projectId'
+export const DEFAULT_SESSION_DURATION = 0
 
 export const useProjectsStore = defineStore('projects', {
   state: (): ProjectState => ({
