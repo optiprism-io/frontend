@@ -1,6 +1,5 @@
 import { TokensResponse } from '@/api'
 import { Response, Server } from 'miragejs'
-import { getRandomTiming } from '@/server/utils/getRandomTiming'
 import { HttpStatusCode } from 'axios'
 import { EMPTY_HEADER_RESPONSE, Tokens } from '@/server/constants'
 import { getErrorResponse } from '@/server/utils/getErrorResponse'
@@ -29,7 +28,5 @@ export function authRoutes(server: Server) {
     return Tokens
   })
 
-  server.post('/auth/refresh-token', (): TokensResponse => Tokens, {
-    timing: getRandomTiming(),
-  })
+  server.post('/auth/refresh-token', (): TokensResponse => Tokens)
 }

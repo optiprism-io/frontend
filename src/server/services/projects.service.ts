@@ -1,25 +1,13 @@
 import { CreateProjectRequest, UpdateProjectRequest } from '@/api'
 import { Request, Server } from 'miragejs'
 import { Schema } from '@/server/types'
-import { getRandomTiming } from '@/server/utils/getRandomTiming'
 import { getNewProject } from '@/mocks/projects'
 
 export function projectsRoutes(server: Server) {
-  server.get('/projects/:project_id', getProject, {
-    timing: getRandomTiming(),
-  })
-
-  server.post('/projects', postProject, {
-    timing: getRandomTiming(),
-  })
-
-  server.put('/projects/:project_id', putProject, {
-    timing: getRandomTiming(),
-  })
-
-  server.get('/projects', getProjects, {
-    timing: getRandomTiming(),
-  })
+  server.get('/projects/:project_id', getProject)
+  server.post('/projects', postProject)
+  server.put('/projects/:project_id', putProject)
+  server.get('/projects', getProjects)
 }
 
 function getProjects(schema: Schema) {

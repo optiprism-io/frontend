@@ -49,6 +49,9 @@ export default function ({ environment = 'development', isSeed = true } = {}) {
         environment,
         urlPrefix,
 
+        /* timing of all requests */
+        timing: getRandomTiming(),
+
         seeds(server) {
             server.db.loadData(isSeed ? dbTemplate : emptyDbTemplate);
         },
@@ -56,13 +59,13 @@ export default function ({ environment = 'development', isSeed = true } = {}) {
         routes() {
             this.get('/projects/:project_id/schema/events', (schema) => {
                 return { data: schema.db.events }
-            }, { timing: getRandomTiming() })
+            })
 
             this.put('/projects/:project_id/schema/events/:event_id', (schema, request) => {
                 const customEvent = JSON.parse(request.requestBody)
 
                 return schema.db.events.update(request.params.event_id, customEvent)
-            }, { timing: getRandomTiming() })
+            })
 
             this.get('/projects/:project_id/schema/custom-events', (schema) => {
                 return {
@@ -78,7 +81,7 @@ export default function ({ environment = 'development', isSeed = true } = {}) {
                 const customEvents = JSON.parse(request.requestBody)
 
                 return schema.db.customEvents.insert(customEvents)
-            }, { timing: getRandomTiming() })
+            })
 
             this.put('/projects/:project_id/schema/custom-events/:event_id', (schema, request) => {
                 const customEvent = JSON.parse(request.requestBody)
@@ -111,12 +114,12 @@ export default function ({ environment = 'development', isSeed = true } = {}) {
                         id: Number(item.id),
                     })),
                 };
-            }, { timing: getRandomTiming() })
+            })
 
             this.put('/projects/:project_id/schema/user-properties/:property_id', (schema, request) => {
                 const property = JSON.parse(request.requestBody)
                 return schema.db.userProperties.update(request.params.property_id, property)
-            }, { timing: getRandomTiming() })
+            })
 
             this.get('/projects/:project_id/schema/custom-properties', () => {
                 return {
@@ -182,7 +185,7 @@ export default function ({ environment = 'development', isSeed = true } = {}) {
                     id: nanoid(),
                     ...body,
                 })
-            }, { timing: getRandomTiming() })
+            })
 
             this.get('/projects/:project_id/reports/:report_id', (schema, request) => {
                 return schema.db.reports.find(request.params.report_id);
@@ -191,7 +194,7 @@ export default function ({ environment = 'development', isSeed = true } = {}) {
             this.put('/projects/:project_id/reports/:report_id', (schema, request) => {
                 const body = JSON.parse(request.requestBody);
                 return schema.db.reports.update(request.params.report_id, body)
-            }, { timing: getRandomTiming() })
+            })
 
             this.delete('/projects/:project_id/reports/:report_id', (schema, request) => {
                 schema.db.reports.remove(request.params.report_id)
@@ -228,17 +231,17 @@ export default function ({ environment = 'development', isSeed = true } = {}) {
                     id: nanoid(),
                     ...body,
                 })
-            }, { timing: getRandomTiming() })
+            })
 
             this.put('/projects/:project_id/dashboards/:dashboard_id', (schema, request) => {
                 const requestBody = JSON.parse(request.requestBody)
                 return schema.db.dashboards.update(request.params.dashboard_id, requestBody)
-            }, { timing: getRandomTiming() })
+            })
 
             this.delete('/projects/:project_id/dashboards/:dashboard_id', (schema, request) => {
                 schema.db.dashboards.remove(request.params.dashboard_id)
                 return request.params.dashboard_id;
-            }, { timing: getRandomTiming() })
+            })
 
             /**
              * Group-records
@@ -250,11 +253,11 @@ export default function ({ environment = 'development', isSeed = true } = {}) {
                 return {
                     data: schema.db.groupRecords,
                 };
-            }, { timing: getRandomTiming() });
+            });
 
             this.put('/projects/:project_id/group-records/:id', (schema, request) => {
                 return schema.db.groupRecords.update(request.params.id, JSON.parse(request.requestBody));
-            }, { timing: getRandomTiming() });
+            });
             /**
              * end Group-records
              */
