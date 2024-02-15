@@ -7,7 +7,12 @@
     @apply="createProject"
   >
     <UiFormLabel :text="$t('project.name')" :required="true" for="project-name">
-      <UiInput v-model="projectName" :required="true" name="project-name" />
+      <UiInput
+        v-model="projectName"
+        :required="true"
+        name="project-name"
+        @keyup.enter="createProject"
+      />
     </UiFormLabel>
   </UiPopupWindow>
 </template>
@@ -28,6 +33,8 @@ const emit = defineEmits<{
 const projectName = ref('')
 
 async function createProject() {
+  if (!projectName.value.trim()) return
+
   const { data } = await projectsService.createProject({
     name: projectName.value,
     sessionDurationSeconds: DEFAULT_SESSION_DURATION,
