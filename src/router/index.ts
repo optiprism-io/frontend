@@ -44,7 +44,7 @@ const routes: RouteRecordRaw[] = [
     component: () => import('@/pages/auth/Login.vue'),
   },
   {
-    path: '/create_project',
+    path: '/projects/create',
     name: pagesMap.createProject,
     component: () => import('@/pages/CreateProject.vue'),
     beforeEnter: [isAuth],
