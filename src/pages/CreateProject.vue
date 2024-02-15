@@ -1,25 +1,17 @@
 <template>
-  <div class="pf-c-page">
-    <main class="pf-c-page__main">
-      <div class="pf-c-page__main-section pf-l-bullseye">
-        <DataEmptyPlaceholder :hide-icon="true">
-          {{ $t('project.noProject') }}
-          <UiButton
-            class="pf-m-primary"
-            :before-icon="'fas fa-plus'"
-            @click="setShowCreatePopup(true)"
-          >
-            {{ $t('project.createProject') }}
-          </UiButton>
-        </DataEmptyPlaceholder>
+  <div class="pf-l-bullseye">
+    <DataEmptyPlaceholder :hide-icon="true">
+      {{ $t('project.noProject') }}
+      <UiButton class="pf-m-primary" :before-icon="'fas fa-plus'" @click="setShowCreatePopup(true)">
+        {{ $t('project.createProject') }}
+      </UiButton>
+    </DataEmptyPlaceholder>
 
-        <CreateProjectPopup
-          v-if="showCreatePopup"
-          @cancel="setShowCreatePopup(false)"
-          @created-project="onCreatedProject"
-        />
-      </div>
-    </main>
+    <CreateProjectPopup
+      v-if="showCreatePopup"
+      @cancel="setShowCreatePopup(false)"
+      @created-project="onCreatedProject"
+    />
   </div>
 </template>
 

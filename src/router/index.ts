@@ -43,12 +43,34 @@ const routes: RouteRecordRaw[] = [
     name: pagesMap.login.name,
     component: () => import('@/pages/auth/Login.vue'),
   },
+
+  /* pages are accessible without a created project */
   {
     path: '/projects/create',
-    name: pagesMap.createProject,
-    component: () => import('@/pages/CreateProject.vue'),
+    component: () => import('@/layout/MainLayout.vue'),
     beforeEnter: [isAuth],
+    children: [
+      {
+        path: '',
+        name: pagesMap.createProject,
+        component: () => import('@/pages/CreateProject.vue'),
+      },
+    ],
   },
+  {
+    path: '/profile',
+    component: () => import('@/layout/MainLayout.vue'),
+    beforeEnter: [isAuth],
+    children: [
+      {
+        path: '',
+        name: pagesMap.profile,
+        component: () => import('@/pages/ProfilePage.vue'),
+      },
+    ],
+  },
+
+  /* pages are accessible only with a created project */
   {
     path: '',
     component: () => import('@/layout/MainLayout.vue'),
@@ -123,11 +145,6 @@ const routes: RouteRecordRaw[] = [
             component: () => import('@/pages/reports/Funnels.vue'),
           },
         ],
-      },
-      {
-        path: pagesMap.profile,
-        name: pagesMap.profile,
-        component: () => import('@/pages/ProfilePage.vue'),
       },
       {
         path: 'projects/:id/settings',
