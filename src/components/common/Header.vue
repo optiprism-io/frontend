@@ -7,7 +7,7 @@
         </RouterLink>
       </div>
       <div class="pf-l-flex__item">
-        <Nav />
+        <Nav @on-click-item="onClickItemNav" />
       </div>
       <RouterLink
         v-if="!projectStore.project?.eventsCount"
@@ -61,7 +61,8 @@ import { GenericUiDropdown, UiDropdownItem } from '@/components/uikit/UiDropdown
 import UiSelect from '@/components/uikit/UiSelect.vue'
 import Nav from '@/components/common/Nav.vue'
 import { useAuthStore } from '@/stores/auth/auth'
-import { RouterLink } from 'vue-router'
+import { useDashboardsStore } from '@/stores/dashboards'
+import { RouterLink, useRouter, useRoute } from 'vue-router'
 import { pagesMap, SDKIntegration } from '@/router'
 import { useProjectsStore } from '@/stores/projects/projects'
 import UiIcon from '@/components/uikit/UiIcon.vue'
@@ -71,6 +72,8 @@ import { Project } from '@/api'
 
 const authStore = useAuthStore()
 const projectStore = useProjectsStore()
+const router = useRouter()
+const route = useRoute();
 const i18n = inject<any>('i18n')
 const UiDropdown = GenericUiDropdown<MenuValues>()
 
@@ -167,6 +170,12 @@ function onCreatedProject(project: Project) {
   setShowCreatePopup(false)
   projectStore.addProjectToList(project)
   selectProject(project.id)
+}
+
+const onClickItemNav = (event: PointerEvent, name: string) => {
+  if (route.name === name) {
+    location.reload()
+  }
 }
 </script>
 

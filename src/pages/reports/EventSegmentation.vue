@@ -61,7 +61,7 @@ const segmentsStore = useSegmentsStore()
 const reportsStore = useReportsStore()
 
 const eventSegmentationLoading = ref(false)
-const eventSegmentation = ref<DataTableResponse>()
+const eventSegmentation = ref<DataTableResponse | null>()
 
 const emit = defineEmits<{
   (e: 'on-change'): void
@@ -82,6 +82,7 @@ onUnmounted(() => {
 const getEventSegmentation = async () => {
   if (eventsStore.propsForEventSegmentationResult.events.length) {
     eventSegmentationLoading.value = true
+
     try {
       const res = await reportsService.eventSegmentation(
         projectsStore.projectId,
@@ -94,12 +95,10 @@ const getEventSegmentation = async () => {
       throw new Error('error getEventSegmentation')
     }
     eventSegmentationLoading.value = false
+  } else {
+    eventSegmentation.value = null
   }
 }
-
-onMounted(() => {
-  getEventSegmentation()
-})
 
 const onChange = () => {
   // TODO check who update in start

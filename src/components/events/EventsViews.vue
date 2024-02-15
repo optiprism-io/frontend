@@ -141,7 +141,7 @@ const eventsStore = useEventsStore()
 const { t } = usei18n()
 
 type Props = {
-  eventSegmentation?: DataTableResponse | undefined
+  eventSegmentation?: DataTableResponse | null
   loading: boolean
   onlyView?: boolean
   chartType?: ChartType
@@ -151,7 +151,7 @@ type Props = {
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  eventSegmentation: undefined,
+  eventSegmentation: null,
   loading: false,
 })
 
