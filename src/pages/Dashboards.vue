@@ -1,5 +1,5 @@
 <template>
-    <div class="dashboards pf-c-page__main-section pf-u-p-md pf-u-pb-3xl">
+    <div class="dashboards pf-u-p-md pf-u-pb-3xl">
         <div
             v-if="dashboards.length"
             class="dashboards__nav pf-u-px-sm pf-u-mb-sm pf-u-display-flex pf-u-justify-content-space-between pf-u-align-items-center"
@@ -162,14 +162,14 @@
                 </UiButton>
             </router-link>
         </DataEmptyPlaceholder>
+        <DashboardReportsPopup
+          v-if="dashboardReportsPopup"
+          :reports="reportsList"
+          :loading="false"
+          @on-select-report="onSelectReport"
+          @cancel="closeDashboardReportsPopup"
+        />
     </div>
-    <DashboardReportsPopup
-        v-if="dashboardReportsPopup"
-        :reports="reportsList"
-        :loading="false"
-        @on-select-report="onSelectReport"
-        @cancel="closeDashboardReportsPopup"
-    />
 </template>
 
 <script setup lang="ts">
