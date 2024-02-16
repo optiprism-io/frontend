@@ -145,6 +145,7 @@ const data = computed<Row[]>(() => {
         ?.data?.map(item => `${item}%`)
       ?? Array.from({ length: totalDimensions.value }).map(() => '0%')
 
+   /* TODO: columns are not displayed because there is no "key" field */
     return Array.from({ length: totalDimensions.value }).map((_, i) => {
         return [
             ...dimensions.value.map(item => {

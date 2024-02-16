@@ -21,6 +21,7 @@ import {Chart, getEngine} from '@antv/g2';
 import {lighten} from '@/helpers/colorHelper';
 import {I18N} from '@/utils/i18n';
 import iconArrow from '@/assets/img/arrow-down.png';
+import { humanReadable } from '@/utils/humanReadable'
 
 const {$t} = inject('i18n') as I18N
 const G = getEngine('canvas')
@@ -74,19 +75,6 @@ const dataView = computed(() => {
         })
         .flat()
 })
-
-/* Human-readable number */
-const humanReadable = (number: number | string): string => {
-    number = Number(number)
-
-    if (number > 1e6) {
-        return (number / 1e6).toFixed(1) + 'M'
-    }
-    const [integer, fractional] = String(number).split('.')
-    const thousands = integer.length > 3 ? integer.slice(0, integer.length - 3) : null
-    const smallValue = String(number - Number(thousands) * 1e3).padStart(3, '0')
-    return `${thousands ? thousands + ',' : ''}${smallValue}${fractional ? '.' + fractional : ''}`
-}
 
 const update = () => {
     if (!container.value) {
@@ -145,7 +133,6 @@ const update = () => {
                 position: 'top',
                 offset: 0,
                 content: (data) => {
-                    const width = props.liteChart ? 39 : 64
                     const size = props.liteChart ? 10 : 14
 
                     const commonProps = {
@@ -175,13 +162,9 @@ const update = () => {
                         return ''
                     }
 
-                    const { dropOffCount, dropOffRatio, conversionCount, conversionRatio } = dataItem;
+                    const { conversionCount, conversionRatio } = dataItem;
                     const conversionCountText = humanReadable(conversionCount)
                     const conversionRatioText = `${conversionRatio}%`
-                    const dropOffCountText = humanReadable(dropOffCount)
-                    const dropOffRatioText = `${dropOffRatio}%`
-
-                    const hasDropOff = +dropOffCount > 0 && +dropOffRatio > 0
 
                     const group = new G.Group({})
 
@@ -190,7 +173,7 @@ const update = () => {
                             type: 'text',
                             attrs: {
                                 x: 0,
-                                y: size,
+                                y: -size,
                                 text: conversionCountText,
                                 ...numberProps
                             }
@@ -210,43 +193,6 @@ const update = () => {
                         })
                     }
 
-                    if (+dropOffCount > 0) {
-                        group.addShape({
-                            type: 'text',
-                            attrs: {
-                                x: +dropOffRatio > 0 ? 0 : width / 2,
-                                y: 4 * size,
-                                text: dropOffCountText,
-                                ...numberProps
-                            }
-                        })
-                    }
-
-                    if (+dropOffRatio > 0) {
-                        group.addShape({
-                            type: 'text',
-                            attrs: {
-                                x: 0,
-                                y: 3 * size,
-                                text: dropOffRatioText,
-                                fill: '#ff0000',
-                                ...percentageProps
-                            }
-                        })
-
-                        group.addShape({
-                            type: 'image',
-                            attrs: {
-                                x: width - size,
-                                y: 3 * size,
-                                width: size,
-                                height: size,
-                                img: iconArrow,
-                            }
-                        })
-                    }
-
-                    group.moveTo(0, -(hasDropOff ? 3 : 2) * size)
                     return group
                 }
             }

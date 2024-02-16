@@ -22,7 +22,7 @@
     />
 </template>
 
-<script setup lang="ts" name="Properties">
+<script setup lang="ts">
 import { computed, onMounted, ref } from 'vue';
 import { useLexiconStore } from '@/stores/lexicon';
 import { useCommonStore } from '@/stores/common';

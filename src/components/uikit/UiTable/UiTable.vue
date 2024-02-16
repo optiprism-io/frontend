@@ -1,7 +1,7 @@
 <template>
     <div class="ui-table">
         <DataEmptyPlaceholder
-            v-if="showPlacehilder"
+            v-if="showPlaceholder"
             :content="props?.noDataText || $t('common.noData')"
         />
         <div
@@ -133,7 +133,7 @@
     </div>
 </template>
 
-<script lang="ts" setup name="UiTable">
+<script lang="ts" setup>
 import { computed, inject, useSlots, ref, watch } from 'vue';
 import { Row, Column, Action, ColumnGroup } from '@/components/uikit/UiTable/UiTable';
 import UiTableHeadCell from '@/components/uikit/UiTable/UiTableHeadCell.vue';
@@ -177,7 +177,7 @@ const emit = defineEmits<{
 const defaultColumns = ref<string[]>([])
 const disabledColumns = ref<string[]>([])
 
-const showPlacehilder = computed(() => props.enablePlaceholder && !props.isLoading && !props.items?.length);
+const showPlaceholder = computed(() => props.enablePlaceholder && !props.isLoading && !props.items?.length);
 const columnsSelect = computed(() => {
     return props.columns.reduce((acc: UiSelectItem<string>[], column) => {
         if (!column.default) {
@@ -232,7 +232,7 @@ const toggleColumns = (payload: string) => {
         min-height: 34px;
     }
     .pf-c-table {
-        --pf-c-table__sticky-column--cell-min-width--base: 10rem;
+        --pf-c-table__sticky-column--cell-min-width--base: 4rem;
     }
     .pf-c-scroll-outer-wrapper {
         min-height: auto;
