@@ -129,9 +129,15 @@ const login = async (): Promise<void | Error> => {
       keepLogged: keepLogged.value,
     })
     if (authStore.accessToken) {
-      projectStore.init()
-      router.push({ path: nextPath.value })
+      await projectStore.init()
     }
+
+    if (!projectStore.projectId) {
+      await router.push({ name: pagesMap.createProject })
+      return
+    }
+
+    await router.push({ path: nextPath.value })
   } catch (e: any) {
     const error = e?.response?.data?.error ?? e?.error ?? (e?.fields ? e : {})
 

@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
+import { checkCreatedProject, checkIntegration, isAuth } from '@/router/routerGuards'
 
 export enum SDKIntegration {
   javascript = 'javascript',
@@ -11,6 +12,7 @@ export const pagesMap = {
     path: '/login',
     name: 'login',
   },
+  createProject: 'createProject',
   eventsLiveStream: {
     path: '/events',
     name: 'eventsLiveStream',
@@ -41,9 +43,38 @@ const routes: RouteRecordRaw[] = [
     name: pagesMap.login.name,
     component: () => import('@/pages/auth/Login.vue'),
   },
+
+  /* pages are accessible without a created project */
+  {
+    path: '/projects/create',
+    component: () => import('@/layout/MainLayout.vue'),
+    beforeEnter: [isAuth],
+    children: [
+      {
+        path: '',
+        name: pagesMap.createProject,
+        component: () => import('@/pages/CreateProject.vue'),
+      },
+    ],
+  },
+  {
+    path: '/profile',
+    component: () => import('@/layout/MainLayout.vue'),
+    beforeEnter: [isAuth],
+    children: [
+      {
+        path: '',
+        name: pagesMap.profile,
+        component: () => import('@/pages/ProfilePage.vue'),
+      },
+    ],
+  },
+
+  /* pages are accessible only with a created project */
   {
     path: '',
-    component: () => import('@/AuthMiddleware.vue'),
+    component: () => import('@/layout/MainLayout.vue'),
+    beforeEnter: [isAuth, checkCreatedProject],
     children: [
       {
         path: '',
@@ -116,11 +147,6 @@ const routes: RouteRecordRaw[] = [
         ],
       },
       {
-        path: pagesMap.profile,
-        name: pagesMap.profile,
-        component: () => import('@/pages/ProfilePage.vue'),
-      },
-      {
         path: 'projects/:id/settings',
         name: pagesMap.projectsSettings,
         component: () => import('@/pages/ProjectSettings.vue'),
@@ -136,20 +162,7 @@ const routes: RouteRecordRaw[] = [
             path: ':integration',
             name: pagesMap.integration,
             component: () => import('@/pages/IntegrationPage.vue'),
-            beforeEnter: (to, from) => {
-              const JsIntegrationRoute = {
-                name: pagesMap.integration,
-                params: { integration: SDKIntegration.javascript },
-              }
-
-              if (!Object.values(SDKIntegration).some(x => x === to.params.integration))
-                return JsIntegrationRoute
-
-              /* TODO: remove that when will exists ios and android integration page */
-              if (to.params.integration !== SDKIntegration.javascript) return JsIntegrationRoute
-
-              return true
-            },
+            beforeEnter: [checkIntegration],
           },
         ],
       },

@@ -45,7 +45,7 @@ export const useAuthStore = defineStore('auth', {
                 return Promise.reject(e)
             }
         },
-        async authAccess(): Promise<void> {
+        authAccess(): void {
             const accessToken = localStorage.getItem('keepLogged') ? getCookie(TOKEN_KEY) : sessionStorage.getItem(TOKEN_KEY);
             const refreshToken = localStorage.getItem(REFRESH_KEY) || '';
             if (accessToken) {
@@ -89,6 +89,10 @@ export const useAuthStore = defineStore('auth', {
             removeCookie(TOKEN_KEY)
             this.accessToken = null
             this.refreshToken.value = null
+        },
+        logout(): void {
+            this.reset()
+            window.open('/login', '_self')
         }
     }
 })

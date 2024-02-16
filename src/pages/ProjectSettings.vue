@@ -1,5 +1,5 @@
 <template>
-  <div class="pf-c-page__main-section pf-u-p-md pf-u-pb-3xl">
+  <div class="pf-u-p-md pf-u-pb-3xl">
     <ToolsLayout>
       <template #title>
         {{ $t('project.settings.title') }}

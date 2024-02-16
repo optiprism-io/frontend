@@ -1,5 +1,5 @@
 <template>
-    <section class="pf-c-page__main-section">
+    <section>
         <UiTabs
             class="pf-u-mb-md"
             :items="items"

@@ -362,21 +362,18 @@
     "password": "Password",
     "curPassword": "Current Password",
     "newPassword": "New Password",
-    "confirmPassword": "Confirm Password",
-    "errors": {
-      "emptyField": "Field can't be empty",
-      "emptyCurPassword": "Enter the current password",
-      "notMatchPassword": "The passwords do not match"
-    }
+    "confirmPassword": "Confirm Password"
   },
 
   "project": {
+    "createProject": "Create project",
     "selectProject": "Select Project",
+    "noProject": "No projects. Please create one",
     "title": "Project",
     "settings": {
       "title": "Project settings"
     },
-    "name": "Name",
+    "name": "Project Name",
     "sessionDuration": "Session Duration"
   },
 

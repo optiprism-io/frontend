@@ -1,4 +1,3 @@
-import { BASE_PATH } from '@/api/base'
 import {
   UpdateProfileEmailRequest,
   UpdateProfileNameRequest,
@@ -9,14 +8,13 @@ import { getErrorResponse } from '@/server/utils/getErrorResponse'
 import { userId } from '@/mocks/profile'
 import { EMPTY_HEADER_RESPONSE, EMPTY_SUCCESS_RES, Stub, Tokens } from '@/server/constants'
 import { Schema } from '@/server/types'
-import { getRandomTiming } from '@/server/utils/getRandomTiming'
 import { HttpStatusCode } from 'axios'
 
 export function profileRoutes(server: Server) {
-  server.get(`${BASE_PATH}/v1/profile`, getProfile, { timing: getRandomTiming() })
-  server.put(`${BASE_PATH}/v1/profile/name`, putProfileName, { timing: getRandomTiming() })
-  server.put(`${BASE_PATH}/v1/profile/email`, putProfileEmail, { timing: getRandomTiming() })
-  server.put(`${BASE_PATH}/v1/profile/password`, putProfilePassword, { timing: getRandomTiming() })
+  server.get('/profile', getProfile)
+  server.put('/profile/name', putProfileName)
+  server.put('/profile/email', putProfileEmail)
+  server.put('/profile/password', putProfilePassword)
 }
 
 function getProfile(schema: Schema) {

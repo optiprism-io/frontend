@@ -1,5 +1,4 @@
 import { defineStore } from 'pinia'
-import { useAuthStore } from '@/stores/auth/auth'
 import projectsService from '@/api/services/projects.service'
 import { Project, UpdateProjectRequest } from '@/api'
 import { safeParse } from 'valibot'
@@ -27,6 +26,7 @@ interface ProjectsListItem {
 }
 
 const STORAGE_PROJECT_ID_KEY = 'projectId'
+export const DEFAULT_SESSION_DURATION = 0
 
 export const useProjectsStore = defineStore('projects', {
   state: (): ProjectState => ({
@@ -112,13 +112,14 @@ export const useProjectsStore = defineStore('projects', {
       }
     },
     async init() {
+      if (this.projectList.length) return
       await this.getProjectsList()
 
       let projectId = Number(localStorage.getItem(STORAGE_PROJECT_ID_KEY))
       if (!this.projectsMap[projectId]) {
         projectId = Number(this.projects[0]?.id || 0)
       }
-      await this.setProjectId(projectId)
+      this.setProjectId(projectId)
     },
     async saveProjectName(name: string) {
       const nCheck = safeParse(notEmptyString, name)
@@ -172,6 +173,10 @@ export const useProjectsStore = defineStore('projects', {
       }
 
       this.resetEditSessionDuration()
+    },
+
+    addProjectToList(project: Project) {
+      this.projects.push(project)
     },
 
     async __updateProject(req: UpdateProjectRequest) {

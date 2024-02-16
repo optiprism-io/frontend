@@ -1,5 +1,5 @@
 <template>
-    <section class="pf-c-page__main-section reports">
+    <section class="reports">
         <div class="pf-u-display-flex pf-u-align-items-center">
             <UiSelect
                 v-if="!editableNameReport && itemsReports.length"

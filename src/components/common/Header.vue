@@ -2,9 +2,9 @@
   <header class="app-header">
     <div class="pf-l-flex pf-u-align-items-center">
       <div class="pf-l-flex__item pf-u-ml-md pf-l-flex pf-u-align-items-center">
-        <router-link class="app-header__logo" to="/dashboards" aria-current="page">
+        <RouterLink class="app-header__logo" to="/dashboards" aria-current="page">
           <img class="pf-c-brand" src="@/assets/img/logo-black.svg" alt="OptiPrism" />
-        </router-link>
+        </RouterLink>
       </div>
       <div class="pf-l-flex__item">
         <Nav />
@@ -20,17 +20,12 @@
         <UiIcon icon="fas fa-exclamation-circle" />
         {{ $t('integration.clickIntegrate') }}
       </RouterLink>
-      <div
-        class="app-header__tools"
-        :class="{
-          'pf-m-align-r': !viteMockApi,
-        }"
-      >
+      <div class="app-header__tools">
         <div class="pf-c-page__header-tools-group">
           <div class="pf-c-page__header-tools-item">
             <UiSelect
               class="pf-u-mr-md app-header__project-select"
-              :items="projectStore.projectList"
+              :items="projectItems"
               :text-button="activeProjectName"
               :placement="'bottom-end'"
               :is-text-select="true"
@@ -40,7 +35,6 @@
           </div>
           <div class="pf-c-page__header-tools-item pf-u-ml-md pf-u-mr-lg">
             <UiDropdown
-              class=""
               :items="userMenu"
               :text-button="''"
               :transparent="true"
@@ -53,27 +47,34 @@
         </div>
       </div>
     </div>
+    <CreateProjectPopup
+      v-if="showCreatePopup"
+      @cancel="setShowCreatePopup(false)"
+      @created-project="onCreatedProject"
+    />
   </header>
 </template>
 
 <script setup lang="ts">
-import { computed, inject, onMounted, ref } from 'vue'
+import { computed, inject } from 'vue'
 import { GenericUiDropdown, UiDropdownItem } from '@/components/uikit/UiDropdown.vue'
 import UiSelect from '@/components/uikit/UiSelect.vue'
 import Nav from '@/components/common/Nav.vue'
 import { useAuthStore } from '@/stores/auth/auth'
-import { useDashboardsStore } from '@/stores/dashboards'
-import { RouterLink, useRouter } from 'vue-router'
+import { RouterLink } from 'vue-router'
 import { pagesMap, SDKIntegration } from '@/router'
 import { useProjectsStore } from '@/stores/projects/projects'
 import UiIcon from '@/components/uikit/UiIcon.vue'
+import CreateProjectPopup from '@/components/projects/CreateProjectPopup.vue'
+import { useToggle } from '@vueuse/core'
+import { Project } from '@/api'
 
 const authStore = useAuthStore()
-const dashboardsStore = useDashboardsStore()
 const projectStore = useProjectsStore()
-const router = useRouter()
 const i18n = inject<any>('i18n')
 const UiDropdown = GenericUiDropdown<MenuValues>()
+
+const [showCreatePopup, setShowCreatePopup] = useToggle(false)
 
 const userMenuMap = {
   PROFILE: 'profile',
@@ -118,19 +119,34 @@ const userMenu = computed<UiDropdownItem<MenuValues>[]>(() => {
   ]
 })
 
+const CREATE_PROJECT_ID = 0
+
+const projectItems = computed(() => {
+  const createProjectItem = {
+    key: CREATE_PROJECT_ID,
+    value: CREATE_PROJECT_ID,
+    nameDisplay: i18n.$t('project.createProject') + '...',
+  }
+
+  const projects = [...projectStore.projectList, createProjectItem]
+
+  return projects
+})
+
 const selectUserMenu = (item: UiDropdownItem<MenuValues>) => {
   switch (item.value) {
     case userMenuMap.LOGOUT:
-      authStore.reset()
-      authStore.$reset()
-      dashboardsStore.$reset()
-      projectStore.$reset()
-      router.replace({ name: 'login' })
+      authStore.logout()
       break
   }
 }
 
 const selectProject = (value: number) => {
+  if (value === CREATE_PROJECT_ID) {
+    setShowCreatePopup(true)
+    return
+  }
+
   if (value !== projectStore.projectId) {
     projectStore.setProjectId(value)
     location.reload()
@@ -147,26 +163,11 @@ const activeProjectName = computed(() => {
     : i18n.$t('project.selectProject')
 })
 
-/**
- * mocks env store
- */
-const isEnabledMocks = ref(false)
-const viteMockApi = import.meta.env.VITE_MOCK_API
-const changeMocks = () => {
-  localStorage.setItem('isEnabledMocks', isEnabledMocks.value ? '0' : '1')
-  location.reload()
+function onCreatedProject(project: Project) {
+  setShowCreatePopup(false)
+  projectStore.addProjectToList(project)
+  selectProject(project.id)
 }
-
-const isEmptyMocks = ref(false)
-const onClearStore = () => {
-  localStorage.setItem('isEmptyMocks', isEmptyMocks.value ? '0' : '1')
-  location.reload()
-}
-
-onMounted(() => {
-  isEnabledMocks.value = localStorage.getItem('isEnabledMocks') === '1'
-  isEmptyMocks.value = localStorage.getItem('isEmptyMocks') === '1'
-})
 </script>
 
 <style scoped lang="scss">

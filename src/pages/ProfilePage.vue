@@ -1,5 +1,5 @@
 <template>
-  <div class="pf-c-page__main-section pf-u-p-md pf-u-pb-3xl">
+  <div class="pf-u-p-md pf-u-pb-3xl">
     <ToolsLayout>
       <template #title>
         {{ $t('profile.title') }}
@@ -40,7 +40,6 @@ import { useProfileStore } from '@/stores/profile/profile'
 
 const profileStore = useProfileStore()
 const {
-  getProfile,
   saveEditName,
   saveEditEmail,
   saveEditPassword,
@@ -51,6 +50,4 @@ const {
   clearNewAndConfirmPasswordError,
 } = profileStore
 const { profile, isLoading, errors, isEdit } = storeToRefs(profileStore)
-
-getProfile()
 </script>
