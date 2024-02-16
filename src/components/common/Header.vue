@@ -98,11 +98,6 @@ const userMenu = computed<UiDropdownItem<MenuValues>[]>(() => {
       nameDisplay: i18n.$t('userMenu.personalSettings'),
     },
     {
-      key: 2,
-      value: userMenuMap.ORGANIZATION,
-      nameDisplay: i18n.$t('userMenu.organizationSettings'),
-    },
-    {
       key: 3,
       value: userMenuMap.PROJECT,
       nameDisplay: i18n.$t('userMenu.projectSettings'),

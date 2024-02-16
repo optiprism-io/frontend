@@ -120,7 +120,6 @@ export const useStepsStore = defineStore('steps', {
                 const events = item.events.map(event => {
                     return {
                         eventType: event.event.type,
-                        eventId: event.event.id,
                         eventName: eventName(event.event),
                         filters: event.filters.map(filter => {
                             let property

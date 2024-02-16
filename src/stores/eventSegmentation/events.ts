@@ -196,6 +196,7 @@ export const useEventsStore = defineStore('events', {
                     const eventLexicon = lexiconStore.findEvent(item.ref)
 
                     return {
+                        eventType: item.ref.type as EventType,
                         eventName: eventLexicon.name,
                         queries: item.queries.filter(query => query.queryRef).map((query): Query => {
                             const type = query.queryRef?.type;
@@ -250,8 +251,6 @@ export const useEventsStore = defineStore('events', {
                                 propertyName: item.propRef ? lexiconStore.propertyName(item.propRef) : ''
                             };
                         }),
-                        eventType: item.ref.type as EventType,
-                        eventId: item.ref.id,
                         filters: item.filters.filter(item => item.propRef).map((filter): EventFilterByProperty => {
                             const ref = filter.propRef;
                             const propertyId = ref?.id || 0;

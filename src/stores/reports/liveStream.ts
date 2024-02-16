@@ -98,7 +98,7 @@ export const useLiveStreamStore = defineStore('liveStream', {
                         }
                     case EventType.Custom:
                         return {
-                            eventId: eventStore.id,
+                            eventName: eventStore.name,
                             eventType: event.ref.type,
                             filters: this.filtersRequest,
                         }

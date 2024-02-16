@@ -109,7 +109,6 @@ const computedValueAggregate = (item: Condition): DidEventCount | DidEventRelati
             type: DidEventRelativeCountTypeEnum.RelativeCount,
             operation,
             time,
-            eventId: eventItem.id,
             eventName: eventItem.name,
             eventType: item.compareEvent.ref.type === EventType.Regular ? EventType.Custom : EventType.Regular,
         }
@@ -149,7 +148,6 @@ export const useSegmentsStore = defineStore('segments', {
                             const condition: SegmentConditionDidEvent = {
                                 type: SegmentConditionDidEventTypeEnum.DidEvent,
                                 eventName: eventItem.name,
-                                eventId: eventItem.id,
                                 eventType: item.event.ref.type,
                                 filters: item.filters.filter(item => item.propRef).reduce((items: EventFilterByProperty[], filterRef) => {
                                     if (filterRef.propRef) {

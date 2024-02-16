@@ -208,7 +208,6 @@ const resultEvent = computed(() => {
             const eventProps: CustomEventEvent = {
                 eventName: event.name,
                 eventType: item.ref.type as EventType,
-                eventId: event.id,
                 filters: [],
             }
 
