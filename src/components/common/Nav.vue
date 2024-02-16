@@ -39,10 +39,10 @@ const configNav = [
     name: 'events.events',
     to: pagesMap.eventsLiveStream.name,
   },
-  {
-    name: 'users.title',
-    to: pagesMap.usersGroupRecords,
-  },
+  // {
+  //   name: 'users.title',
+  //   to: pagesMap.usersGroupRecords,
+  // },
 ]
 
 const items = computed(() => {

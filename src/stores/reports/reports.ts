@@ -1,6 +1,5 @@
 import { defineStore } from 'pinia'
 import reportsService from '@/api/services/reports.service'
-import { useCommonStore } from '@/stores/common'
 import { useEventsStore } from '@/stores/eventSegmentation/events'
 import { useFunnelsStore } from '@/stores/funnels/funnels'
 import { useStepsStore } from '@/stores/funnels/steps'

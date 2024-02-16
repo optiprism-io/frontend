@@ -135,6 +135,14 @@ const chartTypeMap = [
     value: 'line',
     icon: 'fas fa-chart-line',
   },
+  {
+    value: 'column',
+    icon: 'fas fa-chart-bar',
+  },
+  {
+    value: 'pie',
+    icon: 'fas fa-chart-pie',
+  },
 ]
 
 const eventsStore = useEventsStore()
