@@ -362,12 +362,7 @@
     "password": "Password",
     "curPassword": "Current Password",
     "newPassword": "New Password",
-    "confirmPassword": "Confirm Password",
-    "errors": {
-      "emptyField": "Field can't be empty",
-      "emptyCurPassword": "Enter the current password",
-      "notMatchPassword": "The passwords do not match"
-    }
+    "confirmPassword": "Confirm Password"
   },
 
   "project": {
