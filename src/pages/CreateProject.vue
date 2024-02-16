@@ -1,7 +1,9 @@
 <template>
   <div class="pf-l-bullseye">
     <DataEmptyPlaceholder :hide-icon="true">
-      {{ $t('project.noProject') }}
+      <span v-if="!projectStore.projectList.length" class="pf-u-mx-sm">
+        {{ $t('project.noProject') }}
+      </span>
       <UiButton class="pf-m-primary" :before-icon="'fas fa-plus'" @click="setShowCreatePopup(true)">
         {{ $t('project.createProject') }}
       </UiButton>
@@ -22,6 +24,7 @@ import CreateProjectPopup from '@/components/projects/CreateProjectPopup.vue'
 import { useToggle } from '@vueuse/core'
 import { useRouter } from 'vue-router'
 import { pagesMap } from '@/router'
+import { useProjectsStore } from '@/stores/projects/projects'
 
 const [showCreatePopup, setShowCreatePopup] = useToggle(false)
 const router = useRouter()
@@ -30,4 +33,6 @@ function onCreatedProject() {
   setShowCreatePopup(false)
   router.push({ name: pagesMap.dashboards.name })
 }
+
+const projectStore = useProjectsStore()
 </script>
