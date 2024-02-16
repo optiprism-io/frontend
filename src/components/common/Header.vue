@@ -125,7 +125,7 @@ const projectItems = computed(() => {
   const createProjectItem = {
     key: CREATE_PROJECT_ID,
     value: CREATE_PROJECT_ID,
-    nameDisplay: i18n.$t('project.createProject'),
+    nameDisplay: i18n.$t('project.createProject') + '...',
   }
 
   const projects = [...projectStore.projectList, createProjectItem]
