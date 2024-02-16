@@ -3,7 +3,7 @@
     <Header />
     <main class="pf-c-page__main">
       <Suspense>
-        <RouterView />
+        <RouterView class="pf-c-page__main-section "/>
         <template #fallback>
           <UiSpinner class="pf-u-m-auto" size="xl" />
         </template>
