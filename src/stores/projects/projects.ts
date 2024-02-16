@@ -175,6 +175,10 @@ export const useProjectsStore = defineStore('projects', {
       this.resetEditSessionDuration()
     },
 
+    addProjectToList(project: Project) {
+      this.projects.push(project)
+    },
+
     async __updateProject(req: UpdateProjectRequest) {
       if (!this.projectId) throw Error
       const { data } = await projectsService.updateProject(this.projectId, req)

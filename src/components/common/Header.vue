@@ -24,9 +24,8 @@
         <div class="pf-c-page__header-tools-group">
           <div class="pf-c-page__header-tools-item">
             <UiSelect
-              v-if="projectStore.projectList.length"
               class="pf-u-mr-md app-header__project-select"
-              :items="projectStore.projectList"
+              :items="projectItems"
               :text-button="activeProjectName"
               :placement="'bottom-end'"
               :is-text-select="true"
@@ -36,7 +35,6 @@
           </div>
           <div class="pf-c-page__header-tools-item pf-u-ml-md pf-u-mr-lg">
             <UiDropdown
-              class=""
               :items="userMenu"
               :text-button="''"
               :transparent="true"
@@ -49,6 +47,11 @@
         </div>
       </div>
     </div>
+    <CreateProjectPopup
+      v-if="showCreatePopup"
+      @cancel="setShowCreatePopup(false)"
+      @created-project="onCreatedProject"
+    />
   </header>
 </template>
 
@@ -62,11 +65,16 @@ import { RouterLink } from 'vue-router'
 import { pagesMap, SDKIntegration } from '@/router'
 import { useProjectsStore } from '@/stores/projects/projects'
 import UiIcon from '@/components/uikit/UiIcon.vue'
+import CreateProjectPopup from '@/components/projects/CreateProjectPopup.vue'
+import { useToggle } from '@vueuse/core'
+import { Project } from '@/api'
 
 const authStore = useAuthStore()
 const projectStore = useProjectsStore()
 const i18n = inject<any>('i18n')
 const UiDropdown = GenericUiDropdown<MenuValues>()
+
+const [showCreatePopup, setShowCreatePopup] = useToggle(false)
 
 const userMenuMap = {
   PROFILE: 'profile',
@@ -111,6 +119,20 @@ const userMenu = computed<UiDropdownItem<MenuValues>[]>(() => {
   ]
 })
 
+const CREATE_PROJECT_ID = 0
+
+const projectItems = computed(() => {
+  const createProjectItem = {
+    key: CREATE_PROJECT_ID,
+    value: CREATE_PROJECT_ID,
+    nameDisplay: i18n.$t('project.createProject'),
+  }
+
+  const projects = [...projectStore.projectList, createProjectItem]
+
+  return projects
+})
+
 const selectUserMenu = (item: UiDropdownItem<MenuValues>) => {
   switch (item.value) {
     case userMenuMap.LOGOUT:
@@ -120,6 +142,11 @@ const selectUserMenu = (item: UiDropdownItem<MenuValues>) => {
 }
 
 const selectProject = (value: number) => {
+  if (value === CREATE_PROJECT_ID) {
+    setShowCreatePopup(true)
+    return
+  }
+
   if (value !== projectStore.projectId) {
     projectStore.setProjectId(value)
     location.reload()
@@ -135,6 +162,12 @@ const activeProjectName = computed(() => {
     ? projectStore.selectedProject.name
     : i18n.$t('project.selectProject')
 })
+
+function onCreatedProject(project: Project) {
+  setShowCreatePopup(false)
+  projectStore.addProjectToList(project)
+  selectProject(project.id)
+}
 </script>
 
 <style scoped lang="scss">
