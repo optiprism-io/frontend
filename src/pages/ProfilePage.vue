@@ -40,7 +40,6 @@ import { useProfileStore } from '@/stores/profile/profile'
 
 const profileStore = useProfileStore()
 const {
-  getProfile,
   saveEditName,
   saveEditEmail,
   saveEditPassword,
@@ -51,6 +50,4 @@ const {
   clearNewAndConfirmPasswordError,
 } = profileStore
 const { profile, isLoading, errors, isEdit } = storeToRefs(profileStore)
-
-getProfile()
 </script>

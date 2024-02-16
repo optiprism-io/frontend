@@ -112,13 +112,14 @@ export const useProjectsStore = defineStore('projects', {
       }
     },
     async init() {
+      if (this.projectList.length) return
       await this.getProjectsList()
 
       let projectId = Number(localStorage.getItem(STORAGE_PROJECT_ID_KEY))
       if (!this.projectsMap[projectId]) {
         projectId = Number(this.projects[0]?.id || 0)
       }
-      await this.setProjectId(projectId)
+      this.setProjectId(projectId)
     },
     async saveProjectName(name: string) {
       const nCheck = safeParse(notEmptyString, name)

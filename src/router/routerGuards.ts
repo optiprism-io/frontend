@@ -8,7 +8,7 @@ type NavigationGuard = NavigationGuardWithThis<undefined>
 export const checkCreatedProject: NavigationGuard = async (to, from) => {
   const projectStore = useProjectsStore()
   await projectStore.init()
-  if (!projectStore.projectId) return { name: pagesMap.createProject }
+  if (!projectStore.projectList.length) return { name: pagesMap.createProject }
   return true
 }
 

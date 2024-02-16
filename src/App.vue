@@ -1,11 +1,21 @@
 <template>
-    <router-view />
-    <UiAlertGroup
-        v-if="alertsStore.items.length"
-        class="app-toast-alerts"
-        :items="alertsStore.items"
-        @close="closeAlert"
-    />
+  <RouterView v-slot="{ Component }">
+    <template v-if="Component">
+      <Suspense>
+        <Component :is="Component" />
+        <template #fallback>
+          <AppPreloader />
+        </template>
+      </Suspense>
+    </template>
+  </RouterView>
+
+  <UiAlertGroup
+    v-if="alertsStore.items.length"
+    class="app-toast-alerts"
+    :items="alertsStore.items"
+    @close="closeAlert"
+  />
 </template>
 
 <script lang="ts" setup>
@@ -15,6 +25,7 @@ import { useAlertsStore } from '@/stores/alerts';
 import { ErrorResponse } from '@/api';
 import UiAlertGroup from './components/uikit/UiAlertGroup.vue';
 import usei18n from '@/hooks/useI18n';
+import AppPreloader from '@/components/common/AppPreloader.vue'
 
 const { t } = usei18n();
 const authStore = useAuthStore();
