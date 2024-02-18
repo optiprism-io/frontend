@@ -46,7 +46,12 @@ export default function useDataTable(
     const dimensionColumns = payload?.columns ? payload.columns.filter(column => column.type === 'dimension') : [];
     const metricColumns = payload?.columns ? payload?.columns.filter(column => column.type === 'metric') : [];
     const metricValueColumns = payload?.columns ? payload?.columns.filter(column => column.type === 'metricValue') : [];
-    const totalColumn = metricValueColumns.find(item => item.name === 'total');
+    const totalColumn = metricValueColumns.reduce((total, item) => {
+        total.data = item.data.map((value, i) => {
+            return Number((total.data[i] || 0)) + Number(value);
+        });
+        return total;
+    }, {data: [] as DataTableResponseColumnsInnerData });
     const fixedColumnLength = dimensionColumns.length + metricColumns.length - 1;
 
     let tableColumns = {}
@@ -121,7 +126,7 @@ export default function useDataTable(
 
     if (hasData) {
         lineChart = metricValueColumns.reduce((acc: any[], item: DataTableResponseColumnsInner) => {
-            if (item.data && item.name !== 'total') {
+            if (item.data) {
                 item.data.forEach((value, indexValue: number) => {
 
                     acc.push({

@@ -32,7 +32,7 @@
 </template>
 
 <script setup lang="ts">
-import { onUnmounted, onMounted, ref, computed } from 'vue'
+import { onUnmounted, ref, computed } from 'vue'
 import { debounce } from 'lodash'
 import Events from '@/components/events/Events/Events.vue'
 import Breakdowns from '@/components/events/Breakdowns.vue'
