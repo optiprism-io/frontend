@@ -131,6 +131,7 @@
                 :popper-container="props.popperContainer"
                 :popper-class="popperClass"
                 :for-preview="props.forPreview"
+                @on-click-value="updateValue"
                 @remove-filter="removeFilter"
                 @change-filter-property="changeFilterProperty"
                 @change-filter-operation="changeFilterOperation"
@@ -332,14 +333,22 @@ const hide = () => {
 
 const changeFilterProperty = async (filterIdx: number, propRef: PropertyRef) => {
     const event = props.event
-    const valuesList: Value[] = await getPropertyValues(propRef) || [];
 
     event.filters[filterIdx] = {
         propRef: propRef,
         opId: OperationId.Eq,
         values: [],
-        valuesList: valuesList
+        valuesList: [],
     };
+};
+
+const updateValue = async (filterIdx: number) => {
+    const event = props.event
+    const filter = event.filters[filterIdx];
+    if (filter?.propRef) {
+        filter.valuesList = await getPropertyValues(filter.propRef) || []
+        event.filters[filterIdx] = filter
+    }
 };
 
 const changeFilterOperation = (filterIdx: number, opId: OperationId) => {
@@ -351,11 +360,15 @@ const changeFilterOperation = (filterIdx: number, opId: OperationId) => {
 const addFilterValue = (filterIdx: number, value: Value): void => {
     const event = props.event
     event.filters[filterIdx].values.push(value);
+    emit('on-change')
 }
 
 const removeFilterValue = (filterIdx: number, value: Value): void => {
     const event = props.event;
     event.filters[filterIdx].values = props.event.filters[filterIdx].values.filter(v => v !== value);
+    if (event.filters[filterIdx].values.length) {
+        emit('on-change')
+    }
 };
 
 const addBreakdown = async (propRef: PropertyRef): Promise<void> => {

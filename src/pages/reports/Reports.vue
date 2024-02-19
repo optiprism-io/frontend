@@ -20,6 +20,7 @@
         class="reports__name pf-u-mr-md"
         :value="reportName"
         :hide-text="true"
+        :hide-control-edit="!itemsReports.length"
         @on-input="setNameReport"
         @on-edit="onEditNameReport"
       />

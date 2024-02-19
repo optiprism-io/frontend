@@ -101,7 +101,7 @@
                     @deselect="removeValue"
                 >
                     <template v-if="filter.values.length > 0">
-                        <div class="pf-c-action-list">
+                        <div class="pf-c-action-list ">
                             <div
                                 v-for="(value, i) in filter.values"
                                 :key="i"
@@ -139,6 +139,7 @@
                         <UiButton
                             :before-icon="'fas fa-plus-circle'"
                             class="pf-m-link"
+                            @click="ocClickValue"
                         >
                             {{ $t('events.select_value') }}
                         </UiButton>
@@ -229,6 +230,7 @@ const emit = defineEmits<{
     (e: 'removeFilterValue', filterIdx: number, value: Value): void;
     (e: 'handleSelectProperty'): void;
     (e: 'changeAllValues', filterIdx: number, values: Value[]): void;
+    (e: 'on-click-value', filterIdx: number): void;
 }>();
 
 const valueInput = ref('');
@@ -308,6 +310,10 @@ const handleSelectProperty = (): void => {
 
 const changeOperation = (opId: OperationId): void => {
     emit('changeFilterOperation', props.index, opId);
+};
+
+const ocClickValue = () => {
+    emit('on-click-value', props.index);
 };
 
 const addValue = (value: Value): void => {
