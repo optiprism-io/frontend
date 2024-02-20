@@ -90,14 +90,6 @@
           @input="changeFormula"
         />
       </div>
-      <div v-if="propertySelectError" class="pf-c-action-list__item pf-u-mt-xs">
-        <VTooltip popper-class="ui-hint">
-          <UiIcon class="pf-u-warning-color-100" icon="fas fa-exclamation-triangle" />
-          <template #popper>
-            {{ $t('events.query.error') }}
-          </template>
-        </VTooltip>
-      </div>
       <div
         v-if="!noDelete"
         class="pf-c-action-list__item queries__control-item"

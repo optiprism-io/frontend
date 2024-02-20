@@ -110,6 +110,7 @@
                                 <UiButton
                                     :class="[props.forPreview ? 'pf-m-control pf-m-small' : 'pf-m-secondary']"
                                     :disabled="props.forPreview"
+                                    @click="ocClickValue"
                                 >
                                     {{ value }}
                                     <span
@@ -145,21 +146,6 @@
                         </UiButton>
                     </template>
                 </ValueSelect>
-            </div>
-
-            <div
-                v-if="filter.error || (filter?.propRef && !filterProperty)"
-                class="pf-c-action-list__item pf-u-mt-xs"
-            >
-                <VTooltip popper-class="ui-hint">
-                    <UiIcon
-                        class="pf-u-warning-color-100"
-                        icon="fas fa-exclamation-triangle"
-                    />
-                    <template #popper>
-                        {{ $t('filters.noPropertiesError') }}
-                    </template>
-                </VTooltip>
             </div>
             <div
                 v-if="filter.values.length === 0"

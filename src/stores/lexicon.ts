@@ -287,9 +287,11 @@ export const useLexiconStore = defineStore('lexicon', {
       return (ref: EventRef): string => {
         switch (ref.type) {
           case EventType.Regular:
-            return this.findEventById(ref.id).name
+            return ref.name ? this.findEventByName(ref.name).name : ''
           case EventType.Custom:
-            return this.findCustomEventById(ref.id).name
+            return ref.name ? this.findCustomEventByName(ref.name).name : ''
+          default:
+            return ref?.name || '';
         }
       }
     },

@@ -116,8 +116,8 @@ const getValues = async (props: GetValues) => {
     return valuesList
 }
 
-const computedFilter = async (eventName: string | undefined, eventType: EventType | undefined, items: EventFilterByProperty[]) => {
-    return await Promise.all(items.map(async filter => {
+const computedFilter = (items: EventFilterByProperty[]) => {
+    return items.map(filter => {
         return {
             propRef: {
                 type: filter.propertyType as PropertyType,
@@ -126,25 +126,20 @@ const computedFilter = async (eventName: string | undefined, eventType: EventTyp
             },
             opId: filter.operation,
             values: filter.value || [],
-            valuesList: await getValues({
-                eventName: eventName,
-                eventType: eventType,
-                propertyName: filter.propertyName || '',
-                propertyType: filter.propertyType as PropertyType,
-            }),
+            valuesList: [],
         }
-    }))
+    })
 }
 
-const mapReportToEvents = async (items: EventSegmentationEvent[]): Promise<Event[]> => {
-    return await Promise.all(items.map(async (item): Promise<Event> => {
+const mapReportToEvents = (items: EventSegmentationEvent[]): Event[] => {
+    return items.map((item): Event => {
         return {
             ref: {
                 type: item.eventType,
                 id: item.eventId || 0,
                 name: item.eventName || '',
             },
-            filters: item.filters ? await computedFilter(item.eventName, item.eventType, item.filters) as Filter[] : [],
+            filters: item.filters ? computedFilter(item.filters) : [],
             queries: item.queries.map((row, i): EventQuery => {
                 const query = row as Queries
 
@@ -193,7 +188,7 @@ const mapReportToEvents = async (items: EventSegmentationEvent[]): Promise<Event
                 }
             }) : [],
         }
-    }))
+    })
 }
 
 const mapReportToFilterGroups = async (items: EventGroupedFiltersGroupsInner[]): Promise<FilterGroup[]> => {
@@ -263,7 +258,7 @@ const mapReportToSegments = async (items: EventSegmentationSegment[]): Promise<S
                         }
 
                         if (condition.filters) {
-                            res.filters = await computedFilter(condition.eventName, condition.eventType, condition.filters)
+                            res.filters = computedFilter(condition.filters)
                         }
 
                         if (condition.aggregate) {
@@ -321,12 +316,9 @@ const mapReportToSegments = async (items: EventSegmentationSegment[]): Promise<S
                                 res.propRef = {
                                     type: PropertyType.User,
                                     id: property?.id,
-                                    name: property.name || property.displayName,
+                                    name: property.name || property.displayName || '',
                                 }
-                                res.valuesList = await getValues({
-                                    propertyName: property.name,
-                                    propertyType: PropertyType.User,
-                                })
+                                res.valuesList = []
                             }
                         }
                         res.opId = condition.operation;
@@ -365,7 +357,7 @@ export const mapReportToSteps = async (items: FunnelQueryStepsInner[]): Promise<
                         id: event.eventId ?? 0,
                         name: event.eventName || '',
                     },
-                    filters: event.filters ? await computedFilter(event.eventName, event.eventType, event.filters) : [],
+                    filters: event.filters ? computedFilter(event.filters) : [],
                 }
             })) : []
         } as Step
@@ -433,7 +425,7 @@ export const reportToStores = async (id: number) => {
     if (report?.query) {
         if (report.type === ReportType.EventSegmentation) {
             const query = report?.query as EventSegmentation
-            eventsStore.events = query.events ? await mapReportToEvents(query.events) : []
+            eventsStore.events = query.events ? mapReportToEvents(query.events) : []
         }
         if (report.type === ReportType.Funnel) {
             const query = report?.query as FunnelQuery
