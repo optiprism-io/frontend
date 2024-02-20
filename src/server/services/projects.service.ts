@@ -2,6 +2,7 @@ import { CreateProjectRequest, UpdateProjectRequest } from '@/api'
 import { Request, Server } from 'miragejs'
 import { Schema } from '@/server/types'
 import { getNewProject } from '@/mocks/projects'
+// import { getUnauthorizedResponse } from '@/server/utils/getUnauthorizedResponse'
 
 export function projectsRoutes(server: Server) {
   server.get('/projects/:project_id', getProject)
@@ -11,12 +12,13 @@ export function projectsRoutes(server: Server) {
 }
 
 function getProjects(schema: Schema) {
-  return  { data: schema.db.projects }
+  return { data: schema.db.projects }
+  // return getUnauthorizedResponse()
 }
 
 function postProject(schema: Schema, request: Request) {
   const { name, sessionDurationSeconds } = JSON.parse(request.requestBody) as CreateProjectRequest
-  const newProject = getNewProject({ name, sessionDurationSeconds})
+  const newProject = getNewProject({ name, sessionDurationSeconds })
   return schema.db.projects.insert(newProject)
 }
 

@@ -20,16 +20,17 @@
 
 <script lang="ts" setup>
 import axios, { HttpStatusCode } from 'axios'
-import { useAuthStore } from '@/stores/auth/auth';
 import { useAlertsStore } from '@/stores/alerts';
 import { ErrorResponse } from '@/api';
 import UiAlertGroup from './components/uikit/UiAlertGroup.vue';
 import usei18n from '@/hooks/useI18n';
 import AppPreloader from '@/components/common/AppPreloader.vue'
+import { useRouter } from 'vue-router'
+import { pagesMap } from '@/router'
 
 const { t } = usei18n();
-const authStore = useAuthStore();
 const alertsStore = useAlertsStore();
+const router = useRouter();
 
 const closeAlert = (id: string) => alertsStore.closeAlert(id);
 
@@ -64,7 +65,7 @@ axios.interceptors.response.use(res => res, async err => {
                 }
                 break;
             case HttpStatusCode.Unauthorized:
-                await authStore.onRefreshToken();
+                await router.push({ name: pagesMap.login.name });
                 return Promise.reject(err);
             case HttpStatusCode.InternalServerError:
             case HttpStatusCode.ServiceUnavailable:
