@@ -338,6 +338,11 @@ const removeValueButton = (value: Value) => {
 
 <style lang="scss">
 .filter {
+    .pf-c-action-list {
+      flex-wrap: wrap;
+      row-gap: 0.5rem;
+    }
+
     &:hover {
         .filter__control-item {
             opacity: 1;
@@ -364,6 +369,7 @@ const removeValueButton = (value: Value) => {
         .pf-c-action-list {
             &__item {
                 margin-bottom: 0;
+                margin-left: 1rem;
             }
         }
         > .pf-c-action-list {
@@ -378,11 +384,6 @@ const removeValueButton = (value: Value) => {
         position: relative;
         flex-wrap: wrap;
         align-items: flex-start;
-        .multi-select__action {
-            .pf-c-action-list {
-                margin-bottom: -11px;
-            }
-        }
     }
 }
 </style>
