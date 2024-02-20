@@ -113,6 +113,8 @@ const propertyName = (ref: PropertyRef): string => {
             return lexiconStore.findEventCustomPropertyById(ref.id)?.name || '';
         case PropertyType.User:
             return lexiconStore.findUserPropertyById(ref.id)?.name || '';
+        case PropertyType.System:
+            return lexiconStore.findSystemPropertyById(ref.id)?.displayName || lexiconStore.findSystemPropertyById(ref.id)?.name || '';
         default:
             return ''
     }

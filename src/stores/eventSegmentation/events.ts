@@ -266,6 +266,9 @@ export const useEventsStore = defineStore('events', {
                                 case PropertyType.User:
                                     name = lexiconStore.findUserPropertyById(propertyId)?.name || '';
                                     break;
+                                case PropertyType.System:
+                                    name = lexiconStore.findSystemPropertyById(propertyId)?.name || '';
+                                    break;
                             }
 
                             return {

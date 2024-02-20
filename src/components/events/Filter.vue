@@ -254,7 +254,7 @@ const isShowInputForValue = computed(() => {
 });
 
 const propertyButtonText = computed(() => {
-    return props.filter?.propRef?.name || filterProperty.value?.name || props.filter?.propRef?.id;
+    return props.filter?.propRef?.name || filterProperty.value?.name  || props.filter?.propRef?.id;
 });
 
 const filterItemValues = computed(() => {
@@ -291,6 +291,8 @@ const filterProperty = computed(() => {
                 return lexiconStore.findEventCustomPropertyById(filterPropRefId.value);
             case PropertyType.User:
                 return lexiconStore.findUserPropertyById(filterPropRefId.value);
+            case PropertyType.System:
+                return lexiconStore.findSystemPropertyById(filterPropRefId.value);
         }
     }
     return undefined;
