@@ -17,6 +17,7 @@
         </template>
       </UiSelect>
       <UiInlineEdit
+        v-if="reportsStore.reportId"
         class="reports__name pf-u-mr-md"
         :value="reportName"
         :hide-text="true"
@@ -33,7 +34,7 @@
         {{ $t('reports.save') }}
       </UiButton>
       <UiButton
-        v-if="itemsReports.length"
+        v-if="itemsReports.length && reportsStore.reportId"
         class="pf-m-link pf-m-danger"
         :before-icon="'fas fa-times'"
         @click="onDeleteReport"
@@ -220,7 +221,7 @@ const setNew = async () => {
 const onSelectTab = (value: string) => {
   if (reportsStore.reportId) {
     if (value === pagesMap.reportsEventSegmentation.name) {
-        setNew()
+      setNew()
     }
   } else if (route.name === value) {
     location.reload()

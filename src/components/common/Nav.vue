@@ -2,14 +2,15 @@
   <nav class="pf-c-nav pf-m-horizontal-subnav" aria-label="Local">
     <ul class="pf-c-nav__list">
       <li v-for="item in items" :key="item.name" class="pf-c-nav__item">
-        <router-link
+        <RouterLink
+          v-if="item.to"
           :to="item.to"
           class="pf-c-nav__link"
           aria-current="page"
           @click="onClick($event, item.to.name)"
         >
           {{ item.name }}
-        </router-link>
+        </RouterLink>
       </li>
     </ul>
   </nav>
@@ -19,6 +20,7 @@
 import { computed } from 'vue'
 import { pagesMap } from '@/router'
 import usei18n from '@/hooks/useI18n'
+import { RouterLink } from 'vue-router'
 
 const { t } = usei18n()
 
@@ -29,29 +31,32 @@ const emit = defineEmits<{
 const configNav = [
   {
     name: 'dashboards.title',
-    to: pagesMap.dashboards.name,
+    to: {
+      name: pagesMap.dashboards.name,
+    },
   },
   {
     name: 'reports.title',
-    to: pagesMap.reportsEventSegmentation.name,
+    to: {
+      name: pagesMap.reportsEventSegmentation.name,
+      params: {
+        id: null,
+      },
+    },
   },
   {
     name: 'events.events',
-    to: pagesMap.eventsLiveStream.name,
+    to: {
+      name: pagesMap.eventsLiveStream.name,
+    },
   },
-  // {
-  //   name: 'users.title',
-  //   to: pagesMap.usersGroupRecords,
-  // },
 ]
 
 const items = computed(() => {
   return configNav.map(item => {
     return {
+      ...item,
       name: t(item.name),
-      to: {
-        name: item.to,
-      },
     }
   })
 })

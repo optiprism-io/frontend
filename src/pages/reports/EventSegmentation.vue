@@ -32,7 +32,7 @@
 </template>
 
 <script setup lang="ts">
-import { onUnmounted, ref, computed } from 'vue'
+import { onUnmounted, ref, computed, onMounted, nextTick, watch } from 'vue'
 import { debounce } from 'lodash'
 import Events from '@/components/events/Events/Events.vue'
 import Breakdowns from '@/components/events/Breakdowns.vue'
@@ -109,6 +109,18 @@ const onChange = () => {
 const onChangeDebounce = debounce(() => {
   onChange()
 }, 1100)
+
+watch(
+  () => reportsStore.reportId,
+  value => {
+    if (value === 0) {
+      eventsStore.$reset()
+      filterGroupsStore.$reset()
+      segmentsStore.$reset()
+      getEventSegmentation()
+    }
+  }
+)
 </script>
 
 <style scoped lang="scss">
