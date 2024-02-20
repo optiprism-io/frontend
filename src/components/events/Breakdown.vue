@@ -7,9 +7,9 @@
             />
             <div
                 v-else
-                class="pf-c-action-list__item min-w-50 pf-u-text-align-right"
+                class="pf-c-action-list__item"
             >
-                group
+                <UiIcon icon="fas fa-layer-group" />
             </div>
             <div class="pf-c-action-list__item">
                 <PropertySelect

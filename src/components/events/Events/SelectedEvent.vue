@@ -57,7 +57,7 @@
                     @show="show"
                     @hide="hide"
                 >
-                    <div class=" selected-event__control">
+                    <div class="selected-event__control">
                         <VTooltip popper-class="ui-hint">
                             <UiIcon icon="fas fa-search" />
                             <template #popper>
@@ -119,7 +119,7 @@
         </div>
         <div
             v-if="showRows"
-            class="selected-event__rows pf-l-flex pf-m-column pf-u-pl-xl"
+            class="selected-event__rows pf-l-flex pf-m-column"
         >
             <Filter
                 v-for="(filter, i) in filters"
@@ -397,6 +397,8 @@ const changeQuery = (idx: number, ref: EventQueryRef) => {
 
 <style scoped lang="scss">
 .selected-event {
+  color: var(--op-base-color-text);
+
   &_preview {
     pointer-events: none;
   }
@@ -405,7 +407,6 @@ const changeQuery = (idx: number, ref: EventQueryRef) => {
     padding: 5px;
     opacity: 0;
     cursor: pointer;
-    color: var(--op-base-color-text);
 
     &:hover {
       color: var(--pf-global--palette--black-800);

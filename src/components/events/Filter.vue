@@ -15,15 +15,12 @@
             />
             <div
                 v-else-if="!hidePrefix"
-                :class="{
-                    'min-w-50': minWidthPrefix,
-                }"
-                class="pf-c-action-list__item pf-u-mb-0 pf-u-mt-xs pf-u-text-align-right"
+                class="pf-c-action-list__item pf-u-mb-0 pf-u-mt-xs"
             >
                 <slot
                     name="prefix"
                 >
-                    {{ $t('filters.with') }}
+                    <UiIcon icon="fas fa-filter" />
                 </slot>
             </div>
             <div class="pf-c-action-list__item">
@@ -207,14 +204,12 @@ type Props = {
     forPreview?: boolean;
     hidePrefix?: boolean;
     orientation?: OrientationEnum;
-    minWidthPrefix?: boolean;
 }
 
 const lexiconStore = useLexiconStore();
 
 const props = withDefaults(defineProps<Props>(), {
     orientation: OrientationTypeEnum.VERTICAL,
-    minWidthPrefix: true,
 });
 
 const elButtonMain = ref(null);

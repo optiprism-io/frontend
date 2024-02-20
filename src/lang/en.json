@@ -327,7 +327,6 @@
   },
 
   "filters": {
-    "with": "with",
     "conditions": {
       "and": "Any",
       "or": "All"
