@@ -370,17 +370,7 @@ const removeValueButton = (value: Value) => {
             padding-right: 0;
         }
     }
-    &_vertical {
-        margin-bottom: 0;
-        .pf-c-action-list {
-            &__item {
-                margin-bottom: 11px;
-            }
-        }
-        > .pf-c-action-list {
-            padding-right: 30px;
-        }
-    }
+
     > .pf-c-action-list {
         position: relative;
     }
