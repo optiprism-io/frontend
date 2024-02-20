@@ -1,6 +1,6 @@
 <template>
   <GridContainer>
-    <GridItem :col-lg="4">
+    <GridItem :col-lg="3">
       <GridContainer class="filter-event-segmentation">
         <GridItem :col-lg="12">
           <UiCard class="filter-event-segmentation__item" :title="$t('events.events')">
@@ -28,7 +28,7 @@
       </GridContainer>
     </GridItem>
 
-    <GridItem :col-lg="8">
+    <GridItem :col-lg="9">
       <EventsViews
         :event-segmentation="eventSegmentation"
         :loading="eventSegmentationLoading"
