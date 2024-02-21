@@ -1,30 +1,22 @@
 <template>
   <GridContainer>
     <GridItem :col-lg="3">
-      <GridContainer class="filter-event-segmentation">
-        <GridItem :col-lg="12">
+       <GridContainer>
           <UiCard class="filter-event-segmentation__item" :title="$t('events.events')">
             <Events @on-change="onChange" />
           </UiCard>
-        </GridItem>
 
-        <GridItem :col-lg="12">
           <UiCardContainer class="filter-event-segmentation__item" >
             <FilterReports @on-change="onChangeDebounce" />
           </UiCardContainer>
-        </GridItem>
 
-        <GridItem :col-lg="12">
           <UiCard class="filter-event-segmentation__item"  :title="$t('events.segments.label')">
             <Segments @on-change="onChangeDebounce" />
           </UiCard>
-        </GridItem>
 
-        <GridItem :col-lg="12">
           <UiCard class="filter-event-segmentation__item"  :title="$t('events.breakdowns')">
             <Breakdowns @on-change="onChangeDebounce" />
           </UiCard>
-        </GridItem>
       </GridContainer>
     </GridItem>
 
