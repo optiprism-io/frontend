@@ -6,7 +6,7 @@
                 :index="index"
             />
             <div
-                v-else
+                v-else-if="hasIcon"
                 class="pf-c-action-list__item"
             >
                 <UiIcon icon="fas fa-layer-group" />
@@ -75,22 +75,28 @@ import UiButton from '@/components/uikit/UiButton.vue';
 import CommonIdentifier from '@/components/common/identifier/CommonIdentifier.vue';
 import { PropertyType } from '@/api'
 
-const lexiconStore = useLexiconStore();
-const props = defineProps<{
-    eventRef?: EventRef;
-    eventRefs?: EventRef[];
-    breakdown: EventBreakdown;
-    index: number;
-    updateOpen?: boolean;
-    selectedItems?: EventBreakdown[];
-    showIdentifier?: boolean;
-}>();
+interface IProps {
+  eventRef?: EventRef;
+  eventRefs?: EventRef[];
+  breakdown: EventBreakdown;
+  index: number;
+  updateOpen?: boolean;
+  selectedItems?: EventBreakdown[];
+  showIdentifier?: boolean;
+  hasIcon?: boolean;
+}
+
+const props = withDefaults(defineProps<IProps>(), {
+  hasIcon: true
+});
 
 const emit = defineEmits<{
     (e: 'removeBreakdown', index: number): void;
     (e: 'changeBreakdownProperty', breakdownIdx: number, propRef: PropertyRef): void;
     (e: 'handleSelectProperty'): void;
 }>();
+
+const lexiconStore = useLexiconStore();
 
 const removeBreakdown = (): void => {
     emit('removeBreakdown', props.index);
