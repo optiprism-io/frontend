@@ -1,16 +1,11 @@
 <template>
     <div class="breakdown pf-l-flex">
+        <UiIcon v-if="hasIcon" icon="fas fa-layer-group" />
         <div class="pf-c-action-list">
             <CommonIdentifier
                 v-if="showIdentifier"
                 :index="index"
             />
-            <div
-                v-else-if="hasIcon"
-                class="pf-c-action-list__item"
-            >
-                <UiIcon icon="fas fa-layer-group" />
-            </div>
             <div class="pf-c-action-list__item">
                 <PropertySelect
                     v-if="breakdown.propRef"

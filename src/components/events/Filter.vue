@@ -1,8 +1,18 @@
 <template>
     <div
-        class="filter pf-l-flex"
+        class="filter pf-l-flex pf-m-nowrap"
         :class="orientationClass"
     >
+        <div
+          v-if="!hidePrefix"
+          class="pf-c-action-list__item pf-u-mb-0 pf-u-mt-xs"
+        >
+          <slot
+            name="prefix"
+          >
+            <UiIcon icon="fas fa-filter" />
+          </slot>
+        </div>
         <div
             class="filter__items pf-c-action-list"
             :class="{
@@ -13,16 +23,6 @@
                 v-if="showIdentifier"
                 :index="index"
             />
-            <div
-                v-else-if="!hidePrefix"
-                class="pf-c-action-list__item pf-u-mb-0 pf-u-mt-xs"
-            >
-                <slot
-                    name="prefix"
-                >
-                    <UiIcon icon="fas fa-filter" />
-                </slot>
-            </div>
             <div class="pf-c-action-list__item">
                 <PropertySelect
                     v-if="filter.propRef"
@@ -340,7 +340,11 @@ const removeValueButton = (value: Value) => {
 .filter {
     .pf-c-action-list {
       flex-wrap: wrap;
-      row-gap: 0.5rem;
+      gap: 0.5rem;
+
+      & > * + * {
+        margin-left: 0;
+      }
     }
 
     &:hover {
