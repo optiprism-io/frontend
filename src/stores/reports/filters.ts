@@ -102,6 +102,7 @@ export const useFilterGroupsStore = defineStore('filter-groups', {
                                 type: 'property' as EventGroupedFiltersGroupsInnerFiltersInnerTypeEnum,
                                 cohortId: 0,
                                 groupId: 0,
+                                propertyName: filter.propRef?.name || '',
                                 propertyType: filter.propRef?.type || 'event',
                                 operation: filter.opId,
                                 value: filter.values,

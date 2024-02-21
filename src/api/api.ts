@@ -336,7 +336,7 @@ export interface CreateProjectRequest {
      * @type {number}
      * @memberof CreateProjectRequest
      */
-    'sessionDurationSeconds': number;
+    'sessionDurationSeconds'?: number;
 }
 /**
  * 
