@@ -256,7 +256,7 @@ paths:
           $ref: '#/components/responses/Internal'
         '503':
           $ref: '#/components/responses/ServiceUnavailable'
-  /v1/organizarion/{organizationId}:
+  /v1/organization/{organizationId}:
     get:
       summary: Get organizations
       operationId: organization
