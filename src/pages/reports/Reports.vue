@@ -165,19 +165,20 @@ const onDeleteReport = async () => {
       }
     )
 
-    reportsStore.deleteReport(reportsStore.reportId)
-    reportsStore.getList()
+    await reportsStore.deleteReport(reportsStore.reportId)
+    await reportsStore.getList()
+    reportsStore.emptyReport()
   } catch (error) {
     reportsStore.loading = false
   }
 }
 
-const onEditReport = () => {
-  reportsStore.editReport(reportName.value || untitledReportName.value, reportType.value)
+const onEditReport = async () => {
+  await reportsStore.editReport(reportName.value || untitledReportName.value, reportType.value)
 }
 
 const onCreateReport = async () => {
-  await reportsStore.createReport(reportName.value || untitledReportName.value, reportType.value)
+  await reportsStore.createReport(untitledReportName.value, reportType.value)
 
   router.push({
     params: {
@@ -187,17 +188,17 @@ const onCreateReport = async () => {
   })
 }
 
-const onUpdateReport = () => {
+const onUpdateReport = async () => {
   if (reportsStore.reportId) {
-    onEditReport()
+    await onEditReport()
   } else {
-    onCreateReport()
+    await onCreateReport()
   }
 }
 
 const onSaveReport = async () => {
   reportsStore.loading = true
-  onUpdateReport()
+  await onUpdateReport()
   await reportsStore.getList()
   reportsStore.updateDump(reportType.value)
   reportsStore.loading = false
@@ -219,11 +220,9 @@ const setNew = async () => {
 }
 
 const onSelectTab = (value: string) => {
-  if (reportsStore.reportId) {
-    if (value === pagesMap.reportsEventSegmentation.name) {
-      setNew()
-    }
-  } else if (route.name === value) {
+  if (value === pagesMap.reportsEventSegmentation.name) {
+    reportsStore.emptyReport()
+  } else {
     location.reload()
   }
 }

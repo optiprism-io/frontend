@@ -32,7 +32,7 @@
 </template>
 
 <script setup lang="ts">
-import { onUnmounted, ref, computed, onMounted, nextTick, watch } from 'vue'
+import { onUnmounted, ref, computed, watch } from 'vue'
 import { debounce } from 'lodash'
 import Events from '@/components/events/Events/Events.vue'
 import Breakdowns from '@/components/events/Breakdowns.vue'
@@ -62,6 +62,7 @@ const reportsStore = useReportsStore()
 
 const eventSegmentationLoading = ref(false)
 const eventSegmentation = ref<DataTableResponse | null>()
+const previusEventSegmentationBody = ref('')
 
 const emit = defineEmits<{
   (e: 'on-change'): void
@@ -80,10 +81,17 @@ onUnmounted(() => {
 })
 
 const getEventSegmentation = async () => {
-  if (eventsStore.propsForEventSegmentationResult.events.length) {
+  const eventSegmentationBody = JSON.stringify(eventsStore.propsForEventSegmentationResult);
+
+  if (
+      eventsStore.propsForEventSegmentationResult.events.length &&
+      previusEventSegmentationBody.value !== eventSegmentationBody
+    ) {
     eventSegmentationLoading.value = true
 
     try {
+      previusEventSegmentationBody.value = eventSegmentationBody
+
       const res = await reportsService.eventSegmentation(
         projectsStore.projectId,
         eventsStore.propsForEventSegmentationResult
@@ -92,12 +100,12 @@ const getEventSegmentation = async () => {
         eventSegmentation.value = res.data as DataTableResponse
       }
     } catch (error) {
-      throw new Error('error getEventSegmentation')
+      throw new Error('error getEvent Segmentation')
     }
-    eventSegmentationLoading.value = false
   } else {
     eventSegmentation.value = null
   }
+  eventSegmentationLoading.value = false
 }
 
 const onChange = () => {
@@ -111,13 +119,14 @@ const onChangeDebounce = debounce(() => {
 }, 1100)
 
 watch(
-  () => reportsStore.reportId,
+  () => reportsStore.updateToEmpty,
   value => {
-    if (value === 0) {
+    if (value === true) {
       eventsStore.$reset()
       filterGroupsStore.$reset()
       segmentsStore.$reset()
       getEventSegmentation()
+      reportsStore.updateToEmpty = false
     }
   }
 )

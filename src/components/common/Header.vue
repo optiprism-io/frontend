@@ -173,7 +173,7 @@ function onCreatedProject(project: Project) {
 
 const onClickItemNav = (event: PointerEvent, name: string) => {
   if (name === pagesMap.reportsEventSegmentation.name) {
-    reportsStore.reportId = 0
+    reportsStore.emptyReport()
   }
 }
 </script>
