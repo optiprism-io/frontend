@@ -27,7 +27,7 @@ withDefaults(defineProps<Props>(), {
 
 <style scoped lang="scss">
 .common-identifier {
-    width: 20px;
+    width: 14px;
     text-transform: uppercase;
     text-align: center;
     color: var(--pf-global--main-color--100, black);

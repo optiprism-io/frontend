@@ -1,7 +1,7 @@
 <template>
-  <div class="queries pf-l-flex">
+  <div class="queries pf-l-flex pf-m-nowrap">
+    <UiIcon icon="fas fa-search" />
     <div class="pf-c-action-list">
-      <div class="pf-c-action-list__item min-w-50 pf-u-text-align-right">query</div>
       <div class="pf-c-action-list__item">
         <Select
           v-if="item.queryRef"
@@ -277,6 +277,15 @@ const changeFormula = (value: string) => {
 
 <style scoped lang="scss">
 .queries {
+  .pf-c-action-list {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+
+    & > * + * {
+      margin-left: 0;
+    }
+  }
+
   &:hover {
     .queries__control-item {
       opacity: 1;

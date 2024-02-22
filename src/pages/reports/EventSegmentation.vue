@@ -1,38 +1,34 @@
 <template>
-  <TemplateReport :loading="reportsLoadingInit">
-    <template #content>
-      <GridContainer>
-        <GridItem :col-lg="6">
-          <UiCard :title="$t('events.events')">
+  <GridContainer>
+    <GridItem :col-lg="3">
+       <GridContainer>
+          <UiCard class="filter-event-segmentation__item" :title="$t('events.events')">
             <Events @on-change="onChange" />
           </UiCard>
-        </GridItem>
-        <GridItem :col-lg="6">
-          <UiCard :title="$t('events.segments.label')">
-            <Segments @on-change="onChangeDebounce" />
-          </UiCard>
-        </GridItem>
-        <GridItem :col-lg="6">
-          <UiCardContainer>
+
+          <UiCardContainer class="filter-event-segmentation__item" >
             <FilterReports @on-change="onChangeDebounce" />
           </UiCardContainer>
-        </GridItem>
-        <GridItem :col-lg="6">
-          <UiCard :title="$t('events.breakdowns')">
+
+          <UiCard class="filter-event-segmentation__item"  :title="$t('events.segments.label')">
+            <Segments @on-change="onChangeDebounce" />
+          </UiCard>
+
+          <UiCard class="filter-event-segmentation__item"  :title="$t('events.breakdowns')">
             <Breakdowns @on-change="onChangeDebounce" />
           </UiCard>
-        </GridItem>
       </GridContainer>
-    </template>
-    <template #views>
+    </GridItem>
+
+    <GridItem :col-lg="9">
       <EventsViews
         :event-segmentation="eventSegmentation"
         :loading="eventSegmentationLoading"
         :report="activeReport"
         @on-change="onChangeDebounce"
       />
-    </template>
-  </TemplateReport>
+    </GridItem>
+  </GridContainer>
 </template>
 
 <script setup lang="ts">
@@ -45,7 +41,6 @@ import EventsViews from '@/components/events/EventsViews.vue'
 import UiCard from '@/components/uikit/UiCard/UiCard.vue'
 import UiCardContainer from '@/components/uikit/UiCard/UiCardContainer.vue'
 import FilterReports from '@/components/events/FiltersReports.vue'
-import TemplateReport from '@/components/events/TemplateReport.vue'
 import GridContainer from '@/components/grid/GridContainer.vue'
 import GridItem from '@/components/grid/GridItem.vue'
 import reportsService from '@/api/services/reports.service'
@@ -71,10 +66,6 @@ const eventSegmentation = ref<DataTableResponse>()
 const emit = defineEmits<{
   (e: 'on-change'): void
 }>()
-
-const reportsLoadingInit = computed(() => {
-  return reportsStore.loading && !reportsStore.list.length
-})
 
 const activeReport = computed(() => reportsStore.activeReport)
 
@@ -126,5 +117,9 @@ const onChangeDebounce = debounce(() => {
   color: var(--op-base-color);
   font-size: 1.4rem;
   margin-bottom: 0.2rem;
+}
+
+.filter-event-segmentation__item {
+  overflow: auto;
 }
 </style>

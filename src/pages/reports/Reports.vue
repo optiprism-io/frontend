@@ -67,7 +67,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { pagesMap } from '@/router'
 import usei18n from '@/hooks/useI18n'
@@ -78,10 +78,6 @@ import useConfirm from '@/hooks/useConfirm'
 import { useEventsStore } from '@/stores/eventSegmentation/events'
 import { useReportsStore } from '@/stores/reports/reports';
 import { useCommonStore } from '@/stores/common'
-import { useFilterGroupsStore } from '@/stores/reports/filters'
-import { useSegmentsStore } from '@/stores/reports/segments'
-import { useBreakdownsStore } from '@/stores/reports/breakdowns'
-import { useStepsStore } from '@/stores/funnels/steps'
 import { useLexiconStore } from '@/stores/lexicon';
 
 import UiSelect from '@/components/uikit/UiSelect.vue'
@@ -95,18 +91,12 @@ const router = useRouter()
 const eventsStore = useEventsStore()
 const reportsStore = useReportsStore()
 const commonStore = useCommonStore()
-const filterGroupsStore = useFilterGroupsStore()
-const segmentsStore = useSegmentsStore()
-const breakdownsStore = useBreakdownsStore()
-const stepsStore = useStepsStore()
 const lexiconStore = useLexiconStore();
 const { confirm } = useConfirm()
 
 const editableNameReport = ref(false);
 const reportName = ref('');
 const showSyncReports = ref(false);
-
-const reportsId = computed((): number[] => reportsStore.reportsId);
 
 const items = computed(() => {
     const mapTabs = [
@@ -168,17 +158,17 @@ const onEditNameReport = (payload: boolean) => {
 
 const onDeleteReport = async () => {
     try {
-        await confirm(t('reports.deleteConfirm', { name: `<b>${reportsStore?.activeReport?.name}</b>` || '' }), {
+        confirm(t('reports.deleteConfirm', { name: `<b>${reportsStore?.activeReport?.name}</b>` || '' }), {
             applyButton: t('common.apply'),
             cancelButton: t('common.cancel'),
             title: t('reports.delete'),
             applyButtonClass: 'pf-m-danger',
         });
 
-        reportsStore.deleteReport(reportsStore.reportId);
+        await reportsStore.deleteReport(reportsStore.reportId);
 
         // reportsStore.reportId = 0;
-    } catch(error) {
+    } finally {
         reportsStore.loading = false
     }
 }
@@ -190,7 +180,7 @@ const onEditReport = () => {
 const onCreateReport = async () => {
     await reportsStore.createReport(reportName.value || untitledReportName.value, reportType.value)
 
-    router.push({
+    await router.push({
         params: {
             id: reportsStore.reportId,
         },
@@ -222,7 +212,7 @@ const setNameReport = (payload: string) => {
 }
 
 const setNew = async () => {
-    router.push(pagesMap.reportsEventSegmentation.name);
+    await router.push(pagesMap.reportsEventSegmentation.name);
 
     const routeData = router.resolve({
         name:pagesMap.reportsEventSegmentation.name,
@@ -247,23 +237,12 @@ const updateReport = async (id: number) => {
 
 const onSelectReport = async (id: number) => {
     await updateReport(id);
-    router.push({
+    await router.push({
         params: {
             id
         },
         query: route.query,
     });
-};
-
-const initReportPage = async () => {
-    const reportId =
-        (reportsId.value.includes(Number(route.params?.id)) ? route.params?.id : reportsId.value[0]) || null;
-
-    if (reportId) {
-        await onSelectReport(Number(reportId));
-    }
-
-    reportsStore.loading = false;
 };
 
 const initEventsAndProperties = async () => {
@@ -275,17 +254,15 @@ const initEventsAndProperties = async () => {
     ]);
 };
 
-onMounted(async () => {
-    reportsStore.loading = true
-    eventsStore.initPeriod();
-    await initEventsAndProperties();
-    await reportsStore.getList();
+reportsStore.loading = true
+eventsStore.initPeriod();
+await initEventsAndProperties();
+await reportsStore.getList();
 
-    if (route.params?.id && reportsStore.reportsId.includes(Number(route.params.id))) {
-        await updateReport(Number(route.params.id));
-    }
-    reportsStore.loading = false;
-})
+if (route.params?.id && reportsStore.reportsId.includes(Number(route.params.id))) {
+    await updateReport(Number(route.params.id));
+}
+reportsStore.loading = false;
 </script>
 
 <style lang="scss">

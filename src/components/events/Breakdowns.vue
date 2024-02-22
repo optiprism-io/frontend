@@ -7,6 +7,7 @@
             :selected-items="breakdowns"
             :index="i"
             :event-refs="eventRefs"
+            :has-icon="false"
             @remove-breakdown="removeBreakdown"
             @change-breakdown-property="changeBreakdownProperty"
         />

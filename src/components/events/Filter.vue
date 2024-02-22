@@ -1,8 +1,18 @@
 <template>
     <div
-        class="filter pf-l-flex"
+        class="filter pf-l-flex pf-m-nowrap"
         :class="orientationClass"
     >
+        <div
+          v-if="!hidePrefix"
+          class="pf-c-action-list__item pf-u-mb-0 pf-u-mt-xs"
+        >
+          <slot
+            name="prefix"
+          >
+            <UiIcon icon="fas fa-filter" />
+          </slot>
+        </div>
         <div
             class="filter__items pf-c-action-list"
             :class="{
@@ -13,19 +23,6 @@
                 v-if="showIdentifier"
                 :index="index"
             />
-            <div
-                v-else-if="!hidePrefix"
-                :class="{
-                    'min-w-50': minWidthPrefix,
-                }"
-                class="pf-c-action-list__item pf-u-mb-0 pf-u-mt-xs pf-u-text-align-right"
-            >
-                <slot
-                    name="prefix"
-                >
-                    {{ $t('filters.with') }}
-                </slot>
-            </div>
             <div class="pf-c-action-list__item">
                 <PropertySelect
                     v-if="filter.propRef"
@@ -207,14 +204,12 @@ type Props = {
     forPreview?: boolean;
     hidePrefix?: boolean;
     orientation?: OrientationEnum;
-    minWidthPrefix?: boolean;
 }
 
 const lexiconStore = useLexiconStore();
 
 const props = withDefaults(defineProps<Props>(), {
     orientation: OrientationTypeEnum.VERTICAL,
-    minWidthPrefix: true,
 });
 
 const elButtonMain = ref(null);
@@ -343,6 +338,15 @@ const removeValueButton = (value: Value) => {
 
 <style lang="scss">
 .filter {
+    .pf-c-action-list {
+      flex-wrap: wrap;
+      gap: 0.5rem;
+
+      & > * + * {
+        margin-left: 0;
+      }
+    }
+
     &:hover {
         .filter__control-item {
             opacity: 1;
@@ -369,23 +373,14 @@ const removeValueButton = (value: Value) => {
         .pf-c-action-list {
             &__item {
                 margin-bottom: 0;
+                margin-left: 1rem;
             }
         }
         > .pf-c-action-list {
             padding-right: 0;
         }
     }
-    &_vertical {
-        margin-bottom: 0;
-        .pf-c-action-list {
-            &__item {
-                margin-bottom: 11px;
-            }
-        }
-        > .pf-c-action-list {
-            padding-right: 30px;
-        }
-    }
+
     > .pf-c-action-list {
         position: relative;
     }
@@ -393,11 +388,6 @@ const removeValueButton = (value: Value) => {
         position: relative;
         flex-wrap: wrap;
         align-items: flex-start;
-        .multi-select__action {
-            .pf-c-action-list {
-                margin-bottom: -11px;
-            }
-        }
     }
 }
 </style>

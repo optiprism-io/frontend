@@ -1,56 +1,50 @@
 <template>
-    <TemplateReport
-        :loading="reportsLoadingInit"
-    >
-        <template #content>
-            <GridContainer>
-                <GridItem :col-lg="6">
-                    <UiCardContainer :title="$t('funnels.steps.title')">
-                        <UiCardTitle>
-                            {{ $t('funnels.steps.title') }}
-                        </UiCardTitle>
-                        <UiCardBody>
-                            <StepsList />
-                        </UiCardBody>
-                        <UiCardTitle>
-                            {{ $t('criteria.label') }}
-                        </UiCardTitle>
-                        <UiCardBody class="pf-l-flex pf-m-column">
-                            <TimeWindow />
-                            <HoldingConstantList />
-                            <ExcludeStepsList />
-                        </UiCardBody>
-                        <UiCardBody class="pf-l-flex">
-                            <ExcludeStepSelect />
-                            <HoldingConstantSelect />
-                        </UiCardBody>
-                    </UiCardContainer>
-                </GridItem>
-                <GridItem :col-lg="6">
-                    <UiCard :title="$t('funnels.userSegments')">
-                        <Segments />
-                    </UiCard>
-                </GridItem>
-                <GridItem :col-lg="6">
-                    <UiCardContainer>
-                        <FilterReports />
-                    </UiCardContainer>
-                </GridItem>
-                <GridItem :col-lg="6">
-                    <UiCard :title="$t('funnels.breakdowns')">
-                        <Breakdowns />
-                    </UiCard>
-                </GridItem>
-            </GridContainer>
-        </template>
-        <template #views>
-            <FunnelsViews />
-        </template>
-    </TemplateReport>
+  <GridContainer>
+    <GridItem :col-lg="3">
+      <GridContainer>
+        <UiCardContainer :title="$t('funnels.steps.title')">
+          <UiCardTitle>
+            {{ $t('funnels.steps.title') }}
+          </UiCardTitle>
+          <UiCardBody>
+            <StepsList />
+          </UiCardBody>
+          <UiCardTitle>
+            {{ $t('criteria.label') }}
+          </UiCardTitle>
+          <UiCardBody class="pf-l-flex pf-m-column">
+            <TimeWindow />
+            <HoldingConstantList />
+            <ExcludeStepsList />
+          </UiCardBody>
+          <UiCardBody class="pf-l-flex">
+            <ExcludeStepSelect />
+            <HoldingConstantSelect />
+          </UiCardBody>
+        </UiCardContainer>
+
+        <UiCard :title="$t('funnels.userSegments')">
+          <Segments />
+        </UiCard>
+
+        <UiCardContainer>
+          <FilterReports />
+        </UiCardContainer>
+
+        <UiCard :title="$t('funnels.breakdowns')">
+          <Breakdowns />
+        </UiCard>
+      </GridContainer>
+    </GridItem>
+
+    <GridItem :col-lg="9">
+      <FunnelsViews />
+    </GridItem>
+  </GridContainer>
 </template>
 
 <script setup lang="ts">
-import { onUnmounted, computed } from 'vue'
+import { onUnmounted } from 'vue';
 import UiCardContainer from '@/components/uikit/UiCard/UiCardContainer.vue';
 import TimeWindow from '@/components/funnels/time-window/TimeWindow.vue';
 import UiCardTitle from '@/components/uikit/UiCard/UiCardTitle.vue';
@@ -65,7 +59,6 @@ import StepsList from '@/components/funnels/steps/StepsList.vue';
 import Segments from '@/components/events/Segments/Segments.vue';
 import FunnelsViews from '@/components/funnels/view/FunnelsViews.vue';
 import FilterReports from '@/components/events/FiltersReports.vue'
-import TemplateReport from '@/components/events/TemplateReport.vue'
 import GridContainer from '@/components/grid/GridContainer.vue'
 import GridItem from '@/components/grid/GridItem.vue'
 import { funnelsToEvents } from '@/utils/reportsMappings'
@@ -74,17 +67,11 @@ import { useEventsStore } from '@/stores/eventSegmentation/events'
 import { useFilterGroupsStore } from '@/stores/reports/filters'
 import { useSegmentsStore } from '@/stores/reports/segments'
 import { useCommonStore } from '@/stores/common'
-import { useReportsStore } from '@/stores/reports/reports';
 
 const eventsStore = useEventsStore()
 const filterGroupsStore = useFilterGroupsStore()
 const segmentsStore = useSegmentsStore()
 const commonStore = useCommonStore()
-const reportsStore = useReportsStore();
-
-const reportsLoadingInit = computed(() => {
-    return reportsStore.loading && !reportsStore.list.length;
-});
 
 onUnmounted(() => {
     if (commonStore.syncReports) {
