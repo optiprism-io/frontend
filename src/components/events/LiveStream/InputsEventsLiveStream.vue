@@ -15,6 +15,7 @@
             @edit="editEvent"
             @action="selectAction"
             @remove-event="removeEvent"
+            @on-change="onChange"
         />
     </div>
     <Select
@@ -93,6 +94,10 @@ const selectAction = (payload: string) => {
 const editEvent = (payload: number) => {
     eventsStore.setEditCustomEvent(Number(payload))
     commonStore.togglePopupCreateCustomEvent(true)
+}
+
+const onChange = () => {
+    updateReport()
 }
 </script>
 

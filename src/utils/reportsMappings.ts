@@ -122,7 +122,6 @@ const computedFilter = (items: EventFilterByProperty[]) => {
         return {
             propRef: {
                 type: filter.propertyType as PropertyType,
-                id: filter?.propertyId || 0,
                 name: filter.propertyName || '',
             },
             opId: filter.operation,

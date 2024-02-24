@@ -28,7 +28,6 @@ export default function useCustomEvent(){
                         return <EventFilter>{
                             propRef: {
                                 type: filter.propertyType,
-                                id: filter.propertyId || 0,
                                 name: filter?.propertyName || '',
                             },
                             opId: filter.operation,

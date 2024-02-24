@@ -219,7 +219,7 @@ const resultEvent = computed(() => {
                             eventProps.filters.push({
                                 type: 'property',
                                 propertyType: filter.propRef.type,
-                                propertyId: filter.propRef.id,
+                                propertyName: filter.propRef.name,
                                 operation: filter.opId,
                                 value: filter.values,
                             })
@@ -293,7 +293,6 @@ onBeforeMount(async () => {
                         return {
                             propRef: {
                                 type: filter.propertyType,
-                                id: filter?.propertyId || 0,
                                 name: filter?.propertyName || '',
                             },
                             opId: filter.operation,

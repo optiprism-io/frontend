@@ -96,7 +96,6 @@ const computedValueAggregate = (item: Condition): DidEventCount | DidEventRelati
                 value: Number(item.valueItem),
                 propertyName: property.name,
                 propertyType: PropertyType.User,
-                propertyId: property.id,
                 aggregate: item.aggregate.typeAggregate as QueryAggregate,
             }
         }
@@ -158,7 +157,6 @@ export const useSegmentsStore = defineStore('segments', {
                                                 type: EventFilterByPropertyTypeEnum.Property,
                                                 propertyName: property.name,
                                                 propertyType: filterRef?.propRef.type,
-                                                propertyId: filterRef.propRef.id,
                                                 operation: filterRef.opId as PropertyFilterOperation,
                                                 value: filterRef.values,
                                             });

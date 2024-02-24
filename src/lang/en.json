@@ -142,6 +142,7 @@
     "addBreakdown": "Add Breakdown",
     "errorBreakdown": "This breakdown will not work because no event was found for the selected property",
     "breakdownTable": "Breakdown Table",
+    "selectBreakdown": "Select Breakdown",
     "event_management": {
       "event": "Event",
       "columns": {

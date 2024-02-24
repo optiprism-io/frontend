@@ -106,7 +106,6 @@ export const useFilterGroupsStore = defineStore('filter-groups', {
                                 propertyType: filter.propRef?.type || 'event',
                                 operation: filter.opId,
                                 value: filter.values,
-                                propertyId: filter.propRef?.id,
                             }
                         })
                     }

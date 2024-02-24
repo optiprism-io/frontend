@@ -24,7 +24,7 @@ export type QueryType = QuerySimpleTypeEnum | QueryCountPerGroupTypeEnum | DidEv
 
 export type PropertyRef = {
     type: PropertyType;
-    id: number,
+    id?: number,
     name: string,
 };
 
