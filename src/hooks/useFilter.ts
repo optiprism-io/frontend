@@ -45,7 +45,7 @@ export const useFilter = (): UseFilter => {
 
             try {
                 const res = await schemaService.propertyValues(projectsStore.projectId, {
-                    eventName: eventRef ? lexiconStore.eventName(eventRef) : '',
+                    eventName: eventRef?.name || '',
                     eventType: eventRef?.type as EventType,
                     propertyName: property.name || '',
                     propertyType: propRef.type

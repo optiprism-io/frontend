@@ -179,7 +179,8 @@ const addEvent = (ref: EventRef) => {
     events.value.push({
         ref: {
             type: ref.type,
-            id: ref.id
+            id: ref.id,
+            name: ref.name,
         },
         filters: [],
         breakdowns: [],

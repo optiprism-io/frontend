@@ -36,7 +36,7 @@ export enum EventStatus {
 export type EventRef = {
     type: EventType
     id: number
-    name?: string
+    name: string
 }
 
 export function eventRef(e: Event): EventRef {

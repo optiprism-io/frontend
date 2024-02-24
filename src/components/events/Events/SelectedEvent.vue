@@ -295,7 +295,7 @@ const getPropertyValues = async (propRef: PropertyRef) => {
 
     try {
         const res = await schemaService.propertyValues(projectsStore.projectId, {
-            eventName: lexiconStore.eventName(props.event.ref),
+            eventName: props.event.ref.name,
             eventType: props.event.ref.type as EventType,
             propertyName: propRef.name,
             propertyType: propRef.type

@@ -106,6 +106,7 @@ const getValues = async (props: GetValues) => {
     let valuesList: Value[] = []
 
     const res = await schemaService.propertyValues(projectsStore.projectId, {
+        eventName: props.eventName,
         propertyType: props.propertyType || PropertyType.User,
         eventType: props.eventType || EventType.Regular,
         propertyName: props.propertyName,
@@ -292,6 +293,7 @@ const mapReportToSegments = async (items: EventSegmentationSegment[]): Promise<S
                                         ref: {
                                             type: condition.aggregate.eventType as EventType,
                                             id: event.id,
+                                            name: event.name,
                                         }
                                     }
                                 }
