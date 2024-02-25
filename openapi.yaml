@@ -201,6 +201,153 @@ paths:
           $ref: '#/components/responses/Internal'
         '503':
           $ref: '#/components/responses/ServiceUnavailable'
+  /v1/organizations:
+    get:
+      summary: Organizations list
+      operationId: organizationsList
+      security:
+        - bearerAuth: [ ]
+      tags:
+        - organizations
+      responses:
+        '200':
+          $ref: '#/components/responses/ListOrganizationsResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/Internal'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+    post:
+      summary: Create organization
+      operationId: createOrganization
+      security:
+        - bearerAuth: [ ]
+      tags:
+        - projects
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateOrganizationRequest'
+      responses:
+        201:
+          description: organization
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Organization'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/Internal'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+  /v1/organizations/{organizationId}:
+    get:
+      summary: Get organizations
+      operationId: organization
+      security:
+        - bearerAuth: [ ]
+      tags:
+        - organizations
+      parameters:
+        - $ref: '#/components/parameters/OrganizationID'
+      responses:
+        200:
+          description: project
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Organization'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/Internal'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+    put:
+      summary: Update organization
+      operationId: updateOrganization
+      security:
+        - bearerAuth: [ ]
+      tags:
+        - projects
+      parameters:
+        - $ref: '#/components/parameters/OrganizationID'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateOrganizationRequest'
+      responses:
+        200:
+          description: organization
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Organization'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/Internal'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+    delete:
+      summary: Delete organization
+      operationId: deleteOrganization
+      security:
+        - bearerAuth: [ ]
+      tags:
+        - projects
+      parameters:
+        - $ref: '#/components/parameters/OrganizationID'
+      responses:
+        200:
+          description: deleted successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Organization'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/Internal'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+
   /v1/projects:
     get:
       summary: Projects list
@@ -347,7 +494,7 @@ paths:
           $ref: '#/components/responses/Internal'
         '503':
           $ref: '#/components/responses/ServiceUnavailable'
-## ##
+  ## ##
   /v1/projects/{projectId}/dashboards:
     get:
       summary: Dashboards list
@@ -1606,6 +1753,12 @@ components:
       required: true
       schema:
         type: number
+    OrganizationID:
+      name: organizationId
+      in: path
+      required: true
+      schema:
+        type: number
   responses:
     BadRequest:
       description: Bad Request
@@ -1668,6 +1821,19 @@ components:
                     type: array
                     items:
                       $ref: '#/components/schemas/Project'
+              - $ref: '#/components/schemas/ListResponseMetadata'
+    ListOrganizationsResponse:
+      description: organization list
+      content:
+        application/json:
+          schema:
+            type: object
+            allOf:
+              - properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Organization'
               - $ref: '#/components/schemas/ListResponseMetadata'
   schemas:
     LoginRequest:
@@ -1901,7 +2067,7 @@ components:
           type: string
     Project:
       type: object
-      required: ['id', 'createdAt', 'updatedAt', 'createdBy', 'updatedBy', 'name', 'sessionDurationSeconds', 'sdkToken', 'eventsCount']
+      required: [ 'id', 'createdAt', 'updatedAt', 'createdBy', 'creator','updatedBy', 'name', 'sessionDurationSeconds', 'sdkToken', 'eventsCount' ]
       properties:
         id:
           type: integer
@@ -1915,6 +2081,8 @@ components:
         createdBy:
           type: integer
           format: int64
+        creator:
+          type: string
         updatedBy:
           type: integer
           format: int64
@@ -1944,14 +2112,19 @@ components:
     Organization:
       type: object
       properties:
-        teams:
-          type: array
-          items:
-            type: integer
-        users:
-          type: array
-          items:
-            type: integer
+        name:
+          type: string
+    CreateOrganizationRequest:
+      type: object
+      required: [ 'name' ]
+      properties:
+        name:
+          type: string
+    UpdateOrganizationRequest:
+      type: object
+      properties:
+        name:
+          type: string
     GroupRecord:
       type: object
       required: [ 'id', 'group', 'properties' ]
@@ -2679,7 +2852,6 @@ components:
             - $ref: '#/components/schemas/TimeLast'
         group:
           type: string
-          description: group that is used in aggregations by group. For instance, group by user or group by organizartion.
           example: user
         steps:
           type: array
