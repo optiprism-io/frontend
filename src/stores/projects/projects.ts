@@ -26,7 +26,6 @@ interface ProjectsListItem {
 }
 
 const STORAGE_PROJECT_ID_KEY = 'projectId'
-export const DEFAULT_SESSION_DURATION = 0
 
 export const useProjectsStore = defineStore('projects', {
   state: (): ProjectState => ({

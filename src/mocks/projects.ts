@@ -2,13 +2,19 @@ import { Project } from '@/api'
 import { generateUUID } from '@/utils/generateUuid'
 import { getRandomValue } from '@/utils/getRandomValue'
 
+interface PostProject {
+  name: string
+  sessionDurationSeconds?: number
+}
+
 export const getNewProject = ({
   name,
   sessionDurationSeconds,
-}: Pick<Project, 'name' | 'sessionDurationSeconds'>): Project => ({
+}: PostProject): Project => ({
   id: getRandomValue(),
-  sessionDurationSeconds,
+  sessionDurationSeconds: sessionDurationSeconds || 86400,
   name,
+  creator: 'admin',
   createdAt: Date.now().toString(),
   updatedAt: Date.now().toString(),
   createdBy: Date.now(),
