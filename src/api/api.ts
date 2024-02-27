@@ -7369,7 +7369,7 @@ export const QueryApiAxiosParamCreator = function (configuration?: Configuration
         funnelQuery: async (projectId: number, funnelQuery?: FunnelQuery, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'projectId' is not null or undefined
             assertParamExists('funnelQuery', 'projectId', projectId)
-            const localVarPath = `/projects/{projectId}/queries/funnel`
+            const localVarPath = `/v1/projects/{projectId}/queries/funnel`
                 .replace(`{${"projectId"}}`, encodeURIComponent(String(projectId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);

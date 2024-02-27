@@ -42,12 +42,12 @@ type LiveStream = {
 }
 
 const getParamsEventsForRequest = (events: Event[]): EventRecordRequestEvent[] => {
-  return events.map(event => {
-    return {
+  return events.reduce((items: EventRecordRequestEvent[], event) => {
+    const item: EventRecordRequestEvent = {
       eventName: event.ref.name,
       eventType: event.ref.type as EventType,
       filters: event.filters.reduce((acc: EventFilterByProperty[], item) => {
-        if (item?.propRef) {
+        if (item?.propRef && Array.isArray(item.values) && item.values.length) {
           acc.push({
             type: 'property',
             propertyType: item.propRef.type,
@@ -56,10 +56,20 @@ const getParamsEventsForRequest = (events: Event[]): EventRecordRequestEvent[] =
             value: item.values,
           })
         }
-        return acc
-      }, []),
+
+        return acc;
+      }, [])
     }
-  })
+
+    if (!item.filters?.length) {
+      delete item.filters
+    }
+
+    if (item.eventName) {
+      items.push(item)
+    }
+    return items;
+  }, [])
 }
 
 export const useLiveStreamStore = defineStore('liveStream', {

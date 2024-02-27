@@ -222,8 +222,6 @@ const setNew = async () => {
 const onSelectTab = (value: string) => {
   if (value === pagesMap.reportsEventSegmentation.name) {
     reportsStore.emptyReport()
-  } else {
-    location.reload()
   }
 }
 

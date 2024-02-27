@@ -151,9 +151,10 @@ const initEventsAndProperties = async () => {
 }
 
 onMounted(async () => {
-  liveStreamStore.loading = true
   await initEventsAndProperties()
-  liveStreamStore.getReportLiveStream()
+  if (liveStreamStore.events.length) {
+    liveStreamStore.getReportLiveStream()
+  }
 })
 
 const propertyPopupApply = async (payload: ApplyPayload) => {

@@ -23,9 +23,11 @@ import {
   QueryAggregateProperty,
   QueryAggregate,
   QuerySimple,
+  QuerySimpleTypeEnum,
   QueryCountPerGroup,
   QueryFormula,
   BreakdownByProperty,
+  EventSegmentationEventAllOfQueries,
 } from '@/api'
 
 import { useLexiconStore } from '@/stores/lexicon'
@@ -205,9 +207,8 @@ export const useEventsStore = defineStore('events', {
           return {
             eventType: item.ref.type as EventType,
             eventName: eventLexicon.name,
-            queries: item.queries
-              .filter(query => query.queryRef)
-              .map((query): Query => {
+            queries: item.queries.reduce((acc, query) => {
+              if (query.queryRef) {
                 const type = query.queryRef?.type
 
                 if (query?.queryRef?.propRef) {
@@ -219,42 +220,40 @@ export const useEventsStore = defineStore('events', {
                   }
 
                   if (type === QueryAggregatePropertyTypeEnum.AggregateProperty) {
-                    return {
+                    acc.push({
                       ...(prop as QueryAggregateProperty),
                       type: QueryAggregatePropertyTypeEnum.AggregateProperty,
-                    }
+                    })
                   }
 
                   if (
                     type === QueryAggregatePropertyPerGroupTypeEnum.AggregatePropertyPerGroup &&
                     query.queryRef.typeGroupAggregate
                   ) {
-                    return {
+                    acc.push({
                       ...prop,
                       aggregatePerGroup: query.queryRef.typeGroupAggregate || QueryAggregate.Avg,
                       type: QueryAggregatePropertyPerGroupTypeEnum.AggregatePropertyPerGroup,
-                    }
+                    })
                   }
-                }
-
-                if (query?.queryRef?.type === QueryCountPerGroupTypeEnum.CountPerGroup) {
-                  return {
+                } else if (query?.queryRef?.type === QueryCountPerGroupTypeEnum.CountPerGroup) {
+                  acc.push({
                     type: QueryCountPerGroupTypeEnum.CountPerGroup,
                     aggregate: query.queryRef.typeAggregate || QueryAggregate.Avg,
-                  }
-                }
-
-                if (query.queryRef?.type === QueryFormulaTypeEnum.Formula) {
-                  return {
+                  })
+                } else if (query.queryRef?.type === QueryFormulaTypeEnum.Formula) {
+                  acc.push({
                     type: QueryFormulaTypeEnum.Formula,
                     formula: query.queryRef.value || '',
-                  }
+                  })
+                } else if (query.queryRef?.type) {
+                  acc.push({
+                    type: query.queryRef?.type,
+                  } as QuerySimple)
                 }
-
-                return {
-                  type: query.queryRef?.type,
-                } as QuerySimple
-              }),
+              }
+              return acc
+            }, [] as EventSegmentationEventAllOfQueries[]),
             breakdowns: item.breakdowns.map(item => {
               return {
                 type: 'property',
@@ -264,7 +263,7 @@ export const useEventsStore = defineStore('events', {
             }),
             filters: item.filters.reduce(
               (acc: EventFilterByProperty[], item): EventFilterByProperty[] => {
-                if (item.propRef) {
+                if (item.propRef && item.values.length) {
                   acc.push({
                     type: 'property',
                     propertyName: item.propRef?.name || '',
@@ -279,9 +278,16 @@ export const useEventsStore = defineStore('events', {
             ),
           }
         }),
-        filters: filterGroupsStore.filters,
-        segments: segmentsStore.segmentationItems,
-        breakdowns: breakdownsStore.breakdownsItems,
+      }
+
+      if (breakdownsStore.isSelectedAnyBreakdown) {
+        props.breakdowns = breakdownsStore.breakdownsItems
+      }
+      if (segmentsStore.isSelectedAnySegments) {
+        props.segments = segmentsStore.segmentationItems
+      }
+      if (filterGroupsStore.isSelectedAnyFilter) {
+        props.filters = filterGroupsStore.filters
       }
 
       return props

@@ -272,7 +272,9 @@ const calendarValueString = computed(() => {
 })
 
 const updateReport = () => {
-  liveStreamStore.getReportLiveStream()
+  if (liveStreamStore.events.length) {
+    liveStreamStore.getReportLiveStream()
+  }
 }
 
 const onSelectPerion = (payload: string) => {
