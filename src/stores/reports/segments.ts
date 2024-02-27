@@ -328,14 +328,12 @@ export const useSegmentsStore = defineStore('segments', {
             let valuesList: Value[] = []
 
             try {
-                const lexiconStore = useLexiconStore()
                 const projectsStore = useProjectsStore()
-
 
                 const res = await schemaService.propertyValues(projectsStore.projectId, {
                     eventName: eventRef.name,
                     eventType: eventRef.type,
-                    propertyName: lexiconStore.propertyName(propRef),
+                    propertyName: propRef.name,
                     propertyType: propRef.type
                 })
 

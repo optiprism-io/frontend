@@ -1,8 +1,7 @@
 import { defineStore } from 'pinia'
 import { EventRef, PropertyRef } from '@/types/events'
 import { EventBreakdown } from '@/stores/eventSegmentation/events'
-import { BreakdownByProperty, PropertyType } from '@/api'
-import { useLexiconStore } from '@/stores/lexicon'
+import { BreakdownByProperty } from '@/api'
 
 export type BreakdownUserProperty = {
   type: string
@@ -125,13 +124,11 @@ export const useBreakdownsStore = defineStore('breakdowns', {
       return Boolean(this.breakdowns.length)
     },
     breakdownsItems(): BreakdownByProperty[] {
-      const lexiconStore = useLexiconStore()
-
       return this.breakdowns.map(item => {
         return {
           type: 'property',
           propertyType: item.propRef?.type as BreakdownByProperty['propertyType'],
-          propertyName: item.propRef ? lexiconStore.propertyName(item.propRef) : '',
+          propertyName: item.propRef?.name || '',
         }
       })
     },
