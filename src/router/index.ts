@@ -35,6 +35,7 @@ export const pagesMap = {
   profile: 'profile',
   projectsSettings: 'projectsSettings',
   integration: 'integration',
+  org: 'org',
   orgOverview: 'orgOverview',
   orgProjects: 'orgProjects',
 }
@@ -156,15 +157,26 @@ const routes: RouteRecordRaw[] = [
       {
         path: 'organization/:id',
         redirect: { name: pagesMap.orgOverview },
+        name: pagesMap.org,
+        meta: {
+          breadcrumb: 'Organization',
+        },
+        component: () => import('@/pages/organization/OrganizationPage.vue'),
         children: [
           {
             path: 'overview',
             name: pagesMap.orgOverview,
+            meta: {
+              breadcrumb: 'Overview',
+            },
             component: () => import('@/pages/organization/OrganizationOverview.vue'),
           },
           {
             path: 'projects',
             name: pagesMap.orgProjects,
+            meta: {
+              breadcrumb: 'Projects',
+            },
             component: () => import('@/pages/organization/OrganizationProjects.vue'),
           },
         ],
