@@ -448,15 +448,28 @@ export const useSegmentsStore = defineStore('segments', {
             }
         },
         async changePropertyCondition(idx: number, idxSegment: number, ref: PropertyRef) {
-            const segment = this.segments[idxSegment];
-
+            const segment = this.segments[idxSegment]
             if (segment && segment.conditions) {
                 const condition = segment.conditions[idx]
+                if (condition) {
+                    condition.propRef = ref
+                    condition.opId = OperationId.Eq
+                    condition.values = []
+                    condition.period = {
+                        type: 'each',
+                    }
+                    condition.each = 'day'
+                }
+            }
+        },
+        async getConditionValue(idx: number, idxSegment: number) {
+            const segment = this.segments[idxSegment];
+
+            if (segment?.conditions) {
+                const projectsStore = useProjectsStore()
+                const condition = segment.conditions[idx];
 
                 if (condition) {
-                    const lexiconStore = useLexiconStore()
-                    const projectsStore = useProjectsStore()
-
                     try {
                         const res = await schemaService.propertyValues(projectsStore.projectId, {
                             eventName: condition.event?.ref.name,
@@ -469,15 +482,8 @@ export const useSegmentsStore = defineStore('segments', {
                             condition.valuesList = res.data.data
                         }
                     } catch (error) {
-                        throw new Error('error getEventsValues')
+                        throw new Error('Error Get Condition Value')
                     }
-                    condition.propRef = ref
-                    condition.opId = OperationId.Eq
-                    condition.values = []
-                    condition.period = {
-                        type: 'each',
-                    }
-                    condition.each = 'day'
                 }
             }
         },

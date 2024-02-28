@@ -13,6 +13,7 @@
             @on-remove="deleteSegment"
             @on-rename="onRenameSegment"
             @add-condition="addCondition"
+            @on-click-value="onClickValue"
         />
         <div
             v-if="!props.hideAddSegmentButton"
@@ -112,6 +113,10 @@ const onRenameSegment = (name: string, idx: number) => segmentsStore.renameSegme
 const addCondition = (idx: number, ref?: { id: string, name: string }) => {
     segmentsStore.addConditionSegment(idx, ref);
 };
+
+const onClickValue = (idx: number, idxSegment: number) => {
+    segmentsStore.getConditionValue(idx, idxSegment)
+}
 
 const changeActionCondition = (idx: number, idxSegment: number, ref: { id: string, name: string }) => {
     const segment = segmentsStore.segments[idxSegment];
