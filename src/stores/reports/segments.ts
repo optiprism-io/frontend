@@ -126,14 +126,11 @@ export const useSegmentsStore = defineStore('segments', {
         segments: [],
     }),
     getters: {
-        isSelectedAnySegments(): boolean {
-            return Boolean(this.segments.length)
-        },
         segmentationItems(): EventSegmentationSegment[] {
             const lexiconStore = useLexiconStore()
 
-            return this.segments.map(segment => {
-                return {
+            return this.segments.reduce((acc: EventSegmentationSegment[], segment) => {
+                const item = {
                     name: segment.name,
                     conditions: segment.conditions ? segment.conditions.reduce((items: EventSegmentationSegmentConditionsInner[], item) => {
                         if (item.action?.id === SegmentConditionDidEventTypeEnum.DidEvent && item.event) {
@@ -174,10 +171,6 @@ export const useSegmentsStore = defineStore('segments', {
                             items.push(condition)
                         }
 
-                        // if (EventGroupedFiltersGroupsConditionEnum.And === item.action?.id || EventGroupedFiltersGroupsConditionEnum.Or === item.action?.id) {
-                        //     items.push(item.action?.id)
-                        // }
-
                         if (item.propRef && item.action?.id) {
                             const property: Property | undefined = item.propRef.type === PropertyType.Event ? lexiconStore.findEventPropertyByName(item.propRef.name) : lexiconStore.findUserPropertyByName(item.propRef.name)
 
@@ -211,7 +204,16 @@ export const useSegmentsStore = defineStore('segments', {
                         return items
                     }, []) : [],
                 }
-            })
+
+                if (item.conditions.length) {
+                    acc.push(item)
+                }
+
+                return acc;
+            }, [])
+        },
+        isSelectedAnySegments(): boolean {
+            return Boolean(this.segmentationItems.length)
         },
     },
     actions: {
