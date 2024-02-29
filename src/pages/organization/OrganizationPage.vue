@@ -33,7 +33,7 @@ const breadcrumbs = computed(() =>
   route.matched
     .filter(r => r.path)
     .map(route => ({
-      title: route.meta.breadcrumb,
+      title: route.name?.toString() || '',
       to: route.path,
     }))
 )
