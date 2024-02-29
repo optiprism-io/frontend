@@ -155,11 +155,18 @@ const routes: RouteRecordRaw[] = [
         component: () => import('@/pages/ProjectSettings.vue'),
       },
       {
-        path: 'organization/:id',
+        /* This route is not using now */
+        beforeEnter: () => pagesMap.dashboards.name,
+        path: 'organizations',
+        name: 'organizations',
+        component: () => import('@/pages/organization/OrganizationList.vue'),
+      },
+      {
+        path: 'organizations/:id',
         redirect: { name: pagesMap.orgOverview },
         name: pagesMap.org,
         meta: {
-          breadcrumb: 'Organization',
+          breadcrumb: 'Organizations',
         },
         component: () => import('@/pages/organization/OrganizationPage.vue'),
         children: [
