@@ -45,10 +45,7 @@ const router = useRouter()
 const i18n = inject<any>('i18n')
 
 const projectsStore = useProjectsStore()
-const { getProject } = projectsStore
 const { project, isLoading } = storeToRefs(projectsStore)
-
-getProject()
 
 const activeTab = computed(() => route.params.integration)
 

@@ -25,10 +25,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, computed } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
 import { storeToRefs } from 'pinia'
-import { pagesMap } from '@/router'
 
 import UiSpinner from '@/components/uikit/UiSpinner.vue'
 import UiCard from '@/components/uikit/UiCard/UiCard.vue'
@@ -37,29 +34,8 @@ import { useProjectsStore } from '@/stores/projects/projects'
 import ProjectsForm from '@/components/projects/ProjectsForm.vue'
 
 const projectsStore = useProjectsStore()
-const route = useRoute()
-const router = useRouter()
 
-const {
-  getProject,
-  saveProjectName,
-  saveSessionDuration,
-  clearErrorName,
-  clearErrorSessionDuration,
-} = projectsStore
-const { isLoading, errors, isEdit } = storeToRefs(projectsStore)
-
-const project = computed(() => projectsStore.project)
-
-onMounted(() => {
-  projectsStore.isLoading = true
-
-  if (Number(route?.params?.id) !== Number(projectsStore.projectId)) {
-    router.replace({
-      name: pagesMap.dashboards.name,
-    })
-  } else {
-    getProject()
-  }
-})
+const { saveProjectName, saveSessionDuration, clearErrorName, clearErrorSessionDuration } =
+  projectsStore
+const { isLoading, errors, isEdit, project } = storeToRefs(projectsStore)
 </script>
