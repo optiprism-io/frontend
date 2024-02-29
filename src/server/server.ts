@@ -16,12 +16,12 @@ import groupRecordsMocks from '@/mocks/groupRecords.json'
 import profileMocks from '@/mocks/profile'
 import { profileRoutes } from '@/server/services/profile.service'
 import { EMPTY_SUCCESS_RES, nanoid } from '@/server/constants'
-import { getRandomTiming } from '@/server/utils/getRandomTiming'
 import { projectsRoutes } from '@/server/services/projects.service'
 import projectsMocks from '@/mocks/projects'
 import { authRoutes } from '@/server/services/auth.service'
 import { organizationsRoutes } from '@/server/services/organizations.service'
 import { organizations } from '@/mocks/organizations'
+import { faker } from '@faker-js/faker'
 
 const urlPrefix = BASE_PATH + '/' + import.meta.env.VITE_API_VERSION
 
@@ -55,8 +55,8 @@ export default function ({ environment = 'development', isSeed = true } = {}) {
         environment,
         urlPrefix,
 
-        /* timing of all requests */
-        timing: getRandomTiming(),
+        /* timing of all requests. Min and max are random milliseconds for request */
+        timing: faker.number.int({ min: 0, max: 0 }),
 
         seeds(server) {
             server.db.loadData(isSeed ? dbTemplate : emptyDbTemplate);
