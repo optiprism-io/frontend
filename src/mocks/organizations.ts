@@ -1,10 +1,8 @@
-import { Organization } from '@/api'
+import { Organization } from '@/server/models/Organization'
+import { faker } from '@faker-js/faker'
 
 export const orgId = 1
 
-export const organizations: Organization[] = [
-  {
-    id: orgId,
-    name: 'Stub Company',
-  },
-]
+export const organizations = faker.helpers.multiple(() => new Organization({ id: orgId }), {
+  count: 1,
+})
