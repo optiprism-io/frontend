@@ -36,6 +36,7 @@ export const pagesMap = {
   projectsSettings: 'projectsSettings',
   integration: 'integration',
   organizations: 'organizations',
+  organizationList: 'organizationsList',
   organization: 'organization',
   orgOverview: 'overview',
   orgProjects: 'projects',
@@ -156,30 +157,36 @@ const routes: RouteRecordRaw[] = [
         component: () => import('@/pages/ProjectSettings.vue'),
       },
       {
-        /* This route is not using now */
-        beforeEnter: () => pagesMap.dashboards.name,
         path: 'organizations',
-        name: 'organizations',
-        component: () => import('@/pages/organization/OrganizationList.vue'),
-      },
-      {
-        path: 'organizations/:id',
-        redirect: { name: pagesMap.orgOverview },
-        name: pagesMap.organization,
-        component: () => import('@/pages/organization/OrganizationPage.vue'),
+        name: pagesMap.organizations,
+        redirect: { name: pagesMap.organizationList },
         children: [
           {
-            path: 'overview',
-            name: pagesMap.orgOverview,
-            component: () => import('@/pages/organization/OrganizationOverview.vue'),
+            path: '',
+            name: pagesMap.organizationList,
+            component: () => import('@/pages/organization/OrganizationList.vue'),
           },
           {
-            path: 'projects',
-            name: pagesMap.orgProjects,
-            component: () => import('@/pages/organization/OrganizationProjects.vue'),
+            path: ':id',
+            redirect: { name: pagesMap.orgOverview },
+            name: pagesMap.organization,
+            component: () => import('@/pages/organization/OrganizationPage.vue'),
+            children: [
+              {
+                path: 'overview',
+                name: pagesMap.orgOverview,
+                component: () => import('@/pages/organization/OrganizationOverview.vue'),
+              },
+              {
+                path: 'projects',
+                name: pagesMap.orgProjects,
+                component: () => import('@/pages/organization/OrganizationProjects.vue'),
+              },
+            ],
           },
         ],
       },
+
       {
         path: 'integration',
         redirect: {
