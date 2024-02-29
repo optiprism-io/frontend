@@ -1,9 +1,15 @@
 <template>
   <div>
-    <h1>Organization Overview</h1>
+    <h2>{{ organization.name }}</h2>
   </div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { Organization } from '@/api'
 
-<style scoped lang="scss"></style>
+interface IProps {
+  organization: Organization
+}
+
+defineProps<IProps>()
+</script>

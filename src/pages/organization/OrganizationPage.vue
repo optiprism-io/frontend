@@ -7,7 +7,7 @@
 
       <section class="pf-c-page__main-section pf-m-light">
         <div class="pf-c-page__main-body">
-          <RouterView class="pf-c-content" />
+          <RouterView class="pf-c-content" :organization="organization" />
         </div>
       </section>
     </main>
@@ -20,6 +20,7 @@ import { pagesMap } from '@/router'
 import UiBreadcrumbs from '@/components/uikit/UiBreadcrumbs.vue'
 import UiPageSidebar from '@/components/uikit/UiPageSidebar.vue'
 import { useRoute } from 'vue-router'
+import { schemaOrganizations } from '@/api/services/organizations.service'
 
 const route = useRoute()
 
@@ -36,6 +37,8 @@ const breadcrumbs = computed(() =>
       to: route.path,
     }))
 )
+
+const { data: organization } = await schemaOrganizations.getOrganization(+route.params.id)
 </script>
 
 <style scoped lang="scss">
