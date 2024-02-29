@@ -20,6 +20,8 @@ import { getRandomTiming } from '@/server/utils/getRandomTiming'
 import { projectsRoutes } from '@/server/services/projects.service'
 import projectsMocks from '@/mocks/projects'
 import { authRoutes } from '@/server/services/auth.service'
+import { organizationsRoutes } from '@/server/services/organizations.service'
+import { organizations } from '@/mocks/organizations'
 
 const urlPrefix = BASE_PATH + '/' + import.meta.env.VITE_API_VERSION
 
@@ -34,6 +36,7 @@ const dbTemplate: { [k: string]: any } = {
   groupRecords: groupRecordsMocks,
   liveStreamMocks: liveStreamMocks,
   projects: projectsMocks,
+  organizations: organizations,
 }
 
 const requiredTemplate = {
@@ -269,6 +272,7 @@ export default function ({ environment = 'development', isSeed = true } = {}) {
             authRoutes(this),
             profileRoutes(this)
             projectsRoutes(this)
+            organizationsRoutes(this)
         }
     });
 }
