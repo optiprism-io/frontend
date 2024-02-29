@@ -283,9 +283,10 @@ export const useEventsStore = defineStore('events', {
       if (breakdownsStore.isSelectedAnyBreakdown) {
         props.breakdowns = breakdownsStore.breakdownsItems
       }
-      if (segmentsStore.isSelectedAnySegments) {
-        props.segments = segmentsStore.segmentationItems
-      }
+      // TODO feature
+      // if (segmentsStore.isSelectedAnySegments) {
+      //   props.segments = segmentsStore.segmentationItems
+      // }
       if (filterGroupsStore.isSelectedAnyFilter) {
         props.filters = filterGroupsStore.filters
       }
