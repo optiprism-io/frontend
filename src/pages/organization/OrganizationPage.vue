@@ -29,14 +29,27 @@ const items = computed(() => [
   { title: 'Projects', to: { name: pagesMap.orgProjects } },
 ])
 
-const breadcrumbs = computed(() =>
-  route.matched
-    .filter(r => r.path)
-    .map(route => ({
-      title: route.name?.toString() || '',
-      to: route,
-    }))
-)
+const breadcrumbs = computed(() => {
+  const routesWithoutRoot = route.matched.filter(r => r.path)
+
+  const breadcrumbs = routesWithoutRoot.map(route => ({
+    title: route.name?.toString() || '',
+    to: route,
+    isActive: false,
+  }))
+
+  const modifiedBreadcrumbs = breadcrumbs.map((breadcrumb, index) => {
+    if (breadcrumb.to.name === pagesMap.organization) {
+      return {
+        ...breadcrumb,
+        title: organization.name,
+      }
+    }
+    return breadcrumb
+  })
+
+  return modifiedBreadcrumbs
+})
 
 const { data: organization } = await schemaOrganizations.getOrganization(+route.params.id)
 </script>
