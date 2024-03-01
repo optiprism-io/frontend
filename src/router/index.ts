@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
-import { checkCreatedProject, checkIntegration, isAuth } from '@/router/routerGuards'
+import { checkCreatedProject, isAuth } from '@/router/routerGuards'
 
 export enum SDKIntegration {
   javascript = 'javascript',
@@ -195,10 +195,10 @@ const routes: RouteRecordRaw[] = [
         },
         children: [
           {
-            path: ':integration',
+            /* TODO: change regexp to ":integration(javascript|android|ios)" when pages ios and android are added */
+            path: ':integration(javascript)',
             name: pagesMap.integration,
             component: () => import('@/pages/IntegrationPage.vue'),
-            beforeEnter: [checkIntegration],
           },
         ],
       },
