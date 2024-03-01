@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import projectsService from '@/api/services/projects.service'
+import { schemaProjects } from '@/api/services/projects.service'
 import { Project, UpdateProjectRequest } from '@/api'
 import { safeParse } from 'valibot'
 import { moreThanZeroNumber, notEmptyString } from '@/utils/validationSchemes'
@@ -90,7 +90,7 @@ export const useProjectsStore = defineStore('projects', {
       this.isLoading = true
       try {
         if (!this.projectId) throw Error
-        const { data } = await projectsService.project(this.projectId)
+        const { data } = await schemaProjects.project(this.projectId)
         this.project = data
       } catch (error) {
         throw new Error('error get project')
@@ -101,7 +101,7 @@ export const useProjectsStore = defineStore('projects', {
     async getProjectsList() {
       this.isLoading = true
       try {
-        const res = await projectsService.projectsList()
+        const res = await schemaProjects.projectsList()
 
         this.projects = res.data?.data || []
       } catch (error) {
@@ -180,12 +180,12 @@ export const useProjectsStore = defineStore('projects', {
 
     async __updateProject(req: UpdateProjectRequest) {
       if (!this.projectId) throw Error
-      const { data } = await projectsService.updateProject(this.projectId, req)
+      const { data } = await schemaProjects.updateProject(this.projectId, req)
 
       if (data) {
-        this.projects = this.projects.map((item) => {
-          return Number(item.id) === Number(data.id) ? data : item;
-        });
+        this.projects = this.projects.map(item => {
+          return Number(item.id) === Number(data.id) ? data : item
+        })
       }
       this.project = data
     },

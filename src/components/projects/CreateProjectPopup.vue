@@ -23,7 +23,7 @@ import { onMounted, ref } from 'vue'
 import UiPopupWindow from '@/components/uikit/UiPopupWindow.vue'
 import UiInput from '@/components/uikit/UiInput.vue'
 import UiFormLabel from '@/components/uikit/UiFormLabel.vue'
-import projectsService from '@/api/services/projects.service'
+import { schemaProjects } from '@/api/services/projects.service'
 import { Project } from '@/api'
 import { useFocus } from '@vueuse/core'
 
@@ -42,7 +42,7 @@ const projectName = ref('')
 async function createProject() {
   if (!projectName.value.trim()) return
 
-  const { data } = await projectsService.createProject({
+  const { data } = await schemaProjects.createProject({
     name: projectName.value,
   })
   emit('created-project', data)
