@@ -85,10 +85,7 @@
         </Select>
       </div>
       <div v-if="queryInfo?.hasValue" class="pf-c-action-list__item">
-        <UiInput
-          :value="queryValue"
-          @input="changeFormula"
-        />
+        <UiInput :value="queryValue" @input="changeFormula" />
       </div>
       <div
         v-if="!noDelete"
@@ -152,8 +149,6 @@ const showProperty = computed(() => queryInfo.value?.hasProperty)
 const property = computed(() => {
   return props.item?.queryRef?.propRef ? lexiconStore.property(props.item?.queryRef?.propRef) : null
 })
-
-const propertySelectError = computed(() => props.item?.queryRef?.propRef && !property.value)
 
 const propertyName = computed((): string => property.value?.name || '')
 

@@ -33,8 +33,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, defineAsyncComponent, PropType } from 'vue';
-import { debounce } from 'lodash';
+import { computed, PropType } from 'vue';
 import { EventQueryRef, EventRef, PropertyRef } from '@/types/events';
 import { useEventsStore, EventPayload } from '@/stores/eventSegmentation/events';
 import { useLexiconStore } from '@/stores/lexicon';
@@ -121,11 +120,7 @@ const editEvent = (payload: number) => {
     onChange();
 }
 
-const onChangeDebounce = debounce(() => {
-    emit('on-change');
-}, 1000);
-
 const onChange = () => {
-    onChangeDebounce();
+    emit('on-change');
 };
 </script>

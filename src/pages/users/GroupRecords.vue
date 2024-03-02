@@ -10,7 +10,7 @@
             <Segments
                 :is-one="true"
                 :hide-add-segment-button="true"
-                @get-event-segmentation="getEventSegmentationDebounce"
+                @get-event-segmentation="updateData"
             />
         </UiCard>
         <template #main>
@@ -69,7 +69,6 @@ import UiCellToolMenu from '@/components/uikit/cells/UiCellToolMenu.vue';
 import UiTablePressedCell from '@/components/uikit/UiTable/UiTablePressedCell.vue';
 import PropertiesManagementPopup from '@/components/groups/PropertiesManagementPopup.vue';
 import { shortPeriodDays } from '@/components/uikit/UiCalendar/UiCalendar.config';
-import { debounce } from 'lodash';
 
 const i18n = inject('i18n') as I18N;
 const groupStore = useGroupStore();
@@ -143,10 +142,6 @@ const items = computed(() => {
         ]
     })
 });
-
-const getEventSegmentationDebounce = debounce(() => {
-    updateData()
-}, 2000);
 
 const onAction = (payload: Action) => {
     const item = groupStore.items.find(item => item.id === payload.type);

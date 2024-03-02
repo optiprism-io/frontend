@@ -7,15 +7,15 @@
           </UiCard>
 
           <UiCardContainer class="filter-event-segmentation__item" >
-            <FilterReports @on-change="onChangeDebounce" />
+            <FilterReports @on-change="onChange" />
           </UiCardContainer>
 
           <UiCard class="filter-event-segmentation__item"  :title="$t('events.segments.label')">
-            <Segments @on-change="onChangeDebounce" />
+            <Segments @on-change="onChange" />
           </UiCard>
 
           <UiCard class="filter-event-segmentation__item"  :title="$t('events.breakdowns')">
-            <Breakdowns @on-change="onChangeDebounce" />
+            <Breakdowns @on-change="onChange" />
           </UiCard>
       </GridContainer>
     </GridItem>
@@ -25,7 +25,7 @@
         :event-segmentation="eventSegmentation"
         :loading="eventSegmentationLoading"
         :report="activeReport"
-        @on-change="onChangeDebounce"
+        @on-change="onChange"
       />
     </GridItem>
   </GridContainer>
@@ -33,7 +33,6 @@
 
 <script setup lang="ts">
 import { onUnmounted, ref, computed, watch } from 'vue'
-import { debounce } from 'lodash'
 import Events from '@/components/events/Events/Events.vue'
 import Breakdowns from '@/components/events/Breakdowns.vue'
 import Segments from '@/components/events/Segments/Segments.vue'
@@ -113,10 +112,6 @@ const onChange = () => {
   getEventSegmentation()
   emit('on-change')
 }
-
-const onChangeDebounce = debounce(() => {
-  onChange()
-}, 1100)
 
 watch(
   () => reportsStore.updateToEmpty,

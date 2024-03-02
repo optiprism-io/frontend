@@ -32,7 +32,6 @@
 
 <script lang="ts" setup>
 import { computed, inject, provide } from 'vue';
-import { debounce } from 'lodash';
 import { OperationId, Value } from '@/types'
 import {
     ChangeEventCondition,
@@ -198,13 +197,9 @@ const onChange = () => {
     emit('on-change');
 };
 
-const onChangeDebounce = debounce(() => {
-    onChange();
-}, 1100);
-
 segmentsStore.$subscribe((mutation) => {
     if (mutation.type === 'direct') {
-        onChangeDebounce();
+        onChange();
     }
 });
 </script>

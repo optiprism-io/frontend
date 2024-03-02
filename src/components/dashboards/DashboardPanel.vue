@@ -27,7 +27,6 @@
 
 <script lang="ts" setup>
 import { ref, computed, onMounted, watch } from 'vue'
-import { debounce } from 'lodash'
 import { pagesMap } from '@/router'
 import {
   Report,
@@ -64,8 +63,6 @@ const props = defineProps<{
   reportId?: number
   heightChart?: number
 }>()
-
-const DebounceUpdate = 700
 
 const loading = ref(false)
 const eventSegmentation = ref<DataTableResponse>()
@@ -175,19 +172,19 @@ watch(
   }
 )
 
-const onChangeDebounce = debounce(() => {
+const onChange = () => {
   updateState()
-}, DebounceUpdate)
+};
 
 filterGroupsStore.$subscribe(mutation => {
   if (mutation.type === 'direct') {
-    onChangeDebounce()
+    onChange()
   }
 })
 
 eventsStore.$subscribe(mutation => {
   if (mutation.type === 'direct') {
-    onChangeDebounce()
+    onChange()
   }
 })
 </script>

@@ -41,7 +41,7 @@ export const getReport = (type: ReportType) => {
   const segmentsStore = useSegmentsStore()
   const stepsStore = useStepsStore()
 
-  return {
+  const report = {
     time:
       type === ReportType.EventSegmentation
         ? (eventsStore.timeRequest as EventRecordsListRequestTime)
@@ -60,13 +60,23 @@ export const getReport = (type: ReportType) => {
       type === ReportType.EventSegmentation
         ? eventsStore?.propsForEventSegmentationResult?.events || []
         : [],
-    filters: filterGroupsStore.filters as EventGroupedFilters,
-    breakdowns: breakdownsStore.breakdownsItems as BreakdownByProperty[],
-    segments: segmentsStore.segmentationItems as EventSegmentationSegment[],
     steps: stepsStore.getSteps as FunnelQueryStepsInner[],
     holdingConstants: stepsStore.getHoldingProperties as PropertyRef[],
     exclude: stepsStore.getExcluded,
   } as ReportQuery
+
+  if (filterGroupsStore.isSelectedAnyFilter) {
+    report.filters = filterGroupsStore.filters
+  }
+
+  if (breakdownsStore.isSelectedAnyBreakdown) {
+    report.breakdowns = breakdownsStore.breakdownsItems as BreakdownByProperty[]
+  }
+
+  if (segmentsStore.isSelectedAnySegments) {
+    report.segments = segmentsStore.segmentationItems as EventSegmentationSegment[]
+  }
+  return report
 }
 
 export const useReportsStore = defineStore('reports', {
@@ -93,8 +103,8 @@ export const useReportsStore = defineStore('reports', {
   },
   actions: {
     emptyReport() {
-        this.reportId = 0
-        this.updateToEmpty = true
+      this.reportId = 0
+      this.updateToEmpty = true
     },
     updateDump(type: ReportType) {
       this.reportDumpType = type
@@ -132,6 +142,9 @@ export const useReportsStore = defineStore('reports', {
     async editReport(name: string, type: ReportType) {
       this.saveLoading = true
       const projectsStore = useProjectsStore()
+
+      console.log('INFO - ', ':')
+      console.log('INFO - ', 'getReport:', getReport(type))
       await reportsService.updateReport(projectsStore.projectId, Number(this.reportId), {
         name,
         query: getReport(type),

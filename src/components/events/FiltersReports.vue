@@ -19,7 +19,6 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import { debounce } from 'lodash'
 import UiCardTitle from '@/components/uikit/UiCard/UiCardTitle.vue'
 import UiCardBody from '@/components/uikit/UiCard/UiCardBody.vue'
 import FilterGroupsList from '@/components/funnels/filters/FilterGroupsList.vue'
@@ -77,13 +76,9 @@ const onChange = () => {
   emit('on-change')
 }
 
-const onChangeDebounce = debounce(() => {
-  onChange()
-}, 1100)
-
 filterGroupsStore.$subscribe(mutation => {
   if (mutation.type === 'direct') {
-    onChangeDebounce()
+    onChange()
   }
 })
 </script>

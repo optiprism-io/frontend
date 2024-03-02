@@ -192,26 +192,12 @@ const mapReportToEvents = (items: EventSegmentationEvent[]): Event[] => {
 }
 
 const mapReportToFilterGroups = async (items: EventGroupedFiltersGroupsInner[]): Promise<FilterGroup[]> => {
-    const projectsStore = useProjectsStore()
-
-    return await Promise.all(items.map(async (item): Promise<FilterGroup> => {
+    return items.map((item): FilterGroup => {
         return {
             condition: item.filtersCondition,
-            filters: item.filters ? await Promise.all(item.filters.map(async (filter): Promise<Filter> => {
-                let valuesList: Value[] = []
-                try {
-                    const res = await schemaService.propertyValues(projectsStore.projectId, {
-                        propertyName: filter.propertyName || '',
-                        propertyType: filter.propertyType,
-                        eventType: EventType.Regular,
-                    })
+            filters: item.filters ? item.filters.map((filter): Filter => {
+                const valuesList: Value[] = []
 
-                    if (res.data.data) {
-                        valuesList = res.data.data
-                    }
-                } catch (error) {
-                    throw new Error('error get values');
-                }
                 return {
                     propRef: {
                         type: filter.propertyType,
@@ -222,9 +208,9 @@ const mapReportToFilterGroups = async (items: EventGroupedFiltersGroupsInner[]):
                     values: filter.value || [],
                     valuesList: valuesList as string[] | boolean[] | number[],
                 }
-            })) : []
+            }) : []
         }
-    }))
+    })
 }
 
 const mapReportToSegments = async (items: EventSegmentationSegment[]): Promise<Segment[]> => {
@@ -443,7 +429,6 @@ export const reportToStores = async (id: number) => {
                         filters: [],
                     }
                 ];
-        filterGroupsStore.isFiltersAdvanced = Boolean(filterGroupsStore.filterGroups.length);
         segmentsStore.segments = report?.query?.segments ? await mapReportToSegments(report.query.segments) : []
         breakdownsStore.breakdowns = report?.query?.breakdowns ? mapReportToBreakdowns(report.query.breakdowns) : []
         eventsStore.chartType = report?.query?.chartType as ChartType

@@ -85,7 +85,6 @@ const changeFilterPropertyForGroup = async (filterIndex: number, payload: Proper
         filterIndex,
         filter: {
             propRef: payload,
-            valuesList: await filterHelpers.getValues(payload),
         }
     });
 }
@@ -153,6 +152,9 @@ onUnmounted(() => {
 .dashboard-filter-toolbar {
     .pf-c-action-list__item.filter__control-item {
         margin-left: 0 !important;
+    }
+    .filter_horizontal .pf-c-action-list__item {
+        margin-left: 0;
     }
 }
 </style>

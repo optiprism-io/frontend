@@ -201,67 +201,87 @@ export const useEventsStore = defineStore('events', {
         analysis: {
           type: 'linear',
         },
-        events: this.events.map((item): EventSegmentationEvent => {
+        events: this.events.reduce((acc, item) => {
           const eventLexicon = lexiconStore.findEvent(item.ref)
 
-          return {
+          const event: EventSegmentationEvent = {
             eventType: item.ref.type as EventType,
             eventName: eventLexicon.name,
             queries: item.queries.reduce((acc, query) => {
               if (query.queryRef) {
                 const type = query.queryRef?.type
 
-                if (query?.queryRef?.propRef) {
-                  const prop = {
-                    type: type,
-                    propertyType: query.queryRef.propRef.type,
-                    propertyName: query.queryRef.propRef.name,
-                    aggregate: query.queryRef.typeAggregate || QueryAggregate.Avg,
-                  }
-
-                  if (type === QueryAggregatePropertyTypeEnum.AggregateProperty) {
+                switch (type) {
+                  case QueryFormulaTypeEnum.Formula:
                     acc.push({
-                      ...(prop as QueryAggregateProperty),
-                      type: QueryAggregatePropertyTypeEnum.AggregateProperty,
+                      formula: query.queryRef.value || '',
+                      type: type,
                     })
-                  }
-
-                  if (
-                    type === QueryAggregatePropertyPerGroupTypeEnum.AggregatePropertyPerGroup &&
-                    query.queryRef.typeGroupAggregate
-                  ) {
+                    break
+                  case QuerySimpleTypeEnum.CountEvents:
+                  case QuerySimpleTypeEnum.CountUniqueGroups:
+                  case QuerySimpleTypeEnum.DailyActiveGroups:
+                  case QuerySimpleTypeEnum.WeeklyActiveGroups:
+                  case QuerySimpleTypeEnum.MonthlyActiveGroups:
                     acc.push({
-                      ...prop,
-                      aggregatePerGroup: query.queryRef.typeGroupAggregate || QueryAggregate.Avg,
-                      type: QueryAggregatePropertyPerGroupTypeEnum.AggregatePropertyPerGroup,
+                      type: query.queryRef?.type,
+                    } as QuerySimple)
+                    break
+                  case QueryAggregatePropertyPerGroupTypeEnum.AggregatePropertyPerGroup:
+                  case QueryAggregatePropertyTypeEnum.AggregateProperty:
+                    if (query?.queryRef?.propRef) {
+                      const prop = {
+                        type: type,
+                        propertyType: query.queryRef.propRef.type,
+                        propertyName: query.queryRef.propRef.name,
+                        aggregate: query.queryRef.typeAggregate || QueryAggregate.Avg,
+                      }
+
+                      if (type === QueryAggregatePropertyTypeEnum.AggregateProperty) {
+                        acc.push({
+                          ...(prop as QueryAggregateProperty),
+                          type: QueryAggregatePropertyTypeEnum.AggregateProperty,
+                        })
+                      }
+
+                      if (
+                        type === QueryAggregatePropertyPerGroupTypeEnum.AggregatePropertyPerGroup &&
+                        query.queryRef.typeGroupAggregate
+                      ) {
+                        acc.push({
+                          ...prop,
+                          aggregatePerGroup:
+                            query.queryRef.typeGroupAggregate || QueryAggregate.Avg,
+                          type: QueryAggregatePropertyPerGroupTypeEnum.AggregatePropertyPerGroup,
+                        })
+                      }
+                    }
+                    break
+                  case QueryCountPerGroupTypeEnum.CountPerGroup:
+                    acc.push({
+                      type: QueryCountPerGroupTypeEnum.CountPerGroup,
+                      aggregate: query.queryRef.typeAggregate || QueryAggregate.Avg,
                     })
-                  }
-                } else if (query?.queryRef?.type === QueryCountPerGroupTypeEnum.CountPerGroup) {
-                  acc.push({
-                    type: QueryCountPerGroupTypeEnum.CountPerGroup,
-                    aggregate: query.queryRef.typeAggregate || QueryAggregate.Avg,
-                  })
-                } else if (query.queryRef?.type === QueryFormulaTypeEnum.Formula) {
-                  acc.push({
-                    type: QueryFormulaTypeEnum.Formula,
-                    formula: query.queryRef.value || '',
-                  })
-                } else if (query.queryRef?.type) {
-                  acc.push({
-                    type: query.queryRef?.type,
-                  } as QuerySimple)
+                    break
                 }
               }
+
               return acc
             }, [] as EventSegmentationEventAllOfQueries[]),
-            breakdowns: item.breakdowns.map(item => {
+          }
+
+          if (item.breakdowns.length) {
+            event.breakdowns = item.breakdowns.map(item => {
               return {
                 type: 'property',
                 propertyType: item.propRef?.type as BreakdownByProperty['propertyType'],
                 propertyName: item.propRef?.name || '',
               }
-            }),
-            filters: item.filters.reduce(
+            })
+          }
+
+          if (item.filters.length) {
+            event.filters = item.filters.reduce(
               (acc: EventFilterByProperty[], item): EventFilterByProperty[] => {
                 if (item.propRef && item.values.length) {
                   acc.push({
@@ -275,9 +295,15 @@ export const useEventsStore = defineStore('events', {
                 return acc
               },
               []
-            ),
+            )
           }
-        }),
+
+          if (event.queries.length) {
+            acc.push(event)
+          }
+
+          return acc
+        }, [] as EventSegmentationEvent[]),
       }
 
       if (breakdownsStore.isSelectedAnyBreakdown) {
