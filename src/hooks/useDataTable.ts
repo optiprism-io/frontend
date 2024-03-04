@@ -128,10 +128,9 @@ export default function useDataTable(
         lineChart = metricValueColumns.reduce((acc: any[], item: DataTableResponseColumnsInner) => {
             if (item.data) {
                 item.data.forEach((value, indexValue: number) => {
-
                     acc.push({
                         date: item.name ? new Date(item.name) : '',
-                        value,
+                        value: value ?? 0,
                         category: dimensionColumns.map((column: DataTableResponseColumnsInner) => {
                             return column.data ? column.data[indexValue] : ''
                         }).filter(item => Boolean(item)).join(', '),
