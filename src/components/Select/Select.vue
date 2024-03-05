@@ -123,6 +123,10 @@ const description = ref()
 
 const firstElement = computed(() => props.items[0])
 
+const searchHelper = (value: string, filter: string): boolean => {
+  return value.toLowerCase().indexOf(filter) > -1
+}
+
 const selectedItem = computed(() => {
   if (props.grouped) {
     return selectedItemLocal.value || props.selected || firstElement.value?.items[0]?.item
@@ -136,9 +140,7 @@ const itemsWithSearch = computed(() => {
     if (props.grouped) {
       return props.items.reduce((acc: Group<any>[], item: Group<any>) => {
         const innerItems: Item<any, any>[] = item.items.filter((item: Item<any, any>) => {
-          const name = item.name.toLowerCase()
-
-          return name.search(search.value) === 0
+          return searchHelper(item.name, search.value)
         })
 
         if (innerItems.length) {
@@ -152,7 +154,7 @@ const itemsWithSearch = computed(() => {
       }, [])
     } else {
       return props.items.filter((item: any) => {
-        return item.name.toLowerCase().indexOf(search.value) > -1
+        return searchHelper(item.name, search.value)
       })
     }
   } else {
