@@ -27,7 +27,7 @@ type Reports = {
   list: Report[]
   loading: boolean
   saveLoading: boolean
-  reportId: number
+  reportId: number | null
   reportDump: string
   reportDumpType: ReportType
   updateToEmpty: boolean
@@ -83,7 +83,7 @@ export const useReportsStore = defineStore('reports', {
   state: (): Reports => ({
     list: [],
     loading: true,
-    reportId: 0,
+    reportId: null,
     saveLoading: false,
     reportDump: '',
     reportDumpType: ReportType.EventSegmentation,
@@ -103,7 +103,7 @@ export const useReportsStore = defineStore('reports', {
   },
   actions: {
     emptyReport() {
-      this.reportId = 0
+      this.reportId = null
       this.updateToEmpty = true
     },
     updateDump(type: ReportType) {

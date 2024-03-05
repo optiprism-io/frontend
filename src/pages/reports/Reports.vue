@@ -165,7 +165,11 @@ const onDeleteReport = async () => {
       }
     )
 
-    await reportsStore.deleteReport(reportsStore.reportId)
+    if (reportsStore.reportId !== null) {
+      await reportsStore.deleteReport(reportsStore.reportId)
+      reportsStore.reportId = null
+    }
+
     await reportsStore.getList()
     reportsStore.emptyReport()
   } catch (error) {

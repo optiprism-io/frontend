@@ -5,21 +5,17 @@
           <UiCard class="filter-event-segmentation__item" :title="$t('events.events')">
             <Events @on-change="onChange" />
           </UiCard>
-
           <UiCardContainer class="filter-event-segmentation__item" >
             <FilterReports @on-change="onChange" />
           </UiCardContainer>
-
           <UiCard class="filter-event-segmentation__item"  :title="$t('events.segments.label')">
             <Segments @on-change="onChange" />
           </UiCard>
-
           <UiCard class="filter-event-segmentation__item"  :title="$t('events.breakdowns')">
             <Breakdowns @on-change="onChange" />
           </UiCard>
       </GridContainer>
     </GridItem>
-
     <GridItem :col-lg="9">
       <EventsViews
         :event-segmentation="eventSegmentation"
@@ -61,7 +57,6 @@ const reportsStore = useReportsStore()
 
 const eventSegmentationLoading = ref(false)
 const eventSegmentation = ref<DataTableResponse | null>()
-const previusEventSegmentationBody = ref('')
 
 const emit = defineEmits<{
   (e: 'on-change'): void
@@ -80,16 +75,10 @@ onUnmounted(() => {
 })
 
 const getEventSegmentation = async () => {
-  const eventSegmentationBody = JSON.stringify(eventsStore.propsForEventSegmentationResult);
-
-  if (
-      eventsStore.propsForEventSegmentationResult.events.length &&
-      previusEventSegmentationBody.value !== eventSegmentationBody
-    ) {
+  if (eventsStore.propsForEventSegmentationResult.events.length) {
     eventSegmentationLoading.value = true
 
     try {
-      previusEventSegmentationBody.value = eventSegmentationBody
 
       const res = await reportsService.eventSegmentation(
         projectsStore.projectId,
@@ -108,7 +97,6 @@ const getEventSegmentation = async () => {
 }
 
 const onChange = () => {
-  // TODO check who update in start
   getEventSegmentation()
   emit('on-change')
 }
@@ -118,6 +106,7 @@ watch(
   value => {
     if (value === true) {
       eventsStore.$reset()
+      eventsStore.events = []
       filterGroupsStore.$reset()
       segmentsStore.$reset()
       getEventSegmentation()
