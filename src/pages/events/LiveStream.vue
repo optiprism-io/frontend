@@ -15,11 +15,18 @@
 </template>
 
 <script lang="ts" setup>
+import { onMounted } from 'vue'
 import InputsEventsLiveStream from '@/components/events/LiveStream/InputsEventsLiveStream.vue'
 import TableLiveStream from '@/components/events/LiveStream/TableLiveStream.vue'
 import ToolsLayout from '@/layout/tools/ToolsLayout.vue'
 import UiCard from '@/components/uikit/UiCard/UiCard.vue'
 import UiCardContainer from '@/components/uikit/UiCard/UiCardContainer.vue'
+import { useLiveStreamStore } from '@/stores/reports/liveStream'
+const liveStreamStore = useLiveStreamStore()
+
+onMounted(() => {
+  liveStreamStore.getReportLiveStream()
+})
 </script>
 
 <style lang="scss"></style>
