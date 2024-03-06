@@ -7,6 +7,8 @@ import {
   TimeFrom,
   TimeLast,
   PropertyFilterOperation,
+  EventRecordsListRequest,
+  DataTableResponseColumnsInner,
 } from '@/api'
 import { Event } from '@/stores/eventSegmentation/events'
 import dataService from '@/api/services/datas.service'
@@ -34,9 +36,8 @@ type LiveStream = {
     last: number
     type: string
   }
-  reports: Array<Report | object> | any
+  columns: Array<DataTableResponseColumnsInner>
   activeColumns: string[]
-  defaultColumns: string[]
   loading: boolean
   eventPopup: boolean
 }
@@ -57,8 +58,8 @@ const getParamsEventsForRequest = (events: Event[]): EventRecordRequestEvent[] =
           })
         }
 
-        return acc;
-      }, [])
+        return acc
+      }, []),
     }
 
     if (!item.filters?.length) {
@@ -68,7 +69,7 @@ const getParamsEventsForRequest = (events: Event[]): EventRecordRequestEvent[] =
     if (item.eventName) {
       items.push(item)
     }
-    return items;
+    return items
   }, [])
 }
 
@@ -82,9 +83,8 @@ export const useLiveStreamStore = defineStore('liveStream', {
       type: 'last',
       last: 30,
     },
-    reports: [],
+    columns: [],
     activeColumns: [],
-    defaultColumns: ['eventName', 'customEvents', 'createdAt'],
     loading: false,
     eventPopup: false,
   }),
@@ -105,13 +105,13 @@ export const useLiveStreamStore = defineStore('liveStream', {
         case 'since':
           return {
             type: 'from',
-            from: this.period.from,
+            from: new Date(this.period.from).toJSON(),
           }
         case 'between':
           return {
             type: this.period.type,
-            from: this.period.from,
-            to: this.period.to,
+            from: new Date(this.period.from).toJSON(),
+            to: new Date(this.period.to).toJSON(),
           }
         default:
           return {
@@ -121,48 +121,8 @@ export const useLiveStreamStore = defineStore('liveStream', {
           }
       }
     },
-    columnsMapObject() {
-      const properties: string[] = []
-      const userProperties: string[] = []
-
-      this.reports.forEach((item: Report) => {
-        Object.keys(item.properties).forEach((key: string) => {
-          if (key !== 'createdAt') {
-            properties.push(key)
-          }
-        })
-        if (item.userProperties) {
-          Object.keys(item.userProperties).forEach((key: string) => {
-            userProperties.push(key)
-          })
-        }
-      })
-
-      return {
-        properties: [...new Set(properties)],
-        userProperties: [...new Set(userProperties)],
-      }
-    },
-    columnsMap(): string[] {
-      const items: string[] = []
-
-      this.reports.forEach((item: Report) => {
-        Object.keys(item.properties).forEach((key: string) => {
-          if (key !== 'createdAt') {
-            items.push(key)
-          }
-        })
-        if (item.userProperties) {
-          Object.keys(item.userProperties).forEach((key: string) => {
-            items.push(key)
-          })
-        }
-      })
-
-      return [...new Set(items)]
-    },
     isNoData(): boolean {
-      return !this.reports.length && !this.loading
+      return !this.columns.length && !this.loading
     },
   },
   actions: {
@@ -177,16 +137,18 @@ export const useLiveStreamStore = defineStore('liveStream', {
       this.loading = true
       const projectsStore = useProjectsStore()
       try {
-        const res = await dataService.createEventsStream(projectsStore.projectId, {
+        const props: EventRecordsListRequest = {
           time: this.timeRequest,
-          events: getParamsEventsForRequest(this.events),
-        })
-        if (Array.isArray(res?.data)) {
-          this.reports = res.data
+        }
 
-          if (this.columnsMap) {
-            this.activeColumns = this.columnsMap
-          }
+        if (this.events.length) {
+          props.events = getParamsEventsForRequest(this.events)
+        }
+
+        const res = await dataService.createEventsStream(projectsStore.projectId, props)
+
+        if (Array.isArray(res?.data?.columns)) {
+          this.columns = res.data.columns
         }
       } catch (error) {
         throw new Error('error request createEventsStream')

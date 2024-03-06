@@ -146,13 +146,13 @@ export const useEventsStore = defineStore('events', {
         case 'since':
           return {
             type: TimeFromTypeEnum.From,
-            from: this.period.from,
+            from: new Date(this.period.from).toJSON(),
           }
         case 'between':
           return {
             type: TimeBetweenTypeEnum.Between,
-            from: this.period.from,
-            to: this.period.to,
+            from: new Date(this.period.from).toJSON(),
+            to: new Date(this.period.to).toJSON(),
           }
         default:
           return {

@@ -119,7 +119,9 @@
                                 >
                                     <component
                                         :is="cell.component || UiTableCell"
-                                        v-bind="cell"
+                                        :value="cell.value"
+                                        :title="cell.title"
+                                        :nowrap="cell.nowrap"
                                         :style="null"
                                         @on-action="onAction"
                                     />
