@@ -281,7 +281,7 @@ export const useEventsStore = defineStore('events', {
           }
 
           if (item.filters.length) {
-            event.filters = item.filters.reduce(
+            const filters = item.filters.reduce(
               (acc: EventFilterByProperty[], item): EventFilterByProperty[] => {
                 if (item.propRef && item.values.length) {
                   acc.push({
@@ -296,6 +296,10 @@ export const useEventsStore = defineStore('events', {
               },
               []
             )
+
+            if (filters.length) {
+              event.filters = filters;
+            }
           }
 
           if (event.queries.length) {

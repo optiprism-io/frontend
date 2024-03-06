@@ -36,6 +36,7 @@ import {
   FunnelQuery,
   EventSegmentation as EventSegmentationType,
   EventRecordsListRequestTime,
+  EventGroupedFiltersGroupsInnerFiltersInner,
 } from '@/api'
 
 import reportsService from '@/api/services/reports.service'
@@ -103,10 +104,30 @@ const getEventSegmentation = async () => {
   if (report.value?.query) {
     try {
       const query = report.value.query as EventSegmentationType
+
       if (filterGroupsStore.isSelectedAnyFilter) {
-        query.filters = filterGroupsStore.filters
-      }
-      if (ifChangeAnyInFilterTime.value) {
+        const filters = filterGroupsStore.filters.groups[0].filters.reduce(
+          (acc: EventGroupedFiltersGroupsInnerFiltersInner[], filter) => {
+            if (filter.value?.length) {
+              acc.push(filter)
+            }
+
+            return acc
+          },
+          []
+        )
+
+        if (filters.length) {
+          query.filters = {
+            groupsCondition: 'and',
+            groups: [
+              {
+                filtersCondition: 'and',
+                filters,
+              },
+            ],
+          }
+        }
         query.time = filterTime.value
       }
       if (query.events.length) {
@@ -174,7 +195,7 @@ watch(
 
 const onChange = () => {
   updateState()
-};
+}
 
 filterGroupsStore.$subscribe(mutation => {
   if (mutation.type === 'direct') {
