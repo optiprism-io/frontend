@@ -146,7 +146,7 @@
       </router-link>
     </DataEmptyPlaceholder>
     <DashboardReportsPopup
-      v-if="dashboardReportsPopup"
+      v-if="visibleReportsPopup"
       :reports="reportsList"
       :loading="false"
       @on-select-report="onSelectReport"
@@ -207,7 +207,7 @@ interface Layout extends DashboardPanelType {
 
 const layout = ref<Layout[]>([])
 const editableNameDashboard = ref(false)
-const dashboardReportsPopup = ref(false)
+const visibleReportsPopup = ref(false)
 const dashboardName = ref('')
 const activeDashboardId = ref<number | null>(null)
 const editPanel = ref<number | null>(null)
@@ -381,7 +381,7 @@ const onDeleteDashboard = async () => {
   }
 }
 
-const onSelectReport = async (payload: number) => {
+const onSelectReport = (payload: number) => {
   const items = layout.value
   const panelIndex = items.findIndex(item => Number(item.i) === editPanel.value)
   items[panelIndex].reportId = payload
@@ -391,7 +391,7 @@ const onSelectReport = async (payload: number) => {
 }
 
 const closeDashboardReportsPopup = () => {
-  dashboardReportsPopup.value = false
+  visibleReportsPopup.value = false
   editPanel.value = null
 }
 
@@ -421,7 +421,7 @@ const selectReportDropdown = async (payload: UiDropdownItem<string>, id: number)
   }
   if (payload.value === 'edit') {
     editPanel.value = id
-    dashboardReportsPopup.value = true
+    visibleReportsPopup.value = true
   }
 }
 

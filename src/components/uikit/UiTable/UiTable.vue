@@ -119,6 +119,7 @@
                                 >
                                     <component
                                         :is="cell.component || UiTableCell"
+                                        :action="cell.action"
                                         :value="cell.value"
                                         :title="cell.title"
                                         :nowrap="cell.nowrap"

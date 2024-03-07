@@ -363,7 +363,13 @@
     "deleteConfirm": "You definitely want to delete the dashboard: :name?",
     "addReport": "Add report",
     "untitledDashboard": "Untitled Dashboard",
-    "changeReport": "Change report"
+    "changeReport": "Change report",
+    "report": {
+      "columns": {
+        "name": "Name",
+        "description": "Description"
+      }
+    }
   },
   "profile": {
     "title": "Profile",
