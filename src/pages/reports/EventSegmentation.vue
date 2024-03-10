@@ -75,6 +75,7 @@ onUnmounted(() => {
 })
 
 const getEventSegmentation = async () => {
+console.info('INFO:', 'why!!!!!!!!');
   if (eventsStore.propsForEventSegmentationResult.events.length) {
     eventSegmentationLoading.value = true
 

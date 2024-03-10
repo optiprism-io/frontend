@@ -38,25 +38,22 @@ const emit = defineEmits<{
 const eventRefs = computed(() => eventsStore.events.map(item => item.ref))
 const breakdowns = computed(() => breakdownsStore.breakdowns)
 
-const changeBreakdownProperty = (breakdownIdx: number, propRef: PropertyRef) => {
-  breakdownsStore.changeBreakdownProperty(breakdownIdx, propRef)
-}
-
-const addBreakdown = (propRef: PropertyRef): void => {
-  breakdownsStore.addBreakdown(propRef)
-}
-
-const removeBreakdown = (idx: number): void => {
-  breakdownsStore.removeBreakdown(idx)
-}
-
 const onChange = () => {
   emit('on-change')
 }
 
-breakdownsStore.$subscribe(mutation => {
-  if (mutation.type === 'direct') {
-    onChange()
-  }
-})
+const changeBreakdownProperty = (breakdownIdx: number, propRef: PropertyRef) => {
+  breakdownsStore.changeBreakdownProperty(breakdownIdx, propRef)
+  onChange()
+}
+
+const addBreakdown = (propRef: PropertyRef): void => {
+  breakdownsStore.addBreakdown(propRef)
+  onChange()
+}
+
+const removeBreakdown = (idx: number): void => {
+  breakdownsStore.removeBreakdown(idx)
+  onChange()
+}
 </script>
