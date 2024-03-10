@@ -142,9 +142,6 @@ export const useReportsStore = defineStore('reports', {
     async editReport(name: string, type: ReportType) {
       this.saveLoading = true
       const projectsStore = useProjectsStore()
-
-      console.log('INFO - ', ':')
-      console.log('INFO - ', 'getReport:', getReport(type))
       await reportsService.updateReport(projectsStore.projectId, Number(this.reportId), {
         name,
         query: getReport(type),
