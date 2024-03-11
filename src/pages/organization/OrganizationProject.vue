@@ -20,10 +20,10 @@ import { useProjectSettings } from '@/pages/projectSettings/useProjectSettings'
 import { Project } from '@/api'
 import ProjectsForm from '@/components/projects/ProjectsForm.vue'
 import UiSpinner from '@/components/uikit/UiSpinner.vue'
+import { useMutation } from '@/hooks/useMutation'
 
 const route = useRoute()
 const projectID = +route.params.projectId
-const isLoading = ref(false)
 
 const {
   errors,
@@ -36,25 +36,21 @@ const {
 } = useProjectSettings()
 
 const project = ref<Project | null>(null)
-await updateProject()
+const { isLoading, mutate: updProject } = useMutation(updateProject)
+updProject()
 
 async function saveProjectNameHandler(name: string) {
   await saveProjectName(projectID, name)
-  await updateProject()
+  await updProject()
 }
 
 async function saveSessionDurationHandler(duration: number) {
   await saveSessionDuration(projectID, duration)
-  await updateProject()
+  await updProject()
 }
 
 async function updateProject() {
-  isLoading.value = true
-  try {
-    project.value = await getProject(projectID)
-  } finally {
-    isLoading.value = false
-  }
+  project.value = await getProject(projectID)
 }
 </script>
 
