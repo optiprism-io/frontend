@@ -157,7 +157,7 @@ const routes: RouteRecordRaw[] = [
       {
         path: 'projects/:id/settings',
         name: pagesMap.projectsSettings,
-        component: () => import('@/pages/ProjectSettings.vue'),
+        component: () => import('@/pages/projectSettings/ProjectSettings.vue'),
       },
       {
         path: 'organizations',

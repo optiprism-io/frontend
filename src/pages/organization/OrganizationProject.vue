@@ -16,7 +16,7 @@
 <script setup lang="ts">
 import { useRoute } from 'vue-router'
 import { ref } from 'vue'
-import { useProjectSettings } from '@/pages/useProjectSettings'
+import { useProjectSettings } from '@/pages/projectSettings/useProjectSettings'
 import { Project } from '@/api'
 import ProjectsForm from '@/components/projects/ProjectsForm.vue'
 import UiSpinner from '@/components/uikit/UiSpinner.vue'

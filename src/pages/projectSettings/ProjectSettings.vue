@@ -32,7 +32,7 @@ import ProjectsForm from '@/components/projects/ProjectsForm.vue'
 import { ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { Project } from '@/api'
-import { useProjectSettings } from '@/pages/useProjectSettings'
+import { useProjectSettings } from '@/pages/projectSettings/useProjectSettings'
 
 const route = useRoute()
 const projectID = +route.params.id
