@@ -1,5 +1,5 @@
 import { Organization as IOrganization } from '@/api'
-import { faker } from '@faker-js/faker'
+import { faker } from '@/server/faker'
 
 export class Organization implements IOrganization {
   id: IOrganization['id']

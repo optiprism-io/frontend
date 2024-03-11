@@ -21,7 +21,7 @@ import projectsMocks from '@/mocks/projects'
 import { authRoutes } from '@/server/services/auth.service'
 import { organizationsRoutes } from '@/server/services/organizations.service'
 import { organizations } from '@/mocks/organizations'
-import { faker } from '@faker-js/faker'
+import { faker } from '@/server/faker'
 
 const urlPrefix = BASE_PATH + '/' + import.meta.env.VITE_API_VERSION
 

@@ -1,5 +1,5 @@
 import { Project as IProject } from '@/api'
-import { faker } from '@faker-js/faker'
+import { faker } from '@/server/faker'
 
 export class Project implements IProject {
   id: IProject['id']
