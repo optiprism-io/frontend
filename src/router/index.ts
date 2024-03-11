@@ -36,11 +36,14 @@ export const pagesMap = {
   projectsSettings: 'projectsSettings',
   integration: 'integration',
   organizations: 'organizations',
-  organizationList: 'organizationsList',
+  organizationList: 'organizationList',
   organization: 'organization',
-  orgOverview: 'overview',
-  orgProjects: 'projects',
+  organizationOverview: 'organizationOverview',
+  organizationProjectList: 'organizationProjectList',
+  organizationProject: 'organizationProject',
 }
+
+const ONLY_NUMBER_REG_EXP = '(\\d+)'
 
 const routes: RouteRecordRaw[] = [
   {
@@ -160,6 +163,9 @@ const routes: RouteRecordRaw[] = [
         path: 'organizations',
         name: pagesMap.organizations,
         redirect: { name: pagesMap.organizationList },
+        meta: {
+          breadcrumb: 'Organizations',
+        },
         children: [
           {
             path: '',
@@ -167,20 +173,36 @@ const routes: RouteRecordRaw[] = [
             component: () => import('@/pages/organization/OrganizationList.vue'),
           },
           {
-            path: ':id',
-            redirect: { name: pagesMap.orgOverview },
+            path: ':id' + ONLY_NUMBER_REG_EXP,
+            redirect: { name: pagesMap.organizationOverview },
             name: pagesMap.organization,
             component: () => import('@/pages/organization/OrganizationPage.vue'),
             children: [
               {
                 path: 'overview',
-                name: pagesMap.orgOverview,
+                name: pagesMap.organizationOverview,
                 component: () => import('@/pages/organization/OrganizationOverview.vue'),
+                meta: {
+                  breadcrumb: 'Overview',
+                },
               },
               {
                 path: 'projects',
-                name: pagesMap.orgProjects,
+                name: pagesMap.organizationProjectList,
                 component: () => import('@/pages/organization/OrganizationProjects.vue'),
+                meta: {
+                  breadcrumb: 'Projects',
+                },
+                children: [
+                  {
+                    path: ':projectId' + ONLY_NUMBER_REG_EXP,
+                    name: pagesMap.organizationProject,
+                    component: () => import('@/pages/organization/OrganizationProject.vue'),
+                    meta: {
+                      breadcrumb: 'Project',
+                    },
+                  },
+                ],
               },
             ],
           },

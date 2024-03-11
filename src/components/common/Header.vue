@@ -99,7 +99,7 @@ const userMenu = computed<UiDropdownItem<MenuValues>[]>(() => {
       value: userMenuMap.ORGANIZATION,
       nameDisplay: i18n.$t('userMenu.organizationSettings'),
       to: {
-        name: pagesMap.orgOverview,
+        name: pagesMap.organizationOverview,
         params: { id: authStore.decodedAccessToken?.organizationId },
       },
     },

@@ -1,5 +1,6 @@
 <template>
-  <div>
+  <RouterView v-if="route.name === pagesMap.organizationProject" />
+  <div v-else>
     <div class="pf-l-flex pf-m-justify-content-space-between">
       <h2>Projects</h2>
       <UiButton class="pf-m-primary" :before-icon="'fas fa-plus'" @click="setShowCreatePopup(true)">
@@ -31,10 +32,11 @@ import UiButton from '@/components/uikit/UiButton.vue'
 import CreateProjectPopup from '@/components/projects/CreateProjectPopup.vue'
 import { useToggle } from '@vueuse/core'
 import UiCellToolMenu from '@/components/uikit/cells/UiCellToolMenu.vue'
-import { useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { pagesMap } from '@/router'
 
 const router = useRouter()
+const route = useRoute()
 const projectsStore = useProjectsStore()
 
 enum Actions {
@@ -71,15 +73,7 @@ const columns: Column[] = [
 
 async function onAction(payload: Action) {
   if (payload.name === Actions.edit) {
-    /*
-     Now the project settings page is made for the selected project,
-      so you need to make the project selected before going to the page,
-      it might be worth redoing this approach,
-      but for this you need to redo the logic on the project settings page
-    */
-    projectsStore.setProjectId(Number(payload.type))
-    await projectsStore.getProject()
-    await router.push({ name: pagesMap.projectsSettings, params: { id: payload.type } })
+    await router.push({ name: pagesMap.organizationProject, params: { projectId: payload.type } })
   }
 }
 

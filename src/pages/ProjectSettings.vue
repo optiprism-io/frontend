@@ -15,8 +15,8 @@
             :errors="errors"
             @input-name="clearErrorName"
             @input-duration="clearErrorSessionDuration"
-            @save-project-name="saveProjectName"
-            @save-session-duration="saveSessionDuration"
+            @save-project-name="saveProjectNameHandler"
+            @save-session-duration="saveSessionDurationHandler"
           />
         </UiCard>
       </template>
@@ -25,17 +25,48 @@
 </template>
 
 <script setup lang="ts">
-import { storeToRefs } from 'pinia'
-
 import UiSpinner from '@/components/uikit/UiSpinner.vue'
 import UiCard from '@/components/uikit/UiCard/UiCard.vue'
 import ToolsLayout from '@/layout/tools/ToolsLayout.vue'
-import { useProjectsStore } from '@/stores/projects/projects'
 import ProjectsForm from '@/components/projects/ProjectsForm.vue'
+import { ref } from 'vue'
+import { useRoute } from 'vue-router'
+import { Project } from '@/api'
+import { useProjectSettings } from '@/pages/useProjectSettings'
 
-const projectsStore = useProjectsStore()
+const route = useRoute()
+const projectID = +route.params.id
+const isLoading = ref(false)
 
-const { saveProjectName, saveSessionDuration, clearErrorName, clearErrorSessionDuration } =
-  projectsStore
-const { isLoading, errors, isEdit, project } = storeToRefs(projectsStore)
+const {
+  errors,
+  isEdit,
+  getProject,
+  clearErrorName,
+  clearErrorSessionDuration,
+  saveProjectName,
+  saveSessionDuration,
+} = useProjectSettings()
+
+const project = ref<Project | null>(null)
+await updateProject()
+
+async function saveProjectNameHandler(name: string) {
+  await saveProjectName(projectID, name)
+  await updateProject()
+}
+
+async function saveSessionDurationHandler(duration: number) {
+  await saveSessionDuration(projectID, duration)
+  await updateProject()
+}
+
+async function updateProject() {
+  isLoading.value = true
+  try {
+    project.value = await getProject(projectID)
+  } finally {
+    isLoading.value = false
+  }
+}
 </script>

@@ -3,7 +3,7 @@
     <RouterLink
       v-for="org in organizationList.data"
       :key="org.id"
-      :to="{ name: pagesMap.orgOverview, params: { id: org.id } }"
+      :to="{ name: pagesMap.organizationOverview, params: { id: org.id } }"
     >
       {{ org.name }}
     </RouterLink>

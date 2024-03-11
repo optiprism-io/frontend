@@ -25,17 +25,17 @@ import { schemaOrganizations } from '@/api/services/organizations.service'
 const route = useRoute()
 
 const items = computed(() => [
-  { title: 'Overview', to: { name: pagesMap.orgOverview } },
-  { title: 'Projects', to: { name: pagesMap.orgProjects } },
+  { title: 'Overview', to: { name: pagesMap.organizationOverview } },
+  { title: 'Projects', to: { name: pagesMap.organizationProjectList } },
 ])
 
 const breadcrumbs = computed(() => {
-  const routesWithoutRoot = route.matched.filter(r => r.path)
+  const routesWithoutRoot = route.matched.filter(r => r.path && r.name)
 
   const breadcrumbs = routesWithoutRoot.map(route => ({
-    title: route.name?.toString() || '',
+    title: route.meta.breadcrumb?.toString() || '',
     to: route,
-    isActive: false,
+    isActive: route.name !== pagesMap.organizations,
   }))
 
   const modifiedBreadcrumbs = breadcrumbs.map((breadcrumb, index) => {
