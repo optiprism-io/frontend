@@ -24,6 +24,7 @@ import { organizations } from '@/mocks/organizations'
 import { faker } from '@/server/faker'
 
 const urlPrefix = BASE_PATH + '/' + import.meta.env.VITE_API_VERSION
+const SESSION_STORAGE_KEY = 'db'
 
 const dbTemplate: { [k: string]: any } = {
   events: eventMocks,
@@ -51,7 +52,7 @@ const emptyDbTemplate = dbTemplateKeys.reduce((acc: { [key: string]: [] }, key) 
 }, {});
 
 export default function ({ environment = 'development', isSeed = true } = {}) {
-    return createServer({
+    const server = createServer({
         environment,
         urlPrefix,
 
@@ -59,8 +60,14 @@ export default function ({ environment = 'development', isSeed = true } = {}) {
         timing: faker.number.int({ min: 0, max: 0 }),
 
         seeds(server) {
-            server.db.loadData(isSeed ? dbTemplate : emptyDbTemplate);
+          const dbData = sessionStorage.getItem(SESSION_STORAGE_KEY)
+
+          if (dbData) {
+            server.db.loadData(JSON.parse(dbData))
+          } else {
+            server.db.loadData(isSeed ? dbTemplate : emptyDbTemplate)
             server.db.loadData(requiredTemplate)
+          }
         },
 
         routes() {
@@ -274,5 +281,13 @@ export default function ({ environment = 'development', isSeed = true } = {}) {
             projectsRoutes(this)
             organizationsRoutes(this)
         }
-    });
+    })
+
+    /* It saves the current state of the MirageJS server's database to the session storage. */
+    const mirageRequestHandler = server.pretender.handledRequest
+
+    server.pretender.handledRequest = function (verb, path, request) {
+        sessionStorage.setItem(SESSION_STORAGE_KEY, JSON.stringify(server.db.dump()))
+        mirageRequestHandler(verb, path, request)
+    }
 }
