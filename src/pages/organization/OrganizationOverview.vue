@@ -1,16 +1,15 @@
 <template>
   <div>
     <h2>{{ organization.name }}</h2>
-    <UiFormLabel text="Name" for="name">
-      <UiInput :model-value="organization.name" name="name" :disabled="true" />
-    </UiFormLabel>
+    <UiLabelAndSlot label="Name">
+      {{ organization.name }}
+    </UiLabelAndSlot>
   </div>
 </template>
 
 <script setup lang="ts">
 import { Organization } from '@/api'
-import UiInput from '@/components/uikit/UiInput.vue'
-import UiFormLabel from '@/components/uikit/UiFormLabel.vue'
+import UiLabelAndSlot from '@/components/uikit/UiLabelAndSlot.vue'
 
 interface IProps {
   organization: Organization
