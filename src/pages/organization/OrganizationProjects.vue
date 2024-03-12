@@ -62,12 +62,7 @@ const items = computed<Row[]>(() =>
 )
 
 const columns: Column[] = [
-  { title: 'ID', value: 'id' },
   { title: 'Name', value: 'name' },
-  { title: 'Creator', value: 'creator' },
-  { title: 'Created At', value: 'createdAt' },
-  { title: 'Updated At', value: 'updatedAt' },
-  { title: 'SDK Token', value: 'sdkToken' },
   { title: '', value: 'action', type: 'action' },
 ]
 
