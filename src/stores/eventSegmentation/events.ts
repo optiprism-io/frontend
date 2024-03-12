@@ -140,7 +140,7 @@ export const useEventsStore = defineStore('events', {
         case 'last':
           return {
             type: TimeLastTypeEnum.Last,
-            last: Number(this.controlsPeriod),
+            last: this.controlsPeriod === 'calendar' ? this.period.last : Number(this.controlsPeriod),
             unit: this.controlsGroupBy,
           }
         case 'since':
@@ -157,7 +157,7 @@ export const useEventsStore = defineStore('events', {
         default:
           return {
             type: TimeLastTypeEnum.Last,
-            last: Number(this.controlsPeriod),
+            last: this.controlsPeriod === 'calendar' ? this.period.last : Number(this.controlsPeriod),
             unit: TimeUnit.Day,
           }
       }

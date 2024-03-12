@@ -125,11 +125,9 @@ import UiTable from '@/components/uikit/UiTable/UiTable.vue'
 import ChartPie from '@/components/charts/ChartPie.vue'
 import ChartLine from '@/components/charts/ChartLine.vue'
 import ChartColumn from '@/components/charts/ChartColumn.vue'
-
 import { getQueryFormattedValue } from '@/helpers/reportTableHelper'
 
 const compareToMap = ['day', 'week', 'month', 'year']
-
 const chartTypeMap = [
   {
     value: 'line',

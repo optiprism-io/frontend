@@ -1,19 +1,19 @@
 <template>
   <GridContainer>
     <GridItem :col-lg="3">
-       <GridContainer>
-          <UiCard class="filter-event-segmentation__item" :title="$t('events.events')">
-            <Events @on-change="onChange" />
-          </UiCard>
-          <UiCardContainer class="filter-event-segmentation__item" >
-            <FilterReports @on-change="onChange" />
-          </UiCardContainer>
-          <UiCard class="filter-event-segmentation__item"  :title="$t('events.segments.label')">
-            <Segments @on-change="onChange" />
-          </UiCard>
-          <UiCard class="filter-event-segmentation__item"  :title="$t('events.breakdowns')">
-            <Breakdowns @on-change="onChange" />
-          </UiCard>
+      <GridContainer>
+        <UiCard class="filter-event-segmentation__item" :title="$t('events.events')">
+          <Events @on-change="onChange" />
+        </UiCard>
+        <UiCardContainer class="filter-event-segmentation__item">
+          <FilterReports @on-change="onChange" />
+        </UiCardContainer>
+        <UiCard class="filter-event-segmentation__item" :title="$t('events.segments.label')">
+          <Segments @on-change="onChange" />
+        </UiCard>
+        <UiCard class="filter-event-segmentation__item" :title="$t('events.breakdowns')">
+          <Breakdowns @on-change="onChange" />
+        </UiCard>
       </GridContainer>
     </GridItem>
     <GridItem :col-lg="9">
@@ -75,12 +75,10 @@ onUnmounted(() => {
 })
 
 const getEventSegmentation = async () => {
-console.info('INFO:', 'why!!!!!!!!');
   if (eventsStore.propsForEventSegmentationResult.events.length) {
     eventSegmentationLoading.value = true
 
     try {
-
       const res = await reportsService.eventSegmentation(
         projectsStore.projectId,
         eventsStore.propsForEventSegmentationResult
