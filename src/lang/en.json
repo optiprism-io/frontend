@@ -373,7 +373,8 @@
       "title": "Project settings"
     },
     "name": "Project Name",
-    "sessionDuration": "Session Duration"
+    "sessionDuration": "Session Duration",
+    "sdkToken": "SDK Token"
   },
 
   "integration": {

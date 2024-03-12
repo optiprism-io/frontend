@@ -4,6 +4,7 @@
     v-else-if="project"
     v-model:is-edit="isEdit"
     :name="project.name"
+    :sdk-token="project.sdkToken"
     :session-duration-seconds="project.sessionDurationSeconds"
     :errors="errors"
     @input-name="clearErrorName"
