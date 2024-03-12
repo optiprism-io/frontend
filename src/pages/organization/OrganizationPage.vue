@@ -32,10 +32,10 @@ const items = computed(() => [
 const breadcrumbs = computed(() => {
   const routesWithoutRoot = route.matched.filter(r => r.path && r.name)
 
-  const breadcrumbs = routesWithoutRoot.map(route => ({
+  const breadcrumbs = routesWithoutRoot.map((route, index) => ({
     title: route.meta.breadcrumb?.toString() || '',
     to: route,
-    isActive: route.name !== pagesMap.organizations,
+    isActive: route.name !== pagesMap.organizations && index !== routesWithoutRoot.length - 1,
   }))
 
   const modifiedBreadcrumbs = breadcrumbs.map((breadcrumb, index) => {
