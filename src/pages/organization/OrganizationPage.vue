@@ -41,7 +41,7 @@ const breadcrumbs = computed(() => {
     isActive: route.name !== pagesMap.organizations && index !== routesWithoutRoot.length - 1,
   }))
 
-  const modifiedBreadcrumbs = breadcrumbs.map((breadcrumb, index) => {
+  const modifiedBreadcrumbs = breadcrumbs.map(breadcrumb => {
     if (breadcrumb.to.name === pagesMap.organization) {
       return {
         ...breadcrumb,
