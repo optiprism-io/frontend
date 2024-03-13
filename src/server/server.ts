@@ -276,7 +276,7 @@ export default function ({ environment = 'development', isSeed = true } = {}) {
              * end Group-records
              */
 
-            authRoutes(this),
+            authRoutes(this)
             profileRoutes(this)
             projectsRoutes(this)
             organizationsRoutes(this)
