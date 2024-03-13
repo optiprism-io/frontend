@@ -15,7 +15,7 @@ import dashboardsMocks from '@/mocks/dashboards'
 import groupRecordsMocks from '@/mocks/groupRecords.json'
 import profileMocks from '@/mocks/profile'
 import { profileRoutes } from '@/server/services/profile.service'
-import { EMPTY_SUCCESS_RES, nanoid } from '@/server/constants'
+import { EMPTY_SUCCESS_RES } from '@/server/constants'
 import { projectsRoutes } from '@/server/services/projects.service'
 import projectsMocks from '@/mocks/projects'
 import { authRoutes } from '@/server/services/auth.service'
@@ -196,7 +196,7 @@ export default function ({ environment = 'development', isSeed = true } = {}) {
                 const body = JSON.parse(request.requestBody);
 
                 return schema.db.reports.insert({
-                    id: nanoid(),
+                    id: faker.string.numeric(4),
                     ...body,
                 })
             })
@@ -242,7 +242,7 @@ export default function ({ environment = 'development', isSeed = true } = {}) {
             this.post('/projects/:project_id/dashboards', (schema, request) => {
                 const body = JSON.parse(request.requestBody)
                 return schema.db.dashboards.insert({
-                    id: nanoid(),
+                    id: faker.string.numeric(4),
                     ...body,
                 })
             })
