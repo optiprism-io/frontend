@@ -3,7 +3,10 @@
     <UiPageSidebar :items="items" />
 
     <main class="pf-c-page__main">
-      <UiBreadcrumbs :items="breadcrumbs" />
+      <UiBreadcrumbs
+        class="pf-c-page__main-breadcrumb pf-u-pb-sm pf-u-pt-lg"
+        :items="breadcrumbs"
+      />
 
       <section class="pf-c-page__main-section pf-m-light pf-u-p-0">
         <div class="pf-c-page__main-body">
