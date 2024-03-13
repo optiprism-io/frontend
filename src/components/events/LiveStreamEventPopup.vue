@@ -64,33 +64,34 @@ const emit = defineEmits<{
 const activeTab = ref(properties)
 
 const report = computed(() => {
-    return liveStreamStore.reports.find((item: Report) => item.name === props.name)
+    return liveStreamStore.columns.find((item) => item.name === props.name)
 })
 
 const items = computed(() => {
-    const objItems = report.value[activeTab.value]
+    // const objItems = liveStreamStore.columns.map(item => item.name)
 
-    if (objItems) {
-        return Object.keys(objItems).map((key): Row => {
-            return [
-                {
-                    key: 'name',
-                    title: key === createdAt ? t('events.live_stream.columns.createdAt') : activeTab.value === properties ? key.charAt(0).toUpperCase() + key.slice(1) : key,
-                    component: UiTablePressedCell,
-                    action: {
-                        type: activeTab.value === userProperties ? PropertyTypeEnum.UserProperty : PropertyTypeEnum.EventProperty,
-                        name: key,
-                    }
-                },
-                {
-                    key: 'value',
-                    title: key === createdAt ? getStringDateByFormat(String(objItems[key]), '%d %b, %Y') : objItems[key],
-                }
-            ]
-        })
-    } else {
-        return []
-    }
+    return [];
+    // if (objItems) {
+    //     return Object.keys(objItems).map((key): Row => {
+    //         return [
+    //             {
+    //                 key: 'name',
+    //                 title: key === createdAt ? t('events.live_stream.columns.createdAt') : activeTab.value === properties ? key.charAt(0).toUpperCase() + key.slice(1) : key,
+    //                 component: UiTablePressedCell,
+    //                 action: {
+    //                     type: activeTab.value === userProperties ? PropertyTypeEnum.UserProperty : PropertyTypeEnum.EventProperty,
+    //                     name: key,
+    //                 }
+    //             },
+    //             {
+    //                 key: 'value',
+    //                 title: key === createdAt ? getStringDateByFormat(String(objItems[key]), '%d %b, %Y') : objItems[key],
+    //             }
+    //         ]
+    //     })
+    // } else {
+    //     return []
+    // }
 })
 
 const columns = computed(() => {

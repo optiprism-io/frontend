@@ -21,13 +21,13 @@ export default function useCustomEvent(){
                 const event: Event = {
                     ref: {
                         type: item.eventType,
-                        id: Number(item.eventId)
+                        id: Number(item.eventId),
+                        name: item.eventName || '',
                     },
                     filters: item.filters ? item.filters.map(filter => {
                         return <EventFilter>{
                             propRef: {
                                 type: filter.propertyType,
-                                id: filter.propertyId || 0,
                                 name: filter?.propertyName || '',
                             },
                             opId: filter.operation,

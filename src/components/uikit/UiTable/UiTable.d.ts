@@ -59,7 +59,7 @@ export type Cell = {
     left?: number
     actions?: Action[]
     action?: Action,
-    component?: ReturnType<typeof defineComponent>
+    component?: ReturnType<typeof defineComponent> | string
     style?: StyleCell | undefined
     nowrap?: boolean
     lastFixed?: boolean

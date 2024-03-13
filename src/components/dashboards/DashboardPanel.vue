@@ -27,7 +27,6 @@
 
 <script lang="ts" setup>
 import { ref, computed, onMounted, watch } from 'vue'
-import { debounce } from 'lodash'
 import { pagesMap } from '@/router'
 import {
   Report,
@@ -37,6 +36,7 @@ import {
   FunnelQuery,
   EventSegmentation as EventSegmentationType,
   EventRecordsListRequestTime,
+  EventGroupedFiltersGroupsInnerFiltersInner,
 } from '@/api'
 
 import reportsService from '@/api/services/reports.service'
@@ -64,8 +64,6 @@ const props = defineProps<{
   reportId?: number
   heightChart?: number
 }>()
-
-const DebounceUpdate = 700
 
 const loading = ref(false)
 const eventSegmentation = ref<DataTableResponse>()
@@ -106,10 +104,30 @@ const getEventSegmentation = async () => {
   if (report.value?.query) {
     try {
       const query = report.value.query as EventSegmentationType
+
       if (filterGroupsStore.isSelectedAnyFilter) {
-        query.filters = filterGroupsStore.filters
-      }
-      if (ifChangeAnyInFilterTime.value) {
+        const filters = filterGroupsStore.filters.groups[0].filters.reduce(
+          (acc: EventGroupedFiltersGroupsInnerFiltersInner[], filter) => {
+            if (filter.value?.length) {
+              acc.push(filter)
+            }
+
+            return acc
+          },
+          []
+        )
+
+        if (filters.length) {
+          query.filters = {
+            groupsCondition: 'and',
+            groups: [
+              {
+                filtersCondition: 'and',
+                filters,
+              },
+            ],
+          }
+        }
         query.time = filterTime.value
       }
       if (query.events.length) {
@@ -175,19 +193,19 @@ watch(
   }
 )
 
-const onChangeDebounce = debounce(() => {
+const onChange = () => {
   updateState()
-}, DebounceUpdate)
+}
 
 filterGroupsStore.$subscribe(mutation => {
   if (mutation.type === 'direct') {
-    onChangeDebounce()
+    onChange()
   }
 })
 
 eventsStore.$subscribe(mutation => {
   if (mutation.type === 'direct') {
-    onChangeDebounce()
+    onChange()
   }
 })
 </script>

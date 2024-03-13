@@ -15,6 +15,7 @@
             @edit="editEvent"
             @action="selectAction"
             @remove-event="removeEvent"
+            @on-change="onChange"
         />
     </div>
     <Select
@@ -58,7 +59,8 @@ const addEvent = (ref: EventRef) => {
     liveStreamStore.events.push({
         ref: {
             type: ref.type,
-            id: ref.id
+            id: ref.id,
+            name: ref.name,
         },
         filters: [],
         breakdowns: [],
@@ -69,7 +71,9 @@ const addEvent = (ref: EventRef) => {
 }
 
 const updateReport = () => {
-    liveStreamStore.getReportLiveStream()
+    if (liveStreamStore.events.length) {
+        liveStreamStore.getReportLiveStream()
+    }
 }
 
 const setEvent = (payload: EventPayload) => {
@@ -92,6 +96,10 @@ const selectAction = (payload: string) => {
 const editEvent = (payload: number) => {
     eventsStore.setEditCustomEvent(Number(payload))
     commonStore.togglePopupCreateCustomEvent(true)
+}
+
+const onChange = () => {
+    updateReport()
 }
 </script>
 

@@ -86,7 +86,7 @@ const computedValueAggregate = (item: Condition): DidEventCount | DidEventRelati
     const operation = item.opId as PropertyFilterOperation
 
     if (item.aggregate?.id === DidEventAggregatePropertyTypeEnum.AggregateProperty && item.propRef) {
-        const property: Property | undefined = item.propRef.type === PropertyType.Event ? lexiconStore.findEventPropertyById(item.propRef.id) : lexiconStore.findUserPropertyById(item.propRef.id)
+        const property: Property | undefined = item.propRef.type === PropertyType.Event ? lexiconStore.findEventPropertyByName(item.propRef.name) : lexiconStore.findUserPropertyByName(item.propRef.name)
 
         if (property) {
             return {
@@ -96,7 +96,6 @@ const computedValueAggregate = (item: Condition): DidEventCount | DidEventRelati
                 value: Number(item.valueItem),
                 propertyName: property.name,
                 propertyType: PropertyType.User,
-                propertyId: property.id,
                 aggregate: item.aggregate.typeAggregate as QueryAggregate,
             }
         }
@@ -109,7 +108,6 @@ const computedValueAggregate = (item: Condition): DidEventCount | DidEventRelati
             type: DidEventRelativeCountTypeEnum.RelativeCount,
             operation,
             time,
-            eventId: eventItem.id,
             eventName: eventItem.name,
             eventType: item.compareEvent.ref.type === EventType.Regular ? EventType.Custom : EventType.Regular,
         }
@@ -131,8 +129,8 @@ export const useSegmentsStore = defineStore('segments', {
         segmentationItems(): EventSegmentationSegment[] {
             const lexiconStore = useLexiconStore()
 
-            return this.segments.map(segment => {
-                return {
+            return this.segments.reduce((acc: EventSegmentationSegment[], segment) => {
+                const item = {
                     name: segment.name,
                     conditions: segment.conditions ? segment.conditions.reduce((items: EventSegmentationSegmentConditionsInner[], item) => {
                         if (item.action?.id === SegmentConditionDidEventTypeEnum.DidEvent && item.event) {
@@ -149,18 +147,16 @@ export const useSegmentsStore = defineStore('segments', {
                             const condition: SegmentConditionDidEvent = {
                                 type: SegmentConditionDidEventTypeEnum.DidEvent,
                                 eventName: eventItem.name,
-                                eventId: eventItem.id,
                                 eventType: item.event.ref.type,
                                 filters: item.filters.filter(item => item.propRef).reduce((items: EventFilterByProperty[], filterRef) => {
                                     if (filterRef.propRef) {
-                                        const property: Property | undefined = filterRef?.propRef.type === PropertyType.Event ? lexiconStore.findEventPropertyById(filterRef.propRef.id) : lexiconStore.findUserPropertyById(filterRef.propRef.id)
+                                        const property: Property | undefined = filterRef?.propRef.type === PropertyType.Event ? lexiconStore.findEventPropertyByName(filterRef.propRef.name) : lexiconStore.findUserPropertyByName(filterRef.propRef.name)
 
                                         if (property) {
                                             items.push({
                                                 type: EventFilterByPropertyTypeEnum.Property,
                                                 propertyName: property.name,
                                                 propertyType: filterRef?.propRef.type,
-                                                propertyId: filterRef.propRef.id,
                                                 operation: filterRef.opId as PropertyFilterOperation,
                                                 value: filterRef.values,
                                             });
@@ -175,12 +171,8 @@ export const useSegmentsStore = defineStore('segments', {
                             items.push(condition)
                         }
 
-                        // if (EventGroupedFiltersGroupsConditionEnum.And === item.action?.id || EventGroupedFiltersGroupsConditionEnum.Or === item.action?.id) {
-                        //     items.push(item.action?.id)
-                        // }
-
                         if (item.propRef && item.action?.id) {
-                            const property: Property | undefined = item.propRef.type === PropertyType.Event ? lexiconStore.findEventPropertyById(item.propRef.id) : lexiconStore.findUserPropertyById(item.propRef.id)
+                            const property: Property | undefined = item.propRef.type === PropertyType.Event ? lexiconStore.findEventPropertyByName(item.propRef.name) : lexiconStore.findUserPropertyByName(item.propRef.name)
 
                             if (property) {
                                 if (item.action?.id === SegmentConditionHasPropertyValueTypeEnum.HasPropertyValue) {
@@ -212,7 +204,16 @@ export const useSegmentsStore = defineStore('segments', {
                         return items
                     }, []) : [],
                 }
-            })
+
+                if (item.conditions.length) {
+                    acc.push(item)
+                }
+
+                return acc;
+            }, [])
+        },
+        isSelectedAnySegments(): boolean {
+            return Boolean(this.segmentationItems.length)
         },
     },
     actions: {
@@ -329,14 +330,12 @@ export const useSegmentsStore = defineStore('segments', {
             let valuesList: Value[] = []
 
             try {
-                const lexiconStore = useLexiconStore()
                 const projectsStore = useProjectsStore()
 
-
                 const res = await schemaService.propertyValues(projectsStore.projectId, {
-                    eventName: lexiconStore.eventName(eventRef),
+                    eventName: eventRef.name,
                     eventType: eventRef.type,
-                    propertyName: lexiconStore.propertyName(propRef),
+                    propertyName: propRef.name,
                     propertyType: propRef.type
                 })
 
@@ -451,28 +450,10 @@ export const useSegmentsStore = defineStore('segments', {
             }
         },
         async changePropertyCondition(idx: number, idxSegment: number, ref: PropertyRef) {
-            const segment = this.segments[idxSegment];
-
+            const segment = this.segments[idxSegment]
             if (segment && segment.conditions) {
                 const condition = segment.conditions[idx]
-
                 if (condition) {
-                    const lexiconStore = useLexiconStore()
-                    const projectsStore = useProjectsStore()
-
-                    try {
-                        const res = await schemaService.propertyValues(projectsStore.projectId, {
-                            propertyType: condition.propRef?.type as PropertyType || PropertyType.User,
-                            eventType: condition.event?.ref?.type as EventType,
-                            propertyName: lexiconStore.propertyName(ref),
-                        })
-
-                        if (res?.data.data) {
-                            condition.valuesList = res.data.data
-                        }
-                    } catch (error) {
-                        throw new Error('error getEventsValues')
-                    }
                     condition.propRef = ref
                     condition.opId = OperationId.Eq
                     condition.values = []
@@ -480,6 +461,31 @@ export const useSegmentsStore = defineStore('segments', {
                         type: 'each',
                     }
                     condition.each = 'day'
+                }
+            }
+        },
+        async getConditionValue(idx: number, idxSegment: number) {
+            const segment = this.segments[idxSegment];
+
+            if (segment?.conditions) {
+                const projectsStore = useProjectsStore()
+                const condition = segment.conditions[idx];
+
+                if (condition) {
+                    try {
+                        const res = await schemaService.propertyValues(projectsStore.projectId, {
+                            eventName: condition.event?.ref.name,
+                            propertyType: condition.propRef?.type as PropertyType || PropertyType.User,
+                            eventType: condition.event?.ref?.type as EventType,
+                            propertyName: condition.propRef?.name,
+                        })
+
+                        if (res?.data.data) {
+                            condition.valuesList = res.data.data
+                        }
+                    } catch (error) {
+                        throw new Error('Error Get Condition Value')
+                    }
                 }
             }
         },

@@ -24,8 +24,8 @@ export type QueryType = QuerySimpleTypeEnum | QueryCountPerGroupTypeEnum | DidEv
 
 export type PropertyRef = {
     type: PropertyType;
-    id: number,
-    name?: string,
+    id?: number,
+    name: string,
 };
 
 export enum EventStatus {
@@ -36,7 +36,7 @@ export enum EventStatus {
 export type EventRef = {
     type: EventType
     id: number
-    name?: string
+    name: string
 }
 
 export function eventRef(e: Event): EventRef {

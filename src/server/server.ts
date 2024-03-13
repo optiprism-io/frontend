@@ -40,12 +40,12 @@ const requiredTemplate = {
   profile: profileMocks,
 }
 
-const dbTemplateKeys = Object.keys(dbTemplate);
+const dbTemplateKeys = Object.keys(dbTemplate)
 
 const emptyDbTemplate = dbTemplateKeys.reduce((acc: { [key: string]: [] }, key) => {
-    acc[key] = [];
-    return acc;
-}, {});
+  acc[key] = []
+  return acc
+}, {})
 
 export default function ({ environment = 'development', isSeed = true } = {}) {
     return createServer({
@@ -73,7 +73,7 @@ export default function ({ environment = 'development', isSeed = true } = {}) {
 
             this.get('/projects/:project_id/schema/custom-events', (schema) => {
                 return {
-                    data: schema.db.customEvents.map(item => ({...item, id: Number(item.id)})),
+                    data: schema.db.customEvents.map(item => ({ ...item, id: Number(item.id) })),
                 };
             })
 
@@ -95,9 +95,7 @@ export default function ({ environment = 'development', isSeed = true } = {}) {
             })
 
             this.post('/projects/:project_id/event-records/search', (schema, request) => {
-                return {
-                    data: schema.db.liveStreamMocks
-                }
+                return schema.db.liveStreamMocks
             })
 
             this.get('/projects/:project_id/schema/event-properties', (schema) => {
@@ -267,7 +265,7 @@ export default function ({ environment = 'development', isSeed = true } = {}) {
              */
 
             authRoutes(this),
-            profileRoutes(this)
+                profileRoutes(this)
             projectsRoutes(this)
         }
     });

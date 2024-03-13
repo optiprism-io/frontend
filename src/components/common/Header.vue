@@ -7,7 +7,7 @@
         </RouterLink>
       </div>
       <div class="pf-l-flex__item">
-        <Nav />
+        <Nav @on-click-item="onClickItemNav" />
       </div>
       <RouterLink
         v-if="!projectStore.project?.eventsCount"
@@ -61,16 +61,23 @@ import { GenericUiDropdown, UiDropdownItem } from '@/components/uikit/UiDropdown
 import UiSelect from '@/components/uikit/UiSelect.vue'
 import Nav from '@/components/common/Nav.vue'
 import { useAuthStore } from '@/stores/auth/auth'
-import { RouterLink } from 'vue-router'
+import { RouterLink, useRouter, useRoute } from 'vue-router'
 import { pagesMap, SDKIntegration } from '@/router'
 import { useProjectsStore } from '@/stores/projects/projects'
 import UiIcon from '@/components/uikit/UiIcon.vue'
 import CreateProjectPopup from '@/components/projects/CreateProjectPopup.vue'
 import { useToggle } from '@vueuse/core'
 import { Project } from '@/api'
+import { useEventsStore } from '@/stores/eventSegmentation/events'
+import { useReportsStore } from '@/stores/reports/reports'
 
 const authStore = useAuthStore()
 const projectStore = useProjectsStore()
+const eventsStore = useEventsStore()
+const reportsStore = useReportsStore()
+
+const router = useRouter()
+const route = useRoute()
 const i18n = inject<any>('i18n')
 const UiDropdown = GenericUiDropdown<MenuValues>()
 
@@ -93,11 +100,6 @@ const userMenu = computed<UiDropdownItem<MenuValues>[]>(() => {
       value: userMenuMap.PROFILE,
       to: { name: pagesMap.profile },
       nameDisplay: i18n.$t('userMenu.personalSettings'),
-    },
-    {
-      key: 2,
-      value: userMenuMap.ORGANIZATION,
-      nameDisplay: i18n.$t('userMenu.organizationSettings'),
     },
     {
       key: 3,
@@ -167,6 +169,12 @@ function onCreatedProject(project: Project) {
   setShowCreatePopup(false)
   projectStore.addProjectToList(project)
   selectProject(project.id)
+}
+
+const onClickItemNav = (event: PointerEvent, name: string) => {
+  if (name === pagesMap.reportsEventSegmentation.name) {
+    reportsStore.emptyReport()
+  }
 }
 </script>
 

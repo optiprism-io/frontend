@@ -112,7 +112,7 @@ import { useEventsStore, ChartType } from '@/stores/eventSegmentation/events'
 import { groupByMap, periodMap } from '@/configs/events/controls'
 import { ApplyPayload } from '@/components/uikit/UiCalendar/UiCalendar'
 import { getStringDateByFormat } from '@/helpers/getStringDates'
-import { Report, DataTableResponse, TimeUnit } from '@/api'
+import { Report, DataTableResponse, TimeUnit, DataTableResponseColumnsInner } from '@/api'
 import useDataTable from '@/hooks/useDataTable'
 import usei18n from '@/hooks/useI18n'
 import UiSelect from '@/components/uikit/UiSelect.vue'
@@ -125,15 +125,21 @@ import UiTable from '@/components/uikit/UiTable/UiTable.vue'
 import ChartPie from '@/components/charts/ChartPie.vue'
 import ChartLine from '@/components/charts/ChartLine.vue'
 import ChartColumn from '@/components/charts/ChartColumn.vue'
-
 import { getQueryFormattedValue } from '@/helpers/reportTableHelper'
 
 const compareToMap = ['day', 'week', 'month', 'year']
-
 const chartTypeMap = [
   {
     value: 'line',
     icon: 'fas fa-chart-line',
+  },
+  {
+    value: 'column',
+    icon: 'fas fa-chart-bar',
+  },
+  {
+    value: 'pie',
+    icon: 'fas fa-chart-pie',
   },
 ]
 
@@ -141,7 +147,7 @@ const eventsStore = useEventsStore()
 const { t } = usei18n()
 
 type Props = {
-  eventSegmentation?: DataTableResponse | undefined
+  eventSegmentation?: DataTableResponse | null
   loading: boolean
   onlyView?: boolean
   chartType?: ChartType
@@ -151,19 +157,37 @@ type Props = {
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  eventSegmentation: undefined,
+  eventSegmentation: null,
   loading: false,
 })
 
 const showCompareTo = ref(false)
 
 const dataTable = computed(() => {
-  const table = useDataTable(props.eventSegmentation || {}, true)
-  const tableDataLength = table.tableData.length
+  const columns: Array<DataTableResponseColumnsInner> = Object.values(
+    (props.eventSegmentation?.columns || []).reduce(
+      (acc: { [key: string]: DataTableResponseColumnsInner }, item) => {
+        if (item.name === 'segment' && !props.report?.query?.segments?.length) {
+          return acc
+        }
 
-  if (table?.tableColumns?.agg_name) {
-    table.tableColumns.agg_name.title = t('reports.table.accName')
-  }
+        if (item.name === 'agg_name' && acc.event) {
+          acc.event = {
+            ...acc.event,
+            data: acc.event.data.map(
+              (value, i) => `${value} ${item.data[i] ? `(${item.data[i]})` : ''}`
+            ),
+          }
+        } else {
+          acc[item.name] = item
+        }
+        return acc
+      },
+      {}
+    )
+  )
+
+  const table = useDataTable(columns ? { columns } : {}, true)
 
   table.tableData = table.tableData.map(row => {
     return row.map(cell => {
@@ -174,14 +198,6 @@ const dataTable = computed(() => {
       return cell
     })
   })
-
-  if (table.tableColumns.agg_name && tableDataLength === 1) {
-    table.tableColumns.agg_name.hidden = true
-  }
-
-  if (table.tableColumns?.segment && !props.report?.query?.segments?.length) {
-    table.tableColumns.segment.hidden = true
-  }
 
   return table
 })

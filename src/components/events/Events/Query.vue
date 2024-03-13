@@ -85,18 +85,7 @@
         </Select>
       </div>
       <div v-if="queryInfo?.hasValue" class="pf-c-action-list__item">
-        <UiInput
-          :value="queryValue"
-          @input="changeFormula"
-        />
-      </div>
-      <div v-if="propertySelectError" class="pf-c-action-list__item pf-u-mt-xs">
-        <VTooltip popper-class="ui-hint">
-          <UiIcon class="pf-u-warning-color-100" icon="fas fa-exclamation-triangle" />
-          <template #popper>
-            {{ $t('events.query.error') }}
-          </template>
-        </VTooltip>
+        <UiInput :value="queryValue" @input="changeFormula" />
       </div>
       <div
         v-if="!noDelete"
@@ -160,8 +149,6 @@ const showProperty = computed(() => queryInfo.value?.hasProperty)
 const property = computed(() => {
   return props.item?.queryRef?.propRef ? lexiconStore.property(props.item?.queryRef?.propRef) : null
 })
-
-const propertySelectError = computed(() => props.item?.queryRef?.propRef && !property.value)
 
 const propertyName = computed((): string => property.value?.name || '')
 

@@ -101,7 +101,7 @@
                     @deselect="removeValue"
                 >
                     <template v-if="filter.values.length > 0">
-                        <div class="pf-c-action-list">
+                        <div class="pf-c-action-list ">
                             <div
                                 v-for="(value, i) in filter.values"
                                 :key="i"
@@ -110,6 +110,7 @@
                                 <UiButton
                                     :class="[props.forPreview ? 'pf-m-control pf-m-small' : 'pf-m-secondary']"
                                     :disabled="props.forPreview"
+                                    @click="ocClickValue"
                                 >
                                     {{ value }}
                                     <span
@@ -139,26 +140,12 @@
                         <UiButton
                             :before-icon="'fas fa-plus-circle'"
                             class="pf-m-link"
+                            @click="ocClickValue"
                         >
                             {{ $t('events.select_value') }}
                         </UiButton>
                     </template>
                 </ValueSelect>
-            </div>
-
-            <div
-                v-if="filter.error || (filter?.propRef && !filterProperty)"
-                class="pf-c-action-list__item pf-u-mt-xs"
-            >
-                <VTooltip popper-class="ui-hint">
-                    <UiIcon
-                        class="pf-u-warning-color-100"
-                        icon="fas fa-exclamation-triangle"
-                    />
-                    <template #popper>
-                        {{ $t('filters.noPropertiesError') }}
-                    </template>
-                </VTooltip>
             </div>
             <div
                 v-if="filter.values.length === 0"
@@ -229,6 +216,7 @@ const emit = defineEmits<{
     (e: 'removeFilterValue', filterIdx: number, value: Value): void;
     (e: 'handleSelectProperty'): void;
     (e: 'changeAllValues', filterIdx: number, values: Value[]): void;
+    (e: 'on-click-value', filterIdx: number): void;
 }>();
 
 const valueInput = ref('');
@@ -252,7 +240,7 @@ const isShowInputForValue = computed(() => {
 });
 
 const propertyButtonText = computed(() => {
-    return props.filter?.propRef?.name || filterProperty.value?.name || props.filter?.propRef?.id;
+    return props.filter?.propRef?.name || filterProperty.value?.name  || props.filter?.propRef?.id;
 });
 
 const filterItemValues = computed(() => {
@@ -289,6 +277,8 @@ const filterProperty = computed(() => {
                 return lexiconStore.findEventCustomPropertyById(filterPropRefId.value);
             case PropertyType.User:
                 return lexiconStore.findUserPropertyById(filterPropRefId.value);
+            case PropertyType.System:
+                return lexiconStore.findSystemPropertyById(filterPropRefId.value);
         }
     }
     return undefined;
@@ -308,6 +298,10 @@ const handleSelectProperty = (): void => {
 
 const changeOperation = (opId: OperationId): void => {
     emit('changeFilterOperation', props.index, opId);
+};
+
+const ocClickValue = () => {
+    emit('on-click-value', props.index);
 };
 
 const addValue = (value: Value): void => {

@@ -104,6 +104,7 @@
                             <UiButton
                                 class="pf-m-link"
                                 :before-icon="'fas fa-plus-circle'"
+                                @click="onClickValue"
                             >
                                 {{ $t('events.select_value') }}
                             </UiButton>
@@ -175,6 +176,7 @@
                 :filter="filter"
                 :index="i"
                 :update-open="updateOpenFilter"
+                @click="onClickValue"
                 @remove-filter="removeFilter"
                 @change-filter-property="changeFilterProperty"
                 @change-filter-operation="onChangeFilterOperation"
@@ -264,7 +266,10 @@ interface ItemConditionType {
     description: string,
 }
 
-const lexiconStore = useLexiconStore()
+const emit = defineEmits<{
+    (e: 'on-click-value', idx: number, indexParent: number): void;
+}>();
+
 const props = withDefaults(defineProps<Props>(), {
     showRemove: true,
 });
@@ -385,7 +390,7 @@ const displayNameAction = computed(() => props.condition?.action?.name || (props
 
 const isSelectedProp = computed(() =>  Boolean(props.condition.propRef))
 
-const displayNameProp = computed(() => props.condition.propRef ? lexiconStore.propertyName(props.condition.propRef) : i18n.t('events.selectProperty'))
+const displayNameProp = computed(() => props.condition.propRef?.name || i18n.t('events.selectProperty'))
 
 const isShowSelectProp = computed(() => {
     const id = props.condition?.action?.id
@@ -442,6 +447,10 @@ const changeProperty = (propRef: PropertyRef) => changePropertyCondition && chan
 const changeOperation = (opId: OperationId) => changeOperationCondition && changeOperationCondition(props.index, props.indexParent, opId)
 const addValue = (value: Value) => addValueCondition && addValueCondition(props.index, props.indexParent, value)
 const removeValue = (value: Value) => removeValueCondition && removeValueCondition(props.index, props.indexParent, value)
+
+const onClickValue = () => {
+    emit('on-click-value', props.index, props.indexParent);
+};
 
 const onRemove = () => {
     onRemoveCondition && onRemoveCondition({

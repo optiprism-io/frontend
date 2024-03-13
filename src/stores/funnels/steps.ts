@@ -120,7 +120,6 @@ export const useStepsStore = defineStore('steps', {
                 const events = item.events.map(event => {
                     return {
                         eventType: event.event.type,
-                        eventId: event.event.id,
                         eventName: eventName(event.event),
                         filters: event.filters.map(filter => {
                             let property
@@ -130,7 +129,6 @@ export const useStepsStore = defineStore('steps', {
 
                             return {
                                 propertyName: property ? property.name : '',
-                                propertyId: property ? property.id : filter.propRef?.id ?? 0,
                                 propertyType: filter.propRef?.type ?? '',
                                 type: 'property',
                                 operation: filter.opId,
@@ -150,7 +148,6 @@ export const useStepsStore = defineStore('steps', {
             return this.holdingProperties.map(item => {
                 return {
                     propertyType: item.type as any,
-                    propertyId: item.id,
                     propertyName: item.name
                 }
             })

@@ -72,6 +72,7 @@
                 :is-one="props.isOneSegment"
                 :allow-and-or="props.isOneSegment && i > 0 ? !['and', 'or'].includes(props.conditions[i - 1]?.action?.id || '') : false"
                 :show-remove="props.isOneSegment ? conditionsLength > 1 && (conditionsLength !== i + 1) && (showRemoveCondition.length > 1 ? true : !!condition?.action) : true"
+                @on-click-value="onClickValue"
             />
         </div>
     </div>
@@ -82,7 +83,7 @@ import { ref, computed } from 'vue';
 import CommonIdentifier from '@/components/common/identifier/CommonIdentifier.vue';
 import UiEditableText from '@/components/uikit/UiEditableText.vue';
 import Condition from '@/components/events/Segments/Condition.vue';
-import { Condition as ConditionType } from '@/types/events';
+import { Condition as ConditionType, PropertyRef } from '@/types/events';
 import { conditions as conditionsMap } from '@/configs/events/segmentCondition';
 import Select from '@/components/Select/Select.vue';
 import usei18n from '@/hooks/useI18n';
@@ -117,6 +118,7 @@ const emit = defineEmits<{
     (e: 'on-remove', inx: number): void
     (e: 'on-rename', name: string, idx: number): void
     (e: 'add-condition', idx: number, ref: { id: string, name: string }): void
+    (e: 'on-click-value', idx: number, indexParent: number): void;
 }>();
 
 const updateOpenCondition = ref(false)
@@ -125,6 +127,10 @@ const dropdownStatesControl = ref(false);
 const showRemoveCondition = computed(() => {
     return props.conditions.filter(item => !item?.action?.id);
 });
+
+const onClickValue = (index: number, indexParent: number) => {
+    emit('on-click-value', index, indexParent);
+};
 
 const getConditionItem = (key: string): ItemConditionType => {
     const name = t(`events.condition.${key}`) as string;
