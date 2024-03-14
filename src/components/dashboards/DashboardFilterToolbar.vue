@@ -11,6 +11,7 @@
                     :hide-prefix="i === 0"
                     :orientation="OrientationTypeEnum.HORIZONTAL"
                     :min-width-prefix="false"
+                    @on-click-value="updateValue"
                     @remove-filter="removeFilterForGroup(i)"
                     @change-filter-property="changeFilterPropertyForGroup"
                     @change-filter-operation="changeFilterOperationForGroup"
@@ -66,7 +67,7 @@ const addFilterToGroup = async (payload: PropertyRef): Promise<void> => {
             propRef: payload,
             opId: OperationId.Eq,
             values: [],
-            valuesList: await filterHelpers.getValues(payload),
+            valuesList: []
         }
     });
 }
@@ -84,7 +85,6 @@ const changeFilterPropertyForGroup = async (filterIndex: number, payload: Proper
         filterIndex,
         filter: {
             propRef: payload,
-            valuesList: await filterHelpers.getValues(payload),
         }
     });
 }
@@ -97,6 +97,23 @@ const changeFilterOperationForGroup = (filterIndex: number, opId: OperationId): 
             opId,
         }
     });
+}
+
+const updateValue = async (filterIndex: number) => {
+    const filter = filterGroup.value?.filters[filterIndex]
+
+    if (filter?.propRef) {
+        const valuesList = await filterHelpers.getValues(filter.propRef) || []
+
+        filterGroupsStore.editFilterForGroup({
+            index: indexGroup,
+            filterIndex,
+            filter: {
+                propRef: filter.propRef,
+                valuesList,
+            }
+        });
+    }
 }
 
 const addFilterValueForGroup = (filterIdx: number, value: Value) => {
@@ -135,6 +152,9 @@ onUnmounted(() => {
 .dashboard-filter-toolbar {
     .pf-c-action-list__item.filter__control-item {
         margin-left: 0 !important;
+    }
+    .filter_horizontal .pf-c-action-list__item {
+        margin-left: 0;
     }
 }
 </style>

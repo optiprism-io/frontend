@@ -48,6 +48,7 @@
                 :filter="filter"
                 :event-refs="eventRefs"
                 :hide-prefix="i === 0"
+                @on-click-value="updateValue"
                 @remove-filter="removeFilterForGroup(i)"
                 @change-filter-property="changeFilterPropertyForGroup"
                 @change-filter-operation="changeFilterOperationForGroup"
@@ -162,7 +163,7 @@ const addFilterToGroup = async (payload: PropertyRef): Promise<void> => {
             propRef: payload,
             opId: OperationId.Eq,
             values: [],
-            valuesList: await filterHelpers.getValues(payload),
+            valuesList: []
         }
     });
 }
@@ -194,6 +195,22 @@ const changeFilterOperationForGroup = (filterIndex: number, opId: OperationId): 
         }
     });
 }
+
+const updateValue = async (filterIndex: number) => {
+    const filter = filterGroup.value?.filters[filterIndex]
+    if (filter?.propRef) {
+        const valuesList = await filterHelpers.getValues(filter.propRef) || []
+
+        filterGroupsStore.editFilterForGroup({
+            index: props.index,
+            filterIndex,
+            filter: {
+                propRef: filter.propRef,
+                valuesList,
+            }
+        });
+    }
+};
 
 const addFilterValueForGroup = (filterIdx: number, value: Value) => {
     const operationId = filterGroup.value?.filters[filterIdx].opId;

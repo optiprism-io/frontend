@@ -14,17 +14,6 @@ import useI18n from '@/hooks/useI18n'
 import { useLexiconStore } from '@/stores/lexicon'
 import { useEventsStore } from '@/stores/eventSegmentation/events'
 
-const getProperyNameString = (propertyId: number, propertyType: PropertyType) => {
-  const lexiconStore = useLexiconStore()
-
-  const property = lexiconStore.property({
-    id: propertyId,
-    type: propertyType,
-  })
-
-  return property?.name || propertyId
-}
-
 const getAggregateString = (key: string) => {
   const { t } = useI18n()
 
@@ -68,18 +57,17 @@ export const getQueryFormattedValue = (value: string, report: Report) => {
           resultString += ` (${t(`events.query.${indexQuery.type}`)})`
           break
         case QueryAggregatePropertyTypeEnum.AggregateProperty:
-          if (indexQuery.aggregate && indexQuery.propertyId && indexQuery.propertyType) {
-            resultString += ` (${getAggregatePropertyString(indexQuery.aggregate)}
-            ${getProperyNameString(indexQuery.propertyId, indexQuery.propertyType)})`
+          if (indexQuery.aggregate && indexQuery.propertyName && indexQuery.propertyType) {
+            resultString += ` (${getAggregatePropertyString(indexQuery.aggregate)} ${indexQuery.propertyName})`
           }
           break
         case QueryAggregatePropertyPerGroupTypeEnum.AggregatePropertyPerGroup:
           if (indexQuery.aggregatePerGroup) {
             resultString += `, ${getAggregateString(indexQuery.aggregatePerGroup)}`
 
-            if (indexQuery.aggregate && indexQuery.propertyId && indexQuery.propertyType) {
+            if (indexQuery.aggregate && indexQuery.propertyName && indexQuery.propertyType) {
               resultString += ` (${getAggregatePropertyString(indexQuery.aggregate)}
-                 ${getProperyNameString(indexQuery.propertyId, indexQuery.propertyType)}
+                 ${indexQuery.propertyName}
                  ${t('events.per')} ${eventsStore.group})`
             }
           }

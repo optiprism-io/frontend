@@ -16,7 +16,7 @@ function getProjects(schema: Schema) {
 
 function postProject(schema: Schema, request: Request) {
   const { name, sessionDurationSeconds } = JSON.parse(request.requestBody) as CreateProjectRequest
-  const newProject = new Project({ name, sessionDurationSeconds })
+  const newProject = new Project({ name, sessionDurationSeconds : Number(sessionDurationSeconds)})
   return schema.db.projects.insert(newProject)
 }
 

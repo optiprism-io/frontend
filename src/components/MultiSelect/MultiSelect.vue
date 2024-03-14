@@ -8,7 +8,7 @@
             <slot />
         </span>
         <template #popper>
-            <div class="pf-c-card pf-m-compact pf-u-min-width">
+            <div class="multi-select__content pf-c-card pf-m-compact pf-u-min-width">
                 <MultiSelectList
                     :items="itemsSelect"
                     :selected="selected"
@@ -70,7 +70,12 @@ const search = (payload: string) => {
 };
 </script>
 
-<style scoped>
+<style lang="scss">
+.multi-select {
+    &__content {
+        max-width: 240px;
+    }
+}
 .event-select__description {
     border-left: 1px solid #d2d2d2;
 }

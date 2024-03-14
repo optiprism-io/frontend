@@ -5,7 +5,6 @@
     "text": "Log in to your account",
     "logIn": "Log in"
   },
-
   "errors": {
     "unauthorized": "We're sorry, but we can't authenticate you. You must be logged in to access these pages.",
     "internal": "Something gone wrong, please try again later",
@@ -13,7 +12,6 @@
     "emailIncorrect": "Please enter a valid email address",
     "loginIncorrect": "That email and password combination is incorrect"
   },
-
   "userMenu": {
     "personalSettings": "Personal Settings",
     "organizationSettings": "Organization Settings",
@@ -21,7 +19,6 @@
     "integrateOptiPrism": "Integrate OptiPrism",
     "logout": "Log Out"
   },
-
   "common": {
     "and": "And",
     "or": "Or",
@@ -69,8 +66,29 @@
         "hour": "Hour",
         "minute": "Minute"
       },
-      "months": ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-      "week_days": ["mo", "tu", "we", "th", "fr", "sa", "su"],
+      "months": [
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+        "May",
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Dec"
+      ],
+      "week_days": [
+        "mo",
+        "tu",
+        "we",
+        "th",
+        "fr",
+        "sa",
+        "su"
+      ],
       "dayShort": "d"
     },
     "timeUnits": {
@@ -90,7 +108,6 @@
     "eventNoUserProperties": "Event doesn’t have user properties",
     "comingSoon": "Coming soon"
   },
-
   "users": {
     "title": "Users",
     "user": "User",
@@ -102,7 +119,6 @@
     "editProperty": "Edit Property",
     "saveProperty": "Save Property"
   },
-
   "reports": {
     "createReport": "Create Report",
     "untitledReport": "Untitled Report",
@@ -118,14 +134,15 @@
       "accName": "Event"
     }
   },
-
   "events": {
     "systemProperties": "System Properties",
     "noEvents": "No events",
+    "noEventsFound": "No events found",
     "noEventsText": "You don't have events yet. Please start tracking. Click <a href=\"/events?help=start_tracking\" target=\"_blank\">here</a> for details",
     "addBreakdown": "Add Breakdown",
     "errorBreakdown": "This breakdown will not work because no event was found for the selected property",
     "breakdownTable": "Breakdown Table",
+    "selectBreakdown": "Select Breakdown",
     "event_management": {
       "event": "Event",
       "columns": {
@@ -140,8 +157,8 @@
       },
       "popup": {
         "properties_columns": {
-            "name": "Name",
-            "dataType": "Data Type"
+          "name": "Name",
+          "dataType": "Data Type"
         },
         "event_columns": {
           "tags": "Tags",
@@ -262,7 +279,6 @@
       "monthlyActiveGroups": "Monthly Active"
     }
   },
-
   "groups": {
     "columns": {
       "id": "ID",
@@ -270,7 +286,6 @@
       "properties": "Properties"
     }
   },
-
   "funnels": {
     "funnels": "Funnels",
     "untitledFunnel": "Untitled Funnel",
@@ -313,7 +328,6 @@
       "selectToStart": "Set the funnel condition to start"
     }
   },
-
   "criteria": {
     "label": "Criteria",
     "within": "within",
@@ -325,7 +339,6 @@
       "any": "any"
     }
   },
-
   "filters": {
     "conditions": {
       "and": "Any",
@@ -337,7 +350,6 @@
     "resetText": "When switching to simple filters, you must reset the selected groups. Reset all filters?",
     "noPropertiesError": "This filter will not work because no event was found for the selected property"
   },
-
   "dashboards": {
     "noDashboards": "No dashboards. Please create one",
     "noReportsInDashboard": "No reports. Please add at least one report: ",
@@ -351,9 +363,14 @@
     "deleteConfirm": "You definitely want to delete the dashboard: :name?",
     "addReport": "Add report",
     "untitledDashboard": "Untitled Dashboard",
-    "changeReport": "Change report"
+    "changeReport": "Change report",
+    "report": {
+      "columns": {
+        "name": "Name",
+        "description": "Description"
+      }
+    }
   },
-
   "profile": {
     "title": "Profile",
     "name": "Name",
@@ -363,7 +380,6 @@
     "newPassword": "New Password",
     "confirmPassword": "Confirm Password"
   },
-
   "project": {
     "createProject": "Create project",
     "selectProject": "Select Project",
@@ -376,7 +392,6 @@
     "sessionDuration": "Session Duration",
     "sdkToken": "SDK Token"
   },
-
   "integration": {
     "title": "Integration",
     "javascript": "JavaScript",

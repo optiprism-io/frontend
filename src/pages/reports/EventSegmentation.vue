@@ -1,39 +1,34 @@
 <template>
   <GridContainer>
     <GridItem :col-lg="3">
-       <GridContainer>
-          <UiCard class="filter-event-segmentation__item" :title="$t('events.events')">
-            <Events @on-change="onChange" />
-          </UiCard>
-
-          <UiCardContainer class="filter-event-segmentation__item" >
-            <FilterReports @on-change="onChangeDebounce" />
-          </UiCardContainer>
-
-          <UiCard class="filter-event-segmentation__item"  :title="$t('events.segments.label')">
-            <Segments @on-change="onChangeDebounce" />
-          </UiCard>
-
-          <UiCard class="filter-event-segmentation__item"  :title="$t('events.breakdowns')">
-            <Breakdowns @on-change="onChangeDebounce" />
-          </UiCard>
+      <GridContainer>
+        <UiCard class="filter-event-segmentation__item" :title="$t('events.events')">
+          <Events @on-change="onChange" />
+        </UiCard>
+        <UiCardContainer class="filter-event-segmentation__item">
+          <FilterReports @on-change="onChange" />
+        </UiCardContainer>
+        <UiCard class="filter-event-segmentation__item" :title="$t('events.segments.label')">
+          <Segments @on-change="onChange" />
+        </UiCard>
+        <UiCard class="filter-event-segmentation__item" :title="$t('events.breakdowns')">
+          <Breakdowns @on-change="onChange" />
+        </UiCard>
       </GridContainer>
     </GridItem>
-
     <GridItem :col-lg="9">
       <EventsViews
         :event-segmentation="eventSegmentation"
         :loading="eventSegmentationLoading"
         :report="activeReport"
-        @on-change="onChangeDebounce"
+        @on-change="onChange"
       />
     </GridItem>
   </GridContainer>
 </template>
 
 <script setup lang="ts">
-import { onUnmounted, onMounted, ref, computed } from 'vue'
-import { debounce } from 'lodash'
+import { onUnmounted, ref, computed, watch } from 'vue'
 import Events from '@/components/events/Events/Events.vue'
 import Breakdowns from '@/components/events/Breakdowns.vue'
 import Segments from '@/components/events/Segments/Segments.vue'
@@ -61,7 +56,7 @@ const segmentsStore = useSegmentsStore()
 const reportsStore = useReportsStore()
 
 const eventSegmentationLoading = ref(false)
-const eventSegmentation = ref<DataTableResponse>()
+const eventSegmentation = ref<DataTableResponse | null>()
 
 const emit = defineEmits<{
   (e: 'on-change'): void
@@ -82,6 +77,7 @@ onUnmounted(() => {
 const getEventSegmentation = async () => {
   if (eventsStore.propsForEventSegmentationResult.events.length) {
     eventSegmentationLoading.value = true
+
     try {
       const res = await reportsService.eventSegmentation(
         projectsStore.projectId,
@@ -91,25 +87,32 @@ const getEventSegmentation = async () => {
         eventSegmentation.value = res.data as DataTableResponse
       }
     } catch (error) {
-      throw new Error('error getEventSegmentation')
+      throw new Error('error getEvent Segmentation')
     }
-    eventSegmentationLoading.value = false
+  } else {
+    eventSegmentation.value = null
   }
+  eventSegmentationLoading.value = false
 }
 
-onMounted(() => {
-  getEventSegmentation()
-})
-
 const onChange = () => {
-  // TODO check who update in start
   getEventSegmentation()
   emit('on-change')
 }
 
-const onChangeDebounce = debounce(() => {
-  onChange()
-}, 1100)
+watch(
+  () => reportsStore.updateToEmpty,
+  value => {
+    if (value === true) {
+      eventsStore.$reset()
+      eventsStore.events = []
+      filterGroupsStore.$reset()
+      segmentsStore.$reset()
+      getEventSegmentation()
+      reportsStore.updateToEmpty = false
+    }
+  }
+)
 </script>
 
 <style scoped lang="scss">

@@ -1706,7 +1706,7 @@ paths:
           $ref: '#/components/responses/Internal'
         '503':
           $ref: '#/components/responses/ServiceUnavailable'
-  /projects/{projectId}/queries/funnel:
+  /v1/projects/{projectId}/queries/funnel:
     post:
       summary: Funnel query
       operationId: funnelQuery

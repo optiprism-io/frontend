@@ -288,13 +288,12 @@ const isShowSelectProp = computed(() => {
     const id = props.condition?.action?.id
 
     if (id && conditionItems) {
-
         return props.condition.aggregate && didEventAggregateSelectedConfig.value && didEventAggregateSelectedConfig.value.hasProperty
     } else {
         return false
     }
 })
-const displayNameProp = computed(() => props.condition.propRef ? lexiconStore.propertyName(props.condition.propRef) : i18n.$t('events.selectProperty'))
+const displayNameProp = computed(() => props.condition.propRef?.name || i18n.$t('events.selectProperty'))
 const isSelectedProp = computed(() =>  Boolean(props.condition.propRef))
 const changeProperty = (propRef: PropertyRef) => emit('change-property', propRef)
 

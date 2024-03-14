@@ -287,9 +287,11 @@ export const useLexiconStore = defineStore('lexicon', {
       return (ref: EventRef): string => {
         switch (ref.type) {
           case EventType.Regular:
-            return this.findEventById(ref.id).name
+            return ref.name ? this.findEventByName(ref.name).name : ''
           case EventType.Custom:
-            return this.findCustomEventById(ref.id).name
+            return ref.name ? this.findCustomEventByName(ref.name).name : ''
+          default:
+            return ref?.name || '';
         }
       }
     },
@@ -416,7 +418,7 @@ export const useLexiconStore = defineStore('lexicon', {
           ? state.eventProperties.find(
               (prop): boolean => (prop.name || prop.displayName) === ref.name
             )
-          : this.findEventPropertyById(ref.id)
+          : this.findEventPropertyByName(ref.name)
         if (!property) {
           errorHandler(`undefined property name: ${ref?.name}`)
         }
@@ -427,31 +429,16 @@ export const useLexiconStore = defineStore('lexicon', {
       return (ref: PropertyRef): Property | CustomProperty | UserCustomProperty | undefined => {
         switch (ref.type) {
           case PropertyType.Event:
-            return this.findEventPropertyById(ref.id)
+            return this.findEventPropertyByName(ref.name)
           case PropertyType.Custom:
-            return this.findEventCustomPropertyById(ref.id)
+            return this.findEventCustomPropertyByName(ref.name)
           case PropertyType.User:
-            return this.findUserPropertyById(ref.id)
+            return this.findUserPropertyByName(ref.name)
           case PropertyType.System:
-            return this.findSystemPropertyById(ref.id)
+            return this.findSystemPropertyByName(ref.name)
           default:
             return undefined
         }
-      }
-    },
-    propertyName() {
-      return (ref: PropertyRef): string => {
-        switch (ref.type) {
-          case PropertyType.Event:
-            return this.findEventPropertyById(ref.id)?.name || ''
-          case PropertyType.Custom:
-            return this.findEventCustomPropertyById(ref.id)?.name || ''
-          case PropertyType.User:
-            return this.findUserPropertyById(ref.id)?.name || ''
-          case PropertyType.System:
-            return this.findSystemPropertyById(ref.id)?.name || ''
-        }
-        return ''
       }
     },
     findCohortById(state: Lexicon) {

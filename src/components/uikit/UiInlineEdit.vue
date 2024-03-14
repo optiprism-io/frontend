@@ -15,7 +15,10 @@
             >
                 {{ value || props.placeholderValue }}
             </div>
-            <div class="pf-c-inline-edit__action pf-m-enable-editable">
+            <div
+                v-if="!props.hideControlEdit"
+                class="pf-c-inline-edit__action pf-m-enable-editable"
+            >
                 <button
                     class="pf-c-button pf-m-plain"
                     type="button"
@@ -77,12 +80,14 @@ interface Props {
     value: number | string
     placeholderValue?: string
     hideText?: boolean
+    hideControlEdit?: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {
     value: '',
     placeholderValue: '',
     hideText: false,
+    hideControlEdit: false
 })
 
 const emit = defineEmits([

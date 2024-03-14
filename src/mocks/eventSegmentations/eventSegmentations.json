@@ -18,6 +18,18 @@
             "data": null
         },
         {
+            "type": "dimension",
+            "dataType": "string",
+            "name": "properties",
+            "data": null
+        },
+        {
+            "type": "dimension",
+            "dataType": "string",
+            "name": "events",
+            "data": null
+        },
+        {
             "type": "metricValue",
             "dataType": "number",
             "name": "2021.11.10",
@@ -41,6 +53,46 @@
             "type": "metricValue",
             "dataType": "number",
             "name": "2021.11.13",
+            "data": [
+                5126,
+                2126,
+                3126
+            ]
+        },
+        {
+            "type": "metricValue",
+            "dataType": "number",
+            "name": "2023.11.13",
+            "data": [
+                5126,
+                2126,
+                3126
+            ]
+        },
+        {
+            "type": "metricValue",
+            "dataType": "number",
+            "name": "2025.11.13",
+            "data": [
+                5126,
+                2126,
+                3126
+            ]
+        },
+        {
+            "type": "metricValue",
+            "dataType": "number",
+            "name": "2043.11.13",
+            "data": [
+                5126,
+                2126,
+                3126
+            ]
+        },
+        {
+            "type": "metricValue",
+            "dataType": "number",
+            "name": "2055.11.13",
             "data": [
                 5126,
                 2126,
