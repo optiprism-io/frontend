@@ -360,15 +360,15 @@ const selectedGroupByString = computed(() => {
 })
 
 const onSelectGroupBy = (payload: string) => {
-  eventsStore.initPeriod()
   eventsStore.controlsGroupBy = payload as TimeUnit
-  eventsStore.controlsPeriod = itemsPeriod.value[itemsPeriod.value.length - 1].value
+  if (eventsStore.controlsPeriod !== 'calendar') {
+    eventsStore.controlsPeriod = itemsPeriod.value[itemsPeriod.value.length - 1].value
+  }
   updateEventSegmentationData()
 }
 
 const onSelectPerion = (payload: string) => {
   eventsStore.controlsPeriod = payload
-  eventsStore.initPeriod()
   updateEventSegmentationData()
 }
 

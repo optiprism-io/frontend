@@ -88,6 +88,7 @@
                     :value="cell.value"
                     :title="cell.title"
                     :nowrap="cell.nowrap"
+                    :items="cell.items"
                     @on-action="onAction"
                   />
                 </UiTableCellWrapper>
@@ -109,7 +110,6 @@ import UiTableCellWrapper from '@/components/uikit/UiTable/UiTableCellWrapper.vu
 import UiSelect, { UiSelectItem } from '@/components/uikit/UiSelect.vue'
 import UiSpinner from '@/components/uikit/UiSpinner.vue'
 import DataEmptyPlaceholder from '@/components/common/data/DataEmptyPlaceholder.vue'
-import { boolean } from 'valibot'
 
 const i18n = inject<any>('i18n')
 const slots = useSlots()

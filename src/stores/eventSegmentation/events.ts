@@ -140,7 +140,8 @@ export const useEventsStore = defineStore('events', {
         case 'last':
           return {
             type: TimeLastTypeEnum.Last,
-            last: this.controlsPeriod === 'calendar' ? this.period.last : Number(this.controlsPeriod),
+            last:
+              this.controlsPeriod === 'calendar' ? this.period.last : Number(this.controlsPeriod),
             unit: this.controlsGroupBy,
           }
         case 'since':
@@ -157,7 +158,8 @@ export const useEventsStore = defineStore('events', {
         default:
           return {
             type: TimeLastTypeEnum.Last,
-            last: this.controlsPeriod === 'calendar' ? this.period.last : Number(this.controlsPeriod),
+            last:
+              this.controlsPeriod === 'calendar' ? this.period.last : Number(this.controlsPeriod),
             unit: TimeUnit.Day,
           }
       }
@@ -283,7 +285,14 @@ export const useEventsStore = defineStore('events', {
           if (item.filters.length) {
             const filters = item.filters.reduce(
               (acc: EventFilterByProperty[], item): EventFilterByProperty[] => {
-                if (item.propRef && item.values.length) {
+                if (
+                  item.propRef &&
+                  (item.opId === OperationId.Empty ||
+                    item.opId === OperationId.Exists ||
+                    item.opId === OperationId.True ||
+                    item.opId === OperationId.False ||
+                    item.values.length)
+                ) {
                   acc.push({
                     type: 'property',
                     propertyName: item.propRef?.name || '',
@@ -298,7 +307,7 @@ export const useEventsStore = defineStore('events', {
             )
 
             if (filters.length) {
-              event.filters = filters;
+              event.filters = filters
             }
           }
 
@@ -317,7 +326,10 @@ export const useEventsStore = defineStore('events', {
       // if (segmentsStore.isSelectedAnySegments) {
       //   props.segments = segmentsStore.segmentationItems
       // }
-      if (filterGroupsStore.isSelectedAnyFilter) {
+      if (
+        filterGroupsStore.filters.groups.length &&
+        filterGroupsStore.filters.groups[0].filters?.length
+      ) {
         props.filters = filterGroupsStore.filters
       }
 

@@ -275,6 +275,7 @@ const removeEvent = (): void => {
 const removeFilter = (filterIdx: number): void => {
   const event = props.event
   event.filters.splice(filterIdx, 1)
+  emit('on-change')
 }
 
 const getPropertyValues = async (propRef: PropertyRef) => {
@@ -307,7 +308,7 @@ const addFilter = (propRef: PropertyRef): void => {
     return
   }
 
-  changeFilterProperty(filterIdx, propRef)
+  changeFilterProperty(filterIdx, propRef, false)
 }
 
 const show = () => {
@@ -318,7 +319,7 @@ const hide = () => {
   dropdownStatesControl.value = false
 }
 
-const changeFilterProperty = async (filterIdx: number, propRef: PropertyRef) => {
+const changeFilterProperty = async (filterIdx: number, propRef: PropertyRef, onChange = true) => {
   const event = props.event
 
   event.filters[filterIdx] = {
@@ -326,6 +327,10 @@ const changeFilterProperty = async (filterIdx: number, propRef: PropertyRef) => 
     opId: OperationId.Eq,
     values: [],
     valuesList: [],
+  }
+
+  if (onChange) {
+    emit('on-change')
   }
 }
 
@@ -342,6 +347,10 @@ const changeFilterOperation = (filterIdx: number, opId: OperationId) => {
   const event = props.event
   event.filters[filterIdx].opId = opId
   event.filters[filterIdx].values = []
+
+  if (opId === OperationId.Empty || opId === OperationId.Exists) {
+    emit('on-change')
+  }
 }
 
 const addFilterValue = (filterIdx: number, value: Value): void => {

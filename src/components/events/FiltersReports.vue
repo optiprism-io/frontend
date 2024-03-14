@@ -13,7 +13,7 @@
     </template>
   </UiCardTitle>
   <UiCardBody>
-    <FilterGroupsList />
+    <FilterGroupsList @input="onChange" />
   </UiCardBody>
 </template>
 
@@ -75,10 +75,4 @@ const onChangeFiltersType = () => {
 const onChange = () => {
   emit('on-change')
 }
-
-filterGroupsStore.$subscribe(mutation => {
-  if (mutation.type === 'direct') {
-    onChange()
-  }
-})
 </script>

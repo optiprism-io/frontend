@@ -43,7 +43,7 @@ const columns = computed(() => {
             value: key,
             title: isAction ? '' : i18n.$t(`events.event_management.columns.${key}`),
             default: isAction,
-            type: isAction? 'action' : '',
+            type: isAction ? 'action' : '',
         }
     })
 })

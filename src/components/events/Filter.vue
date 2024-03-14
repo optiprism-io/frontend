@@ -257,7 +257,7 @@ const isShowOperation = computed(() => {
 })
 
 const isShowValues = computed(() => {
-    return !['exists', 'empty'].includes(props.filter.opId) && isShowOperation.value
+    return !['exists', 'empty', 'true', 'false'].includes(props.filter.opId) && isShowOperation.value
 });
 
 const filterPropRefType = computed((): PropertyType | null => {
@@ -305,14 +305,20 @@ const ocClickValue = () => {
 };
 
 const addValue = (value: Value): void => {
-    if (false === value || null === value) {
+    if (value === null) {
         changeOperation(OperationId.Empty);
         emit('changeAllValues', props.index, [])
         return
     }
 
+    if (value === false) {
+        changeOperation(OperationId.False);
+        emit('changeAllValues', props.index, [])
+        return
+    }
+
     if (value === true) {
-        changeOperation(OperationId.Exists);
+        changeOperation(OperationId.True);
         emit('changeAllValues', props.index, [])
         return
     }
