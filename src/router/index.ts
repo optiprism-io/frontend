@@ -198,9 +198,6 @@ const routes: RouteRecordRaw[] = [
                     path: ':projectId' + ONLY_NUMBER_REG_EXP,
                     name: pagesMap.organizationProject,
                     component: () => import('@/pages/organization/OrganizationProject.vue'),
-                    meta: {
-                      breadcrumb: 'Project',
-                    },
                   },
                 ],
               },
