@@ -1,17 +1,11 @@
 import { defineStore } from 'pinia'
-import projectsService from '@/api/services/projects.service'
+import { schemaProjects } from '@/api/services/projects.service'
 import { Project, UpdateProjectRequest } from '@/api'
-import { safeParse } from 'valibot'
-import { moreThanZeroNumber, notEmptyString } from '@/utils/validationSchemes'
-import { isErrorResponseError } from '@/stores/profile/types'
-import { ProjectEdit, ProjectErrors } from '@/stores/projects/types'
 
 interface ProjectState {
   project: Project | null
   projectId: number
   isLoading: boolean
-  errors: ProjectErrors
-  isEdit: ProjectEdit
   projects: Project[]
 }
 
@@ -26,7 +20,6 @@ interface ProjectsListItem {
 }
 
 const STORAGE_PROJECT_ID_KEY = 'projectId'
-export const DEFAULT_SESSION_DURATION = 0
 
 export const useProjectsStore = defineStore('projects', {
   state: (): ProjectState => ({
@@ -34,16 +27,6 @@ export const useProjectsStore = defineStore('projects', {
     projectId: 0,
     projects: [],
     isLoading: false,
-    errors: {
-      updateProject: {
-        name: undefined,
-        sessionDurationSeconds: undefined,
-      },
-    },
-    isEdit: {
-      name: false,
-      sessionDurationSeconds: false,
-    },
   }),
 
   getters: {
@@ -91,7 +74,7 @@ export const useProjectsStore = defineStore('projects', {
       this.isLoading = true
       try {
         if (!this.projectId) throw Error
-        const { data } = await projectsService.project(this.projectId)
+        const { data } = await schemaProjects.project(this.projectId)
         this.project = data
       } catch (error) {
         throw new Error('error get project')
@@ -102,7 +85,7 @@ export const useProjectsStore = defineStore('projects', {
     async getProjectsList() {
       this.isLoading = true
       try {
-        const res = await projectsService.projectsList()
+        const res = await schemaProjects.projectsList()
 
         this.projects = res.data?.data || []
       } catch (error) {
@@ -121,92 +104,37 @@ export const useProjectsStore = defineStore('projects', {
       }
       this.setProjectId(projectId)
     },
-    async saveProjectName(name: string) {
-      const nCheck = safeParse(notEmptyString, name)
-      if (!nCheck.success) {
-        this.errors.updateProject.name = nCheck.error
-        return
-      }
 
+    async saveProjectName(id: number, name: string) {
       try {
-        await this.__updateProject({ name })
+        await this.__updateProject(id, { name })
       } catch (error) {
-        if (isErrorResponseError(error)) {
-          const err = error.error
-
-          if (err?.fields?.name) {
-            this.errors.updateProject.name = new Error(err.fields.name)
-            return
-          }
-
-          if (err?.message) throw new Error(err.message)
-        }
         throw new Error('error save project name')
       }
-
-      this.resetEditName()
     },
 
-    async saveSessionDuration(sessionDurationSeconds: number) {
-      const dCheck = safeParse(moreThanZeroNumber, sessionDurationSeconds)
-      if (!dCheck.success) {
-        this.errors.updateProject.sessionDurationSeconds = dCheck.error
-        return
-      }
-
+    async saveSessionDuration(id: number, sessionDurationSeconds: number) {
       try {
-        await this.__updateProject({ sessionDurationSeconds })
+        await this.__updateProject(id, { sessionDurationSeconds })
       } catch (error) {
-        if (isErrorResponseError(error)) {
-          const err = error.error
-
-          if (err?.fields?.sessionDurationSeconds) {
-            this.errors.updateProject.sessionDurationSeconds = new Error(
-              err.fields.sessionDurationSeconds
-            )
-            return
-          }
-
-          if (err?.message) throw new Error(err.message)
-        }
         throw new Error('error session duration')
       }
-
-      this.resetEditSessionDuration()
     },
 
     addProjectToList(project: Project) {
       this.projects.push(project)
     },
 
-    async __updateProject(req: UpdateProjectRequest) {
+    async __updateProject(id: number, req: UpdateProjectRequest) {
       if (!this.projectId) throw Error
-      const { data } = await projectsService.updateProject(this.projectId, req)
+      const { data } = await schemaProjects.updateProject(id || this.projectId, req)
 
       if (data) {
-        this.projects = this.projects.map((item) => {
-          return Number(item.id) === Number(data.id) ? data : item;
-        });
+        this.projects = this.projects.map(item => {
+          return Number(item.id) === Number(data.id) ? data : item
+        })
       }
       this.project = data
-    },
-
-    resetEditName() {
-      this.isEdit.name = false
-      this.clearErrorName()
-    },
-
-    resetEditSessionDuration() {
-      this.isEdit.sessionDurationSeconds = false
-      this.clearErrorSessionDuration()
-    },
-
-    clearErrorName() {
-      this.errors.updateProject.name = undefined
-    },
-
-    clearErrorSessionDuration() {
-      this.errors.updateProject.sessionDurationSeconds = undefined
     },
   },
 })

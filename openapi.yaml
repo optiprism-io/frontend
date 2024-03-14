@@ -2111,7 +2111,10 @@ components:
           type: integer
     Organization:
       type: object
+      required: [ 'id', 'name' ]
       properties:
+        id:
+          type: number
         name:
           type: string
     CreateOrganizationRequest:

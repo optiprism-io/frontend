@@ -31,7 +31,7 @@ const router = useRouter()
 
 function onCreatedProject() {
   setShowCreatePopup(false)
-  router.push({ name: pagesMap.dashboards.name })
+  router.push({ name: pagesMap.dashboards.name }).then(() => window.location.reload())
 }
 
 const projectStore = useProjectsStore()

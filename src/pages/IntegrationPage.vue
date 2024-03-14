@@ -10,7 +10,7 @@
           <div v-else class="pf-l-flex pf-u-align-items-center pf-m-nowrap">
             <UiTabs class="pf-u-mb-md" :items="tabs" :is-vertical="true" @on-select="onSelectTab" />
             <IntegrationContent>
-              <UiAlert :item="alert" />
+              <UiAlert v-if="!projectsStore.project?.eventsCount" :item="alert" />
 
               <IntegrationContentJS
                 v-if="activeTab === SDKIntegration.javascript"
@@ -45,10 +45,7 @@ const router = useRouter()
 const i18n = inject<any>('i18n')
 
 const projectsStore = useProjectsStore()
-const { getProject } = projectsStore
 const { project, isLoading } = storeToRefs(projectsStore)
-
-getProject()
 
 const activeTab = computed(() => route.params.integration)
 

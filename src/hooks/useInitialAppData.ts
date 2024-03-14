@@ -6,10 +6,15 @@ export const useInitialAppData = () => {
   const projectStore = useProjectsStore()
 
   function loadAppData() {
-    return Promise.all([profileStore.getProfile(), projectStore.init()])
+    return Promise.all([profileStore.getProfile(), loadProjectStore()])
   }
 
   return {
     loadAppData,
+  }
+
+  async function loadProjectStore() {
+    await projectStore.init()
+    await projectStore.getProject()
   }
 }

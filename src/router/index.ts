@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
-import { checkCreatedProject, checkIntegration, isAuth } from '@/router/routerGuards'
+import { checkCreatedProject, isAuth } from '@/router/routerGuards'
 
 export enum SDKIntegration {
   javascript = 'javascript',
@@ -35,7 +35,15 @@ export const pagesMap = {
   profile: 'profile',
   projectsSettings: 'projectsSettings',
   integration: 'integration',
+  organizations: 'organizations',
+  organizationList: 'organizationList',
+  organization: 'organization',
+  organizationOverview: 'organizationOverview',
+  organizationProjectList: 'organizationProjectList',
+  organizationProject: 'organizationProject',
 }
+
+const ONLY_NUMBER_REG_EXP = '(\\d+)'
 
 const routes: RouteRecordRaw[] = [
   {
@@ -149,8 +157,55 @@ const routes: RouteRecordRaw[] = [
       {
         path: 'projects/:id/settings',
         name: pagesMap.projectsSettings,
-        component: () => import('@/pages/ProjectSettings.vue'),
+        component: () => import('@/pages/projectSettings/ProjectSettings.vue'),
       },
+      {
+        path: 'organizations',
+        name: pagesMap.organizations,
+        redirect: { name: pagesMap.organizationList },
+        meta: {
+          breadcrumb: 'Organizations',
+        },
+        children: [
+          {
+            path: '',
+            name: pagesMap.organizationList,
+            component: () => import('@/pages/organization/OrganizationList.vue'),
+          },
+          {
+            path: ':id' + ONLY_NUMBER_REG_EXP,
+            redirect: { name: pagesMap.organizationOverview },
+            name: pagesMap.organization,
+            component: () => import('@/pages/organization/OrganizationPage.vue'),
+            children: [
+              {
+                path: 'overview',
+                name: pagesMap.organizationOverview,
+                component: () => import('@/pages/organization/OrganizationOverview.vue'),
+                meta: {
+                  breadcrumb: 'Overview',
+                },
+              },
+              {
+                path: 'projects',
+                name: pagesMap.organizationProjectList,
+                component: () => import('@/pages/organization/OrganizationProjects.vue'),
+                meta: {
+                  breadcrumb: 'Projects',
+                },
+                children: [
+                  {
+                    path: ':projectId' + ONLY_NUMBER_REG_EXP,
+                    name: pagesMap.organizationProject,
+                    component: () => import('@/pages/organization/OrganizationProject.vue'),
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+
       {
         path: 'integration',
         redirect: {
@@ -159,10 +214,10 @@ const routes: RouteRecordRaw[] = [
         },
         children: [
           {
-            path: ':integration',
+            /* TODO: change regexp to ":integration(javascript|android|ios)" when pages ios and android are added */
+            path: ':integration(javascript)',
             name: pagesMap.integration,
             component: () => import('@/pages/IntegrationPage.vue'),
-            beforeEnter: [checkIntegration],
           },
         ],
       },

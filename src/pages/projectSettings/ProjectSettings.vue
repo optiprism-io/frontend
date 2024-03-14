@@ -11,12 +11,13 @@
             v-else-if="project"
             v-model:is-edit="isEdit"
             :name="project.name"
+            :sdk-token="project.sdkToken"
             :session-duration-seconds="project.sessionDurationSeconds"
             :errors="errors"
             @input-name="clearErrorName"
             @input-duration="clearErrorSessionDuration"
-            @save-project-name="saveProjectName"
-            @save-session-duration="saveSessionDuration"
+            @save-project-name="saveProjectNameHandler"
+            @save-session-duration="saveSessionDurationHandler"
           />
         </UiCard>
       </template>
@@ -25,41 +26,45 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, computed } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
-import { storeToRefs } from 'pinia'
-import { pagesMap } from '@/router'
-
 import UiSpinner from '@/components/uikit/UiSpinner.vue'
 import UiCard from '@/components/uikit/UiCard/UiCard.vue'
 import ToolsLayout from '@/layout/tools/ToolsLayout.vue'
-import { useProjectsStore } from '@/stores/projects/projects'
 import ProjectsForm from '@/components/projects/ProjectsForm.vue'
+import { ref } from 'vue'
+import { useRoute } from 'vue-router'
+import { Project } from '@/api'
+import { useProjectSettings } from '@/pages/projectSettings/useProjectSettings'
+import { useMutation } from '@/hooks/useMutation'
 
-const projectsStore = useProjectsStore()
 const route = useRoute()
-const router = useRouter()
+const projectID = +route.params.id
 
 const {
+  errors,
+  isEdit,
   getProject,
-  saveProjectName,
-  saveSessionDuration,
   clearErrorName,
   clearErrorSessionDuration,
-} = projectsStore
-const { isLoading, errors, isEdit } = storeToRefs(projectsStore)
+  saveProjectName,
+  saveSessionDuration,
+} = useProjectSettings()
 
-const project = computed(() => projectsStore.project)
+const project = ref<Project | null>(null)
 
-onMounted(() => {
-  projectsStore.isLoading = true
+const { isLoading, mutate: updProject } = useMutation(updateProject)
+updProject()
 
-  if (Number(route?.params?.id) !== Number(projectsStore.projectId)) {
-    router.replace({
-      name: pagesMap.dashboards.name,
-    })
-  } else {
-    getProject()
-  }
-})
+async function saveProjectNameHandler(name: string) {
+  await saveProjectName(projectID, name)
+  await updProject()
+}
+
+async function saveSessionDurationHandler(duration: number) {
+  await saveSessionDuration(projectID, duration)
+  await updProject()
+}
+
+async function updateProject() {
+  project.value = await getProject(projectID)
+}
 </script>

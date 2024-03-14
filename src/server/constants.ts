@@ -1,5 +1,3 @@
-import { customAlphabet } from 'nanoid'
-
 const accessToken =
   'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJleHAiOjE3MDU2NTYzNzQsImFjY291bnRJZCI6MSwib3JnYW5pemF0aW9uSWQiOjEsInByb2plY3RJZCI6MX0.oeOoD7lowPx7unB9qAK4zNu6S_P9eyezZ6S_cTB5Sy2mzFT2HYyUoHXbJD3bT99vrNOakSRh3Ws_0eEkDTlFmQ'
 const refreshToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6Im5pa28ga3VzaCIsImlhdCI6MTUxNjIzOTAyMn0.FzpmXmStgiYEO15ZbwwPafVRQSOCO_xidYjrjRvVIbQ'
@@ -18,6 +16,3 @@ export enum Stub {
   ERROR = 'error',
   TOAST = 'toast',
 }
-
-const alphabet = '0123456789'
-export const nanoid = customAlphabet(alphabet, 4)

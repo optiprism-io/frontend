@@ -15,13 +15,16 @@ import dashboardsMocks from '@/mocks/dashboards'
 import groupRecordsMocks from '@/mocks/groupRecords.json'
 import profileMocks from '@/mocks/profile'
 import { profileRoutes } from '@/server/services/profile.service'
-import { EMPTY_SUCCESS_RES, nanoid } from '@/server/constants'
-import { getRandomTiming } from '@/server/utils/getRandomTiming'
+import { EMPTY_SUCCESS_RES } from '@/server/constants'
 import { projectsRoutes } from '@/server/services/projects.service'
 import projectsMocks from '@/mocks/projects'
 import { authRoutes } from '@/server/services/auth.service'
+import { organizationsRoutes } from '@/server/services/organizations.service'
+import { organizations } from '@/mocks/organizations'
+import { faker } from '@/server/faker'
 
 const urlPrefix = BASE_PATH + '/' + import.meta.env.VITE_API_VERSION
+const SESSION_STORAGE_KEY = 'db'
 
 const dbTemplate: { [k: string]: any } = {
   events: eventMocks,
@@ -34,6 +37,7 @@ const dbTemplate: { [k: string]: any } = {
   groupRecords: groupRecordsMocks,
   liveStreamMocks: liveStreamMocks,
   projects: projectsMocks,
+  organizations: organizations,
 }
 
 const requiredTemplate = {
@@ -48,16 +52,22 @@ const emptyDbTemplate = dbTemplateKeys.reduce((acc: { [key: string]: [] }, key) 
 }, {})
 
 export default function ({ environment = 'development', isSeed = true } = {}) {
-    return createServer({
+    const server = createServer({
         environment,
         urlPrefix,
 
-        /* timing of all requests */
-        timing: getRandomTiming(),
+        /* timing of all requests. Min and max are random milliseconds for request */
+        timing: faker.number.int({ min: 0, max: 0 }),
 
         seeds(server) {
-            server.db.loadData(isSeed ? dbTemplate : emptyDbTemplate);
+          const dbData = sessionStorage.getItem(SESSION_STORAGE_KEY)
+
+          if (dbData) {
+            server.db.loadData(JSON.parse(dbData))
+          } else {
+            server.db.loadData(isSeed ? dbTemplate : emptyDbTemplate)
             server.db.loadData(requiredTemplate)
+          }
         },
 
         routes() {
@@ -184,7 +194,7 @@ export default function ({ environment = 'development', isSeed = true } = {}) {
                 const body = JSON.parse(request.requestBody);
 
                 return schema.db.reports.insert({
-                    id: nanoid(),
+                    id: faker.string.numeric(4),
                     ...body,
                 })
             })
@@ -215,8 +225,7 @@ export default function ({ environment = 'development', isSeed = true } = {}) {
                 }
             })
 
-            /* TODO: `/projects/:project_id/queries/funnel` doesn't work. Try to solve this problem. */
-            this.post(`${BASE_PATH}/projects/:project_id/queries/funnel`, (schema, request) => {
+            this.post(`/projects/:project_id/queries/funnel`, (schema, request) => {
                 return funnelsMocks
             })
 
@@ -230,7 +239,7 @@ export default function ({ environment = 'development', isSeed = true } = {}) {
             this.post('/projects/:project_id/dashboards', (schema, request) => {
                 const body = JSON.parse(request.requestBody)
                 return schema.db.dashboards.insert({
-                    id: nanoid(),
+                    id: faker.string.numeric(4),
                     ...body,
                 })
             })
@@ -264,9 +273,18 @@ export default function ({ environment = 'development', isSeed = true } = {}) {
              * end Group-records
              */
 
-            authRoutes(this),
-                profileRoutes(this)
+            authRoutes(this)
+            profileRoutes(this)
             projectsRoutes(this)
+            organizationsRoutes(this)
         }
-    });
+    })
+
+    /* It saves the current state of the MirageJS server's database to the session storage. */
+    const mirageRequestHandler = server.pretender.handledRequest
+
+    server.pretender.handledRequest = function (verb, path, request) {
+        sessionStorage.setItem(SESSION_STORAGE_KEY, JSON.stringify(server.db.dump()))
+        mirageRequestHandler(verb, path, request)
+    }
 }

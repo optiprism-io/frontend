@@ -41,42 +41,42 @@ const createErrorGeneral = (res: ErrorResponse, text?: string) => {
     });
 };
 
-axios.interceptors.response.use(res => res, async err => {
-    const error = `${err?.response?.status || err?.error?.status || ''} ${err?.code || ''} ${err?.message}`;
+/* TODO: think about where to move the interceptors to a more suitable place */
+axios.interceptors.response.use(
+  res => res,
+  async err => {
+    const status = err.response ? err.response.status : null
+    const error = `${err?.response?.status || err?.error?.status || ''} ${err?.code || ''} ${err?.message}`
 
-
-    if (err?.response) {
-        if (err.code === 'ERR_NETWORK') {
-            createErrorGeneral(err.response, error);
-            return Promise.reject(err);
-        }
-
-        switch (err?.response?.status || err?.error?.status) {
-            case HttpStatusCode.BadRequest:
-                if (err.response?.data) {
-                    if (err.response?.data?.error?.message) {
-                        createErrorGeneral(
-                            err.response,
-                            err.response.data.error.message
-                        );
-                    }
-                    return Promise.reject(err.response.data);
-                }
-                break;
-            case HttpStatusCode.Unauthorized:
-                await authStore.onRefreshToken();
-                return Promise.reject(err);
-            case HttpStatusCode.InternalServerError:
-            case HttpStatusCode.ServiceUnavailable:
-            default:
-                createErrorGeneral(err, error);
-                break;
-
-        }
+    if (err.code === 'ERR_NETWORK') {
+      createErrorGeneral(err.response, error)
+      return Promise.reject(err)
     }
 
-    return Promise.resolve();
-});
+    switch (status) {
+      case HttpStatusCode.Unauthorized:
+        return authStore.onRefreshToken().then(_ => {
+          err.config.headers['Authorization'] = 'Bearer ' + authStore.accessToken
+          err.config.baseURL = undefined
+          return axios.request(err.config)
+        })
+
+      case HttpStatusCode.BadRequest:
+        if (err.response?.data) {
+          if (err.response?.data?.error?.message) {
+            createErrorGeneral(err.response, err.response.data.error.message)
+          }
+          return Promise.reject(err.response.data)
+        }
+        break
+      case HttpStatusCode.InternalServerError:
+      case HttpStatusCode.ServiceUnavailable:
+      default:
+        createErrorGeneral(err, error)
+        break
+    }
+  }
+)
 </script>
 
 <style lang="scss">

@@ -51,6 +51,9 @@
         <UiFormError :error="errors.updateProject.sessionDurationSeconds?.message" />
       </UiInlineEditSlot>
     </UiLabelAndSlot>
+    <UiLabelAndSlot :label="t('project.sdkToken')">
+      {{ sdkToken }}
+    </UiLabelAndSlot>
   </form>
 </template>
 
@@ -79,6 +82,7 @@ const { t } = usei18n()
 interface IProps {
   name?: string
   sessionDurationSeconds?: number
+  sdkToken?: string
   errors: ProjectErrors
   isEdit: ProjectEdit
 }
@@ -86,6 +90,7 @@ interface IProps {
 const props = withDefaults(defineProps<IProps>(), {
   name: '',
   sessionDurationSeconds: 0,
+  sdkToken: '',
 })
 
 const emit = defineEmits<{

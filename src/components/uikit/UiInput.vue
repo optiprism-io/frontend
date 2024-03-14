@@ -11,6 +11,7 @@
     :type="props.type"
     :aria-invalid="invalid"
     :autocomplete="props.autocomplete"
+    :disabled="disabled"
     @input="updateValue"
     @blur="blur"
   />
@@ -33,6 +34,7 @@ interface Props {
   error?: string
   invalid?: boolean
   autocomplete?: 'new-password' | 'current-password' | 'username'
+  disabled?: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -42,6 +44,7 @@ const props = withDefaults(defineProps<Props>(), {
   placeholder: undefined,
   min: undefined,
   name: undefined,
+  disabled: false,
 })
 
 const input = ref<HTMLCanvasElement | null>(null)
