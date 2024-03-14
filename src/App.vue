@@ -56,6 +56,12 @@ axios.interceptors.response.use(
     switch (status) {
       case HttpStatusCode.Unauthorized:
         return authStore.onRefreshToken().then(_ => {
+          /* add an exception when the refresh token is expired */
+          if (err.config.url.includes('refresh-token')) {
+            authStore.logout()
+            return Promise.reject(err)
+          }
+
           err.config.headers['Authorization'] = 'Bearer ' + authStore.accessToken
           err.config.baseURL = undefined
           return axios.request(err.config)
