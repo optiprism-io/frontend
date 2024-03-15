@@ -1,5 +1,5 @@
 import { createServer } from 'miragejs'
-import { DataType } from '@/api'
+import { DataType, UserPropertiesList200Response } from '@/api'
 import { BASE_PATH } from '@/api/base'
 import { EventStatus, UserCustomProperty } from '@/types/events'
 import liveStreamMocks from '@/mocks/reports/liveStream.json'
@@ -85,6 +85,12 @@ export default function ({ environment = 'development', isSeed = true } = {}) {
                 return {
                     data: schema.db.customEvents.map(item => ({ ...item, id: Number(item.id) })),
                 };
+            })
+
+            this.get('/projects/:project_id/schema/system-properties', (): UserPropertiesList200Response => {
+                return {
+                    data: [],
+                }
             })
 
             this.delete('/projects/:project_id/schema/custom-events/:event_id', (schema, request) => {
