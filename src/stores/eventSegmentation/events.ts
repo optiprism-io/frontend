@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import { EventRef, PropertyRef, EventQueryRef } from '@/types/events'
 import { OperationId, Value, Group } from '@/types'
-import { getYYYYMMDD } from '@/helpers/getStringDates'
+import { getYYYYMMDD, formatDateTime } from '@/helpers/getStringDates'
 import { getLastNDaysRange } from '@/helpers/calendarHelper'
 import {
   PropertyType,
@@ -147,13 +147,13 @@ export const useEventsStore = defineStore('events', {
         case 'since':
           return {
             type: TimeFromTypeEnum.From,
-            from: new Date(this.period.from).toJSON(),
+            from: formatDateTime(this.period.from, 0, 0, 0),
           }
         case 'between':
           return {
             type: TimeBetweenTypeEnum.Between,
-            from: new Date(this.period.from).toJSON(),
-            to: new Date(this.period.to).toJSON(),
+            from: formatDateTime(this.period.from, 0, 0, 0, 0),
+            to: formatDateTime(this.period.to, 23, 59, 59, 999),
           }
         default:
           return {

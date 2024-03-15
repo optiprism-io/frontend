@@ -9,10 +9,15 @@ import {
   PropertyFilterOperation,
   EventRecordsListRequest,
   DataTableResponseColumnsInner,
+  TimeUnit,
+  TimeLastTypeEnum,
+  TimeBetweenTypeEnum,
+  TimeFromTypeEnum,
 } from '@/api'
 import { Event } from '@/stores/eventSegmentation/events'
 import dataService from '@/api/services/datas.service'
 import { useProjectsStore } from '@/stores/projects/projects'
+import { formatDateTime } from '@/helpers/getStringDates'
 
 export interface Report {
   name: string
@@ -98,26 +103,28 @@ export const useLiveStreamStore = defineStore('liveStream', {
       switch (this.period.type) {
         case 'last':
           return {
-            type: this.period.type,
-            last: this.period.last,
+            type: TimeLastTypeEnum.Last,
+            last:
+              this.controlsPeriod === 'calendar' ? this.period.last : Number(this.controlsPeriod),
             unit: 'day',
           }
         case 'since':
           return {
-            type: 'from',
-            from: new Date(this.period.from).toJSON(),
+            type: TimeFromTypeEnum.From,
+            from: formatDateTime(this.period.from, 0, 0, 0),
           }
         case 'between':
           return {
-            type: this.period.type,
-            from: new Date(this.period.from).toJSON(),
-            to: new Date(this.period.to).toJSON(),
+            type: TimeBetweenTypeEnum.Between,
+            from: formatDateTime(this.period.from, 0, 0, 0, 0),
+            to: formatDateTime(this.period.to, 23, 59, 59, 999),
           }
         default:
           return {
-            type: 'last',
-            last: Number(this.controlsPeriod),
-            unit: 'day',
+            type: TimeLastTypeEnum.Last,
+            last:
+              this.controlsPeriod === 'calendar' ? this.period.last : Number(this.controlsPeriod),
+            unit: TimeUnit.Day,
           }
       }
     },

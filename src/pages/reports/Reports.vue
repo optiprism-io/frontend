@@ -213,16 +213,6 @@ const setNameReport = (payload: string) => {
   onSaveReport()
 }
 
-const setNew = async () => {
-  router.push(pagesMap.reportsEventSegmentation.name)
-
-  const routeData = router.resolve({
-    name: pagesMap.reportsEventSegmentation.name,
-  })
-
-  window.open(routeData.href, '_blank')
-}
-
 const onSelectTab = (value: string) => {
   if (value === pagesMap.reportsEventSegmentation.name) {
     reportsStore.emptyReport()
@@ -245,18 +235,6 @@ const onSelectReport = async (id: number) => {
     },
     query: route.query,
   })
-}
-
-const initReportPage = async () => {
-  const reportId =
-    (reportsId.value.includes(Number(route.params?.id)) ? route.params?.id : reportsId.value[0]) ||
-    null
-
-  if (reportId) {
-    await onSelectReport(Number(reportId))
-  }
-
-  reportsStore.loading = false
 }
 
 const initEventsAndProperties = async () => {

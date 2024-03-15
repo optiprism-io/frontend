@@ -2130,6 +2130,9 @@ components:
           type: string
         eventsCount:
           type: integer
+        timezone:
+          type: string
+          format: date-time
     CreateProjectRequest:
       type: object
       required: [ 'name' ]

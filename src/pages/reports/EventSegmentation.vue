@@ -101,6 +101,13 @@ const onChange = () => {
 }
 
 watch(
+  () => activeReport.value,
+  () => {
+    getEventSegmentation()
+  }
+)
+
+watch(
   () => reportsStore.updateToEmpty,
   value => {
     if (value === true) {

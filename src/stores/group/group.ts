@@ -1,6 +1,15 @@
 import { defineStore } from 'pinia'
-import { GroupRecord, EventRecordsListRequestTime, Value } from '@/api'
+import {
+  GroupRecord,
+  EventRecordsListRequestTime,
+  Value,
+  TimeUnit,
+  TimeLastTypeEnum,
+  TimeBetweenTypeEnum,
+  TimeFromTypeEnum,
+} from '@/api'
 import { groupRecordsService } from '@/api/services/groupRecords.service'
+import { formatDateTime } from '@/helpers/getStringDates'
 import { useSegmentsStore } from '@/stores/reports/segments'
 import { useProjectsStore } from '@/stores/projects/projects'
 
@@ -91,26 +100,28 @@ export const useGroupStore = defineStore('group', {
       switch (this.period.type) {
         case 'last':
           return {
-            type: this.period.type,
-            last: this.period.last,
+            type: TimeLastTypeEnum.Last,
+            last:
+              this.controlsPeriod === 'calendar' ? this.period.last : Number(this.controlsPeriod),
             unit: 'day',
           }
         case 'since':
           return {
-            type: 'from',
-            from: this.period.from,
+            type: TimeFromTypeEnum.From,
+            from: formatDateTime(this.period.from, 0, 0, 0),
           }
         case 'between':
           return {
-            type: this.period.type,
-            from: this.period.from,
-            to: this.period.to,
+            type: TimeBetweenTypeEnum.Between,
+            from: formatDateTime(this.period.from, 0, 0, 0, 0),
+            to: formatDateTime(this.period.to, 23, 59, 59, 999),
           }
         default:
           return {
-            type: 'last',
-            last: Number(this.controlsPeriod),
-            unit: 'day',
+            type: TimeLastTypeEnum.Last,
+            last:
+              this.controlsPeriod === 'calendar' ? this.period.last : Number(this.controlsPeriod),
+            unit: TimeUnit.Day,
           }
       }
     },
