@@ -1,14 +1,14 @@
-import { defineComponent } from 'vue'
+import { defineComponent, ref } from 'vue'
 import {
   DataTableResponse,
   DataTableResponseColumnsInner,
   DataTableResponseColumnsInnerData,
 } from '@/api'
 import { getStringDateByFormat } from '@/helpers/getStringDates'
-import { Cell, Column, Row } from '@/components/uikit/UiTable/UiTable'
+import { Column, Row } from '@/components/uikit/UiTable/UiTable'
 import UiTableCellDate from '@/components/uikit/UiTable/UiTableCellDate.vue'
 
-const FIXED_COLUMNS_TYPES = ['dimension', 'metric']
+const FIXED_COLUMNS_TYPES_DEFAULT = ['dimension', 'metric']
 
 const componentsMap: { [key: string]: ReturnType<typeof defineComponent> } = {
   created_at: UiTableCellDate,
@@ -27,14 +27,13 @@ export type ResponseUseDataTable = {
   pieChart: any[]
 }
 
-type OptionsType = {
-  accName: string | null
-}
-
 export default function useDataTable(
   payload: DataTableResponse,
-  noWrapContent = false
+  noWrapContent = false,
+  fixedColumn?: string[]
 ): ResponseUseDataTable {
+  const fixedColumnsTypes = fixedColumn || FIXED_COLUMNS_TYPES_DEFAULT
+
   const columnsData = (payload?.columns || []).reduce(
     (acc: DataTableResponseColumnsInnerData[], item) => {
       if (Array.isArray(item.data) && item.data.length) {
@@ -83,7 +82,7 @@ export default function useDataTable(
     tableColumns = {
       ...payload?.columns.reduce((acc: any, column: DataTableResponseColumnsInner, i: number) => {
         if (column.name && column.type) {
-          if (FIXED_COLUMNS_TYPES.includes(column.type)) {
+          if (fixedColumnsTypes.includes(column.type)) {
             acc[column.name] = {
               value: column.name,
               title: column.name,
@@ -109,7 +108,7 @@ export default function useDataTable(
 
     tableData = payload?.columns.reduce(
       (tableRows: Row[], column: DataTableResponseColumnsInner, indexColumn: number) => {
-        const isFixedColumn = FIXED_COLUMNS_TYPES.includes(column.type)
+        const isFixedColumn = fixedColumnsTypes.includes(column.type)
 
         if (column.data) {
           column.data.forEach((item, i) => {
@@ -121,7 +120,7 @@ export default function useDataTable(
               key: column.name,
               value: item,
               title: item || '-',
-              nowrap: isFixedColumn && noWrapContent,
+              nowrap: noWrapContent,
               lastFixed: isFixedColumn && indexColumn === fixedColumnLength,
               fixed: isFixedColumn,
               component: componentsMap[column.name] || null,
@@ -133,7 +132,7 @@ export default function useDataTable(
               key: column.name,
               value: undefined,
               title: '-',
-              nowrap: isFixedColumn && noWrapContent,
+              nowrap: noWrapContent,
               lastFixed: isFixedColumn && indexColumn === fixedColumnLength,
               fixed: isFixedColumn,
               component: componentsMap[column.name] || null,

@@ -2101,6 +2101,9 @@ components:
                 type: string
         status:
           type: string
+        timezone:
+          type: string
+          format: date-time
     Project:
       type: object
       required: [ 'id', 'createdAt', 'updatedAt', 'createdBy', 'creator','updatedBy', 'name', 'sessionDurationSeconds', 'sdkToken', 'eventsCount' ]
@@ -2130,9 +2133,6 @@ components:
           type: string
         eventsCount:
           type: integer
-        timezone:
-          type: string
-          format: date-time
     CreateProjectRequest:
       type: object
       required: [ 'name' ]
@@ -3519,7 +3519,7 @@ components:
     TimeBetween:
       type: object
       description: time range between fixed values
-      required: [ "type", "from", "to" ]
+      required: [ "type", "from", "to", "timezone" ]
       example: |
         {
           "time": {
@@ -3543,10 +3543,13 @@ components:
           format: date-time
           description: end date
           example: 2017-08-21T17:32:28Z
+        timezone:
+          type: string
+          format: date-time
     TimeFrom:
       type: object
       description: time range between fixed value and current time
-      required: [ "type", "from" ]
+      required: [ "type", "from", "timezone" ]
       example: |
         {
           "time": {
@@ -3564,10 +3567,13 @@ components:
           format: date-time
           description: start date
           example: 2017-0-21T17:32:28Z
+        timezone:
+          type: string
+          format: date-time
     TimeLast:
       type: object
       description: take last N days/weeks
-      required: [ "type", "last", "unit" ]
+      required: [ "type", "last", "unit", "timezone" ]
       example: |
         {
           "time": {
@@ -4040,7 +4046,7 @@ components:
     Profile:
       type: object
       description: User profile
-      required: [ 'id','name','email' ]
+      required: [ 'id','name','email', 'timezone' ]
       properties:
         id:
           type: integer
@@ -4049,6 +4055,9 @@ components:
           type: string
         email:
           type: string
+        timezone:
+          type: string
+          format: date-time
     UpdateProfileNameRequest:
       type: object
       required: [ 'name' ]

@@ -4,6 +4,7 @@
     :class="{
       'pf-u-text-nowrap': props.nowrap,
     }"
+    :title="isHasTooltip ? tableCellVal : ''"
   >
     {{ tableCellVal }}
   </div>
@@ -25,4 +26,15 @@ const props = defineProps<Props>()
 const tableCellVal = computed(() =>
   isNumber(props.title) ? humanReadable(props.title) : props.title
 )
+
+const isHasTooltip = computed(() => tableCellVal.value.length > 46)
 </script>
+
+<style lang="scss">
+.ui-table-cell {
+  &.pf-u-text-nowrap {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+</style>

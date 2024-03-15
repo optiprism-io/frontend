@@ -3,15 +3,12 @@ import {
   GroupRecord,
   EventRecordsListRequestTime,
   Value,
-  TimeUnit,
-  TimeLastTypeEnum,
-  TimeBetweenTypeEnum,
-  TimeFromTypeEnum,
+
 } from '@/api'
 import { groupRecordsService } from '@/api/services/groupRecords.service'
-import { formatDateTime } from '@/helpers/getStringDates'
 import { useSegmentsStore } from '@/stores/reports/segments'
 import { useProjectsStore } from '@/stores/projects/projects'
+import { usePeriod } from '@/hooks/usePeriod'
 
 export type GroupMap = {
   [key: number]: GroupRecord
@@ -97,33 +94,14 @@ export const useGroupStore = defineStore('group', {
       )
     },
     timeRequest(): EventRecordsListRequestTime {
-      switch (this.period.type) {
-        case 'last':
-          return {
-            type: TimeLastTypeEnum.Last,
-            last:
-              this.controlsPeriod === 'calendar' ? this.period.last : Number(this.controlsPeriod),
-            unit: 'day',
-          }
-        case 'since':
-          return {
-            type: TimeFromTypeEnum.From,
-            from: formatDateTime(this.period.from, 0, 0, 0),
-          }
-        case 'between':
-          return {
-            type: TimeBetweenTypeEnum.Between,
-            from: formatDateTime(this.period.from, 0, 0, 0, 0),
-            to: formatDateTime(this.period.to, 23, 59, 59, 999),
-          }
-        default:
-          return {
-            type: TimeLastTypeEnum.Last,
-            last:
-              this.controlsPeriod === 'calendar' ? this.period.last : Number(this.controlsPeriod),
-            unit: TimeUnit.Day,
-          }
-      }
+      const { getRequestTime } = usePeriod()
+      return getRequestTime(
+        this.period.type,
+        this.controlsPeriod,
+        this.period.from,
+        this.period.to,
+        this.period.last
+      )
     },
     isNoData(): boolean {
       return !this.items.length && !this.loading

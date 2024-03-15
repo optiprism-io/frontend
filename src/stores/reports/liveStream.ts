@@ -3,21 +3,15 @@ import {
   EventFilterByProperty,
   EventRecordRequestEvent,
   EventType,
-  TimeBetween,
-  TimeFrom,
-  TimeLast,
   PropertyFilterOperation,
   EventRecordsListRequest,
   DataTableResponseColumnsInner,
-  TimeUnit,
-  TimeLastTypeEnum,
-  TimeBetweenTypeEnum,
-  TimeFromTypeEnum,
+  EventRecordsListRequestTime,
 } from '@/api'
 import { Event } from '@/stores/eventSegmentation/events'
 import dataService from '@/api/services/datas.service'
 import { useProjectsStore } from '@/stores/projects/projects'
-import { formatDateTime } from '@/helpers/getStringDates'
+import { usePeriod } from '@/hooks/usePeriod'
 
 export interface Report {
   name: string
@@ -99,34 +93,15 @@ export const useLiveStreamStore = defineStore('liveStream', {
         Boolean(this.period.from) && Boolean(this.period.to) && this.controlsPeriod === 'calendar'
       )
     },
-    timeRequest(): TimeBetween | TimeFrom | TimeLast {
-      switch (this.period.type) {
-        case 'last':
-          return {
-            type: TimeLastTypeEnum.Last,
-            last:
-              this.controlsPeriod === 'calendar' ? this.period.last : Number(this.controlsPeriod),
-            unit: 'day',
-          }
-        case 'since':
-          return {
-            type: TimeFromTypeEnum.From,
-            from: formatDateTime(this.period.from, 0, 0, 0),
-          }
-        case 'between':
-          return {
-            type: TimeBetweenTypeEnum.Between,
-            from: formatDateTime(this.period.from, 0, 0, 0, 0),
-            to: formatDateTime(this.period.to, 23, 59, 59, 999),
-          }
-        default:
-          return {
-            type: TimeLastTypeEnum.Last,
-            last:
-              this.controlsPeriod === 'calendar' ? this.period.last : Number(this.controlsPeriod),
-            unit: TimeUnit.Day,
-          }
-      }
+    timeRequest(): EventRecordsListRequestTime {
+      const { getRequestTime } = usePeriod()
+      return getRequestTime(
+        this.period.type,
+        this.controlsPeriod,
+        this.period.from,
+        this.period.to,
+        this.period.last
+      )
     },
     isNoData(): boolean {
       return !this.columns.length && !this.loading

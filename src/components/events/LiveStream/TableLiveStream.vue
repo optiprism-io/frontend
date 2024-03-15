@@ -95,7 +95,8 @@ const tableData = computed(() => {
           columns: liveStreamStore.columns,
         }
       : {},
-    true
+    true,
+    []
   )
 })
 
@@ -187,6 +188,7 @@ const onAction = (payload: Action) => {
   }
   .pf-u-text-nowrap {
     min-width: 140px;
+    max-width: 350px;
   }
 }
 </style>

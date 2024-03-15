@@ -1,18 +1,12 @@
 import { defineStore } from 'pinia'
 import { getLastNDaysRange } from '@/helpers/calendarHelper'
-import { getYYYYMMDD, formatDateTime } from '@/helpers/getStringDates'
+import { getYYYYMMDD } from '@/helpers/getStringDates'
 import {
   DataTableResponseColumnsInner,
-  TimeBetween,
-  TimeFrom,
-  TimeLast,
   EventRecordsListRequestTime,
   FunnelQueryChartTypeTypeEnum,
   TimeUnit,
   FunnelQueryCountEnum,
-  TimeLastTypeEnum,
-  TimeBetweenTypeEnum,
-  TimeFromTypeEnum,
 } from '@/api'
 import dataService from '@/api/services/datas.service'
 import { useStepsStore } from '@/stores/funnels/steps'
@@ -20,6 +14,7 @@ import { useFilterGroupsStore } from '@/stores/reports/filters'
 import { useBreakdownsStore } from '@/stores/reports/breakdowns'
 import { useSegmentsStore } from '@/stores/reports/segments'
 import { useProjectsStore } from '@/stores/projects/projects'
+import { usePeriod } from '@/hooks/usePeriod'
 
 export const convertColumns = (
   columns: DataTableResponseColumnsInner[],
@@ -64,34 +59,15 @@ export const useFunnelsStore = defineStore('funnels', {
     loading: false,
   }),
   getters: {
-    timeRequest(): TimeBetween | TimeFrom | TimeLast {
-      switch (this.period.type) {
-        case 'last':
-          return {
-            type: TimeLastTypeEnum.Last,
-            last:
-              this.controlsPeriod === 'calendar' ? this.period.last : Number(this.controlsPeriod),
-            unit: 'day',
-          }
-        case 'since':
-          return {
-            type: TimeFromTypeEnum.From,
-            from: formatDateTime(this.period.from, 0, 0, 0),
-          }
-        case 'between':
-          return {
-            type: TimeBetweenTypeEnum.Between,
-            from: formatDateTime(this.period.from, 0, 0, 0, 0),
-            to: formatDateTime(this.period.to, 23, 59, 59, 999),
-          }
-        default:
-          return {
-            type: TimeLastTypeEnum.Last,
-            last:
-              this.controlsPeriod === 'calendar' ? this.period.last : Number(this.controlsPeriod),
-            unit: TimeUnit.Day,
-          }
-      }
+    timeRequest(): EventRecordsListRequestTime {
+      const { getRequestTime } = usePeriod()
+      return getRequestTime(
+        this.period.type,
+        this.controlsPeriod,
+        this.period.from,
+        this.period.to,
+        this.period.last
+      )
     },
     stepNumbers(): number[] {
       const metricValueColumns = this.reports.filter(col => col.type === 'funnelMetricValue')

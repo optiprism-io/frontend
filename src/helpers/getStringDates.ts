@@ -1,11 +1,11 @@
 export function formatDateTime(
-  dateString: string,
+  startDate: string | Date,
   hours?: number,
   minutes?: number,
   second?: number,
   ms?: number
 ) {
-  const initialDate = new Date(dateString)
+  const initialDate = new Date(startDate)
   return new Date(
     Date.UTC(
       initialDate.getFullYear(),

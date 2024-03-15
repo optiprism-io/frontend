@@ -24,6 +24,7 @@ interface ProfileState {
     id: number | null
     name: string
     email: string
+    timezone: string
   }
   isLoading: boolean
   errors: ProfileErrors
@@ -36,6 +37,7 @@ export const useProfileStore = defineStore('profile', {
       id: null,
       name: '',
       email: '',
+      timezone: '',
     },
     isLoading: false,
     errors: {
