@@ -1727,7 +1727,11 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/DataTableResponse'
+                allOf:
+                  - $ref: '#/components/schemas/DataTableResponse'
+                  - properties:
+                      overTime:
+                        $ref: '#/components/schemas/DataTableResponse'
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
