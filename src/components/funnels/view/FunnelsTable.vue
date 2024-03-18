@@ -19,6 +19,10 @@ import { useFunnelsStore } from '@/stores/funnels/funnels';
 
 const { $t } = inject('i18n') as I18N
 
+const DIMENSION = 'dimension'
+const TOTAL_CONVERSATION_RATIO = 'totalConversionRatio'
+const CONVERSATION_COUNT = 'conversionCount'
+
 const funnelsStore = useFunnelsStore();
 const stepsStore = useStepsStore()
 const eventName = useEventName()
@@ -92,7 +96,7 @@ const dimensionColumns = computed<Column[]>(() => {
     return dimensions.value.map((item, i) => {
         return {
             title: item.name ?? '',
-            value: `dimension-${i + 1}`,
+            value: getDimensionTitle(i + 1),
             fixed: true
         }
     })
@@ -118,6 +122,7 @@ const funnelMetricValueValues = computed(() => {
                 return {
                     title: item.data ? item.data[i] + postfix : '',
                     lastFixed: j === grp.length - 1,
+                    key: CONVERSATION_COUNT
                 }
             })
         }).flat()
@@ -130,7 +135,7 @@ const columns = computed<Column[]>(() => [
         funnelsStore.reports.length > 0
             ? [{
                 title: $t('funnels.view.totalConversionRatio'),
-                value: 'totalConversionRatio',
+                value: TOTAL_CONVERSATION_RATIO,
                 fixed: true,
                 lastFixed: true,
             }]
@@ -141,26 +146,31 @@ const columns = computed<Column[]>(() => [
 
 const data = computed<Row[]>(() => {
     const totalConversionRatio = funnelsStore.reports
-        ?.find(col => col.name === 'totalConversionRatio')
+        ?.find(col => col.name === TOTAL_CONVERSATION_RATIO)
         ?.data?.map(item => `${item}%`)
       ?? Array.from({ length: totalDimensions.value }).map(() => '0%')
 
-   /* TODO: columns are not displayed because there is no "key" field */
     return Array.from({ length: totalDimensions.value }).map((_, i) => {
         return [
-            ...dimensions.value.map(item => {
+            ...dimensions.value.map((item, index) => {
                 return {
                     title: item.data?.[i] ?? '',
                     fixed: true,
+                    key: getDimensionTitle(index + 1)
                 }
             }),
             {
                 title: totalConversionRatio[i],
                 fixed: true,
-                lastFixed: true
+                lastFixed: true,
+                key: TOTAL_CONVERSATION_RATIO
             },
             ...funnelMetricValueValues.value[i]
-        ] as Row
+        ] satisfies Row
     })
 })
+
+function getDimensionTitle(index: number) {
+    return DIMENSION + '-' + index
+}
 </script>
