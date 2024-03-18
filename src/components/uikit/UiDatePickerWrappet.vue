@@ -75,10 +75,10 @@ const valueString = computed(() => {
             case 'between':
                 return `${getStringDateByFormat(props.from, '%d %b, %Y')} - ${getStringDateByFormat(props.to, '%d %b, %Y')}`;
             default:
-                return i18n.$t('common.castom');
+                return i18n.$t('common.custom');
         }
     } else {
-        return i18n.$t('common.castom');
+        return i18n.$t('common.custom');
     }
 });
 

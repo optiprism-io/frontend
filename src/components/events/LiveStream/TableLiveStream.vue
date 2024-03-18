@@ -118,10 +118,10 @@ const calendarValueString = computed(() => {
       case 'between':
         return `${getStringDateByFormat(liveStreamStore.period.from, '%d %b, %Y')} - ${getStringDateByFormat(liveStreamStore.period.to, '%d %b, %Y')}`
       default:
-        return i18n.$t('common.castom')
+        return i18n.$t('common.custom')
     }
   } else {
-    return i18n.$t('common.castom')
+    return i18n.$t('common.custom')
   }
 })
 
