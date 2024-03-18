@@ -15,7 +15,7 @@ module.exports = {
         ecmaVersion: 2021
     },
     rules: {
-        "vue/max-attributes-per-line": ['off', {
+        "vue/max-attributes-per-line": ['warn', {
             "singleline": {
                 "max": 2
             },
