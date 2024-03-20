@@ -1,7 +1,7 @@
 import { useProjectsStore } from '@/stores/projects/projects'
-import { pagesMap } from '@/router/index'
 import { NavigationGuardWithThis } from 'vue-router'
 import { useAuthStore } from '@/stores/auth/auth'
+import { pagesMap } from '@/router/pagesMap'
 
 type NavigationGuard = NavigationGuardWithThis<undefined>
 

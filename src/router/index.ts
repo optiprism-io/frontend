@@ -1,46 +1,11 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import { checkCreatedProject, isAuth } from '@/router/routerGuards'
+import { pagesMap } from '@/router/pagesMap'
 
 export enum SDKIntegration {
   javascript = 'javascript',
   android = 'android',
   ios = 'ios',
-}
-
-export const pagesMap = {
-  login: {
-    path: '/login',
-    name: 'login',
-  },
-  createProject: 'createProject',
-  eventsLiveStream: {
-    path: '/events',
-    name: 'eventsLiveStream',
-  },
-  reportsEventSegmentation: {
-    path: '/reports',
-    name: 'reportsEventSegmentation',
-  },
-  dashboards: {
-    path: '/dashboards',
-    name: 'dashboards',
-  },
-  funnels: {
-    name: 'reports_funnels',
-  },
-  usersGroupRecords: 'usersGroupRecords',
-  usersProperties: 'usersProperties',
-  users: 'users',
-  reports: 'reports',
-  profile: 'profile',
-  projectsSettings: 'projectsSettings',
-  integration: 'integration',
-  organizations: 'organizations',
-  organizationList: 'organizationList',
-  organization: 'organization',
-  organizationOverview: 'organizationOverview',
-  organizationProjectList: 'organizationProjectList',
-  organizationProject: 'organizationProject',
 }
 
 const ONLY_NUMBER_REG_EXP = '(\\d+)'
@@ -234,3 +199,5 @@ export const router = createRouter({
   history: createWebHistory(),
   routes,
 })
+
+export { pagesMap }
