@@ -8,7 +8,7 @@
               <template #after>
                 <UiDatePicker
                   :value="calendarValue"
-                  :last-count="lastCount"
+                  :last-count="period.last"
                   :active-tab-controls="funnelsStore.period.type"
                   @on-apply="applyPeriod"
                 >
@@ -33,7 +33,7 @@
           </div>
 
           <div class="pf-c-toolbar__item pf-u-ml-auto">
-            <UiDropdown :items="items" :text-button="itemText" @select-value="selectItem" />
+            <UiDropdown :items="FUNNEL_VIEWS" :text-button="itemText" @select-value="selectItem" />
           </div>
         </div>
       </div>
@@ -42,7 +42,7 @@
     <DataEmptyPlaceholder v-if="funnelsStore.reports.length === 0">
       {{ $t('funnels.view.selectToStart') }}
     </DataEmptyPlaceholder>
-    <DataLoader v-else-if="funnelsStore.loading" />
+    <DataLoader v-else-if="loading" />
     <template v-else>
       <FunnelsChart />
       <FunnelsTable class="pf-u-mt-xl" />
@@ -64,30 +64,11 @@ import FunnelsTable from '@/components/funnels/view/FunnelsTable.vue'
 import { useStepsStore } from '@/stores/funnels/steps'
 import DataEmptyPlaceholder from '@/components/common/data/DataEmptyPlaceholder.vue'
 import DataLoader from '@/components/common/data/DataLoader.vue'
-import useI18n from '@/hooks/useI18n'
-
-const { t } = useI18n()
-
-const items = [
-  {
-    key: 0,
-    value: 0,
-    nameDisplay: t('funnels.view.funnelSteps'),
-  },
-  {
-    key: 1,
-    value: 1,
-    nameDisplay: t('funnels.view.conversionOverTime'),
-  },
-  {
-    key: 2,
-    value: 2,
-    nameDisplay: t('funnels.view.timeToConvert'),
-  },
-]
+import { storeToRefs } from 'pinia'
+import { FUNNEL_VIEWS } from './funnelViews'
 
 const item = ref<string | number>(0)
-const itemText = computed(() => items.find(c => c.key === item.value)?.nameDisplay ?? '')
+const itemText = computed(() => FUNNEL_VIEWS.find(c => c.key === item.value)?.nameDisplay ?? '')
 
 const selectItem = (value: UiDropdownItem<string>) => {
   item.value = value.key
@@ -95,25 +76,23 @@ const selectItem = (value: UiDropdownItem<string>) => {
 
 const funnelsStore = useFunnelsStore()
 const stepsStore = useStepsStore()
-const loading = ref(false)
+
+const { period, controlsPeriod, loading } = storeToRefs(funnelsStore)
+const { setControlsPeriod, initPeriod, setPeriod, getReports } = funnelsStore
 
 const itemsPeriod = computed(() => {
   const config = periodMap.find(item => item.type === 'day')
 
   return (
     config?.items.map(
-      (key, i): UiToggleGroupItem => ({
+      (key): UiToggleGroupItem => ({
         key,
         nameDisplay: key + config.text,
         value: key,
-        selected: key === funnelsStore.controlsPeriod,
+        selected: key === controlsPeriod.value,
       })
     ) ?? []
   )
-})
-
-const period = computed(() => {
-  return funnelsStore.period
 })
 
 const calendarValue = computed(() => {
@@ -125,23 +104,15 @@ const calendarValue = computed(() => {
   }
 })
 
-const lastCount = computed(() => {
-  return period.value.last
-})
-
 const calendarValueString = computed(() => {
-  if (
-    funnelsStore.period.from &&
-    funnelsStore.period.to &&
-    funnelsStore.controlsPeriod === 'calendar'
-  ) {
-    switch (funnelsStore.period.type) {
+  if (period.value.from && period.value.to && controlsPeriod.value === 'calendar') {
+    switch (period.value.type) {
       case 'last':
-        return `Last ${funnelsStore.period.last} ${funnelsStore.period.last === 1 ? 'day' : 'days'}`
+        return `Last ${period.value.last} ${period.value.last === 1 ? 'day' : 'days'}`
       case 'since':
-        return `Since ${getStringDateByFormat(funnelsStore.period.from, '%d %b, %Y')}`
+        return `Since ${getStringDateByFormat(period.value.from, '%d %b, %Y')}`
       case 'between':
-        return `${getStringDateByFormat(funnelsStore.period.from, '%d %b, %Y')} - ${getStringDateByFormat(funnelsStore.period.to, '%d %b, %Y')}`
+        return `${getStringDateByFormat(period.value.from, '%d %b, %Y')} - ${getStringDateByFormat(period.value.to, '%d %b, %Y')}`
       default:
         return ''
     }
@@ -151,14 +122,14 @@ const calendarValueString = computed(() => {
 })
 
 const selectPeriod = (payload: string): void => {
-  funnelsStore.setControlsPeriod(payload)
-  funnelsStore.initPeriod()
+  setControlsPeriod(payload)
+  initPeriod()
 }
 
 const applyPeriod = (payload: ApplyPayload): void => {
-  funnelsStore.setControlsPeriod('calendar')
-  funnelsStore.setPeriod({
-    ...funnelsStore.period,
+  setControlsPeriod('calendar')
+  setPeriod({
+    ...period.value,
     from: payload.value.from || '',
     to: payload.value.to || '',
     type: payload.type,
@@ -166,5 +137,5 @@ const applyPeriod = (payload: ApplyPayload): void => {
   })
 }
 
-watch(() => stepsStore.steps.length, funnelsStore.getReports)
+watch(() => stepsStore.steps.length, getReports)
 </script>
