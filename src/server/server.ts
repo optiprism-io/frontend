@@ -3,9 +3,7 @@ import { DataType, UserPropertiesList200Response } from '@/api'
 import { BASE_PATH } from '@/api/base'
 import { EventStatus, UserCustomProperty } from '@/types/events'
 import liveStreamMocks from '@/mocks/reports/liveStream.json'
-import funnelsMocks from '@/mocks/reports/funnels.json'
 import userPropertiesMocks from '@/mocks/eventSegmentations/userProperties.json'
-import eventSegmentationsMocks from '@/mocks/eventSegmentations/eventSegmentations.json'
 import eventPropertiesMocks from '@/mocks/eventSegmentations/eventProperties.json'
 import customProperties from '@/mocks/eventSegmentations/customProperties.json'
 import customEventsMocks from '@/mocks/eventSegmentations/customEvents.json'
@@ -22,6 +20,7 @@ import { authRoutes } from '@/server/services/auth.service'
 import { organizationsRoutes } from '@/server/services/organizations.service'
 import { organizations } from '@/mocks/organizations'
 import { faker } from '@/server/faker'
+import { queriesRoutes } from '@/server/services/query.service'
 
 const urlPrefix = BASE_PATH + '/' + import.meta.env.VITE_API_VERSION
 const SESSION_STORAGE_KEY = 'db'
@@ -219,22 +218,6 @@ export function makeHttpServer({ environment = 'development', isSeed = true } = 
                 return request.params.report_id;
             })
 
-            this.post('/projects/:project_id/queries/event-segmentation', (_, request) => {
-                const body = JSON.parse(request.requestBody);
-
-                if (body.events?.length || body?.segments?.length) {
-                    return eventSegmentationsMocks;
-                } else {
-                    return {
-                        columns: []
-                    };
-                }
-            })
-
-            this.post(`/projects/:project_id/queries/funnel`, (schema, request) => {
-                return funnelsMocks
-            })
-
             this.get('/projects/:project_id/dashboards', (schema) => {
                 return {
                     data: schema.db.dashboards,
@@ -279,6 +262,7 @@ export function makeHttpServer({ environment = 'development', isSeed = true } = 
              * end Group-records
              */
 
+            queriesRoutes(this)
             authRoutes(this)
             profileRoutes(this)
             projectsRoutes(this)
