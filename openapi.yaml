@@ -2621,6 +2621,9 @@ components:
           $ref: '#/components/schemas/DataType'
         status:
           $ref: '#/components/schemas/PropertyStatus'
+        hidden:
+          type: boolean
+          description: hidden property is not shown in the UI
         isSystem:
           type: boolean
           description: the property is a system-wide, shown in any project and can't be modified by a regular user
