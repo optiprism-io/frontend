@@ -1963,8 +1963,6 @@ components:
                 enum:
                   - dimension
                   - metric
-                  - metricValue
-                  - funnelMetricValue
               name:
                 type: string
               isNullable:
@@ -2870,10 +2868,26 @@ components:
                 items:
                   $ref: '#/components/schemas/FunnelEvent'
               order:
-                type: string
-                enum:
-                  - any
-                  - exact
+                type: object
+                anyOf:
+                  - type: object
+                    required: [ 'type' ]
+                    properties:
+                      type:
+                        type: string
+                        enum:
+                          - exact
+                  - type: object
+                    required: [ 'type', 'from', 'to' ]
+                    properties:
+                      type:
+                        type: string
+                        enum:
+                          - any
+                      from:
+                        type: integer
+                      to:
+                        type: integer
         timeWindow:
           type: object
           required: [ 'n', 'unit' ]
@@ -2883,29 +2897,19 @@ components:
               description: N days/weeks
             unit:
               $ref: '#/components/schemas/TimeUnitWithSession'
-            from:
-              type: string
-              enum:
-                - anyDay
-                - firstDay
         chartType:
           type: object
           anyOf:
             - $ref: '#/components/schemas/FunnelConversionStepsChartType'
             - $ref: '#/components/schemas/FunnelConversionOverTimeChartType'
-            - $ref: '#/components/schemas/FunnelTimeToConvertChartType'
-            - $ref: '#/components/schemas/FunnelFrequencyChartType'
+        #            - $ref: '#/components/schemas/FunnelTimeToConvertChartType'
+        #            - $ref: '#/components/schemas/FunnelFrequencyChartType'
         count:
           type: string
           enum:
-            - uniques
-            - totals
-        stepOrder:
-          type: string
-          enum:
-            - any
-            - exactSequence
-            - exactOrder
+            - unique
+            - nonUnique
+            - session
         attribution:
           type: object
           required: [ 'type' ]
@@ -2916,8 +2920,8 @@ components:
                 type:
                   type: string
                   enum:
-                    - firstTouch
-                    - lastTouch
+                    - first
+                    - last
             - type: object
               required: [ 'type', 'step' ]
               properties:
@@ -3538,8 +3542,6 @@ components:
       type: string
       description: time unit
       enum:
-        - "second"
-        - "minute"
         - "hour"
         - "day"
         - "week"
@@ -3549,8 +3551,6 @@ components:
       type: string
       description: time unit with session
       enum:
-        - "second"
-        - "minute"
         - "hour"
         - "day"
         - "week"
@@ -3877,8 +3877,6 @@ components:
       properties:
         propertyName:
           type: string
-        propertyId:
-          type: number
         propertyType:
           $ref: '#/components/schemas/PropertyType'
     EventRef:
@@ -3888,8 +3886,6 @@ components:
       properties:
         eventName:
           type: string
-        eventId:
-          type: number
         eventType:
           $ref: '#/components/schemas/EventType'
     EventType:
