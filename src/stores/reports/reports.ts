@@ -8,18 +8,17 @@ import { useSegmentsStore } from '@/stores/reports/segments'
 import { useProjectsStore } from '@/stores/projects/projects'
 
 import {
+  BreakdownByProperty,
+  EventChartType,
+  EventRecordsListRequestTime,
+  EventSegmentationSegment,
+  FunnelStepsChartTypeTypeEnum,
+  FunnelQueryStepsInner,
+  PropertyRef,
   Report,
   ReportQuery,
   ReportType,
-  EventRecordsListRequestTime,
-  EventChartType,
-  FunnelStepsChartTypeTypeEnum,
   TimeUnit,
-  EventGroupedFilters,
-  BreakdownByProperty,
-  EventSegmentationSegment,
-  FunnelQueryStepsInner,
-  PropertyRef,
 } from '@/api'
 import { apiClient } from '@/api/apiClient'
 import { ap } from 'vitest/dist/global-58e8e951'
@@ -34,7 +33,7 @@ type Reports = {
   updateToEmpty: boolean
 }
 
-export const getReport = (type: ReportType) => {
+const getReport = (type: ReportType) => {
   const eventsStore = useEventsStore()
   const funnelsStore = useFunnelsStore()
   const breakdownsStore = useBreakdownsStore()
