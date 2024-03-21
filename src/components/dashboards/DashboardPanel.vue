@@ -15,7 +15,7 @@
       :height-chart="props.heightChart || 240"
     />
     <FunnelsChart
-      v-else
+      v-else-if="funnelsReport"
       :lite-chart="true"
       :reports="funnelsReport"
       :steps="steps"
@@ -26,24 +26,23 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed, onMounted, watch } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 import { pagesMap } from '@/router'
 import {
-  Report,
   DataTableResponse,
-  ReportType,
   DataTableResponseColumnsInner,
-  FunnelQuery,
-  EventSegmentation as EventSegmentationType,
+  EventGroupedFiltersGroupsInnerFiltersInner,
   EventRecordsListRequestTime,
-  EventGroupedFiltersGroupsInnerFiltersInner, EventSegmentationQueryFormatEnum,
+  EventSegmentation as EventSegmentationType,
+  FunnelQuery,
+  Report,
+  ReportType, EventSegmentationQueryFormatEnum,
 } from '@/api'
 
-import { ChartType } from '@/stores/eventSegmentation/events'
+import { ChartType, useEventsStore } from '@/stores/eventSegmentation/events'
 
 import { useReportsStore } from '@/stores/reports/reports'
 import { useFilterGroupsStore } from '@/stores/reports/filters'
-import { useEventsStore } from '@/stores/eventSegmentation/events'
 import { useProjectsStore } from '@/stores/projects/projects'
 
 import { Step } from '@/types/steps'

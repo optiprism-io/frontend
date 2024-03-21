@@ -44,8 +44,8 @@
     </DataEmptyPlaceholder>
     <DataLoader v-else-if="loading" />
     <template v-else>
-      <FunnelsChart />
-      <FunnelsTable class="pf-u-mt-xl" />
+      <FunnelsChart :reports="reports" />
+      <FunnelsTable class="pf-u-mt-xl" :reports="reports" :step-numbers="stepNumbers" />
     </template>
   </div>
 </template>
@@ -77,7 +77,7 @@ const selectItem = (value: UiDropdownItem<string>) => {
 const funnelsStore = useFunnelsStore()
 const stepsStore = useStepsStore()
 
-const { period, controlsPeriod, loading } = storeToRefs(funnelsStore)
+const { period, controlsPeriod, loading, reports, stepNumbers } = storeToRefs(funnelsStore)
 const { setControlsPeriod, initPeriod, setPeriod, getReports } = funnelsStore
 
 const itemsPeriod = computed(() => {
