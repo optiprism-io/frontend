@@ -50,12 +50,10 @@
 
 <script setup lang="ts">
 import { EventBreakdown } from '@/stores/eventSegmentation/events'
-import { useLexiconStore } from '@/stores/lexicon'
 import PropertySelect from '@/components/events/PropertySelect.vue'
 import { EventRef, PropertyRef } from '@/types/events'
 import UiButton from '@/components/uikit/UiButton.vue'
 import CommonIdentifier from '@/components/common/identifier/CommonIdentifier.vue'
-import { PropertyType } from '@/api'
 
 interface IProps {
   eventRef?: EventRef
@@ -77,8 +75,6 @@ const emit = defineEmits<{
   (e: 'changeBreakdownProperty', breakdownIdx: number, propRef: PropertyRef): void
   (e: 'handleSelectProperty'): void
 }>()
-
-const lexiconStore = useLexiconStore()
 
 const removeBreakdown = (): void => {
   emit('removeBreakdown', props.index)

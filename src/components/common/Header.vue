@@ -61,23 +61,19 @@ import { GenericUiDropdown, UiDropdownItem } from '@/components/uikit/UiDropdown
 import UiSelect from '@/components/uikit/UiSelect.vue'
 import Nav from '@/components/common/Nav.vue'
 import { useAuthStore } from '@/stores/auth/auth'
-import { RouterLink, useRouter, useRoute } from 'vue-router'
+import { RouterLink } from 'vue-router'
 import { pagesMap, SDKIntegration } from '@/router'
 import { useProjectsStore } from '@/stores/projects/projects'
 import UiIcon from '@/components/uikit/UiIcon.vue'
 import CreateProjectPopup from '@/components/projects/CreateProjectPopup.vue'
 import { useToggle } from '@vueuse/core'
 import { Project } from '@/api'
-import { useEventsStore } from '@/stores/eventSegmentation/events'
 import { useReportsStore } from '@/stores/reports/reports'
 
 const authStore = useAuthStore()
 const projectStore = useProjectsStore()
-const eventsStore = useEventsStore()
 const reportsStore = useReportsStore()
 
-const router = useRouter()
-const route = useRoute()
 const i18n = inject<any>('i18n')
 const UiDropdown = GenericUiDropdown<MenuValues>()
 

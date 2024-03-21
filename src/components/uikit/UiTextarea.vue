@@ -44,6 +44,4 @@ const handleInput = (e: Event) => {
 
     emit('input', target.value)
 }
-
-const blur = (e: any) => emit('blur', e);
 </script>

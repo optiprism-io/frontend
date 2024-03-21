@@ -49,7 +49,6 @@ import { computed, inject, ref } from 'vue'
 import { getStringDateByFormat } from '@/helpers/getStringDates'
 import { useLiveStreamStore, defaultColumns } from '@/stores/reports/liveStream'
 import { useCommonStore } from '@/stores/common'
-import { useLexiconStore } from '@/stores/lexicon'
 import { useEventsStore } from '@/stores/eventSegmentation/events'
 import useDataTable from '@/hooks/useDataTable'
 import usei18n from '@/hooks/useI18n';
@@ -68,7 +67,6 @@ import LiveStreamEventPopup from '@/components/events/LiveStreamEventPopup.vue'
 const { t } = usei18n();
 const liveStreamStore = useLiveStreamStore()
 const commonStore = useCommonStore()
-const lexiconStore = useLexiconStore()
 const eventsStore = useEventsStore()
 
 const createCustomEvent = 'create'

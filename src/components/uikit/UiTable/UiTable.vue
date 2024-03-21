@@ -74,25 +74,25 @@
           </thead>
           <tbody role="rowgroup">
             <tr v-for="(row, i) in items" :key="i" role="row">
-              <template v-for="(cell, j) in row" :key="j">
-                <UiTableCellWrapper
-                  :fixed="cell.fixed"
-                  :truncate="cell.truncate"
-                  :last-fixed="cell.lastFixed"
-                  :no-wrap="cell.nowrap"
-                  :type="cell.type"
-                >
-                  <component
-                    :is="cell.component || UiTableCell"
-                    :action="cell.action"
-                    :value="cell.value"
-                    :title="cell.title"
-                    :nowrap="cell.nowrap"
+              <UiTableCellWrapper
+                v-for="(cell, j) in row"
+                :key="j"
+                :fixed="cell.fixed"
+                :truncate="cell.truncate"
+                :last-fixed="cell.lastFixed"
+                :no-wrap="cell.nowrap"
+                :type="cell.type"
+              >
+                <Component
+                  :is="cell.component || UiTableCell"
+                  :action="cell.action"
+                  :value="cell.value"
+                  :title="cell.title"
+                  :nowrap="cell.nowrap"
                     :items="cell.items"
-                    @on-action="onAction"
-                  />
-                </UiTableCellWrapper>
-              </template>
+                  @on-action="onAction"
+                />
+              </UiTableCellWrapper>
             </tr>
           </tbody>
         </table>

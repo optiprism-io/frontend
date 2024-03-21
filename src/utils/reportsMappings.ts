@@ -9,7 +9,6 @@ import { useFilterGroupsStore, FilterGroup } from '@/stores/reports/filters'
 import { useSegmentsStore, Segment } from '@/stores/reports/segments'
 import { Each } from '@/components/uikit/UiCalendar/UiCalendar'
 import { Value } from '@/api'
-import { useProjectsStore } from '@/stores/projects/projects'
 
 import {
   Property,
@@ -51,7 +50,6 @@ import {
   QueryAggregate,
   QueryAggregatePerGroup,
   EventFilterByPropertyTypeEnum,
-  EventGroupedFiltersGroupsConditionEnum,
 } from '@/api'
 
 type Queries =
@@ -73,18 +71,9 @@ import {
   EventRef,
   EventQueryRef,
   Condition,
-  PropertyRef as PropertyRefEvent,
-  UserCustomProperty,
 } from '@/types/events'
 import { Filter } from '@/types/filters'
 import { apiClient } from '@/api/apiClient'
-
-type GetValues = {
-  eventName?: string
-  eventType?: EventType
-  propertyName: string
-  propertyType?: PropertyType
-}
 
 type GetTime = {
   time: TimeAfterFirstUse | TimeBetween | TimeLast | TimeWindowEach
@@ -131,22 +120,6 @@ const getTime = (props: GetTime) => {
     each,
     period,
   }
-}
-
-const getValues = async (props: GetValues) => {
-  const projectsStore = useProjectsStore()
-  let valuesList: Value[] = []
-
-  const res = await apiClient.propertyValues.propertyValuesList(projectsStore.projectId, {
-    eventName: props.eventName,
-    propertyType: props.propertyType || PropertyType.User,
-    eventType: props.eventType || EventType.Regular,
-    propertyName: props.propertyName,
-  })
-  if (res?.data?.data) {
-    valuesList = res.data.data
-  }
-  return valuesList
 }
 
 const computedFilter = (items: EventFilterByProperty[]) => {

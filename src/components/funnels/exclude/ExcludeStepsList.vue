@@ -82,8 +82,6 @@
 </template>
 
 <script lang="ts" setup>
-import {useEventsStore} from '@/stores/eventSegmentation/events';
-import {useLexiconStore} from '@/stores/lexicon';
 import EventSelector from '@/components/events/Events/EventSelector.vue';
 import {computed, inject} from 'vue';
 import {ExcludedEventSteps, useStepsStore} from '@/stores/funnels/steps';
@@ -100,8 +98,6 @@ import {useFilter} from '@/hooks/useFilter';
 
 const UiSelect = UiSelectGeneric();
 
-const eventsStore = useEventsStore();
-const lexiconStore = useLexiconStore();
 const stepsStore = useStepsStore();
 const eventName = useEventName()
 const filterHelpers = useFilter()
@@ -135,13 +131,6 @@ const excludeSteps = computed<UiSelectItemInterface<string>[]>(() => {
         },
     ]
 })
-
-const excludeEvent = (eventRef: EventRef): void => {
-    stepsStore.addExcludedEvent({
-        event: eventRef,
-        steps: { type: 'all' }
-    });
-}
 
 const editEvent = (eventRef: EventRef, index: number): void => {
     stepsStore.editExcludedEvent({
