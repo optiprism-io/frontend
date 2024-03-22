@@ -26,7 +26,7 @@
 import { computed, onMounted, ref } from 'vue'
 import { useLexiconStore } from '@/stores/lexicon'
 import { useCommonStore } from '@/stores/common'
-import ToolsLayout from '@/layout/tools/ToolsLayout.vue'
+import ToolsLayout from '@/layout/ToolsLayout.vue'
 import UiCardContainer from '@/components/uikit/UiCard/UiCardContainer.vue'
 import UiTablePressedCell from '@/components/uikit/UiTable/UiTablePressedCell.vue'
 import UiCellTags from '@/components/uikit/cells/UiCellTags.vue'
@@ -144,3 +144,4 @@ onMounted(() => {
   updateData()
 })
 </script>
+

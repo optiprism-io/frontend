@@ -28,7 +28,7 @@
 <script setup lang="ts">
 import UiSpinner from '@/components/uikit/UiSpinner.vue'
 import UiCard from '@/components/uikit/UiCard/UiCard.vue'
-import ToolsLayout from '@/layout/tools/ToolsLayout.vue'
+import ToolsLayout from '@/layout/ToolsLayout.vue'
 import ProjectsForm from '@/components/projects/ProjectsForm.vue'
 import { ref } from 'vue'
 import { useRoute } from 'vue-router'

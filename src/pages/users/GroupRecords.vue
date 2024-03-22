@@ -59,7 +59,7 @@ import { GroupRecord } from '@/api';
 import { I18N } from '@/utils/i18n';
 
 import Segments from '@/components/events/Segments/Segments.vue';
-import ToolsLayout from '@/layout/tools/ToolsLayout.vue';
+import ToolsLayout from '@/layout/ToolsLayout.vue';
 import UiCardContainer from '@/components/uikit/UiCard/UiCardContainer.vue';
 import UiCard from '@/components/uikit/UiCard/UiCard.vue';
 import UiTable from '@/components/uikit/UiTable/UiTable.vue';

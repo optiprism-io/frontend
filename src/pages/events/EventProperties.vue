@@ -25,7 +25,7 @@ import { Action, Row }  from '@/components/uikit/UiTable/UiTable'
 import UiTablePressedCell from '@/components/uikit/UiTable/UiTablePressedCell.vue'
 import UiCellTags from '@/components/uikit/cells/UiCellTags.vue'
 import UiCellToolMenu from '@/components/uikit/cells/UiCellToolMenu.vue'
-import ToolsLayout from '@/layout/tools/ToolsLayout.vue'
+import ToolsLayout from '@/layout/ToolsLayout.vue'
 import UiCardContainer from '@/components/uikit/UiCard/UiCardContainer.vue'
 
 const i18n = inject<any>('i18n')

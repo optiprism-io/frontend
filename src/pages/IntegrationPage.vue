@@ -26,7 +26,7 @@
 
 <script setup lang="ts">
 import UiCard from '@/components/uikit/UiCard/UiCard.vue'
-import ToolsLayout from '@/layout/tools/ToolsLayout.vue'
+import ToolsLayout from '@/layout/ToolsLayout.vue'
 import UiTabs from '@/components/uikit/UiTabs.vue'
 import { computed, inject } from 'vue'
 import { pagesMap, SDKIntegration } from '@/router'
