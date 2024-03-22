@@ -1,7 +1,9 @@
 import { defineStore } from 'pinia'
 import {
+  DataTableResponseColumnsInner,
   EventFilterByProperty,
   EventRecordRequestEvent,
+  EventRecordsListRequest,
   EventType,
   PropertyFilterOperation,
   EventRecordsListRequest,
