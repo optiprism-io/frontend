@@ -12,7 +12,7 @@
 
     <CreateCustomEvent
       v-if="commonStore.showCreateCustomEvent"
-      @apply="applyCreateCustomEvent"
+      @apply="togglePopupCreateCustomEvent(false)"
       @cancel="togglePopupCreateCustomEvent(false)"
     />
   </div>
@@ -29,10 +29,6 @@ const commonStore = useCommonStore()
 
 const togglePopupCreateCustomEvent = (payload: boolean) => {
   commonStore.togglePopupCreateCustomEvent(payload)
-}
-
-const applyCreateCustomEvent = () => {
-  togglePopupCreateCustomEvent(false)
 }
 
 const { loadAppData } = useInitialAppData()
