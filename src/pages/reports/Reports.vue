@@ -49,7 +49,11 @@
         @input="(value: boolean) => (commonStore.syncReports = value)"
       />
     </div>
-    <UiTabs class="pf-u-w-100 pf-u-mb-lg" :items="items" @on-select="onSelectTab" />
+    <UiTabs
+      class="pf-u-w-100 pf-u-mb-lg"
+      :items="items"
+      @on-select="onSelectTab"
+    />
     <router-view />
   </section>
 </template>
@@ -266,11 +270,14 @@ onMounted(async () => {
       font-size: 20px;
     }
   }
+
   &__select {
     width: 220px;
   }
+
   &__nav {
     min-height: 34px;
+
     &-item {
       &_new {
         margin-left: -12px;

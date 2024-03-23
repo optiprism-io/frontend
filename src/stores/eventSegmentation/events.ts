@@ -194,10 +194,12 @@ export const useEventsStore = defineStore('events', {
 
                 switch (type) {
                   case QueryFormulaTypeEnum.Formula:
-                    acc.push({
-                      formula: query.queryRef.value || '',
-                      type: type,
-                    })
+                    if (query.queryRef.value) {
+                      acc.push({
+                        formula: query.queryRef.value || '',
+                        type: type,
+                      })
+                    }
                     break
                   case QuerySimpleTypeEnum.CountEvents:
                   case QuerySimpleTypeEnum.CountUniqueGroups:

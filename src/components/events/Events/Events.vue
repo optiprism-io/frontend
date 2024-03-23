@@ -1,126 +1,147 @@
 <template>
-    <div class="pf-l-flex pf-m-column">
-        <SelectedEvent
-            v-for="(event, index) in events"
-            :key="index"
-            :event="event"
-            :event-ref="event.ref"
-            :filters="event.filters"
-            :index="index"
-            :event-items="lexiconStore.eventsList"
-            :breakdowns="event.breakdowns"
-            :queries="event.queries"
-            :auto-hide="!commonStore.showCreateCustomEvent"
-            :identifier="identifier"
-            @action="selectAction"
-            @edit="editEvent"
-            @set-event="setEvent"
-            @remove-event="removeEvent"
-            @add-breakdown="addBreakdown"
-            @change-breakdown-property="changeBreakdownProperty"
-            @remove-breakdown="removeBreakdown"
-            @remove-query="removeQuery"
-            @add-query="addQuery"
-            @change-query="changeQuery"
-            @on-change="onChange"
-        />
-        <div class="pf-l-flex">
-            <EventSelector @select="addEvent">
-                <slot name="new" />
-            </EventSelector>
-        </div>
+  <div class="pf-l-flex pf-m-column">
+    <SelectedEvent
+      v-for="(event, index) in events"
+      :key="index"
+      :event="event"
+      :event-ref="event.ref"
+      :filters="event.filters"
+      :index="index"
+      :event-items="lexiconStore.eventsList"
+      :breakdowns="event.breakdowns"
+      :queries="event.queries"
+      :auto-hide="!commonStore.showCreateCustomEvent"
+      :identifier="identifier"
+      @action="selectAction"
+      @edit="editEvent"
+      @set-event="setEvent"
+      @remove-event="removeEvent"
+      @add-breakdown="addBreakdown"
+      @change-breakdown-property="changeBreakdownProperty"
+      @remove-breakdown="removeBreakdown"
+      @remove-query="removeQuery"
+      @add-query="addQuery"
+      @change-query="changeQuery"
+      @on-change="onChange"
+    />
+    <div class="pf-l-flex">
+      <EventSelector @select="addEvent">
+        <slot name="new" />
+      </EventSelector>
     </div>
+  </div>
 </template>
 
 <script setup lang="ts">
-import { computed, PropType } from 'vue';
-import { EventQueryRef, EventRef, PropertyRef } from '@/types/events';
-import { useEventsStore, EventPayload } from '@/stores/eventSegmentation/events';
-import { useLexiconStore } from '@/stores/lexicon';
+import { computed, PropType } from 'vue'
+import {
+  QueryAggregatePropertyTypeEnum,
+  QueryAggregatePropertyPerGroupTypeEnum,
+  QueryCountPerGroupTypeEnum,
+  QueryFormulaTypeEnum,
+  EventFilterByProperty,
+  EventType,
+  QueryAggregatePropertyPerGroup,
+  QueryAggregateProperty,
+  QuerySimpleTypeEnum,
+} from '@/api'
+import { EventQueryRef, EventRef, PropertyRef } from '@/types/events'
+import { useEventsStore, EventPayload } from '@/stores/eventSegmentation/events'
+import { useLexiconStore } from '@/stores/lexicon'
 import { useCommonStore } from '@/stores/common'
-import EventSelector from '@/components/events/Events/EventSelector.vue';
-import SelectedEvent from '@/components/events/Events/SelectedEvent.vue';
+import EventSelector from '@/components/events/Events/EventSelector.vue'
+import SelectedEvent from '@/components/events/Events/SelectedEvent.vue'
 
 const props = defineProps({
-    identifier: {
-        type: String as PropType<'numeric' | 'alphabet'>,
-        default: 'alphabet',
-    },
-    createWithQuery: {
-        type: Boolean,
-        default: true,
-    },
+  identifier: {
+    type: String as PropType<'numeric' | 'alphabet'>,
+    default: 'alphabet',
+  },
+  createWithQuery: {
+    type: Boolean,
+    default: true,
+  },
 })
 
-const lexiconStore = useLexiconStore();
-const eventsStore = useEventsStore();
-const commonStore = useCommonStore();
+const lexiconStore = useLexiconStore()
+const eventsStore = useEventsStore()
+const commonStore = useCommonStore()
 
 const emit = defineEmits<{
-    (e: 'on-change'): void,
-}>();
+  (e: 'on-change'): void
+}>()
 
-const events = computed(() => eventsStore.events);
+const events = computed(() => eventsStore.events)
 
 const setEvent = (payload: EventPayload) => {
-    eventsStore.setEvent(payload);
-    onChange();
+  eventsStore.setEvent(payload)
+  onChange()
 }
 
 const addEvent = (ref: EventRef) => {
-    eventsStore.addEventByRef(ref, props.createWithQuery);
-    onChange();
-};
+  eventsStore.addEventByRef(ref, props.createWithQuery)
+  onChange()
+}
 
 const removeEvent = (idx: number): void => {
-    eventsStore.deleteEvent(idx);
-    onChange();
-};
+  eventsStore.deleteEvent(idx)
+  onChange()
+}
 
 const addBreakdown = (idx: number): void => {
-    eventsStore.addBreakdown(idx);
-    onChange();
-};
+  eventsStore.addBreakdown(idx)
+  onChange()
+}
 
 const changeBreakdownProperty = (eventIdx: number, breakdownIdx: number, propRef: PropertyRef) => {
-    eventsStore.changeBreakdownProperty(eventIdx, breakdownIdx, propRef);
-    onChange();
-};
+  eventsStore.changeBreakdownProperty(eventIdx, breakdownIdx, propRef)
+  onChange()
+}
 
 const removeBreakdown = (eventIdx: number, breakdownIdx: number): void => {
-    eventsStore.removeBreakdown(eventIdx, breakdownIdx);
-    onChange();
-};
+  eventsStore.removeBreakdown(eventIdx, breakdownIdx)
+  onChange()
+}
 
 const addQuery = (idx: number): void => {
-    eventsStore.addQuery(idx);
-    onChange();
-};
+  eventsStore.addQuery(idx)
+  onChange()
+}
 
 const removeQuery = (eventIdx: number, queryIdx: number): void => {
-    eventsStore.removeQuery(eventIdx, queryIdx);
-    onChange();
-};
+  eventsStore.removeQuery(eventIdx, queryIdx)
+  onChange()
+}
 
 const changeQuery = (eventIdx: number, queryIdx: number, ref: EventQueryRef) => {
-    eventsStore.changeQuery(eventIdx, queryIdx, ref);
-    onChange();
-};
+  eventsStore.changeQuery(eventIdx, queryIdx, ref)
+
+  if (
+    ((ref.type === QueryAggregatePropertyPerGroupTypeEnum.AggregatePropertyPerGroup ||
+      ref.type === QueryAggregatePropertyTypeEnum.AggregateProperty) &&
+      ref.propRef) ||
+    (ref.type === QueryCountPerGroupTypeEnum.CountPerGroup && ref.typeGroupAggregate) ||
+    (ref.type === QueryFormulaTypeEnum.Formula && ref.value) ||
+    (Object.values(QuerySimpleTypeEnum) as string[]).includes(ref.type as string)
+  ) {
+    onChange()
+  }
+}
 
 const selectAction = (payload: string) => {
-    if (payload === 'createCustomEvent') {
-        eventsStore.setEditCustomEvent(null)
-        commonStore.togglePopupCreateCustomEvent(true)
-    }
+  if (payload === 'createCustomEvent') {
+    eventsStore.setEditCustomEvent(null)
+    commonStore.togglePopupCreateCustomEvent(true)
+  }
 }
 
 const editEvent = (payload: number) => {
-    eventsStore.setEditCustomEvent(Number(payload));
-    commonStore.togglePopupCreateCustomEvent(true);
-    onChange();
+  eventsStore.setEditCustomEvent(Number(payload))
+  commonStore.togglePopupCreateCustomEvent(true)
+  onChange()
 }
 
 const onChange = () => {
-    emit('on-change');
-};
+  emit('on-change')
+}
 </script>
