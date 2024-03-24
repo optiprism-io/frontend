@@ -5,6 +5,7 @@
       :items="tableData.tableData"
       :columns="tableData.tableColumnsValues"
       :no-data-text="$t('events.noEventsFound')"
+      :show-select-columns="true"
       @on-action="onAction"
     >
       <template #before>
@@ -170,22 +171,26 @@ const onAction = (payload: Action) => {
 <style lang="scss">
 .table-live-steam {
   --table-live-steam-cell-width: 200px;
+
   .pf-c-table__sticky-column {
     &:nth-child(1) {
       min-width: var(--table-live-steam-cell-width);
       max-width: var(--table-live-steam-cell-width);
       left: 0;
     }
+
     &:nth-child(2) {
       min-width: 440px;
       width: 440px;
       left: 200px;
     }
+
     &:nth-child(3) {
       min-width: var(--table-live-steam-cell-width);
       left: 640px;
     }
   }
+
   .pf-u-text-nowrap {
     min-width: 140px;
     max-width: 350px;
