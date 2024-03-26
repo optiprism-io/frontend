@@ -2912,14 +2912,14 @@ components:
           type: object
           anyOf:
             - type: object
-              required: ['type']
+              required: [ 'type' ]
               properties:
                 type:
                   type: string
                   enum:
                     - dropOffOnAnyStep
             - type: object
-              required: ['type','step']
+              required: [ 'type','step' ]
               properties:
                 type:
                   type: string
@@ -2929,7 +2929,7 @@ components:
                   type: integer
                   description: Step number
             - type: object
-              required: ['type','from','to']
+              required: [ 'type','from','to' ]
               properties:
                 type:
                   type: string
