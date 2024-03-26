@@ -2900,16 +2900,47 @@ components:
         chartType:
           type: object
           anyOf:
-            - $ref: '#/components/schemas/FunnelConversionStepsChartType'
+            - $ref: '#/components/schemas/FunnelStepsChartType'
             - $ref: '#/components/schemas/FunnelConversionOverTimeChartType'
-        #            - $ref: '#/components/schemas/FunnelTimeToConvertChartType'
-        #            - $ref: '#/components/schemas/FunnelFrequencyChartType'
         count:
           type: string
           enum:
             - unique
             - nonUnique
             - session
+        filter:
+          type: object
+          anyOf:
+            - type: object
+              required: ['type']
+              properties:
+                type:
+                  type: string
+                  enum:
+                    - dropOffOnAnyStep
+            - type: object
+              required: ['type','step']
+              properties:
+                type:
+                  type: string
+                  enum:
+                    - dropOffOnStep
+                step:
+                  type: integer
+                  description: Step number
+            - type: object
+              required: ['type','from','to']
+              properties:
+                type:
+                  type: string
+                  enum:
+                    - timeToConvert
+                from:
+                  type: integer
+                  description: From timestamp
+                to:
+                  type: integer
+                  description: From timestamp
         attribution:
           type: object
           required: [ 'type' ]
@@ -2954,14 +2985,14 @@ components:
             $ref: '#/components/schemas/EventSegmentationSegment'
         filters:
           $ref: '#/components/schemas/EventGroupedFilters'
-    FunnelConversionStepsChartType:
+    FunnelStepsChartType:
       type: object
       required: [ 'type' ]
       properties:
         type:
           type: string
           enum:
-            - conversionSteps
+            - steps
     FunnelConversionStepsChartTypeResponse:
       type: object
       properties:
