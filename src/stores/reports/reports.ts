@@ -1,6 +1,5 @@
 import { defineStore } from 'pinia'
 import { useEventsStore } from '@/stores/eventSegmentation/events'
-import { useFunnelsStore } from '@/stores/funnels/funnels'
 import { useStepsStore } from '@/stores/funnels/steps'
 import { useFilterGroupsStore } from '@/stores/reports/filters'
 import { useBreakdownsStore } from '@/stores/reports/breakdowns'
@@ -34,18 +33,15 @@ type Reports = {
 }
 
 const getReport = (type: ReportType) => {
+  /* TODO: fix multiple links with other stores  */
   const eventsStore = useEventsStore()
-  const funnelsStore = useFunnelsStore()
   const breakdownsStore = useBreakdownsStore()
   const filterGroupsStore = useFilterGroupsStore()
   const segmentsStore = useSegmentsStore()
   const stepsStore = useStepsStore()
 
   const report = {
-    time:
-      type === ReportType.EventSegmentation
-        ? (eventsStore.timeRequest as EventRecordsListRequestTime)
-        : (funnelsStore.timeRequest as EventRecordsListRequestTime),
+    time: eventsStore.timeRequest as EventRecordsListRequestTime,
     group: eventsStore.group,
     intervalUnit: eventsStore.controlsGroupBy,
     chartType:

@@ -42,7 +42,6 @@
 import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import FunnelChartStacked from '@/components/funnels/view/FunnelChartStacked.vue'
 import { useStepsStore } from '@/stores/funnels/steps'
-import { convertColumns } from '@/stores/funnels/funnels'
 import { DataTableResponseColumnsInner } from '@/api'
 import { Step } from '@/types/steps'
 
@@ -106,6 +105,24 @@ const dropOffRatio = computed((): number[][] => {
   const columns = props.reports.filter(col => col.name === 'dropOffRatio')
   return convertColumns(columns, stepNumbers.value)
 })
+
+function convertColumns(
+  columns: DataTableResponseColumnsInner[],
+  stepNumbers: number[]
+): number[][] {
+  const result: number[][] = []
+
+  for (let i = 0; i < stepNumbers.length; i++) {
+    const column = columns.find(col => col.step === stepNumbers[i])
+    if (column) {
+      result.push(column.data as number[])
+    } else {
+      result.push([])
+    }
+  }
+
+  return result
+}
 
 const colors = ['#ee5253', '#2e86de', '#ff9f43', '#5f27cd', '#10ac84', '#f368e0', '#0abde3']
 const barsColors = computed(() => {

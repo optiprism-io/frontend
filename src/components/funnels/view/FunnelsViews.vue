@@ -9,7 +9,7 @@
                 <UiDatePicker
                   :value="calendarValue"
                   :last-count="period.last"
-                  :active-tab-controls="funnelsStore.period.type"
+                  :active-tab-controls="period.type"
                   @on-apply="applyPeriod"
                 >
                   <template #action>
@@ -55,8 +55,7 @@ import { computed, ref, watch } from 'vue'
 import UiDatePicker from '@/components/uikit/UiDatePicker.vue'
 import { periodMap } from '@/configs/events/controls'
 import { UiToggleGroupItem } from '@/components/uikit/UiToggleGroup.vue'
-import { useFunnelsStore } from '@/stores/funnels/funnels'
-import { getStringDateByFormat } from '@/helpers/getStringDates'
+import { getStringDateByFormat, getYYYYMMDD } from '@/helpers/getStringDates'
 import { ApplyPayload } from '@/components/uikit/UiCalendar/UiCalendar'
 import FunnelsChart from '@/components/funnels/view/FunnelsChart.vue'
 import { UiDropdownItem } from '@/components/uikit/UiDropdown.vue'
@@ -64,7 +63,6 @@ import FunnelsTable from '@/components/funnels/view/FunnelsTable.vue'
 import { useStepsStore } from '@/stores/funnels/steps'
 import DataEmptyPlaceholder from '@/components/common/data/DataEmptyPlaceholder.vue'
 import DataLoader from '@/components/common/data/DataLoader.vue'
-import { storeToRefs } from 'pinia'
 import { FUNNEL_VIEWS } from './funnelViews'
 import { useProjectsStore } from '@/stores/projects/projects'
 import { useBreakdownsStore } from '@/stores/reports/breakdowns'
@@ -74,12 +72,21 @@ import queryService from '@/api/services/query.service'
 import {
   DataTableResponseColumnsInner,
   DataTableResponseColumnsInnerTypeEnum,
+  EventRecordsListRequestTime,
   FunnelQueryChartTypeTypeEnum,
   FunnelQueryCountEnum,
   TimeUnit,
 } from '@/api'
 import { isNumber } from 'lodash'
 import { useMutation } from '@/hooks/useMutation'
+import { getLastNDaysRange } from '@/helpers/calendarHelper'
+
+interface Period {
+  from: string
+  to: string
+  last: number
+  type: string
+}
 
 const item = ref<string | number>(0)
 const itemText = computed(() => FUNNEL_VIEWS.find(c => c.key === item.value)?.nameDisplay ?? '')
@@ -88,15 +95,64 @@ const selectItem = (value: UiDropdownItem<string>) => {
   item.value = value.key
 }
 
-const funnelsStore = useFunnelsStore()
 const stepsStore = useStepsStore()
 
 const reports = ref<DataTableResponseColumnsInner[]>([])
-
-const { period, controlsPeriod, timeRequest } = storeToRefs(funnelsStore)
-const { setControlsPeriod, initPeriod, setPeriod } = funnelsStore
+const controlsPeriod = ref<string | number>('30')
+const period = ref<Period>({
+  from: '',
+  to: '',
+  type: 'last',
+  last: 30,
+})
 
 const { mutate: getReports, isLoading: loading } = useMutation(fetchReports)
+
+const timeRequest = computed<EventRecordsListRequestTime>(() => {
+  switch (period.value.type) {
+    case 'last':
+      return {
+        type: period.value.type,
+        last: period.value.last,
+        unit: 'day',
+      }
+    case 'since':
+      return {
+        type: 'from',
+        from: period.value.from,
+      }
+    case 'between':
+      return {
+        type: period.value.type,
+        from: period.value.from,
+        to: period.value.to,
+      }
+    default:
+      return {
+        type: 'last',
+        last: Number(controlsPeriod.value),
+        unit: 'day',
+      }
+  }
+})
+
+function setControlsPeriod(payload: string) {
+  controlsPeriod.value = payload
+}
+
+function setPeriod(payload: { from: string; to: string; type: string; last: number }) {
+  period.value = payload
+}
+
+function initPeriod(): void {
+  const lastNDateRange = getLastNDaysRange(20)
+  period.value = {
+    from: getYYYYMMDD(lastNDateRange.from),
+    to: getYYYYMMDD(new Date()),
+    type: 'last',
+    last: 20,
+  }
+}
 
 const stepNumbers = computed<number[]>(() => {
   const metricValueColumns = reports.value.filter(
