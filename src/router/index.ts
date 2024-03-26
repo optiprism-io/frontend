@@ -106,6 +106,7 @@ const routes: RouteRecordRaw[] = [
         path: pagesMap.reports,
         name: pagesMap.reports,
         component: () => import('@/pages/reports/Reports.vue'),
+        redirect: { name: pagesMap.reportsEventSegmentation.name },
         children: [
           {
             path: ':id?',

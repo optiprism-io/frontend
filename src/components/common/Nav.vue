@@ -7,6 +7,7 @@
           :to="item.to"
           class="pf-c-nav__link"
           aria-current="page"
+          activeClass="pf-m-current"
           @click="onClick($event, item.to.name)"
         >
           {{ item.name }}
@@ -38,7 +39,7 @@ const configNav = [
   {
     name: 'reports.title',
     to: {
-      name: pagesMap.reportsEventSegmentation.name,
+      name: pagesMap.reports,
       params: {
         id: null,
       },
@@ -65,12 +66,3 @@ const onClick = (event: PointerEvent, name: string) => {
   emit('on-click-item', event, name)
 }
 </script>
-
-<style scoped>
-.pf-c-nav__link.pf-m-current,
-.pf-c-nav__link.pf-m-current:hover,
-.pf-c-nav__item.pf-m-current:not(.pf-m-expanded) .pf-c-nav__link {
-  color: var(--pf-c-nav__link--m-current--Color);
-  background-color: var(--pf-global--palette--cyan-700);
-}
-</style>
