@@ -3,6 +3,7 @@ import { getLastNDaysRange } from '@/helpers/calendarHelper'
 import { getYYYYMMDD } from '@/helpers/getStringDates'
 import {
   DataTableResponseColumnsInner,
+  DataTableResponseColumnsInnerTypeEnum,
   EventRecordsListRequestTime,
   FunnelStepsChartTypeTypeEnum,
   TimeUnit,
@@ -70,13 +71,17 @@ export const useFunnelsStore = defineStore('funnels', {
       )
     },
     stepNumbers(): number[] {
-      const metricValueColumns = this.reports.filter(col => col.type === 'metric')
+      const metricValueColumns = this.reports.filter(
+        col => col.type === DataTableResponseColumnsInnerTypeEnum.Metric
+      )
       const stepNumbers = metricValueColumns.map(col => col.step) as number[]
       return [...new Set(stepNumbers)]
     },
     dimensions(): string[] {
       const result: string[] = []
-      const columns = this.reports.filter(col => col.type === 'dimension')
+      const columns = this.reports.filter(
+        col => col.type === DataTableResponseColumnsInnerTypeEnum.Dimension
+      )
 
       for (let i = 0; i < (columns[0]?.data?.length ?? 0); i++) {
         const row: string[] = []
