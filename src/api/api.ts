@@ -24,117 +24,117 @@ import type { RequestArgs } from './base';
 import { BASE_PATH, COLLECTION_FORMATS, BaseAPI, RequiredError, operationServerMap } from './base';
 
 /**
- * 
+ *
  * @export
  * @interface Account
  */
 export interface Account {
     /**
-     * 
+     *
      * @type {number}
      * @memberof Account
      */
     'id'?: number;
     /**
-     * 
+     *
      * @type {string}
      * @memberof Account
      */
     'createdAt'?: string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof Account
      */
     'updatedAt'?: string;
     /**
-     * 
+     *
      * @type {number}
      * @memberof Account
      */
     'createdBy'?: number;
     /**
-     * 
+     *
      * @type {number}
      * @memberof Account
      */
     'updatedBy'?: number;
     /**
-     * 
+     *
      * @type {string}
      * @memberof Account
      */
     'email'?: string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof Account
      */
     'firstName'?: string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof Account
      */
     'lastName'?: string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof Account
      */
     'role'?: string;
     /**
-     * 
+     *
      * @type {Array<number>}
      * @memberof Account
      */
     'teams'?: Array<number>;
     /**
-     * 
+     *
      * @type {Array<AccountProjectsInner>}
      * @memberof Account
      */
     'projects'?: Array<AccountProjectsInner>;
     /**
-     * 
+     *
      * @type {string}
      * @memberof Account
      */
     'status'?: string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof Account
      */
     'timezone'?: string;
 }
 /**
- * 
+ *
  * @export
  * @interface AccountProjectsInner
  */
 export interface AccountProjectsInner {
     /**
-     * 
+     *
      * @type {number}
      * @memberof AccountProjectsInner
      */
     'projectId'?: number;
     /**
-     * 
+     *
      * @type {string}
      * @memberof AccountProjectsInner
      */
     'role'?: string;
 }
 /**
- * 
+ *
  * @export
  * @interface AnalysisCumulative
  */
 export interface AnalysisCumulative {
     /**
-     * 
+     *
      * @type {string}
      * @memberof AnalysisCumulative
      */
@@ -148,13 +148,13 @@ export const AnalysisCumulativeTypeEnum = {
 export type AnalysisCumulativeTypeEnum = typeof AnalysisCumulativeTypeEnum[keyof typeof AnalysisCumulativeTypeEnum];
 
 /**
- * 
+ *
  * @export
  * @interface AnalysisLinear
  */
 export interface AnalysisLinear {
     /**
-     * 
+     *
      * @type {string}
      * @memberof AnalysisLinear
      */
@@ -168,19 +168,19 @@ export const AnalysisLinearTypeEnum = {
 export type AnalysisLinearTypeEnum = typeof AnalysisLinearTypeEnum[keyof typeof AnalysisLinearTypeEnum];
 
 /**
- * 
+ *
  * @export
  * @interface AnalysisLogarithmic
  */
 export interface AnalysisLogarithmic {
     /**
-     * 
+     *
      * @type {string}
      * @memberof AnalysisLogarithmic
      */
     'type': AnalysisLogarithmicTypeEnum;
     /**
-     * 
+     *
      * @type {number}
      * @memberof AnalysisLogarithmic
      */
@@ -194,25 +194,25 @@ export const AnalysisLogarithmicTypeEnum = {
 export type AnalysisLogarithmicTypeEnum = typeof AnalysisLogarithmicTypeEnum[keyof typeof AnalysisLogarithmicTypeEnum];
 
 /**
- * 
+ *
  * @export
  * @interface AnalysisRollingAverage
  */
 export interface AnalysisRollingAverage {
     /**
-     * 
+     *
      * @type {string}
      * @memberof AnalysisRollingAverage
      */
     'type': AnalysisRollingAverageTypeEnum;
     /**
-     * 
+     *
      * @type {number}
      * @memberof AnalysisRollingAverage
      */
     'window': number;
     /**
-     * 
+     *
      * @type {TimeUnit}
      * @memberof AnalysisRollingAverage
      */
@@ -232,19 +232,19 @@ export type AnalysisRollingAverageTypeEnum = typeof AnalysisRollingAverageTypeEn
  */
 export interface BreakdownByProperty {
     /**
-     * 
+     *
      * @type {string}
      * @memberof BreakdownByProperty
      */
     'propertyName'?: string;
     /**
-     * 
+     *
      * @type {PropertyType}
      * @memberof BreakdownByProperty
      */
     'propertyType': PropertyType;
     /**
-     * 
+     *
      * @type {string}
      * @memberof BreakdownByProperty
      */
@@ -258,44 +258,44 @@ export const BreakdownByPropertyTypeEnum = {
 export type BreakdownByPropertyTypeEnum = typeof BreakdownByPropertyTypeEnum[keyof typeof BreakdownByPropertyTypeEnum];
 
 /**
- * Custom Event is an alias to an expression which is used while querying. You can use regular or custom events in expression. You can combine events in expression, you can use filter by properties. 
+ * Custom Event is an alias to an expression which is used while querying. You can use regular or custom events in expression. You can combine events in expression, you can use filter by properties.
  * @export
  * @interface CreateCustomEventRequest
  */
 export interface CreateCustomEventRequest {
     /**
-     * 
+     *
      * @type {string}
      * @memberof CreateCustomEventRequest
      */
     'name': string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof CreateCustomEventRequest
      */
     'description'?: string;
     /**
-     * 
+     *
      * @type {Array<string>}
      * @memberof CreateCustomEventRequest
      */
     'tags'?: Array<string>;
     /**
-     * 
+     *
      * @type {Array<CustomEventEvent>}
      * @memberof CreateCustomEventRequest
      */
     'events': Array<CustomEventEvent>;
 }
 /**
- * 
+ *
  * @export
  * @interface CreateDashboardRequest
  */
 export interface CreateDashboardRequest {
     /**
-     * 
+     *
      * @type {Array<string>}
      * @memberof CreateDashboardRequest
      */
@@ -313,58 +313,58 @@ export interface CreateDashboardRequest {
      */
     'description'?: string;
     /**
-     * 
+     *
      * @type {Array<DashboardPanel>}
      * @memberof CreateDashboardRequest
      */
     'panels'?: Array<DashboardPanel>;
 }
 /**
- * 
+ *
  * @export
  * @interface CreateOrganizationRequest
  */
 export interface CreateOrganizationRequest {
     /**
-     * 
+     *
      * @type {string}
      * @memberof CreateOrganizationRequest
      */
     'name': string;
 }
 /**
- * 
+ *
  * @export
  * @interface CreateProjectRequest
  */
 export interface CreateProjectRequest {
     /**
-     * 
+     *
      * @type {string}
      * @memberof CreateProjectRequest
      */
     'name': string;
     /**
-     * 
+     *
      * @type {number}
      * @memberof CreateProjectRequest
      */
     'sessionDurationSeconds'?: number;
 }
 /**
- * 
+ *
  * @export
  * @interface CreateReportRequest
  */
 export interface CreateReportRequest {
     /**
-     * 
+     *
      * @type {Array<string>}
      * @memberof CreateReportRequest
      */
     'tags'?: Array<string>;
     /**
-     * 
+     *
      * @type {string}
      * @memberof CreateReportRequest
      */
@@ -376,13 +376,13 @@ export interface CreateReportRequest {
      */
     'description'?: string;
     /**
-     * 
+     *
      * @type {ReportType}
      * @memberof CreateReportRequest
      */
     'type': ReportType;
     /**
-     * 
+     *
      * @type {ReportQuery}
      * @memberof CreateReportRequest
      */
@@ -391,79 +391,79 @@ export interface CreateReportRequest {
 
 
 /**
- * Custom Event is an alias to an expression which is used while querying. You can use regular or custom events in expression. You can combine events in expression, you can use filter by properties. 
+ * Custom Event is an alias to an expression which is used while querying. You can use regular or custom events in expression. You can combine events in expression, you can use filter by properties.
  * @export
  * @interface CustomEvent
  */
 export interface CustomEvent {
     /**
-     * 
+     *
      * @type {number}
      * @memberof CustomEvent
      */
     'id': number;
     /**
-     * 
+     *
      * @type {string}
      * @memberof CustomEvent
      */
     'createdAt': string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof CustomEvent
      */
     'updatedAt'?: string;
     /**
-     * 
+     *
      * @type {number}
      * @memberof CustomEvent
      */
     'createdBy': number;
     /**
-     * 
+     *
      * @type {number}
      * @memberof CustomEvent
      */
     'updatedBy'?: number;
     /**
-     * 
+     *
      * @type {number}
      * @memberof CustomEvent
      */
     'projectId': number;
     /**
-     * 
+     *
      * @type {Array<string>}
      * @memberof CustomEvent
      */
     'tags'?: Array<string>;
     /**
-     * 
+     *
      * @type {string}
      * @memberof CustomEvent
      */
     'name': string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof CustomEvent
      */
     'description'?: string;
     /**
-     * 
+     *
      * @type {CustomEventStatus}
      * @memberof CustomEvent
      */
     'status': CustomEventStatus;
     /**
-     * 
+     *
      * @type {boolean}
      * @memberof CustomEvent
      */
     'isSystem': boolean;
     /**
-     * 
+     *
      * @type {Array<CustomEventEvent>}
      * @memberof CustomEvent
      */
@@ -478,13 +478,13 @@ export interface CustomEvent {
  */
 export interface CustomEventEvent {
     /**
-     * 
+     *
      * @type {string}
      * @memberof CustomEventEvent
      */
     'eventName'?: string;
     /**
-     * 
+     *
      * @type {EventType}
      * @memberof CustomEventEvent
      */
@@ -513,135 +513,135 @@ export type CustomEventStatus = typeof CustomEventStatus[keyof typeof CustomEven
 
 
 /**
- * 
+ *
  * @export
  * @interface CustomEventsList200Response
  */
 export interface CustomEventsList200Response {
     /**
-     * 
+     *
      * @type {ListResponseMetadataMeta}
      * @memberof CustomEventsList200Response
      */
     'meta'?: ListResponseMetadataMeta;
     /**
-     * 
+     *
      * @type {Array<CustomEvent>}
      * @memberof CustomEventsList200Response
      */
     'data'?: Array<CustomEvent>;
 }
 /**
- * 
+ *
  * @export
  * @interface CustomPropertiesList200Response
  */
 export interface CustomPropertiesList200Response {
     /**
-     * 
+     *
      * @type {Array<CustomProperty>}
      * @memberof CustomPropertiesList200Response
      */
     'events'?: Array<CustomProperty>;
     /**
-     * 
+     *
      * @type {ListResponseMetadataMeta}
      * @memberof CustomPropertiesList200Response
      */
     'meta'?: ListResponseMetadataMeta;
 }
 /**
- * 
+ *
  * @export
  * @interface CustomProperty
  */
 export interface CustomProperty {
     /**
-     * 
+     *
      * @type {number}
      * @memberof CustomProperty
      */
     'id'?: number;
     /**
-     * 
+     *
      * @type {string}
      * @memberof CustomProperty
      */
     'createdAt'?: string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof CustomProperty
      */
     'updatedAt'?: string;
     /**
-     * 
+     *
      * @type {number}
      * @memberof CustomProperty
      */
     'createdBy'?: number;
     /**
-     * 
+     *
      * @type {number}
      * @memberof CustomProperty
      */
     'updatedBy'?: number;
     /**
-     * 
+     *
      * @type {number}
      * @memberof CustomProperty
      */
     'projectId'?: number;
     /**
-     * 
+     *
      * @type {Array<number>}
      * @memberof CustomProperty
      */
     'events'?: Array<number>;
     /**
-     * 
+     *
      * @type {boolean}
      * @memberof CustomProperty
      */
     'isSystem'?: boolean;
     /**
-     * 
+     *
      * @type {CustomPropertyStatus}
      * @memberof CustomProperty
      */
     'status'?: CustomPropertyStatus;
     /**
-     * 
+     *
      * @type {string}
      * @memberof CustomProperty
      */
     'name'?: string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof CustomProperty
      */
     'description'?: string;
     /**
-     * 
+     *
      * @type {DataType}
      * @memberof CustomProperty
      */
     'type'?: DataType;
     /**
-     * 
+     *
      * @type {boolean}
      * @memberof CustomProperty
      */
     'nullable'?: boolean;
     /**
-     * 
+     *
      * @type {boolean}
      * @memberof CustomProperty
      */
     'isArray'?: boolean;
     /**
-     * 
+     *
      * @type {Array<string>}
      * @memberof CustomProperty
      */
@@ -664,7 +664,7 @@ export type CustomPropertyStatus = typeof CustomPropertyStatus[keyof typeof Cust
 
 
 /**
- * 
+ *
  * @export
  * @interface Dashboard
  */
@@ -706,7 +706,7 @@ export interface Dashboard {
      */
     'projectId'?: number;
     /**
-     * 
+     *
      * @type {Array<string>}
      * @memberof Dashboard
      */
@@ -724,26 +724,26 @@ export interface Dashboard {
      */
     'description'?: string;
     /**
-     * 
+     *
      * @type {Array<DashboardPanel>}
      * @memberof Dashboard
      */
     'panels'?: Array<DashboardPanel>;
 }
 /**
- * 
+ *
  * @export
  * @interface DashboardPanel
  */
 export interface DashboardPanel {
     /**
-     * 
+     *
      * @type {string}
      * @memberof DashboardPanel
      */
     'type': DashboardPanelTypeEnum;
     /**
-     * 
+     *
      * @type {number}
      * @memberof DashboardPanel
      */
@@ -781,81 +781,81 @@ export const DashboardPanelTypeEnum = {
 export type DashboardPanelTypeEnum = typeof DashboardPanelTypeEnum[keyof typeof DashboardPanelTypeEnum];
 
 /**
- * 
+ *
  * @export
  * @interface DashboardsList200Response
  */
 export interface DashboardsList200Response {
     /**
-     * 
+     *
      * @type {ListResponseMetadataMeta}
      * @memberof DashboardsList200Response
      */
     'meta'?: ListResponseMetadataMeta;
     /**
-     * 
+     *
      * @type {Array<Dashboard>}
      * @memberof DashboardsList200Response
      */
     'data'?: Array<Dashboard>;
 }
 /**
- * 
+ *
  * @export
  * @interface DataTableResponse
  */
 export interface DataTableResponse {
     /**
-     * 
+     *
      * @type {Array<DataTableResponseColumnsInner>}
      * @memberof DataTableResponse
      */
     'columns'?: Array<DataTableResponseColumnsInner>;
 }
 /**
- * 
+ *
  * @export
  * @interface DataTableResponseColumnsInner
  */
 export interface DataTableResponseColumnsInner {
     /**
-     * 
+     *
      * @type {string}
      * @memberof DataTableResponseColumnsInner
      */
     'type': DataTableResponseColumnsInnerTypeEnum;
     /**
-     * 
+     *
      * @type {string}
      * @memberof DataTableResponseColumnsInner
      */
     'name': string;
     /**
-     * 
+     *
      * @type {boolean}
      * @memberof DataTableResponseColumnsInner
      */
     'isNullable': boolean;
     /**
-     * 
+     *
      * @type {DataType}
      * @memberof DataTableResponseColumnsInner
      */
     'dataType': DataType;
     /**
-     * 
+     *
      * @type {DataTableResponseColumnsInnerData}
      * @memberof DataTableResponseColumnsInner
      */
     'data': DataTableResponseColumnsInnerData;
     /**
-     * 
+     *
      * @type {number}
      * @memberof DataTableResponseColumnsInner
      */
     'step'?: number;
     /**
-     * 
+     *
      * @type {DataTableResponseColumnsInnerData}
      * @memberof DataTableResponseColumnsInner
      */
@@ -915,43 +915,43 @@ export type DictionaryDataType = typeof DictionaryDataType[keyof typeof Dictiona
  */
 export interface DidEventAggregateProperty {
     /**
-     * 
+     *
      * @type {string}
      * @memberof DidEventAggregateProperty
      */
     'propertyName'?: string;
     /**
-     * 
+     *
      * @type {PropertyType}
      * @memberof DidEventAggregateProperty
      */
     'propertyType': PropertyType;
     /**
-     * 
+     *
      * @type {string}
      * @memberof DidEventAggregateProperty
      */
     'type': DidEventAggregatePropertyTypeEnum;
     /**
-     * 
+     *
      * @type {QueryAggregate}
      * @memberof DidEventAggregateProperty
      */
     'aggregate': QueryAggregate;
     /**
-     * 
+     *
      * @type {PropertyFilterOperation}
      * @memberof DidEventAggregateProperty
      */
     'operation': PropertyFilterOperation;
     /**
-     * 
+     *
      * @type {Value}
      * @memberof DidEventAggregateProperty
      */
     'value'?: Value;
     /**
-     * 
+     *
      * @type {DidEventAggregatePropertyAllOfTime}
      * @memberof DidEventAggregateProperty
      */
@@ -978,13 +978,13 @@ export type DidEventAggregatePropertyAllOfTime = TimeAfterFirstUse | TimeBetween
  */
 export interface DidEventCount {
     /**
-     * 
+     *
      * @type {string}
      * @memberof DidEventCount
      */
     'type': DidEventCountTypeEnum;
     /**
-     * 
+     *
      * @type {PropertyFilterOperation}
      * @memberof DidEventCount
      */
@@ -996,7 +996,7 @@ export interface DidEventCount {
      */
     'value': number;
     /**
-     * 
+     *
      * @type {DidEventCountTime}
      * @memberof DidEventCount
      */
@@ -1023,25 +1023,25 @@ export type DidEventCountTime = TimeAfterFirstUse | TimeBetween | TimeLast | Tim
  */
 export interface DidEventHistoricalCount {
     /**
-     * 
+     *
      * @type {string}
      * @memberof DidEventHistoricalCount
      */
     'type': DidEventHistoricalCountTypeEnum;
     /**
-     * 
+     *
      * @type {PropertyFilterOperation}
      * @memberof DidEventHistoricalCount
      */
     'operation': PropertyFilterOperation;
     /**
-     * 
+     *
      * @type {number}
      * @memberof DidEventHistoricalCount
      */
     'value'?: number;
     /**
-     * 
+     *
      * @type {DidEventRelativeCountAllOfTime}
      * @memberof DidEventHistoricalCount
      */
@@ -1061,37 +1061,37 @@ export type DidEventHistoricalCountTypeEnum = typeof DidEventHistoricalCountType
  */
 export interface DidEventRelativeCount {
     /**
-     * 
+     *
      * @type {string}
      * @memberof DidEventRelativeCount
      */
     'eventName'?: string;
     /**
-     * 
+     *
      * @type {EventType}
      * @memberof DidEventRelativeCount
      */
     'eventType': EventType;
     /**
-     * 
+     *
      * @type {Array<EventFilterByProperty>}
      * @memberof DidEventRelativeCount
      */
     'filters'?: Array<EventFilterByProperty>;
     /**
-     * 
+     *
      * @type {string}
      * @memberof DidEventRelativeCount
      */
     'type': DidEventRelativeCountTypeEnum;
     /**
-     * 
+     *
      * @type {PropertyFilterOperation}
      * @memberof DidEventRelativeCount
      */
     'operation': PropertyFilterOperation;
     /**
-     * 
+     *
      * @type {DidEventRelativeCountAllOfTime}
      * @memberof DidEventRelativeCount
      */
@@ -1111,38 +1111,38 @@ export type DidEventRelativeCountTypeEnum = typeof DidEventRelativeCountTypeEnum
 export type DidEventRelativeCountAllOfTime = TimeAfterFirstUse | TimeBetween | TimeLast | TimeWindowEach;
 
 /**
- * 
+ *
  * @export
  * @interface ErrorResponse
  */
 export interface ErrorResponse {
     /**
-     * 
+     *
      * @type {ErrorResponseError}
      * @memberof ErrorResponse
      */
     'error'?: ErrorResponseError;
 }
 /**
- * 
+ *
  * @export
  * @interface ErrorResponseError
  */
 export interface ErrorResponseError {
     /**
-     * 
+     *
      * @type {string}
      * @memberof ErrorResponseError
      */
     'code'?: ErrorResponseErrorCodeEnum;
     /**
-     * 
+     *
      * @type {string}
      * @memberof ErrorResponseError
      */
     'message'?: string;
     /**
-     * 
+     *
      * @type {{ [key: string]: string; }}
      * @memberof ErrorResponseError
      */
@@ -1156,7 +1156,7 @@ export const ErrorResponseErrorCodeEnum = {
 export type ErrorResponseErrorCodeEnum = typeof ErrorResponseErrorCodeEnum[keyof typeof ErrorResponseErrorCodeEnum];
 
 /**
- * Event describes user event. User event is an action which user (client) might do on a product site/app. For instance, user might do a signup and it might be a \"Sign up\" event. Event Also has a properties. <br/><br/> Name must be unique among project events, including custom ones. E.g. you can\'t have multiple \"Sign up\" events. <br/><br/> Normally events are created and updated by admin in a project scope, but there are also system events, which can\'t be deleted or modified. 
+ * Event describes user event. User event is an action which user (client) might do on a product site/app. For instance, user might do a signup and it might be a \"Sign up\" event. Event Also has a properties. <br/><br/> Name must be unique among project events, including custom ones. E.g. you can\'t have multiple \"Sign up\" events. <br/><br/> Normally events are created and updated by admin in a project scope, but there are also system events, which can\'t be deleted or modified.
  * @export
  * @interface Event
  */
@@ -1204,7 +1204,7 @@ export interface Event {
      */
     'isSystem': boolean;
     /**
-     * 
+     *
      * @type {Array<string>}
      * @memberof Event
      */
@@ -1228,7 +1228,7 @@ export interface Event {
      */
     'description'?: string;
     /**
-     * 
+     *
      * @type {EventStatus}
      * @memberof Event
      */
@@ -1264,19 +1264,19 @@ export type EventChartType = typeof EventChartType[keyof typeof EventChartType];
 
 
 /**
- * 
+ *
  * @export
  * @interface EventFilterByCohort
  */
 export interface EventFilterByCohort {
     /**
-     * 
+     *
      * @type {string}
      * @memberof EventFilterByCohort
      */
     'type': EventFilterByCohortTypeEnum;
     /**
-     * 
+     *
      * @type {number}
      * @memberof EventFilterByCohort
      */
@@ -1290,19 +1290,19 @@ export const EventFilterByCohortTypeEnum = {
 export type EventFilterByCohortTypeEnum = typeof EventFilterByCohortTypeEnum[keyof typeof EventFilterByCohortTypeEnum];
 
 /**
- * 
+ *
  * @export
  * @interface EventFilterByGroup
  */
 export interface EventFilterByGroup {
     /**
-     * 
+     *
      * @type {string}
      * @memberof EventFilterByGroup
      */
     'type': EventFilterByGroupTypeEnum;
     /**
-     * 
+     *
      * @type {number}
      * @memberof EventFilterByGroup
      */
@@ -1322,25 +1322,25 @@ export type EventFilterByGroupTypeEnum = typeof EventFilterByGroupTypeEnum[keyof
  */
 export interface EventFilterByProperty {
     /**
-     * 
+     *
      * @type {string}
      * @memberof EventFilterByProperty
      */
     'propertyName'?: string;
     /**
-     * 
+     *
      * @type {PropertyType}
      * @memberof EventFilterByProperty
      */
     'propertyType': PropertyType;
     /**
-     * 
+     *
      * @type {string}
      * @memberof EventFilterByProperty
      */
     'type': EventFilterByPropertyTypeEnum;
     /**
-     * 
+     *
      * @type {PropertyFilterOperation}
      * @memberof EventFilterByProperty
      */
@@ -1366,13 +1366,13 @@ export type EventFilterByPropertyTypeEnum = typeof EventFilterByPropertyTypeEnum
  */
 export interface EventGroupedFilters {
     /**
-     * 
+     *
      * @type {string}
      * @memberof EventGroupedFilters
      */
     'groupsCondition'?: EventGroupedFiltersGroupsConditionEnum;
     /**
-     * 
+     *
      * @type {Array<EventGroupedFiltersGroupsInner>}
      * @memberof EventGroupedFilters
      */
@@ -1387,19 +1387,19 @@ export const EventGroupedFiltersGroupsConditionEnum = {
 export type EventGroupedFiltersGroupsConditionEnum = typeof EventGroupedFiltersGroupsConditionEnum[keyof typeof EventGroupedFiltersGroupsConditionEnum];
 
 /**
- * 
+ *
  * @export
  * @interface EventGroupedFiltersGroupsInner
  */
 export interface EventGroupedFiltersGroupsInner {
     /**
-     * 
+     *
      * @type {string}
      * @memberof EventGroupedFiltersGroupsInner
      */
     'filtersCondition'?: EventGroupedFiltersGroupsInnerFiltersConditionEnum;
     /**
-     * 
+     *
      * @type {Array<EventGroupedFiltersGroupsInnerFiltersInner>}
      * @memberof EventGroupedFiltersGroupsInner
      */
@@ -1414,25 +1414,77 @@ export const EventGroupedFiltersGroupsInnerFiltersConditionEnum = {
 export type EventGroupedFiltersGroupsInnerFiltersConditionEnum = typeof EventGroupedFiltersGroupsInnerFiltersConditionEnum[keyof typeof EventGroupedFiltersGroupsInnerFiltersConditionEnum];
 
 /**
- * @type EventGroupedFiltersGroupsInnerFiltersInner
+ *
  * @export
+ * @interface EventGroupedFiltersGroupsInnerFiltersInner
  */
-export type EventGroupedFiltersGroupsInnerFiltersInner = EventFilterByCohort | EventFilterByGroup | EventFilterByProperty;
+export interface EventGroupedFiltersGroupsInnerFiltersInner {
+    /**
+     *
+     * @type {string}
+     * @memberof EventGroupedFiltersGroupsInnerFiltersInner
+     */
+    'type': EventGroupedFiltersGroupsInnerFiltersInnerTypeEnum;
+    /**
+     *
+     * @type {number}
+     * @memberof EventGroupedFiltersGroupsInnerFiltersInner
+     */
+    'cohortId': number;
+    /**
+     *
+     * @type {string}
+     * @memberof EventGroupedFiltersGroupsInnerFiltersInner
+     */
+    'propertyName'?: string;
+    /**
+     *
+     * @type {PropertyType}
+     * @memberof EventGroupedFiltersGroupsInnerFiltersInner
+     */
+    'propertyType': PropertyType;
+    /**
+     *
+     * @type {PropertyFilterOperation}
+     * @memberof EventGroupedFiltersGroupsInnerFiltersInner
+     */
+    'operation': PropertyFilterOperation;
+    /**
+     * one or several property values. May be not set if operation is \"empty\" or \"exist\"
+     * @type {Array<Value>}
+     * @memberof EventGroupedFiltersGroupsInnerFiltersInner
+     */
+    'value'?: Array<Value>;
+    /**
+     *
+     * @type {number}
+     * @memberof EventGroupedFiltersGroupsInnerFiltersInner
+     */
+    'groupId': number;
+}
+
+export const EventGroupedFiltersGroupsInnerFiltersInnerTypeEnum = {
+    Cohort: 'cohort',
+    Property: 'property',
+    Group: 'group'
+} as const;
+
+export type EventGroupedFiltersGroupsInnerFiltersInnerTypeEnum = typeof EventGroupedFiltersGroupsInnerFiltersInnerTypeEnum[keyof typeof EventGroupedFiltersGroupsInnerFiltersInnerTypeEnum];
 
 /**
- * 
+ *
  * @export
  * @interface EventRecord
  */
 export interface EventRecord {
     /**
-     * 
+     *
      * @type {number}
      * @memberof EventRecord
      */
     'id': number;
     /**
-     * 
+     *
      * @type {string}
      * @memberof EventRecord
      */
@@ -1450,39 +1502,39 @@ export interface EventRecord {
      */
     'userProperties'?: { [key: string]: Value; };
     /**
-     * 
+     *
      * @type {Array<EventRecordMatchedCustomEventsInner>}
      * @memberof EventRecord
      */
     'matchedCustomEvents'?: Array<EventRecordMatchedCustomEventsInner>;
 }
 /**
- * 
+ *
  * @export
  * @interface EventRecordMatchedCustomEventsInner
  */
 export interface EventRecordMatchedCustomEventsInner {
     /**
-     * 
+     *
      * @type {number}
      * @memberof EventRecordMatchedCustomEventsInner
      */
     'id'?: number;
 }
 /**
- * 
+ *
  * @export
  * @interface EventRecordRequestEvent
  */
 export interface EventRecordRequestEvent {
     /**
-     * 
+     *
      * @type {string}
      * @memberof EventRecordRequestEvent
      */
     'eventName'?: string;
     /**
-     * 
+     *
      * @type {EventType}
      * @memberof EventRecordRequestEvent
      */
@@ -1509,7 +1561,7 @@ export type EventRecordRequestEventFiltersFiltersInner = EventFilterByGroup | Ev
  */
 export interface EventRecordsListRequest {
     /**
-     * 
+     *
      * @type {EventRecordsListRequestTime}
      * @memberof EventRecordsListRequest
      */
@@ -1521,13 +1573,13 @@ export interface EventRecordsListRequest {
      */
     'events'?: Array<EventRecordRequestEvent>;
     /**
-     * 
+     *
      * @type {EventGroupedFilters}
      * @memberof EventRecordsListRequest
      */
     'filters'?: EventGroupedFilters;
     /**
-     * 
+     *
      * @type {Array<PropertyRef>}
      * @memberof EventRecordsListRequest
      */
@@ -1547,13 +1599,13 @@ export type EventRecordsListRequestTime = TimeBetween | TimeFrom | TimeLast;
  */
 export interface EventRef {
     /**
-     * 
+     *
      * @type {string}
      * @memberof EventRef
      */
     'eventName'?: string;
     /**
-     * 
+     *
      * @type {EventType}
      * @memberof EventRef
      */
@@ -1568,7 +1620,7 @@ export interface EventRef {
  */
 export interface EventSegmentation {
     /**
-     * 
+     *
      * @type {EventRecordsListRequestTime}
      * @memberof EventSegmentation
      */
@@ -1580,25 +1632,25 @@ export interface EventSegmentation {
      */
     'group': string;
     /**
-     * 
+     *
      * @type {TimeUnit}
      * @memberof EventSegmentation
      */
     'intervalUnit': TimeUnit;
     /**
-     * 
+     *
      * @type {EventChartType}
      * @memberof EventSegmentation
      */
     'chartType': EventChartType;
     /**
-     * 
+     *
      * @type {EventSegmentationAnalysis}
      * @memberof EventSegmentation
      */
     'analysis': EventSegmentationAnalysis;
     /**
-     * 
+     *
      * @type {EventSegmentationCompare}
      * @memberof EventSegmentation
      */
@@ -1610,7 +1662,7 @@ export interface EventSegmentation {
      */
     'events': Array<EventSegmentationEvent>;
     /**
-     * 
+     *
      * @type {EventGroupedFilters}
      * @memberof EventSegmentation
      */
@@ -1650,7 +1702,7 @@ export interface EventSegmentationCompare {
      */
     'offset': number;
     /**
-     * 
+     *
      * @type {TimeUnit}
      * @memberof EventSegmentationCompare
      */
@@ -1665,13 +1717,13 @@ export interface EventSegmentationCompare {
  */
 export interface EventSegmentationEvent {
     /**
-     * 
+     *
      * @type {string}
      * @memberof EventSegmentationEvent
      */
     'eventName'?: string;
     /**
-     * 
+     *
      * @type {EventType}
      * @memberof EventSegmentationEvent
      */
@@ -1683,7 +1735,7 @@ export interface EventSegmentationEvent {
      */
     'filters'?: Array<EventSegmentationEventAllOfFilters>;
     /**
-     * 
+     *
      * @type {Array<EventSegmentationEventAllOfBreakdowns>}
      * @memberof EventSegmentationEvent
      */
@@ -1770,38 +1822,38 @@ export type EventType = typeof EventType[keyof typeof EventType];
 
 
 /**
- * 
+ *
  * @export
  * @interface EventsList200Response
  */
 export interface EventsList200Response {
     /**
-     * 
+     *
      * @type {ListResponseMetadataMeta}
      * @memberof EventsList200Response
      */
     'meta'?: ListResponseMetadataMeta;
     /**
-     * 
+     *
      * @type {Array<Event>}
      * @memberof EventsList200Response
      */
     'data'?: Array<Event>;
 }
 /**
- * 
+ *
  * @export
  * @interface FunnelConversionOverTimeChartType
  */
 export interface FunnelConversionOverTimeChartType {
     /**
-     * 
+     *
      * @type {string}
      * @memberof FunnelConversionOverTimeChartType
      */
     'type': FunnelConversionOverTimeChartTypeTypeEnum;
     /**
-     * 
+     *
      * @type {TimeUnit}
      * @memberof FunnelConversionOverTimeChartType
      */
@@ -1815,37 +1867,37 @@ export const FunnelConversionOverTimeChartTypeTypeEnum = {
 export type FunnelConversionOverTimeChartTypeTypeEnum = typeof FunnelConversionOverTimeChartTypeTypeEnum[keyof typeof FunnelConversionOverTimeChartTypeTypeEnum];
 
 /**
- * 
+ *
  * @export
  * @interface FunnelConversionStepsChartTypeResponse
  */
 export interface FunnelConversionStepsChartTypeResponse {
     /**
-     * 
+     *
      * @type {Array<string>}
      * @memberof FunnelConversionStepsChartTypeResponse
      */
     'dimensionHeaders'?: Array<string>;
     /**
-     * 
+     *
      * @type {Array<Array<string>>}
      * @memberof FunnelConversionStepsChartTypeResponse
      */
     'dimensions'?: Array<Array<string>>;
     /**
-     * 
+     *
      * @type {Array<string>}
      * @memberof FunnelConversionStepsChartTypeResponse
      */
     'metrics'?: Array<FunnelConversionStepsChartTypeResponseMetricsEnum>;
     /**
-     * 
+     *
      * @type {Array<number>}
      * @memberof FunnelConversionStepsChartTypeResponse
      */
     'singles'?: Array<number>;
     /**
-     * 
+     *
      * @type {Array<Array<number>>}
      * @memberof FunnelConversionStepsChartTypeResponse
      */
@@ -1865,13 +1917,13 @@ export type FunnelConversionStepsChartTypeResponseMetricsEnum = typeof FunnelCon
  */
 export interface FunnelEvent {
     /**
-     * 
+     *
      * @type {string}
      * @memberof FunnelEvent
      */
     'eventName'?: string;
     /**
-     * 
+     *
      * @type {EventType}
      * @memberof FunnelEvent
      */
@@ -1892,13 +1944,13 @@ export interface FunnelEvent {
 export type FunnelEventAllOfFilters = EventFilterByProperty;
 
 /**
- * 
+ *
  * @export
  * @interface FunnelExcludeSteps
  */
 export interface FunnelExcludeSteps {
     /**
-     * 
+     *
      * @type {FunnelExcludeStepsSteps}
      * @memberof FunnelExcludeSteps
      */
@@ -1911,13 +1963,13 @@ export interface FunnelExcludeSteps {
 export type FunnelExcludeStepsSteps = FunnelExcludeStepsStepsOneOf | FunnelExcludeStepsStepsOneOf1;
 
 /**
- * 
+ *
  * @export
  * @interface FunnelExcludeStepsStepsOneOf
  */
 export interface FunnelExcludeStepsStepsOneOf {
     /**
-     * 
+     *
      * @type {string}
      * @memberof FunnelExcludeStepsStepsOneOf
      */
@@ -1931,25 +1983,25 @@ export const FunnelExcludeStepsStepsOneOfTypeEnum = {
 export type FunnelExcludeStepsStepsOneOfTypeEnum = typeof FunnelExcludeStepsStepsOneOfTypeEnum[keyof typeof FunnelExcludeStepsStepsOneOfTypeEnum];
 
 /**
- * 
+ *
  * @export
  * @interface FunnelExcludeStepsStepsOneOf1
  */
 export interface FunnelExcludeStepsStepsOneOf1 {
     /**
-     * 
+     *
      * @type {string}
      * @memberof FunnelExcludeStepsStepsOneOf1
      */
     'type': FunnelExcludeStepsStepsOneOf1TypeEnum;
     /**
-     * 
+     *
      * @type {number}
      * @memberof FunnelExcludeStepsStepsOneOf1
      */
     'from': number;
     /**
-     * 
+     *
      * @type {number}
      * @memberof FunnelExcludeStepsStepsOneOf1
      */
@@ -1963,13 +2015,13 @@ export const FunnelExcludeStepsStepsOneOf1TypeEnum = {
 export type FunnelExcludeStepsStepsOneOf1TypeEnum = typeof FunnelExcludeStepsStepsOneOf1TypeEnum[keyof typeof FunnelExcludeStepsStepsOneOf1TypeEnum];
 
 /**
- * 
+ *
  * @export
  * @interface FunnelFrequencyChartType
  */
 export interface FunnelFrequencyChartType {
     /**
-     * 
+     *
      * @type {string}
      * @memberof FunnelFrequencyChartType
      */
@@ -1983,67 +2035,67 @@ export const FunnelFrequencyChartTypeTypeEnum = {
 export type FunnelFrequencyChartTypeTypeEnum = typeof FunnelFrequencyChartTypeTypeEnum[keyof typeof FunnelFrequencyChartTypeTypeEnum];
 
 /**
- * 
+ *
  * @export
  * @interface FunnelQuery
  */
 export interface FunnelQuery {
     /**
-     * 
+     *
      * @type {EventRecordsListRequestTime}
      * @memberof FunnelQuery
      */
     'time': EventRecordsListRequestTime;
     /**
-     * 
+     *
      * @type {string}
      * @memberof FunnelQuery
      */
     'group': string;
     /**
-     * 
+     *
      * @type {Array<FunnelQueryStepsInner>}
      * @memberof FunnelQuery
      */
     'steps': Array<FunnelQueryStepsInner>;
     /**
-     * 
+     *
      * @type {FunnelQueryTimeWindow}
      * @memberof FunnelQuery
      */
     'timeWindow': FunnelQueryTimeWindow;
     /**
-     * 
+     *
      * @type {FunnelQueryChartType}
      * @memberof FunnelQuery
      */
     'chartType': FunnelQueryChartType;
     /**
-     * 
+     *
      * @type {string}
      * @memberof FunnelQuery
      */
     'count': FunnelQueryCountEnum;
     /**
-     * 
+     *
      * @type {FunnelQueryFilter}
      * @memberof FunnelQuery
      */
     'filter'?: FunnelQueryFilter;
     /**
-     * 
+     *
      * @type {FunnelQueryAttribution}
      * @memberof FunnelQuery
      */
     'attribution'?: FunnelQueryAttribution;
     /**
-     * 
+     *
      * @type {Array<PropertyRef>}
      * @memberof FunnelQuery
      */
     'holdingConstants'?: Array<PropertyRef>;
     /**
-     * 
+     *
      * @type {Array<FunnelQueryExcludeInner>}
      * @memberof FunnelQuery
      */
@@ -2061,13 +2113,13 @@ export interface FunnelQuery {
      */
     'segments'?: Array<EventSegmentationSegment>;
     /**
-     * 
+     *
      * @type {EventGroupedFilters}
      * @memberof FunnelQuery
      */
     'filters'?: EventGroupedFilters;
     /**
-     * 
+     *
      * @type {FunnelQueryTouch}
      * @memberof FunnelQuery
      */
@@ -2089,13 +2141,13 @@ export type FunnelQueryCountEnum = typeof FunnelQueryCountEnum[keyof typeof Funn
 export type FunnelQueryAttribution = FunnelQueryAttributionOneOf | FunnelQueryAttributionOneOf1;
 
 /**
- * 
+ *
  * @export
  * @interface FunnelQueryAttributionOneOf
  */
 export interface FunnelQueryAttributionOneOf {
     /**
-     * 
+     *
      * @type {string}
      * @memberof FunnelQueryAttributionOneOf
      */
@@ -2110,19 +2162,19 @@ export const FunnelQueryAttributionOneOfTypeEnum = {
 export type FunnelQueryAttributionOneOfTypeEnum = typeof FunnelQueryAttributionOneOfTypeEnum[keyof typeof FunnelQueryAttributionOneOfTypeEnum];
 
 /**
- * 
+ *
  * @export
  * @interface FunnelQueryAttributionOneOf1
  */
 export interface FunnelQueryAttributionOneOf1 {
     /**
-     * 
+     *
      * @type {string}
      * @memberof FunnelQueryAttributionOneOf1
      */
     'type': FunnelQueryAttributionOneOf1TypeEnum;
     /**
-     * 
+     *
      * @type {number}
      * @memberof FunnelQueryAttributionOneOf1
      */
@@ -2136,25 +2188,46 @@ export const FunnelQueryAttributionOneOf1TypeEnum = {
 export type FunnelQueryAttributionOneOf1TypeEnum = typeof FunnelQueryAttributionOneOf1TypeEnum[keyof typeof FunnelQueryAttributionOneOf1TypeEnum];
 
 /**
- * @type FunnelQueryChartType
+ *
  * @export
+ * @interface FunnelQueryChartType
  */
-export type FunnelQueryChartType = FunnelConversionOverTimeChartType | FunnelStepsChartType;
+export interface FunnelQueryChartType {
+    /**
+     *
+     * @type {string}
+     * @memberof FunnelQueryChartType
+     */
+    'type': FunnelQueryChartTypeTypeEnum;
+    /**
+     *
+     * @type {TimeUnit}
+     * @memberof FunnelQueryChartType
+     */
+    'intervalUnit': TimeUnit;
+}
+
+export const FunnelQueryChartTypeTypeEnum = {
+    Steps: 'steps',
+    ConversionOverTime: 'conversionOverTime'
+} as const;
+
+export type FunnelQueryChartTypeTypeEnum = typeof FunnelQueryChartTypeTypeEnum[keyof typeof FunnelQueryChartTypeTypeEnum];
 
 /**
- * 
+ *
  * @export
  * @interface FunnelQueryExcludeInner
  */
 export interface FunnelQueryExcludeInner {
     /**
-     * 
+     *
      * @type {string}
      * @memberof FunnelQueryExcludeInner
      */
     'eventName'?: string;
     /**
-     * 
+     *
      * @type {EventType}
      * @memberof FunnelQueryExcludeInner
      */
@@ -2166,7 +2239,7 @@ export interface FunnelQueryExcludeInner {
      */
     'filters': Array<FunnelEventAllOfFilters>;
     /**
-     * 
+     *
      * @type {FunnelExcludeStepsSteps}
      * @memberof FunnelQueryExcludeInner
      */
@@ -2175,168 +2248,229 @@ export interface FunnelQueryExcludeInner {
 
 
 /**
- * @type FunnelQueryFilter
+ *
  * @export
+ * @interface FunnelQueryFilter
  */
-export type FunnelQueryFilter = FunnelQueryFilterOneOf | FunnelQueryFilterOneOf1 | FunnelQueryFilterOneOf2;
-
-/**
- * 
- * @export
- * @interface FunnelQueryFilterOneOf
- */
-export interface FunnelQueryFilterOneOf {
+export interface FunnelQueryFilter {
     /**
-     * 
+     *
      * @type {string}
-     * @memberof FunnelQueryFilterOneOf
+     * @memberof FunnelQueryFilter
      */
-    'type': FunnelQueryFilterOneOfTypeEnum;
-}
-
-export const FunnelQueryFilterOneOfTypeEnum = {
-    DropOffOnAnyStep: 'dropOffOnAnyStep'
-} as const;
-
-export type FunnelQueryFilterOneOfTypeEnum = typeof FunnelQueryFilterOneOfTypeEnum[keyof typeof FunnelQueryFilterOneOfTypeEnum];
-
-/**
- * 
- * @export
- * @interface FunnelQueryFilterOneOf1
- */
-export interface FunnelQueryFilterOneOf1 {
-    /**
-     * 
-     * @type {string}
-     * @memberof FunnelQueryFilterOneOf1
-     */
-    'type': FunnelQueryFilterOneOf1TypeEnum;
+    'type': FunnelQueryFilterTypeEnum;
     /**
      * Step number
      * @type {number}
-     * @memberof FunnelQueryFilterOneOf1
+     * @memberof FunnelQueryFilter
      */
     'step': number;
-}
-
-export const FunnelQueryFilterOneOf1TypeEnum = {
-    DropOffOnStep: 'dropOffOnStep'
-} as const;
-
-export type FunnelQueryFilterOneOf1TypeEnum = typeof FunnelQueryFilterOneOf1TypeEnum[keyof typeof FunnelQueryFilterOneOf1TypeEnum];
-
-/**
- * 
- * @export
- * @interface FunnelQueryFilterOneOf2
- */
-export interface FunnelQueryFilterOneOf2 {
-    /**
-     * 
-     * @type {string}
-     * @memberof FunnelQueryFilterOneOf2
-     */
-    'type': FunnelQueryFilterOneOf2TypeEnum;
     /**
      * From timestamp
      * @type {number}
-     * @memberof FunnelQueryFilterOneOf2
+     * @memberof FunnelQueryFilter
      */
     'from': number;
     /**
      * From timestamp
      * @type {number}
-     * @memberof FunnelQueryFilterOneOf2
+     * @memberof FunnelQueryFilter
      */
     'to': number;
 }
 
-export const FunnelQueryFilterOneOf2TypeEnum = {
+export const FunnelQueryFilterTypeEnum = {
+    DropOffOnAnyStep: 'dropOffOnAnyStep',
+    DropOffOnStep: 'dropOffOnStep',
     TimeToConvert: 'timeToConvert'
 } as const;
 
-export type FunnelQueryFilterOneOf2TypeEnum = typeof FunnelQueryFilterOneOf2TypeEnum[keyof typeof FunnelQueryFilterOneOf2TypeEnum];
+export type FunnelQueryFilterTypeEnum = typeof FunnelQueryFilterTypeEnum[keyof typeof FunnelQueryFilterTypeEnum];
 
 /**
- * 
+ *
+ * @export
+ * @interface FunnelQueryFilterAnyOf
+ */
+export interface FunnelQueryFilterAnyOf {
+    /**
+     *
+     * @type {string}
+     * @memberof FunnelQueryFilterAnyOf
+     */
+    'type': FunnelQueryFilterAnyOfTypeEnum;
+}
+
+export const FunnelQueryFilterAnyOfTypeEnum = {
+    DropOffOnAnyStep: 'dropOffOnAnyStep'
+} as const;
+
+export type FunnelQueryFilterAnyOfTypeEnum = typeof FunnelQueryFilterAnyOfTypeEnum[keyof typeof FunnelQueryFilterAnyOfTypeEnum];
+
+/**
+ *
+ * @export
+ * @interface FunnelQueryFilterAnyOf1
+ */
+export interface FunnelQueryFilterAnyOf1 {
+    /**
+     *
+     * @type {string}
+     * @memberof FunnelQueryFilterAnyOf1
+     */
+    'type': FunnelQueryFilterAnyOf1TypeEnum;
+    /**
+     * Step number
+     * @type {number}
+     * @memberof FunnelQueryFilterAnyOf1
+     */
+    'step': number;
+}
+
+export const FunnelQueryFilterAnyOf1TypeEnum = {
+    DropOffOnStep: 'dropOffOnStep'
+} as const;
+
+export type FunnelQueryFilterAnyOf1TypeEnum = typeof FunnelQueryFilterAnyOf1TypeEnum[keyof typeof FunnelQueryFilterAnyOf1TypeEnum];
+
+/**
+ *
+ * @export
+ * @interface FunnelQueryFilterAnyOf2
+ */
+export interface FunnelQueryFilterAnyOf2 {
+    /**
+     *
+     * @type {string}
+     * @memberof FunnelQueryFilterAnyOf2
+     */
+    'type': FunnelQueryFilterAnyOf2TypeEnum;
+    /**
+     * From timestamp
+     * @type {number}
+     * @memberof FunnelQueryFilterAnyOf2
+     */
+    'from': number;
+    /**
+     * From timestamp
+     * @type {number}
+     * @memberof FunnelQueryFilterAnyOf2
+     */
+    'to': number;
+}
+
+export const FunnelQueryFilterAnyOf2TypeEnum = {
+    TimeToConvert: 'timeToConvert'
+} as const;
+
+export type FunnelQueryFilterAnyOf2TypeEnum = typeof FunnelQueryFilterAnyOf2TypeEnum[keyof typeof FunnelQueryFilterAnyOf2TypeEnum];
+
+/**
+ *
  * @export
  * @interface FunnelQueryStepsInner
  */
 export interface FunnelQueryStepsInner {
     /**
-     * 
+     *
      * @type {Array<FunnelEvent>}
      * @memberof FunnelQueryStepsInner
      */
     'events': Array<FunnelEvent>;
     /**
-     * 
+     *
      * @type {FunnelQueryStepsInnerOrder}
      * @memberof FunnelQueryStepsInner
      */
     'order'?: FunnelQueryStepsInnerOrder;
 }
 /**
- * @type FunnelQueryStepsInnerOrder
+ *
  * @export
+ * @interface FunnelQueryStepsInnerOrder
  */
-export type FunnelQueryStepsInnerOrder = FunnelQueryStepsInnerOrderOneOf | FunnelQueryStepsInnerOrderOneOf1;
-
-/**
- * 
- * @export
- * @interface FunnelQueryStepsInnerOrderOneOf
- */
-export interface FunnelQueryStepsInnerOrderOneOf {
+export interface FunnelQueryStepsInnerOrder {
     /**
-     * 
+     *
      * @type {string}
-     * @memberof FunnelQueryStepsInnerOrderOneOf
+     * @memberof FunnelQueryStepsInnerOrder
      */
-    'type': FunnelQueryStepsInnerOrderOneOfTypeEnum;
-}
-
-export const FunnelQueryStepsInnerOrderOneOfTypeEnum = {
-    Exact: 'exact'
-} as const;
-
-export type FunnelQueryStepsInnerOrderOneOfTypeEnum = typeof FunnelQueryStepsInnerOrderOneOfTypeEnum[keyof typeof FunnelQueryStepsInnerOrderOneOfTypeEnum];
-
-/**
- * 
- * @export
- * @interface FunnelQueryStepsInnerOrderOneOf1
- */
-export interface FunnelQueryStepsInnerOrderOneOf1 {
+    'type': FunnelQueryStepsInnerOrderTypeEnum;
     /**
-     * 
-     * @type {string}
-     * @memberof FunnelQueryStepsInnerOrderOneOf1
-     */
-    'type': FunnelQueryStepsInnerOrderOneOf1TypeEnum;
-    /**
-     * 
+     *
      * @type {number}
-     * @memberof FunnelQueryStepsInnerOrderOneOf1
+     * @memberof FunnelQueryStepsInnerOrder
      */
     'from': number;
     /**
-     * 
+     *
      * @type {number}
-     * @memberof FunnelQueryStepsInnerOrderOneOf1
+     * @memberof FunnelQueryStepsInnerOrder
      */
     'to': number;
 }
 
-export const FunnelQueryStepsInnerOrderOneOf1TypeEnum = {
+export const FunnelQueryStepsInnerOrderTypeEnum = {
+    Exact: 'exact',
     Any: 'any'
 } as const;
 
-export type FunnelQueryStepsInnerOrderOneOf1TypeEnum = typeof FunnelQueryStepsInnerOrderOneOf1TypeEnum[keyof typeof FunnelQueryStepsInnerOrderOneOf1TypeEnum];
+export type FunnelQueryStepsInnerOrderTypeEnum = typeof FunnelQueryStepsInnerOrderTypeEnum[keyof typeof FunnelQueryStepsInnerOrderTypeEnum];
 
 /**
- * 
+ *
+ * @export
+ * @interface FunnelQueryStepsInnerOrderAnyOf
+ */
+export interface FunnelQueryStepsInnerOrderAnyOf {
+    /**
+     *
+     * @type {string}
+     * @memberof FunnelQueryStepsInnerOrderAnyOf
+     */
+    'type': FunnelQueryStepsInnerOrderAnyOfTypeEnum;
+}
+
+export const FunnelQueryStepsInnerOrderAnyOfTypeEnum = {
+    Exact: 'exact'
+} as const;
+
+export type FunnelQueryStepsInnerOrderAnyOfTypeEnum = typeof FunnelQueryStepsInnerOrderAnyOfTypeEnum[keyof typeof FunnelQueryStepsInnerOrderAnyOfTypeEnum];
+
+/**
+ *
+ * @export
+ * @interface FunnelQueryStepsInnerOrderAnyOf1
+ */
+export interface FunnelQueryStepsInnerOrderAnyOf1 {
+    /**
+     *
+     * @type {string}
+     * @memberof FunnelQueryStepsInnerOrderAnyOf1
+     */
+    'type': FunnelQueryStepsInnerOrderAnyOf1TypeEnum;
+    /**
+     *
+     * @type {number}
+     * @memberof FunnelQueryStepsInnerOrderAnyOf1
+     */
+    'from': number;
+    /**
+     *
+     * @type {number}
+     * @memberof FunnelQueryStepsInnerOrderAnyOf1
+     */
+    'to': number;
+}
+
+export const FunnelQueryStepsInnerOrderAnyOf1TypeEnum = {
+    Any: 'any'
+} as const;
+
+export type FunnelQueryStepsInnerOrderAnyOf1TypeEnum = typeof FunnelQueryStepsInnerOrderAnyOf1TypeEnum[keyof typeof FunnelQueryStepsInnerOrderAnyOf1TypeEnum];
+
+/**
+ *
  * @export
  * @interface FunnelQueryTimeWindow
  */
@@ -2348,7 +2482,7 @@ export interface FunnelQueryTimeWindow {
      */
     'n': number;
     /**
-     * 
+     *
      * @type {TimeUnitWithSession}
      * @memberof FunnelQueryTimeWindow
      */
@@ -2357,178 +2491,200 @@ export interface FunnelQueryTimeWindow {
 
 
 /**
- * @type FunnelQueryTouch
+ *
  * @export
+ * @interface FunnelQueryTouch
  */
-export type FunnelQueryTouch = FunnelQueryTouchOneOf | FunnelQueryTouchOneOf1 | FunnelQueryTouchOneOf2;
-
-/**
- * 
- * @export
- * @interface FunnelQueryTouchOneOf
- */
-export interface FunnelQueryTouchOneOf {
+export interface FunnelQueryTouch {
     /**
-     * 
+     *
      * @type {string}
-     * @memberof FunnelQueryTouchOneOf
+     * @memberof FunnelQueryTouch
      */
-    'type'?: FunnelQueryTouchOneOfTypeEnum;
-}
-
-export const FunnelQueryTouchOneOfTypeEnum = {
-    First: 'first'
-} as const;
-
-export type FunnelQueryTouchOneOfTypeEnum = typeof FunnelQueryTouchOneOfTypeEnum[keyof typeof FunnelQueryTouchOneOfTypeEnum];
-
-/**
- * 
- * @export
- * @interface FunnelQueryTouchOneOf1
- */
-export interface FunnelQueryTouchOneOf1 {
+    'type'?: FunnelQueryTouchTypeEnum;
     /**
-     * 
-     * @type {string}
-     * @memberof FunnelQueryTouchOneOf1
-     */
-    'type'?: FunnelQueryTouchOneOf1TypeEnum;
-}
-
-export const FunnelQueryTouchOneOf1TypeEnum = {
-    Last: 'last'
-} as const;
-
-export type FunnelQueryTouchOneOf1TypeEnum = typeof FunnelQueryTouchOneOf1TypeEnum[keyof typeof FunnelQueryTouchOneOf1TypeEnum];
-
-/**
- * 
- * @export
- * @interface FunnelQueryTouchOneOf2
- */
-export interface FunnelQueryTouchOneOf2 {
-    /**
-     * 
-     * @type {string}
-     * @memberof FunnelQueryTouchOneOf2
-     */
-    'type'?: FunnelQueryTouchOneOf2TypeEnum;
-    /**
-     * 
+     *
      * @type {number}
-     * @memberof FunnelQueryTouchOneOf2
+     * @memberof FunnelQueryTouch
      */
     'step'?: number;
 }
 
-export const FunnelQueryTouchOneOf2TypeEnum = {
+export const FunnelQueryTouchTypeEnum = {
+    First: 'first',
+    Last: 'last',
     Step: 'step'
 } as const;
 
-export type FunnelQueryTouchOneOf2TypeEnum = typeof FunnelQueryTouchOneOf2TypeEnum[keyof typeof FunnelQueryTouchOneOf2TypeEnum];
+export type FunnelQueryTouchTypeEnum = typeof FunnelQueryTouchTypeEnum[keyof typeof FunnelQueryTouchTypeEnum];
 
 /**
- * 
+ *
+ * @export
+ * @interface FunnelQueryTouchAnyOf
+ */
+export interface FunnelQueryTouchAnyOf {
+    /**
+     *
+     * @type {string}
+     * @memberof FunnelQueryTouchAnyOf
+     */
+    'type'?: FunnelQueryTouchAnyOfTypeEnum;
+}
+
+export const FunnelQueryTouchAnyOfTypeEnum = {
+    First: 'first'
+} as const;
+
+export type FunnelQueryTouchAnyOfTypeEnum = typeof FunnelQueryTouchAnyOfTypeEnum[keyof typeof FunnelQueryTouchAnyOfTypeEnum];
+
+/**
+ *
+ * @export
+ * @interface FunnelQueryTouchAnyOf1
+ */
+export interface FunnelQueryTouchAnyOf1 {
+    /**
+     *
+     * @type {string}
+     * @memberof FunnelQueryTouchAnyOf1
+     */
+    'type'?: FunnelQueryTouchAnyOf1TypeEnum;
+}
+
+export const FunnelQueryTouchAnyOf1TypeEnum = {
+    Last: 'last'
+} as const;
+
+export type FunnelQueryTouchAnyOf1TypeEnum = typeof FunnelQueryTouchAnyOf1TypeEnum[keyof typeof FunnelQueryTouchAnyOf1TypeEnum];
+
+/**
+ *
+ * @export
+ * @interface FunnelQueryTouchAnyOf2
+ */
+export interface FunnelQueryTouchAnyOf2 {
+    /**
+     *
+     * @type {string}
+     * @memberof FunnelQueryTouchAnyOf2
+     */
+    'type'?: FunnelQueryTouchAnyOf2TypeEnum;
+    /**
+     *
+     * @type {number}
+     * @memberof FunnelQueryTouchAnyOf2
+     */
+    'step'?: number;
+}
+
+export const FunnelQueryTouchAnyOf2TypeEnum = {
+    Step: 'step'
+} as const;
+
+export type FunnelQueryTouchAnyOf2TypeEnum = typeof FunnelQueryTouchAnyOf2TypeEnum[keyof typeof FunnelQueryTouchAnyOf2TypeEnum];
+
+/**
+ *
  * @export
  * @interface FunnelResponse
  */
 export interface FunnelResponse {
     /**
-     * 
+     *
      * @type {Array<FunnelResponseStepsInner>}
      * @memberof FunnelResponse
      */
-    'steps': Array<FunnelResponseStepsInner>;
+    'steps'?: Array<FunnelResponseStepsInner>;
 }
 /**
- * 
+ *
  * @export
  * @interface FunnelResponseStepsInner
  */
 export interface FunnelResponseStepsInner {
     /**
-     * 
+     *
      * @type {string}
      * @memberof FunnelResponseStepsInner
      */
-    'step': string;
+    'step'?: string;
     /**
-     * 
+     *
      * @type {Array<FunnelResponseStepsInnerDataInner>}
      * @memberof FunnelResponseStepsInner
      */
-    'data': Array<FunnelResponseStepsInnerDataInner>;
+    'data'?: Array<FunnelResponseStepsInnerDataInner>;
 }
 /**
- * 
+ *
  * @export
  * @interface FunnelResponseStepsInnerDataInner
  */
 export interface FunnelResponseStepsInnerDataInner {
     /**
-     * 
+     *
      * @type {Array<string>}
      * @memberof FunnelResponseStepsInnerDataInner
      */
-    'groups': Array<string>;
+    'groups'?: Array<string>;
     /**
-     * 
+     *
      * @type {number}
      * @memberof FunnelResponseStepsInnerDataInner
      */
-    'ts': number;
+    'ts'?: number;
     /**
-     * 
+     *
      * @type {number}
      * @memberof FunnelResponseStepsInnerDataInner
      */
-    'total': number;
+    'total'?: number;
     /**
-     * 
+     *
      * @type {number}
      * @memberof FunnelResponseStepsInnerDataInner
      */
-    'conversionRatio': number;
+    'conversionRatio'?: number;
     /**
-     * 
+     *
      * @type {number}
      * @memberof FunnelResponseStepsInnerDataInner
      */
-    'avgTimeToConvert': number;
+    'avgTimeToConvert'?: number;
     /**
-     * 
+     *
      * @type {number}
      * @memberof FunnelResponseStepsInnerDataInner
      */
-    'droppedOff': number;
+    'droppedOff'?: number;
     /**
-     * 
+     *
      * @type {number}
      * @memberof FunnelResponseStepsInnerDataInner
      */
-    'dropOffRatio': number;
+    'dropOffRatio'?: number;
     /**
-     * 
+     *
      * @type {number}
      * @memberof FunnelResponseStepsInnerDataInner
      */
-    'timeToConvert': number;
+    'timeToConvert'?: number;
     /**
-     * 
+     *
      * @type {number}
      * @memberof FunnelResponseStepsInnerDataInner
      */
-    'timeToConvertFromStart': number;
+    'timeToConvertFromStart'?: number;
 }
 /**
- * 
+ *
  * @export
  * @interface FunnelStepsChartType
  */
 export interface FunnelStepsChartType {
     /**
-     * 
+     *
      * @type {string}
      * @memberof FunnelStepsChartType
      */
@@ -2542,31 +2698,31 @@ export const FunnelStepsChartTypeTypeEnum = {
 export type FunnelStepsChartTypeTypeEnum = typeof FunnelStepsChartTypeTypeEnum[keyof typeof FunnelStepsChartTypeTypeEnum];
 
 /**
- * 
+ *
  * @export
  * @interface FunnelTimeToConvertChartType
  */
 export interface FunnelTimeToConvertChartType {
     /**
-     * 
+     *
      * @type {string}
      * @memberof FunnelTimeToConvertChartType
      */
     'type': FunnelTimeToConvertChartTypeTypeEnum;
     /**
-     * 
+     *
      * @type {TimeUnit}
      * @memberof FunnelTimeToConvertChartType
      */
     'intervalUnit': TimeUnit;
     /**
-     * 
+     *
      * @type {number}
      * @memberof FunnelTimeToConvertChartType
      */
     'minInterval'?: number;
     /**
-     * 
+     *
      * @type {number}
      * @memberof FunnelTimeToConvertChartType
      */
@@ -2580,25 +2736,25 @@ export const FunnelTimeToConvertChartTypeTypeEnum = {
 export type FunnelTimeToConvertChartTypeTypeEnum = typeof FunnelTimeToConvertChartTypeTypeEnum[keyof typeof FunnelTimeToConvertChartTypeTypeEnum];
 
 /**
- * 
+ *
  * @export
  * @interface GroupRecord
  */
 export interface GroupRecord {
     /**
-     * 
+     *
      * @type {number}
      * @memberof GroupRecord
      */
     'id': number;
     /**
-     * 
+     *
      * @type {string}
      * @memberof GroupRecord
      */
     'strId'?: string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof GroupRecord
      */
@@ -2611,19 +2767,19 @@ export interface GroupRecord {
     'properties': { [key: string]: Value; };
 }
 /**
- * 
+ *
  * @export
  * @interface GroupRecordsList200Response
  */
 export interface GroupRecordsList200Response {
     /**
-     * 
+     *
      * @type {Array<GroupRecord>}
      * @memberof GroupRecordsList200Response
      */
     'data'?: Array<GroupRecord>;
     /**
-     * 
+     *
      * @type {ListResponseMetadataMeta}
      * @memberof GroupRecordsList200Response
      */
@@ -2636,7 +2792,7 @@ export interface GroupRecordsList200Response {
  */
 export interface GroupRecordsListRequest {
     /**
-     * 
+     *
      * @type {EventRecordsListRequestTime}
      * @memberof GroupRecordsListRequest
      */
@@ -2648,7 +2804,7 @@ export interface GroupRecordsListRequest {
      */
     'group': string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof GroupRecordsListRequest
      */
@@ -2660,7 +2816,7 @@ export interface GroupRecordsListRequest {
      */
     'segments'?: Array<EventSegmentationSegment>;
     /**
-     * 
+     *
      * @type {EventGroupedFilters}
      * @memberof GroupRecordsListRequest
      */
@@ -2673,37 +2829,37 @@ export interface GroupRecordsListRequest {
  */
 export interface JWTToken {
     /**
-     * 
+     *
      * @type {number}
      * @memberof JWTToken
      */
     'accountId': number;
     /**
-     * 
+     *
      * @type {string}
      * @memberof JWTToken
      */
     'iss': JWTTokenIssEnum;
     /**
-     * 
+     *
      * @type {number}
      * @memberof JWTToken
      */
     'exp': number;
     /**
-     * 
+     *
      * @type {number}
      * @memberof JWTToken
      */
     'nbf': number;
     /**
-     * 
+     *
      * @type {number}
      * @memberof JWTToken
      */
     'iat': number;
     /**
-     * 
+     *
      * @type {number}
      * @memberof JWTToken
      */
@@ -2717,76 +2873,76 @@ export const JWTTokenIssEnum = {
 export type JWTTokenIssEnum = typeof JWTTokenIssEnum[keyof typeof JWTTokenIssEnum];
 
 /**
- * 
+ *
  * @export
  * @interface ListCustomPropertiesResponse
  */
 export interface ListCustomPropertiesResponse {
     /**
-     * 
+     *
      * @type {Array<CustomProperty>}
      * @memberof ListCustomPropertiesResponse
      */
     'events'?: Array<CustomProperty>;
 }
 /**
- * 
+ *
  * @export
  * @interface ListGroupRecordsResponse
  */
 export interface ListGroupRecordsResponse {
     /**
-     * 
+     *
      * @type {Array<GroupRecord>}
      * @memberof ListGroupRecordsResponse
      */
     'data'?: Array<GroupRecord>;
 }
 /**
- * 
+ *
  * @export
  * @interface ListPropertiesResponse
  */
 export interface ListPropertiesResponse {
     /**
-     * 
+     *
      * @type {Array<Property>}
      * @memberof ListPropertiesResponse
      */
     'data'?: Array<Property>;
 }
 /**
- * 
+ *
  * @export
  * @interface ListPropertyValuesRequest
  */
 export interface ListPropertyValuesRequest {
     /**
-     * 
+     *
      * @type {string}
      * @memberof ListPropertyValuesRequest
      */
     'propertyName'?: string;
     /**
-     * 
+     *
      * @type {PropertyType}
      * @memberof ListPropertyValuesRequest
      */
     'propertyType': PropertyType;
     /**
-     * 
+     *
      * @type {string}
      * @memberof ListPropertyValuesRequest
      */
     'eventName'?: string;
     /**
-     * 
+     *
      * @type {EventType}
      * @memberof ListPropertyValuesRequest
      */
     'eventType': EventType;
     /**
-     * 
+     *
      * @type {PropertyValuesRequestFilter}
      * @memberof ListPropertyValuesRequest
      */
@@ -2795,13 +2951,13 @@ export interface ListPropertyValuesRequest {
 
 
 /**
- * 
+ *
  * @export
  * @interface ListPropertyValuesResponse
  */
 export interface ListPropertyValuesResponse {
     /**
-     * 
+     *
      * @type {Array<Value>}
      * @memberof ListPropertyValuesResponse
      */
@@ -2814,89 +2970,89 @@ export interface ListPropertyValuesResponse {
  */
 export interface ListResponseMetadata {
     /**
-     * 
+     *
      * @type {ListResponseMetadataMeta}
      * @memberof ListResponseMetadata
      */
     'meta'?: ListResponseMetadataMeta;
 }
 /**
- * 
+ *
  * @export
  * @interface ListResponseMetadataMeta
  */
 export interface ListResponseMetadataMeta {
     /**
-     * 
+     *
      * @type {string}
      * @memberof ListResponseMetadataMeta
      */
     'next'?: string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof ListResponseMetadataMeta
      */
     'prev'?: string;
     /**
-     * 
+     *
      * @type {number}
      * @memberof ListResponseMetadataMeta
      */
     'total'?: number;
 }
 /**
- * 
+ *
  * @export
  * @interface LoginRequest
  */
 export interface LoginRequest {
     /**
-     * 
+     *
      * @type {string}
      * @memberof LoginRequest
      */
     'email': string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof LoginRequest
      */
     'password': string;
 }
 /**
- * 
+ *
  * @export
  * @interface Organization
  */
 export interface Organization {
     /**
-     * 
+     *
      * @type {number}
      * @memberof Organization
      */
     'id': number;
     /**
-     * 
+     *
      * @type {string}
      * @memberof Organization
      */
     'name': string;
 }
 /**
- * 
+ *
  * @export
  * @interface OrganizationsList200Response
  */
 export interface OrganizationsList200Response {
     /**
-     * 
+     *
      * @type {ListResponseMetadataMeta}
      * @memberof OrganizationsList200Response
      */
     'meta'?: ListResponseMetadataMeta;
     /**
-     * 
+     *
      * @type {Array<Organization>}
      * @memberof OrganizationsList200Response
      */
@@ -2909,118 +3065,118 @@ export interface OrganizationsList200Response {
  */
 export interface Profile {
     /**
-     * 
+     *
      * @type {number}
      * @memberof Profile
      */
     'id': number;
     /**
-     * 
+     *
      * @type {string}
      * @memberof Profile
      */
     'name': string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof Profile
      */
     'email': string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof Profile
      */
     'timezone': string;
 }
 /**
- * 
+ *
  * @export
  * @interface Project
  */
 export interface Project {
     /**
-     * 
+     *
      * @type {number}
      * @memberof Project
      */
     'id': number;
     /**
-     * 
+     *
      * @type {string}
      * @memberof Project
      */
     'createdAt': string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof Project
      */
     'updatedAt': string;
     /**
-     * 
+     *
      * @type {number}
      * @memberof Project
      */
     'createdBy': number;
     /**
-     * 
+     *
      * @type {string}
      * @memberof Project
      */
     'creator': string;
     /**
-     * 
+     *
      * @type {number}
      * @memberof Project
      */
     'updatedBy': number;
     /**
-     * 
+     *
      * @type {string}
      * @memberof Project
      */
     'name': string;
     /**
-     * 
+     *
      * @type {number}
      * @memberof Project
      */
     'sessionDurationSeconds': number;
     /**
-     * 
+     *
      * @type {string}
      * @memberof Project
      */
     'sdkToken': string;
     /**
-     * 
+     *
      * @type {number}
      * @memberof Project
      */
     'eventsCount': number;
 }
 /**
- * 
+ *
  * @export
  * @interface ProjectsList200Response
  */
 export interface ProjectsList200Response {
     /**
-     * 
+     *
      * @type {ListResponseMetadataMeta}
      * @memberof ProjectsList200Response
      */
     'meta'?: ListResponseMetadataMeta;
     /**
-     * 
+     *
      * @type {Array<Project>}
      * @memberof ProjectsList200Response
      */
     'data'?: Array<Project>;
 }
 /**
- * Property defines event or user property. For example, event \"Buy product\" may contains next properties like \"Product name\" and \"Price.\" 
+ * Property defines event or user property. For example, event \"Buy product\" may contains next properties like \"Product name\" and \"Price.\"
  * @export
  * @interface Property
  */
@@ -3068,7 +3224,7 @@ export interface Property {
      */
     'events'?: Array<number>;
     /**
-     * 
+     *
      * @type {Array<string>}
      * @memberof Property
      */
@@ -3092,13 +3248,13 @@ export interface Property {
      */
     'description'?: string;
     /**
-     * 
+     *
      * @type {DataType}
      * @memberof Property
      */
     'dataType': DataType;
     /**
-     * 
+     *
      * @type {PropertyStatus}
      * @memberof Property
      */
@@ -3134,7 +3290,7 @@ export interface Property {
      */
     'isDictionary': boolean;
     /**
-     * 
+     *
      * @type {DictionaryDataType}
      * @memberof Property
      */
@@ -3175,13 +3331,13 @@ export type PropertyFilterOperation = typeof PropertyFilterOperation[keyof typeo
  */
 export interface PropertyRef {
     /**
-     * 
+     *
      * @type {string}
      * @memberof PropertyRef
      */
     'propertyName'?: string;
     /**
-     * 
+     *
      * @type {PropertyType}
      * @memberof PropertyRef
      */
@@ -3220,38 +3376,38 @@ export type PropertyType = typeof PropertyType[keyof typeof PropertyType];
 
 
 /**
- * 
+ *
  * @export
  * @interface PropertyValuesList200Response
  */
 export interface PropertyValuesList200Response {
     /**
-     * 
+     *
      * @type {Array<Value>}
      * @memberof PropertyValuesList200Response
      */
     'data'?: Array<Value>;
     /**
-     * 
+     *
      * @type {ListResponseMetadataMeta}
      * @memberof PropertyValuesList200Response
      */
     'meta'?: ListResponseMetadataMeta;
 }
 /**
- * 
+ *
  * @export
  * @interface PropertyValuesRequestFilter
  */
 export interface PropertyValuesRequestFilter {
     /**
-     * 
+     *
      * @type {PropertyFilterOperation}
      * @memberof PropertyValuesRequestFilter
      */
     'operation': PropertyFilterOperation;
     /**
-     * 
+     *
      * @type {Array<Value>}
      * @memberof PropertyValuesRequestFilter
      */
@@ -3260,7 +3416,7 @@ export interface PropertyValuesRequestFilter {
 
 
 /**
- * 
+ *
  * @export
  * @enum {string}
  */
@@ -3283,7 +3439,7 @@ export type QueryAggregate = typeof QueryAggregate[keyof typeof QueryAggregate];
 
 
 /**
- * 
+ *
  * @export
  * @enum {string}
  */
@@ -3312,25 +3468,25 @@ export type QueryAggregatePerGroup = typeof QueryAggregatePerGroup[keyof typeof 
  */
 export interface QueryAggregateProperty {
     /**
-     * 
+     *
      * @type {string}
      * @memberof QueryAggregateProperty
      */
     'propertyName'?: string;
     /**
-     * 
+     *
      * @type {PropertyType}
      * @memberof QueryAggregateProperty
      */
     'propertyType': PropertyType;
     /**
-     * 
+     *
      * @type {string}
      * @memberof QueryAggregateProperty
      */
     'type': QueryAggregatePropertyTypeEnum;
     /**
-     * 
+     *
      * @type {QueryAggregate}
      * @memberof QueryAggregateProperty
      */
@@ -3350,31 +3506,31 @@ export type QueryAggregatePropertyTypeEnum = typeof QueryAggregatePropertyTypeEn
  */
 export interface QueryAggregatePropertyPerGroup {
     /**
-     * 
+     *
      * @type {string}
      * @memberof QueryAggregatePropertyPerGroup
      */
     'propertyName'?: string;
     /**
-     * 
+     *
      * @type {PropertyType}
      * @memberof QueryAggregatePropertyPerGroup
      */
     'propertyType': PropertyType;
     /**
-     * 
+     *
      * @type {string}
      * @memberof QueryAggregatePropertyPerGroup
      */
     'type': QueryAggregatePropertyPerGroupTypeEnum;
     /**
-     * 
+     *
      * @type {QueryAggregate}
      * @memberof QueryAggregatePropertyPerGroup
      */
     'aggregate': QueryAggregate;
     /**
-     * 
+     *
      * @type {QueryAggregatePerGroup}
      * @memberof QueryAggregatePropertyPerGroup
      */
@@ -3394,13 +3550,13 @@ export type QueryAggregatePropertyPerGroupTypeEnum = typeof QueryAggregateProper
  */
 export interface QueryCountPerGroup {
     /**
-     * 
+     *
      * @type {string}
      * @memberof QueryCountPerGroup
      */
     'type': QueryCountPerGroupTypeEnum;
     /**
-     * 
+     *
      * @type {QueryAggregate}
      * @memberof QueryCountPerGroup
      */
@@ -3420,13 +3576,13 @@ export type QueryCountPerGroupTypeEnum = typeof QueryCountPerGroupTypeEnum[keyof
  */
 export interface QueryFormula {
     /**
-     * 
+     *
      * @type {string}
      * @memberof QueryFormula
      */
     'type': QueryFormulaTypeEnum;
     /**
-     * 
+     *
      * @type {string}
      * @memberof QueryFormula
      */
@@ -3446,7 +3602,7 @@ export type QueryFormulaTypeEnum = typeof QueryFormulaTypeEnum[keyof typeof Quer
  */
 export interface QuerySimple {
     /**
-     * 
+     *
      * @type {string}
      * @memberof QuerySimple
      */
@@ -3464,20 +3620,20 @@ export const QuerySimpleTypeEnum = {
 export type QuerySimpleTypeEnum = typeof QuerySimpleTypeEnum[keyof typeof QuerySimpleTypeEnum];
 
 /**
- * 
+ *
  * @export
  * @interface RefreshTokenRequest
  */
 export interface RefreshTokenRequest {
     /**
-     * 
+     *
      * @type {string}
      * @memberof RefreshTokenRequest
      */
     'refreshToken': string;
 }
 /**
- * 
+ *
  * @export
  * @interface Report
  */
@@ -3513,13 +3669,13 @@ export interface Report {
      */
     'updatedBy'?: number;
     /**
-     * 
+     *
      * @type {Array<string>}
      * @memberof Report
      */
     'tags'?: Array<string>;
     /**
-     * 
+     *
      * @type {string}
      * @memberof Report
      */
@@ -3531,13 +3687,13 @@ export interface Report {
      */
     'description'?: string;
     /**
-     * 
+     *
      * @type {ReportType}
      * @memberof Report
      */
     'type': ReportType;
     /**
-     * 
+     *
      * @type {ReportQuery}
      * @memberof Report
      */
@@ -3566,19 +3722,19 @@ export type ReportType = typeof ReportType[keyof typeof ReportType];
 
 
 /**
- * 
+ *
  * @export
  * @interface ReportsList200Response
  */
 export interface ReportsList200Response {
     /**
-     * 
+     *
      * @type {ListResponseMetadataMeta}
      * @memberof ReportsList200Response
      */
     'meta'?: ListResponseMetadataMeta;
     /**
-     * 
+     *
      * @type {Array<Report>}
      * @memberof ReportsList200Response
      */
@@ -3591,31 +3747,31 @@ export interface ReportsList200Response {
  */
 export interface SegmentConditionDidEvent {
     /**
-     * 
+     *
      * @type {string}
      * @memberof SegmentConditionDidEvent
      */
     'eventName'?: string;
     /**
-     * 
+     *
      * @type {EventType}
      * @memberof SegmentConditionDidEvent
      */
     'eventType': EventType;
     /**
-     * 
+     *
      * @type {string}
      * @memberof SegmentConditionDidEvent
      */
     'type': SegmentConditionDidEventTypeEnum;
     /**
-     * 
+     *
      * @type {Array<EventFilterByProperty>}
      * @memberof SegmentConditionDidEvent
      */
     'filters'?: Array<EventFilterByProperty>;
     /**
-     * 
+     *
      * @type {SegmentConditionDidEventAllOfAggregate}
      * @memberof SegmentConditionDidEvent
      */
@@ -3635,25 +3791,25 @@ export type SegmentConditionDidEventTypeEnum = typeof SegmentConditionDidEventTy
 export type SegmentConditionDidEventAllOfAggregate = DidEventAggregateProperty | DidEventCount | DidEventHistoricalCount | DidEventRelativeCount;
 
 /**
- * 
+ *
  * @export
  * @interface SegmentConditionFunnel
  */
 export interface SegmentConditionFunnel {
     /**
-     * 
+     *
      * @type {string}
      * @memberof SegmentConditionFunnel
      */
     'type': SegmentConditionFunnelTypeEnum;
     /**
-     * 
+     *
      * @type {number}
      * @memberof SegmentConditionFunnel
      */
     'last'?: number;
     /**
-     * 
+     *
      * @type {TimeUnit}
      * @memberof SegmentConditionFunnel
      */
@@ -3673,7 +3829,7 @@ export type SegmentConditionFunnelTypeEnum = typeof SegmentConditionFunnelTypeEn
  */
 export interface SegmentConditionHadPropertyValue {
     /**
-     * 
+     *
      * @type {string}
      * @memberof SegmentConditionHadPropertyValue
      */
@@ -3685,7 +3841,7 @@ export interface SegmentConditionHadPropertyValue {
      */
     'propertyName': string;
     /**
-     * 
+     *
      * @type {PropertyFilterOperation}
      * @memberof SegmentConditionHadPropertyValue
      */
@@ -3697,7 +3853,7 @@ export interface SegmentConditionHadPropertyValue {
      */
     'value'?: Array<Value>;
     /**
-     * 
+     *
      * @type {SegmentConditionHadPropertyValueTime}
      * @memberof SegmentConditionHadPropertyValue
      */
@@ -3724,7 +3880,7 @@ export type SegmentConditionHadPropertyValueTime = TimeBetween | TimeLast | Time
  */
 export interface SegmentConditionHasPropertyValue {
     /**
-     * 
+     *
      * @type {string}
      * @memberof SegmentConditionHasPropertyValue
      */
@@ -3736,7 +3892,7 @@ export interface SegmentConditionHasPropertyValue {
      */
     'propertyName': string;
     /**
-     * 
+     *
      * @type {PropertyFilterOperation}
      * @memberof SegmentConditionHasPropertyValue
      */
@@ -3756,37 +3912,37 @@ export const SegmentConditionHasPropertyValueTypeEnum = {
 export type SegmentConditionHasPropertyValueTypeEnum = typeof SegmentConditionHasPropertyValueTypeEnum[keyof typeof SegmentConditionHasPropertyValueTypeEnum];
 
 /**
- * 
+ *
  * @export
  * @interface SignupRequest
  */
 export interface SignupRequest {
     /**
-     * 
+     *
      * @type {string}
      * @memberof SignupRequest
      */
     'email': string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof SignupRequest
      */
     'password': string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof SignupRequest
      */
     'passwordRepeat': string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof SignupRequest
      */
     'firstName'?: string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof SignupRequest
      */
@@ -3799,19 +3955,19 @@ export interface SignupRequest {
  */
 export interface TimeAfterFirstUse {
     /**
-     * 
+     *
      * @type {string}
      * @memberof TimeAfterFirstUse
      */
     'type': TimeAfterFirstUseTypeEnum;
     /**
-     * 
+     *
      * @type {number}
      * @memberof TimeAfterFirstUse
      */
     'within': number;
     /**
-     * 
+     *
      * @type {TimeUnit}
      * @memberof TimeAfterFirstUse
      */
@@ -3831,7 +3987,7 @@ export type TimeAfterFirstUseTypeEnum = typeof TimeAfterFirstUseTypeEnum[keyof t
  */
 export interface TimeBetween {
     /**
-     * 
+     *
      * @type {string}
      * @memberof TimeBetween
      */
@@ -3849,7 +4005,7 @@ export interface TimeBetween {
      */
     'to': string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof TimeBetween
      */
@@ -3869,7 +4025,7 @@ export type TimeBetweenTypeEnum = typeof TimeBetweenTypeEnum[keyof typeof TimeBe
  */
 export interface TimeFrom {
     /**
-     * 
+     *
      * @type {string}
      * @memberof TimeFrom
      */
@@ -3881,7 +4037,7 @@ export interface TimeFrom {
      */
     'from': string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof TimeFrom
      */
@@ -3901,7 +4057,7 @@ export type TimeFromTypeEnum = typeof TimeFromTypeEnum[keyof typeof TimeFromType
  */
 export interface TimeLast {
     /**
-     * 
+     *
      * @type {string}
      * @memberof TimeLast
      */
@@ -3913,7 +4069,7 @@ export interface TimeLast {
      */
     'last': number;
     /**
-     * 
+     *
      * @type {TimeUnit}
      * @memberof TimeLast
      */
@@ -3962,19 +4118,19 @@ export type TimeUnitWithSession = typeof TimeUnitWithSession[keyof typeof TimeUn
 
 
 /**
- * window operation for segmentation. Tells that event should be triggered each timeunit (each day, for instance) {   \"time\": {     \"type\": \"windowEach\",     \"unit\":\"day\"   } } 
+ * window operation for segmentation. Tells that event should be triggered each timeunit (each day, for instance) {   \"time\": {     \"type\": \"windowEach\",     \"unit\":\"day\"   } }
  * @export
  * @interface TimeWindowEach
  */
 export interface TimeWindowEach {
     /**
-     * 
+     *
      * @type {string}
      * @memberof TimeWindowEach
      */
     'type': TimeWindowEachTypeEnum;
     /**
-     * 
+     *
      * @type {TimeUnit}
      * @memberof TimeWindowEach
      */
@@ -3988,62 +4144,62 @@ export const TimeWindowEachTypeEnum = {
 export type TimeWindowEachTypeEnum = typeof TimeWindowEachTypeEnum[keyof typeof TimeWindowEachTypeEnum];
 
 /**
- * 
+ *
  * @export
  * @interface TokensResponse
  */
 export interface TokensResponse {
     /**
-     * 
+     *
      * @type {string}
      * @memberof TokensResponse
      */
     'accessToken'?: string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof TokensResponse
      */
     'refreshToken'?: string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof TokensResponse
      */
     'csrfToken'?: string;
 }
 /**
- * Custom Event is an alias to an expression which is used while querying. You can use regular or custom events in expression. You can combine events in expression, you can use filter by properties. 
+ * Custom Event is an alias to an expression which is used while querying. You can use regular or custom events in expression. You can combine events in expression, you can use filter by properties.
  * @export
  * @interface UpdateCustomEventRequest
  */
 export interface UpdateCustomEventRequest {
     /**
-     * 
+     *
      * @type {string}
      * @memberof UpdateCustomEventRequest
      */
     'name': string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof UpdateCustomEventRequest
      */
     'description'?: string;
     /**
-     * 
+     *
      * @type {CustomEventStatus}
      * @memberof UpdateCustomEventRequest
      */
     'status'?: CustomEventStatus;
     /**
-     * 
+     *
      * @type {Array<string>}
      * @memberof UpdateCustomEventRequest
      */
     'tags'?: Array<string>;
     /**
-     * 
+     *
      * @type {Array<CustomEventEvent>}
      * @memberof UpdateCustomEventRequest
      */
@@ -4052,13 +4208,13 @@ export interface UpdateCustomEventRequest {
 
 
 /**
- * 
+ *
  * @export
  * @interface UpdateDashboardRequest
  */
 export interface UpdateDashboardRequest {
     /**
-     * 
+     *
      * @type {Array<string>}
      * @memberof UpdateDashboardRequest
      */
@@ -4076,7 +4232,7 @@ export interface UpdateDashboardRequest {
      */
     'description'?: string;
     /**
-     * 
+     *
      * @type {Array<DashboardPanel>}
      * @memberof UpdateDashboardRequest
      */
@@ -4101,13 +4257,13 @@ export interface UpdateEventRequest {
      */
     'description'?: string;
     /**
-     * 
+     *
      * @type {EventStatus}
      * @memberof UpdateEventRequest
      */
     'status'?: EventStatus;
     /**
-     * 
+     *
      * @type {Array<string>}
      * @memberof UpdateEventRequest
      */
@@ -4116,7 +4272,7 @@ export interface UpdateEventRequest {
 
 
 /**
- * 
+ *
  * @export
  * @interface UpdateGroupRecordRequest
  */
@@ -4129,83 +4285,83 @@ export interface UpdateGroupRecordRequest {
     'properties': { [key: string]: Value; };
 }
 /**
- * 
+ *
  * @export
  * @interface UpdateOrganizationRequest
  */
 export interface UpdateOrganizationRequest {
     /**
-     * 
+     *
      * @type {string}
      * @memberof UpdateOrganizationRequest
      */
     'name'?: string;
 }
 /**
- * 
+ *
  * @export
  * @interface UpdateProfileEmailRequest
  */
 export interface UpdateProfileEmailRequest {
     /**
-     * 
+     *
      * @type {string}
      * @memberof UpdateProfileEmailRequest
      */
     'email': string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof UpdateProfileEmailRequest
      */
     'password': string;
 }
 /**
- * 
+ *
  * @export
  * @interface UpdateProfileNameRequest
  */
 export interface UpdateProfileNameRequest {
     /**
-     * 
+     *
      * @type {string}
      * @memberof UpdateProfileNameRequest
      */
     'name': string;
 }
 /**
- * 
+ *
  * @export
  * @interface UpdateProfilePasswordRequest
  */
 export interface UpdateProfilePasswordRequest {
     /**
-     * 
+     *
      * @type {string}
      * @memberof UpdateProfilePasswordRequest
      */
     'password': string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof UpdateProfilePasswordRequest
      */
     'newPassword': string;
 }
 /**
- * 
+ *
  * @export
  * @interface UpdateProjectRequest
  */
 export interface UpdateProjectRequest {
     /**
-     * 
+     *
      * @type {string}
      * @memberof UpdateProjectRequest
      */
     'name'?: string;
     /**
-     * 
+     *
      * @type {number}
      * @memberof UpdateProjectRequest
      */
@@ -4218,25 +4374,25 @@ export interface UpdateProjectRequest {
  */
 export interface UpdatePropertyRequest {
     /**
-     * 
+     *
      * @type {string}
      * @memberof UpdatePropertyRequest
      */
     'displayName'?: string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof UpdatePropertyRequest
      */
     'description'?: string;
     /**
-     * 
+     *
      * @type {PropertyStatus}
      * @memberof UpdatePropertyRequest
      */
     'status'?: PropertyStatus;
     /**
-     * 
+     *
      * @type {Array<string>}
      * @memberof UpdatePropertyRequest
      */
@@ -4245,19 +4401,19 @@ export interface UpdatePropertyRequest {
 
 
 /**
- * 
+ *
  * @export
  * @interface UpdateReportRequest
  */
 export interface UpdateReportRequest {
     /**
-     * 
+     *
      * @type {Array<string>}
      * @memberof UpdateReportRequest
      */
     'tags'?: Array<string>;
     /**
-     * 
+     *
      * @type {string}
      * @memberof UpdateReportRequest
      */
@@ -4269,13 +4425,13 @@ export interface UpdateReportRequest {
      */
     'description'?: string;
     /**
-     * 
+     *
      * @type {ReportType}
      * @memberof UpdateReportRequest
      */
     'type'?: ReportType;
     /**
-     * 
+     *
      * @type {ReportQuery}
      * @memberof UpdateReportRequest
      */
@@ -4284,19 +4440,19 @@ export interface UpdateReportRequest {
 
 
 /**
- * 
+ *
  * @export
  * @interface UserPropertiesList200Response
  */
 export interface UserPropertiesList200Response {
     /**
-     * 
+     *
      * @type {Array<Property>}
      * @memberof UserPropertiesList200Response
      */
     'data'?: Array<Property>;
     /**
-     * 
+     *
      * @type {ListResponseMetadataMeta}
      * @memberof UserPropertiesList200Response
      */
@@ -4317,9 +4473,9 @@ export type Value = boolean | number | string;
 export const AuthApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
-         * 
+         *
          * @summary Basic login
-         * @param {LoginRequest} loginRequest 
+         * @param {LoginRequest} loginRequest
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -4339,7 +4495,7 @@ export const AuthApiAxiosParamCreator = function (configuration?: Configuration)
             const localVarQueryParameter = {} as any;
 
 
-    
+
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -4353,9 +4509,9 @@ export const AuthApiAxiosParamCreator = function (configuration?: Configuration)
             };
         },
         /**
-         * 
+         *
          * @summary Basic signup
-         * @param {SignupRequest} signupRequest 
+         * @param {SignupRequest} signupRequest
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -4375,7 +4531,7 @@ export const AuthApiAxiosParamCreator = function (configuration?: Configuration)
             const localVarQueryParameter = {} as any;
 
 
-    
+
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -4389,9 +4545,9 @@ export const AuthApiAxiosParamCreator = function (configuration?: Configuration)
             };
         },
         /**
-         * 
+         *
          * @summary Refresh access token
-         * @param {RefreshTokenRequest} refreshTokenRequest 
+         * @param {RefreshTokenRequest} refreshTokenRequest
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -4411,7 +4567,7 @@ export const AuthApiAxiosParamCreator = function (configuration?: Configuration)
             const localVarQueryParameter = {} as any;
 
 
-    
+
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -4435,9 +4591,9 @@ export const AuthApiFp = function(configuration?: Configuration) {
     const localVarAxiosParamCreator = AuthApiAxiosParamCreator(configuration)
     return {
         /**
-         * 
+         *
          * @summary Basic login
-         * @param {LoginRequest} loginRequest 
+         * @param {LoginRequest} loginRequest
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -4448,9 +4604,9 @@ export const AuthApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
-         * 
+         *
          * @summary Basic signup
-         * @param {SignupRequest} signupRequest 
+         * @param {SignupRequest} signupRequest
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -4461,9 +4617,9 @@ export const AuthApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
-         * 
+         *
          * @summary Refresh access token
-         * @param {RefreshTokenRequest} refreshTokenRequest 
+         * @param {RefreshTokenRequest} refreshTokenRequest
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -4484,9 +4640,9 @@ export const AuthApiFactory = function (configuration?: Configuration, basePath?
     const localVarFp = AuthApiFp(configuration)
     return {
         /**
-         * 
+         *
          * @summary Basic login
-         * @param {LoginRequest} loginRequest 
+         * @param {LoginRequest} loginRequest
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -4494,9 +4650,9 @@ export const AuthApiFactory = function (configuration?: Configuration, basePath?
             return localVarFp.basicLogin(loginRequest, options).then((request) => request(axios, basePath));
         },
         /**
-         * 
+         *
          * @summary Basic signup
-         * @param {SignupRequest} signupRequest 
+         * @param {SignupRequest} signupRequest
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -4504,9 +4660,9 @@ export const AuthApiFactory = function (configuration?: Configuration, basePath?
             return localVarFp.basicSignup(signupRequest, options).then((request) => request(axios, basePath));
         },
         /**
-         * 
+         *
          * @summary Refresh access token
-         * @param {RefreshTokenRequest} refreshTokenRequest 
+         * @param {RefreshTokenRequest} refreshTokenRequest
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -4524,9 +4680,9 @@ export const AuthApiFactory = function (configuration?: Configuration, basePath?
  */
 export class AuthApi extends BaseAPI {
     /**
-     * 
+     *
      * @summary Basic login
-     * @param {LoginRequest} loginRequest 
+     * @param {LoginRequest} loginRequest
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof AuthApi
@@ -4536,9 +4692,9 @@ export class AuthApi extends BaseAPI {
     }
 
     /**
-     * 
+     *
      * @summary Basic signup
-     * @param {SignupRequest} signupRequest 
+     * @param {SignupRequest} signupRequest
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof AuthApi
@@ -4548,9 +4704,9 @@ export class AuthApi extends BaseAPI {
     }
 
     /**
-     * 
+     *
      * @summary Refresh access token
-     * @param {RefreshTokenRequest} refreshTokenRequest 
+     * @param {RefreshTokenRequest} refreshTokenRequest
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof AuthApi
@@ -4569,10 +4725,10 @@ export class AuthApi extends BaseAPI {
 export const CustomEventsApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
-         * 
+         *
          * @summary Create custom event
-         * @param {number} projectId 
-         * @param {CreateCustomEventRequest} createCustomEventRequest 
+         * @param {number} projectId
+         * @param {CreateCustomEventRequest} createCustomEventRequest
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -4599,7 +4755,7 @@ export const CustomEventsApiAxiosParamCreator = function (configuration?: Config
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
 
-    
+
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -4613,9 +4769,9 @@ export const CustomEventsApiAxiosParamCreator = function (configuration?: Config
             };
         },
         /**
-         * 
+         *
          * @summary Custom events list
-         * @param {number} projectId 
+         * @param {number} projectId
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -4640,7 +4796,7 @@ export const CustomEventsApiAxiosParamCreator = function (configuration?: Config
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
 
-    
+
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -4651,9 +4807,9 @@ export const CustomEventsApiAxiosParamCreator = function (configuration?: Config
             };
         },
         /**
-         * 
+         *
          * @summary Delete custom event
-         * @param {number} projectId 
+         * @param {number} projectId
          * @param {number} eventId Event ID
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -4682,7 +4838,7 @@ export const CustomEventsApiAxiosParamCreator = function (configuration?: Config
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
 
-    
+
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -4693,9 +4849,9 @@ export const CustomEventsApiAxiosParamCreator = function (configuration?: Config
             };
         },
         /**
-         * 
+         *
          * @summary Get custom event
-         * @param {number} projectId 
+         * @param {number} projectId
          * @param {number} eventId Event ID
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -4724,7 +4880,7 @@ export const CustomEventsApiAxiosParamCreator = function (configuration?: Config
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
 
-    
+
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -4735,11 +4891,11 @@ export const CustomEventsApiAxiosParamCreator = function (configuration?: Config
             };
         },
         /**
-         * 
+         *
          * @summary Update custom event
-         * @param {number} projectId 
+         * @param {number} projectId
          * @param {string} eventId Custom Event ID
-         * @param {UpdateCustomEventRequest} updateCustomEventRequest 
+         * @param {UpdateCustomEventRequest} updateCustomEventRequest
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -4769,7 +4925,7 @@ export const CustomEventsApiAxiosParamCreator = function (configuration?: Config
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
 
-    
+
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -4793,10 +4949,10 @@ export const CustomEventsApiFp = function(configuration?: Configuration) {
     const localVarAxiosParamCreator = CustomEventsApiAxiosParamCreator(configuration)
     return {
         /**
-         * 
+         *
          * @summary Create custom event
-         * @param {number} projectId 
-         * @param {CreateCustomEventRequest} createCustomEventRequest 
+         * @param {number} projectId
+         * @param {CreateCustomEventRequest} createCustomEventRequest
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -4807,9 +4963,9 @@ export const CustomEventsApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
-         * 
+         *
          * @summary Custom events list
-         * @param {number} projectId 
+         * @param {number} projectId
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -4820,9 +4976,9 @@ export const CustomEventsApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
-         * 
+         *
          * @summary Delete custom event
-         * @param {number} projectId 
+         * @param {number} projectId
          * @param {number} eventId Event ID
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -4834,9 +4990,9 @@ export const CustomEventsApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
-         * 
+         *
          * @summary Get custom event
-         * @param {number} projectId 
+         * @param {number} projectId
          * @param {number} eventId Event ID
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -4848,11 +5004,11 @@ export const CustomEventsApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
-         * 
+         *
          * @summary Update custom event
-         * @param {number} projectId 
+         * @param {number} projectId
          * @param {string} eventId Custom Event ID
-         * @param {UpdateCustomEventRequest} updateCustomEventRequest 
+         * @param {UpdateCustomEventRequest} updateCustomEventRequest
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -4873,10 +5029,10 @@ export const CustomEventsApiFactory = function (configuration?: Configuration, b
     const localVarFp = CustomEventsApiFp(configuration)
     return {
         /**
-         * 
+         *
          * @summary Create custom event
-         * @param {number} projectId 
-         * @param {CreateCustomEventRequest} createCustomEventRequest 
+         * @param {number} projectId
+         * @param {CreateCustomEventRequest} createCustomEventRequest
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -4884,9 +5040,9 @@ export const CustomEventsApiFactory = function (configuration?: Configuration, b
             return localVarFp.createCustomEvent(projectId, createCustomEventRequest, options).then((request) => request(axios, basePath));
         },
         /**
-         * 
+         *
          * @summary Custom events list
-         * @param {number} projectId 
+         * @param {number} projectId
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -4894,9 +5050,9 @@ export const CustomEventsApiFactory = function (configuration?: Configuration, b
             return localVarFp.customEventsList(projectId, options).then((request) => request(axios, basePath));
         },
         /**
-         * 
+         *
          * @summary Delete custom event
-         * @param {number} projectId 
+         * @param {number} projectId
          * @param {number} eventId Event ID
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -4905,9 +5061,9 @@ export const CustomEventsApiFactory = function (configuration?: Configuration, b
             return localVarFp.deleteCustomEvent(projectId, eventId, options).then((request) => request(axios, basePath));
         },
         /**
-         * 
+         *
          * @summary Get custom event
-         * @param {number} projectId 
+         * @param {number} projectId
          * @param {number} eventId Event ID
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -4916,11 +5072,11 @@ export const CustomEventsApiFactory = function (configuration?: Configuration, b
             return localVarFp.getCustomEvent(projectId, eventId, options).then((request) => request(axios, basePath));
         },
         /**
-         * 
+         *
          * @summary Update custom event
-         * @param {number} projectId 
+         * @param {number} projectId
          * @param {string} eventId Custom Event ID
-         * @param {UpdateCustomEventRequest} updateCustomEventRequest 
+         * @param {UpdateCustomEventRequest} updateCustomEventRequest
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -4938,10 +5094,10 @@ export const CustomEventsApiFactory = function (configuration?: Configuration, b
  */
 export class CustomEventsApi extends BaseAPI {
     /**
-     * 
+     *
      * @summary Create custom event
-     * @param {number} projectId 
-     * @param {CreateCustomEventRequest} createCustomEventRequest 
+     * @param {number} projectId
+     * @param {CreateCustomEventRequest} createCustomEventRequest
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof CustomEventsApi
@@ -4951,9 +5107,9 @@ export class CustomEventsApi extends BaseAPI {
     }
 
     /**
-     * 
+     *
      * @summary Custom events list
-     * @param {number} projectId 
+     * @param {number} projectId
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof CustomEventsApi
@@ -4963,9 +5119,9 @@ export class CustomEventsApi extends BaseAPI {
     }
 
     /**
-     * 
+     *
      * @summary Delete custom event
-     * @param {number} projectId 
+     * @param {number} projectId
      * @param {number} eventId Event ID
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -4976,9 +5132,9 @@ export class CustomEventsApi extends BaseAPI {
     }
 
     /**
-     * 
+     *
      * @summary Get custom event
-     * @param {number} projectId 
+     * @param {number} projectId
      * @param {number} eventId Event ID
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -4989,11 +5145,11 @@ export class CustomEventsApi extends BaseAPI {
     }
 
     /**
-     * 
+     *
      * @summary Update custom event
-     * @param {number} projectId 
+     * @param {number} projectId
      * @param {string} eventId Custom Event ID
-     * @param {UpdateCustomEventRequest} updateCustomEventRequest 
+     * @param {UpdateCustomEventRequest} updateCustomEventRequest
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof CustomEventsApi
@@ -5012,10 +5168,10 @@ export class CustomEventsApi extends BaseAPI {
 export const DashboardsApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
-         * 
+         *
          * @summary Create dashboard
-         * @param {number} projectId 
-         * @param {CreateDashboardRequest} createDashboardRequest 
+         * @param {number} projectId
+         * @param {CreateDashboardRequest} createDashboardRequest
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -5042,7 +5198,7 @@ export const DashboardsApiAxiosParamCreator = function (configuration?: Configur
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
 
-    
+
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -5056,9 +5212,9 @@ export const DashboardsApiAxiosParamCreator = function (configuration?: Configur
             };
         },
         /**
-         * 
+         *
          * @summary Dashboards list
-         * @param {number} projectId 
+         * @param {number} projectId
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -5083,7 +5239,7 @@ export const DashboardsApiAxiosParamCreator = function (configuration?: Configur
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
 
-    
+
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -5094,9 +5250,9 @@ export const DashboardsApiAxiosParamCreator = function (configuration?: Configur
             };
         },
         /**
-         * 
+         *
          * @summary Delete dashboard
-         * @param {number} projectId 
+         * @param {number} projectId
          * @param {number} dashboardId Dashboard ID
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -5125,7 +5281,7 @@ export const DashboardsApiAxiosParamCreator = function (configuration?: Configur
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
 
-    
+
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -5136,9 +5292,9 @@ export const DashboardsApiAxiosParamCreator = function (configuration?: Configur
             };
         },
         /**
-         * 
+         *
          * @summary Get dashboard
-         * @param {number} projectId 
+         * @param {number} projectId
          * @param {number} dashboardId Dashboard ID
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -5167,7 +5323,7 @@ export const DashboardsApiAxiosParamCreator = function (configuration?: Configur
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
 
-    
+
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -5178,11 +5334,11 @@ export const DashboardsApiAxiosParamCreator = function (configuration?: Configur
             };
         },
         /**
-         * 
+         *
          * @summary Update dashboard
-         * @param {number} projectId 
+         * @param {number} projectId
          * @param {number} dashboardId Dashboard ID
-         * @param {UpdateDashboardRequest} updateDashboardRequest 
+         * @param {UpdateDashboardRequest} updateDashboardRequest
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -5212,7 +5368,7 @@ export const DashboardsApiAxiosParamCreator = function (configuration?: Configur
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
 
-    
+
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -5236,10 +5392,10 @@ export const DashboardsApiFp = function(configuration?: Configuration) {
     const localVarAxiosParamCreator = DashboardsApiAxiosParamCreator(configuration)
     return {
         /**
-         * 
+         *
          * @summary Create dashboard
-         * @param {number} projectId 
-         * @param {CreateDashboardRequest} createDashboardRequest 
+         * @param {number} projectId
+         * @param {CreateDashboardRequest} createDashboardRequest
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -5250,9 +5406,9 @@ export const DashboardsApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
-         * 
+         *
          * @summary Dashboards list
-         * @param {number} projectId 
+         * @param {number} projectId
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -5263,9 +5419,9 @@ export const DashboardsApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
-         * 
+         *
          * @summary Delete dashboard
-         * @param {number} projectId 
+         * @param {number} projectId
          * @param {number} dashboardId Dashboard ID
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -5277,9 +5433,9 @@ export const DashboardsApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
-         * 
+         *
          * @summary Get dashboard
-         * @param {number} projectId 
+         * @param {number} projectId
          * @param {number} dashboardId Dashboard ID
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -5291,11 +5447,11 @@ export const DashboardsApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
-         * 
+         *
          * @summary Update dashboard
-         * @param {number} projectId 
+         * @param {number} projectId
          * @param {number} dashboardId Dashboard ID
-         * @param {UpdateDashboardRequest} updateDashboardRequest 
+         * @param {UpdateDashboardRequest} updateDashboardRequest
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -5316,10 +5472,10 @@ export const DashboardsApiFactory = function (configuration?: Configuration, bas
     const localVarFp = DashboardsApiFp(configuration)
     return {
         /**
-         * 
+         *
          * @summary Create dashboard
-         * @param {number} projectId 
-         * @param {CreateDashboardRequest} createDashboardRequest 
+         * @param {number} projectId
+         * @param {CreateDashboardRequest} createDashboardRequest
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -5327,9 +5483,9 @@ export const DashboardsApiFactory = function (configuration?: Configuration, bas
             return localVarFp.createDashboard(projectId, createDashboardRequest, options).then((request) => request(axios, basePath));
         },
         /**
-         * 
+         *
          * @summary Dashboards list
-         * @param {number} projectId 
+         * @param {number} projectId
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -5337,9 +5493,9 @@ export const DashboardsApiFactory = function (configuration?: Configuration, bas
             return localVarFp.dashboardsList(projectId, options).then((request) => request(axios, basePath));
         },
         /**
-         * 
+         *
          * @summary Delete dashboard
-         * @param {number} projectId 
+         * @param {number} projectId
          * @param {number} dashboardId Dashboard ID
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -5348,9 +5504,9 @@ export const DashboardsApiFactory = function (configuration?: Configuration, bas
             return localVarFp.deleteDashboard(projectId, dashboardId, options).then((request) => request(axios, basePath));
         },
         /**
-         * 
+         *
          * @summary Get dashboard
-         * @param {number} projectId 
+         * @param {number} projectId
          * @param {number} dashboardId Dashboard ID
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -5359,11 +5515,11 @@ export const DashboardsApiFactory = function (configuration?: Configuration, bas
             return localVarFp.getDashboard(projectId, dashboardId, options).then((request) => request(axios, basePath));
         },
         /**
-         * 
+         *
          * @summary Update dashboard
-         * @param {number} projectId 
+         * @param {number} projectId
          * @param {number} dashboardId Dashboard ID
-         * @param {UpdateDashboardRequest} updateDashboardRequest 
+         * @param {UpdateDashboardRequest} updateDashboardRequest
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -5381,10 +5537,10 @@ export const DashboardsApiFactory = function (configuration?: Configuration, bas
  */
 export class DashboardsApi extends BaseAPI {
     /**
-     * 
+     *
      * @summary Create dashboard
-     * @param {number} projectId 
-     * @param {CreateDashboardRequest} createDashboardRequest 
+     * @param {number} projectId
+     * @param {CreateDashboardRequest} createDashboardRequest
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof DashboardsApi
@@ -5394,9 +5550,9 @@ export class DashboardsApi extends BaseAPI {
     }
 
     /**
-     * 
+     *
      * @summary Dashboards list
-     * @param {number} projectId 
+     * @param {number} projectId
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof DashboardsApi
@@ -5406,9 +5562,9 @@ export class DashboardsApi extends BaseAPI {
     }
 
     /**
-     * 
+     *
      * @summary Delete dashboard
-     * @param {number} projectId 
+     * @param {number} projectId
      * @param {number} dashboardId Dashboard ID
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -5419,9 +5575,9 @@ export class DashboardsApi extends BaseAPI {
     }
 
     /**
-     * 
+     *
      * @summary Get dashboard
-     * @param {number} projectId 
+     * @param {number} projectId
      * @param {number} dashboardId Dashboard ID
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -5432,11 +5588,11 @@ export class DashboardsApi extends BaseAPI {
     }
 
     /**
-     * 
+     *
      * @summary Update dashboard
-     * @param {number} projectId 
+     * @param {number} projectId
      * @param {number} dashboardId Dashboard ID
-     * @param {UpdateDashboardRequest} updateDashboardRequest 
+     * @param {UpdateDashboardRequest} updateDashboardRequest
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof DashboardsApi
@@ -5455,9 +5611,9 @@ export class DashboardsApi extends BaseAPI {
 export const EventPropertiesApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
-         * 
+         *
          * @summary Event properties list
-         * @param {number} projectId 
+         * @param {number} projectId
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -5482,7 +5638,7 @@ export const EventPropertiesApiAxiosParamCreator = function (configuration?: Con
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
 
-    
+
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -5493,9 +5649,9 @@ export const EventPropertiesApiAxiosParamCreator = function (configuration?: Con
             };
         },
         /**
-         * 
+         *
          * @summary Get event property
-         * @param {number} projectId 
+         * @param {number} projectId
          * @param {number} propertyId Property ID
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -5524,7 +5680,7 @@ export const EventPropertiesApiAxiosParamCreator = function (configuration?: Con
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
 
-    
+
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -5535,11 +5691,11 @@ export const EventPropertiesApiAxiosParamCreator = function (configuration?: Con
             };
         },
         /**
-         * 
+         *
          * @summary Update event property
-         * @param {number} projectId 
+         * @param {number} projectId
          * @param {string} propertyId Property ID
-         * @param {UpdatePropertyRequest} updatePropertyRequest 
+         * @param {UpdatePropertyRequest} updatePropertyRequest
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -5569,7 +5725,7 @@ export const EventPropertiesApiAxiosParamCreator = function (configuration?: Con
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
 
-    
+
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -5593,9 +5749,9 @@ export const EventPropertiesApiFp = function(configuration?: Configuration) {
     const localVarAxiosParamCreator = EventPropertiesApiAxiosParamCreator(configuration)
     return {
         /**
-         * 
+         *
          * @summary Event properties list
-         * @param {number} projectId 
+         * @param {number} projectId
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -5606,9 +5762,9 @@ export const EventPropertiesApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
-         * 
+         *
          * @summary Get event property
-         * @param {number} projectId 
+         * @param {number} projectId
          * @param {number} propertyId Property ID
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -5620,11 +5776,11 @@ export const EventPropertiesApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
-         * 
+         *
          * @summary Update event property
-         * @param {number} projectId 
+         * @param {number} projectId
          * @param {string} propertyId Property ID
-         * @param {UpdatePropertyRequest} updatePropertyRequest 
+         * @param {UpdatePropertyRequest} updatePropertyRequest
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -5645,9 +5801,9 @@ export const EventPropertiesApiFactory = function (configuration?: Configuration
     const localVarFp = EventPropertiesApiFp(configuration)
     return {
         /**
-         * 
+         *
          * @summary Event properties list
-         * @param {number} projectId 
+         * @param {number} projectId
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -5655,9 +5811,9 @@ export const EventPropertiesApiFactory = function (configuration?: Configuration
             return localVarFp.eventPropertiesList(projectId, options).then((request) => request(axios, basePath));
         },
         /**
-         * 
+         *
          * @summary Get event property
-         * @param {number} projectId 
+         * @param {number} projectId
          * @param {number} propertyId Property ID
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -5666,11 +5822,11 @@ export const EventPropertiesApiFactory = function (configuration?: Configuration
             return localVarFp.getEventProperty(projectId, propertyId, options).then((request) => request(axios, basePath));
         },
         /**
-         * 
+         *
          * @summary Update event property
-         * @param {number} projectId 
+         * @param {number} projectId
          * @param {string} propertyId Property ID
-         * @param {UpdatePropertyRequest} updatePropertyRequest 
+         * @param {UpdatePropertyRequest} updatePropertyRequest
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -5688,9 +5844,9 @@ export const EventPropertiesApiFactory = function (configuration?: Configuration
  */
 export class EventPropertiesApi extends BaseAPI {
     /**
-     * 
+     *
      * @summary Event properties list
-     * @param {number} projectId 
+     * @param {number} projectId
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof EventPropertiesApi
@@ -5700,9 +5856,9 @@ export class EventPropertiesApi extends BaseAPI {
     }
 
     /**
-     * 
+     *
      * @summary Get event property
-     * @param {number} projectId 
+     * @param {number} projectId
      * @param {number} propertyId Property ID
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -5713,11 +5869,11 @@ export class EventPropertiesApi extends BaseAPI {
     }
 
     /**
-     * 
+     *
      * @summary Update event property
-     * @param {number} projectId 
+     * @param {number} projectId
      * @param {string} propertyId Property ID
-     * @param {UpdatePropertyRequest} updatePropertyRequest 
+     * @param {UpdatePropertyRequest} updatePropertyRequest
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof EventPropertiesApi
@@ -5736,10 +5892,10 @@ export class EventPropertiesApi extends BaseAPI {
 export const EventRecordsApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
-         * 
+         *
          * @summary Get event records
-         * @param {number} projectId 
-         * @param {EventRecordsListRequest} eventRecordsListRequest 
+         * @param {number} projectId
+         * @param {EventRecordsListRequest} eventRecordsListRequest
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -5766,7 +5922,7 @@ export const EventRecordsApiAxiosParamCreator = function (configuration?: Config
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
 
-    
+
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -5780,9 +5936,9 @@ export const EventRecordsApiAxiosParamCreator = function (configuration?: Config
             };
         },
         /**
-         * 
+         *
          * @summary Get event record
-         * @param {number} projectId 
+         * @param {number} projectId
          * @param {number} id Event Record ID
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -5811,7 +5967,7 @@ export const EventRecordsApiAxiosParamCreator = function (configuration?: Config
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
 
-    
+
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -5832,10 +5988,10 @@ export const EventRecordsApiFp = function(configuration?: Configuration) {
     const localVarAxiosParamCreator = EventRecordsApiAxiosParamCreator(configuration)
     return {
         /**
-         * 
+         *
          * @summary Get event records
-         * @param {number} projectId 
-         * @param {EventRecordsListRequest} eventRecordsListRequest 
+         * @param {number} projectId
+         * @param {EventRecordsListRequest} eventRecordsListRequest
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -5846,9 +6002,9 @@ export const EventRecordsApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
-         * 
+         *
          * @summary Get event record
-         * @param {number} projectId 
+         * @param {number} projectId
          * @param {number} id Event Record ID
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -5870,10 +6026,10 @@ export const EventRecordsApiFactory = function (configuration?: Configuration, b
     const localVarFp = EventRecordsApiFp(configuration)
     return {
         /**
-         * 
+         *
          * @summary Get event records
-         * @param {number} projectId 
-         * @param {EventRecordsListRequest} eventRecordsListRequest 
+         * @param {number} projectId
+         * @param {EventRecordsListRequest} eventRecordsListRequest
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -5881,9 +6037,9 @@ export const EventRecordsApiFactory = function (configuration?: Configuration, b
             return localVarFp.eventRecordsList(projectId, eventRecordsListRequest, options).then((request) => request(axios, basePath));
         },
         /**
-         * 
+         *
          * @summary Get event record
-         * @param {number} projectId 
+         * @param {number} projectId
          * @param {number} id Event Record ID
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -5902,10 +6058,10 @@ export const EventRecordsApiFactory = function (configuration?: Configuration, b
  */
 export class EventRecordsApi extends BaseAPI {
     /**
-     * 
+     *
      * @summary Get event records
-     * @param {number} projectId 
-     * @param {EventRecordsListRequest} eventRecordsListRequest 
+     * @param {number} projectId
+     * @param {EventRecordsListRequest} eventRecordsListRequest
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof EventRecordsApi
@@ -5915,9 +6071,9 @@ export class EventRecordsApi extends BaseAPI {
     }
 
     /**
-     * 
+     *
      * @summary Get event record
-     * @param {number} projectId 
+     * @param {number} projectId
      * @param {number} id Event Record ID
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -5937,9 +6093,9 @@ export class EventRecordsApi extends BaseAPI {
 export const EventsApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
-         * 
+         *
          * @summary Events list
-         * @param {number} projectId 
+         * @param {number} projectId
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -5964,7 +6120,7 @@ export const EventsApiAxiosParamCreator = function (configuration?: Configuratio
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
 
-    
+
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -5975,9 +6131,9 @@ export const EventsApiAxiosParamCreator = function (configuration?: Configuratio
             };
         },
         /**
-         * 
+         *
          * @summary Get event
-         * @param {number} projectId 
+         * @param {number} projectId
          * @param {number} eventId Event ID
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -6006,7 +6162,7 @@ export const EventsApiAxiosParamCreator = function (configuration?: Configuratio
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
 
-    
+
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -6017,11 +6173,11 @@ export const EventsApiAxiosParamCreator = function (configuration?: Configuratio
             };
         },
         /**
-         * 
+         *
          * @summary Update event
-         * @param {number} projectId 
+         * @param {number} projectId
          * @param {string} eventId Event ID
-         * @param {UpdateEventRequest} updateEventRequest 
+         * @param {UpdateEventRequest} updateEventRequest
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -6051,7 +6207,7 @@ export const EventsApiAxiosParamCreator = function (configuration?: Configuratio
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
 
-    
+
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -6075,9 +6231,9 @@ export const EventsApiFp = function(configuration?: Configuration) {
     const localVarAxiosParamCreator = EventsApiAxiosParamCreator(configuration)
     return {
         /**
-         * 
+         *
          * @summary Events list
-         * @param {number} projectId 
+         * @param {number} projectId
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -6088,9 +6244,9 @@ export const EventsApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
-         * 
+         *
          * @summary Get event
-         * @param {number} projectId 
+         * @param {number} projectId
          * @param {number} eventId Event ID
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -6102,11 +6258,11 @@ export const EventsApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
-         * 
+         *
          * @summary Update event
-         * @param {number} projectId 
+         * @param {number} projectId
          * @param {string} eventId Event ID
-         * @param {UpdateEventRequest} updateEventRequest 
+         * @param {UpdateEventRequest} updateEventRequest
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -6127,9 +6283,9 @@ export const EventsApiFactory = function (configuration?: Configuration, basePat
     const localVarFp = EventsApiFp(configuration)
     return {
         /**
-         * 
+         *
          * @summary Events list
-         * @param {number} projectId 
+         * @param {number} projectId
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -6137,9 +6293,9 @@ export const EventsApiFactory = function (configuration?: Configuration, basePat
             return localVarFp.eventsList(projectId, options).then((request) => request(axios, basePath));
         },
         /**
-         * 
+         *
          * @summary Get event
-         * @param {number} projectId 
+         * @param {number} projectId
          * @param {number} eventId Event ID
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -6148,11 +6304,11 @@ export const EventsApiFactory = function (configuration?: Configuration, basePat
             return localVarFp.getEvent(projectId, eventId, options).then((request) => request(axios, basePath));
         },
         /**
-         * 
+         *
          * @summary Update event
-         * @param {number} projectId 
+         * @param {number} projectId
          * @param {string} eventId Event ID
-         * @param {UpdateEventRequest} updateEventRequest 
+         * @param {UpdateEventRequest} updateEventRequest
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -6170,9 +6326,9 @@ export const EventsApiFactory = function (configuration?: Configuration, basePat
  */
 export class EventsApi extends BaseAPI {
     /**
-     * 
+     *
      * @summary Events list
-     * @param {number} projectId 
+     * @param {number} projectId
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof EventsApi
@@ -6182,9 +6338,9 @@ export class EventsApi extends BaseAPI {
     }
 
     /**
-     * 
+     *
      * @summary Get event
-     * @param {number} projectId 
+     * @param {number} projectId
      * @param {number} eventId Event ID
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -6195,11 +6351,11 @@ export class EventsApi extends BaseAPI {
     }
 
     /**
-     * 
+     *
      * @summary Update event
-     * @param {number} projectId 
+     * @param {number} projectId
      * @param {string} eventId Event ID
-     * @param {UpdateEventRequest} updateEventRequest 
+     * @param {UpdateEventRequest} updateEventRequest
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof EventsApi
@@ -6218,9 +6374,9 @@ export class EventsApi extends BaseAPI {
 export const GroupRecordsApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
-         * 
+         *
          * @summary Get group record
-         * @param {number} projectId 
+         * @param {number} projectId
          * @param {number} id Group Record ID
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -6249,7 +6405,7 @@ export const GroupRecordsApiAxiosParamCreator = function (configuration?: Config
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
 
-    
+
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -6260,10 +6416,10 @@ export const GroupRecordsApiAxiosParamCreator = function (configuration?: Config
             };
         },
         /**
-         * 
+         *
          * @summary List group records
-         * @param {number} projectId 
-         * @param {GroupRecordsListRequest} groupRecordsListRequest 
+         * @param {number} projectId
+         * @param {GroupRecordsListRequest} groupRecordsListRequest
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -6290,7 +6446,7 @@ export const GroupRecordsApiAxiosParamCreator = function (configuration?: Config
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
 
-    
+
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -6304,11 +6460,11 @@ export const GroupRecordsApiAxiosParamCreator = function (configuration?: Config
             };
         },
         /**
-         * 
+         *
          * @summary Update group record
-         * @param {number} projectId 
+         * @param {number} projectId
          * @param {number} id Group Record ID
-         * @param {UpdateGroupRecordRequest} updateGroupRecordRequest 
+         * @param {UpdateGroupRecordRequest} updateGroupRecordRequest
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -6338,7 +6494,7 @@ export const GroupRecordsApiAxiosParamCreator = function (configuration?: Config
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
 
-    
+
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -6362,9 +6518,9 @@ export const GroupRecordsApiFp = function(configuration?: Configuration) {
     const localVarAxiosParamCreator = GroupRecordsApiAxiosParamCreator(configuration)
     return {
         /**
-         * 
+         *
          * @summary Get group record
-         * @param {number} projectId 
+         * @param {number} projectId
          * @param {number} id Group Record ID
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -6376,10 +6532,10 @@ export const GroupRecordsApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
-         * 
+         *
          * @summary List group records
-         * @param {number} projectId 
-         * @param {GroupRecordsListRequest} groupRecordsListRequest 
+         * @param {number} projectId
+         * @param {GroupRecordsListRequest} groupRecordsListRequest
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -6390,11 +6546,11 @@ export const GroupRecordsApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
-         * 
+         *
          * @summary Update group record
-         * @param {number} projectId 
+         * @param {number} projectId
          * @param {number} id Group Record ID
-         * @param {UpdateGroupRecordRequest} updateGroupRecordRequest 
+         * @param {UpdateGroupRecordRequest} updateGroupRecordRequest
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -6415,9 +6571,9 @@ export const GroupRecordsApiFactory = function (configuration?: Configuration, b
     const localVarFp = GroupRecordsApiFp(configuration)
     return {
         /**
-         * 
+         *
          * @summary Get group record
-         * @param {number} projectId 
+         * @param {number} projectId
          * @param {number} id Group Record ID
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -6426,10 +6582,10 @@ export const GroupRecordsApiFactory = function (configuration?: Configuration, b
             return localVarFp.getGroupRecord(projectId, id, options).then((request) => request(axios, basePath));
         },
         /**
-         * 
+         *
          * @summary List group records
-         * @param {number} projectId 
-         * @param {GroupRecordsListRequest} groupRecordsListRequest 
+         * @param {number} projectId
+         * @param {GroupRecordsListRequest} groupRecordsListRequest
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -6437,11 +6593,11 @@ export const GroupRecordsApiFactory = function (configuration?: Configuration, b
             return localVarFp.groupRecordsList(projectId, groupRecordsListRequest, options).then((request) => request(axios, basePath));
         },
         /**
-         * 
+         *
          * @summary Update group record
-         * @param {number} projectId 
+         * @param {number} projectId
          * @param {number} id Group Record ID
-         * @param {UpdateGroupRecordRequest} updateGroupRecordRequest 
+         * @param {UpdateGroupRecordRequest} updateGroupRecordRequest
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -6459,9 +6615,9 @@ export const GroupRecordsApiFactory = function (configuration?: Configuration, b
  */
 export class GroupRecordsApi extends BaseAPI {
     /**
-     * 
+     *
      * @summary Get group record
-     * @param {number} projectId 
+     * @param {number} projectId
      * @param {number} id Group Record ID
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -6472,10 +6628,10 @@ export class GroupRecordsApi extends BaseAPI {
     }
 
     /**
-     * 
+     *
      * @summary List group records
-     * @param {number} projectId 
-     * @param {GroupRecordsListRequest} groupRecordsListRequest 
+     * @param {number} projectId
+     * @param {GroupRecordsListRequest} groupRecordsListRequest
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof GroupRecordsApi
@@ -6485,11 +6641,11 @@ export class GroupRecordsApi extends BaseAPI {
     }
 
     /**
-     * 
+     *
      * @summary Update group record
-     * @param {number} projectId 
+     * @param {number} projectId
      * @param {number} id Group Record ID
-     * @param {UpdateGroupRecordRequest} updateGroupRecordRequest 
+     * @param {UpdateGroupRecordRequest} updateGroupRecordRequest
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof GroupRecordsApi
@@ -6508,9 +6664,9 @@ export class GroupRecordsApi extends BaseAPI {
 export const OrganizationsApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
-         * 
+         *
          * @summary Get organizations
-         * @param {number} organizationId 
+         * @param {number} organizationId
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -6535,7 +6691,7 @@ export const OrganizationsApiAxiosParamCreator = function (configuration?: Confi
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
 
-    
+
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -6546,7 +6702,7 @@ export const OrganizationsApiAxiosParamCreator = function (configuration?: Confi
             };
         },
         /**
-         * 
+         *
          * @summary Organizations list
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -6569,7 +6725,7 @@ export const OrganizationsApiAxiosParamCreator = function (configuration?: Confi
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
 
-    
+
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -6590,9 +6746,9 @@ export const OrganizationsApiFp = function(configuration?: Configuration) {
     const localVarAxiosParamCreator = OrganizationsApiAxiosParamCreator(configuration)
     return {
         /**
-         * 
+         *
          * @summary Get organizations
-         * @param {number} organizationId 
+         * @param {number} organizationId
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -6603,7 +6759,7 @@ export const OrganizationsApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
-         * 
+         *
          * @summary Organizations list
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -6625,9 +6781,9 @@ export const OrganizationsApiFactory = function (configuration?: Configuration, 
     const localVarFp = OrganizationsApiFp(configuration)
     return {
         /**
-         * 
+         *
          * @summary Get organizations
-         * @param {number} organizationId 
+         * @param {number} organizationId
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -6635,7 +6791,7 @@ export const OrganizationsApiFactory = function (configuration?: Configuration, 
             return localVarFp.organization(organizationId, options).then((request) => request(axios, basePath));
         },
         /**
-         * 
+         *
          * @summary Organizations list
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -6654,9 +6810,9 @@ export const OrganizationsApiFactory = function (configuration?: Configuration, 
  */
 export class OrganizationsApi extends BaseAPI {
     /**
-     * 
+     *
      * @summary Get organizations
-     * @param {number} organizationId 
+     * @param {number} organizationId
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof OrganizationsApi
@@ -6666,7 +6822,7 @@ export class OrganizationsApi extends BaseAPI {
     }
 
     /**
-     * 
+     *
      * @summary Organizations list
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -6686,7 +6842,7 @@ export class OrganizationsApi extends BaseAPI {
 export const ProfileApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
-         * 
+         *
          * @summary Get profile
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -6709,7 +6865,7 @@ export const ProfileApiAxiosParamCreator = function (configuration?: Configurati
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
 
-    
+
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -6720,9 +6876,9 @@ export const ProfileApiAxiosParamCreator = function (configuration?: Configurati
             };
         },
         /**
-         * 
+         *
          * @summary Update email
-         * @param {UpdateProfileEmailRequest} updateProfileEmailRequest 
+         * @param {UpdateProfileEmailRequest} updateProfileEmailRequest
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -6746,7 +6902,7 @@ export const ProfileApiAxiosParamCreator = function (configuration?: Configurati
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
 
-    
+
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -6760,9 +6916,9 @@ export const ProfileApiAxiosParamCreator = function (configuration?: Configurati
             };
         },
         /**
-         * 
+         *
          * @summary Update name
-         * @param {UpdateProfileNameRequest} updateProfileNameRequest 
+         * @param {UpdateProfileNameRequest} updateProfileNameRequest
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -6786,7 +6942,7 @@ export const ProfileApiAxiosParamCreator = function (configuration?: Configurati
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
 
-    
+
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -6800,9 +6956,9 @@ export const ProfileApiAxiosParamCreator = function (configuration?: Configurati
             };
         },
         /**
-         * 
+         *
          * @summary Update password
-         * @param {UpdateProfilePasswordRequest} updateProfilePasswordRequest 
+         * @param {UpdateProfilePasswordRequest} updateProfilePasswordRequest
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -6826,7 +6982,7 @@ export const ProfileApiAxiosParamCreator = function (configuration?: Configurati
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
 
-    
+
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -6850,7 +7006,7 @@ export const ProfileApiFp = function(configuration?: Configuration) {
     const localVarAxiosParamCreator = ProfileApiAxiosParamCreator(configuration)
     return {
         /**
-         * 
+         *
          * @summary Get profile
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -6862,9 +7018,9 @@ export const ProfileApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
-         * 
+         *
          * @summary Update email
-         * @param {UpdateProfileEmailRequest} updateProfileEmailRequest 
+         * @param {UpdateProfileEmailRequest} updateProfileEmailRequest
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -6875,9 +7031,9 @@ export const ProfileApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
-         * 
+         *
          * @summary Update name
-         * @param {UpdateProfileNameRequest} updateProfileNameRequest 
+         * @param {UpdateProfileNameRequest} updateProfileNameRequest
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -6888,9 +7044,9 @@ export const ProfileApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
-         * 
+         *
          * @summary Update password
-         * @param {UpdateProfilePasswordRequest} updateProfilePasswordRequest 
+         * @param {UpdateProfilePasswordRequest} updateProfilePasswordRequest
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -6911,7 +7067,7 @@ export const ProfileApiFactory = function (configuration?: Configuration, basePa
     const localVarFp = ProfileApiFp(configuration)
     return {
         /**
-         * 
+         *
          * @summary Get profile
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -6920,9 +7076,9 @@ export const ProfileApiFactory = function (configuration?: Configuration, basePa
             return localVarFp.getProfile(options).then((request) => request(axios, basePath));
         },
         /**
-         * 
+         *
          * @summary Update email
-         * @param {UpdateProfileEmailRequest} updateProfileEmailRequest 
+         * @param {UpdateProfileEmailRequest} updateProfileEmailRequest
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -6930,9 +7086,9 @@ export const ProfileApiFactory = function (configuration?: Configuration, basePa
             return localVarFp.updateProfileEmail(updateProfileEmailRequest, options).then((request) => request(axios, basePath));
         },
         /**
-         * 
+         *
          * @summary Update name
-         * @param {UpdateProfileNameRequest} updateProfileNameRequest 
+         * @param {UpdateProfileNameRequest} updateProfileNameRequest
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -6940,9 +7096,9 @@ export const ProfileApiFactory = function (configuration?: Configuration, basePa
             return localVarFp.updateProfileName(updateProfileNameRequest, options).then((request) => request(axios, basePath));
         },
         /**
-         * 
+         *
          * @summary Update password
-         * @param {UpdateProfilePasswordRequest} updateProfilePasswordRequest 
+         * @param {UpdateProfilePasswordRequest} updateProfilePasswordRequest
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -6960,7 +7116,7 @@ export const ProfileApiFactory = function (configuration?: Configuration, basePa
  */
 export class ProfileApi extends BaseAPI {
     /**
-     * 
+     *
      * @summary Get profile
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -6971,9 +7127,9 @@ export class ProfileApi extends BaseAPI {
     }
 
     /**
-     * 
+     *
      * @summary Update email
-     * @param {UpdateProfileEmailRequest} updateProfileEmailRequest 
+     * @param {UpdateProfileEmailRequest} updateProfileEmailRequest
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ProfileApi
@@ -6983,9 +7139,9 @@ export class ProfileApi extends BaseAPI {
     }
 
     /**
-     * 
+     *
      * @summary Update name
-     * @param {UpdateProfileNameRequest} updateProfileNameRequest 
+     * @param {UpdateProfileNameRequest} updateProfileNameRequest
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ProfileApi
@@ -6995,9 +7151,9 @@ export class ProfileApi extends BaseAPI {
     }
 
     /**
-     * 
+     *
      * @summary Update password
-     * @param {UpdateProfilePasswordRequest} updateProfilePasswordRequest 
+     * @param {UpdateProfilePasswordRequest} updateProfilePasswordRequest
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ProfileApi
@@ -7016,9 +7172,9 @@ export class ProfileApi extends BaseAPI {
 export const ProjectsApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
-         * 
+         *
          * @summary Create organization
-         * @param {CreateOrganizationRequest} createOrganizationRequest 
+         * @param {CreateOrganizationRequest} createOrganizationRequest
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -7042,7 +7198,7 @@ export const ProjectsApiAxiosParamCreator = function (configuration?: Configurat
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
 
-    
+
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -7056,9 +7212,9 @@ export const ProjectsApiAxiosParamCreator = function (configuration?: Configurat
             };
         },
         /**
-         * 
+         *
          * @summary Create project
-         * @param {CreateProjectRequest} createProjectRequest 
+         * @param {CreateProjectRequest} createProjectRequest
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -7082,7 +7238,7 @@ export const ProjectsApiAxiosParamCreator = function (configuration?: Configurat
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
 
-    
+
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -7096,9 +7252,9 @@ export const ProjectsApiAxiosParamCreator = function (configuration?: Configurat
             };
         },
         /**
-         * 
+         *
          * @summary Delete organization
-         * @param {number} organizationId 
+         * @param {number} organizationId
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -7123,7 +7279,7 @@ export const ProjectsApiAxiosParamCreator = function (configuration?: Configurat
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
 
-    
+
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -7134,9 +7290,9 @@ export const ProjectsApiAxiosParamCreator = function (configuration?: Configurat
             };
         },
         /**
-         * 
+         *
          * @summary Delete project
-         * @param {number} projectId 
+         * @param {number} projectId
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -7161,7 +7317,7 @@ export const ProjectsApiAxiosParamCreator = function (configuration?: Configurat
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
 
-    
+
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -7172,9 +7328,9 @@ export const ProjectsApiAxiosParamCreator = function (configuration?: Configurat
             };
         },
         /**
-         * 
+         *
          * @summary Get project
-         * @param {number} projectId 
+         * @param {number} projectId
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -7199,7 +7355,7 @@ export const ProjectsApiAxiosParamCreator = function (configuration?: Configurat
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
 
-    
+
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -7210,7 +7366,7 @@ export const ProjectsApiAxiosParamCreator = function (configuration?: Configurat
             };
         },
         /**
-         * 
+         *
          * @summary Projects list
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -7233,7 +7389,7 @@ export const ProjectsApiAxiosParamCreator = function (configuration?: Configurat
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
 
-    
+
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -7244,10 +7400,10 @@ export const ProjectsApiAxiosParamCreator = function (configuration?: Configurat
             };
         },
         /**
-         * 
+         *
          * @summary Update organization
-         * @param {number} organizationId 
-         * @param {UpdateOrganizationRequest} updateOrganizationRequest 
+         * @param {number} organizationId
+         * @param {UpdateOrganizationRequest} updateOrganizationRequest
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -7274,7 +7430,7 @@ export const ProjectsApiAxiosParamCreator = function (configuration?: Configurat
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
 
-    
+
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -7288,10 +7444,10 @@ export const ProjectsApiAxiosParamCreator = function (configuration?: Configurat
             };
         },
         /**
-         * 
+         *
          * @summary Update project
-         * @param {number} projectId 
-         * @param {UpdateProjectRequest} updateProjectRequest 
+         * @param {number} projectId
+         * @param {UpdateProjectRequest} updateProjectRequest
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -7318,7 +7474,7 @@ export const ProjectsApiAxiosParamCreator = function (configuration?: Configurat
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
 
-    
+
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -7342,9 +7498,9 @@ export const ProjectsApiFp = function(configuration?: Configuration) {
     const localVarAxiosParamCreator = ProjectsApiAxiosParamCreator(configuration)
     return {
         /**
-         * 
+         *
          * @summary Create organization
-         * @param {CreateOrganizationRequest} createOrganizationRequest 
+         * @param {CreateOrganizationRequest} createOrganizationRequest
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -7355,9 +7511,9 @@ export const ProjectsApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
-         * 
+         *
          * @summary Create project
-         * @param {CreateProjectRequest} createProjectRequest 
+         * @param {CreateProjectRequest} createProjectRequest
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -7368,9 +7524,9 @@ export const ProjectsApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
-         * 
+         *
          * @summary Delete organization
-         * @param {number} organizationId 
+         * @param {number} organizationId
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -7381,9 +7537,9 @@ export const ProjectsApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
-         * 
+         *
          * @summary Delete project
-         * @param {number} projectId 
+         * @param {number} projectId
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -7394,9 +7550,9 @@ export const ProjectsApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
-         * 
+         *
          * @summary Get project
-         * @param {number} projectId 
+         * @param {number} projectId
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -7407,7 +7563,7 @@ export const ProjectsApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
-         * 
+         *
          * @summary Projects list
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -7419,10 +7575,10 @@ export const ProjectsApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
-         * 
+         *
          * @summary Update organization
-         * @param {number} organizationId 
-         * @param {UpdateOrganizationRequest} updateOrganizationRequest 
+         * @param {number} organizationId
+         * @param {UpdateOrganizationRequest} updateOrganizationRequest
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -7433,10 +7589,10 @@ export const ProjectsApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
-         * 
+         *
          * @summary Update project
-         * @param {number} projectId 
-         * @param {UpdateProjectRequest} updateProjectRequest 
+         * @param {number} projectId
+         * @param {UpdateProjectRequest} updateProjectRequest
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -7457,9 +7613,9 @@ export const ProjectsApiFactory = function (configuration?: Configuration, baseP
     const localVarFp = ProjectsApiFp(configuration)
     return {
         /**
-         * 
+         *
          * @summary Create organization
-         * @param {CreateOrganizationRequest} createOrganizationRequest 
+         * @param {CreateOrganizationRequest} createOrganizationRequest
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -7467,9 +7623,9 @@ export const ProjectsApiFactory = function (configuration?: Configuration, baseP
             return localVarFp.createOrganization(createOrganizationRequest, options).then((request) => request(axios, basePath));
         },
         /**
-         * 
+         *
          * @summary Create project
-         * @param {CreateProjectRequest} createProjectRequest 
+         * @param {CreateProjectRequest} createProjectRequest
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -7477,9 +7633,9 @@ export const ProjectsApiFactory = function (configuration?: Configuration, baseP
             return localVarFp.createProject(createProjectRequest, options).then((request) => request(axios, basePath));
         },
         /**
-         * 
+         *
          * @summary Delete organization
-         * @param {number} organizationId 
+         * @param {number} organizationId
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -7487,9 +7643,9 @@ export const ProjectsApiFactory = function (configuration?: Configuration, baseP
             return localVarFp.deleteOrganization(organizationId, options).then((request) => request(axios, basePath));
         },
         /**
-         * 
+         *
          * @summary Delete project
-         * @param {number} projectId 
+         * @param {number} projectId
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -7497,9 +7653,9 @@ export const ProjectsApiFactory = function (configuration?: Configuration, baseP
             return localVarFp.deleteProject(projectId, options).then((request) => request(axios, basePath));
         },
         /**
-         * 
+         *
          * @summary Get project
-         * @param {number} projectId 
+         * @param {number} projectId
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -7507,7 +7663,7 @@ export const ProjectsApiFactory = function (configuration?: Configuration, baseP
             return localVarFp.project(projectId, options).then((request) => request(axios, basePath));
         },
         /**
-         * 
+         *
          * @summary Projects list
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -7516,10 +7672,10 @@ export const ProjectsApiFactory = function (configuration?: Configuration, baseP
             return localVarFp.projectsList(options).then((request) => request(axios, basePath));
         },
         /**
-         * 
+         *
          * @summary Update organization
-         * @param {number} organizationId 
-         * @param {UpdateOrganizationRequest} updateOrganizationRequest 
+         * @param {number} organizationId
+         * @param {UpdateOrganizationRequest} updateOrganizationRequest
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -7527,10 +7683,10 @@ export const ProjectsApiFactory = function (configuration?: Configuration, baseP
             return localVarFp.updateOrganization(organizationId, updateOrganizationRequest, options).then((request) => request(axios, basePath));
         },
         /**
-         * 
+         *
          * @summary Update project
-         * @param {number} projectId 
-         * @param {UpdateProjectRequest} updateProjectRequest 
+         * @param {number} projectId
+         * @param {UpdateProjectRequest} updateProjectRequest
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -7548,9 +7704,9 @@ export const ProjectsApiFactory = function (configuration?: Configuration, baseP
  */
 export class ProjectsApi extends BaseAPI {
     /**
-     * 
+     *
      * @summary Create organization
-     * @param {CreateOrganizationRequest} createOrganizationRequest 
+     * @param {CreateOrganizationRequest} createOrganizationRequest
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ProjectsApi
@@ -7560,9 +7716,9 @@ export class ProjectsApi extends BaseAPI {
     }
 
     /**
-     * 
+     *
      * @summary Create project
-     * @param {CreateProjectRequest} createProjectRequest 
+     * @param {CreateProjectRequest} createProjectRequest
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ProjectsApi
@@ -7572,9 +7728,9 @@ export class ProjectsApi extends BaseAPI {
     }
 
     /**
-     * 
+     *
      * @summary Delete organization
-     * @param {number} organizationId 
+     * @param {number} organizationId
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ProjectsApi
@@ -7584,9 +7740,9 @@ export class ProjectsApi extends BaseAPI {
     }
 
     /**
-     * 
+     *
      * @summary Delete project
-     * @param {number} projectId 
+     * @param {number} projectId
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ProjectsApi
@@ -7596,9 +7752,9 @@ export class ProjectsApi extends BaseAPI {
     }
 
     /**
-     * 
+     *
      * @summary Get project
-     * @param {number} projectId 
+     * @param {number} projectId
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ProjectsApi
@@ -7608,7 +7764,7 @@ export class ProjectsApi extends BaseAPI {
     }
 
     /**
-     * 
+     *
      * @summary Projects list
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -7619,10 +7775,10 @@ export class ProjectsApi extends BaseAPI {
     }
 
     /**
-     * 
+     *
      * @summary Update organization
-     * @param {number} organizationId 
-     * @param {UpdateOrganizationRequest} updateOrganizationRequest 
+     * @param {number} organizationId
+     * @param {UpdateOrganizationRequest} updateOrganizationRequest
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ProjectsApi
@@ -7632,10 +7788,10 @@ export class ProjectsApi extends BaseAPI {
     }
 
     /**
-     * 
+     *
      * @summary Update project
-     * @param {number} projectId 
-     * @param {UpdateProjectRequest} updateProjectRequest 
+     * @param {number} projectId
+     * @param {UpdateProjectRequest} updateProjectRequest
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ProjectsApi
@@ -7654,9 +7810,9 @@ export class ProjectsApi extends BaseAPI {
 export const PropertiesApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
-         * 
+         *
          * @summary Event custom properties list
-         * @param {number} projectId 
+         * @param {number} projectId
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -7681,7 +7837,7 @@ export const PropertiesApiAxiosParamCreator = function (configuration?: Configur
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
 
-    
+
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -7702,9 +7858,9 @@ export const PropertiesApiFp = function(configuration?: Configuration) {
     const localVarAxiosParamCreator = PropertiesApiAxiosParamCreator(configuration)
     return {
         /**
-         * 
+         *
          * @summary Event custom properties list
-         * @param {number} projectId 
+         * @param {number} projectId
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -7725,9 +7881,9 @@ export const PropertiesApiFactory = function (configuration?: Configuration, bas
     const localVarFp = PropertiesApiFp(configuration)
     return {
         /**
-         * 
+         *
          * @summary Event custom properties list
-         * @param {number} projectId 
+         * @param {number} projectId
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -7745,9 +7901,9 @@ export const PropertiesApiFactory = function (configuration?: Configuration, bas
  */
 export class PropertiesApi extends BaseAPI {
     /**
-     * 
+     *
      * @summary Event custom properties list
-     * @param {number} projectId 
+     * @param {number} projectId
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof PropertiesApi
@@ -7766,10 +7922,10 @@ export class PropertiesApi extends BaseAPI {
 export const PropertyValuesApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
-         * 
+         *
          * @summary List of property values
-         * @param {number} projectId 
-         * @param {ListPropertyValuesRequest} listPropertyValuesRequest property type and property id/name must be specified. Event is optional and  works as a filter for values 
+         * @param {number} projectId
+         * @param {ListPropertyValuesRequest} listPropertyValuesRequest property type and property id/name must be specified. Event is optional and  works as a filter for values
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -7796,7 +7952,7 @@ export const PropertyValuesApiAxiosParamCreator = function (configuration?: Conf
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
 
-    
+
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -7820,10 +7976,10 @@ export const PropertyValuesApiFp = function(configuration?: Configuration) {
     const localVarAxiosParamCreator = PropertyValuesApiAxiosParamCreator(configuration)
     return {
         /**
-         * 
+         *
          * @summary List of property values
-         * @param {number} projectId 
-         * @param {ListPropertyValuesRequest} listPropertyValuesRequest property type and property id/name must be specified. Event is optional and  works as a filter for values 
+         * @param {number} projectId
+         * @param {ListPropertyValuesRequest} listPropertyValuesRequest property type and property id/name must be specified. Event is optional and  works as a filter for values
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -7844,10 +8000,10 @@ export const PropertyValuesApiFactory = function (configuration?: Configuration,
     const localVarFp = PropertyValuesApiFp(configuration)
     return {
         /**
-         * 
+         *
          * @summary List of property values
-         * @param {number} projectId 
-         * @param {ListPropertyValuesRequest} listPropertyValuesRequest property type and property id/name must be specified. Event is optional and  works as a filter for values 
+         * @param {number} projectId
+         * @param {ListPropertyValuesRequest} listPropertyValuesRequest property type and property id/name must be specified. Event is optional and  works as a filter for values
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -7865,10 +8021,10 @@ export const PropertyValuesApiFactory = function (configuration?: Configuration,
  */
 export class PropertyValuesApi extends BaseAPI {
     /**
-     * 
+     *
      * @summary List of property values
-     * @param {number} projectId 
-     * @param {ListPropertyValuesRequest} listPropertyValuesRequest property type and property id/name must be specified. Event is optional and  works as a filter for values 
+     * @param {number} projectId
+     * @param {ListPropertyValuesRequest} listPropertyValuesRequest property type and property id/name must be specified. Event is optional and  works as a filter for values
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof PropertyValuesApi
@@ -7887,11 +8043,11 @@ export class PropertyValuesApi extends BaseAPI {
 export const QueryApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
-         * 
+         *
          * @summary Event segmentation query
-         * @param {number} projectId 
-         * @param {EventSegmentationQueryFormatEnum} format 
-         * @param {EventSegmentation} [eventSegmentation] 
+         * @param {number} projectId
+         * @param {EventSegmentationQueryFormatEnum} format
+         * @param {EventSegmentation} [eventSegmentation]
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -7922,7 +8078,7 @@ export const QueryApiAxiosParamCreator = function (configuration?: Configuration
             }
 
 
-    
+
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -7936,10 +8092,10 @@ export const QueryApiAxiosParamCreator = function (configuration?: Configuration
             };
         },
         /**
-         * 
+         *
          * @summary Funnel query
-         * @param {number} projectId 
-         * @param {FunnelQuery} [funnelQuery] 
+         * @param {number} projectId
+         * @param {FunnelQuery} [funnelQuery]
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -7964,7 +8120,7 @@ export const QueryApiAxiosParamCreator = function (configuration?: Configuration
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
 
-    
+
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -7988,11 +8144,11 @@ export const QueryApiFp = function(configuration?: Configuration) {
     const localVarAxiosParamCreator = QueryApiAxiosParamCreator(configuration)
     return {
         /**
-         * 
+         *
          * @summary Event segmentation query
-         * @param {number} projectId 
-         * @param {EventSegmentationQueryFormatEnum} format 
-         * @param {EventSegmentation} [eventSegmentation] 
+         * @param {number} projectId
+         * @param {EventSegmentationQueryFormatEnum} format
+         * @param {EventSegmentation} [eventSegmentation]
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -8003,10 +8159,10 @@ export const QueryApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
-         * 
+         *
          * @summary Funnel query
-         * @param {number} projectId 
-         * @param {FunnelQuery} [funnelQuery] 
+         * @param {number} projectId
+         * @param {FunnelQuery} [funnelQuery]
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -8027,11 +8183,11 @@ export const QueryApiFactory = function (configuration?: Configuration, basePath
     const localVarFp = QueryApiFp(configuration)
     return {
         /**
-         * 
+         *
          * @summary Event segmentation query
-         * @param {number} projectId 
-         * @param {EventSegmentationQueryFormatEnum} format 
-         * @param {EventSegmentation} [eventSegmentation] 
+         * @param {number} projectId
+         * @param {EventSegmentationQueryFormatEnum} format
+         * @param {EventSegmentation} [eventSegmentation]
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -8039,10 +8195,10 @@ export const QueryApiFactory = function (configuration?: Configuration, basePath
             return localVarFp.eventSegmentationQuery(projectId, format, eventSegmentation, options).then((request) => request(axios, basePath));
         },
         /**
-         * 
+         *
          * @summary Funnel query
-         * @param {number} projectId 
-         * @param {FunnelQuery} [funnelQuery] 
+         * @param {number} projectId
+         * @param {FunnelQuery} [funnelQuery]
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -8060,11 +8216,11 @@ export const QueryApiFactory = function (configuration?: Configuration, basePath
  */
 export class QueryApi extends BaseAPI {
     /**
-     * 
+     *
      * @summary Event segmentation query
-     * @param {number} projectId 
-     * @param {EventSegmentationQueryFormatEnum} format 
-     * @param {EventSegmentation} [eventSegmentation] 
+     * @param {number} projectId
+     * @param {EventSegmentationQueryFormatEnum} format
+     * @param {EventSegmentation} [eventSegmentation]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof QueryApi
@@ -8074,10 +8230,10 @@ export class QueryApi extends BaseAPI {
     }
 
     /**
-     * 
+     *
      * @summary Funnel query
-     * @param {number} projectId 
-     * @param {FunnelQuery} [funnelQuery] 
+     * @param {number} projectId
+     * @param {FunnelQuery} [funnelQuery]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof QueryApi
@@ -8104,10 +8260,10 @@ export type EventSegmentationQueryFormatEnum = typeof EventSegmentationQueryForm
 export const ReportsApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
-         * 
+         *
          * @summary Create report
-         * @param {number} projectId 
-         * @param {CreateReportRequest} createReportRequest 
+         * @param {number} projectId
+         * @param {CreateReportRequest} createReportRequest
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -8134,7 +8290,7 @@ export const ReportsApiAxiosParamCreator = function (configuration?: Configurati
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
 
-    
+
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -8148,9 +8304,9 @@ export const ReportsApiAxiosParamCreator = function (configuration?: Configurati
             };
         },
         /**
-         * 
+         *
          * @summary Delete report
-         * @param {number} projectId 
+         * @param {number} projectId
          * @param {number} reportId Report ID
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -8179,7 +8335,7 @@ export const ReportsApiAxiosParamCreator = function (configuration?: Configurati
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
 
-    
+
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -8190,9 +8346,9 @@ export const ReportsApiAxiosParamCreator = function (configuration?: Configurati
             };
         },
         /**
-         * 
+         *
          * @summary Get report
-         * @param {number} projectId 
+         * @param {number} projectId
          * @param {number} reportId Report ID
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -8221,7 +8377,7 @@ export const ReportsApiAxiosParamCreator = function (configuration?: Configurati
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
 
-    
+
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -8232,9 +8388,9 @@ export const ReportsApiAxiosParamCreator = function (configuration?: Configurati
             };
         },
         /**
-         * 
+         *
          * @summary Reports list
-         * @param {number} projectId 
+         * @param {number} projectId
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -8259,7 +8415,7 @@ export const ReportsApiAxiosParamCreator = function (configuration?: Configurati
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
 
-    
+
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -8270,11 +8426,11 @@ export const ReportsApiAxiosParamCreator = function (configuration?: Configurati
             };
         },
         /**
-         * 
+         *
          * @summary Update report
-         * @param {number} projectId 
+         * @param {number} projectId
          * @param {number} reportId Report ID
-         * @param {UpdateReportRequest} updateReportRequest 
+         * @param {UpdateReportRequest} updateReportRequest
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -8304,7 +8460,7 @@ export const ReportsApiAxiosParamCreator = function (configuration?: Configurati
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
 
-    
+
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -8328,10 +8484,10 @@ export const ReportsApiFp = function(configuration?: Configuration) {
     const localVarAxiosParamCreator = ReportsApiAxiosParamCreator(configuration)
     return {
         /**
-         * 
+         *
          * @summary Create report
-         * @param {number} projectId 
-         * @param {CreateReportRequest} createReportRequest 
+         * @param {number} projectId
+         * @param {CreateReportRequest} createReportRequest
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -8342,9 +8498,9 @@ export const ReportsApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
-         * 
+         *
          * @summary Delete report
-         * @param {number} projectId 
+         * @param {number} projectId
          * @param {number} reportId Report ID
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -8356,9 +8512,9 @@ export const ReportsApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
-         * 
+         *
          * @summary Get report
-         * @param {number} projectId 
+         * @param {number} projectId
          * @param {number} reportId Report ID
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -8370,9 +8526,9 @@ export const ReportsApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
-         * 
+         *
          * @summary Reports list
-         * @param {number} projectId 
+         * @param {number} projectId
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -8383,11 +8539,11 @@ export const ReportsApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
-         * 
+         *
          * @summary Update report
-         * @param {number} projectId 
+         * @param {number} projectId
          * @param {number} reportId Report ID
-         * @param {UpdateReportRequest} updateReportRequest 
+         * @param {UpdateReportRequest} updateReportRequest
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -8408,10 +8564,10 @@ export const ReportsApiFactory = function (configuration?: Configuration, basePa
     const localVarFp = ReportsApiFp(configuration)
     return {
         /**
-         * 
+         *
          * @summary Create report
-         * @param {number} projectId 
-         * @param {CreateReportRequest} createReportRequest 
+         * @param {number} projectId
+         * @param {CreateReportRequest} createReportRequest
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -8419,9 +8575,9 @@ export const ReportsApiFactory = function (configuration?: Configuration, basePa
             return localVarFp.createReport(projectId, createReportRequest, options).then((request) => request(axios, basePath));
         },
         /**
-         * 
+         *
          * @summary Delete report
-         * @param {number} projectId 
+         * @param {number} projectId
          * @param {number} reportId Report ID
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -8430,9 +8586,9 @@ export const ReportsApiFactory = function (configuration?: Configuration, basePa
             return localVarFp.deleteReport(projectId, reportId, options).then((request) => request(axios, basePath));
         },
         /**
-         * 
+         *
          * @summary Get report
-         * @param {number} projectId 
+         * @param {number} projectId
          * @param {number} reportId Report ID
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -8441,9 +8597,9 @@ export const ReportsApiFactory = function (configuration?: Configuration, basePa
             return localVarFp.getReport(projectId, reportId, options).then((request) => request(axios, basePath));
         },
         /**
-         * 
+         *
          * @summary Reports list
-         * @param {number} projectId 
+         * @param {number} projectId
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -8451,11 +8607,11 @@ export const ReportsApiFactory = function (configuration?: Configuration, basePa
             return localVarFp.reportsList(projectId, options).then((request) => request(axios, basePath));
         },
         /**
-         * 
+         *
          * @summary Update report
-         * @param {number} projectId 
+         * @param {number} projectId
          * @param {number} reportId Report ID
-         * @param {UpdateReportRequest} updateReportRequest 
+         * @param {UpdateReportRequest} updateReportRequest
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -8473,10 +8629,10 @@ export const ReportsApiFactory = function (configuration?: Configuration, basePa
  */
 export class ReportsApi extends BaseAPI {
     /**
-     * 
+     *
      * @summary Create report
-     * @param {number} projectId 
-     * @param {CreateReportRequest} createReportRequest 
+     * @param {number} projectId
+     * @param {CreateReportRequest} createReportRequest
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ReportsApi
@@ -8486,9 +8642,9 @@ export class ReportsApi extends BaseAPI {
     }
 
     /**
-     * 
+     *
      * @summary Delete report
-     * @param {number} projectId 
+     * @param {number} projectId
      * @param {number} reportId Report ID
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -8499,9 +8655,9 @@ export class ReportsApi extends BaseAPI {
     }
 
     /**
-     * 
+     *
      * @summary Get report
-     * @param {number} projectId 
+     * @param {number} projectId
      * @param {number} reportId Report ID
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -8512,9 +8668,9 @@ export class ReportsApi extends BaseAPI {
     }
 
     /**
-     * 
+     *
      * @summary Reports list
-     * @param {number} projectId 
+     * @param {number} projectId
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ReportsApi
@@ -8524,11 +8680,11 @@ export class ReportsApi extends BaseAPI {
     }
 
     /**
-     * 
+     *
      * @summary Update report
-     * @param {number} projectId 
+     * @param {number} projectId
      * @param {number} reportId Report ID
-     * @param {UpdateReportRequest} updateReportRequest 
+     * @param {UpdateReportRequest} updateReportRequest
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ReportsApi
@@ -8547,9 +8703,9 @@ export class ReportsApi extends BaseAPI {
 export const SystemPropertiesApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
-         * 
+         *
          * @summary Get system property
-         * @param {number} projectId 
+         * @param {number} projectId
          * @param {number} propertyId Property ID
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -8578,7 +8734,7 @@ export const SystemPropertiesApiAxiosParamCreator = function (configuration?: Co
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
 
-    
+
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -8589,9 +8745,9 @@ export const SystemPropertiesApiAxiosParamCreator = function (configuration?: Co
             };
         },
         /**
-         * 
+         *
          * @summary System properties list
-         * @param {number} projectId 
+         * @param {number} projectId
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -8616,7 +8772,7 @@ export const SystemPropertiesApiAxiosParamCreator = function (configuration?: Co
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
 
-    
+
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -8637,9 +8793,9 @@ export const SystemPropertiesApiFp = function(configuration?: Configuration) {
     const localVarAxiosParamCreator = SystemPropertiesApiAxiosParamCreator(configuration)
     return {
         /**
-         * 
+         *
          * @summary Get system property
-         * @param {number} projectId 
+         * @param {number} projectId
          * @param {number} propertyId Property ID
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -8651,9 +8807,9 @@ export const SystemPropertiesApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
-         * 
+         *
          * @summary System properties list
-         * @param {number} projectId 
+         * @param {number} projectId
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -8674,9 +8830,9 @@ export const SystemPropertiesApiFactory = function (configuration?: Configuratio
     const localVarFp = SystemPropertiesApiFp(configuration)
     return {
         /**
-         * 
+         *
          * @summary Get system property
-         * @param {number} projectId 
+         * @param {number} projectId
          * @param {number} propertyId Property ID
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -8685,9 +8841,9 @@ export const SystemPropertiesApiFactory = function (configuration?: Configuratio
             return localVarFp.getSystemProperty(projectId, propertyId, options).then((request) => request(axios, basePath));
         },
         /**
-         * 
+         *
          * @summary System properties list
-         * @param {number} projectId 
+         * @param {number} projectId
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -8705,9 +8861,9 @@ export const SystemPropertiesApiFactory = function (configuration?: Configuratio
  */
 export class SystemPropertiesApi extends BaseAPI {
     /**
-     * 
+     *
      * @summary Get system property
-     * @param {number} projectId 
+     * @param {number} projectId
      * @param {number} propertyId Property ID
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -8718,9 +8874,9 @@ export class SystemPropertiesApi extends BaseAPI {
     }
 
     /**
-     * 
+     *
      * @summary System properties list
-     * @param {number} projectId 
+     * @param {number} projectId
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof SystemPropertiesApi
@@ -8739,9 +8895,9 @@ export class SystemPropertiesApi extends BaseAPI {
 export const UserPropertiesApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
-         * 
+         *
          * @summary Get user property
-         * @param {number} projectId 
+         * @param {number} projectId
          * @param {number} propertyId Property ID
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -8770,7 +8926,7 @@ export const UserPropertiesApiAxiosParamCreator = function (configuration?: Conf
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
 
-    
+
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -8781,11 +8937,11 @@ export const UserPropertiesApiAxiosParamCreator = function (configuration?: Conf
             };
         },
         /**
-         * 
+         *
          * @summary Update user property
-         * @param {number} projectId 
+         * @param {number} projectId
          * @param {number} propertyId Property ID
-         * @param {UpdatePropertyRequest} updatePropertyRequest 
+         * @param {UpdatePropertyRequest} updatePropertyRequest
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -8815,7 +8971,7 @@ export const UserPropertiesApiAxiosParamCreator = function (configuration?: Conf
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
 
-    
+
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -8829,9 +8985,9 @@ export const UserPropertiesApiAxiosParamCreator = function (configuration?: Conf
             };
         },
         /**
-         * 
+         *
          * @summary User properties list
-         * @param {number} projectId 
+         * @param {number} projectId
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -8856,7 +9012,7 @@ export const UserPropertiesApiAxiosParamCreator = function (configuration?: Conf
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
 
-    
+
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -8877,9 +9033,9 @@ export const UserPropertiesApiFp = function(configuration?: Configuration) {
     const localVarAxiosParamCreator = UserPropertiesApiAxiosParamCreator(configuration)
     return {
         /**
-         * 
+         *
          * @summary Get user property
-         * @param {number} projectId 
+         * @param {number} projectId
          * @param {number} propertyId Property ID
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -8891,11 +9047,11 @@ export const UserPropertiesApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
-         * 
+         *
          * @summary Update user property
-         * @param {number} projectId 
+         * @param {number} projectId
          * @param {number} propertyId Property ID
-         * @param {UpdatePropertyRequest} updatePropertyRequest 
+         * @param {UpdatePropertyRequest} updatePropertyRequest
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -8906,9 +9062,9 @@ export const UserPropertiesApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
-         * 
+         *
          * @summary User properties list
-         * @param {number} projectId 
+         * @param {number} projectId
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -8929,9 +9085,9 @@ export const UserPropertiesApiFactory = function (configuration?: Configuration,
     const localVarFp = UserPropertiesApiFp(configuration)
     return {
         /**
-         * 
+         *
          * @summary Get user property
-         * @param {number} projectId 
+         * @param {number} projectId
          * @param {number} propertyId Property ID
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -8940,11 +9096,11 @@ export const UserPropertiesApiFactory = function (configuration?: Configuration,
             return localVarFp.getUserProperty(projectId, propertyId, options).then((request) => request(axios, basePath));
         },
         /**
-         * 
+         *
          * @summary Update user property
-         * @param {number} projectId 
+         * @param {number} projectId
          * @param {number} propertyId Property ID
-         * @param {UpdatePropertyRequest} updatePropertyRequest 
+         * @param {UpdatePropertyRequest} updatePropertyRequest
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -8952,9 +9108,9 @@ export const UserPropertiesApiFactory = function (configuration?: Configuration,
             return localVarFp.updateUserProperty(projectId, propertyId, updatePropertyRequest, options).then((request) => request(axios, basePath));
         },
         /**
-         * 
+         *
          * @summary User properties list
-         * @param {number} projectId 
+         * @param {number} projectId
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -8972,9 +9128,9 @@ export const UserPropertiesApiFactory = function (configuration?: Configuration,
  */
 export class UserPropertiesApi extends BaseAPI {
     /**
-     * 
+     *
      * @summary Get user property
-     * @param {number} projectId 
+     * @param {number} projectId
      * @param {number} propertyId Property ID
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -8985,11 +9141,11 @@ export class UserPropertiesApi extends BaseAPI {
     }
 
     /**
-     * 
+     *
      * @summary Update user property
-     * @param {number} projectId 
+     * @param {number} projectId
      * @param {number} propertyId Property ID
-     * @param {UpdatePropertyRequest} updatePropertyRequest 
+     * @param {UpdatePropertyRequest} updatePropertyRequest
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof UserPropertiesApi
@@ -8999,9 +9155,9 @@ export class UserPropertiesApi extends BaseAPI {
     }
 
     /**
-     * 
+     *
      * @summary User properties list
-     * @param {number} projectId 
+     * @param {number} projectId
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof UserPropertiesApi
