@@ -51,27 +51,23 @@ export default function useDataTable(
   }, 0)
 
   const hasData = Boolean(payload?.columns && payload?.columns.length && columnsData.length)
+  
   const dimensionColumns = payload?.columns
     ? payload.columns.filter(column => column.type === 'dimension')
     : []
-  const metricColumns = payload?.columns
-    ? payload?.columns.filter(column => column.type === 'metric')
-    : []
-  const metricValueColumns = payload?.columns
-    ? payload?.columns.filter(column => column.type === 'metricValue')
-    : []
-
-  const totalColumn = metricValueColumns.reduce(
+  const totalColumn = (payload?.columns || []).reduce(
     (total, item) => {
-      total.data = item.data.map((value, i) => {
-        return Number(total.data[i] || 0) + Number(value)
-      })
+      if (item.type !== 'dimension' && item.data.length) {
+        total.data = item.data.map((value, i) => {
+          return Number(total.data[i] || 0) + Number(value)
+        })
+      }
       return total
     },
     { data: [] as DataTableResponseColumnsInnerData }
   )
 
-  const fixedColumnLength = dimensionColumns.length + metricColumns.length - 1
+  const fixedColumnLength = dimensionColumns.length
 
   let tableColumns = {}
   let tableData: Row[] = []
@@ -149,8 +145,8 @@ export default function useDataTable(
   const tableColumnsValues: Column[] = Object.values(tableColumns)
 
   if (hasData) {
-    lineChart = metricValueColumns.reduce((acc: any[], item: DataTableResponseColumnsInner) => {
-      if (item.data) {
+    lineChart = (payload?.columns || []).reduce((acc: any[], item: DataTableResponseColumnsInner) => {
+      if (item.type !== 'dimension' && item.data) {
         item.data.forEach((value, indexValue: number) => {
           acc.push({
             date: item.name ? new Date(item.name) : '',
