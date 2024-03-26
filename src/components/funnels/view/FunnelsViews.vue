@@ -39,14 +39,14 @@
       </div>
     </div>
 
-    <DataEmptyPlaceholder v-if="reports.length === 0">
-      {{ $t('funnels.view.selectToStart') }}
-    </DataEmptyPlaceholder>
-    <DataLoader v-else-if="loading" />
-    <template v-else>
+    <DataLoader v-if="loading" />
+    <template v-else-if="reports.length">
       <FunnelsChart :reports="reports" />
       <FunnelsTable class="pf-u-mt-xl" :reports="reports" :step-numbers="stepNumbers" />
     </template>
+    <DataEmptyPlaceholder v-else>
+      {{ $t('funnels.view.selectToStart') }}
+    </DataEmptyPlaceholder>
   </div>
 </template>
 
@@ -79,6 +79,7 @@ import {
   TimeUnit,
 } from '@/api'
 import { isNumber } from 'lodash'
+import { useMutation } from '@/hooks/useMutation'
 
 const item = ref<string | number>(0)
 const itemText = computed(() => FUNNEL_VIEWS.find(c => c.key === item.value)?.nameDisplay ?? '')
@@ -91,10 +92,11 @@ const funnelsStore = useFunnelsStore()
 const stepsStore = useStepsStore()
 
 const reports = ref<DataTableResponseColumnsInner[]>([])
-const loading = ref<boolean>(false)
 
 const { period, controlsPeriod, timeRequest } = storeToRefs(funnelsStore)
 const { setControlsPeriod, initPeriod, setPeriod } = funnelsStore
+
+const { mutate: getReports, isLoading: loading } = useMutation(fetchReports)
 
 const stepNumbers = computed<number[]>(() => {
   const metricValueColumns = reports.value.filter(
@@ -162,44 +164,36 @@ const applyPeriod = (payload: ApplyPayload): void => {
 }
 
 /* TODO: refactor this */
-async function getReports(): Promise<void> {
+async function fetchReports(): Promise<void> {
   const projectsStore = useProjectsStore()
   const stepsStore = useStepsStore()
   const breakdownsStore = useBreakdownsStore()
   const filterGroupsStore = useFilterGroupsStore()
   const segmentsStore = useSegmentsStore()
 
-  loading.value = true
+  const res = await queryService.funnelQuery(projectsStore.projectId, {
+    time: timeRequest.value,
+    group: '',
+    steps: stepsStore.getSteps,
+    timeWindow: {
+      n: stepsStore.size,
+      unit: stepsStore.unit,
+    },
+    chartType: {
+      type: FunnelQueryChartTypeTypeEnum.ConversionSteps,
+      intervalUnit: TimeUnit.Day,
+    },
+    count: FunnelQueryCountEnum.NonUnique,
+    stepOrder: 'any',
+    holdingConstants: stepsStore.getHoldingProperties,
+    exclude: stepsStore.getExcluded,
+    breakdowns: breakdownsStore.breakdownsItems,
+    segments: segmentsStore.segmentationItems,
+    filters: filterGroupsStore.filters,
+  })
 
-  try {
-    const res = await queryService.funnelQuery(projectsStore.projectId, {
-      time: timeRequest.value,
-      group: '',
-      steps: stepsStore.getSteps,
-      timeWindow: {
-        n: stepsStore.size,
-        unit: stepsStore.unit,
-      },
-      chartType: {
-        type: FunnelQueryChartTypeTypeEnum.ConversionSteps,
-        intervalUnit: TimeUnit.Day,
-      },
-      count: FunnelQueryCountEnum.NonUnique,
-      stepOrder: 'any',
-      holdingConstants: stepsStore.getHoldingProperties,
-      exclude: stepsStore.getExcluded,
-      breakdowns: breakdownsStore.breakdownsItems,
-      segments: segmentsStore.segmentationItems,
-      filters: filterGroupsStore.filters,
-    })
-
-    if (res?.data?.columns) {
-      reports.value = res.data.columns
-    }
-  } catch (e) {
-    console.log('Error while getting funnel reports')
-  } finally {
-    loading.value = false
+  if (res?.data?.columns) {
+    reports.value = res.data.columns
   }
 }
 
