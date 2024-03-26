@@ -137,7 +137,7 @@ export const useFunnelsStore = defineStore('funnels', {
 
       try {
         const res = await apiClient.query.funnelQuery(projectsStore.projectId, {
-          time: this.timeRequest as EventRecordsListRequestTime,
+          time: this.timeRequest,
           group: '',
           steps: stepsStore.getSteps,
           timeWindow: {
