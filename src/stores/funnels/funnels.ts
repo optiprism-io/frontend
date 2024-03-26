@@ -43,8 +43,6 @@ type FunnelsStore = {
     last: number
     type: TimeTypeEnum
   }
-  reports: DataTableResponseColumnsInner[]
-  loading: boolean
 }
 
 export const useFunnelsStore = defineStore('funnels', {
@@ -56,8 +54,6 @@ export const useFunnelsStore = defineStore('funnels', {
       type: TimeTypeEnum.Last,
       last: 30,
     },
-    reports: [],
-    loading: false,
   }),
   getters: {
     timeRequest(): EventRecordsListRequestTime {
@@ -69,45 +65,6 @@ export const useFunnelsStore = defineStore('funnels', {
         this.period.to,
         this.period.last
       )
-    },
-    stepNumbers(): number[] {
-      const metricValueColumns = this.reports.filter(
-        col => col.type === DataTableResponseColumnsInnerTypeEnum.Metric
-      )
-      const stepNumbers = metricValueColumns.map(col => col.step) as number[]
-      return [...new Set(stepNumbers)]
-    },
-    dimensions(): string[] {
-      const result: string[] = []
-      const columns = this.reports.filter(
-        col => col.type === DataTableResponseColumnsInnerTypeEnum.Dimension
-      )
-
-      for (let i = 0; i < (columns[0]?.data?.length ?? 0); i++) {
-        const row: string[] = []
-        columns.forEach(item => {
-          row.push(`${item.data?.[i] ?? ''}`)
-        })
-        result.push(row.join(' / '))
-      }
-
-      return result
-    },
-    conversionCount(): number[][] {
-      const columns = this.reports.filter(col => col.name === 'conversionCount')
-      return convertColumns(columns, this.stepNumbers)
-    },
-    conversionRatio(): number[][] {
-      const columns = this.reports.filter(col => col.name === 'conversionRatio')
-      return convertColumns(columns, this.stepNumbers)
-    },
-    dropOffCount(): number[][] {
-      const columns = this.reports.filter(col => col.name === 'dropOffCount')
-      return convertColumns(columns, this.stepNumbers)
-    },
-    dropOffRatio(): number[][] {
-      const columns = this.reports.filter(col => col.name === 'dropOffRatio')
-      return convertColumns(columns, this.stepNumbers)
     },
   },
   actions: {

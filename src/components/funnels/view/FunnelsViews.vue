@@ -39,7 +39,7 @@
       </div>
     </div>
 
-    <DataEmptyPlaceholder v-if="funnelsStore.reports.length === 0">
+    <DataEmptyPlaceholder v-if="reports.length === 0">
       {{ $t('funnels.view.selectToStart') }}
     </DataEmptyPlaceholder>
     <DataLoader v-else-if="loading" />
@@ -66,6 +66,19 @@ import DataEmptyPlaceholder from '@/components/common/data/DataEmptyPlaceholder.
 import DataLoader from '@/components/common/data/DataLoader.vue'
 import { storeToRefs } from 'pinia'
 import { FUNNEL_VIEWS } from './funnelViews'
+import { useProjectsStore } from '@/stores/projects/projects'
+import { useBreakdownsStore } from '@/stores/reports/breakdowns'
+import { useFilterGroupsStore } from '@/stores/reports/filters'
+import { useSegmentsStore } from '@/stores/reports/segments'
+import queryService from '@/api/services/query.service'
+import {
+  DataTableResponseColumnsInner,
+  DataTableResponseColumnsInnerTypeEnum,
+  FunnelQueryChartTypeTypeEnum,
+  FunnelQueryCountEnum,
+  TimeUnit,
+} from '@/api'
+import { isNumber } from 'lodash'
 
 const item = ref<string | number>(0)
 const itemText = computed(() => FUNNEL_VIEWS.find(c => c.key === item.value)?.nameDisplay ?? '')
@@ -77,8 +90,19 @@ const selectItem = (value: UiDropdownItem<string>) => {
 const funnelsStore = useFunnelsStore()
 const stepsStore = useStepsStore()
 
-const { period, controlsPeriod, loading, reports, stepNumbers } = storeToRefs(funnelsStore)
-const { setControlsPeriod, initPeriod, setPeriod, getReports } = funnelsStore
+const reports = ref<DataTableResponseColumnsInner[]>([])
+const loading = ref<boolean>(false)
+
+const { period, controlsPeriod, timeRequest } = storeToRefs(funnelsStore)
+const { setControlsPeriod, initPeriod, setPeriod } = funnelsStore
+
+const stepNumbers = computed<number[]>(() => {
+  const metricValueColumns = reports.value.filter(
+    col => col.type === DataTableResponseColumnsInnerTypeEnum.Metric
+  )
+  const stepNumbers = metricValueColumns.map(col => col.step).filter(isNumber)
+  return [...new Set(stepNumbers)]
+})
 
 const itemsPeriod = computed(() => {
   const config = periodMap.find(item => item.type === 'day')
@@ -135,6 +159,48 @@ const applyPeriod = (payload: ApplyPayload): void => {
     type: payload.type,
     last: payload.last,
   })
+}
+
+/* TODO: refactor this */
+async function getReports(): Promise<void> {
+  const projectsStore = useProjectsStore()
+  const stepsStore = useStepsStore()
+  const breakdownsStore = useBreakdownsStore()
+  const filterGroupsStore = useFilterGroupsStore()
+  const segmentsStore = useSegmentsStore()
+
+  loading.value = true
+
+  try {
+    const res = await queryService.funnelQuery(projectsStore.projectId, {
+      time: timeRequest.value,
+      group: '',
+      steps: stepsStore.getSteps,
+      timeWindow: {
+        n: stepsStore.size,
+        unit: stepsStore.unit,
+      },
+      chartType: {
+        type: FunnelQueryChartTypeTypeEnum.ConversionSteps,
+        intervalUnit: TimeUnit.Day,
+      },
+      count: FunnelQueryCountEnum.NonUnique,
+      stepOrder: 'any',
+      holdingConstants: stepsStore.getHoldingProperties,
+      exclude: stepsStore.getExcluded,
+      breakdowns: breakdownsStore.breakdownsItems,
+      segments: segmentsStore.segmentationItems,
+      filters: filterGroupsStore.filters,
+    })
+
+    if (res?.data?.columns) {
+      reports.value = res.data.columns
+    }
+  } catch (e) {
+    console.log('Error while getting funnel reports')
+  } finally {
+    loading.value = false
+  }
 }
 
 watch(() => stepsStore.steps.length, getReports)
