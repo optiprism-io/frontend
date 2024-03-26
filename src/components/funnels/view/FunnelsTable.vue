@@ -10,7 +10,7 @@ import { Column, ColumnGroup, Row } from '@/components/uikit/UiTable/UiTable'
 import { I18N } from '@/utils/i18n'
 import { useEventName } from '@/helpers/useEventName'
 import { useStepsStore } from '@/stores/funnels/steps'
-import { DataTableResponseColumnsInner } from '@/api'
+import { DataTableResponseColumnsInner, DataTableResponseColumnsInnerTypeEnum } from '@/api'
 
 const { $t } = inject('i18n') as I18N
 
@@ -21,7 +21,6 @@ interface IProps {
 
 const props = withDefaults(defineProps<IProps>(), {})
 
-const DIMENSION = 'dimension'
 const TOTAL_CONVERSATION_RATIO = 'totalConversionRatio'
 const CONVERSATION_COUNT = 'conversionCount'
 
@@ -61,13 +60,15 @@ const columnGroups = computed<ColumnGroup[]>(() => {
   ]
 })
 
-const dimensions = computed(() => props.reports.filter(col => col.type === 'dimension'))
+const dimensions = computed(() =>
+  props.reports.filter(col => col.type === DataTableResponseColumnsInnerTypeEnum.Dimension)
+)
 
 const totalDimensions = computed(() => dimensions.value[0]?.data?.length ?? 0)
 
 const funnelMetricValues = computed(() => {
   const res = props.reports
-    .filter(col => col.type === 'metric')
+    .filter(col => col.type === DataTableResponseColumnsInnerTypeEnum.Metric)
     .reduce(
       (result, col) => {
         if (!col.step) {
@@ -180,6 +181,6 @@ const data = computed<Row[]>(() => {
 })
 
 function getDimensionTitle(index: number) {
-  return DIMENSION + '-' + index
+  return DataTableResponseColumnsInnerTypeEnum.Dimension + '-' + index
 }
 </script>
