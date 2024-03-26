@@ -114,7 +114,7 @@ const routes: RouteRecordRaw[] = [
           },
           {
             path: 'funnels/:id?',
-            name: 'reports_funnels',
+            name: pagesMap.funnels.name,
             component: () => import('@/pages/reports/Funnels.vue'),
           },
         ],
