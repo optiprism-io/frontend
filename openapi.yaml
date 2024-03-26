@@ -2788,14 +2788,6 @@ components:
             - $ref: '#/components/schemas/TimeBetween'
             - $ref: '#/components/schemas/TimeFrom'
             - $ref: '#/components/schemas/TimeLast'
-        searchInEventProperties:
-          type: array
-          items:
-            $ref: '#/components/schemas/Value'
-        searchInUserProperties:
-          type: array
-          items:
-            $ref: '#/components/schemas/Value'
         events:
           type: array
           description: array of events to query
@@ -2818,6 +2810,8 @@ components:
                         - $ref: '#/components/schemas/EventFilterByGroup'
         filters:
           $ref: '#/components/schemas/EventGroupedFilters'
+        properties:
+          $ref: '#/components/schemas/PropertyRef'
     GroupRecordsListRequest:
       type: object
       description: request group records sorted by time of creation
