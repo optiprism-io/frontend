@@ -34,7 +34,7 @@ module.exports = {
     '@typescript-eslint/no-non-null-assertion': 'off',
     '@typescript-eslint/no-unused-vars': ['off', { argsIgnorePattern: '^_' }],
     'vue/no-v-html': 0,
-    'vue/html-indent': 'warn',
+    'vue/html-indent': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'vue/script-setup-uses-vars': 'error',
     'vue/require-default-prop': 'off',
     'vue/multi-word-component-names': 'warn',
