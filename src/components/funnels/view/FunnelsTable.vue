@@ -22,7 +22,6 @@ interface IProps {
 const props = withDefaults(defineProps<IProps>(), {})
 
 const TOTAL_CONVERSATION_RATIO = 'totalConversionRatio'
-const CONVERSATION_COUNT = 'conversionCount'
 
 const stepsStore = useStepsStore()
 const eventName = useEventName()
@@ -100,8 +99,8 @@ const funnelMetricValues = computed(() => {
 const dimensionColumns = computed<Column[]>(() => {
   return dimensions.value.map((item, i) => {
     return {
-      title: item.name ?? '',
-      value: getDimensionTitle(i + 1),
+      title: item.name,
+      value: item.name,
       fixed: true,
     }
   })
@@ -112,7 +111,7 @@ const funnelMetricValueColumns = computed<Column[]>(() => {
     .map(grp => {
       return grp.map((item, i) => {
         return {
-          title: $t(`funnels.view.${item.name}`),
+          title: item.name,
           value: item.name ?? '',
           lastFixed: i === grp.length - 1,
         }
@@ -130,7 +129,7 @@ const funnelMetricValueValues = computed(() => {
           return {
             title: item.data ? item.data[i] + postfix : '',
             lastFixed: j === grp.length - 1,
-            key: CONVERSATION_COUNT,
+            key: item.name,
           }
         })
       })
@@ -166,7 +165,7 @@ const data = computed<Row[]>(() => {
         return {
           title: item.data?.[i] ?? '',
           fixed: true,
-          key: getDimensionTitle(index + 1),
+          key: item.name,
         }
       }),
       {
@@ -179,8 +178,4 @@ const data = computed<Row[]>(() => {
     ] satisfies Row
   })
 })
-
-function getDimensionTitle(index: number) {
-  return DataTableResponseColumnsInnerTypeEnum.Dimension + '-' + index
-}
 </script>
