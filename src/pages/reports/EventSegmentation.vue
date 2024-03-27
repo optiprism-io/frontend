@@ -8,9 +8,6 @@
         <UiCardContainer class="filter-event-segmentation__item">
           <FilterReports @on-change="onChange" />
         </UiCardContainer>
-        <UiCard class="filter-event-segmentation__item" :title="$t('events.segments.label')">
-          <Segments @on-change="onChange" />
-        </UiCard>
         <UiCard class="filter-event-segmentation__item" :title="$t('events.breakdowns')">
           <Breakdowns @on-change="onChange" />
         </UiCard>

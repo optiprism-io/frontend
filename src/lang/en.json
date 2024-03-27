@@ -135,6 +135,8 @@
     }
   },
   "events": {
+    "eventProperties": "Event Properties",
+    "userProperties": "User Properties",
     "systemProperties": "System Properties",
     "noEvents": "No events",
     "noEventsFound": "No events found",
