@@ -80,6 +80,7 @@ import {
 import { isNumber } from 'lodash'
 import { useMutation } from '@/hooks/useMutation'
 import { getLastNDaysRange } from '@/helpers/calendarHelper'
+import { storeToRefs } from 'pinia'
 
 interface Period {
   from: string
@@ -96,6 +97,7 @@ const selectItem = (value: UiDropdownItem<string>) => {
 }
 
 const stepsStore = useStepsStore()
+const { size, unit } = storeToRefs(stepsStore)
 
 const reports = ref<DataTableResponseColumnsInner[]>([])
 const controlsPeriod = ref<string | number>('30')
