@@ -1,10 +1,5 @@
 import { defineStore } from 'pinia'
-import {
-  GroupRecord,
-  EventRecordsListRequestTime,
-  Value,
-
-} from '@/api'
+import { GroupRecord, EventRecordsListRequestTime, Value } from '@/api'
 import { groupRecordsService } from '@/api/services/groupRecords.service'
 import { useSegmentsStore } from '@/stores/reports/segments'
 import { useProjectsStore } from '@/stores/projects/projects'
