@@ -26,7 +26,7 @@
         </VTooltip>
       </UiActionListItem>
     </UiActionList>
-    <div>
+    <div class="pf-l-flex pf-m-column">
       <Filter
         v-for="(filter, i) in filterGroup.filters"
         :key="i"
