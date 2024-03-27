@@ -4026,6 +4026,8 @@ components:
         - string
         - number
         - boolean
+        - decimal
+        - timestamp
     DictionaryDataType:
       type: string
       description: dictionary data type

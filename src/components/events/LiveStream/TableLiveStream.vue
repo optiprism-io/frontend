@@ -44,7 +44,6 @@
 <script lang="ts" setup>
 import { computed, inject, ref } from 'vue'
 import { getStringDateByFormat } from '@/helpers/getStringDates'
-import { componentsMaps } from '@/configs/events/liveStreamTableDefault'
 import { useLiveStreamStore, Report } from '@/stores/reports/liveStream'
 import { useCommonStore } from '@/stores/common'
 import { useLexiconStore } from '@/stores/lexicon'
@@ -91,13 +90,11 @@ const itemsPeriod = computed(() => {
 
 const tableData = computed(() => {
   return useDataTable(
-    liveStreamStore.columns?.length
-      ? {
-          columns: liveStreamStore.columns,
-        }
-      : {},
+    {
+      columns: liveStreamStore.columns?.length ? liveStreamStore.columns : [],
+    },
     true,
-    []
+    {}
   )
 })
 

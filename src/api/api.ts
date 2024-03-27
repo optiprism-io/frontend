@@ -898,7 +898,9 @@ export type DataTableResponseColumnsInnerData = Array<boolean> | Array<number> |
 export const DataType = {
     String: 'string',
     Number: 'number',
-    Boolean: 'boolean'
+    Boolean: 'boolean',
+    Decimal: 'decimal',
+    Timestamp: 'timestamp'
 } as const;
 
 export type DataType = typeof DataType[keyof typeof DataType];
