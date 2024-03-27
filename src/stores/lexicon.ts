@@ -223,7 +223,6 @@ export const useLexiconStore = defineStore('lexicon', {
       this.systemPropertiesLoading = false
     },
     async getUserProperties() {
-      const commonStore = useCommonStore()
       const projectsStore = useProjectsStore()
 
       this.eventPropertiesLoading = true

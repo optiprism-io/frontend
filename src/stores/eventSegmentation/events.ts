@@ -48,6 +48,7 @@ export interface EventFilter {
   values: Value[]
   valuesList: Value[] | []
   error?: boolean
+  propertyType?: 'string'
 }
 
 export interface EventBreakdown {
@@ -136,11 +137,14 @@ export const useEventsStore = defineStore('events', {
     timeRequest(): EventRecordsListRequestTime {
       const { getRequestTime } = usePeriod()
 
-      console.info('INFO:',  this.period.type,
-      this.controlsPeriod,
-      this.period.from,
-      this.period.to,
-      this.period.last);
+      console.info(
+        'INFO:',
+        this.period.type,
+        this.controlsPeriod,
+        this.period.from,
+        this.period.to,
+        this.period.last
+      )
       return getRequestTime(
         this.period.type,
         this.controlsPeriod,
