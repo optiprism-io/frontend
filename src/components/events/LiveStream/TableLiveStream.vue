@@ -9,11 +9,11 @@
       @on-action="onAction"
     >
       <template #before>
-        <UiToggleGroup :items="itemsPeriod" @select="onSelectPerion">
+        <UiToggleGroup :items="itemsPeriod" @select="onSelectPeriod">
           <template #after>
             <UiDatePicker
               :value="calendarValue"
-              :last-count="liveStreamStore.period.last"
+              :last-count="lastCount"
               :active-tab-controls="liveStreamStore.period.type"
               @on-apply="onApplyPeriod"
             >
@@ -98,6 +98,10 @@ const tableData = computed(() => {
   )
 })
 
+const lastCount = computed(() => {
+  return liveStreamStore.period.last
+})
+
 const calendarValue = computed(() => {
   return {
     from: liveStreamStore.period?.from,
@@ -128,9 +132,8 @@ const updateReport = () => {
   liveStreamStore.getReportLiveStream()
 }
 
-const onSelectPerion = (payload: string) => {
+const onSelectPeriod = (payload: string) => {
   liveStreamStore.controlsPeriod = payload
-  liveStreamStore.period.type = 'notCustom'
   updateReport()
 }
 

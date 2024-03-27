@@ -384,7 +384,7 @@ const getEventName = (ref: EventRef): string => {
     case EventType.Regular:
       return ref.name || eventName(ref)
     case EventType.Custom:
-      return lexiconStore.findCustomEventById(ref.id).name
+      return ref.name
   }
 }
 

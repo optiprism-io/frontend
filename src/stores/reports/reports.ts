@@ -52,7 +52,7 @@ export const getReport = (type: ReportType) => {
       type === ReportType.EventSegmentation
         ? (eventsStore.chartType as EventChartType)
         : {
-            type: FunnelQueryChartTypeTypeEnum.Frequency,
+            type: FunnelQueryChartTypeTypeEnum.Steps,
             intervalUnit: TimeUnit.Day,
           },
     analysis: { type: 'linear' },

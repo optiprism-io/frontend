@@ -116,8 +116,8 @@ const computedValueAggregate = (
   if (item.aggregate?.id === DidEventRelativeCountTypeEnum.RelativeCount && item.compareEvent) {
     const eventItem: Event =
       item.compareEvent.ref.type === EventType.Regular
-        ? lexiconStore.findEventById(item.compareEvent.ref.id)
-        : lexiconStore.findCustomEventById(item.compareEvent.ref.id)
+        ? lexiconStore.findEventByName(item.compareEvent.ref.name)
+        : lexiconStore.findCustomEventByName(item.compareEvent.ref.name)
 
     return {
       type: DidEventRelativeCountTypeEnum.RelativeCount,
@@ -169,8 +169,8 @@ export const useSegmentsStore = defineStore('segments', {
 
                     const eventItem: Event =
                       item.event.ref.type === EventType.Regular
-                        ? lexiconStore.findEventById(item.event.ref.id)
-                        : lexiconStore.findCustomEventById(item.event.ref.id)
+                        ? lexiconStore.findEventByName(item.event.ref.name)
+                        : lexiconStore.findCustomEventByName(item.event.ref.name)
 
                     const condition: SegmentConditionDidEvent = {
                       type: SegmentConditionDidEventTypeEnum.DidEvent,

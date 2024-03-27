@@ -135,6 +135,12 @@ export const useEventsStore = defineStore('events', {
     },
     timeRequest(): EventRecordsListRequestTime {
       const { getRequestTime } = usePeriod()
+
+      console.info('INFO:',  this.period.type,
+      this.controlsPeriod,
+      this.period.from,
+      this.period.to,
+      this.period.last);
       return getRequestTime(
         this.period.type,
         this.controlsPeriod,
@@ -336,29 +342,29 @@ export const useEventsStore = defineStore('events', {
     addEventByRef(ref: EventRef, initQuery?: boolean): void {
       switch (ref.type) {
         case EventType.Regular:
-          this.addEvent(ref.id, initQuery)
+          this.addEvent(ref.name, initQuery)
           break
         case EventType.Custom:
-          this.addCustomEvent(ref.id)
+          this.addCustomEvent(ref.name)
           break
       }
     },
-    addEvent(payload: number, initQuery = true): void {
+    addEvent(payload: string, initQuery = true): void {
       this.events.push(<Event>{
         ref: <EventRef>{
           type: EventType.Regular,
-          id: payload,
+          name: payload,
         },
         filters: [],
         breakdowns: [],
         queries: initQuery ? initialQuery : [],
       })
     },
-    addCustomEvent(payload: number): void {
+    addCustomEvent(payload: string): void {
       this.events.push(<Event>{
         ref: <EventRef>{
           type: EventType.Custom,
-          id: payload,
+          name: payload,
         },
         filters: [],
         breakdowns: [],

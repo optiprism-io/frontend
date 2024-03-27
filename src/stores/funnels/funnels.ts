@@ -70,7 +70,7 @@ export const useFunnelsStore = defineStore('funnels', {
       )
     },
     stepNumbers(): number[] {
-      const metricValueColumns = this.reports.filter(col => col.type === 'funnelMetricValue')
+      const metricValueColumns = this.reports.filter(col => col.type === 'metric')
       const stepNumbers = metricValueColumns.map(col => col.step) as number[]
       return [...new Set(stepNumbers)]
     },
@@ -140,11 +140,10 @@ export const useFunnelsStore = defineStore('funnels', {
             unit: stepsStore.unit,
           },
           chartType: {
-            type: FunnelQueryChartTypeTypeEnum.Frequency,
+            type: FunnelQueryChartTypeTypeEnum.Steps,
             intervalUnit: TimeUnit.Day,
           },
-          count: FunnelQueryCountEnum.Totals,
-          stepOrder: 'any',
+          count: FunnelQueryCountEnum.Unique,
           holdingConstants: stepsStore.getHoldingProperties,
           exclude: stepsStore.getExcluded,
           breakdowns: breakdownsStore.breakdownsItems,

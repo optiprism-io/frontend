@@ -11,13 +11,11 @@ import {
     FunnelQueryExcludeInner,
     EventFilterByProperty,
     EventFilterByPropertyTypeEnum,
+    TimeUnit
 } from '@/api'
 
 import { useEventName } from '@/helpers/useEventName'
 import { useLexiconStore } from '@/stores/lexicon'
-
-export const stepUnits = ['second', 'minute', 'hour', 'day', 'week', 'month', 'year'] as const;
-export type StepUnit = typeof stepUnits[number];
 
 export const stepOrders = ['exact', 'any'] as const;
 export type StepOrder = typeof stepOrders[number];
@@ -31,7 +29,7 @@ export type ExcludedEventSteps = {
 }
 
 export type HoldingProperty = {
-    id: number,
+    id?: number,
     name: string,
     type: EventFilterByPropertyTypeEnum
 };
@@ -94,7 +92,7 @@ type EditFilterForStepEventPayload = {
 interface StepsStore {
     steps: Step[];
     size: number;
-    unit: StepUnit;
+    unit: TimeUnit;
     order: StepOrder;
     excludedEvents: ExcludedEvent[];
     holdingProperties: HoldingProperty[];
@@ -140,7 +138,7 @@ export const useStepsStore = defineStore('steps', {
 
                 return {
                     events,
-                    order: 'any',
+                    // order: 'any',
                 }
             })
         },
@@ -182,7 +180,7 @@ export const useStepsStore = defineStore('steps', {
         setSize(size: number): void {
             this.size = size;
         },
-        setUnit(unit: StepUnit): void {
+        setUnit(unit: TimeUnit): void {
             this.unit = unit;
         },
         setOrder(order: StepOrder): void {

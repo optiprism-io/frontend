@@ -305,7 +305,7 @@ export const useLexiconStore = defineStore('lexicon', {
                 ? this.findEventByName(ref.name)
                 : ({} as Event)
           case EventType.Custom:
-            return this.findCustomEventById(ref.id)
+            return this.findCustomEventByName(ref.name)
         }
       }
     },

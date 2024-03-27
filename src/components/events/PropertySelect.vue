@@ -65,8 +65,11 @@ const getProperties = (items: Property[], name: string) => {
         name,
         items: items.reduce((acc: PropertyItem[], item) => {
             if (
-                props.dataType === DataType.Decimal &&
-                item.dataType !== DataType.Decimal
+                item.hidden ||
+                (
+                    props.dataType === DataType.Decimal &&
+                    item.dataType !== DataType.Decimal
+                )
             ) {
                 return acc;
             }

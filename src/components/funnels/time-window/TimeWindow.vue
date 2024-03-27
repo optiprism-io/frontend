@@ -50,14 +50,15 @@
 </template>
 
 <script setup lang="ts">
-import {StepOrder, stepOrders, StepUnit, stepUnits, useStepsStore} from '@/stores/funnels/steps';
+import {StepOrder, stepOrders, useStepsStore} from '@/stores/funnels/steps';
 import {computed, inject, ref} from 'vue';
+import { TimeUnitWithSession, TimeUnit } from '@/api'
 import {I18N} from '@/utils/i18n';
 import {UiSelectItemInterface} from '@/components/uikit/UiSelect/types';
 import {UiSelectGeneric} from '@/components/uikit/UiSelect/UiSelectGeneric';
 
 const UiSelectSize = UiSelectGeneric<number>();
-const UiSelectUnit = UiSelectGeneric<StepUnit>();
+const UiSelectUnit = UiSelectGeneric<TimeUnitWithSession>();
 const UiSelectOrder = UiSelectGeneric<StepOrder>();
 
 const stepsStore = useStepsStore()
@@ -65,9 +66,7 @@ const i18n = inject<I18N>('i18n')
 
 const dynamicSize = ref<number| null>(null)
 
-const sizeRanges: Record<StepUnit, [number, number]> = {
-    second: [2, 100],
-    minute: [1, 60],
+const sizeRanges: Record<TimeUnit, [number, number]> = {
     hour: [1, 100],
     day: [1, 100],
     week: [1, 10],
@@ -95,8 +94,8 @@ const sizeItems = computed<UiSelectItemInterface<number>[]>(() => {
     })
 });
 
-const unitItems = computed<UiSelectItemInterface<StepUnit>[]>(() => {
-    return stepUnits.map(item => ({
+const unitItems = computed<UiSelectItemInterface<TimeUnit>[]>(() => {
+    return Object.values(TimeUnit).map(item => ({
         __type: 'item',
         id: item,
         label: i18n?.$t(`common.timeUnits.${item}`) ?? item,
@@ -123,10 +122,10 @@ const size = computed({
 })
 
 const unit = computed({
-    get(): StepUnit {
+    get(): TimeUnit {
         return stepsStore.unit
     },
-    set(value: StepUnit) {
+    set(value: TimeUnit) {
         stepsStore.setUnit(value)
     }
 })

@@ -95,6 +95,13 @@ export const useLiveStreamStore = defineStore('liveStream', {
     },
     timeRequest(): EventRecordsListRequestTime {
       const { getRequestTime } = usePeriod()
+
+
+      console.info('INFO:',         this.period.type,
+      this.controlsPeriod,
+      this.period.from,
+      this.period.to,
+      this.period.last);
       return getRequestTime(
         this.period.type,
         this.controlsPeriod,
