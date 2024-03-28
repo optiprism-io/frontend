@@ -42,7 +42,7 @@
     <DataLoader v-if="loading" />
     <template v-else-if="reports.length">
       <FunnelsChart :reports="reports" />
-      <FunnelsTable class="pf-u-mt-xl" :reports="reports" :step-numbers="stepNumbers" />
+      <FunnelsTable class="pf-u-mt-xl" :reports="reports" />
     </template>
     <DataEmptyPlaceholder v-else>
       {{ $t('funnels.view.selectToStart') }}
@@ -65,19 +65,14 @@ import DataEmptyPlaceholder from '@/components/common/data/DataEmptyPlaceholder.
 import DataLoader from '@/components/common/data/DataLoader.vue'
 import { FUNNEL_VIEWS } from './funnelViews'
 import { useProjectsStore } from '@/stores/projects/projects'
-import { useBreakdownsStore } from '@/stores/reports/breakdowns'
-import { useFilterGroupsStore } from '@/stores/reports/filters'
-import { useSegmentsStore } from '@/stores/reports/segments'
 import queryService from '@/api/services/query.service'
 import {
   DataTableResponseColumnsInner,
-  DataTableResponseColumnsInnerTypeEnum,
   EventRecordsListRequestTime,
   FunnelQueryChartTypeTypeEnum,
   FunnelQueryCountEnum,
   TimeUnit,
 } from '@/api'
-import { isNumber } from 'lodash'
 import { useMutation } from '@/hooks/useMutation'
 import { getLastNDaysRange } from '@/helpers/calendarHelper'
 import { storeToRefs } from 'pinia'
@@ -155,14 +150,6 @@ function initPeriod(): void {
     last: 20,
   }
 }
-
-const stepNumbers = computed<number[]>(() => {
-  const metricValueColumns = reports.value.filter(
-    col => col.type === DataTableResponseColumnsInnerTypeEnum.Metric
-  )
-  const stepNumbers = metricValueColumns.map(col => col.step).filter(isNumber)
-  return [...new Set(stepNumbers)]
-})
 
 const itemsPeriod = computed(() => {
   const config = periodMap.find(item => item.type === 'day')

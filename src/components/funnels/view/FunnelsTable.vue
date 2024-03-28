@@ -5,177 +5,63 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, inject } from 'vue'
+import { computed } from 'vue'
 import { Column, ColumnGroup, Row } from '@/components/uikit/UiTable/UiTable'
-import { I18N } from '@/utils/i18n'
-import { useEventName } from '@/helpers/useEventName'
-import { useStepsStore } from '@/stores/funnels/steps'
-import { DataTableResponseColumnsInner, DataTableResponseColumnsInnerTypeEnum } from '@/api'
-
-const { $t } = inject('i18n') as I18N
+import { DataTableResponseColumnsInner } from '@/api'
+import { countBy } from 'lodash'
 
 interface IProps {
   reports: DataTableResponseColumnsInner[]
-  stepNumbers: number[]
 }
 
 const props = withDefaults(defineProps<IProps>(), {})
 
-const TOTAL_CONVERSATION_RATIO = 'totalConversionRatio'
-
-const stepsStore = useStepsStore()
-const eventName = useEventName()
-
-const stepNames = computed<string[]>(() => {
-  const events = stepsStore.steps.map(step => step.events.map(event => event.event))
-  return events.map(items => {
-    return items.map(eventName).join(' or ')
-  })
-})
-
-const stepIterator = computed(() => {
-  return Array.from({
-    length: Math.min(stepNames.value.length, props.stepNumbers.length),
-  })
-})
-
-const columnGroups = computed<ColumnGroup[]>(() => {
-  return [
-    {
-      title: '',
-      value: 'dimensions',
-      span: dimensions.value.length + 1,
-      fixed: true,
-      lastFixed: true,
-    },
-    ...stepIterator.value.map((item, i) => {
-      return {
-        title: stepNames.value[i],
-        value: `step${i + 1}`,
-        span: funnelMetricValues.value[i].length,
-        lastFixed: true,
-      }
-    }),
-  ]
-})
-
-const dimensions = computed(() =>
-  props.reports.filter(col => col.type === DataTableResponseColumnsInnerTypeEnum.Dimension)
+const columns = computed<Column[]>(() =>
+  visibleReports.value.map(col => ({
+    title: col.name,
+    value: col.name,
+    hidden: col.hidden,
+  }))
 )
 
-const totalDimensions = computed(() => dimensions.value[0]?.data?.length ?? 0)
+const visibleReports = computed(() => props.reports.filter(x => !x.hidden))
 
-const funnelMetricValues = computed(() => {
-  const res = props.reports
-    .filter(col => col.type === DataTableResponseColumnsInnerTypeEnum.Metric)
-    .reduce(
-      (result, col) => {
-        if (!col.step) {
-          return result
-        }
+const data = computed<Row[]>(() =>
+  Array.from({ length: props.reports.at(0)?.data.length ?? 0 }, (_, index) =>
+    props.reports.map(col => ({
+      title: col.data[index],
+      key: col.name,
+    }))
+  )
+)
 
-        if (result[col.step]) {
-          result[col.step].push(col)
-        } else {
-          result[col.step] = [col]
-        }
+const columnGroups = computed<ColumnGroup[]>(() =>
+  spanTuple.value.map(([name, count]) => ({
+    title: name,
+    value: name,
+    span: count,
+    fixed: true,
+    lastFixed: true,
+  }))
+)
 
-        return result
-      },
-      {} as Record<string | number, DataTableResponseColumnsInner[]>
-    )
+const spanTuple = computed<[string, number][]>(() => {
+  const splitter = '-'
 
-  const columns: DataTableResponseColumnsInner[][] = []
-
-  Object.keys(res)
-    .sort()
-    .forEach(key => {
-      columns.push(res[key])
-    })
-
-  return columns.slice(0, stepIterator.value.length)
-})
-
-const dimensionColumns = computed<Column[]>(() => {
-  return dimensions.value.map((item, i) => {
-    return {
-      title: item.name,
-      value: item.name,
-      fixed: true,
-    }
+  const steps = visibleReports.value.map(x => x)
+  const countsSteps = countBy(steps, step => {
+    const stepId = step.stepId ?? -1
+    const index = stepId + 1
+    const name = step.step ?? ''
+    return index + splitter + name
   })
-})
 
-const funnelMetricValueColumns = computed<Column[]>(() => {
-  return funnelMetricValues.value
-    .map(grp => {
-      return grp.map((item, i) => {
-        return {
-          title: item.name,
-          value: item.name ?? '',
-          lastFixed: i === grp.length - 1,
-        }
-      })
-    })
-    .flat()
-})
-
-const funnelMetricValueValues = computed(() => {
-  return Array.from({ length: totalDimensions.value }).map((_, i) => {
-    return funnelMetricValues.value
-      .map(grp => {
-        return grp.map((item, j) => {
-          const postfix = item.name?.indexOf('Ratio') !== -1 ? '%' : ''
-          return {
-            title: item.data ? item.data[i] + postfix : '',
-            lastFixed: j === grp.length - 1,
-            key: item.name,
-          }
-        })
-      })
-      .flat()
+  const entries = Object.entries(countsSteps)
+  const data = entries.map(([key, val]) => {
+    const [_, name] = key.split(splitter)
+    return [name, val] as [string, number]
   })
-})
 
-const columns = computed<Column[]>(() => [
-  ...dimensionColumns.value,
-  ...(props.reports.length > 0
-    ? [
-        {
-          title: $t('funnels.view.totalConversionRatio'),
-          value: TOTAL_CONVERSATION_RATIO,
-          fixed: true,
-          lastFixed: true,
-        },
-      ]
-    : []),
-  ...funnelMetricValueColumns.value,
-])
-
-const data = computed<Row[]>(() => {
-  const totalConversionRatio =
-    props.reports
-      ?.find(col => col.name === TOTAL_CONVERSATION_RATIO)
-      ?.data?.map(item => `${item}%`) ??
-    Array.from({ length: totalDimensions.value }).map(() => '0%')
-
-  return Array.from({ length: totalDimensions.value }).map((_, i) => {
-    return [
-      ...dimensions.value.map((item, index) => {
-        return {
-          title: item.data?.[i] ?? '',
-          fixed: true,
-          key: item.name,
-        }
-      }),
-      {
-        title: totalConversionRatio[i],
-        fixed: true,
-        lastFixed: true,
-        key: TOTAL_CONVERSATION_RATIO,
-      },
-      ...funnelMetricValueValues.value[i],
-    ] satisfies Row
-  })
+  return data
 })
 </script>
