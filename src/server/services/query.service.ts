@@ -22,7 +22,7 @@ export function queriesRoutes(server: Server) {
     const body = JSON.parse(request.requestBody) as FunnelQuery
     const graphType = body.chartType.type
 
-    if (graphType === FunnelQueryChartTypeTypeEnum.ConversionSteps) return conversionStepsMocks
+    if (graphType === FunnelQueryChartTypeTypeEnum.Steps) return conversionStepsMocks
     if (graphType === FunnelQueryChartTypeTypeEnum.ConversionOverTime)
       return conversionOverTimeMocks
 
