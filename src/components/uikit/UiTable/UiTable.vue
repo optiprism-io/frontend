@@ -102,7 +102,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, inject, useSlots, ref } from 'vue'
+import { computed, inject, useSlots, ref, onBeforeMount } from 'vue'
 import { Row, Column, Action, ColumnGroup } from '@/components/uikit/UiTable/UiTable'
 import UiTableHeadCell from '@/components/uikit/UiTable/UiTableHeadCell.vue'
 import UiTableCell from '@/components/uikit/UiTable/UiTableCell.vue'
@@ -125,6 +125,7 @@ type Props = {
   noDataTitle?: string
   noDataText?: string
   enablePlaceholder?: boolean
+  defaultColumns?: string[]
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -142,7 +143,7 @@ const emit = defineEmits<{
   (e: 'on-action', payload: Action): void
 }>()
 
-const disabledColumns = ref<{ [key: string]: boolean}>({})
+const activeColumns = ref<string[]>([])
 
 const showPlaceholder = computed(
   () => props.enablePlaceholder && !props.isLoading && !props.items?.length
@@ -160,22 +161,13 @@ const columnsSelect = computed(() => {
   }, []) : []
 })
 
-const activeColumns = computed(() => {
-  return props.columns.reduce((acc: string[], item) => {
-    if (!disabledColumns.value[item.value]) {
-        acc.push(item.value)
-    }
-    return acc
-  }, [])
-})
-
 const columnsButtonText = computed(() => `${columnsSelect.value.length} ${i18n.$t('common.columns')}`)
 
 const visibleColumns = computed(() => {
   return props.columns.filter(
     item =>
-      !item.hidden &&
-      (!props.showSelectColumns || item.default || !disabledColumns.value[item.value])
+      activeColumns.value.includes(item.value) ||
+      (!item.hidden && (!props.showSelectColumns || item.default))
   )
 })
 
@@ -196,8 +188,14 @@ const onAction = (payload: Action) => {
 }
 
 const toggleColumns = (payload: string) => {
-  disabledColumns.value[payload] = !disabledColumns.value[payload]
+  activeColumns.value = activeColumns.value.includes(payload) ?
+    activeColumns.value.filter(item => item !== payload) :
+    [...activeColumns.value, payload]
 }
+
+onBeforeMount(() => {
+  activeColumns.value = props.defaultColumns || props.columns.map(item => item.value)
+})
 </script>
 
 <style lang="scss">

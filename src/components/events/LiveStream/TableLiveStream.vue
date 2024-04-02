@@ -6,6 +6,7 @@
       :columns="tableData.tableColumnsValues"
       :no-data-text="$t('events.noEventsFound')"
       :show-select-columns="true"
+      :default-columns="defaultColumns"
       @on-action="onAction"
     >
       <template #before>
@@ -74,6 +75,12 @@ const customEvents = 'customEvents'
 const eventName = 'eventName'
 const properties = 'properties'
 const userProperties = 'userProperties'
+
+const defaultColumns = [
+  'user_id',
+  'created_at',
+  'event'
+]
 
 const eventPopupName = ref('')
 

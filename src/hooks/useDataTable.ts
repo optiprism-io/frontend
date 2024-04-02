@@ -42,7 +42,7 @@ export default function useDataTable(
   columns.forEach((column, i, arr) => {
     const fixed = Boolean(fixedColumnsTypes[column.type]);
     const lastFixed = !fixedColumnsTypes[arr[i + 1]?.type];
-        
+
     if (column.type === 'dimension') {
       dimensionColumns.push(column)
     }
@@ -60,7 +60,7 @@ export default function useDataTable(
     if (column.data?.length) {
       column.data.forEach((item, indexData) => {
         if (column.type !== 'dimension') {
-          
+
           lineChart.push({
             date: column.name ? new Date(column.name) : '',
             value: item ?? 0,
@@ -71,7 +71,7 @@ export default function useDataTable(
               .filter(item => Boolean(item))
               .join(', '),
           })
-  
+
           if (column.dataType === DataType.Decimal) {
             totalColumnData.push(Number(totalColumnData[indexData] || 0) + Number(item))
           }
@@ -80,13 +80,13 @@ export default function useDataTable(
         if (!tableData[indexData]) {
           tableData[indexData] = []
         }
-        
+
         let value: number | string | boolean = item || '';
 
         if (column.dataType === DataType.Timestamp && item) {
           value = useDateFormat(+item, 'YYYY-MM-DD HH:mm')?.value
         }
-        
+
         tableData[indexData][i] = {
           key: column.name,
           value: item,
@@ -98,7 +98,7 @@ export default function useDataTable(
       });
     }
   });
-  
+
   pieChart = totalColumnData.map((item, index: number) => {
     return {
       type: dimensionColumns
