@@ -188,25 +188,25 @@ export const eventsQueries: EventsQuery[] = [
         displayName: 'Daily Active',
         grouped: true,
     },
-    {
-        type: QuerySimpleTypeEnum.WeeklyActiveGroups,
-        name: 'weeklyActive',
-        displayName: 'Weekly Active',
-        grouped: true,
-    },
-    {
-        type: QuerySimpleTypeEnum.MonthlyActiveGroups,
-        name: 'monthlyActive',
-        displayName: 'Monthly Active',
-        grouped: true,
-    },
-    {
-        type: QueryCountPerGroupTypeEnum.CountPerGroup,
-        name: 'countPer',
-        displayName: 'Count',
-        grouped: true,
-        hasAggregate: true,
-    },
+    // {
+    //     type: QuerySimpleTypeEnum.WeeklyActiveGroups,
+    //     name: 'weeklyActive',
+    //     displayName: 'Weekly Active',
+    //     grouped: true,
+    // },
+    // {
+    //     type: QuerySimpleTypeEnum.MonthlyActiveGroups,
+    //     name: 'monthlyActive',
+    //     displayName: 'Monthly Active',
+    //     grouped: true,
+    // },
+    // {
+    //     type: QueryCountPerGroupTypeEnum.CountPerGroup,
+    //     name: 'countPer',
+    //     displayName: 'Count',
+    //     grouped: true,
+    //     hasAggregate: true,
+    // },
     {
         type: DidEventAggregatePropertyTypeEnum.AggregateProperty,
         name: 'aggregateProperty',
@@ -223,12 +223,12 @@ export const eventsQueries: EventsQuery[] = [
         hasGroupAggregate: true,
         hasProperty: true
     },
-    {
-        type: QueryFormulaTypeEnum.Formula,
-        name: 'formula',
-        displayName: 'Formula',
-        hasValue: true,
-    },
+    // {
+    //     type: QueryFormulaTypeEnum.Formula,
+    //     name: 'formula',
+    //     displayName: 'Formula',
+    //     hasValue: true,
+    // },
 ]
 
 export interface ConditionFilter {

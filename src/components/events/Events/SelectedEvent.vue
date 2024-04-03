@@ -147,7 +147,7 @@
           :item="query"
           :index="i"
           :update-open="updateOpenQuery"
-          :no-delete="query.noDelete"
+          :no-delete="noDeleteQuery"
           @remove-query="removeQuery"
           @change-query="changeQuery"
         />
@@ -235,6 +235,8 @@ const updateOpenBreakdown = ref(false)
 const updateOpenFilter = ref(false)
 const updateOpenQuery = ref(false)
 const dropdownStatesControl = ref(false)
+
+const noDeleteQuery = computed(() => props.queries ? props.queries.length === 1 : true)
 
 const showRows = computed(() => {
   return props.filters.length || props.showBreakdowns || props.showQuery

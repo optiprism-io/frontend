@@ -20,7 +20,11 @@
           :update-open="updateOpen"
           @select="changeQuery"
         >
-          <UiButton :before-icon="'fas fa-plus-circle'" class="pf-m-primary" type="button">
+          <UiButton
+            :before-icon="'fas fa-plus-circle'"
+            class="pf-m-primary"
+            type="button"
+          >
             {{ $t('events.selectQuery') }}
           </UiButton>
         </Select>

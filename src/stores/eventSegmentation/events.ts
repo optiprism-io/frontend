@@ -439,7 +439,7 @@ export const useEventsStore = defineStore('events', {
 
       queries[queryIdx] = <EventQuery>{
         queryRef: queryRef,
-        noDelete: queryIdx === 0,
+        noDelete: false,
       }
 
       this.events[eventIdx].queries = queries

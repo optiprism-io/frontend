@@ -190,7 +190,7 @@ const mapReportToEvents = (items: EventSegmentationEvent[]): Event[] => {
 
         return {
           queryRef,
-          noDelete: i === 0,
+          noDelete: item.queries.length === 1,
         }
       }),
       breakdowns: item.breakdowns

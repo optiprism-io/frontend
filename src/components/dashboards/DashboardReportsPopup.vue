@@ -7,11 +7,11 @@
     <div>
         <UiSpinner v-if="loading" />
         <UiTable
-            v-else
-            :show-toolbar="false"
-            :items="itemsReport"
-            :columns="columns"
-            @on-action="onActionReport"
+          v-else
+          :show-toolbar="false"
+          :items="itemsReport"
+          :columns="columns"
+          @on-action="onActionReport"
         />
     </div>
   </UiPopupWindow>
@@ -19,10 +19,10 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import UiPopupWindow from '@/components/uikit/UiPopupWindow.vue'
-import { Report } from '@/api'
 import usei18n from '@/hooks/useI18n'
+import { Report } from '@/api'
 
+import UiPopupWindow from '@/components/uikit/UiPopupWindow.vue'
 import UiTable from '@/components/uikit/UiTable/UiTable.vue'
 import UiTablePressedCell from '@/components/uikit/UiTable/UiTablePressedCell.vue'
 import UiSpinner from '@/components/uikit/UiSpinner.vue'

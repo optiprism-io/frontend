@@ -15,10 +15,10 @@ export const aggregates: Aggregate[] = [
         id: AggregateId.Avg,
         name: 'Average'
     },
-    {
-        id: AggregateId.Median,
-        name: 'Median'
-    },
+    // {
+    //     id: AggregateId.Median,
+    //     name: 'Median'
+    // },
     {
         id: AggregateId.Min,
         name: 'Minimum'
@@ -31,22 +31,22 @@ export const aggregates: Aggregate[] = [
         id: AggregateId.DistinctCount,
         name: 'Distinct count'
     },
-    {
-        id: AggregateId.Percentile25,
-        name: '25th Percentile'
-    },
-    {
-        id: AggregateId.Percentile75,
-        name: '75th Percentile'
-    },
-    {
-        id: AggregateId.Percentile90,
-        name: '90th Percentile'
-    },
-    {
-        id: AggregateId.Percentile99,
-        name: '99th Percentile'
-    },
+    // {
+    //     id: AggregateId.Percentile25,
+    //     name: '25th Percentile'
+    // },
+    // {
+    //     id: AggregateId.Percentile75,
+    //     name: '75th Percentile'
+    // },
+    // {
+    //     id: AggregateId.Percentile90,
+    //     name: '90th Percentile'
+    // },
+    // {
+    //     id: AggregateId.Percentile99,
+    //     name: '99th Percentile'
+    // },
 ]
 
 export type AggregateRef = {
