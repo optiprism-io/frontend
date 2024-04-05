@@ -67,10 +67,10 @@
       <div v-if="isShowValues && filter.propRef" class="pf-c-action-list__item">
         <div v-if="isShowInputForValue">
           <UiInput
-v-model="valueInput"
-class="pf-u-px-lg pf-u-py-md"
-@blur="onBlurInput"
-/>
+            v-model="valueInput"
+            class="pf-u-px-lg pf-u-py-md"
+            @blur="onBlurInput"
+          />
         </div>
         <ValueSelect
           v-else
@@ -209,7 +209,7 @@ const isShowOperation = computed(() => {
 
 const isShowValues = computed(() => {
   return (
-    (NotAllowedOperationIds.Empty === props.filter.opId ||
+    !(NotAllowedOperationIds.Empty === props.filter.opId ||
       NotAllowedOperationIds.Exists === props.filter.opId ||
       NotAllowedOperationIds.False === props.filter.opId ||
       NotAllowedOperationIds.True === props.filter.opId) &&
