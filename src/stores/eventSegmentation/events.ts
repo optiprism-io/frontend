@@ -174,7 +174,6 @@ export const useEventsStore = defineStore('events', {
       const lexiconStore = useLexiconStore()
       const filterGroupsStore = useFilterGroupsStore()
       const breakdownsStore = useBreakdownsStore()
-      const segmentsStore = useSegmentsStore()
 
       const props: EventSegmentation = {
         time: this.timeRequest,
@@ -276,13 +275,18 @@ export const useEventsStore = defineStore('events', {
                     item.opId === OperationId.False ||
                     item.values.length)
                 ) {
-                  acc.push({
+                  const filter: EventFilterByProperty = {
                     type: 'property',
                     propertyName: item.propRef?.name || '',
                     propertyType: item.propRef?.type || 'event',
-                    operation: item.opId,
-                    value: item.values,
-                  })
+                    operation: item.opId
+                  }
+
+                  if (values.length) {
+                    filter.value = item.values
+                  }
+
+                  acc.push(filter)
                 }
                 return acc
               },

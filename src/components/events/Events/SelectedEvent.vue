@@ -7,7 +7,11 @@
     }"
   >
     <div class="pf-l-flex">
-      <CommonIdentifier class="pf-l-flex__item" :index="index" :type="props.identifier" />
+      <CommonIdentifier
+        class="pf-l-flex__item"
+        :index="index"
+        :type="props.identifier"
+      />
       <div class="pf-c-action-list">
         <div class="pf-c-action-list__item">
           <Select
