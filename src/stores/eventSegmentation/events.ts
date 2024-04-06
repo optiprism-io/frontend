@@ -174,6 +174,7 @@ export const useEventsStore = defineStore('events', {
       const lexiconStore = useLexiconStore()
       const filterGroupsStore = useFilterGroupsStore()
       const breakdownsStore = useBreakdownsStore()
+      const segmentsStore = useSegmentsStore()
 
       const props: EventSegmentation = {
         time: this.timeRequest,
@@ -282,7 +283,7 @@ export const useEventsStore = defineStore('events', {
                     operation: item.opId
                   }
 
-                  if (values.length) {
+                  if (item.values.length) {
                     filter.value = item.values
                   }
 
