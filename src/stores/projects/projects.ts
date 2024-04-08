@@ -71,9 +71,9 @@ export const useProjectsStore = defineStore('projects', {
       localStorage.setItem(STORAGE_PROJECT_ID_KEY, String(projectId))
     },
     async getProject() {
+      if (!this.projectId) return
       this.isLoading = true
       try {
-        if (!this.projectId) throw Error
         const { data } = await schemaProjects.project(this.projectId)
         this.project = data
       } catch (error) {
