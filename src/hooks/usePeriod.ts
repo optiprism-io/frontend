@@ -5,7 +5,7 @@ import { TimeBetweenTypeEnum, TimeFromTypeEnum, TimeBetween, TimeFrom } from '@/
 const getDateLast = (controlsPeriod: string | number, count: number) => {
   const lastCount = controlsPeriod === 'calendar' ? count : Number(controlsPeriod)
   const result = new Date()
-  result.setDate(result.getDate() - lastCount)
+  result.setDate(result.getDate() - (lastCount - 1))
   return result
 }
 

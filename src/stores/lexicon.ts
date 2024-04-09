@@ -237,14 +237,15 @@ export const useLexiconStore = defineStore('lexicon', {
     },
   },
   getters: {
-    propertiesLength(state) {
-      return (
-        state.eventProperties?.length +
-        state.eventCustomProperties?.length +
-        state.userProperties?.length +
-        state.userCustomProperties?.length +
-        state.systemProperties?.length
-      )
+    properties(state) {
+      return [...state.eventProperties,
+        ...state.eventCustomProperties,
+        ...state.userProperties,
+        ...state.userCustomProperties,
+        state.systemProperties] as Property[]
+    },
+    propertiesLength(): number {
+      return this.properties.length
     },
     findEventById(state: Lexicon) {
       return (id: number): Event => {
