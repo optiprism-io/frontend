@@ -2811,7 +2811,9 @@ components:
         filters:
           $ref: '#/components/schemas/EventGroupedFilters'
         properties:
-          $ref: '#/components/schemas/PropertyRef'
+          type: array
+          items:
+            $ref: '#/components/schemas/PropertyRef'
     GroupRecordsListRequest:
       type: object
       description: request group records sorted by time of creation
