@@ -14,15 +14,15 @@ import i18nPlugin from '@/plugins/i18n'
 import GridLayout from 'vue3-drr-grid-layout'
 
 const pinia = createPinia()
-const app = createApp(App);
+const app = createApp(App)
 
-app.use(router);
-app.use(pinia);
-FloatingVue.options.disposeTimeout = 300;
-app.use(FloatingVue);
-app.use(GridLayout);
-app.use(uikitPlugin);
-app.use(i18nPlugin);
+app.use(router)
+app.use(pinia)
+FloatingVue.options.disposeTimeout = 300
+app.use(FloatingVue)
+app.use(GridLayout)
+app.use(uikitPlugin)
+app.use(i18nPlugin)
 
 /* =====================================MOCK_SERVER================================================ */
 const MOCK_API = import.meta.env.VITE_MOCK_API === 'true'
@@ -35,11 +35,11 @@ if (MOCK_API) {
 }
 /* =============================================================================================== */
 
-app.config.globalProperties.loadDictionary(lang.en);
-app.mount('#app');
+app.config.globalProperties.loadDictionary(lang.en)
+app.mount('#app')
 
 app.config.errorHandler = (error, instance, info) => {
     if (process.env.NODE_ENV) {
-        console.error('[errorHandler]:', error);
+        console.error('[errorHandler]:', error)
     }
-};
+}
