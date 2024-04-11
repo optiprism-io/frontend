@@ -119,7 +119,7 @@ import usei18n from '@/hooks/useI18n'
 
 import { UpdateProfileEmailRequest, UpdateProfileNameRequest } from '@/api'
 import { useVModel } from '@vueuse/core'
-import { cloneDeep } from 'lodash'
+import { cloneDeep } from 'lodash-es'
 import { ProfileEdit, ProfileErrors, UpdateProfilePasswordRequestExt } from '@/stores/profile/types'
 
 const { t } = usei18n()

@@ -91,7 +91,7 @@ import UiIcon from '@/components/uikit/UiIcon.vue'
 import UiInputGroup from '@/components/uikit/UiInputGroup.vue'
 import { safeParse } from 'valibot'
 import { notEmptyEmail, notEmptyString } from '@/utils/validationSchemes'
-import { merge } from 'lodash'
+import { merge } from 'lodash-es'
 import { useProjectsStore } from '@/stores/projects/projects'
 
 const route = useRoute()

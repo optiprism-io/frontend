@@ -68,7 +68,7 @@ import UiSelect from '@/components/uikit/UiSelect.vue'
 
 import usei18n from '@/hooks/useI18n'
 import { useVModel } from '@vueuse/core'
-import { cloneDeep } from 'lodash'
+import { cloneDeep } from 'lodash-es'
 import { ProjectEdit, ProjectErrors } from '@/stores/projects/types'
 import {
   fromSessionTimeout,
