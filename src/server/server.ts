@@ -51,7 +51,7 @@ const emptyDbTemplate = dbTemplateKeys.reduce((acc: { [key: string]: [] }, key) 
   return acc
 }, {})
 
-export default function ({ environment = 'development', isSeed = true } = {}) {
+export function makeHttpServer({ environment = 'development', isSeed = true } = {}) {
     const server = createServer({
         environment,
         urlPrefix,

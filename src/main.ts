@@ -7,7 +7,6 @@ import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import lang from '@/lang'
 import App from '@/App.vue'
-import makeServer from '@/server/server'
 import FloatingVue from 'floating-vue'
 import { router } from '@/router'
 import uikitPlugin from '@/plugins/uikit'
@@ -25,12 +24,16 @@ app.use(GridLayout);
 app.use(uikitPlugin);
 app.use(i18nPlugin);
 
+/* =====================================MOCK_SERVER================================================ */
 const MOCK_API = import.meta.env.VITE_MOCK_API === 'true'
 const IS_EMPTY_MOCKS = import.meta.env.VITE_IS_EMPTY_MOCKS === 'true'
 
 if (MOCK_API) {
-  makeServer({ isSeed: !IS_EMPTY_MOCKS })
+  import('@/server/server').then(({ makeHttpServer }) => {
+    makeHttpServer({ isSeed: !IS_EMPTY_MOCKS })
+  })
 }
+/* =============================================================================================== */
 
 app.config.globalProperties.loadDictionary(lang.en);
 app.mount('#app');
