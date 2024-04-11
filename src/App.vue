@@ -62,6 +62,11 @@ axios.interceptors.response.use(
             return Promise.reject(err)
           }
 
+          /* add an exception for some auth methods (login and signup doesn't require retry) */
+          if (err.config.url.includes('auth')) {
+            return Promise.reject(err)
+          }
+
           err.config.headers['Authorization'] = 'Bearer ' + authStore.accessToken
           err.config.baseURL = undefined
           return axios.request(err.config)
