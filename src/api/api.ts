@@ -1580,10 +1580,10 @@ export interface EventRecordsListRequest {
     'filters'?: EventGroupedFilters;
     /**
      * 
-     * @type {PropertyRef}
+     * @type {Array<PropertyRef>}
      * @memberof EventRecordsListRequest
      */
-    'properties'?: PropertyRef;
+    'properties'?: Array<PropertyRef>;
 }
 /**
  * @type EventRecordsListRequestTime

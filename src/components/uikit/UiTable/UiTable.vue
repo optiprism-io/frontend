@@ -140,7 +140,8 @@ const props = withDefaults(defineProps<Props>(), {
 })
 
 const emit = defineEmits<{
-  (e: 'on-action', payload: Action): void
+  (e: 'action', payload: Action): void
+  (e: 'select-columns', payload: string[]): void
 }>()
 
 const activeColumns = ref<string[]>([])
@@ -148,6 +149,7 @@ const activeColumns = ref<string[]>([])
 const showPlaceholder = computed(
   () => props.enablePlaceholder && !props.isLoading && !props.items?.length
 )
+
 const columnsSelect = computed(() => {
   return props.showSelectColumns ? props.columns.reduce((acc: UiSelectItem<string>[], column) => {
     if (!column.default) {
@@ -184,13 +186,15 @@ const visibleItems = computed(() => {
 })
 
 const onAction = (payload: Action) => {
-  emit('on-action', payload)
+  emit('action', payload)
 }
 
 const toggleColumns = (payload: string) => {
   activeColumns.value = activeColumns.value.includes(payload) ?
     activeColumns.value.filter(item => item !== payload) :
     [...activeColumns.value, payload]
+
+  emit('select-columns', activeColumns.value)
 }
 
 onBeforeMount(() => {

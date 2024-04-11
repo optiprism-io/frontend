@@ -7,6 +7,8 @@ import {
   EventRecordsListRequest,
   DataTableResponseColumnsInner,
   EventRecordsListRequestTime,
+  PropertyRef,
+  PropertyType,
 } from '@/api'
 import { Event } from '@/stores/eventSegmentation/events'
 import dataService from '@/api/services/datas.service'
@@ -26,7 +28,7 @@ export interface Report {
   }>
 }
 
-type LiveStream = {
+type LiveStreamStore = {
   events: Event[]
   controlsPeriod: string
   period: {
@@ -36,7 +38,7 @@ type LiveStream = {
     type: string
   }
   columns: Array<DataTableResponseColumnsInner>
-  activeColumns: string[]
+  activeColumns: PropertyRef[]
   loading: boolean
   eventPopup: boolean
 }
@@ -72,8 +74,14 @@ const getParamsEventsForRequest = (events: Event[]): EventRecordRequestEvent[] =
   }, [])
 }
 
+export const defaultColumns = [
+  'user_id',
+  'created_at',
+  'event'
+]
+
 export const useLiveStreamStore = defineStore('liveStream', {
-  state: (): LiveStream => ({
+  state: (): LiveStreamStore => ({
     events: [],
     controlsPeriod: '90',
     period: {
@@ -83,7 +91,7 @@ export const useLiveStreamStore = defineStore('liveStream', {
       last: 30,
     },
     columns: [],
-    activeColumns: [],
+    activeColumns: defaultColumns.map(key => ({propertyName: key, propertyType: PropertyType.System})),
     loading: false,
     eventPopup: false,
   }),
@@ -109,12 +117,8 @@ export const useLiveStreamStore = defineStore('liveStream', {
     },
   },
   actions: {
-    toggleColumns(key: string) {
-      if (this.activeColumns.includes(key)) {
-        this.activeColumns = this.activeColumns.filter(item => item !== key)
-      } else {
-        this.activeColumns.push(key)
-      }
+    toggleColumns(payload: PropertyRef[]) {
+      this.activeColumns = payload;
     },
     async getReportLiveStream() {
       this.loading = true
@@ -122,6 +126,7 @@ export const useLiveStreamStore = defineStore('liveStream', {
       try {
         const props: EventRecordsListRequest = {
           time: this.timeRequest,
+          properties: this.activeColumns
         }
 
         if (this.events.length) {

@@ -3,10 +3,11 @@
     <UiTable
       :is-loading="liveStreamStore.loading"
       :items="tableData.tableData"
-      :columns="tableData.tableColumnsValues"
+      :columns="columnsPropertues"
       :no-data-text="$t('events.noEventsFound')"
       :show-select-columns="true"
       :default-columns="defaultColumns"
+      @select-columns="selectColumns"
       @on-action="onAction"
     >
       <template #before>
@@ -45,23 +46,22 @@
 <script lang="ts" setup>
 import { computed, inject, ref } from 'vue'
 import { getStringDateByFormat } from '@/helpers/getStringDates'
-import { useLiveStreamStore, Report } from '@/stores/reports/liveStream'
+import { useLiveStreamStore, defaultColumns } from '@/stores/reports/liveStream'
 import { useCommonStore } from '@/stores/common'
 import { useLexiconStore } from '@/stores/lexicon'
 import { useEventsStore } from '@/stores/eventSegmentation/events'
 import useDataTable from '@/hooks/useDataTable'
+import {
+  PropertyRef
+} from '@/api'
 
 import { shortPeriodDays } from '@/components/uikit/UiCalendar/UiCalendar.config'
 import { ApplyPayload } from '@/components/uikit/UiCalendar/UiCalendar'
-import { Column, Cell, Action } from '@/components/uikit/UiTable/UiTable'
-import { EventCell as EventCellType } from '@/components/events/EventCell.vue'
+import { Action } from '@/components/uikit/UiTable/UiTable'
 import UiToggleGroup, { UiToggleGroupItem } from '@/components/uikit/UiToggleGroup.vue'
 import UiDatePicker from '@/components/uikit/UiDatePicker.vue'
 import UiTable from '@/components/uikit/UiTable/UiTable.vue'
-import UiCellToolMenu from '@/components/uikit/cells/UiCellToolMenu.vue'
 import LiveStreamEventPopup from '@/components/events/LiveStreamEventPopup.vue'
-import Select from '@/components/Select/Select.vue'
-import { Group, Item } from '@/components/Select/SelectTypes'
 
 const i18n = inject<any>('i18n')
 const liveStreamStore = useLiveStreamStore()
@@ -75,12 +75,6 @@ const customEvents = 'customEvents'
 const eventName = 'eventName'
 const properties = 'properties'
 const userProperties = 'userProperties'
-
-const defaultColumns = [
-  'user_id',
-  'created_at',
-  'event'
-]
 
 const eventPopupName = ref('')
 
@@ -109,6 +103,20 @@ const lastCount = computed(() => {
   return liveStreamStore.period.last
 })
 
+const columnsPropertues = computed(() => {
+  return lexiconStore.properties.map((item, i) => {
+    return {
+      fixed: false,
+      index: i,
+      lastFixed: true,
+      nowrap: true,
+      title: item.propertyName || '',
+      value: item.propertyName || '',
+      truncate: true,
+    }
+  })
+})
+
 const calendarValue = computed(() => {
   return {
     from: liveStreamStore.period?.from,
@@ -134,6 +142,16 @@ const calendarValueString = computed(() => {
     return i18n.$t('common.castom')
   }
 })
+
+const selectColumns = (payload: string[]) => {
+  liveStreamStore.toggleColumns(
+    payload.map((key) => {
+      return lexiconStore.properties.find(property => property.propertyName === key) as PropertyRef
+    })
+  )
+
+  updateReport()
+}
 
 const updateReport = () => {
   liveStreamStore.getReportLiveStream()
