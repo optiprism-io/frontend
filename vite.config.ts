@@ -4,6 +4,18 @@ import vueJsx from '@vitejs/plugin-vue-jsx'
 import path from 'path'
 
 export default defineConfig({
+  build: {
+    /* https://rollupjs.org/configuration-options/#output-manualchunks */
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          lodash: ['lodash-es'],
+          '@antv/g2': ['@antv/g2'],
+          '@antv/g2plot': ['@antv/g2plot'],
+        },
+      },
+    },
+  },
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
