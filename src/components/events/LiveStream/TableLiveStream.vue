@@ -4,6 +4,7 @@
       :is-loading="liveStreamStore.loading"
       :items="tableData.tableData"
       :columns="columnsPropertues"
+      :table-columns="tableData.tableColumnsValues"
       :no-data-text="$t('events.noEventsFound')"
       :show-select-columns="true"
       :default-columns="defaultColumns"
@@ -136,10 +137,10 @@ const calendarValueString = computed(() => {
       case 'between':
         return `${getStringDateByFormat(liveStreamStore.period.from, '%d %b, %Y')} - ${getStringDateByFormat(liveStreamStore.period.to, '%d %b, %Y')}`
       default:
-        return i18n.$t('common.castom')
+        return i18n.$t('common.custom')
     }
   } else {
-    return i18n.$t('common.castom')
+    return i18n.$t('common.custom')
   }
 })
 

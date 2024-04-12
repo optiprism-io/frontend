@@ -119,6 +119,7 @@ type Props = {
   compact?: boolean
   items?: Row[]
   columns: Column[]
+  tableColumns?: Column[]
   groups?: ColumnGroup[]
   isLoading?: boolean
   showToolbar?: boolean
@@ -166,11 +167,20 @@ const columnsSelect = computed(() => {
 const columnsButtonText = computed(() => `${columnsSelect.value.length} ${i18n.$t('common.columns')}`)
 
 const visibleColumns = computed(() => {
-  return props.columns.filter(
-    item =>
-      activeColumns.value.includes(item.value) ||
-      (!item.hidden && (!props.showSelectColumns || item.default))
-  )
+  if (props.tableColumns) {
+    return props.tableColumns.map((item, i) => {
+      return {
+        ...item,
+        title: activeColumns.value[i-1] || item.title
+      }
+    })
+  } else {
+    return props.columns.filter(
+      item =>
+        activeColumns.value.includes(item.value) ||
+        (!item.hidden && (!props.showSelectColumns || item.default))
+    )
+  }
 })
 
 const visibleColumnsKeys = computed(() => {
