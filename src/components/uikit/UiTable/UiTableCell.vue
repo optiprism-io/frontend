@@ -21,13 +21,15 @@ type Props = {
   nowrap?: boolean
 }
 
+const MaxLengthCell = 46
+
 const props = defineProps<Props>()
 
 const tableCellVal = computed(() =>
   isNumber(props.title) ? humanReadable(props.title) : props.title
 )
 
-const isHasTooltip = computed(() => tableCellVal.value.length > 46)
+const isHasTooltip = computed(() => tableCellVal.value.length > MaxLengthCell)
 </script>
 
 <style lang="scss">
