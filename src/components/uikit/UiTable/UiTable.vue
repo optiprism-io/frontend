@@ -52,7 +52,7 @@
               </template>
             </tr>
             <tr role="row">
-              <template v-for="column in visibleColumns" :key="column.value">
+              <template v-for="column in columns" :key="column.value">
                 <UiTableCellWrapper
                   :fixed="column.fixed"
                   :sorted="column.sorted"
@@ -73,7 +73,7 @@
             </tr>
           </thead>
           <tbody role="rowgroup">
-            <tr v-for="(row, i) in visibleItems" :key="i" role="row">
+            <tr v-for="(row, i) in items" :key="i" role="row">
               <template v-for="(cell, j) in row" :key="j">
                 <UiTableCellWrapper
                   :fixed="cell.fixed"
@@ -119,7 +119,7 @@ type Props = {
   compact?: boolean
   items?: Row[]
   columns: Column[]
-  tableColumns?: Column[]
+  filterColumns?: Column[]
   groups?: ColumnGroup[]
   isLoading?: boolean
   showToolbar?: boolean
@@ -152,7 +152,7 @@ const showPlaceholder = computed(
 )
 
 const columnsSelect = computed(() => {
-  return props.showSelectColumns ? props.columns.reduce((acc: UiSelectItem<string>[], column) => {
+  return props.showSelectColumns ? (props.filterColumns || []).reduce((acc: UiSelectItem<string>[], column) => {
     if (!column.default) {
       acc.push({
         key: column.value,
@@ -165,35 +165,6 @@ const columnsSelect = computed(() => {
 })
 
 const columnsButtonText = computed(() => `${columnsSelect.value.length} ${i18n.$t('common.columns')}`)
-
-const visibleColumns = computed(() => {
-  if (props.tableColumns) {
-    return props.tableColumns.map((item, i) => {
-      return {
-        ...item,
-        title: activeColumns.value[i-1] || item.title
-      }
-    })
-  } else {
-    return props.columns.filter(
-      item =>
-        activeColumns.value.includes(item.value) ||
-        (!item.hidden && (!props.showSelectColumns || item.default))
-    )
-  }
-})
-
-const visibleColumnsKeys = computed(() => {
-  return visibleColumns.value.map(col => col.value)
-})
-
-const visibleItems = computed(() => {
-  return props.items.map(row => {
-    return row.filter(
-      cell => visibleColumnsKeys.value.includes(cell.key)
-    )
-  })
-})
 
 const onAction = (payload: Action) => {
   emit('action', payload)

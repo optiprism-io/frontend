@@ -239,7 +239,7 @@ export const useLexiconStore = defineStore('lexicon', {
   getters: {
     properties(state) {
       return [
-        ...state.eventProperties.map(item => {
+        ...state.eventProperties.filter(item => !item.hidden).map(item => {
           return {
             propertyType: PropertyType.Event,
             propertyName: item.name || item.displayName,
@@ -251,7 +251,7 @@ export const useLexiconStore = defineStore('lexicon', {
             propertyName: item.name || item.displayName,
           }
         }),
-        ...state.systemProperties.map(item => {
+        ...state.systemProperties.filter(item => !item.hidden).map(item => {
           return {
             propertyType: PropertyType.System,
             propertyName: item.name || item.displayName,

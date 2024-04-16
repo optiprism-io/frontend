@@ -3,8 +3,8 @@
     <UiTable
       :is-loading="liveStreamStore.loading"
       :items="tableData.tableData"
-      :columns="columnsPropertues"
-      :table-columns="tableData.tableColumnsValues"
+      :columns="tableData.tableColumnsValues"
+      :filter-columns="columnsPropertues"
       :no-data-text="$t('events.noEventsFound')"
       :show-select-columns="true"
       :default-columns="defaultColumns"
