@@ -27,3 +27,12 @@ export const darken = (hex: string, amount: number): string => {
   const [r2, g2, b2] = [r, g, b].map(c => Math.max(0, c - amount))
   return rgb2hex(r2, g2, b2)
 }
+
+export function getRandomColor(): string {
+  const letters = '0123456789ABCDEF'
+  let color = '#'
+  for (let i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)]
+  }
+  return color
+}
