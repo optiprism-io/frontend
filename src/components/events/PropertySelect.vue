@@ -60,7 +60,7 @@ const noDataPropertyes = computed(() => {
     return !lexiconStore.propertiesLength;
 });
 
-const getProperties = (items: Property[], name: string) => {
+const getProperties = (items: Property[], name: string, type: PropertyType) => {
     return {
         name,
         items: items.reduce((acc: PropertyItem[], item) => {
@@ -75,7 +75,7 @@ const getProperties = (items: Property[], name: string) => {
             }
 
             const propertyRef: PropertyRef = {
-                type: PropertyType.System,
+                type: type,
                 id: item.id,
                 name: item.name
             };
@@ -112,17 +112,17 @@ const items = computed(() => {
         }];
     }
 
-    const systemProperties = getProperties(lexiconStore.systemProperties, t('events.systemProperties'))
+    const systemProperties = getProperties(lexiconStore.systemProperties, t('events.systemProperties'), PropertyType.System)
     if (systemProperties.items.length) {
         ret.push(systemProperties);
     }
-    
-    const eventProperties = getProperties(lexiconStore.eventProperties, t('events.eventProperties'))
+
+    const eventProperties = getProperties(lexiconStore.eventProperties, t('events.eventProperties'), PropertyType.Event)
     if (eventProperties.items.length) {
         ret.push(eventProperties);
     }
 
-    const userProperties = getProperties(lexiconStore.userProperties, t('events.userProperties'))
+    const userProperties = getProperties(lexiconStore.userProperties, t('events.userProperties'), PropertyType.User)
     if (userProperties.items.length) {
         ret.push(userProperties);
     }

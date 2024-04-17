@@ -1,7 +1,7 @@
 <template>
   <div v-if="filterGroup" class="pf-l-flex pf-m-column">
-    <UiActionList>
-      <template v-if="showMatch" #main>
+    <UiActionList v-if="showMatch">
+      <template #main>
         <div class="pf-l-flex">
           <span class="pf-l-flex__item">match</span>
           <UiSelectMatch
@@ -17,7 +17,7 @@
           <span class="pf-l-flex__item">in group</span>
         </div>
       </template>
-      <UiActionListItem v-if="showMatch" @click="removeFilterGroup">
+      <UiActionListItem @click="removeFilterGroup">
         <VTooltip popper-class="ui-hint">
           <UiIcon icon="fas fa-times" />
           <template #popper>
