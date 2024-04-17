@@ -2595,7 +2595,7 @@ export interface FunnelResponse {
      * @type {Array<FunnelResponseStepsInner>}
      * @memberof FunnelResponse
      */
-    'steps'?: Array<FunnelResponseStepsInner>;
+    'steps': Array<FunnelResponseStepsInner>;
 }
 /**
  *
@@ -2608,13 +2608,13 @@ export interface FunnelResponseStepsInner {
      * @type {string}
      * @memberof FunnelResponseStepsInner
      */
-    'step'?: string;
+    'step': string;
     /**
      *
      * @type {Array<FunnelResponseStepsInnerDataInner>}
      * @memberof FunnelResponseStepsInner
      */
-    'data'?: Array<FunnelResponseStepsInnerDataInner>;
+    'data': Array<FunnelResponseStepsInnerDataInner>;
 }
 /**
  *
@@ -2627,55 +2627,55 @@ export interface FunnelResponseStepsInnerDataInner {
      * @type {Array<string>}
      * @memberof FunnelResponseStepsInnerDataInner
      */
-    'groups'?: Array<string>;
+    'groups': Array<string>;
     /**
      *
      * @type {number}
      * @memberof FunnelResponseStepsInnerDataInner
      */
-    'ts'?: number;
+    'ts': number;
     /**
      *
      * @type {number}
      * @memberof FunnelResponseStepsInnerDataInner
      */
-    'total'?: number;
+    'total': number;
     /**
      *
      * @type {number}
      * @memberof FunnelResponseStepsInnerDataInner
      */
-    'conversionRatio'?: number;
+    'conversionRatio': number;
     /**
      *
      * @type {number}
      * @memberof FunnelResponseStepsInnerDataInner
      */
-    'avgTimeToConvert'?: number;
+    'avgTimeToConvert': number;
     /**
      *
      * @type {number}
      * @memberof FunnelResponseStepsInnerDataInner
      */
-    'droppedOff'?: number;
+    'droppedOff': number;
     /**
      *
      * @type {number}
      * @memberof FunnelResponseStepsInnerDataInner
      */
-    'dropOffRatio'?: number;
+    'dropOffRatio': number;
     /**
      *
      * @type {number}
      * @memberof FunnelResponseStepsInnerDataInner
      */
-    'timeToConvert'?: number;
+    'timeToConvert': number;
     /**
      *
      * @type {number}
      * @memberof FunnelResponseStepsInnerDataInner
      */
-    'timeToConvertFromStart'?: number;
+    'timeToConvertFromStart': number;
 }
 /**
  *
