@@ -15,7 +15,7 @@
 <script lang="ts" setup>
 import { computed, inject, PropType, ref, watch } from 'vue'
 import { Chart, getEngine } from '@antv/g2'
-import { lighten } from '@/helpers/colorHelper'
+import { getRandomColor, lighten } from '@/helpers/colorHelper'
 import { I18N } from '@/utils/i18n'
 import { humanReadable } from '@/utils/humanReadable'
 
@@ -58,6 +58,8 @@ const dataView = computed(() => {
         const primaryKey = primaryKeys[iterator]
         const secondaryKey = secondaryKeys[iterator]
 
+        const color = props.colors[i] ? lighten(props.colors[i], iterator * 80) : getRandomColor()
+
         return {
           index: i,
           [xKey]: item[xKey],
@@ -65,7 +67,7 @@ const dataView = computed(() => {
           secondaryKey,
           primaryValue: item[primaryKey],
           secondaryValue: item[secondaryKey],
-          color: lighten(props.colors[i], iterator * 80),
+          color,
         }
       })
     })
