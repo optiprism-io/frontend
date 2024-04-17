@@ -1951,11 +1951,13 @@ components:
           format: string
     FunnelResponse:
       type: object
+      required: [ "steps" ]
       properties:
         steps:
           type: array
           items:
             type: object
+            required: [ "step","data" ]
             properties:
               step:
                 type: string
@@ -1963,6 +1965,7 @@ components:
                 type: array
                 items:
                   type: object
+                  required: [ "groups","ts","total","conversionRatio","avgTimeToConvert","droppedOff","dropOffRatio","timeToConvert","timeToConvertFromStart" ]
                   properties:
                     groups:
                       type: array
