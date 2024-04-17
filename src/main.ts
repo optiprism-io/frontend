@@ -13,6 +13,18 @@ import uikitPlugin from '@/plugins/uikit'
 import i18nPlugin from '@/plugins/i18n'
 import GridLayout from 'vue3-drr-grid-layout'
 
+/* =====================================MOCK_SERVER================================================ */
+const MOCK_API = import.meta.env.VITE_MOCK_API === 'true'
+const IS_EMPTY_MOCKS = import.meta.env.VITE_IS_EMPTY_MOCKS === 'true'
+
+if (MOCK_API) {
+  /* "await" is necessary so that the mock server can be created before creating the application */
+  await import('@/server/server').then(({ makeHttpServer }) => {
+    makeHttpServer({ isSeed: !IS_EMPTY_MOCKS })
+  })
+}
+/* =============================================================================================== */
+
 const pinia = createPinia()
 const app = createApp(App)
 
@@ -24,22 +36,11 @@ app.use(GridLayout)
 app.use(uikitPlugin)
 app.use(i18nPlugin)
 
-/* =====================================MOCK_SERVER================================================ */
-const MOCK_API = import.meta.env.VITE_MOCK_API === 'true'
-const IS_EMPTY_MOCKS = import.meta.env.VITE_IS_EMPTY_MOCKS === 'true'
-
-if (MOCK_API) {
-  import('@/server/server').then(({ makeHttpServer }) => {
-    makeHttpServer({ isSeed: !IS_EMPTY_MOCKS })
-  })
-}
-/* =============================================================================================== */
-
 app.config.globalProperties.loadDictionary(lang.en)
 app.mount('#app')
 
 app.config.errorHandler = (error, instance, info) => {
-    if (process.env.NODE_ENV) {
-        console.error('[errorHandler]:', error)
-    }
+  if (process.env.NODE_ENV) {
+    console.error('[errorHandler]:', error)
+  }
 }
