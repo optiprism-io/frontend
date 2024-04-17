@@ -13,7 +13,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, inject, PropType, ref, watch } from 'vue'
+import { computed, inject, ref, watch } from 'vue'
 import { Chart, getEngine } from '@antv/g2'
 import { getRandomColor, lighten } from '@/helpers/colorHelper'
 import { I18N } from '@/utils/i18n'
@@ -24,24 +24,19 @@ const G = getEngine('canvas')
 const container = ref<HTMLDivElement | null>(null)
 const chart = ref<Chart | null>(null)
 
-const props = defineProps({
-  data: {
-    type: Array as PropType<Record<string, string | number>[]>,
-    default: () => [],
-  },
-  width: {
-    type: Number,
-    default: 400,
-  },
-  height: {
-    type: Number,
-    default: 500,
-  },
-  colors: {
-    type: Array as PropType<string[]>,
-    default: () => [],
-  },
-  liteChart: Boolean,
+interface IProps {
+  data: Record<string, string | number>[]
+  width?: number
+  height?: number
+  colors?: string[]
+  liteChart?: boolean
+}
+
+const props = withDefaults(defineProps<IProps>(), {
+  width: 400,
+  height: 500,
+  colors: () => [],
+  liteChart: false,
 })
 
 const xKey = 'dimension'
