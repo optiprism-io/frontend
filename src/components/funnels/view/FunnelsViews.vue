@@ -40,9 +40,9 @@
     </div>
 
     <DataLoader v-if="loading" />
-    <template v-else-if="reports.length">
-      <FunnelsChart :reports="reports" />
-      <FunnelsTable class="pf-u-mt-xl" :reports="reports" />
+    <template v-else-if="reportSteps.length">
+      <FunnelsChartNew :report-steps="reportSteps" />
+      <FunnelsTable :report-steps="reportSteps" />
     </template>
     <DataEmptyPlaceholder v-else>
       {{ $t('funnels.view.selectToStart') }}
@@ -57,7 +57,7 @@ import { periodMap } from '@/configs/events/controls'
 import { UiToggleGroupItem } from '@/components/uikit/UiToggleGroup.vue'
 import { getStringDateByFormat, getYYYYMMDD } from '@/helpers/getStringDates'
 import { ApplyPayload } from '@/components/uikit/UiCalendar/UiCalendar'
-import FunnelsChart from '@/components/funnels/view/FunnelsChart.vue'
+import FunnelsChartNew from '@/components/funnels/view/FunnelsChartNew.vue'
 import { UiDropdownItem } from '@/components/uikit/UiDropdown.vue'
 import FunnelsTable from '@/components/funnels/view/FunnelsTable.vue'
 import { useStepsStore } from '@/stores/funnels/steps'
@@ -66,13 +66,7 @@ import DataLoader from '@/components/common/data/DataLoader.vue'
 import { FUNNEL_VIEWS } from './funnelViews'
 import { useProjectsStore } from '@/stores/projects/projects'
 import queryService from '@/api/services/query.service'
-import {
-  DataTableResponseColumnsInner,
-  EventRecordsListRequestTime,
-  FunnelQueryChartTypeTypeEnum,
-  FunnelQueryCountEnum,
-  TimeUnit,
-} from '@/api'
+import { EventRecordsListRequestTime, FunnelResponseStepsInner } from '@/api'
 import { useMutation } from '@/hooks/useMutation'
 import { getLastNDaysRange } from '@/helpers/calendarHelper'
 import { storeToRefs } from 'pinia'
@@ -94,7 +88,8 @@ const selectItem = (value: UiDropdownItem<string>) => {
 const stepsStore = useStepsStore()
 const { size, unit } = storeToRefs(stepsStore)
 
-const reports = ref<DataTableResponseColumnsInner[]>([])
+const reportSteps = ref<FunnelResponseStepsInner[]>([])
+
 const controlsPeriod = ref<string | number>('30')
 const period = ref<Period>({
   from: '',

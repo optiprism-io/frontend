@@ -1,4 +1,13 @@
 import i18n from '@/utils/i18n'
+import type { FunnelResponseStepsInnerDataInner } from '@/api'
+import { FunnelResponseStepsInner } from '@/api'
+
+export type StepKey = keyof FunnelResponseStepsInnerDataInner | keyof FunnelResponseStepsInner
+
+interface FunnelCol {
+  title: string
+  value: StepKey
+}
 
 export const FUNNEL_VIEWS = [
   {
@@ -17,3 +26,26 @@ export const FUNNEL_VIEWS = [
     nameDisplay: i18n.t('funnels.view.timeToConvert'),
   },
 ]
+
+export const FUNNEL_COLUMNS: FunnelCol[] = [
+  {
+    title: 'Step',
+    value: 'step',
+  },
+  {
+    title: 'Total',
+    value: 'total',
+  },
+  {
+    title: 'Conversion Ratio',
+    value: 'conversionRatio',
+  },
+  {
+    title: 'Dropped Off',
+    value: 'droppedOff',
+  },
+  {
+    title: 'Drop Off Ratio',
+    value: 'dropOffRatio',
+  },
+] as const

@@ -13,13 +13,13 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, inject, ref, watch } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { Chart, getEngine } from '@antv/g2'
 import { getRandomColor, lighten } from '@/helpers/colorHelper'
-import { I18N } from '@/utils/i18n'
 import { humanReadable } from '@/utils/humanReadable'
+import { StepKey } from '@/components/funnels/view/funnelViews'
+import { toFixedFormat } from '@/utils/toFixedFormat'
 
-const { $t } = inject('i18n') as I18N
 const G = getEngine('canvas')
 const container = ref<HTMLDivElement | null>(null)
 const chart = ref<Chart | null>(null)
@@ -40,9 +40,9 @@ const props = withDefaults(defineProps<IProps>(), {
 })
 
 const xKey = 'dimension'
-const primaryKeys = ['conversionCount', 'dropOffCount']
-const secondaryKeys = ['conversionRatio', 'dropOffRatio']
-const labelKey = 'dropOffCount'
+const primaryKeys: StepKey[] = ['total', 'droppedOff']
+const secondaryKeys: StepKey[] = ['conversionRatio', 'dropOffRatio']
+const labelKey: StepKey = 'droppedOff'
 
 const dataView = computed(() => {
   return props.data
@@ -103,7 +103,7 @@ const update = () => {
             ? [
                 {
                   ...item,
-                  name: $t(`funnels.view.${secondaryKey}`),
+                  name: secondaryKey,
                   value: secondaryValue,
                 },
               ]
@@ -112,7 +112,7 @@ const update = () => {
         return [
           {
             ...item,
-            name: $t(`funnels.view.${primaryKey}`),
+            name: primaryKey,
             value: primaryValue,
           },
           ...secondaryBlock,
@@ -164,19 +164,19 @@ const update = () => {
             return ''
           }
 
-          const { conversionCount, conversionRatio } = dataItem
-          const conversionCountText = humanReadable(conversionCount)
-          const conversionRatioText = `${conversionRatio}%`
+          const { total, conversionRatio } = dataItem
+          const text = humanReadable(total)
+          const conversionRatioText = toFixedFormat(conversionRatio) + '%'
 
           const group = new G.Group({})
 
-          if (+conversionCount > 0) {
+          if (+total > 0) {
             group.addShape({
               type: 'text',
               attrs: {
                 x: 0,
                 y: -size,
-                text: conversionCountText,
+                text,
                 ...numberProps,
               },
             })

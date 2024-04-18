@@ -1,67 +1,45 @@
 <template>
   <div class="pf-c-scroll-inner-wrapper">
-    <UiTable :items="data" :columns="columns" :groups="columnGroups" />
+    <UiTable :items="data" :columns="FUNNEL_COLUMNS" />
   </div>
 </template>
 
 <script lang="ts" setup>
 import { computed } from 'vue'
-import { Column, ColumnGroup, Row } from '@/components/uikit/UiTable/UiTable'
-import { DataTableResponseColumnsInner } from '@/api'
-import { countBy } from 'lodash'
+import { Cell, Row } from '@/components/uikit/UiTable/UiTable'
+import type { FunnelResponseStepsInner } from '@/api'
+import { FUNNEL_COLUMNS } from '@/components/funnels/view/funnelViews'
 
 interface IProps {
-  reports: DataTableResponseColumnsInner[]
+  reportSteps: FunnelResponseStepsInner[]
 }
 
 const props = withDefaults(defineProps<IProps>(), {})
 
-const columns = computed<Column[]>(() =>
-  visibleReports.value.map(col => ({
-    title: col.name,
-    value: col.name,
-    hidden: col.hidden,
-  }))
-)
+const flatSteps = computed(() => {
+  const steps: Record<string, any>[] = []
 
-const visibleReports = computed(() => props.reports.filter(x => !x.hidden))
+  props.reportSteps.forEach(x => {
+    x.data.forEach(y => {
+      const newObj = {
+        ...y,
+        step: x.step,
+      }
+      steps.push(newObj)
+    })
+  })
+
+  return steps
+})
 
 const data = computed<Row[]>(() =>
-  Array.from({ length: props.reports.at(0)?.data.length ?? 0 }, (_, index) =>
-    props.reports.map(col => ({
-      title: col.data[index],
-      key: col.name,
-    }))
+  flatSteps.value.map(step =>
+    FUNNEL_COLUMNS.map(col => {
+      const title = step[col.value] as Cell['title']
+      const key = col.value
+
+      return { title, key }
+    })
   )
 )
-
-const columnGroups = computed<ColumnGroup[]>(() =>
-  spanTuple.value.map(([name, count]) => ({
-    title: name,
-    value: name,
-    span: count,
-    fixed: true,
-    lastFixed: true,
-  }))
-)
-
-const spanTuple = computed<[string, number][]>(() => {
-  const splitter = '-'
-
-  const steps = visibleReports.value.map(x => x)
-  const countsSteps = countBy(steps, step => {
-    const stepId = step.stepId ?? -1
-    const index = stepId + 1
-    const name = step.step ?? ''
-    return index + splitter + name
-  })
-
-  const entries = Object.entries(countsSteps)
-  const data = entries.map(([key, val]) => {
-    const [_, name] = key.split(splitter)
-    return [name, val] as [string, number]
-  })
-
-  return data
-})
 </script>
