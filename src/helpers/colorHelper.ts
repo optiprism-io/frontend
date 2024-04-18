@@ -36,3 +36,5 @@ export function getRandomColor(): string {
   }
   return color
 }
+
+export const CHART_COLORS_7 = ['#ee5253', '#2e86de', '#ff9f43', '#5f27cd', '#10ac84', '#f368e0', '#0abde3']
