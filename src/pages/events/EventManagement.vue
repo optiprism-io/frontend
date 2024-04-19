@@ -8,7 +8,6 @@
                 <UiTable
                     :items="items"
                     :columns="columns"
-                    :show-select-columns="true"
                     :no-data-text="$t('events.noEventsText')"
                     @on-action="onAction"
                 />

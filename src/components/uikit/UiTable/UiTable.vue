@@ -141,7 +141,7 @@ const props = withDefaults(defineProps<Props>(), {
 })
 
 const emit = defineEmits<{
-  (e: 'action', payload: Action): void
+  (e: 'on-action', payload: Action): void
   (e: 'select-columns', payload: string[]): void
 }>()
 
@@ -167,7 +167,7 @@ const columnsSelect = computed(() => {
 const columnsButtonText = computed(() => `${activeColumns.value.length} ${i18n.$t('common.columns')}`)
 
 const onAction = (payload: Action) => {
-  emit('action', payload)
+  emit('on-action', payload)
 }
 
 const toggleColumns = (payload: string) => {
