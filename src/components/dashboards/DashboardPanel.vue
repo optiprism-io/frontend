@@ -14,7 +14,11 @@
       :lite-chart="true"
       :height-chart="props.heightChart || 240"
     />
-    <FunnelsChart v-else-if="reportSteps.length" :report-steps="reportSteps" />
+    <FunnelsChart
+      v-else-if="reportSteps.length"
+      :report-steps="reportSteps"
+      :height="props.heightChart || 240"
+    />
   </div>
 </template>
 

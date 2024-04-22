@@ -7,7 +7,7 @@
       :color="barsColors[i]"
     />
   </div>
-  <FunnelChartStacked :data="flatSteps" :width="1071" :colors="barsColors" />
+  <FunnelChartStacked :data="flatSteps" :width="1071" :colors="barsColors" :height="height" />
 </template>
 
 <script setup lang="ts">
@@ -21,6 +21,7 @@ import type { FunnelResponseStepsInner } from '@/api'
 
 interface IProps {
   reportSteps: FunnelResponseStepsInner[]
+  height?: number
 }
 
 const props = withDefaults(defineProps<IProps>(), {})
