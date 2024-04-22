@@ -213,34 +213,28 @@ const applyPeriod = (payload: ApplyPayload): void => {
 /* TODO: refactor this */
 async function fetchReports(): Promise<void> {
   const projectsStore = useProjectsStore()
-  const stepsStore = useStepsStore()
-  const breakdownsStore = useBreakdownsStore()
-  const filterGroupsStore = useFilterGroupsStore()
-  const segmentsStore = useSegmentsStore()
 
   const res = await queryService.funnelQuery(projectsStore.projectId, {
     time: timeRequest.value,
     group: '',
     steps: stepsStore.getSteps,
     timeWindow: {
-      n: stepsStore.size,
-      unit: stepsStore.unit,
+      n: size.value,
+      /* TODO: fix type and remove "as TimeUnitWithSession" */
+      unit: unit.value as TimeUnitWithSession,
     },
     chartType: {
-      type: FunnelQueryChartTypeTypeEnum.ConversionSteps,
+      type: FunnelQueryChartTypeTypeEnum.Steps,
       intervalUnit: TimeUnit.Day,
     },
     count: FunnelQueryCountEnum.NonUnique,
-    stepOrder: 'any',
-    holdingConstants: stepsStore.getHoldingProperties,
-    exclude: stepsStore.getExcluded,
-    breakdowns: breakdownsStore.breakdownsItems,
-    segments: segmentsStore.segmentationItems,
-    filters: filterGroupsStore.filters,
+    touch: {
+      type: 'first',
+    },
   })
 
-  if (res?.data?.columns) {
-    reports.value = res.data.columns
+  if (res?.data?.steps) {
+    reportSteps.value = res.data.steps
   }
 }
 
