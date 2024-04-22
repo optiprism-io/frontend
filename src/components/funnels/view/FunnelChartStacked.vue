@@ -55,13 +55,22 @@ const dataView = computed(() => {
 
         const color = props.colors[i] ? lighten(props.colors[i], iterator * 80) : getRandomColor()
 
+        let primaryValue = item[primaryKey]
+        let secondaryValue = item[secondaryKey]
+        if (typeof primaryValue === 'number') {
+          primaryValue = +toFixedFormat(primaryValue)
+        }
+        if (typeof secondaryValue === 'number') {
+          secondaryValue = +toFixedFormat(secondaryValue)
+        }
+
         return {
           index: i,
           [xKey]: item[xKey],
           primaryKey,
           secondaryKey,
-          primaryValue: item[primaryKey],
-          secondaryValue: item[secondaryKey],
+          primaryValue,
+          secondaryValue,
           color,
         }
       })
