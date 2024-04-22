@@ -41,7 +41,7 @@
 
     <DataLoader v-if="loading" />
     <template v-else-if="reportSteps.length">
-      <FunnelsChartNew :report-steps="reportSteps" />
+      <FunnelsChart :report-steps="reportSteps" />
       <FunnelsTable :report-steps="reportSteps" />
     </template>
     <DataEmptyPlaceholder v-else>
@@ -57,7 +57,7 @@ import { periodMap } from '@/configs/events/controls'
 import { UiToggleGroupItem } from '@/components/uikit/UiToggleGroup.vue'
 import { getStringDateByFormat, getYYYYMMDD } from '@/helpers/getStringDates'
 import { ApplyPayload } from '@/components/uikit/UiCalendar/UiCalendar'
-import FunnelsChartNew from '@/components/funnels/view/FunnelsChartNew.vue'
+import FunnelsChart from '@/components/funnels/view/FunnelsChart.vue'
 import { UiDropdownItem } from '@/components/uikit/UiDropdown.vue'
 import FunnelsTable from '@/components/funnels/view/FunnelsTable.vue'
 import { useStepsStore } from '@/stores/funnels/steps'
@@ -66,7 +66,14 @@ import DataLoader from '@/components/common/data/DataLoader.vue'
 import { FUNNEL_VIEWS } from './funnelViews'
 import { useProjectsStore } from '@/stores/projects/projects'
 import queryService from '@/api/services/query.service'
-import { EventRecordsListRequestTime, FunnelResponseStepsInner } from '@/api'
+import {
+  EventRecordsListRequestTime,
+  FunnelQueryChartTypeTypeEnum,
+  FunnelQueryCountEnum,
+  FunnelResponseStepsInner,
+  TimeUnit,
+  TimeUnitWithSession,
+} from '@/api'
 import { useMutation } from '@/hooks/useMutation'
 import { getLastNDaysRange } from '@/helpers/calendarHelper'
 import { storeToRefs } from 'pinia'
