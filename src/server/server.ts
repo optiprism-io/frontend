@@ -8,7 +8,7 @@ import eventPropertiesMocks from '@/mocks/eventSegmentations/eventProperties.jso
 import customProperties from '@/mocks/eventSegmentations/customProperties.json'
 import customEventsMocks from '@/mocks/eventSegmentations/customEvents.json'
 import eventMocks from '@/mocks/eventSegmentations/events.json'
-import reportsMocks from '@/mocks/reports/reports.json'
+import { reports } from '@/mocks/reports/reports'
 import dashboardsMocks from '@/mocks/dashboards'
 import groupRecordsMocks from '@/mocks/groupRecords.json'
 import profileMocks from '@/mocks/profile'
@@ -31,7 +31,7 @@ const dbTemplate: { [k: string]: any } = {
   eventProperties: eventPropertiesMocks,
   userProperties: userPropertiesMocks,
   customProperties: customProperties,
-  reports: reportsMocks,
+  reports: reports,
   dashboards: dashboardsMocks,
   groupRecords: groupRecordsMocks,
   liveStreamMocks: liveStreamMocks,
