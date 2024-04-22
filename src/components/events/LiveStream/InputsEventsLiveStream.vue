@@ -71,9 +71,7 @@ const addEvent = (ref: EventRef) => {
 }
 
 const updateReport = () => {
-    if (liveStreamStore.events.length) {
-        liveStreamStore.getReportLiveStream()
-    }
+    liveStreamStore.getReportLiveStream()
 }
 
 const setEvent = (payload: EventPayload) => {

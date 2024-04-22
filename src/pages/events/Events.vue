@@ -152,7 +152,8 @@ const initEventsAndProperties = async () => {
 
 onMounted(async () => {
   await initEventsAndProperties()
-  if (liveStreamStore.events.length) {
+
+  if (route.name === pagesMap.eventsLiveStream.name) {
     liveStreamStore.getReportLiveStream()
   }
 })

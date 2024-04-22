@@ -14,6 +14,7 @@ import { Event } from '@/stores/eventSegmentation/events'
 import dataService from '@/api/services/datas.service'
 import { useProjectsStore } from '@/stores/projects/projects'
 import { usePeriod } from '@/hooks/usePeriod'
+import { useLexiconStore } from '../lexicon'
 
 export interface Report {
   name: string
@@ -77,7 +78,7 @@ const getParamsEventsForRequest = (events: Event[]): EventRecordRequestEvent[] =
 export const defaultColumns = [
   'user_id',
   'created_at',
-  'event'
+  'event_x'
 ]
 
 export const useLiveStreamStore = defineStore('liveStream', {
@@ -123,10 +124,14 @@ export const useLiveStreamStore = defineStore('liveStream', {
     async getReportLiveStream() {
       this.loading = true
       const projectsStore = useProjectsStore()
+      const lexiconStore = useLexiconStore()
+
+      const properties = this.activeColumns.filter(property => lexiconStore.properties.find(item => item.propertyName === property.propertyName))
+
       try {
         const props: EventRecordsListRequest = {
           time: this.timeRequest,
-          properties: this.activeColumns
+          properties: properties
         }
 
         if (this.events.length) {

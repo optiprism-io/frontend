@@ -24,6 +24,7 @@ import {
   Event,
   CustomProperty,
   QueryAggregate,
+  PropertyRef as PropertyRefApi,
 } from '@/api'
 import { useCommonStore, PropertyTypeEnum } from '@/stores/common'
 import { useProjectsStore } from '@/stores/projects/projects'
@@ -239,19 +240,19 @@ export const useLexiconStore = defineStore('lexicon', {
   getters: {
     properties(state) {
       return [
-        ...state.eventProperties.filter(item => !item.hidden).map(item => {
+        ...state.eventProperties.filter(item => !item.hidden).map((item): PropertyRefApi => {
           return {
             propertyType: PropertyType.Event,
             propertyName: item.name || item.displayName,
           }
         }),
-        ...state.userProperties.map(item => {
+        ...state.userProperties.map((item): PropertyRefApi => {
           return {
             propertyType: PropertyType.User,
             propertyName: item.name || item.displayName,
           }
         }),
-        ...state.systemProperties.filter(item => !item.hidden).map(item => {
+        ...state.systemProperties.filter(item => !item.hidden).map((item): PropertyRefApi => {
           return {
             propertyType: PropertyType.System,
             propertyName: item.name || item.displayName,

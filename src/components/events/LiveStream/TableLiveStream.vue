@@ -146,9 +146,13 @@ const calendarValueString = computed(() => {
 
 const selectColumns = (payload: string[]) => {
   liveStreamStore.toggleColumns(
-    payload.map((key) => {
-      return lexiconStore.properties.find(property => property.propertyName === key) as PropertyRef
-    })
+    payload.reduce((acc: PropertyRef[], key) => {
+      const property = lexiconStore.properties.find(property => property.propertyName === key) as PropertyRef
+      if (property) {
+        acc.push(property)
+      }
+      return acc
+    }, [])
   )
 
   updateReport()
