@@ -14,14 +14,7 @@
       :lite-chart="true"
       :height-chart="props.heightChart || 240"
     />
-    <FunnelsChart
-      v-else-if="funnelsReport"
-      :lite-chart="true"
-      :reports="funnelsReport"
-      :steps="steps"
-      :height="funnelsChartHeight"
-      :min-width-step="100"
-    />
+    <FunnelsChart v-else-if="reportSteps.length" :report-steps="reportSteps" />
   </div>
 </template>
 
@@ -30,11 +23,11 @@ import { computed, onMounted, ref, watch } from 'vue'
 import { pagesMap } from '@/router'
 import {
   DataTableResponse,
-  DataTableResponseColumnsInner,
   EventGroupedFiltersGroupsInnerFiltersInner,
   EventRecordsListRequestTime,
   EventSegmentation as EventSegmentationType,
   FunnelQuery,
+  FunnelResponseStepsInner,
   Report,
   ReportType, EventSegmentationQueryFormatEnum,
 } from '@/api'
@@ -65,13 +58,12 @@ const props = defineProps<{
 
 const loading = ref(false)
 const eventSegmentation = ref<DataTableResponse>()
-const funnelsReport = ref<DataTableResponseColumnsInner[]>()
+const reportSteps = ref<FunnelResponseStepsInner[]>([])
 const steps = ref<Step[]>()
 const filterTimeInitState = ref<EventRecordsListRequestTime | null>(null)
 
 const filterTime = computed(() => eventsStore.timeRequest)
 const activeReport = computed(() => reportsStore.list.find(item => item.id === props.reportId))
-const funnelsChartHeight = computed(() => (props.heightChart ? props.heightChart - 40 : 190))
 const report = computed(() => props.report || activeReport.value)
 const query = computed(() => report.value?.query)
 const reportChartType = computed(() => (report.value?.query?.chartType as ChartType) ?? 'line')
@@ -157,11 +149,11 @@ const getFunnelsReport = async () => {
       /* TODO: fix typescript error in funnel query branch */
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore: Unreachable code error
-      if (res?.data?.columns) {
+      if (res?.data?.steps) {
         /* TODO: fix typescript error in funnel query branch */
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore: Unreachable code error
-        funnelsReport.value = res.data.columns as DataTableResponseColumnsInner[]
+        reportSteps.value = res.data.steps
       }
     } catch (error) {
       throw Error(JSON.stringify(error))
