@@ -1,23 +1,23 @@
 <template>
   <div class="pf-l-flex pf-u-justify-content-center pf-u-flex-nowrap">
-    <div
+    <LegendMarker
       v-for="(item, i) in flatSteps"
       :key="i"
-      class="pf-l-flex pf-l-flex__item pf-m-align-items-center"
-    >
-      <span class="pf-l-flex__item legend-marker" :style="{ background: barsColors[i] }" />
-      <span>{{ item.dimension }}</span>
-    </div>
+      :marker-name="item.dimension"
+      :color="barsColors[i]"
+    />
   </div>
   <FunnelChartStacked :data="flatSteps" :width="1071" :colors="barsColors" />
 </template>
 
 <script setup lang="ts">
-import type { FunnelResponseStepsInner } from '@/api'
-import FunnelChartStacked from '@/components/funnels/view/FunnelChartStacked.vue'
 import { computed } from 'vue'
+import LegendMarker from '@/components/charts/LegendMarker.vue'
+import FunnelChartStacked from '@/components/funnels/view/FunnelChartStacked.vue'
 
 import { CHART_COLORS_7 } from '@/helpers/colorHelper'
+
+import type { FunnelResponseStepsInner } from '@/api'
 
 interface IProps {
   reportSteps: FunnelResponseStepsInner[]
@@ -43,11 +43,3 @@ const flatSteps = computed(() => {
 
 const barsColors = computed(() => CHART_COLORS_7.slice(0, flatSteps.value.length))
 </script>
-
-<style lang="scss" scoped>
-.legend-marker {
-  width: 1rem;
-  height: 1rem;
-  border-radius: 0.125rem;
-}
-</style>
