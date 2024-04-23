@@ -1727,7 +1727,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/DataTableResponse'
+                $ref: '#/components/schemas/FunnelResponse'
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -1949,6 +1949,44 @@ components:
         jti:
           type: integer
           format: string
+    FunnelResponse:
+      type: object
+      required: [ "steps" ]
+      properties:
+        steps:
+          type: array
+          items:
+            type: object
+            required: [ "step","data" ]
+            properties:
+              step:
+                type: string
+              data:
+                type: array
+                items:
+                  type: object
+                  required: [ "groups","ts","total","conversionRatio","avgTimeToConvert","droppedOff","dropOffRatio","timeToConvert","timeToConvertFromStart" ]
+                  properties:
+                    groups:
+                      type: array
+                      items:
+                        type: string
+                    ts:
+                      type: number
+                    total:
+                      type: number
+                    conversionRatio:
+                      type: number
+                    avgTimeToConvert:
+                      type: number
+                    droppedOff:
+                      type: number
+                    dropOffRatio:
+                      type: number
+                    timeToConvert:
+                      type: number
+                    timeToConvertFromStart:
+                      type: number
     DataTableResponse:
       type: object
       properties:
