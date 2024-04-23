@@ -78,7 +78,7 @@ const getParamsEventsForRequest = (events: Event[]): EventRecordRequestEvent[] =
 export const defaultColumns = [
   'user_id',
   'created_at',
-  'event_x'
+  'event'
 ]
 
 export const useLiveStreamStore = defineStore('liveStream', {
