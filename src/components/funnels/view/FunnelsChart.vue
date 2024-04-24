@@ -1,46 +1,69 @@
 <template>
   <div class="pf-l-flex pf-u-justify-content-center pf-u-flex-nowrap">
     <LegendMarker
-      v-for="(item, i) in flatSteps"
+      v-for="(item, i) in reportSteps"
       :key="i"
-      :marker-name="item.dimension"
+      :marker-name="item.step"
       :color="barsColors[i]"
     />
   </div>
-  <FunnelChartStacked :data="flatSteps" :width="1071" :colors="barsColors" :height="height" />
+  <div
+    :class="{
+      'pf-c-scroll-inner-wrapper': !props.liteChart,
+    }"
+  >
+    <div
+      ref="container"
+      class="pf-l-flex pf-u-flex-nowrap"
+      :class="{
+        'pf-u-m-lg': !props.liteChart,
+      }"
+    >
+      <div v-for="(item, j) in reportSteps" :key="j" class="pf-m-flex-1 pf-m-spacer-none">
+        <FunnelChartStacked
+          :data="item.data"
+          :width="stepWidth"
+          :colors="barsColors"
+          :height="props.height"
+          :lite-chart="props.liteChart"
+        >
+          <div class="pf-u-text-align-center">
+            {{ item.step }}
+          </div>
+        </FunnelChartStacked>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import LegendMarker from '@/components/charts/LegendMarker.vue'
 import FunnelChartStacked from '@/components/funnels/view/FunnelChartStacked.vue'
 
 import { CHART_COLORS_7 } from '@/helpers/colorHelper'
 
 import type { FunnelResponseStepsInner } from '@/api'
+import { useElementSize } from '@vueuse/core'
 
 interface IProps {
   reportSteps: FunnelResponseStepsInner[]
+  minWidthStep?: number
   height?: number
+  liteChart?: boolean
 }
 
-const props = withDefaults(defineProps<IProps>(), {})
-
-const flatSteps = computed(() => {
-  const steps: Record<string, any>[] = []
-
-  props.reportSteps.forEach(x => {
-    x.data.forEach(y => {
-      const newObj = {
-        ...y,
-        dimension: x.step,
-      }
-      steps.push(newObj)
-    })
-  })
-
-  return steps
+const props = withDefaults(defineProps<IProps>(), {
+  minWidthStep: 550,
+  liteChart: false,
 })
 
-const barsColors = computed(() => CHART_COLORS_7.slice(0, flatSteps.value.length))
+const barsColors = computed(() => CHART_COLORS_7.slice(0, props.reportSteps.at(0)?.data.length))
+
+const container = ref<HTMLDivElement | null>(null)
+const { width: containerWidth } = useElementSize(container)
+
+const stepWidth = computed(() => {
+  return Math.max(containerWidth.value / props.reportSteps.length, props.minWidthStep)
+})
 </script>

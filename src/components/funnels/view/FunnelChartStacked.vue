@@ -25,7 +25,7 @@ const container = ref<HTMLDivElement | null>(null)
 const chart = ref<Chart | null>(null)
 
 interface IProps {
-  data: Record<string, string | number>[]
+  data: Record<string, any>[]
   width?: number
   height?: number
   colors?: string[]
