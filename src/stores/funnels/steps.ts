@@ -1,23 +1,24 @@
-import {defineStore} from 'pinia';
-import {Step} from '@/types/steps';
+import { defineStore } from 'pinia'
+import { Step } from '@/types/steps'
 import { EventRef } from '@/types/events'
-import {EventFilter} from '@/stores/eventSegmentation/events';
+import { EventFilter } from '@/stores/eventSegmentation/events'
 import {
-    EventType,
-    FunnelQueryStepsInner,
-    FunnelExcludeStepsSteps,
-    FunnelEvent,
-    PropertyRef,
-    FunnelQueryExcludeInner,
-    EventFilterByProperty,
-    EventFilterByPropertyTypeEnum,
-    TimeUnit
+  EventFilterByProperty,
+  EventFilterByPropertyTypeEnum,
+  EventType,
+  FunnelEvent,
+  FunnelExcludeStepsSteps,
+  FunnelQueryExcludeInner,
+  FunnelQueryStepsInner,
+  FunnelQueryStepsInnerOrderTypeEnum,
+  PropertyRef,
+  TimeUnit,
 } from '@/api'
 
 import { useEventName } from '@/helpers/useEventName'
 import { useLexiconStore } from '@/stores/lexicon'
 
-export const stepOrders = ['exact', 'any'] as const;
+export const stepOrders = ['exact', 'any'] as const
 export type StepOrder = typeof stepOrders[number];
 
 export type ExcludedEventSteps = {
@@ -138,7 +139,9 @@ export const useStepsStore = defineStore('steps', {
 
                 return {
                     events,
-                    // order: 'any',
+                    order: {
+                      type: FunnelQueryStepsInnerOrderTypeEnum.Exact,
+                    }
                 }
             })
         },
