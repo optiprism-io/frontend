@@ -7,7 +7,11 @@
     }"
   >
     <div class="pf-l-flex">
-      <CommonIdentifier class="pf-l-flex__item" :index="index" :type="props.identifier" />
+      <CommonIdentifier
+        class="pf-l-flex__item"
+        :index="index"
+        :type="props.identifier"
+      />
       <div class="pf-c-action-list">
         <div class="pf-c-action-list__item">
           <Select
@@ -147,7 +151,7 @@
           :item="query"
           :index="i"
           :update-open="updateOpenQuery"
-          :no-delete="query.noDelete"
+          :no-delete="noDeleteQuery"
           @remove-query="removeQuery"
           @change-query="changeQuery"
         />
@@ -236,6 +240,8 @@ const updateOpenFilter = ref(false)
 const updateOpenQuery = ref(false)
 const dropdownStatesControl = ref(false)
 
+const noDeleteQuery = computed(() => props.queries ? props.queries.length === 1 : true)
+
 const showRows = computed(() => {
   return props.filters.length || props.showBreakdowns || props.showQuery
 })
@@ -275,6 +281,7 @@ const removeEvent = (): void => {
 const removeFilter = (filterIdx: number): void => {
   const event = props.event
   event.filters.splice(filterIdx, 1)
+  emit('on-change')
 }
 
 const getPropertyValues = async (propRef: PropertyRef) => {
@@ -307,7 +314,7 @@ const addFilter = (propRef: PropertyRef): void => {
     return
   }
 
-  changeFilterProperty(filterIdx, propRef)
+  changeFilterProperty(filterIdx, propRef, false)
 }
 
 const show = () => {
@@ -318,7 +325,7 @@ const hide = () => {
   dropdownStatesControl.value = false
 }
 
-const changeFilterProperty = async (filterIdx: number, propRef: PropertyRef) => {
+const changeFilterProperty = async (filterIdx: number, propRef: PropertyRef, onChange = true) => {
   const event = props.event
 
   event.filters[filterIdx] = {
@@ -326,6 +333,10 @@ const changeFilterProperty = async (filterIdx: number, propRef: PropertyRef) => 
     opId: OperationId.Eq,
     values: [],
     valuesList: [],
+  }
+
+  if (onChange) {
+    emit('on-change')
   }
 }
 
@@ -342,6 +353,10 @@ const changeFilterOperation = (filterIdx: number, opId: OperationId) => {
   const event = props.event
   event.filters[filterIdx].opId = opId
   event.filters[filterIdx].values = []
+
+  if (opId === OperationId.Empty || opId === OperationId.Exists) {
+    emit('on-change')
+  }
 }
 
 const addFilterValue = (filterIdx: number, value: Value): void => {
@@ -375,7 +390,7 @@ const getEventName = (ref: EventRef): string => {
     case EventType.Regular:
       return ref.name || eventName(ref)
     case EventType.Custom:
-      return lexiconStore.findCustomEventById(ref.id).name
+      return ref.name
   }
 }
 

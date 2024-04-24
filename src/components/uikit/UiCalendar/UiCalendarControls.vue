@@ -21,12 +21,14 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, inject } from 'vue';
+import { computed } from 'vue'
+import { TimeTypeEnum } from '@/hooks/usePeriod'
+import usei18n from '@/hooks/useI18n'
 
-const i18n = inject<any>('i18n')
+const { t } = usei18n()
 
 const emit = defineEmits<{
-    (e: 'on-select-tab', payload: string): void;
+    (e: 'on-select-tab', payload: TimeTypeEnum): void;
 }>();
 
 interface Props {
@@ -36,12 +38,7 @@ interface Props {
 
 const props = defineProps<Props>();
 
-const tabsMap = [
-    'last',
-    'since',
-    'between',
-    'each',
-]
+const tabsMap = Object.values(TimeTypeEnum)
 
 const itemsTabs = computed(() => {
     const items = props.showEach ? tabsMap : tabsMap.filter(item => item !== 'each')
@@ -49,13 +46,13 @@ const itemsTabs = computed(() => {
     return items.map(item => {
         return {
             value: item,
-            name: i18n.$t(`common.calendar.${ item}`),
+            name: t(`common.calendar.${ item}`),
             active: props.activeTab === item,
         }
     });
 });
 
-const onSelectTab = (value: string) => {
+const onSelectTab = (value: TimeTypeEnum) => {
     emit('on-select-tab', value);
 }
 </script>

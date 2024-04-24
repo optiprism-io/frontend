@@ -22,21 +22,14 @@
             <HoldingConstantSelect />
           </UiCardBody>
         </UiCardContainer>
-
-        <UiCard :title="$t('funnels.userSegments')">
-          <Segments />
-        </UiCard>
-
         <UiCardContainer>
           <FilterReports />
         </UiCardContainer>
-
         <UiCard :title="$t('funnels.breakdowns')">
           <Breakdowns />
         </UiCard>
       </GridContainer>
     </GridItem>
-
     <GridItem :col-lg="9">
       <FunnelsViews />
     </GridItem>

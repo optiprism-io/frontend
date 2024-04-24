@@ -10,7 +10,7 @@ export const useEventName = (): (ref: EventRef) => string => {
             case EventType.Regular:
                 return ref?.name || event?.name || '';
             case EventType.Custom:
-                return lexiconStore.findCustomEventById(ref.id).name;
+                return lexiconStore.findCustomEventByName(ref.name).name;
         }
         throw new Error('unhandled');
     };

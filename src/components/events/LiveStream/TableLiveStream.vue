@@ -4,15 +4,19 @@
       :is-loading="liveStreamStore.loading"
       :items="tableData.tableData"
       :columns="tableData.tableColumnsValues"
+      :filter-columns="columnsPropertues"
       :no-data-text="$t('events.noEventsFound')"
+      :show-select-columns="true"
+      :default-columns="defaultColumns"
+      @select-columns="selectColumns"
       @on-action="onAction"
     >
       <template #before>
-        <UiToggleGroup :items="itemsPeriod" @select="onSelectPerion">
+        <UiToggleGroup :items="itemsPeriod" @select="onSelectPeriod">
           <template #after>
             <UiDatePicker
               :value="calendarValue"
-              :last-count="liveStreamStore.period.last"
+              :last-count="lastCount"
               :active-tab-controls="liveStreamStore.period.type"
               @on-apply="onApplyPeriod"
             >
@@ -43,37 +47,32 @@
 <script lang="ts" setup>
 import { computed, inject, ref } from 'vue'
 import { getStringDateByFormat } from '@/helpers/getStringDates'
-import { componentsMaps } from '@/configs/events/liveStreamTableDefault'
-import { useLiveStreamStore, Report } from '@/stores/reports/liveStream'
+import { useLiveStreamStore, defaultColumns } from '@/stores/reports/liveStream'
 import { useCommonStore } from '@/stores/common'
 import { useLexiconStore } from '@/stores/lexicon'
 import { useEventsStore } from '@/stores/eventSegmentation/events'
 import useDataTable from '@/hooks/useDataTable'
+import usei18n from '@/hooks/useI18n';
+import {
+  PropertyRef
+} from '@/api'
 
 import { shortPeriodDays } from '@/components/uikit/UiCalendar/UiCalendar.config'
 import { ApplyPayload } from '@/components/uikit/UiCalendar/UiCalendar'
-import { Column, Cell, Action } from '@/components/uikit/UiTable/UiTable'
-import { EventCell as EventCellType } from '@/components/events/EventCell.vue'
+import { Action } from '@/components/uikit/UiTable/UiTable'
 import UiToggleGroup, { UiToggleGroupItem } from '@/components/uikit/UiToggleGroup.vue'
 import UiDatePicker from '@/components/uikit/UiDatePicker.vue'
 import UiTable from '@/components/uikit/UiTable/UiTable.vue'
-import UiCellToolMenu from '@/components/uikit/cells/UiCellToolMenu.vue'
 import LiveStreamEventPopup from '@/components/events/LiveStreamEventPopup.vue'
-import Select from '@/components/Select/Select.vue'
-import { Group, Item } from '@/components/Select/SelectTypes'
 
-const i18n = inject<any>('i18n')
+const { t } = usei18n();
 const liveStreamStore = useLiveStreamStore()
 const commonStore = useCommonStore()
 const lexiconStore = useLexiconStore()
 const eventsStore = useEventsStore()
 
-const actionTable = 'action'
 const createCustomEvent = 'create'
-const customEvents = 'customEvents'
 const eventName = 'eventName'
-const properties = 'properties'
-const userProperties = 'userProperties'
 
 const eventPopupName = ref('')
 
@@ -81,7 +80,7 @@ const itemsPeriod = computed(() => {
   return shortPeriodDays.map(
     (key): UiToggleGroupItem => ({
       key,
-      nameDisplay: key + i18n.$t('common.calendar.dayShort'),
+      nameDisplay: key + t('common.calendar.dayShort'),
       value: key,
       selected: liveStreamStore.controlsPeriod === key,
     })
@@ -90,13 +89,30 @@ const itemsPeriod = computed(() => {
 
 const tableData = computed(() => {
   return useDataTable(
-    liveStreamStore.columns?.length
-      ? {
-          columns: liveStreamStore.columns,
-        }
-      : {},
-    true
+    {
+      columns: liveStreamStore.columns?.length ? liveStreamStore.columns : [],
+    },
+    true,
+    {}
   )
+})
+
+const lastCount = computed(() => {
+  return liveStreamStore.period.last
+})
+
+const columnsPropertues = computed(() => {
+  return lexiconStore.properties.map((item, i) => {
+    return {
+      fixed: false,
+      index: i,
+      lastFixed: true,
+      nowrap: true,
+      title: item.propertyName || '',
+      value: item.propertyName || '',
+      truncate: true,
+    }
+  })
 })
 
 const calendarValue = computed(() => {
@@ -112,26 +128,39 @@ const calendarValueString = computed(() => {
   if (liveStreamStore.isPeriodActive) {
     switch (liveStreamStore.period.type) {
       case 'last':
-        return `${i18n.$t('common.calendar.last')} ${liveStreamStore.period.last} ${i18n.$t(liveStreamStore.period.last === 1 ? 'common.calendar.day' : 'common.calendar.days')}`
+        return `${t('common.calendar.last')} ${liveStreamStore.period.last} ${t(liveStreamStore.period.last === 1 ? 'common.calendar.day' : 'common.calendar.days')}`
       case 'since':
-        return `${i18n.$t('common.calendar.since')} ${getStringDateByFormat(liveStreamStore.period.from, '%d %b, %Y')}`
+        return `${t('common.calendar.since')} ${getStringDateByFormat(liveStreamStore.period.from, '%d %b, %Y')}`
       case 'between':
         return `${getStringDateByFormat(liveStreamStore.period.from, '%d %b, %Y')} - ${getStringDateByFormat(liveStreamStore.period.to, '%d %b, %Y')}`
       default:
-        return i18n.$t('common.castom')
+        return t('common.custom')
     }
   } else {
-    return i18n.$t('common.castom')
+    return t('common.custom')
   }
 })
+
+const selectColumns = (payload: string[]) => {
+  liveStreamStore.toggleColumns(
+    payload.reduce((acc: PropertyRef[], key) => {
+      const property = lexiconStore.properties.find(property => property.propertyName === key) as PropertyRef
+      if (property) {
+        acc.push(property)
+      }
+      return acc
+    }, [])
+  )
+
+  updateReport()
+}
 
 const updateReport = () => {
   liveStreamStore.getReportLiveStream()
 }
 
-const onSelectPerion = (payload: string) => {
+const onSelectPeriod = (payload: string) => {
   liveStreamStore.controlsPeriod = payload
-  liveStreamStore.period.type = 'notCustom'
   updateReport()
 }
 
@@ -169,24 +198,29 @@ const onAction = (payload: Action) => {
 <style lang="scss">
 .table-live-steam {
   --table-live-steam-cell-width: 200px;
+
   .pf-c-table__sticky-column {
     &:nth-child(1) {
       min-width: var(--table-live-steam-cell-width);
       max-width: var(--table-live-steam-cell-width);
       left: 0;
     }
+
     &:nth-child(2) {
       min-width: 440px;
       width: 440px;
       left: 200px;
     }
+
     &:nth-child(3) {
       min-width: var(--table-live-steam-cell-width);
       left: 640px;
     }
   }
+
   .pf-u-text-nowrap {
     min-width: 140px;
+    max-width: 350px;
   }
 }
 </style>

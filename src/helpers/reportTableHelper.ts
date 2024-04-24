@@ -43,8 +43,8 @@ export const getQueryFormattedValue = (value: string, report: Report) => {
     const indexQuery = (reportEvent?.queries || [])[queryId]
 
     if (reportEvent && indexQuery) {
-      const activeEvent = reportEvent.eventId
-        ? lexiconStore.findEventById(reportEvent.eventId)
+      const activeEvent = reportEvent.eventName
+        ? lexiconStore.findEventByName(reportEvent.eventName)
         : null
       let resultString = activeEvent?.displayName || reportEvent.eventName || ''
 

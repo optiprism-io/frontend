@@ -71,19 +71,17 @@ const addEvent = (ref: EventRef) => {
 }
 
 const updateReport = () => {
-    if (liveStreamStore.events.length) {
-        liveStreamStore.getReportLiveStream()
-    }
+    liveStreamStore.getReportLiveStream()
 }
 
 const setEvent = (payload: EventPayload) => {
     liveStreamStore.events[payload.index] = payload.event
-
     updateReport()
 }
 
 const removeEvent = (idx: number): void => {
     liveStreamStore.events.splice(idx, 1)
+    updateReport()
 }
 
 const selectAction = (payload: string) => {

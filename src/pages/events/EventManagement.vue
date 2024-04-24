@@ -8,7 +8,6 @@
                 <UiTable
                     :items="items"
                     :columns="columns"
-                    :show-select-columns="true"
                     :no-data-text="$t('events.noEventsText')"
                     @on-action="onAction"
                 />
@@ -43,7 +42,7 @@ const columns = computed(() => {
             value: key,
             title: isAction ? '' : i18n.$t(`events.event_management.columns.${key}`),
             default: isAction,
-            type: isAction? 'action' : '',
+            type: isAction ? 'action' : '',
         }
     })
 })

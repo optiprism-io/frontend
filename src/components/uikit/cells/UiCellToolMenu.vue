@@ -36,7 +36,7 @@ interface Props {
 const props = defineProps<Props>()
 
 const selectItems = computed<UiSelectItemInterface<string | number>[]>(() => {
-    return props.items.map(item => ({
+    return (props.items || []).map(item => ({
         __type: 'item',
         id: item.value,
         label: item.label,

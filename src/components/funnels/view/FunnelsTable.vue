@@ -64,7 +64,7 @@ const totalDimensions = computed(() => dimensions.value[0]?.data?.length ?? 0)
 
 const funnelMetricValues = computed(() => {
     const res = funnelsStore.reports
-        .filter(col => col.type === 'funnelMetricValue')
+        .filter(col => col.type === 'metric')
         .reduce((result, col) => {
             if (!col.step) {
                 return result

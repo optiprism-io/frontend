@@ -6,9 +6,6 @@ import { getLastNDaysRange } from '@/helpers/calendarHelper'
 import {
   PropertyType,
   TimeUnit,
-  TimeLastTypeEnum,
-  TimeBetweenTypeEnum,
-  TimeFromTypeEnum,
   EventSegmentation,
   EventRecordsListRequestTime,
   EventChartType,
@@ -19,28 +16,17 @@ import {
   QueryFormulaTypeEnum,
   EventFilterByProperty,
   EventType,
-  QueryAggregatePropertyPerGroup,
   QueryAggregateProperty,
   QueryAggregate,
   QuerySimple,
   QuerySimpleTypeEnum,
-  QueryCountPerGroup,
-  QueryFormula,
   BreakdownByProperty,
   EventSegmentationEventAllOfQueries,
 } from '@/api'
-
 import { useLexiconStore } from '@/stores/lexicon'
-import { useSegmentsStore } from '@/stores/reports/segments'
 import { useFilterGroupsStore } from '../reports/filters'
 import { useBreakdownsStore } from '../reports/breakdowns'
-
-type Query =
-  | QuerySimple
-  | QueryCountPerGroup
-  | QueryAggregatePropertyPerGroup
-  | QueryAggregateProperty
-  | QueryFormula
+import { usePeriod, TimeTypeEnum } from '@/hooks/usePeriod'
 
 export type ChartType = 'line' | 'pie' | 'column'
 
@@ -50,6 +36,7 @@ export interface EventFilter {
   values: Value[]
   valuesList: Value[] | []
   error?: boolean
+  propertyType?: 'string'
 }
 
 export interface EventBreakdown {
@@ -79,12 +66,12 @@ export type Events = {
   group: Group
 
   controlsGroupBy: TimeUnit
-  controlsPeriod: string | number
+  controlsPeriod: string
   period: {
     from: string
     to: string
     last: number
-    type: string
+    type: TimeTypeEnum,
   }
   compareTo: TimeUnit | string
   compareOffset: number
@@ -122,13 +109,12 @@ export const useEventsStore = defineStore('events', {
     period: {
       from: '',
       to: '',
-      type: 'last',
+      type: TimeTypeEnum.Last,
       last: 30,
     },
     compareTo: '',
     compareOffset: 1,
     chartType: 'line',
-
     editCustomEvent: null,
   }),
   getters: {
@@ -136,31 +122,15 @@ export const useEventsStore = defineStore('events', {
       return false
     },
     timeRequest(): EventRecordsListRequestTime {
-      switch (this.period.type) {
-        case 'last':
-          return {
-            type: TimeLastTypeEnum.Last,
-            last: this.controlsPeriod === 'calendar' ? this.period.last : Number(this.controlsPeriod),
-            unit: this.controlsGroupBy,
-          }
-        case 'since':
-          return {
-            type: TimeFromTypeEnum.From,
-            from: new Date(this.period.from).toJSON(),
-          }
-        case 'between':
-          return {
-            type: TimeBetweenTypeEnum.Between,
-            from: new Date(this.period.from).toJSON(),
-            to: new Date(this.period.to).toJSON(),
-          }
-        default:
-          return {
-            type: TimeLastTypeEnum.Last,
-            last: this.controlsPeriod === 'calendar' ? this.period.last : Number(this.controlsPeriod),
-            unit: TimeUnit.Day,
-          }
-      }
+      const { getRequestTime } = usePeriod()
+
+      return getRequestTime(
+        this.period.type,
+        this.controlsPeriod,
+        this.period.from,
+        this.period.to,
+        this.period.last
+      )
     },
     hasSelectedEvents(): boolean {
       return Array.isArray(this.events) && Boolean(this.events.length)
@@ -191,7 +161,6 @@ export const useEventsStore = defineStore('events', {
       const lexiconStore = useLexiconStore()
       const filterGroupsStore = useFilterGroupsStore()
       const breakdownsStore = useBreakdownsStore()
-      const segmentsStore = useSegmentsStore()
 
       const props: EventSegmentation = {
         time: this.timeRequest,
@@ -213,10 +182,12 @@ export const useEventsStore = defineStore('events', {
 
                 switch (type) {
                   case QueryFormulaTypeEnum.Formula:
-                    acc.push({
-                      formula: query.queryRef.value || '',
-                      type: type,
-                    })
+                    if (query.queryRef.value) {
+                      acc.push({
+                        formula: query.queryRef.value || '',
+                        type: type,
+                      })
+                    }
                     break
                   case QuerySimpleTypeEnum.CountEvents:
                   case QuerySimpleTypeEnum.CountUniqueGroups:
@@ -283,14 +254,26 @@ export const useEventsStore = defineStore('events', {
           if (item.filters.length) {
             const filters = item.filters.reduce(
               (acc: EventFilterByProperty[], item): EventFilterByProperty[] => {
-                if (item.propRef && item.values.length) {
-                  acc.push({
+                if (
+                  item.propRef &&
+                  (item.opId === OperationId.Empty ||
+                    item.opId === OperationId.Exists ||
+                    item.opId === OperationId.True ||
+                    item.opId === OperationId.False ||
+                    item.values.length)
+                ) {
+                  const filter: EventFilterByProperty = {
                     type: 'property',
                     propertyName: item.propRef?.name || '',
                     propertyType: item.propRef?.type || 'event',
-                    operation: item.opId,
-                    value: item.values,
-                  })
+                    operation: item.opId
+                  }
+
+                  if (item.values.length) {
+                    filter.value = item.values
+                  }
+
+                  acc.push(filter)
                 }
                 return acc
               },
@@ -298,7 +281,7 @@ export const useEventsStore = defineStore('events', {
             )
 
             if (filters.length) {
-              event.filters = filters;
+              event.filters = filters
             }
           }
 
@@ -317,7 +300,10 @@ export const useEventsStore = defineStore('events', {
       // if (segmentsStore.isSelectedAnySegments) {
       //   props.segments = segmentsStore.segmentationItems
       // }
-      if (filterGroupsStore.isSelectedAnyFilter) {
+      if (
+        filterGroupsStore.filters.groups.length &&
+        filterGroupsStore.filters.groups[0].filters?.length
+      ) {
         props.filters = filterGroupsStore.filters
       }
 
@@ -343,29 +329,29 @@ export const useEventsStore = defineStore('events', {
     addEventByRef(ref: EventRef, initQuery?: boolean): void {
       switch (ref.type) {
         case EventType.Regular:
-          this.addEvent(ref.id, initQuery)
+          this.addEvent(ref.name, initQuery)
           break
         case EventType.Custom:
-          this.addCustomEvent(ref.id)
+          this.addCustomEvent(ref.name)
           break
       }
     },
-    addEvent(payload: number, initQuery = true): void {
+    addEvent(payload: string, initQuery = true): void {
       this.events.push(<Event>{
         ref: <EventRef>{
           type: EventType.Regular,
-          id: payload,
+          name: payload,
         },
         filters: [],
         breakdowns: [],
         queries: initQuery ? initialQuery : [],
       })
     },
-    addCustomEvent(payload: number): void {
+    addCustomEvent(payload: string): void {
       this.events.push(<Event>{
         ref: <EventRef>{
           type: EventType.Custom,
-          id: payload,
+          name: payload,
         },
         filters: [],
         breakdowns: [],
@@ -436,7 +422,7 @@ export const useEventsStore = defineStore('events', {
 
       queries[queryIdx] = <EventQuery>{
         queryRef: queryRef,
-        noDelete: queryIdx === 0,
+        noDelete: false,
       }
 
       this.events[eventIdx].queries = queries

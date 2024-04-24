@@ -9,7 +9,6 @@
                     :items="items"
                     :columns="columns"
                     :no-data-text="$t('events.noEventsText')"
-                    :show-select-columns="true"
                     @on-action="onAction"
                 >
                     <template #before>

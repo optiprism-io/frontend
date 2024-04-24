@@ -45,7 +45,7 @@
     "delete": "Delete",
     "edit": "Edit",
     "save": "Save",
-    "castom": "Castom",
+    "custom": "Custom",
     "list_of": "List of :types",
     "columns": "columns",
     "noData": "No data",
@@ -135,6 +135,8 @@
     }
   },
   "events": {
+    "eventProperties": "Event Properties",
+    "userProperties": "User Properties",
     "systemProperties": "System Properties",
     "noEvents": "No events",
     "noEventsFound": "No events found",
@@ -143,6 +145,9 @@
     "errorBreakdown": "This breakdown will not work because no event was found for the selected property",
     "breakdownTable": "Breakdown Table",
     "selectBreakdown": "Select Breakdown",
+    "operation": {
+      "empty": "Empty"
+    },
     "event_management": {
       "event": "Event",
       "columns": {

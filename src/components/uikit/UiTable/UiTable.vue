@@ -52,7 +52,7 @@
               </template>
             </tr>
             <tr role="row">
-              <template v-for="column in visibleColumns" :key="column.value">
+              <template v-for="column in columns" :key="column.value">
                 <UiTableCellWrapper
                   :fixed="column.fixed"
                   :sorted="column.sorted"
@@ -73,7 +73,7 @@
             </tr>
           </thead>
           <tbody role="rowgroup">
-            <tr v-for="(row, i) in visibleItems" :key="i" role="row">
+            <tr v-for="(row, i) in items" :key="i" role="row">
               <template v-for="(cell, j) in row" :key="j">
                 <UiTableCellWrapper
                   :fixed="cell.fixed"
@@ -88,6 +88,7 @@
                     :value="cell.value"
                     :title="cell.title"
                     :nowrap="cell.nowrap"
+                    :items="cell.items"
                     @on-action="onAction"
                   />
                 </UiTableCellWrapper>
@@ -101,7 +102,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, inject, useSlots, ref } from 'vue'
+import { computed, inject, useSlots, ref, onBeforeMount } from 'vue'
 import { Row, Column, Action, ColumnGroup } from '@/components/uikit/UiTable/UiTable'
 import UiTableHeadCell from '@/components/uikit/UiTable/UiTableHeadCell.vue'
 import UiTableCell from '@/components/uikit/UiTable/UiTableCell.vue'
@@ -109,7 +110,6 @@ import UiTableCellWrapper from '@/components/uikit/UiTable/UiTableCellWrapper.vu
 import UiSelect, { UiSelectItem } from '@/components/uikit/UiSelect.vue'
 import UiSpinner from '@/components/uikit/UiSpinner.vue'
 import DataEmptyPlaceholder from '@/components/common/data/DataEmptyPlaceholder.vue'
-import { boolean } from 'valibot'
 
 const i18n = inject<any>('i18n')
 const slots = useSlots()
@@ -119,12 +119,14 @@ type Props = {
   compact?: boolean
   items?: Row[]
   columns: Column[]
+  filterColumns?: Column[]
   groups?: ColumnGroup[]
   isLoading?: boolean
   showToolbar?: boolean
   noDataTitle?: string
   noDataText?: string
   enablePlaceholder?: boolean
+  defaultColumns?: string[]
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -140,15 +142,17 @@ const props = withDefaults(defineProps<Props>(), {
 
 const emit = defineEmits<{
   (e: 'on-action', payload: Action): void
+  (e: 'select-columns', payload: string[]): void
 }>()
 
-const disabledColumns = ref<{ [key: string]: boolean}>({})
+const activeColumns = ref<string[]>([])
 
 const showPlaceholder = computed(
   () => props.enablePlaceholder && !props.isLoading && !props.items?.length
 )
+
 const columnsSelect = computed(() => {
-  return props.showSelectColumns ? props.columns.reduce((acc: UiSelectItem<string>[], column) => {
+  return props.showSelectColumns ? (props.filterColumns || []).reduce((acc: UiSelectItem<string>[], column) => {
     if (!column.default) {
       acc.push({
         key: column.value,
@@ -160,44 +164,23 @@ const columnsSelect = computed(() => {
   }, []) : []
 })
 
-const activeColumns = computed(() => {
-  return props.columns.reduce((acc: string[], item) => {
-    if (!disabledColumns.value[item.value]) {
-        acc.push(item.value)
-    }
-    return acc
-  }, [])
-})
-
-const columnsButtonText = computed(() => `${columnsSelect.value.length} ${i18n.$t('common.columns')}`)
-
-const visibleColumns = computed(() => {
-  return props.columns.filter(
-    item =>
-      !item.hidden &&
-      (!props.showSelectColumns || item.default || !disabledColumns.value[item.value])
-  )
-})
-
-const visibleColumnsKeys = computed(() => {
-  return visibleColumns.value.map(col => col.value)
-})
-
-const visibleItems = computed(() => {
-  return props.items.map(row => {
-    return row.filter(
-      cell => visibleColumnsKeys.value.includes(cell.key)
-    )
-  })
-})
+const columnsButtonText = computed(() => `${activeColumns.value.length} ${i18n.$t('common.columns')}`)
 
 const onAction = (payload: Action) => {
   emit('on-action', payload)
 }
 
 const toggleColumns = (payload: string) => {
-  disabledColumns.value[payload] = !disabledColumns.value[payload]
+  activeColumns.value = activeColumns.value.includes(payload) ?
+    activeColumns.value.filter(item => item !== payload) :
+    [...activeColumns.value, payload]
+
+  emit('select-columns', activeColumns.value)
 }
+
+onBeforeMount(() => {
+  activeColumns.value = props.defaultColumns || props.columns.map(item => item.value)
+})
 </script>
 
 <style lang="scss">

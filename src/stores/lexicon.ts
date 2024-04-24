@@ -24,6 +24,7 @@ import {
   Event,
   CustomProperty,
   QueryAggregate,
+  PropertyRef as PropertyRefApi,
 } from '@/api'
 import { useCommonStore, PropertyTypeEnum } from '@/stores/common'
 import { useProjectsStore } from '@/stores/projects/projects'
@@ -223,7 +224,6 @@ export const useLexiconStore = defineStore('lexicon', {
       this.systemPropertiesLoading = false
     },
     async getUserProperties() {
-      const commonStore = useCommonStore()
       const projectsStore = useProjectsStore()
 
       this.eventPropertiesLoading = true
@@ -238,14 +238,30 @@ export const useLexiconStore = defineStore('lexicon', {
     },
   },
   getters: {
-    propertiesLength(state) {
-      return (
-        state.eventProperties?.length +
-        state.eventCustomProperties?.length +
-        state.userProperties?.length +
-        state.userCustomProperties?.length +
-        state.systemProperties?.length
-      )
+    properties(state) {
+      return [
+        ...state.eventProperties.map((item): PropertyRefApi => {
+          return {
+            propertyType: PropertyType.Event,
+            propertyName: item.name || item.displayName,
+          }
+        }),
+        ...state.userProperties.map((item): PropertyRefApi => {
+          return {
+            propertyType: PropertyType.User,
+            propertyName: item.name || item.displayName,
+          }
+        }),
+        ...state.systemProperties.map((item): PropertyRefApi => {
+          return {
+            propertyType: PropertyType.System,
+            propertyName: item.name || item.displayName,
+          }
+        })
+      ]
+    },
+    propertiesLength(): number {
+      return this.properties.length
     },
     findEventById(state: Lexicon) {
       return (id: number): Event => {
@@ -305,7 +321,7 @@ export const useLexiconStore = defineStore('lexicon', {
                 ? this.findEventByName(ref.name)
                 : ({} as Event)
           case EventType.Custom:
-            return this.findCustomEventById(ref.id)
+            return this.findCustomEventByName(ref.name)
         }
       }
     },

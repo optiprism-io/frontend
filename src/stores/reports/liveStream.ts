@@ -3,16 +3,18 @@ import {
   EventFilterByProperty,
   EventRecordRequestEvent,
   EventType,
-  TimeBetween,
-  TimeFrom,
-  TimeLast,
   PropertyFilterOperation,
   EventRecordsListRequest,
   DataTableResponseColumnsInner,
+  EventRecordsListRequestTime,
+  PropertyRef,
+  PropertyType,
 } from '@/api'
 import { Event } from '@/stores/eventSegmentation/events'
 import dataService from '@/api/services/datas.service'
 import { useProjectsStore } from '@/stores/projects/projects'
+import { usePeriod, TimeTypeEnum } from '@/hooks/usePeriod'
+import { useLexiconStore } from '../lexicon'
 
 export interface Report {
   name: string
@@ -27,17 +29,17 @@ export interface Report {
   }>
 }
 
-type LiveStream = {
+type LiveStreamStore = {
   events: Event[]
   controlsPeriod: string
   period: {
     from: string
     to: string
     last: number
-    type: string
+    type: TimeTypeEnum
   }
   columns: Array<DataTableResponseColumnsInner>
-  activeColumns: string[]
+  activeColumns: PropertyRef[]
   loading: boolean
   eventPopup: boolean
 }
@@ -73,18 +75,24 @@ const getParamsEventsForRequest = (events: Event[]): EventRecordRequestEvent[] =
   }, [])
 }
 
+export const defaultColumns = [
+  'user_id',
+  'created_at',
+  'event'
+]
+
 export const useLiveStreamStore = defineStore('liveStream', {
-  state: (): LiveStream => ({
+  state: (): LiveStreamStore => ({
     events: [],
     controlsPeriod: '90',
     period: {
       from: '',
       to: '',
-      type: 'last',
+      type: TimeTypeEnum.Last,
       last: 30,
     },
     columns: [],
-    activeColumns: [],
+    activeColumns: defaultColumns.map(key => ({propertyName: key, propertyType: PropertyType.System})),
     loading: false,
     eventPopup: false,
   }),
@@ -94,51 +102,36 @@ export const useLiveStreamStore = defineStore('liveStream', {
         Boolean(this.period.from) && Boolean(this.period.to) && this.controlsPeriod === 'calendar'
       )
     },
-    timeRequest(): TimeBetween | TimeFrom | TimeLast {
-      switch (this.period.type) {
-        case 'last':
-          return {
-            type: this.period.type,
-            last: this.period.last,
-            unit: 'day',
-          }
-        case 'since':
-          return {
-            type: 'from',
-            from: new Date(this.period.from).toJSON(),
-          }
-        case 'between':
-          return {
-            type: this.period.type,
-            from: new Date(this.period.from).toJSON(),
-            to: new Date(this.period.to).toJSON(),
-          }
-        default:
-          return {
-            type: 'last',
-            last: Number(this.controlsPeriod),
-            unit: 'day',
-          }
-      }
+    timeRequest(): EventRecordsListRequestTime {
+      const { getRequestTime } = usePeriod()
+
+      return getRequestTime(
+        this.period.type,
+        this.controlsPeriod,
+        this.period.from,
+        this.period.to,
+        this.period.last
+      )
     },
     isNoData(): boolean {
       return !this.columns.length && !this.loading
     },
   },
   actions: {
-    toggleColumns(key: string) {
-      if (this.activeColumns.includes(key)) {
-        this.activeColumns = this.activeColumns.filter(item => item !== key)
-      } else {
-        this.activeColumns.push(key)
-      }
+    toggleColumns(payload: PropertyRef[]) {
+      this.activeColumns = payload;
     },
     async getReportLiveStream() {
       this.loading = true
       const projectsStore = useProjectsStore()
+      const lexiconStore = useLexiconStore()
+
+      const properties = this.activeColumns.filter(property => lexiconStore.properties.find(item => item.propertyName === property.propertyName))
+
       try {
         const props: EventRecordsListRequest = {
           time: this.timeRequest,
+          properties: properties
         }
 
         if (this.events.length) {

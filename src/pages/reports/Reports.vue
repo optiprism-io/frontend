@@ -49,7 +49,11 @@
         @input="(value: boolean) => (commonStore.syncReports = value)"
       />
     </div>
-    <UiTabs class="pf-u-w-100 pf-u-mb-lg" :items="items" @on-select="onSelectTab" />
+    <UiTabs
+      class="pf-u-w-100 pf-u-mb-lg"
+      :items="items"
+      @on-select="onSelectTab"
+    />
     <router-view />
   </section>
 </template>
@@ -213,16 +217,6 @@ const setNameReport = (payload: string) => {
   onSaveReport()
 }
 
-const setNew = async () => {
-  router.push(pagesMap.reportsEventSegmentation.name)
-
-  const routeData = router.resolve({
-    name: pagesMap.reportsEventSegmentation.name,
-  })
-
-  window.open(routeData.href, '_blank')
-}
-
 const onSelectTab = (value: string) => {
   if (value === pagesMap.reportsEventSegmentation.name) {
     reportsStore.emptyReport()
@@ -245,18 +239,6 @@ const onSelectReport = async (id: number) => {
     },
     query: route.query,
   })
-}
-
-const initReportPage = async () => {
-  const reportId =
-    (reportsId.value.includes(Number(route.params?.id)) ? route.params?.id : reportsId.value[0]) ||
-    null
-
-  if (reportId) {
-    await onSelectReport(Number(reportId))
-  }
-
-  reportsStore.loading = false
 }
 
 const initEventsAndProperties = async () => {
@@ -288,11 +270,14 @@ onMounted(async () => {
       font-size: 20px;
     }
   }
+
   &__select {
     width: 220px;
   }
+
   &__nav {
     min-height: 34px;
+
     &-item {
       &_new {
         margin-left: -12px;

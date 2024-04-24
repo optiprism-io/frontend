@@ -101,6 +101,12 @@ export interface Account {
      * @memberof Account
      */
     'status'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof Account
+     */
+    'timezone'?: string;
 }
 /**
  * 
@@ -231,12 +237,6 @@ export interface BreakdownByProperty {
      * @memberof BreakdownByProperty
      */
     'propertyName'?: string;
-    /**
-     * 
-     * @type {number}
-     * @memberof BreakdownByProperty
-     */
-    'propertyId'?: number;
     /**
      * 
      * @type {PropertyType}
@@ -483,12 +483,6 @@ export interface CustomEventEvent {
      * @memberof CustomEventEvent
      */
     'eventName'?: string;
-    /**
-     * 
-     * @type {number}
-     * @memberof CustomEventEvent
-     */
-    'eventId'?: number;
     /**
      * 
      * @type {EventType}
@@ -870,9 +864,7 @@ export interface DataTableResponseColumnsInner {
 
 export const DataTableResponseColumnsInnerTypeEnum = {
     Dimension: 'dimension',
-    Metric: 'metric',
-    MetricValue: 'metricValue',
-    FunnelMetricValue: 'funnelMetricValue'
+    Metric: 'metric'
 } as const;
 
 export type DataTableResponseColumnsInnerTypeEnum = typeof DataTableResponseColumnsInnerTypeEnum[keyof typeof DataTableResponseColumnsInnerTypeEnum];
@@ -892,7 +884,9 @@ export type DataTableResponseColumnsInnerData = Array<boolean> | Array<number> |
 export const DataType = {
     String: 'string',
     Number: 'number',
-    Boolean: 'boolean'
+    Boolean: 'boolean',
+    Decimal: 'decimal',
+    Timestamp: 'timestamp'
 } as const;
 
 export type DataType = typeof DataType[keyof typeof DataType];
@@ -926,12 +920,6 @@ export interface DidEventAggregateProperty {
      * @memberof DidEventAggregateProperty
      */
     'propertyName'?: string;
-    /**
-     * 
-     * @type {number}
-     * @memberof DidEventAggregateProperty
-     */
-    'propertyId'?: number;
     /**
      * 
      * @type {PropertyType}
@@ -1078,12 +1066,6 @@ export interface DidEventRelativeCount {
      * @memberof DidEventRelativeCount
      */
     'eventName'?: string;
-    /**
-     * 
-     * @type {number}
-     * @memberof DidEventRelativeCount
-     */
-    'eventId'?: number;
     /**
      * 
      * @type {EventType}
@@ -1347,12 +1329,6 @@ export interface EventFilterByProperty {
     'propertyName'?: string;
     /**
      * 
-     * @type {number}
-     * @memberof EventFilterByProperty
-     */
-    'propertyId'?: number;
-    /**
-     * 
      * @type {PropertyType}
      * @memberof EventFilterByProperty
      */
@@ -1463,12 +1439,6 @@ export interface EventGroupedFiltersGroupsInnerFiltersInner {
     'propertyName'?: string;
     /**
      * 
-     * @type {number}
-     * @memberof EventGroupedFiltersGroupsInnerFiltersInner
-     */
-    'propertyId'?: number;
-    /**
-     * 
      * @type {PropertyType}
      * @memberof EventGroupedFiltersGroupsInnerFiltersInner
      */
@@ -1565,12 +1535,6 @@ export interface EventRecordRequestEvent {
     'eventName'?: string;
     /**
      * 
-     * @type {number}
-     * @memberof EventRecordRequestEvent
-     */
-    'eventId'?: number;
-    /**
-     * 
      * @type {EventType}
      * @memberof EventRecordRequestEvent
      */
@@ -1603,18 +1567,6 @@ export interface EventRecordsListRequest {
      */
     'time': EventRecordsListRequestTime;
     /**
-     * 
-     * @type {Array<Value>}
-     * @memberof EventRecordsListRequest
-     */
-    'searchInEventProperties'?: Array<Value>;
-    /**
-     * 
-     * @type {Array<Value>}
-     * @memberof EventRecordsListRequest
-     */
-    'searchInUserProperties'?: Array<Value>;
-    /**
      * array of events to query
      * @type {Array<EventRecordRequestEvent>}
      * @memberof EventRecordsListRequest
@@ -1626,6 +1578,12 @@ export interface EventRecordsListRequest {
      * @memberof EventRecordsListRequest
      */
     'filters'?: EventGroupedFilters;
+    /**
+     * 
+     * @type {Array<PropertyRef>}
+     * @memberof EventRecordsListRequest
+     */
+    'properties'?: Array<PropertyRef>;
 }
 /**
  * @type EventRecordsListRequestTime
@@ -1646,12 +1604,6 @@ export interface EventRef {
      * @memberof EventRef
      */
     'eventName'?: string;
-    /**
-     * 
-     * @type {number}
-     * @memberof EventRef
-     */
-    'eventId'?: number;
     /**
      * 
      * @type {EventType}
@@ -1770,12 +1722,6 @@ export interface EventSegmentationEvent {
      * @memberof EventSegmentationEvent
      */
     'eventName'?: string;
-    /**
-     * 
-     * @type {number}
-     * @memberof EventSegmentationEvent
-     */
-    'eventId'?: number;
     /**
      * 
      * @type {EventType}
@@ -1923,26 +1869,6 @@ export type FunnelConversionOverTimeChartTypeTypeEnum = typeof FunnelConversionO
 /**
  * 
  * @export
- * @interface FunnelConversionStepsChartType
- */
-export interface FunnelConversionStepsChartType {
-    /**
-     * 
-     * @type {string}
-     * @memberof FunnelConversionStepsChartType
-     */
-    'type': FunnelConversionStepsChartTypeTypeEnum;
-}
-
-export const FunnelConversionStepsChartTypeTypeEnum = {
-    ConversionSteps: 'conversionSteps'
-} as const;
-
-export type FunnelConversionStepsChartTypeTypeEnum = typeof FunnelConversionStepsChartTypeTypeEnum[keyof typeof FunnelConversionStepsChartTypeTypeEnum];
-
-/**
- * 
- * @export
  * @interface FunnelConversionStepsChartTypeResponse
  */
 export interface FunnelConversionStepsChartTypeResponse {
@@ -1996,12 +1922,6 @@ export interface FunnelEvent {
      * @memberof FunnelEvent
      */
     'eventName'?: string;
-    /**
-     * 
-     * @type {number}
-     * @memberof FunnelEvent
-     */
-    'eventId'?: number;
     /**
      * 
      * @type {EventType}
@@ -2158,10 +2078,10 @@ export interface FunnelQuery {
     'count': FunnelQueryCountEnum;
     /**
      * 
-     * @type {string}
+     * @type {FunnelQueryFilter}
      * @memberof FunnelQuery
      */
-    'stepOrder': FunnelQueryStepOrderEnum;
+    'filter'?: FunnelQueryFilter;
     /**
      * 
      * @type {FunnelQueryAttribution}
@@ -2198,21 +2118,21 @@ export interface FunnelQuery {
      * @memberof FunnelQuery
      */
     'filters'?: EventGroupedFilters;
+    /**
+     * 
+     * @type {FunnelQueryTouch}
+     * @memberof FunnelQuery
+     */
+    'touch'?: FunnelQueryTouch;
 }
 
 export const FunnelQueryCountEnum = {
-    Uniques: 'uniques',
-    Totals: 'totals'
+    Unique: 'unique',
+    NonUnique: 'nonUnique',
+    Session: 'session'
 } as const;
 
 export type FunnelQueryCountEnum = typeof FunnelQueryCountEnum[keyof typeof FunnelQueryCountEnum];
-export const FunnelQueryStepOrderEnum = {
-    Any: 'any',
-    ExactSequence: 'exactSequence',
-    ExactOrder: 'exactOrder'
-} as const;
-
-export type FunnelQueryStepOrderEnum = typeof FunnelQueryStepOrderEnum[keyof typeof FunnelQueryStepOrderEnum];
 
 /**
  * @type FunnelQueryAttribution
@@ -2235,8 +2155,8 @@ export interface FunnelQueryAttributionOneOf {
 }
 
 export const FunnelQueryAttributionOneOfTypeEnum = {
-    FirstTouch: 'firstTouch',
-    LastTouch: 'lastTouch'
+    First: 'first',
+    Last: 'last'
 } as const;
 
 export type FunnelQueryAttributionOneOfTypeEnum = typeof FunnelQueryAttributionOneOfTypeEnum[keyof typeof FunnelQueryAttributionOneOfTypeEnum];
@@ -2285,25 +2205,11 @@ export interface FunnelQueryChartType {
      * @memberof FunnelQueryChartType
      */
     'intervalUnit': TimeUnit;
-    /**
-     * 
-     * @type {number}
-     * @memberof FunnelQueryChartType
-     */
-    'minInterval'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof FunnelQueryChartType
-     */
-    'maxInterval'?: number;
 }
 
 export const FunnelQueryChartTypeTypeEnum = {
-    ConversionSteps: 'conversionSteps',
-    ConversionOverTime: 'conversionOverTime',
-    TimeToConvert: 'timeToConvert',
-    Frequency: 'frequency'
+    Steps: 'steps',
+    ConversionOverTime: 'conversionOverTime'
 } as const;
 
 export type FunnelQueryChartTypeTypeEnum = typeof FunnelQueryChartTypeTypeEnum[keyof typeof FunnelQueryChartTypeTypeEnum];
@@ -2320,12 +2226,6 @@ export interface FunnelQueryExcludeInner {
      * @memberof FunnelQueryExcludeInner
      */
     'eventName'?: string;
-    /**
-     * 
-     * @type {number}
-     * @memberof FunnelQueryExcludeInner
-     */
-    'eventId'?: number;
     /**
      * 
      * @type {EventType}
@@ -2350,6 +2250,124 @@ export interface FunnelQueryExcludeInner {
 /**
  * 
  * @export
+ * @interface FunnelQueryFilter
+ */
+export interface FunnelQueryFilter {
+    /**
+     * 
+     * @type {string}
+     * @memberof FunnelQueryFilter
+     */
+    'type': FunnelQueryFilterTypeEnum;
+    /**
+     * Step number
+     * @type {number}
+     * @memberof FunnelQueryFilter
+     */
+    'step': number;
+    /**
+     * From timestamp
+     * @type {number}
+     * @memberof FunnelQueryFilter
+     */
+    'from': number;
+    /**
+     * From timestamp
+     * @type {number}
+     * @memberof FunnelQueryFilter
+     */
+    'to': number;
+}
+
+export const FunnelQueryFilterTypeEnum = {
+    DropOffOnAnyStep: 'dropOffOnAnyStep',
+    DropOffOnStep: 'dropOffOnStep',
+    TimeToConvert: 'timeToConvert'
+} as const;
+
+export type FunnelQueryFilterTypeEnum = typeof FunnelQueryFilterTypeEnum[keyof typeof FunnelQueryFilterTypeEnum];
+
+/**
+ * 
+ * @export
+ * @interface FunnelQueryFilterAnyOf
+ */
+export interface FunnelQueryFilterAnyOf {
+    /**
+     * 
+     * @type {string}
+     * @memberof FunnelQueryFilterAnyOf
+     */
+    'type': FunnelQueryFilterAnyOfTypeEnum;
+}
+
+export const FunnelQueryFilterAnyOfTypeEnum = {
+    DropOffOnAnyStep: 'dropOffOnAnyStep'
+} as const;
+
+export type FunnelQueryFilterAnyOfTypeEnum = typeof FunnelQueryFilterAnyOfTypeEnum[keyof typeof FunnelQueryFilterAnyOfTypeEnum];
+
+/**
+ * 
+ * @export
+ * @interface FunnelQueryFilterAnyOf1
+ */
+export interface FunnelQueryFilterAnyOf1 {
+    /**
+     * 
+     * @type {string}
+     * @memberof FunnelQueryFilterAnyOf1
+     */
+    'type': FunnelQueryFilterAnyOf1TypeEnum;
+    /**
+     * Step number
+     * @type {number}
+     * @memberof FunnelQueryFilterAnyOf1
+     */
+    'step': number;
+}
+
+export const FunnelQueryFilterAnyOf1TypeEnum = {
+    DropOffOnStep: 'dropOffOnStep'
+} as const;
+
+export type FunnelQueryFilterAnyOf1TypeEnum = typeof FunnelQueryFilterAnyOf1TypeEnum[keyof typeof FunnelQueryFilterAnyOf1TypeEnum];
+
+/**
+ * 
+ * @export
+ * @interface FunnelQueryFilterAnyOf2
+ */
+export interface FunnelQueryFilterAnyOf2 {
+    /**
+     * 
+     * @type {string}
+     * @memberof FunnelQueryFilterAnyOf2
+     */
+    'type': FunnelQueryFilterAnyOf2TypeEnum;
+    /**
+     * From timestamp
+     * @type {number}
+     * @memberof FunnelQueryFilterAnyOf2
+     */
+    'from': number;
+    /**
+     * From timestamp
+     * @type {number}
+     * @memberof FunnelQueryFilterAnyOf2
+     */
+    'to': number;
+}
+
+export const FunnelQueryFilterAnyOf2TypeEnum = {
+    TimeToConvert: 'timeToConvert'
+} as const;
+
+export type FunnelQueryFilterAnyOf2TypeEnum = typeof FunnelQueryFilterAnyOf2TypeEnum[keyof typeof FunnelQueryFilterAnyOf2TypeEnum];
+
+/**
+ * 
+ * @export
  * @interface FunnelQueryStepsInner
  */
 export interface FunnelQueryStepsInner {
@@ -2361,18 +2379,95 @@ export interface FunnelQueryStepsInner {
     'events': Array<FunnelEvent>;
     /**
      * 
-     * @type {string}
+     * @type {FunnelQueryStepsInnerOrder}
      * @memberof FunnelQueryStepsInner
      */
-    'order'?: FunnelQueryStepsInnerOrderEnum;
+    'order'?: FunnelQueryStepsInnerOrder;
+}
+/**
+ * 
+ * @export
+ * @interface FunnelQueryStepsInnerOrder
+ */
+export interface FunnelQueryStepsInnerOrder {
+    /**
+     * 
+     * @type {string}
+     * @memberof FunnelQueryStepsInnerOrder
+     */
+    'type': FunnelQueryStepsInnerOrderTypeEnum;
+    /**
+     * 
+     * @type {number}
+     * @memberof FunnelQueryStepsInnerOrder
+     */
+    'from': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof FunnelQueryStepsInnerOrder
+     */
+    'to': number;
 }
 
-export const FunnelQueryStepsInnerOrderEnum = {
-    Any: 'any',
+export const FunnelQueryStepsInnerOrderTypeEnum = {
+    Exact: 'exact',
+    Any: 'any'
+} as const;
+
+export type FunnelQueryStepsInnerOrderTypeEnum = typeof FunnelQueryStepsInnerOrderTypeEnum[keyof typeof FunnelQueryStepsInnerOrderTypeEnum];
+
+/**
+ * 
+ * @export
+ * @interface FunnelQueryStepsInnerOrderAnyOf
+ */
+export interface FunnelQueryStepsInnerOrderAnyOf {
+    /**
+     * 
+     * @type {string}
+     * @memberof FunnelQueryStepsInnerOrderAnyOf
+     */
+    'type': FunnelQueryStepsInnerOrderAnyOfTypeEnum;
+}
+
+export const FunnelQueryStepsInnerOrderAnyOfTypeEnum = {
     Exact: 'exact'
 } as const;
 
-export type FunnelQueryStepsInnerOrderEnum = typeof FunnelQueryStepsInnerOrderEnum[keyof typeof FunnelQueryStepsInnerOrderEnum];
+export type FunnelQueryStepsInnerOrderAnyOfTypeEnum = typeof FunnelQueryStepsInnerOrderAnyOfTypeEnum[keyof typeof FunnelQueryStepsInnerOrderAnyOfTypeEnum];
+
+/**
+ * 
+ * @export
+ * @interface FunnelQueryStepsInnerOrderAnyOf1
+ */
+export interface FunnelQueryStepsInnerOrderAnyOf1 {
+    /**
+     * 
+     * @type {string}
+     * @memberof FunnelQueryStepsInnerOrderAnyOf1
+     */
+    'type': FunnelQueryStepsInnerOrderAnyOf1TypeEnum;
+    /**
+     * 
+     * @type {number}
+     * @memberof FunnelQueryStepsInnerOrderAnyOf1
+     */
+    'from': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof FunnelQueryStepsInnerOrderAnyOf1
+     */
+    'to': number;
+}
+
+export const FunnelQueryStepsInnerOrderAnyOf1TypeEnum = {
+    Any: 'any'
+} as const;
+
+export type FunnelQueryStepsInnerOrderAnyOf1TypeEnum = typeof FunnelQueryStepsInnerOrderAnyOf1TypeEnum[keyof typeof FunnelQueryStepsInnerOrderAnyOf1TypeEnum];
 
 /**
  * 
@@ -2392,20 +2487,122 @@ export interface FunnelQueryTimeWindow {
      * @memberof FunnelQueryTimeWindow
      */
     'unit': TimeUnitWithSession;
+}
+
+
+/**
+ * 
+ * @export
+ * @interface FunnelQueryTouch
+ */
+export interface FunnelQueryTouch {
     /**
      * 
      * @type {string}
-     * @memberof FunnelQueryTimeWindow
+     * @memberof FunnelQueryTouch
      */
-    'from'?: FunnelQueryTimeWindowFromEnum;
+    'type'?: FunnelQueryTouchTypeEnum;
+    /**
+     * 
+     * @type {number}
+     * @memberof FunnelQueryTouch
+     */
+    'step'?: number;
 }
 
-export const FunnelQueryTimeWindowFromEnum = {
-    AnyDay: 'anyDay',
-    FirstDay: 'firstDay'
+export const FunnelQueryTouchTypeEnum = {
+    First: 'first',
+    Last: 'last',
+    Step: 'step'
 } as const;
 
-export type FunnelQueryTimeWindowFromEnum = typeof FunnelQueryTimeWindowFromEnum[keyof typeof FunnelQueryTimeWindowFromEnum];
+export type FunnelQueryTouchTypeEnum = typeof FunnelQueryTouchTypeEnum[keyof typeof FunnelQueryTouchTypeEnum];
+
+/**
+ * 
+ * @export
+ * @interface FunnelQueryTouchAnyOf
+ */
+export interface FunnelQueryTouchAnyOf {
+    /**
+     * 
+     * @type {string}
+     * @memberof FunnelQueryTouchAnyOf
+     */
+    'type'?: FunnelQueryTouchAnyOfTypeEnum;
+}
+
+export const FunnelQueryTouchAnyOfTypeEnum = {
+    First: 'first'
+} as const;
+
+export type FunnelQueryTouchAnyOfTypeEnum = typeof FunnelQueryTouchAnyOfTypeEnum[keyof typeof FunnelQueryTouchAnyOfTypeEnum];
+
+/**
+ * 
+ * @export
+ * @interface FunnelQueryTouchAnyOf1
+ */
+export interface FunnelQueryTouchAnyOf1 {
+    /**
+     * 
+     * @type {string}
+     * @memberof FunnelQueryTouchAnyOf1
+     */
+    'type'?: FunnelQueryTouchAnyOf1TypeEnum;
+}
+
+export const FunnelQueryTouchAnyOf1TypeEnum = {
+    Last: 'last'
+} as const;
+
+export type FunnelQueryTouchAnyOf1TypeEnum = typeof FunnelQueryTouchAnyOf1TypeEnum[keyof typeof FunnelQueryTouchAnyOf1TypeEnum];
+
+/**
+ * 
+ * @export
+ * @interface FunnelQueryTouchAnyOf2
+ */
+export interface FunnelQueryTouchAnyOf2 {
+    /**
+     * 
+     * @type {string}
+     * @memberof FunnelQueryTouchAnyOf2
+     */
+    'type'?: FunnelQueryTouchAnyOf2TypeEnum;
+    /**
+     * 
+     * @type {number}
+     * @memberof FunnelQueryTouchAnyOf2
+     */
+    'step'?: number;
+}
+
+export const FunnelQueryTouchAnyOf2TypeEnum = {
+    Step: 'step'
+} as const;
+
+export type FunnelQueryTouchAnyOf2TypeEnum = typeof FunnelQueryTouchAnyOf2TypeEnum[keyof typeof FunnelQueryTouchAnyOf2TypeEnum];
+
+/**
+ * 
+ * @export
+ * @interface FunnelStepsChartType
+ */
+export interface FunnelStepsChartType {
+    /**
+     * 
+     * @type {string}
+     * @memberof FunnelStepsChartType
+     */
+    'type': FunnelStepsChartTypeTypeEnum;
+}
+
+export const FunnelStepsChartTypeTypeEnum = {
+    Steps: 'steps'
+} as const;
+
+export type FunnelStepsChartTypeTypeEnum = typeof FunnelStepsChartTypeTypeEnum[keyof typeof FunnelStepsChartTypeTypeEnum];
 
 /**
  * 
@@ -2635,12 +2832,6 @@ export interface ListPropertyValuesRequest {
     'propertyName'?: string;
     /**
      * 
-     * @type {number}
-     * @memberof ListPropertyValuesRequest
-     */
-    'propertyId'?: number;
-    /**
-     * 
      * @type {PropertyType}
      * @memberof ListPropertyValuesRequest
      */
@@ -2651,12 +2842,6 @@ export interface ListPropertyValuesRequest {
      * @memberof ListPropertyValuesRequest
      */
     'eventName'?: string;
-    /**
-     * 
-     * @type {number}
-     * @memberof ListPropertyValuesRequest
-     */
-    'eventId'?: number;
     /**
      * 
      * @type {EventType}
@@ -2804,6 +2989,12 @@ export interface Profile {
      * @memberof Profile
      */
     'email': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof Profile
+     */
+    'timezone': string;
 }
 /**
  * 
@@ -2976,6 +3167,12 @@ export interface Property {
      */
     'status': PropertyStatus;
     /**
+     * hidden property is not shown in the UI
+     * @type {boolean}
+     * @memberof Property
+     */
+    'hidden'?: boolean;
+    /**
      * the property is a system-wide, shown in any project and can\'t be modified by a regular user
      * @type {boolean}
      * @memberof Property
@@ -3046,12 +3243,6 @@ export interface PropertyRef {
      * @memberof PropertyRef
      */
     'propertyName'?: string;
-    /**
-     * 
-     * @type {number}
-     * @memberof PropertyRef
-     */
-    'propertyId'?: number;
     /**
      * 
      * @type {PropertyType}
@@ -3191,12 +3382,6 @@ export interface QueryAggregateProperty {
     'propertyName'?: string;
     /**
      * 
-     * @type {number}
-     * @memberof QueryAggregateProperty
-     */
-    'propertyId'?: number;
-    /**
-     * 
      * @type {PropertyType}
      * @memberof QueryAggregateProperty
      */
@@ -3233,12 +3418,6 @@ export interface QueryAggregatePropertyPerGroup {
      * @memberof QueryAggregatePropertyPerGroup
      */
     'propertyName'?: string;
-    /**
-     * 
-     * @type {number}
-     * @memberof QueryAggregatePropertyPerGroup
-     */
-    'propertyId'?: number;
     /**
      * 
      * @type {PropertyType}
@@ -3480,12 +3659,6 @@ export interface SegmentConditionDidEvent {
      * @memberof SegmentConditionDidEvent
      */
     'eventName'?: string;
-    /**
-     * 
-     * @type {number}
-     * @memberof SegmentConditionDidEvent
-     */
-    'eventId'?: number;
     /**
      * 
      * @type {EventType}
@@ -3738,6 +3911,12 @@ export interface TimeBetween {
      * @memberof TimeBetween
      */
     'to': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof TimeBetween
+     */
+    'timezone': string;
 }
 
 export const TimeBetweenTypeEnum = {
@@ -3764,6 +3943,12 @@ export interface TimeFrom {
      * @memberof TimeFrom
      */
     'from': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof TimeFrom
+     */
+    'timezone': string;
 }
 
 export const TimeFromTypeEnum = {
@@ -3811,8 +3996,6 @@ export type TimeLastTypeEnum = typeof TimeLastTypeEnum[keyof typeof TimeLastType
  */
 
 export const TimeUnit = {
-    Second: 'second',
-    Minute: 'minute',
     Hour: 'hour',
     Day: 'day',
     Week: 'week',
@@ -3830,8 +4013,6 @@ export type TimeUnit = typeof TimeUnit[keyof typeof TimeUnit];
  */
 
 export const TimeUnitWithSession = {
-    Second: 'second',
-    Minute: 'minute',
     Hour: 'hour',
     Day: 'day',
     Week: 'week',
@@ -4325,9 +4506,9 @@ export const AuthApiFp = function(configuration?: Configuration) {
          */
         async basicLogin(loginRequest: LoginRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<TokensResponse>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.basicLogin(loginRequest, options);
-            const index = configuration?.serverIndex ?? 0;
-            const operationBasePath = operationServerMap['AuthApi.basicLogin']?.[index]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['AuthApi.basicLogin']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
          * 
@@ -4338,9 +4519,9 @@ export const AuthApiFp = function(configuration?: Configuration) {
          */
         async basicSignup(signupRequest: SignupRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<TokensResponse>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.basicSignup(signupRequest, options);
-            const index = configuration?.serverIndex ?? 0;
-            const operationBasePath = operationServerMap['AuthApi.basicSignup']?.[index]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['AuthApi.basicSignup']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
          * 
@@ -4351,9 +4532,9 @@ export const AuthApiFp = function(configuration?: Configuration) {
          */
         async refreshToken(refreshTokenRequest: RefreshTokenRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<TokensResponse>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.refreshToken(refreshTokenRequest, options);
-            const index = configuration?.serverIndex ?? 0;
-            const operationBasePath = operationServerMap['AuthApi.refreshToken']?.[index]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['AuthApi.refreshToken']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
     }
 };
@@ -4684,9 +4865,9 @@ export const CustomEventsApiFp = function(configuration?: Configuration) {
          */
         async createCustomEvent(projectId: number, createCustomEventRequest: CreateCustomEventRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CustomEvent>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.createCustomEvent(projectId, createCustomEventRequest, options);
-            const index = configuration?.serverIndex ?? 0;
-            const operationBasePath = operationServerMap['CustomEventsApi.createCustomEvent']?.[index]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['CustomEventsApi.createCustomEvent']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
          * 
@@ -4697,9 +4878,9 @@ export const CustomEventsApiFp = function(configuration?: Configuration) {
          */
         async customEventsList(projectId: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CustomEventsList200Response>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.customEventsList(projectId, options);
-            const index = configuration?.serverIndex ?? 0;
-            const operationBasePath = operationServerMap['CustomEventsApi.customEventsList']?.[index]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['CustomEventsApi.customEventsList']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
          * 
@@ -4711,9 +4892,9 @@ export const CustomEventsApiFp = function(configuration?: Configuration) {
          */
         async deleteCustomEvent(projectId: number, eventId: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.deleteCustomEvent(projectId, eventId, options);
-            const index = configuration?.serverIndex ?? 0;
-            const operationBasePath = operationServerMap['CustomEventsApi.deleteCustomEvent']?.[index]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['CustomEventsApi.deleteCustomEvent']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
          * 
@@ -4725,9 +4906,9 @@ export const CustomEventsApiFp = function(configuration?: Configuration) {
          */
         async getCustomEvent(projectId: number, eventId: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CustomEvent>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getCustomEvent(projectId, eventId, options);
-            const index = configuration?.serverIndex ?? 0;
-            const operationBasePath = operationServerMap['CustomEventsApi.getCustomEvent']?.[index]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['CustomEventsApi.getCustomEvent']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
          * 
@@ -4740,9 +4921,9 @@ export const CustomEventsApiFp = function(configuration?: Configuration) {
          */
         async updateCustomEvent(projectId: number, eventId: string, updateCustomEventRequest: UpdateCustomEventRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CustomEvent>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.updateCustomEvent(projectId, eventId, updateCustomEventRequest, options);
-            const index = configuration?.serverIndex ?? 0;
-            const operationBasePath = operationServerMap['CustomEventsApi.updateCustomEvent']?.[index]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['CustomEventsApi.updateCustomEvent']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
     }
 };
@@ -5127,9 +5308,9 @@ export const DashboardsApiFp = function(configuration?: Configuration) {
          */
         async createDashboard(projectId: number, createDashboardRequest: CreateDashboardRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Dashboard>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.createDashboard(projectId, createDashboardRequest, options);
-            const index = configuration?.serverIndex ?? 0;
-            const operationBasePath = operationServerMap['DashboardsApi.createDashboard']?.[index]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['DashboardsApi.createDashboard']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
          * 
@@ -5140,9 +5321,9 @@ export const DashboardsApiFp = function(configuration?: Configuration) {
          */
         async dashboardsList(projectId: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<DashboardsList200Response>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.dashboardsList(projectId, options);
-            const index = configuration?.serverIndex ?? 0;
-            const operationBasePath = operationServerMap['DashboardsApi.dashboardsList']?.[index]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['DashboardsApi.dashboardsList']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
          * 
@@ -5154,9 +5335,9 @@ export const DashboardsApiFp = function(configuration?: Configuration) {
          */
         async deleteDashboard(projectId: number, dashboardId: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Dashboard>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.deleteDashboard(projectId, dashboardId, options);
-            const index = configuration?.serverIndex ?? 0;
-            const operationBasePath = operationServerMap['DashboardsApi.deleteDashboard']?.[index]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['DashboardsApi.deleteDashboard']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
          * 
@@ -5168,9 +5349,9 @@ export const DashboardsApiFp = function(configuration?: Configuration) {
          */
         async getDashboard(projectId: number, dashboardId: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Dashboard>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getDashboard(projectId, dashboardId, options);
-            const index = configuration?.serverIndex ?? 0;
-            const operationBasePath = operationServerMap['DashboardsApi.getDashboard']?.[index]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['DashboardsApi.getDashboard']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
          * 
@@ -5183,9 +5364,9 @@ export const DashboardsApiFp = function(configuration?: Configuration) {
          */
         async updateDashboard(projectId: number, dashboardId: number, updateDashboardRequest: UpdateDashboardRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Dashboard>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.updateDashboard(projectId, dashboardId, updateDashboardRequest, options);
-            const index = configuration?.serverIndex ?? 0;
-            const operationBasePath = operationServerMap['DashboardsApi.updateDashboard']?.[index]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['DashboardsApi.updateDashboard']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
     }
 };
@@ -5483,9 +5664,9 @@ export const EventPropertiesApiFp = function(configuration?: Configuration) {
          */
         async eventPropertiesList(projectId: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UserPropertiesList200Response>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.eventPropertiesList(projectId, options);
-            const index = configuration?.serverIndex ?? 0;
-            const operationBasePath = operationServerMap['EventPropertiesApi.eventPropertiesList']?.[index]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['EventPropertiesApi.eventPropertiesList']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
          * 
@@ -5497,9 +5678,9 @@ export const EventPropertiesApiFp = function(configuration?: Configuration) {
          */
         async getEventProperty(projectId: number, propertyId: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Property>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getEventProperty(projectId, propertyId, options);
-            const index = configuration?.serverIndex ?? 0;
-            const operationBasePath = operationServerMap['EventPropertiesApi.getEventProperty']?.[index]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['EventPropertiesApi.getEventProperty']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
          * 
@@ -5512,9 +5693,9 @@ export const EventPropertiesApiFp = function(configuration?: Configuration) {
          */
         async updateEventProperty(projectId: number, propertyId: string, updatePropertyRequest: UpdatePropertyRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Property>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.updateEventProperty(projectId, propertyId, updatePropertyRequest, options);
-            const index = configuration?.serverIndex ?? 0;
-            const operationBasePath = operationServerMap['EventPropertiesApi.updateEventProperty']?.[index]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['EventPropertiesApi.updateEventProperty']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
     }
 };
@@ -5723,9 +5904,9 @@ export const EventRecordsApiFp = function(configuration?: Configuration) {
          */
         async eventRecordsList(projectId: number, eventRecordsListRequest: EventRecordsListRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<DataTableResponse>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.eventRecordsList(projectId, eventRecordsListRequest, options);
-            const index = configuration?.serverIndex ?? 0;
-            const operationBasePath = operationServerMap['EventRecordsApi.eventRecordsList']?.[index]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['EventRecordsApi.eventRecordsList']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
          * 
@@ -5737,9 +5918,9 @@ export const EventRecordsApiFp = function(configuration?: Configuration) {
          */
         async getEventRecord(projectId: number, id: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EventRecord>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getEventRecord(projectId, id, options);
-            const index = configuration?.serverIndex ?? 0;
-            const operationBasePath = operationServerMap['EventRecordsApi.getEventRecord']?.[index]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['EventRecordsApi.getEventRecord']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
     }
 };
@@ -5965,9 +6146,9 @@ export const EventsApiFp = function(configuration?: Configuration) {
          */
         async eventsList(projectId: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EventsList200Response>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.eventsList(projectId, options);
-            const index = configuration?.serverIndex ?? 0;
-            const operationBasePath = operationServerMap['EventsApi.eventsList']?.[index]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['EventsApi.eventsList']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
          * 
@@ -5979,9 +6160,9 @@ export const EventsApiFp = function(configuration?: Configuration) {
          */
         async getEvent(projectId: number, eventId: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Event>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getEvent(projectId, eventId, options);
-            const index = configuration?.serverIndex ?? 0;
-            const operationBasePath = operationServerMap['EventsApi.getEvent']?.[index]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['EventsApi.getEvent']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
          * 
@@ -5994,9 +6175,9 @@ export const EventsApiFp = function(configuration?: Configuration) {
          */
         async updateEvent(projectId: number, eventId: string, updateEventRequest: UpdateEventRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Event>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.updateEvent(projectId, eventId, updateEventRequest, options);
-            const index = configuration?.serverIndex ?? 0;
-            const operationBasePath = operationServerMap['EventsApi.updateEvent']?.[index]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['EventsApi.updateEvent']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
     }
 };
@@ -6253,9 +6434,9 @@ export const GroupRecordsApiFp = function(configuration?: Configuration) {
          */
         async getGroupRecord(projectId: number, id: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GroupRecord>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getGroupRecord(projectId, id, options);
-            const index = configuration?.serverIndex ?? 0;
-            const operationBasePath = operationServerMap['GroupRecordsApi.getGroupRecord']?.[index]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['GroupRecordsApi.getGroupRecord']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
          * 
@@ -6267,9 +6448,9 @@ export const GroupRecordsApiFp = function(configuration?: Configuration) {
          */
         async groupRecordsList(projectId: number, groupRecordsListRequest: GroupRecordsListRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GroupRecordsList200Response>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.groupRecordsList(projectId, groupRecordsListRequest, options);
-            const index = configuration?.serverIndex ?? 0;
-            const operationBasePath = operationServerMap['GroupRecordsApi.groupRecordsList']?.[index]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['GroupRecordsApi.groupRecordsList']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
          * 
@@ -6282,9 +6463,9 @@ export const GroupRecordsApiFp = function(configuration?: Configuration) {
          */
         async updateGroupRecord(projectId: number, id: number, updateGroupRecordRequest: UpdateGroupRecordRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GroupRecord>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.updateGroupRecord(projectId, id, updateGroupRecordRequest, options);
-            const index = configuration?.serverIndex ?? 0;
-            const operationBasePath = operationServerMap['GroupRecordsApi.updateGroupRecord']?.[index]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['GroupRecordsApi.updateGroupRecord']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
     }
 };
@@ -6480,9 +6661,9 @@ export const OrganizationsApiFp = function(configuration?: Configuration) {
          */
         async organization(organizationId: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Organization>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.organization(organizationId, options);
-            const index = configuration?.serverIndex ?? 0;
-            const operationBasePath = operationServerMap['OrganizationsApi.organization']?.[index]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['OrganizationsApi.organization']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
          * 
@@ -6492,9 +6673,9 @@ export const OrganizationsApiFp = function(configuration?: Configuration) {
          */
         async organizationsList(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<OrganizationsList200Response>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.organizationsList(options);
-            const index = configuration?.serverIndex ?? 0;
-            const operationBasePath = operationServerMap['OrganizationsApi.organizationsList']?.[index]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['OrganizationsApi.organizationsList']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
     }
 };
@@ -6739,9 +6920,9 @@ export const ProfileApiFp = function(configuration?: Configuration) {
          */
         async getProfile(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Profile>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getProfile(options);
-            const index = configuration?.serverIndex ?? 0;
-            const operationBasePath = operationServerMap['ProfileApi.getProfile']?.[index]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ProfileApi.getProfile']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
          * 
@@ -6752,9 +6933,9 @@ export const ProfileApiFp = function(configuration?: Configuration) {
          */
         async updateProfileEmail(updateProfileEmailRequest: UpdateProfileEmailRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<TokensResponse>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.updateProfileEmail(updateProfileEmailRequest, options);
-            const index = configuration?.serverIndex ?? 0;
-            const operationBasePath = operationServerMap['ProfileApi.updateProfileEmail']?.[index]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ProfileApi.updateProfileEmail']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
          * 
@@ -6765,9 +6946,9 @@ export const ProfileApiFp = function(configuration?: Configuration) {
          */
         async updateProfileName(updateProfileNameRequest: UpdateProfileNameRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.updateProfileName(updateProfileNameRequest, options);
-            const index = configuration?.serverIndex ?? 0;
-            const operationBasePath = operationServerMap['ProfileApi.updateProfileName']?.[index]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ProfileApi.updateProfileName']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
          * 
@@ -6778,9 +6959,9 @@ export const ProfileApiFp = function(configuration?: Configuration) {
          */
         async updateProfilePassword(updateProfilePasswordRequest: UpdateProfilePasswordRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<TokensResponse>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.updateProfilePassword(updateProfilePasswordRequest, options);
-            const index = configuration?.serverIndex ?? 0;
-            const operationBasePath = operationServerMap['ProfileApi.updateProfilePassword']?.[index]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ProfileApi.updateProfilePassword']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
     }
 };
@@ -7232,9 +7413,9 @@ export const ProjectsApiFp = function(configuration?: Configuration) {
          */
         async createOrganization(createOrganizationRequest: CreateOrganizationRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Organization>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.createOrganization(createOrganizationRequest, options);
-            const index = configuration?.serverIndex ?? 0;
-            const operationBasePath = operationServerMap['ProjectsApi.createOrganization']?.[index]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ProjectsApi.createOrganization']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
          * 
@@ -7245,9 +7426,9 @@ export const ProjectsApiFp = function(configuration?: Configuration) {
          */
         async createProject(createProjectRequest: CreateProjectRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Project>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.createProject(createProjectRequest, options);
-            const index = configuration?.serverIndex ?? 0;
-            const operationBasePath = operationServerMap['ProjectsApi.createProject']?.[index]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ProjectsApi.createProject']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
          * 
@@ -7258,9 +7439,9 @@ export const ProjectsApiFp = function(configuration?: Configuration) {
          */
         async deleteOrganization(organizationId: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Organization>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.deleteOrganization(organizationId, options);
-            const index = configuration?.serverIndex ?? 0;
-            const operationBasePath = operationServerMap['ProjectsApi.deleteOrganization']?.[index]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ProjectsApi.deleteOrganization']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
          * 
@@ -7271,9 +7452,9 @@ export const ProjectsApiFp = function(configuration?: Configuration) {
          */
         async deleteProject(projectId: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Project>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.deleteProject(projectId, options);
-            const index = configuration?.serverIndex ?? 0;
-            const operationBasePath = operationServerMap['ProjectsApi.deleteProject']?.[index]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ProjectsApi.deleteProject']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
          * 
@@ -7284,9 +7465,9 @@ export const ProjectsApiFp = function(configuration?: Configuration) {
          */
         async project(projectId: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Project>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.project(projectId, options);
-            const index = configuration?.serverIndex ?? 0;
-            const operationBasePath = operationServerMap['ProjectsApi.project']?.[index]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ProjectsApi.project']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
          * 
@@ -7296,9 +7477,9 @@ export const ProjectsApiFp = function(configuration?: Configuration) {
          */
         async projectsList(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ProjectsList200Response>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.projectsList(options);
-            const index = configuration?.serverIndex ?? 0;
-            const operationBasePath = operationServerMap['ProjectsApi.projectsList']?.[index]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ProjectsApi.projectsList']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
          * 
@@ -7310,9 +7491,9 @@ export const ProjectsApiFp = function(configuration?: Configuration) {
          */
         async updateOrganization(organizationId: number, updateOrganizationRequest: UpdateOrganizationRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Organization>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.updateOrganization(organizationId, updateOrganizationRequest, options);
-            const index = configuration?.serverIndex ?? 0;
-            const operationBasePath = operationServerMap['ProjectsApi.updateOrganization']?.[index]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ProjectsApi.updateOrganization']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
          * 
@@ -7324,9 +7505,9 @@ export const ProjectsApiFp = function(configuration?: Configuration) {
          */
         async updateProject(projectId: number, updateProjectRequest: UpdateProjectRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Project>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.updateProject(projectId, updateProjectRequest, options);
-            const index = configuration?.serverIndex ?? 0;
-            const operationBasePath = operationServerMap['ProjectsApi.updateProject']?.[index]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ProjectsApi.updateProject']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
     }
 };
@@ -7592,9 +7773,9 @@ export const PropertiesApiFp = function(configuration?: Configuration) {
          */
         async customPropertiesList(projectId: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CustomPropertiesList200Response>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.customPropertiesList(projectId, options);
-            const index = configuration?.serverIndex ?? 0;
-            const operationBasePath = operationServerMap['PropertiesApi.customPropertiesList']?.[index]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['PropertiesApi.customPropertiesList']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
     }
 };
@@ -7711,9 +7892,9 @@ export const PropertyValuesApiFp = function(configuration?: Configuration) {
          */
         async propertyValuesList(projectId: number, listPropertyValuesRequest: ListPropertyValuesRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PropertyValuesList200Response>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.propertyValuesList(projectId, listPropertyValuesRequest, options);
-            const index = configuration?.serverIndex ?? 0;
-            const operationBasePath = operationServerMap['PropertyValuesApi.propertyValuesList']?.[index]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['PropertyValuesApi.propertyValuesList']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
     }
 };
@@ -7880,9 +8061,9 @@ export const QueryApiFp = function(configuration?: Configuration) {
          */
         async eventSegmentationQuery(projectId: number, format: EventSegmentationQueryFormatEnum, eventSegmentation?: EventSegmentation, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<DataTableResponse>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.eventSegmentationQuery(projectId, format, eventSegmentation, options);
-            const index = configuration?.serverIndex ?? 0;
-            const operationBasePath = operationServerMap['QueryApi.eventSegmentationQuery']?.[index]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['QueryApi.eventSegmentationQuery']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
          * 
@@ -7894,9 +8075,9 @@ export const QueryApiFp = function(configuration?: Configuration) {
          */
         async funnelQuery(projectId: number, funnelQuery?: FunnelQuery, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<DataTableResponse>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.funnelQuery(projectId, funnelQuery, options);
-            const index = configuration?.serverIndex ?? 0;
-            const operationBasePath = operationServerMap['QueryApi.funnelQuery']?.[index]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['QueryApi.funnelQuery']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
     }
 };
@@ -8219,9 +8400,9 @@ export const ReportsApiFp = function(configuration?: Configuration) {
          */
         async createReport(projectId: number, createReportRequest: CreateReportRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Report>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.createReport(projectId, createReportRequest, options);
-            const index = configuration?.serverIndex ?? 0;
-            const operationBasePath = operationServerMap['ReportsApi.createReport']?.[index]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ReportsApi.createReport']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
          * 
@@ -8233,9 +8414,9 @@ export const ReportsApiFp = function(configuration?: Configuration) {
          */
         async deleteReport(projectId: number, reportId: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.deleteReport(projectId, reportId, options);
-            const index = configuration?.serverIndex ?? 0;
-            const operationBasePath = operationServerMap['ReportsApi.deleteReport']?.[index]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ReportsApi.deleteReport']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
          * 
@@ -8247,9 +8428,9 @@ export const ReportsApiFp = function(configuration?: Configuration) {
          */
         async getReport(projectId: number, reportId: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Report>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getReport(projectId, reportId, options);
-            const index = configuration?.serverIndex ?? 0;
-            const operationBasePath = operationServerMap['ReportsApi.getReport']?.[index]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ReportsApi.getReport']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
          * 
@@ -8260,9 +8441,9 @@ export const ReportsApiFp = function(configuration?: Configuration) {
          */
         async reportsList(projectId: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ReportsList200Response>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.reportsList(projectId, options);
-            const index = configuration?.serverIndex ?? 0;
-            const operationBasePath = operationServerMap['ReportsApi.reportsList']?.[index]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ReportsApi.reportsList']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
          * 
@@ -8275,9 +8456,9 @@ export const ReportsApiFp = function(configuration?: Configuration) {
          */
         async updateReport(projectId: number, reportId: number, updateReportRequest: UpdateReportRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Report>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.updateReport(projectId, reportId, updateReportRequest, options);
-            const index = configuration?.serverIndex ?? 0;
-            const operationBasePath = operationServerMap['ReportsApi.updateReport']?.[index]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ReportsApi.updateReport']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
     }
 };
@@ -8528,9 +8709,9 @@ export const SystemPropertiesApiFp = function(configuration?: Configuration) {
          */
         async getSystemProperty(projectId: number, propertyId: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Property>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getSystemProperty(projectId, propertyId, options);
-            const index = configuration?.serverIndex ?? 0;
-            const operationBasePath = operationServerMap['SystemPropertiesApi.getSystemProperty']?.[index]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['SystemPropertiesApi.getSystemProperty']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
          * 
@@ -8541,9 +8722,9 @@ export const SystemPropertiesApiFp = function(configuration?: Configuration) {
          */
         async systemPropertiesList(projectId: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UserPropertiesList200Response>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.systemPropertiesList(projectId, options);
-            const index = configuration?.serverIndex ?? 0;
-            const operationBasePath = operationServerMap['SystemPropertiesApi.systemPropertiesList']?.[index]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['SystemPropertiesApi.systemPropertiesList']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
     }
 };
@@ -8768,9 +8949,9 @@ export const UserPropertiesApiFp = function(configuration?: Configuration) {
          */
         async getUserProperty(projectId: number, propertyId: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Property>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getUserProperty(projectId, propertyId, options);
-            const index = configuration?.serverIndex ?? 0;
-            const operationBasePath = operationServerMap['UserPropertiesApi.getUserProperty']?.[index]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['UserPropertiesApi.getUserProperty']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
          * 
@@ -8783,9 +8964,9 @@ export const UserPropertiesApiFp = function(configuration?: Configuration) {
          */
         async updateUserProperty(projectId: number, propertyId: number, updatePropertyRequest: UpdatePropertyRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Property>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.updateUserProperty(projectId, propertyId, updatePropertyRequest, options);
-            const index = configuration?.serverIndex ?? 0;
-            const operationBasePath = operationServerMap['UserPropertiesApi.updateUserProperty']?.[index]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['UserPropertiesApi.updateUserProperty']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
          * 
@@ -8796,9 +8977,9 @@ export const UserPropertiesApiFp = function(configuration?: Configuration) {
          */
         async userPropertiesList(projectId: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UserPropertiesList200Response>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.userPropertiesList(projectId, options);
-            const index = configuration?.serverIndex ?? 0;
-            const operationBasePath = operationServerMap['UserPropertiesApi.userPropertiesList']?.[index]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['UserPropertiesApi.userPropertiesList']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
     }
 };

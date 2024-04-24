@@ -79,7 +79,7 @@ const props = withDefaults(defineProps<Props>(), {
 const reports = computed(() => props.reports ?? funnelsStore.reports)
 
 const stepNumbers = computed((): number[] => {
-    const metricValueColumns = reports.value.filter(col => col.type === 'funnelMetricValue')
+    const metricValueColumns = reports.value.filter(col => col.type === 'metric')
     const stepNumbers = metricValueColumns.map(col => col.step) as number[]
     return [...new Set(stepNumbers)]
 })

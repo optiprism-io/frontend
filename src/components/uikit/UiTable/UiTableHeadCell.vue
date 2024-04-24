@@ -1,5 +1,5 @@
 <template>
-  <div :key="value" class="ui-table-th">
+  <div :key="value" class="ui-table-th pf-u-max-width">
     <button v-if="sorted" class="pf-c-table__button">
       <div class="pf-c-table__button-content">
         <span class="pf-c-table__text">{{ title }}</span>
@@ -21,3 +21,9 @@ type Props = {
 
 defineProps<Props>()
 </script>
+
+<style>
+.ui-table-th {
+  --pf-u-max-width--MaxWidth: 400px;
+}
+</style>

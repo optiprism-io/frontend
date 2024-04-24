@@ -20,7 +20,11 @@
           :update-open="updateOpen"
           @select="changeQuery"
         >
-          <UiButton :before-icon="'fas fa-plus-circle'" class="pf-m-primary" type="button">
+          <UiButton
+            :before-icon="'fas fa-plus-circle'"
+            class="pf-m-primary"
+            type="button"
+          >
             {{ $t('events.selectQuery') }}
           </UiButton>
         </Select>
@@ -31,6 +35,7 @@
         :event-ref="eventRef"
         :selected="propRef"
         :width-auto="true"
+        :data-type="propertiesDataType"
         @select="changeProperty"
       >
         <UiButton
@@ -116,6 +121,9 @@ import Select from '@/components/Select/Select.vue'
 import PropertySelect from '@/components/events/PropertySelect.vue'
 import UiButton from '@/components/uikit/UiButton.vue'
 import usei18n from '@/hooks/useI18n'
+import {
+  DataType,
+} from '@/api'
 
 const eventsStore: Events = useEventsStore()
 const lexiconStore = useLexiconStore()
@@ -136,6 +144,11 @@ const emit = defineEmits<{
 
 const queryInfo = computed((): EventsQuery | undefined => {
   return lexiconStore.findQuery(props.item.queryRef)
+})
+
+const propertiesDataType = computed(() => {
+  const queryType = queryInfo.value?.type
+  return queryType === 'aggregateProperty' || queryType === 'aggregatePropertyPerGroup' ? DataType.Decimal : undefined
 })
 
 const propRef = computed((): PropertyRef | undefined => {

@@ -21,7 +21,6 @@ export default function useCustomEvent(){
                 const event: Event = {
                     ref: {
                         type: item.eventType,
-                        id: Number(item.eventId),
                         name: item.eventName || '',
                     },
                     filters: item.filters ? item.filters.map(filter => {

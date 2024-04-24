@@ -66,6 +66,16 @@ const items = computed(() => {
                     })
                 );
             }
+        } else if (props.propertyRef.type === PropertyType.System) {
+            const prop = lexiconStore.findSystemPropertyByName(props.propertyRef.name);
+            if (prop) {
+                findOperations(prop.dataType || 'string', prop.nullable, prop.isArray).forEach(op =>
+                    ret.push({
+                        item: op.id,
+                        name: op.name
+                    })
+                );
+            }
         }
     } else if (props.opItems && props.opItems.length) {
         ret = props.opItems;

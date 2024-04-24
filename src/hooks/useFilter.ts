@@ -37,6 +37,7 @@ export const useFilter = (): UseFilter => {
   const getValues = async (propRef: PropertyRef) => {
     const property = lexiconStore.property(propRef)
     let valuesList: Value[] = []
+
     if (property) {
       const eventRef = property.id ? getEventRef(property.id) : null
 

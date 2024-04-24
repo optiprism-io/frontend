@@ -204,7 +204,7 @@ const resultEvent = computed(() => {
         status: CustomEventStatus.Enabled,
         isSystem: false,
         events: events.value.map((item): CustomEventEvent => {
-            const event = lexiconStore.findEventById(item.ref.id)
+            const event = lexiconStore.findEventByName(item.ref.name)
 
             const eventProps: CustomEventEvent = {
                 eventName: event.name,
@@ -271,7 +271,7 @@ onBeforeMount(async () => {
                 return {
                     ref: {
                         type: EventType.Regular,
-                        id: item.eventId
+                        name: item.eventName,
                     },
                     filters: item.filters ? await Promise.all(item.filters.map(async filter => {
                         let valuesList: Array<Value> = []
