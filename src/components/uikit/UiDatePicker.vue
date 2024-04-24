@@ -55,13 +55,14 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed, onMounted, watch } from 'vue';
+import { ref, computed, onMounted, watch } from 'vue'
 import { getYYYYMMDD } from '@/helpers/getStringDates';
 import { getLastNDaysRange, dateDiff, isDate } from '@/helpers/calendarHelper';
 
 import UiCalendarControls from '@/components/uikit/UiCalendar/UiCalendarControls.vue';
 import UiCalendarInputs from './UiCalendar/UiCalendarInputs.vue'
 import UiCalendar from '@/components/uikit/UiCalendar/UiCalendar.vue';
+import { TimeTypeEnum } from '@/hooks/usePeriod'
 
 import { Each, ApplyPayload, CurrentValue, Value } from '@/components/uikit/UiCalendar/UiCalendar'
 
@@ -69,7 +70,7 @@ interface Props {
     showControls?: boolean
     value: Value
     lastCount?: number
-    activeTabControls?: string
+    activeTabControls?: TimeTypeEnum
     offsetMonth?: number
     monthLength?: number
     showEach?: boolean
@@ -77,7 +78,7 @@ interface Props {
 
 const props = withDefaults(defineProps<Props>(), {
     showControls: true,
-    activeTabControls: 'last',
+    activeTabControls: TimeTypeEnum.Last,
     lastCount: 7,
     offsetMonth: -24,
     monthLength: 25,
@@ -89,7 +90,7 @@ const emit = defineEmits<{
     (e: 'on-change-each', payload: Each): void;
 }>();
 
-const activeTab = ref('last');
+const activeTab = ref<TimeTypeEnum>(TimeTypeEnum.Last);
 const since = ref('');
 const isOpen = ref(false);
 const lastCountLocal = ref(7);
@@ -106,7 +107,7 @@ const warning = ref(false);
 const warningText = ref('');
 
 const fromSelectOnly = computed(() => {
-    const isOneDateSelectTabs = ['last', 'since'];
+    const isOneDateSelectTabs = [...Object.values(TimeTypeEnum)];
 
     return props.showControls && isOneDateSelectTabs.includes(activeTab.value);
 });
@@ -118,7 +119,7 @@ const firsDateCalendar = computed((): Date => {
     return firsDateCalendar;
 });
 
-const showCalendar = computed(() => activeTab.value !== 'each')
+const showCalendar = computed(() => activeTab.value !== TimeTypeEnum.Each)
 
 const onToggle = () => {
     isOpen.value = !isOpen.value;
@@ -128,7 +129,7 @@ const onHide = () => {
     isOpen.value = false
 }
 
-const onSelectTab = (type: string) => {
+const onSelectTab = (type: TimeTypeEnum) => {
     if (type === 'last') {
         lastCountLocal.value = dateDiff(valueLocal.value.from, getYYYYMMDD(new Date())) + 1;
     }

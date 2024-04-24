@@ -1,5 +1,6 @@
 import i18n from '@/utils/i18n'
 import schemaService from '@/api/services/schema.service'
+import { TimeTypeEnum } from '@/hooks/usePeriod'
 
 import { useStepsStore, HoldingProperty } from '@/stores/funnels/steps'
 import { useReportsStore } from '@/stores/reports/reports'
@@ -89,26 +90,40 @@ type GetTime = {
   time: TimeAfterFirstUse | TimeBetween | TimeLast | TimeWindowEach
 }
 
+type Period = {
+  from: string
+  to: string
+  last: number
+  type: TimeTypeEnum
+}
+
 const getTime = (props: GetTime) => {
   let each = null
-  const period = {
+  const period: Period = {
     from: '',
     to: '',
     last: 0,
-    type: props.time.type === 'windowEach' ? 'each' : props.time.type,
+    type: TimeTypeEnum.Last,
   }
 
   switch (props.time.type) {
     case TimeLastTypeEnum.Last:
       period.last = props.time.last
-    case TimeLastTypeEnum.Last:
+      period.type = TimeTypeEnum.Last
+      each = props.time?.unit as Each
+      break
     case TimeAfterFirstUseTypeEnum.AfterFirstUse:
+      each = props.time?.unit as Each
+      period.type = TimeTypeEnum.Last
+      break
     case TimeWindowEachTypeEnum.WindowEach:
       each = props.time?.unit as Each
+      period.type = TimeTypeEnum.Each
       break
     case TimeBetweenTypeEnum.Between:
       period.from = props.time.from
       period.to = props.time.to
+      period.type = TimeTypeEnum.Between
       break
   }
 

@@ -1,5 +1,6 @@
 import {OperationId} from '@/types'
 import {Each} from '@/components/uikit/UiCalendar/UiCalendar'
+import { TimeTypeEnum } from '@/hooks/usePeriod'
 
 import {
     DataType,
@@ -253,7 +254,7 @@ export interface Condition {
         from?: string
         to?: string
         last?: number
-        type?: string
+        type?: TimeTypeEnum
     }
     event?: {
         name: string

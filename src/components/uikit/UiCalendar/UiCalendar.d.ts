@@ -1,3 +1,4 @@
+import { TimeTypeEnum } from '@/hooks/usePeriod'
 export type Each = 'month' | 'week' | 'day' | 'hour' | 'minute'
 
 export interface RangeValue {
@@ -19,7 +20,7 @@ export interface CurrentValue {
 
 export interface ApplyPayload {
     value: CurrentValue,
-    type: string,
+    type: TimeTypeEnum,
     last: number,
 }
 

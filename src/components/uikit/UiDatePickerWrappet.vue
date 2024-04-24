@@ -30,13 +30,14 @@ import { computed, inject } from 'vue'
 import { getStringDateByFormat } from '@/helpers/getStringDates'
 import { ApplyPayload } from '@/components/uikit/UiCalendar/UiCalendar'
 import UiDatePicker from '@/components/uikit/UiDatePicker.vue'
+import { TimeTypeEnum } from '@/hooks/usePeriod'
 import { I18N } from '@/utils/i18n'
 
 export interface DataPickerPeriod {
   from: string
   to: string
   last: number
-  type: string
+  type: TimeTypeEnum
 }
 
 interface Props extends DataPickerPeriod {
@@ -48,7 +49,7 @@ const i18n = inject('i18n') as I18N
 const props = withDefaults(defineProps<Props>(), {
   from: '',
   to: '',
-  type: 'last',
+  type: TimeTypeEnum.Last,
   last: 30,
 })
 

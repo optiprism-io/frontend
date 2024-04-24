@@ -3,7 +3,7 @@ import { GroupRecord, EventRecordsListRequestTime, Value } from '@/api'
 import { groupRecordsService } from '@/api/services/groupRecords.service'
 import { useSegmentsStore } from '@/stores/reports/segments'
 import { useProjectsStore } from '@/stores/projects/projects'
-import { usePeriod } from '@/hooks/usePeriod'
+import { usePeriod, TimeTypeEnum } from '@/hooks/usePeriod'
 
 export type GroupMap = {
   [key: number]: GroupRecord
@@ -19,7 +19,7 @@ export type Group = {
     from: string
     to: string
     last: number
-    type: string
+    type: TimeTypeEnum
   }
 }
 
@@ -32,7 +32,7 @@ export const useGroupStore = defineStore('group', {
     period: {
       from: '',
       to: '',
-      type: 'last',
+      type: TimeTypeEnum.Last,
       last: 30,
     },
     propertyPopup: false,

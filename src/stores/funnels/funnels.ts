@@ -14,7 +14,7 @@ import { useFilterGroupsStore } from '@/stores/reports/filters'
 import { useBreakdownsStore } from '@/stores/reports/breakdowns'
 import { useSegmentsStore } from '@/stores/reports/segments'
 import { useProjectsStore } from '@/stores/projects/projects'
-import { usePeriod } from '@/hooks/usePeriod'
+import { usePeriod, TimeTypeEnum } from '@/hooks/usePeriod'
 
 export const convertColumns = (
   columns: DataTableResponseColumnsInner[],
@@ -40,7 +40,7 @@ type FunnelsStore = {
     from: string
     to: string
     last: number
-    type: string
+    type: TimeTypeEnum
   }
   reports: DataTableResponseColumnsInner[]
   loading: boolean
@@ -52,7 +52,7 @@ export const useFunnelsStore = defineStore('funnels', {
     period: {
       from: '',
       to: '',
-      type: 'last',
+      type: TimeTypeEnum.Last,
       last: 30,
     },
     reports: [],
@@ -109,7 +109,7 @@ export const useFunnelsStore = defineStore('funnels', {
     setControlsPeriod(payload: string) {
       this.controlsPeriod = payload
     },
-    setPeriod(payload: { from: string; to: string; type: string; last: number }) {
+    setPeriod(payload: { from: string; to: string; type: TimeTypeEnum; last: number }) {
       this.period = payload
     },
     initPeriod(): void {

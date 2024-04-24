@@ -16,29 +16,17 @@ import {
   QueryFormulaTypeEnum,
   EventFilterByProperty,
   EventType,
-  QueryAggregatePropertyPerGroup,
   QueryAggregateProperty,
   QueryAggregate,
   QuerySimple,
   QuerySimpleTypeEnum,
-  QueryCountPerGroup,
-  QueryFormula,
   BreakdownByProperty,
   EventSegmentationEventAllOfQueries,
 } from '@/api'
-
 import { useLexiconStore } from '@/stores/lexicon'
-import { useSegmentsStore } from '@/stores/reports/segments'
 import { useFilterGroupsStore } from '../reports/filters'
 import { useBreakdownsStore } from '../reports/breakdowns'
-import { usePeriod } from '@/hooks/usePeriod'
-
-type Query =
-  | QuerySimple
-  | QueryCountPerGroup
-  | QueryAggregatePropertyPerGroup
-  | QueryAggregateProperty
-  | QueryFormula
+import { usePeriod, TimeTypeEnum } from '@/hooks/usePeriod'
 
 export type ChartType = 'line' | 'pie' | 'column'
 
@@ -78,12 +66,12 @@ export type Events = {
   group: Group
 
   controlsGroupBy: TimeUnit
-  controlsPeriod: string | number
+  controlsPeriod: string
   period: {
     from: string
     to: string
     last: number
-    type: string
+    type: TimeTypeEnum,
   }
   compareTo: TimeUnit | string
   compareOffset: number
@@ -121,13 +109,12 @@ export const useEventsStore = defineStore('events', {
     period: {
       from: '',
       to: '',
-      type: 'last',
+      type: TimeTypeEnum.Last,
       last: 30,
     },
     compareTo: '',
     compareOffset: 1,
     chartType: 'line',
-
     editCustomEvent: null,
   }),
   getters: {
@@ -174,7 +161,6 @@ export const useEventsStore = defineStore('events', {
       const lexiconStore = useLexiconStore()
       const filterGroupsStore = useFilterGroupsStore()
       const breakdownsStore = useBreakdownsStore()
-      const segmentsStore = useSegmentsStore()
 
       const props: EventSegmentation = {
         time: this.timeRequest,

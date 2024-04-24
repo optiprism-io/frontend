@@ -25,7 +25,7 @@
                     <template #before>
                         <UiToggleGroup
                             :items="itemsPeriod"
-                            @select="onSelectPerion"
+                            @select="onSelectPeriod"
                         >
                             <template #after>
                                 <UiDatePickerWrappet
@@ -155,9 +155,8 @@ const updateData = () => {
     groupStore.getList();
 };
 
-const onSelectPerion = (payload: string) => {
+const onSelectPeriod = (payload: string) => {
     groupStore.controlsPeriod = payload;
-    groupStore.period.type = 'notCustom';
     updateData();
 };
 

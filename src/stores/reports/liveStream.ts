@@ -13,7 +13,7 @@ import {
 import { Event } from '@/stores/eventSegmentation/events'
 import dataService from '@/api/services/datas.service'
 import { useProjectsStore } from '@/stores/projects/projects'
-import { usePeriod } from '@/hooks/usePeriod'
+import { usePeriod, TimeTypeEnum } from '@/hooks/usePeriod'
 import { useLexiconStore } from '../lexicon'
 
 export interface Report {
@@ -36,7 +36,7 @@ type LiveStreamStore = {
     from: string
     to: string
     last: number
-    type: string
+    type: TimeTypeEnum
   }
   columns: Array<DataTableResponseColumnsInner>
   activeColumns: PropertyRef[]
@@ -88,7 +88,7 @@ export const useLiveStreamStore = defineStore('liveStream', {
     period: {
       from: '',
       to: '',
-      type: 'last',
+      type: TimeTypeEnum.Last,
       last: 30,
     },
     columns: [],
