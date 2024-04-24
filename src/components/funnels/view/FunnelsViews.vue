@@ -77,12 +77,13 @@ import {
 import { useMutation } from '@/hooks/useMutation'
 import { getLastNDaysRange } from '@/helpers/calendarHelper'
 import { storeToRefs } from 'pinia'
+import { TimeTypeEnum, usePeriod } from '@/hooks/usePeriod'
 
 interface Period {
   from: string
   to: string
   last: number
-  type: string
+  type: TimeTypeEnum
 }
 
 const item = ref<string | number>(0)
@@ -101,45 +102,28 @@ const controlsPeriod = ref<string | number>('30')
 const period = ref<Period>({
   from: '',
   to: '',
-  type: 'last',
+  type: TimeTypeEnum.Last,
   last: 30,
 })
 
 const { mutate: getReports, isLoading: loading } = useMutation(fetchReports)
 
 const timeRequest = computed<EventRecordsListRequestTime>(() => {
-  switch (period.value.type) {
-    case 'last':
-      return {
-        type: period.value.type,
-        last: period.value.last,
-        unit: 'day',
-      }
-    case 'since':
-      return {
-        type: 'from',
-        from: period.value.from,
-      }
-    case 'between':
-      return {
-        type: period.value.type,
-        from: period.value.from,
-        to: period.value.to,
-      }
-    default:
-      return {
-        type: 'last',
-        last: Number(controlsPeriod.value),
-        unit: 'day',
-      }
-  }
+  const { getRequestTime } = usePeriod()
+  return getRequestTime(
+    period.value.type,
+    controlsPeriod.value,
+    period.value.from,
+    period.value.to,
+    period.value.last
+  )
 })
 
 function setControlsPeriod(payload: string) {
   controlsPeriod.value = payload
 }
 
-function setPeriod(payload: { from: string; to: string; type: string; last: number }) {
+function setPeriod(payload: Period) {
   period.value = payload
 }
 

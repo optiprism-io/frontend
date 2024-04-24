@@ -1,56 +1,66 @@
 import i18n from '@/utils/i18n'
 import { TimeTypeEnum } from '@/hooks/usePeriod'
 
-import { useStepsStore, HoldingProperty } from '@/stores/funnels/steps'
+import { HoldingProperty, useStepsStore } from '@/stores/funnels/steps'
 import { useReportsStore } from '@/stores/reports/reports'
 import { useLexiconStore } from '@/stores/lexicon'
 import { useBreakdownsStore } from '@/stores/reports/breakdowns'
-import { useFilterGroupsStore, FilterGroup } from '@/stores/reports/filters'
-import { useSegmentsStore, Segment } from '@/stores/reports/segments'
+import { FilterGroup, useFilterGroupsStore } from '@/stores/reports/filters'
+import { Segment, useSegmentsStore } from '@/stores/reports/segments'
 import { Each } from '@/components/uikit/UiCalendar/UiCalendar'
-import { Value } from '@/api'
-
 import {
-  Property,
-  EventType,
-  PropertyType,
-  ReportType,
-  QuerySimple,
-  QueryCountPerGroup,
-  QueryAggregatePropertyPerGroup,
-  QueryAggregateProperty,
-  QueryFormula,
+  BreakdownByProperty,
+  DidEventRelativeCountTypeEnum,
+  Event as EventItem,
+  EventFilterByProperty,
+  EventFilterByPropertyTypeEnum,
+  EventGroupedFiltersGroupsInner,
   EventSegmentation,
+  EventSegmentationEvent,
+  EventSegmentationSegment,
+  EventType,
   FunnelQuery,
-  QueryFormulaTypeEnum,
-  QuerySimpleTypeEnum,
-  QueryCountPerGroupTypeEnum,
+  FunnelQueryStepsInner,
+  Property,
+  PropertyRef,
+  PropertyType,
+  QueryAggregate,
+  QueryAggregatePerGroup,
+  QueryAggregateProperty,
+  QueryAggregatePropertyPerGroup,
   QueryAggregatePropertyPerGroupTypeEnum,
   QueryAggregatePropertyTypeEnum,
-  EventSegmentationEvent,
-  EventGroupedFiltersGroupsInner,
-  EventSegmentationSegment,
-  DidEventRelativeCountTypeEnum,
+  QueryCountPerGroup,
+  QueryCountPerGroupTypeEnum,
+  QueryFormula,
+  QueryFormulaTypeEnum,
+  QuerySimple,
+  QuerySimpleTypeEnum,
+  ReportType,
   SegmentConditionDidEventTypeEnum,
   SegmentConditionHadPropertyValueTypeEnum,
   SegmentConditionHasPropertyValueTypeEnum,
-  TimeBetweenTypeEnum,
-  Event as EventItem,
-  EventFilterByProperty,
-  TimeBetween,
-  TimeLast,
   TimeAfterFirstUse,
-  TimeWindowEach,
-  TimeLastTypeEnum,
   TimeAfterFirstUseTypeEnum,
+  TimeBetween,
+  TimeBetweenTypeEnum,
+  TimeLast,
+  TimeLastTypeEnum,
+  TimeWindowEach,
   TimeWindowEachTypeEnum,
-  BreakdownByProperty,
-  FunnelQueryStepsInner,
-  PropertyRef,
-  QueryAggregate,
-  QueryAggregatePerGroup,
-  EventFilterByPropertyTypeEnum,
+  Value,
 } from '@/api'
+import {
+  ChartType,
+  Event,
+  EventBreakdown,
+  EventQuery,
+  useEventsStore,
+} from '@/stores/eventSegmentation/events'
+import { Step } from '@/types/steps'
+import { Condition, EventQueryRef, EventRef } from '@/types/events'
+import { Filter } from '@/types/filters'
+import { apiClient } from '@/api/apiClient'
 
 type Queries =
   | QuerySimple
@@ -58,22 +68,6 @@ type Queries =
   | QueryAggregatePropertyPerGroup
   | QueryAggregateProperty
   | QueryFormula
-
-import {
-  useEventsStore,
-  Event,
-  EventQuery,
-  EventBreakdown,
-  ChartType,
-} from '@/stores/eventSegmentation/events'
-import { Step } from '@/types/steps'
-import {
-  EventRef,
-  EventQueryRef,
-  Condition,
-} from '@/types/events'
-import { Filter } from '@/types/filters'
-import { apiClient } from '@/api/apiClient'
 
 type GetTime = {
   time: TimeAfterFirstUse | TimeBetween | TimeLast | TimeWindowEach
