@@ -18,6 +18,7 @@
       v-else-if="reportSteps.length"
       :report-steps="reportSteps"
       :height="props.heightChart || 240"
+      :lite-chart="true"
     />
   </div>
 </template>
