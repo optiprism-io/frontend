@@ -1,9 +1,9 @@
 <template>
   <div class="pf-l-flex pf-u-justify-content-center pf-u-flex-nowrap">
     <LegendMarker
-      v-for="(item, i) in reportSteps"
+      v-for="(item, i) in reportSteps.at(0)?.data || []"
       :key="i"
-      :marker-name="item.step"
+      :marker-name="item.groups.join('/')"
       :color="barsColors[i]"
     />
   </div>
