@@ -66,7 +66,7 @@ const dataView = computed(() => {
 
         return {
           index: i,
-          [xKey]: item[xKey],
+          [xKey]: item.groups.join('/'),
           primaryKey,
           secondaryKey,
           primaryValue,
