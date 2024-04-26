@@ -92,27 +92,29 @@
     </div>
   </div>
   <div v-if="isShowTable" class="events-views__table pf-c-card">
-    <UiTable
-      :is-loading="props.loading"
-      :items="dataTable.tableData"
-      :columns="dataTable.tableColumnsValues"
-    >
-      <template #before>
-        <div class="pf-u-font-size-lg">
-          {{ $t('events.breakdownTable') }}
-        </div>
-      </template>
-    </UiTable>
+    <n-data-table
+      :columns="columns"
+      :data="data"
+      :max-height="400"
+      virtual-scroll
+    />
   </div>
 </template>
 
 <script lang="ts" setup>
 import { computed, ref } from 'vue'
+
 import { useEventsStore, ChartType } from '@/stores/eventSegmentation/events'
 import { groupByMap, periodMap } from '@/configs/events/controls'
 import { ApplyPayload } from '@/components/uikit/UiCalendar/UiCalendar'
 import { getStringDateByFormat } from '@/helpers/getStringDates'
-import { Report, DataTableResponse, TimeUnit, DataTableResponseColumnsInner } from '@/api'
+import {
+  Report,
+  DataTableResponse,
+  TimeUnit,
+  DataTableResponseColumnsInner,
+  DataType,
+} from '@/api'
 import useDataTable from '@/hooks/useDataTable'
 import usei18n from '@/hooks/useI18n'
 import UiSelect from '@/components/uikit/UiSelect.vue'
@@ -121,11 +123,11 @@ import DataEmptyPlaceholder from '@/components/common/data/DataEmptyPlaceholder.
 import UiIcon from '@/components/uikit/UiIcon.vue'
 import UiDatePicker from '@/components/uikit/UiDatePicker.vue'
 import UiLabelGroup from '@/components/uikit/UiLabelGroup.vue'
-import UiTable from '@/components/uikit/UiTable/UiTable.vue'
 import ChartPie from '@/components/charts/ChartPie.vue'
 import ChartLine from '@/components/charts/ChartLine.vue'
 import ChartColumn from '@/components/charts/ChartColumn.vue'
 import { getQueryFormattedValue } from '@/helpers/reportTableHelper'
+import { useDateFormat } from '@vueuse/core'
 
 const compareToMap = ['day', 'week', 'month', 'year']
 const chartTypeMap = [
@@ -162,6 +164,67 @@ const props = withDefaults(defineProps<Props>(), {
 })
 
 const showCompareTo = ref(false)
+
+type CellData = number | string | boolean
+
+type RowData = {
+  [key: string]: CellData
+}
+
+type ColumnData = {
+  key: string
+  title: string
+  fixed?: string
+  width?: number
+  ellipsis?: boolean
+}
+
+const columns = computed(() => {
+  return props.eventSegmentation?.columns?.reduce((acc: ColumnData[], item) => {
+    const column: ColumnData = {
+      key: item.name,
+      title: item.name
+    }
+    
+    if (item.type === 'dimension') {
+      column.fixed = 'left'
+      column.width = 150
+    } else {
+      column.ellipsis = true
+      column.width = 200
+    }
+
+    if (item.name !== 'Segment') {
+      acc.push(column)
+    }
+    return acc
+  }, [])
+})
+
+const data = computed(() => {
+  const tableData: RowData[] = [];
+
+  (props.eventSegmentation?.columns || []).forEach((column, i, arr) => {
+    if (column.data?.length) {
+      column.data.forEach((item, indexData) => {
+        if (!tableData[indexData]) {
+          tableData[indexData] = {
+            key: indexData,
+          }
+        }
+        let value: CellData = item || '';
+
+        if (column.dataType === DataType.Timestamp && item) {
+          value = useDateFormat(+item, 'YYYY-MM-DD HH:mm')?.value
+        }
+
+        tableData[indexData][column.name] = value
+      })
+    }
+  })
+
+  return tableData
+})
 
 const dataTable = computed(() => {
   const columns: Array<DataTableResponseColumnsInner> = Object.values(
@@ -206,7 +269,7 @@ const emit = defineEmits<{
   (e: 'on-change'): void
 }>()
 
-const isNoData = computed(() => !props.loading && !dataTable.value.hasData)
+const isNoData = computed(() => !props.loading && !props.eventSegmentation?.columns?.length)
 const chartTypeActive = computed(() => props.chartType ?? eventsStore.chartType)
 const chartTypeLabel = computed(() => `${t('common.chartType')}:`)
 const isShowTable = computed(() => !isNoData.value && !props.onlyView)
