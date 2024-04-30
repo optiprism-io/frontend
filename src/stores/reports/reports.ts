@@ -14,7 +14,7 @@ import {
   ReportType,
   EventRecordsListRequestTime,
   EventChartType,
-  FunnelQueryChartTypeTypeEnum,
+  FunnelStepsChartTypeTypeEnum,
   TimeUnit,
   EventGroupedFilters,
   BreakdownByProperty,
@@ -52,7 +52,7 @@ export const getReport = (type: ReportType) => {
       type === ReportType.EventSegmentation
         ? (eventsStore.chartType as EventChartType)
         : {
-            type: FunnelQueryChartTypeTypeEnum.Steps,
+            type: FunnelStepsChartTypeTypeEnum.Steps,
             intervalUnit: TimeUnit.Day,
           },
     analysis: { type: 'linear' },

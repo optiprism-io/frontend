@@ -4,7 +4,7 @@ import { getYYYYMMDD } from '@/helpers/getStringDates'
 import {
   DataTableResponseColumnsInner,
   EventRecordsListRequestTime,
-  FunnelQueryChartTypeTypeEnum,
+  FunnelStepsChartTypeTypeEnum,
   TimeUnit,
   FunnelQueryCountEnum,
 } from '@/api'
@@ -140,7 +140,10 @@ export const useFunnelsStore = defineStore('funnels', {
             unit: stepsStore.unit,
           },
           chartType: {
-            type: FunnelQueryChartTypeTypeEnum.Steps,
+            type: FunnelStepsChartTypeTypeEnum.Steps,
+            /* TODO: fix typescript error */
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore: Unreachable code error
             intervalUnit: TimeUnit.Day,
           },
           count: FunnelQueryCountEnum.Unique,

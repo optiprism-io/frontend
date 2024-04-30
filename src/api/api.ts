@@ -1414,62 +1414,10 @@ export const EventGroupedFiltersGroupsInnerFiltersConditionEnum = {
 export type EventGroupedFiltersGroupsInnerFiltersConditionEnum = typeof EventGroupedFiltersGroupsInnerFiltersConditionEnum[keyof typeof EventGroupedFiltersGroupsInnerFiltersConditionEnum];
 
 /**
- * 
+ * @type EventGroupedFiltersGroupsInnerFiltersInner
  * @export
- * @interface EventGroupedFiltersGroupsInnerFiltersInner
  */
-export interface EventGroupedFiltersGroupsInnerFiltersInner {
-    /**
-     * 
-     * @type {string}
-     * @memberof EventGroupedFiltersGroupsInnerFiltersInner
-     */
-    'type': EventGroupedFiltersGroupsInnerFiltersInnerTypeEnum;
-    /**
-     * 
-     * @type {number}
-     * @memberof EventGroupedFiltersGroupsInnerFiltersInner
-     */
-    'cohortId': number;
-    /**
-     * 
-     * @type {string}
-     * @memberof EventGroupedFiltersGroupsInnerFiltersInner
-     */
-    'propertyName'?: string;
-    /**
-     * 
-     * @type {PropertyType}
-     * @memberof EventGroupedFiltersGroupsInnerFiltersInner
-     */
-    'propertyType': PropertyType;
-    /**
-     * 
-     * @type {PropertyFilterOperation}
-     * @memberof EventGroupedFiltersGroupsInnerFiltersInner
-     */
-    'operation': PropertyFilterOperation;
-    /**
-     * one or several property values. May be not set if operation is \"empty\" or \"exist\"
-     * @type {Array<Value>}
-     * @memberof EventGroupedFiltersGroupsInnerFiltersInner
-     */
-    'value'?: Array<Value>;
-    /**
-     * 
-     * @type {number}
-     * @memberof EventGroupedFiltersGroupsInnerFiltersInner
-     */
-    'groupId': number;
-}
-
-export const EventGroupedFiltersGroupsInnerFiltersInnerTypeEnum = {
-    Cohort: 'cohort',
-    Property: 'property',
-    Group: 'group'
-} as const;
-
-export type EventGroupedFiltersGroupsInnerFiltersInnerTypeEnum = typeof EventGroupedFiltersGroupsInnerFiltersInnerTypeEnum[keyof typeof EventGroupedFiltersGroupsInnerFiltersInnerTypeEnum];
+export type EventGroupedFiltersGroupsInnerFiltersInner = EventFilterByCohort | EventFilterByGroup | EventFilterByProperty;
 
 /**
  * 
@@ -2188,31 +2136,10 @@ export const FunnelQueryAttributionOneOf1TypeEnum = {
 export type FunnelQueryAttributionOneOf1TypeEnum = typeof FunnelQueryAttributionOneOf1TypeEnum[keyof typeof FunnelQueryAttributionOneOf1TypeEnum];
 
 /**
- * 
+ * @type FunnelQueryChartType
  * @export
- * @interface FunnelQueryChartType
  */
-export interface FunnelQueryChartType {
-    /**
-     * 
-     * @type {string}
-     * @memberof FunnelQueryChartType
-     */
-    'type': FunnelQueryChartTypeTypeEnum;
-    /**
-     * 
-     * @type {TimeUnit}
-     * @memberof FunnelQueryChartType
-     */
-    'intervalUnit': TimeUnit;
-}
-
-export const FunnelQueryChartTypeTypeEnum = {
-    Steps: 'steps',
-    ConversionOverTime: 'conversionOverTime'
-} as const;
-
-export type FunnelQueryChartTypeTypeEnum = typeof FunnelQueryChartTypeTypeEnum[keyof typeof FunnelQueryChartTypeTypeEnum];
+export type FunnelQueryChartType = FunnelConversionOverTimeChartType | FunnelStepsChartType;
 
 /**
  * 
@@ -2248,122 +2175,88 @@ export interface FunnelQueryExcludeInner {
 
 
 /**
- * 
+ * @type FunnelQueryFilter
  * @export
- * @interface FunnelQueryFilter
  */
-export interface FunnelQueryFilter {
-    /**
-     * 
-     * @type {string}
-     * @memberof FunnelQueryFilter
-     */
-    'type': FunnelQueryFilterTypeEnum;
-    /**
-     * Step number
-     * @type {number}
-     * @memberof FunnelQueryFilter
-     */
-    'step': number;
-    /**
-     * From timestamp
-     * @type {number}
-     * @memberof FunnelQueryFilter
-     */
-    'from': number;
-    /**
-     * From timestamp
-     * @type {number}
-     * @memberof FunnelQueryFilter
-     */
-    'to': number;
-}
-
-export const FunnelQueryFilterTypeEnum = {
-    DropOffOnAnyStep: 'dropOffOnAnyStep',
-    DropOffOnStep: 'dropOffOnStep',
-    TimeToConvert: 'timeToConvert'
-} as const;
-
-export type FunnelQueryFilterTypeEnum = typeof FunnelQueryFilterTypeEnum[keyof typeof FunnelQueryFilterTypeEnum];
+export type FunnelQueryFilter = FunnelQueryFilterOneOf | FunnelQueryFilterOneOf1 | FunnelQueryFilterOneOf2;
 
 /**
  * 
  * @export
- * @interface FunnelQueryFilterAnyOf
+ * @interface FunnelQueryFilterOneOf
  */
-export interface FunnelQueryFilterAnyOf {
+export interface FunnelQueryFilterOneOf {
     /**
      * 
      * @type {string}
-     * @memberof FunnelQueryFilterAnyOf
+     * @memberof FunnelQueryFilterOneOf
      */
-    'type': FunnelQueryFilterAnyOfTypeEnum;
+    'type': FunnelQueryFilterOneOfTypeEnum;
 }
 
-export const FunnelQueryFilterAnyOfTypeEnum = {
+export const FunnelQueryFilterOneOfTypeEnum = {
     DropOffOnAnyStep: 'dropOffOnAnyStep'
 } as const;
 
-export type FunnelQueryFilterAnyOfTypeEnum = typeof FunnelQueryFilterAnyOfTypeEnum[keyof typeof FunnelQueryFilterAnyOfTypeEnum];
+export type FunnelQueryFilterOneOfTypeEnum = typeof FunnelQueryFilterOneOfTypeEnum[keyof typeof FunnelQueryFilterOneOfTypeEnum];
 
 /**
  * 
  * @export
- * @interface FunnelQueryFilterAnyOf1
+ * @interface FunnelQueryFilterOneOf1
  */
-export interface FunnelQueryFilterAnyOf1 {
+export interface FunnelQueryFilterOneOf1 {
     /**
      * 
      * @type {string}
-     * @memberof FunnelQueryFilterAnyOf1
+     * @memberof FunnelQueryFilterOneOf1
      */
-    'type': FunnelQueryFilterAnyOf1TypeEnum;
+    'type': FunnelQueryFilterOneOf1TypeEnum;
     /**
      * Step number
      * @type {number}
-     * @memberof FunnelQueryFilterAnyOf1
+     * @memberof FunnelQueryFilterOneOf1
      */
     'step': number;
 }
 
-export const FunnelQueryFilterAnyOf1TypeEnum = {
+export const FunnelQueryFilterOneOf1TypeEnum = {
     DropOffOnStep: 'dropOffOnStep'
 } as const;
 
-export type FunnelQueryFilterAnyOf1TypeEnum = typeof FunnelQueryFilterAnyOf1TypeEnum[keyof typeof FunnelQueryFilterAnyOf1TypeEnum];
+export type FunnelQueryFilterOneOf1TypeEnum = typeof FunnelQueryFilterOneOf1TypeEnum[keyof typeof FunnelQueryFilterOneOf1TypeEnum];
 
 /**
  * 
  * @export
- * @interface FunnelQueryFilterAnyOf2
+ * @interface FunnelQueryFilterOneOf2
  */
-export interface FunnelQueryFilterAnyOf2 {
+export interface FunnelQueryFilterOneOf2 {
     /**
      * 
      * @type {string}
-     * @memberof FunnelQueryFilterAnyOf2
+     * @memberof FunnelQueryFilterOneOf2
      */
-    'type': FunnelQueryFilterAnyOf2TypeEnum;
+    'type': FunnelQueryFilterOneOf2TypeEnum;
     /**
      * From timestamp
      * @type {number}
-     * @memberof FunnelQueryFilterAnyOf2
+     * @memberof FunnelQueryFilterOneOf2
      */
     'from': number;
     /**
      * From timestamp
      * @type {number}
-     * @memberof FunnelQueryFilterAnyOf2
+     * @memberof FunnelQueryFilterOneOf2
      */
     'to': number;
 }
 
-export const FunnelQueryFilterAnyOf2TypeEnum = {
+export const FunnelQueryFilterOneOf2TypeEnum = {
     TimeToConvert: 'timeToConvert'
 } as const;
 
-export type FunnelQueryFilterAnyOf2TypeEnum = typeof FunnelQueryFilterAnyOf2TypeEnum[keyof typeof FunnelQueryFilterAnyOf2TypeEnum];
+export type FunnelQueryFilterOneOf2TypeEnum = typeof FunnelQueryFilterOneOf2TypeEnum[keyof typeof FunnelQueryFilterOneOf2TypeEnum];
 
 /**
  * 
@@ -2385,89 +2278,62 @@ export interface FunnelQueryStepsInner {
     'order'?: FunnelQueryStepsInnerOrder;
 }
 /**
- * 
+ * @type FunnelQueryStepsInnerOrder
  * @export
- * @interface FunnelQueryStepsInnerOrder
  */
-export interface FunnelQueryStepsInnerOrder {
-    /**
-     * 
-     * @type {string}
-     * @memberof FunnelQueryStepsInnerOrder
-     */
-    'type': FunnelQueryStepsInnerOrderTypeEnum;
-    /**
-     * 
-     * @type {number}
-     * @memberof FunnelQueryStepsInnerOrder
-     */
-    'from': number;
-    /**
-     * 
-     * @type {number}
-     * @memberof FunnelQueryStepsInnerOrder
-     */
-    'to': number;
-}
-
-export const FunnelQueryStepsInnerOrderTypeEnum = {
-    Exact: 'exact',
-    Any: 'any'
-} as const;
-
-export type FunnelQueryStepsInnerOrderTypeEnum = typeof FunnelQueryStepsInnerOrderTypeEnum[keyof typeof FunnelQueryStepsInnerOrderTypeEnum];
+export type FunnelQueryStepsInnerOrder = FunnelQueryStepsInnerOrderOneOf | FunnelQueryStepsInnerOrderOneOf1;
 
 /**
  * 
  * @export
- * @interface FunnelQueryStepsInnerOrderAnyOf
+ * @interface FunnelQueryStepsInnerOrderOneOf
  */
-export interface FunnelQueryStepsInnerOrderAnyOf {
+export interface FunnelQueryStepsInnerOrderOneOf {
     /**
      * 
      * @type {string}
-     * @memberof FunnelQueryStepsInnerOrderAnyOf
+     * @memberof FunnelQueryStepsInnerOrderOneOf
      */
-    'type': FunnelQueryStepsInnerOrderAnyOfTypeEnum;
+    'type': FunnelQueryStepsInnerOrderOneOfTypeEnum;
 }
 
-export const FunnelQueryStepsInnerOrderAnyOfTypeEnum = {
+export const FunnelQueryStepsInnerOrderOneOfTypeEnum = {
     Exact: 'exact'
 } as const;
 
-export type FunnelQueryStepsInnerOrderAnyOfTypeEnum = typeof FunnelQueryStepsInnerOrderAnyOfTypeEnum[keyof typeof FunnelQueryStepsInnerOrderAnyOfTypeEnum];
+export type FunnelQueryStepsInnerOrderOneOfTypeEnum = typeof FunnelQueryStepsInnerOrderOneOfTypeEnum[keyof typeof FunnelQueryStepsInnerOrderOneOfTypeEnum];
 
 /**
  * 
  * @export
- * @interface FunnelQueryStepsInnerOrderAnyOf1
+ * @interface FunnelQueryStepsInnerOrderOneOf1
  */
-export interface FunnelQueryStepsInnerOrderAnyOf1 {
+export interface FunnelQueryStepsInnerOrderOneOf1 {
     /**
      * 
      * @type {string}
-     * @memberof FunnelQueryStepsInnerOrderAnyOf1
+     * @memberof FunnelQueryStepsInnerOrderOneOf1
      */
-    'type': FunnelQueryStepsInnerOrderAnyOf1TypeEnum;
+    'type': FunnelQueryStepsInnerOrderOneOf1TypeEnum;
     /**
      * 
      * @type {number}
-     * @memberof FunnelQueryStepsInnerOrderAnyOf1
+     * @memberof FunnelQueryStepsInnerOrderOneOf1
      */
     'from': number;
     /**
      * 
      * @type {number}
-     * @memberof FunnelQueryStepsInnerOrderAnyOf1
+     * @memberof FunnelQueryStepsInnerOrderOneOf1
      */
     'to': number;
 }
 
-export const FunnelQueryStepsInnerOrderAnyOf1TypeEnum = {
+export const FunnelQueryStepsInnerOrderOneOf1TypeEnum = {
     Any: 'any'
 } as const;
 
-export type FunnelQueryStepsInnerOrderAnyOf1TypeEnum = typeof FunnelQueryStepsInnerOrderAnyOf1TypeEnum[keyof typeof FunnelQueryStepsInnerOrderAnyOf1TypeEnum];
+export type FunnelQueryStepsInnerOrderOneOf1TypeEnum = typeof FunnelQueryStepsInnerOrderOneOf1TypeEnum[keyof typeof FunnelQueryStepsInnerOrderOneOf1TypeEnum];
 
 /**
  * 
@@ -2491,98 +2357,76 @@ export interface FunnelQueryTimeWindow {
 
 
 /**
- * 
+ * @type FunnelQueryTouch
  * @export
- * @interface FunnelQueryTouch
  */
-export interface FunnelQueryTouch {
-    /**
-     * 
-     * @type {string}
-     * @memberof FunnelQueryTouch
-     */
-    'type'?: FunnelQueryTouchTypeEnum;
-    /**
-     * 
-     * @type {number}
-     * @memberof FunnelQueryTouch
-     */
-    'step'?: number;
-}
-
-export const FunnelQueryTouchTypeEnum = {
-    First: 'first',
-    Last: 'last',
-    Step: 'step'
-} as const;
-
-export type FunnelQueryTouchTypeEnum = typeof FunnelQueryTouchTypeEnum[keyof typeof FunnelQueryTouchTypeEnum];
+export type FunnelQueryTouch = FunnelQueryTouchOneOf | FunnelQueryTouchOneOf1 | FunnelQueryTouchOneOf2;
 
 /**
  * 
  * @export
- * @interface FunnelQueryTouchAnyOf
+ * @interface FunnelQueryTouchOneOf
  */
-export interface FunnelQueryTouchAnyOf {
+export interface FunnelQueryTouchOneOf {
     /**
      * 
      * @type {string}
-     * @memberof FunnelQueryTouchAnyOf
+     * @memberof FunnelQueryTouchOneOf
      */
-    'type'?: FunnelQueryTouchAnyOfTypeEnum;
+    'type'?: FunnelQueryTouchOneOfTypeEnum;
 }
 
-export const FunnelQueryTouchAnyOfTypeEnum = {
+export const FunnelQueryTouchOneOfTypeEnum = {
     First: 'first'
 } as const;
 
-export type FunnelQueryTouchAnyOfTypeEnum = typeof FunnelQueryTouchAnyOfTypeEnum[keyof typeof FunnelQueryTouchAnyOfTypeEnum];
+export type FunnelQueryTouchOneOfTypeEnum = typeof FunnelQueryTouchOneOfTypeEnum[keyof typeof FunnelQueryTouchOneOfTypeEnum];
 
 /**
  * 
  * @export
- * @interface FunnelQueryTouchAnyOf1
+ * @interface FunnelQueryTouchOneOf1
  */
-export interface FunnelQueryTouchAnyOf1 {
+export interface FunnelQueryTouchOneOf1 {
     /**
      * 
      * @type {string}
-     * @memberof FunnelQueryTouchAnyOf1
+     * @memberof FunnelQueryTouchOneOf1
      */
-    'type'?: FunnelQueryTouchAnyOf1TypeEnum;
+    'type'?: FunnelQueryTouchOneOf1TypeEnum;
 }
 
-export const FunnelQueryTouchAnyOf1TypeEnum = {
+export const FunnelQueryTouchOneOf1TypeEnum = {
     Last: 'last'
 } as const;
 
-export type FunnelQueryTouchAnyOf1TypeEnum = typeof FunnelQueryTouchAnyOf1TypeEnum[keyof typeof FunnelQueryTouchAnyOf1TypeEnum];
+export type FunnelQueryTouchOneOf1TypeEnum = typeof FunnelQueryTouchOneOf1TypeEnum[keyof typeof FunnelQueryTouchOneOf1TypeEnum];
 
 /**
  * 
  * @export
- * @interface FunnelQueryTouchAnyOf2
+ * @interface FunnelQueryTouchOneOf2
  */
-export interface FunnelQueryTouchAnyOf2 {
+export interface FunnelQueryTouchOneOf2 {
     /**
      * 
      * @type {string}
-     * @memberof FunnelQueryTouchAnyOf2
+     * @memberof FunnelQueryTouchOneOf2
      */
-    'type'?: FunnelQueryTouchAnyOf2TypeEnum;
+    'type'?: FunnelQueryTouchOneOf2TypeEnum;
     /**
      * 
      * @type {number}
-     * @memberof FunnelQueryTouchAnyOf2
+     * @memberof FunnelQueryTouchOneOf2
      */
     'step'?: number;
 }
 
-export const FunnelQueryTouchAnyOf2TypeEnum = {
+export const FunnelQueryTouchOneOf2TypeEnum = {
     Step: 'step'
 } as const;
 
-export type FunnelQueryTouchAnyOf2TypeEnum = typeof FunnelQueryTouchAnyOf2TypeEnum[keyof typeof FunnelQueryTouchAnyOf2TypeEnum];
+export type FunnelQueryTouchOneOf2TypeEnum = typeof FunnelQueryTouchOneOf2TypeEnum[keyof typeof FunnelQueryTouchOneOf2TypeEnum];
 
 /**
  * 

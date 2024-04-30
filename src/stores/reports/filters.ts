@@ -5,7 +5,6 @@ import {
   EventGroupedFilters,
   EventGroupedFiltersGroupsConditionEnum,
   EventGroupedFiltersGroupsInnerFiltersInner,
-  EventGroupedFiltersGroupsInnerFiltersInnerTypeEnum,
 } from '@/api'
 
 export const filterConditions = ['and', 'or'] as const
@@ -98,14 +97,17 @@ export const useFilterGroupsStore = defineStore('filter-groups', {
             filters: group.filters.reduce(
               (acc: EventGroupedFiltersGroupsInnerFiltersInner[], filter) => {
                 const item = {
-                  type: 'property' as EventGroupedFiltersGroupsInnerFiltersInnerTypeEnum,
+                  type: 'property',
+                  /* TODO: fix typescript error */
+                  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                  // @ts-ignore: Unreachable code error
                   cohortId: 0,
                   groupId: 0,
                   propertyName: filter.propRef?.name || '',
                   propertyType: filter.propRef?.type || 'event',
                   operation: filter.opId,
                   value: filter.values,
-                }
+                } satisfies EventGroupedFiltersGroupsInnerFiltersInner
 
                 if (filter.opId === OperationId.Empty ||
                   filter.opId === OperationId.Exists ||

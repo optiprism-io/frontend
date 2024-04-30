@@ -108,7 +108,7 @@ const getEventSegmentation = async () => {
       if (filterGroupsStore.isSelectedAnyFilter) {
         const filters = filterGroupsStore.filters.groups[0].filters.reduce(
           (acc: EventGroupedFiltersGroupsInnerFiltersInner[], filter) => {
-            if (filter.value?.length) {
+            if ('value' in filter && filter.value?.length) {
               acc.push(filter)
             }
 

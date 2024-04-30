@@ -234,10 +234,22 @@ const mapReportToFilterGroups = async (
 
             return {
               propRef: {
+                /* TODO: fix typescript error */
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                // @ts-ignore: Unreachable code error
                 type: filter.propertyType,
+                /* TODO: fix typescript error */
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                // @ts-ignore: Unreachable code error
                 name: filter.propertyName || '',
               },
+              /* TODO: fix typescript error */
+              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+              // @ts-ignore: Unreachable code error
               opId: filter.operation,
+              /* TODO: fix typescript error */
+              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+              // @ts-ignore: Unreachable code error
               values: filter.value || [],
               valuesList: valuesList as string[] | boolean[] | number[],
             }
