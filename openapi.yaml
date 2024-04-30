@@ -1125,16 +1125,22 @@ paths:
           $ref: '#/components/responses/Internal'
         '503':
           $ref: '#/components/responses/ServiceUnavailable'
-  /v1/projects/{projectId}/schema/user-properties:
+  /v1/projects/{projectId}/schema/group-properties/{groupId}:
     get:
-      summary: User properties list
-      operationId: userPropertiesList
+      summary: Group properties list
+      operationId: groupPropertiesList
       security:
         - bearerAuth: [ ]
       tags:
         - user properties
       parameters:
         - $ref: '#/components/parameters/ProjectID'
+        - name: groupId
+          in: path
+          description: Group ID
+          required: true
+          schema:
+            type: number
       responses:
         '200':
           description: properties list
@@ -1157,7 +1163,7 @@ paths:
           $ref: '#/components/responses/Internal'
         '503':
           $ref: '#/components/responses/ServiceUnavailable'
-  /v1/projects/{projectId}/schema/user-properties/{propertyId}:
+  /v1/projects/{projectId}/schema/group-properties/{groupId}/{propertyId}:
     get:
       summary: Get user property
       operationId: getUserProperty
@@ -1167,6 +1173,12 @@ paths:
         - user properties
       parameters:
         - $ref: '#/components/parameters/ProjectID'
+        - name: groupId
+          in: path
+          description: Group ID
+          required: true
+          schema:
+            type: number
         - name: propertyId
           in: path
           description: Property ID
@@ -1175,7 +1187,7 @@ paths:
             type: number
       responses:
         201:
-          description: user property
+          description: group property
           content:
             application/json:
               schema:
@@ -1193,14 +1205,20 @@ paths:
         '503':
           $ref: '#/components/responses/ServiceUnavailable'
     put:
-      summary: Update user property
-      operationId: updateUserProperty
+      summary: Update group property
+      operationId: updateGroupProperty
       security:
         - bearerAuth: [ ]
       tags:
         - user properties
       parameters:
         - $ref: '#/components/parameters/ProjectID'
+        - name: groupId
+          in: path
+          description: Group ID
+          required: true
+          schema:
+            type: number
         - name: propertyId
           in: path
           description: Property ID
@@ -1509,7 +1527,7 @@ paths:
           $ref: '#/components/responses/Internal'
         '503':
           $ref: '#/components/responses/ServiceUnavailable'
-  /v1/projects/{projectId}/group-records/{id}:
+  /v1/projects/{projectId}/group-records/{groupId}/{id}:
     get:
       summary: Get group record
       operationId: getGroupRecord
@@ -1519,6 +1537,12 @@ paths:
         - group records
       parameters:
         - $ref: '#/components/parameters/ProjectID'
+        - name: groupId
+          in: path
+          description: Group ID
+          required: true
+          schema:
+            type: number
         - name: id
           in: path
           description: Group Record ID
@@ -1554,6 +1578,12 @@ paths:
         - group records
       parameters:
         - $ref: '#/components/parameters/ProjectID'
+        - name: groupId
+          in: path
+          description: Group ID
+          required: true
+          schema:
+            type: number
         - name: id
           in: path
           description: Group Record ID
@@ -1586,7 +1616,7 @@ paths:
           $ref: '#/components/responses/Internal'
         '503':
           $ref: '#/components/responses/ServiceUnavailable'
-  /v1/projects/{projectId}/group-records/search:
+  /v1/projects/{projectId}/group-records/{groupId}/search:
     post:
       summary: List group records
       operationId: groupRecordsList
@@ -1596,6 +1626,12 @@ paths:
         - group records
       parameters:
         - $ref: '#/components/parameters/ProjectID'
+        - name: groupId
+          in: path
+          description: Group ID
+          required: true
+          schema:
+            type: number
       requestBody:
         required: true
         content:
@@ -2184,7 +2220,8 @@ components:
         strId:
           type: string
         group:
-          type: string
+          type: integer
+          format: int64
         properties:
           type: object
           description: map of group property name and property value pairs
@@ -2867,9 +2904,9 @@ components:
             - $ref: '#/components/schemas/TimeFrom'
             - $ref: '#/components/schemas/TimeLast'
         group:
-          type: string
+          type: integer
+          format: int64
           description: group that is used in aggregations by group. For instance, group by user or group by organization.
-          example: user
         searchTerm:
           type: string
         segments:
@@ -2891,8 +2928,8 @@ components:
             - $ref: '#/components/schemas/TimeFrom'
             - $ref: '#/components/schemas/TimeLast'
         group:
-          type: string
-          example: user
+          type: integer
+          format: int64
         steps:
           type: array
           items:
@@ -3341,9 +3378,9 @@ components:
             - $ref: '#/components/schemas/TimeFrom'
             - $ref: '#/components/schemas/TimeLast'
         group:
-          type: string
+          type: integer
+          format: int64
           description: group that is used in aggregations by group. For instance, group by user or group by organizartion.
-          example: user
         intervalUnit:
           $ref: '#/components/schemas/TimeUnit'
         chartType:
@@ -3965,13 +4002,16 @@ components:
         - "notLike"
     PropertyRef:
       type: object
-      required: [ 'propertyType' ]
+      required: [ 'propertyName', 'propertyType', 'group' ]
       description: reference to a property by id or name, depends on property type
       properties:
         propertyName:
           type: string
         propertyType:
           $ref: '#/components/schemas/PropertyType'
+        group:
+          type: integer
+          format: int64
     EventRef:
       type: object
       required: [ 'eventType' ]
