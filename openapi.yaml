@@ -2905,7 +2905,7 @@ components:
                   $ref: '#/components/schemas/FunnelEvent'
               order:
                 type: object
-                anyOf:
+                oneOf:
                   - type: object
                     required: [ 'type' ]
                     properties:
@@ -2935,7 +2935,7 @@ components:
               $ref: '#/components/schemas/TimeUnitWithSession'
         chartType:
           type: object
-          anyOf:
+          oneOf:
             - $ref: '#/components/schemas/FunnelStepsChartType'
             - $ref: '#/components/schemas/FunnelConversionOverTimeChartType'
         count:
@@ -2946,7 +2946,7 @@ components:
             - session
         filter:
           type: object
-          anyOf:
+          oneOf:
             - type: object
               required: [ 'type' ]
               properties:
@@ -3022,7 +3022,7 @@ components:
         filters:
           $ref: '#/components/schemas/EventGroupedFilters'
         touch:
-          anyOf:
+          oneOf:
             - type: object
               properties:
                 type:
@@ -3440,7 +3440,7 @@ components:
               filters:
                 type: array
                 items:
-                  anyOf:
+                  oneOf:
                     - $ref: '#/components/schemas/EventFilterByCohort'
                     - $ref: '#/components/schemas/EventFilterByProperty'
                     - $ref: '#/components/schemas/EventFilterByGroup'
