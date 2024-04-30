@@ -2587,6 +2587,99 @@ export type FunnelQueryTouchAnyOf2TypeEnum = typeof FunnelQueryTouchAnyOf2TypeEn
 /**
  * 
  * @export
+ * @interface FunnelResponse
+ */
+export interface FunnelResponse {
+    /**
+     * 
+     * @type {Array<FunnelResponseStepsInner>}
+     * @memberof FunnelResponse
+     */
+    'steps': Array<FunnelResponseStepsInner>;
+}
+/**
+ * 
+ * @export
+ * @interface FunnelResponseStepsInner
+ */
+export interface FunnelResponseStepsInner {
+    /**
+     * 
+     * @type {string}
+     * @memberof FunnelResponseStepsInner
+     */
+    'step': string;
+    /**
+     * 
+     * @type {Array<FunnelResponseStepsInnerDataInner>}
+     * @memberof FunnelResponseStepsInner
+     */
+    'data': Array<FunnelResponseStepsInnerDataInner>;
+}
+/**
+ * 
+ * @export
+ * @interface FunnelResponseStepsInnerDataInner
+ */
+export interface FunnelResponseStepsInnerDataInner {
+    /**
+     * 
+     * @type {Array<string>}
+     * @memberof FunnelResponseStepsInnerDataInner
+     */
+    'groups': Array<string>;
+    /**
+     * 
+     * @type {number}
+     * @memberof FunnelResponseStepsInnerDataInner
+     */
+    'ts': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof FunnelResponseStepsInnerDataInner
+     */
+    'total': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof FunnelResponseStepsInnerDataInner
+     */
+    'conversionRatio': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof FunnelResponseStepsInnerDataInner
+     */
+    'avgTimeToConvert': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof FunnelResponseStepsInnerDataInner
+     */
+    'droppedOff': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof FunnelResponseStepsInnerDataInner
+     */
+    'dropOffRatio': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof FunnelResponseStepsInnerDataInner
+     */
+    'timeToConvert': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof FunnelResponseStepsInnerDataInner
+     */
+    'timeToConvertFromStart': number;
+}
+/**
+ * 
+ * @export
  * @interface FunnelStepsChartType
  */
 export interface FunnelStepsChartType {
@@ -8073,7 +8166,7 @@ export const QueryApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async funnelQuery(projectId: number, funnelQuery?: FunnelQuery, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<DataTableResponse>> {
+        async funnelQuery(projectId: number, funnelQuery?: FunnelQuery, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<FunnelResponse>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.funnelQuery(projectId, funnelQuery, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['QueryApi.funnelQuery']?.[localVarOperationServerIndex]?.url;
@@ -8109,7 +8202,7 @@ export const QueryApiFactory = function (configuration?: Configuration, basePath
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        funnelQuery(projectId: number, funnelQuery?: FunnelQuery, options?: any): AxiosPromise<DataTableResponse> {
+        funnelQuery(projectId: number, funnelQuery?: FunnelQuery, options?: any): AxiosPromise<FunnelResponse> {
             return localVarFp.funnelQuery(projectId, funnelQuery, options).then((request) => request(axios, basePath));
         },
     };
