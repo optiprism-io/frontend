@@ -178,7 +178,6 @@ import Filter from '@/components/events/Filter.vue'
 import Breakdown from '@/components/events/Breakdown.vue'
 import Query from '@/components/events/Events/Query.vue'
 import { Group, Item } from '@/components/Select/SelectTypes'
-import schemaService from '@/api/services/schema.service'
 import useCustomEvent from '@/components/events/Events/CustomEventHooks'
 import { useEventName } from '@/helpers/useEventName'
 import { EventType } from '@/api'
@@ -186,6 +185,7 @@ import CommonIdentifier from '@/components/common/identifier/CommonIdentifier.vu
 import PropertySelect from '@/components/events/PropertySelect.vue'
 import { useEventsStore } from '@/stores/eventSegmentation/events'
 import { useProjectsStore } from '@/stores/projects/projects'
+import { apiClient } from '@/api/services/apiClient'
 
 const projectsStore = useProjectsStore()
 const eventsStore = useEventsStore()
@@ -288,7 +288,7 @@ const getPropertyValues = async (propRef: PropertyRef) => {
   let valuesList: Value[] = []
 
   try {
-    const res = await schemaService.propertyValues(projectsStore.projectId, {
+    const res = await apiClient.propertyValues.propertyValuesList(projectsStore.projectId, {
       eventName: props.event.ref.name,
       eventType: props.event.ref.type as EventType,
       propertyName: propRef.name,

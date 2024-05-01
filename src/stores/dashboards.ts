@@ -2,7 +2,7 @@ import { defineStore } from 'pinia';
 import { Dashboard } from '@/api';
 import { useProjectsStore } from '@/stores/projects/projects'
 
-import dashboardService from '@/api/services/dashboards.service';
+import { apiClient } from '@/api/services/apiClient'
 
 type DashboardsStore = {
     dashboards: Dashboard[],
@@ -16,7 +16,7 @@ export const useDashboardsStore = defineStore('dashboards', {
         async getDashboards() {
             const projectsStore = useProjectsStore()
             try {
-                const res = await dashboardService.dashboardsList(projectsStore.projectId);
+                const res =  await apiClient.dashboards.dashboardsList(projectsStore.projectId)
                 if (res?.data?.data) {
                     this.dashboards = res.data.data
                 }

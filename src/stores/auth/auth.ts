@@ -1,10 +1,10 @@
 import { defineStore } from 'pinia'
 import axios from 'axios'
 import { LoginRequest, TokensResponse } from '@/api'
-import { authService } from '@/api/services/auth.service'
 import { LocalStorageAccessor } from '@/utils/localStorageAccessor'
 import { getCookie, removeCookie, setCookie } from 'typescript-cookie'
 import { DecodedJwt, parseJwt } from '@/utils/parseJwt'
+import { apiClient } from '@/api/services/apiClient'
 
 const TOKEN_KEY = 'accessToken'
 const REFRESH_KEY = 'refreshToken'
@@ -39,7 +39,7 @@ export const useAuthStore = defineStore('auth', {
     actions: {
         async login(args: LoginPayload): Promise<void> {
             try {
-                const res = await authService.login(args.email, args.password)
+                const res = await apiClient.auth.basicLogin({ email: args.email, password: args.password })
                 this.setToken(res.data, args.keepLogged)
             } catch (e) {
                 return Promise.reject(e)
@@ -60,7 +60,7 @@ export const useAuthStore = defineStore('auth', {
             if (refreshToken && !this.refreshing) {
                 this.refreshing = true;
                 try {
-                    const res = await authService.refreshToken(refreshToken)
+                    const res = await apiClient.auth.refreshToken({ refreshToken })
                     this.reset();
                     this.setToken(res?.data, !!localStorage.getItem('keepLogged'))
                 } catch (error) {

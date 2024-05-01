@@ -1,7 +1,6 @@
 import { defineStore } from 'pinia'
 import { Condition, ConditionFilter, PropertyRef, EventRef } from '@/types/events'
 import { OperationId, Value } from '@/types'
-import schemaService from '@/api/services/schema.service'
 import { useLexiconStore } from '@/stores/lexicon'
 import { useProjectsStore } from '@/stores/projects/projects'
 
@@ -48,6 +47,7 @@ import {
   EventFilterByPropertyTypeEnum,
 } from '@/api'
 import { useProfileStore } from '../profile/profile'
+import { apiClient } from '@/api/services/apiClient'
 
 export interface Segment {
   name: string
@@ -377,7 +377,7 @@ export const useSegmentsStore = defineStore('segments', {
       try {
         const projectsStore = useProjectsStore()
 
-        const res = await schemaService.propertyValues(projectsStore.projectId, {
+        const res = await apiClient.propertyValues.propertyValuesList(projectsStore.projectId, {
           eventName: eventRef.name,
           eventType: eventRef.type,
           propertyName: propRef.name,
@@ -520,7 +520,7 @@ export const useSegmentsStore = defineStore('segments', {
 
         if (condition) {
           try {
-            const res = await schemaService.propertyValues(projectsStore.projectId, {
+            const res = await apiClient.propertyValues.propertyValuesList(projectsStore.projectId, {
               eventName: condition.event?.ref.name,
               propertyType: (condition.propRef?.type as PropertyType) || PropertyType.User,
               eventType: condition.event?.ref?.type as EventType,

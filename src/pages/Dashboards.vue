@@ -159,7 +159,6 @@
 import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import usei18n from '@/hooks/useI18n'
-import dashboardService from '@/api/services/dashboards.service'
 import { DashboardPanel as DashboardPanelType, DashboardPanelTypeEnum } from '@/api'
 
 import { useDashboardsStore } from '@/stores/dashboards'
@@ -182,6 +181,7 @@ import UiButton from '@/components/uikit/UiButton.vue'
 import UiSpinner from '@/components/uikit/UiSpinner.vue'
 import DataEmptyPlaceholder from '@/components/common/data/DataEmptyPlaceholder.vue'
 import DashboardFilterToolbar from '@/components/dashboards/DashboardFilterToolbar.vue'
+import { apiClient } from '@/api/services/apiClient'
 
 const { t } = usei18n()
 const route = useRoute()
@@ -341,13 +341,13 @@ const updateCreateDashboard = async (panels?: Layout[]) => {
       }),
     }
     if (activeDashboardId.value) {
-      await dashboardService.updateDashboard(
+      await apiClient.dashboards.updateDashboard(
         projectsStore.projectId,
         activeDashboardId.value,
         dataForRequest
       )
     } else {
-      const res = await dashboardService.createDashboard(projectsStore.projectId, dataForRequest)
+      const res = await  apiClient.dashboards.createDashboard(projectsStore.projectId, dataForRequest)
       if (res.data?.id) {
         dashboardName.value = res.data?.name || dashboardName.value || untitledDashboardName.value
         onSelectDashboard(res.data?.id)
@@ -370,7 +370,7 @@ const onDeleteDashboard = async () => {
       }
     )
 
-    await dashboardService.deleteDashboard(projectsStore.projectId, activeDashboardId.value)
+    await apiClient.dashboards.deleteDashboard(projectsStore.projectId, activeDashboardId.value)
     await getDashboardsList()
 
     if (dashboardsId.value?.length) {

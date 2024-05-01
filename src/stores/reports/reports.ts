@@ -1,5 +1,4 @@
 import { defineStore } from 'pinia'
-import reportsService from '@/api/services/reports.service'
 import { useEventsStore } from '@/stores/eventSegmentation/events'
 import { useFunnelsStore } from '@/stores/funnels/funnels'
 import { useStepsStore } from '@/stores/funnels/steps'
@@ -22,6 +21,8 @@ import {
   FunnelQueryStepsInner,
   PropertyRef,
 } from '@/api'
+import { apiClient } from '@/api/services/apiClient'
+import { ap } from 'vitest/dist/global-58e8e951'
 
 type Reports = {
   list: Report[]
@@ -113,7 +114,7 @@ export const useReportsStore = defineStore('reports', {
     async getList() {
       const projectsStore = useProjectsStore()
       try {
-        const res = await reportsService.reportsList(projectsStore.projectId)
+        const res = await apiClient.reports.reportsList(projectsStore.projectId)
         if (res.data?.data) {
           this.list = res.data.data
         }
@@ -125,7 +126,7 @@ export const useReportsStore = defineStore('reports', {
       this.saveLoading = true
       const projectsStore = useProjectsStore()
       try {
-        const res = await reportsService.createReport(projectsStore.projectId, {
+        const res = await apiClient.reports.createReport(projectsStore.projectId, {
           type,
           name,
           query: getReport(type),
@@ -142,7 +143,7 @@ export const useReportsStore = defineStore('reports', {
     async editReport(name: string, type: ReportType) {
       this.saveLoading = true
       const projectsStore = useProjectsStore()
-      await reportsService.updateReport(projectsStore.projectId, Number(this.reportId), {
+      await apiClient.reports.updateReport(projectsStore.projectId, Number(this.reportId), {
         name,
         query: getReport(type),
       })
@@ -150,7 +151,7 @@ export const useReportsStore = defineStore('reports', {
     },
     async deleteReport(reportId: number) {
       const projectsStore = useProjectsStore()
-      await reportsService.deleteReport(projectsStore.projectId, Number(reportId))
+      await apiClient.reports.deleteReport(projectsStore.projectId, Number(reportId))
     },
   },
 })

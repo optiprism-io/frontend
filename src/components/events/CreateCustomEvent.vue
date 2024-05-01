@@ -110,7 +110,6 @@ import UiSwitch from '@/components/uikit/UiSwitch.vue'
 import UiFormLabel from '@/components//uikit/UiFormLabel.vue'
 import Select from '@/components/Select/Select.vue'
 import SelectedEvent from '@/components/events/Events/SelectedEvent.vue'
-import schemaService from '@/api/services/schema.service'
 import {
     CreateCustomEventRequest,
     CustomEventEvent,
@@ -120,6 +119,7 @@ import {
     Value,
     CustomEventStatus,
 } from '@/api'
+import { apiClient } from '@/api/services/apiClient'
 const i18n = inject<any>('i18n')
 
 const lexiconStore = useLexiconStore()
@@ -239,10 +239,10 @@ const apply = async () => {
         if (isEdit.value) {
             const data: UpdateCustomEventRequest = resultEvent.value
             data.status = eventStatus.value ? EventStatus.Enabled : EventStatus.Disabled;
-            await schemaService.updateCustomEvent(projectsStore.projectId, String(editedEvent.value?.id), data)
+            await apiClient.customEvents.updateCustomEvent(projectsStore.projectId, String(editedEvent.value?.id), data)
         } else {
             const data: CreateCustomEventRequest = resultEvent.value
-            await schemaService.createCustomEvent(projectsStore.projectId, data)
+            await apiClient.customEvents.createCustomEvent(projectsStore.projectId, data)
         }
 
         await lexiconStore.getEvents()
@@ -277,7 +277,7 @@ onBeforeMount(async () => {
                         let valuesList: Array<Value> = []
 
                         try {
-                            const res = await schemaService.propertyValues(projectsStore.projectId, {
+                            const res = await apiClient.propertyValues.propertyValuesList(projectsStore.projectId, {
                                 eventName: item.eventName,
                                 eventType: item.eventType,
                                 propertyName: filter.propertyName || '',

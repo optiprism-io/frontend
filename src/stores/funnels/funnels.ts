@@ -8,13 +8,13 @@ import {
   TimeUnit,
   FunnelQueryCountEnum,
 } from '@/api'
-import dataService from '@/api/services/datas.service'
 import { useStepsStore } from '@/stores/funnels/steps'
 import { useFilterGroupsStore } from '@/stores/reports/filters'
 import { useBreakdownsStore } from '@/stores/reports/breakdowns'
 import { useSegmentsStore } from '@/stores/reports/segments'
 import { useProjectsStore } from '@/stores/projects/projects'
 import { usePeriod, TimeTypeEnum } from '@/hooks/usePeriod'
+import { apiClient } from '@/api/services/apiClient'
 
 export const convertColumns = (
   columns: DataTableResponseColumnsInner[],
@@ -131,7 +131,7 @@ export const useFunnelsStore = defineStore('funnels', {
       this.loading = true
 
       try {
-        const res = await dataService.funnelQuery(projectsStore.projectId, {
+        const res = await apiClient.query.funnelQuery(projectsStore.projectId, {
           time: this.timeRequest as EventRecordsListRequestTime,
           group: '',
           steps: stepsStore.getSteps,

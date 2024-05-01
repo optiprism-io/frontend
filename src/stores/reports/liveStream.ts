@@ -11,10 +11,10 @@ import {
   PropertyType,
 } from '@/api'
 import { Event } from '@/stores/eventSegmentation/events'
-import dataService from '@/api/services/datas.service'
 import { useProjectsStore } from '@/stores/projects/projects'
 import { usePeriod, TimeTypeEnum } from '@/hooks/usePeriod'
 import { useLexiconStore } from '../lexicon'
+import { apiClient } from '@/api/services/apiClient'
 
 export interface Report {
   name: string
@@ -138,7 +138,7 @@ export const useLiveStreamStore = defineStore('liveStream', {
           props.events = getParamsEventsForRequest(this.events)
         }
 
-        const res = await dataService.createEventsStream(projectsStore.projectId, props)
+        const res = await apiClient.eventRecords.eventRecordsList(projectsStore.projectId, props)
 
         if (Array.isArray(res?.data?.columns)) {
           this.columns = res.data.columns

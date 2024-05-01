@@ -4,7 +4,6 @@ import {
   UpdateProfileNameRequest,
   UpdateProfilePasswordRequest,
 } from '@/api'
-import profileService from '@/api/services/profile.service'
 import { useAuthStore } from '@/stores/auth/auth'
 import { safeParse } from 'valibot'
 import {
@@ -18,6 +17,7 @@ import {
   ProfileErrors,
   UpdateProfilePasswordRequestExt,
 } from '@/stores/profile/types'
+import { apiClient } from '@/api/services/apiClient'
 
 interface ProfileState {
   profile: {
@@ -65,7 +65,7 @@ export const useProfileStore = defineStore('profile', {
     async getProfile() {
       this.isLoading = true
       try {
-        const { data } = await profileService.getProfile()
+        const { data } = await apiClient.profile.getProfile()
         this.profile = data
       } catch (error) {
         throw new Error('error get profile')
@@ -170,7 +170,7 @@ export const useProfileStore = defineStore('profile', {
     },
 
     async __updateName({ name }: UpdateProfileNameRequest) {
-      await profileService.updateName({ name })
+      await apiClient.profile.updateProfileName({ name })
       this.profile = {
         ...this.profile,
         name,
@@ -180,7 +180,7 @@ export const useProfileStore = defineStore('profile', {
     async __updateEmail({ email, password }: UpdateProfileEmailRequest) {
       const authStore = useAuthStore()
 
-      const { data } = await profileService.updateEmail({
+      const { data } = await apiClient.profile.updateProfileEmail({
         email,
         password,
       })
@@ -194,7 +194,7 @@ export const useProfileStore = defineStore('profile', {
     async __updatePassword({ password, newPassword }: UpdateProfilePasswordRequest) {
       const authStore = useAuthStore()
 
-      const { data } = await profileService.updatePassword({
+      const { data } = await apiClient.profile.updateProfilePassword({
         password,
         newPassword,
       })

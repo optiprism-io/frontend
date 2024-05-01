@@ -43,7 +43,6 @@ import { useProjectsStore } from '@/stores/projects/projects'
 
 import { Row, Action } from '@/components/uikit/UiTable/UiTable'
 import { CustomEvent } from '@/api'
-import schemaService from '@/api/services/schema.service'
 
 import UiTable from '@/components/uikit/UiTable/UiTable.vue'
 import UiTablePressedCell from '@/components/uikit/UiTable/UiTablePressedCell.vue'
@@ -52,6 +51,7 @@ import UiCellToolMenu from '@/components/uikit/cells/UiCellToolMenu.vue'
 import ConfirmPopup from '@/components/common/ConfirmPopup.vue'
 import ToolsLayout from '@/layout/tools/ToolsLayout.vue'
 import UiCardContainer from '@/components/uikit/UiCard/UiCardContainer.vue'
+import { apiClient } from '@/api/services/apiClient'
 
 const i18n = inject<any>('i18n')
 const lexiconStore = useLexiconStore()
@@ -166,7 +166,7 @@ const addCustomEvent = () => {
 const applyDelete = async () => {
     if (actionEventId.value) {
         try {
-            await schemaService.deleteCustomEvents(projectsStore.projectId, actionEventId.value)
+            await apiClient.customEvents.deleteCustomEvent(projectsStore.projectId, actionEventId.value)
             lexiconStore.deleteCustomEvent(actionEventId.value)
         } catch (e) {
             throw new Error('error Delete Custom Events')
