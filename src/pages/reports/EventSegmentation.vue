@@ -43,7 +43,7 @@ import { useCommonStore } from '@/stores/common'
 import { useSegmentsStore } from '@/stores/reports/segments'
 import { useReportsStore } from '@/stores/reports/reports'
 import { useProjectsStore } from '@/stores/projects/projects'
-import { apiClient } from '@/api/services/apiClient'
+import { apiClient } from '@/api/apiClient'
 
 const projectsStore = useProjectsStore()
 const eventsStore = useEventsStore()

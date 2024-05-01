@@ -3,7 +3,7 @@ import { ProjectEdit, ProjectErrors } from '@/stores/projects/types'
 import { safeParse } from 'valibot'
 import { moreThanZeroNumber, notEmptyString } from '@/utils/validationSchemes'
 import { useProjectsStore } from '@/stores/projects/projects'
-import { apiClient } from '@/api/services/apiClient'
+import { apiClient } from '@/api/apiClient'
 
 export function useProjectSettings() {
   const { saveProjectName: saveProjectNameStore, saveSessionDuration: saveSessionDurationStore } =

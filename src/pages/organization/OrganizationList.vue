@@ -12,7 +12,7 @@
 
 <script setup lang="ts">
 import { pagesMap } from '@/router'
-import { apiClient } from '@/api/services/apiClient'
+import { apiClient } from '@/api/apiClient'
 
 const { data: organizationList } = await apiClient.organizations.organizationsList()
 </script>

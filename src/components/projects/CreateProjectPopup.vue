@@ -25,7 +25,7 @@ import UiInput from '@/components/uikit/UiInput.vue'
 import UiFormLabel from '@/components/uikit/UiFormLabel.vue'
 import { Project } from '@/api'
 import { useFocus } from '@vueuse/core'
-import { apiClient } from '@/api/services/apiClient'
+import { apiClient } from '@/api/apiClient'
 
 const emit = defineEmits<{
   (e: 'created-project', project: Project): void

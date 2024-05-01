@@ -47,7 +47,7 @@ import {
   EventFilterByPropertyTypeEnum,
 } from '@/api'
 import { useProfileStore } from '../profile/profile'
-import { apiClient } from '@/api/services/apiClient'
+import { apiClient } from '@/api/apiClient'
 
 export interface Segment {
   name: string

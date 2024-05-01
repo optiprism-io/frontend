@@ -4,7 +4,7 @@ import { LoginRequest, TokensResponse } from '@/api'
 import { LocalStorageAccessor } from '@/utils/localStorageAccessor'
 import { getCookie, removeCookie, setCookie } from 'typescript-cookie'
 import { DecodedJwt, parseJwt } from '@/utils/parseJwt'
-import { apiClient } from '@/api/services/apiClient'
+import { apiClient } from '@/api/apiClient'
 
 const TOKEN_KEY = 'accessToken'
 const REFRESH_KEY = 'refreshToken'

@@ -3,7 +3,7 @@ import { useLexiconStore } from '@/stores/lexicon'
 import { useProjectsStore } from '@/stores/projects/projects'
 
 import { EventType, Value, ListPropertyValuesRequest } from '@/api'
-import { apiClient } from '@/api/services/apiClient'
+import { apiClient } from '@/api/apiClient'
 
 interface UseFilter {
   getEventRef: (id: number) => EventRef | undefined

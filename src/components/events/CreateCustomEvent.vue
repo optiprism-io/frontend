@@ -119,7 +119,7 @@ import {
     Value,
     CustomEventStatus,
 } from '@/api'
-import { apiClient } from '@/api/services/apiClient'
+import { apiClient } from '@/api/apiClient'
 const i18n = inject<any>('i18n')
 
 const lexiconStore = useLexiconStore()

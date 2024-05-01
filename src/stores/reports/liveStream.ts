@@ -14,7 +14,7 @@ import { Event } from '@/stores/eventSegmentation/events'
 import { useProjectsStore } from '@/stores/projects/projects'
 import { usePeriod, TimeTypeEnum } from '@/hooks/usePeriod'
 import { useLexiconStore } from '../lexicon'
-import { apiClient } from '@/api/services/apiClient'
+import { apiClient } from '@/api/apiClient'
 
 export interface Report {
   name: string

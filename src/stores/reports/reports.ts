@@ -21,7 +21,7 @@ import {
   FunnelQueryStepsInner,
   PropertyRef,
 } from '@/api'
-import { apiClient } from '@/api/services/apiClient'
+import { apiClient } from '@/api/apiClient'
 import { ap } from 'vitest/dist/global-58e8e951'
 
 type Reports = {

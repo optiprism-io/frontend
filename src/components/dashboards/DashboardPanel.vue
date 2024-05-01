@@ -51,7 +51,7 @@ import { mapReportToSteps } from '@/utils/reportsMappings'
 
 import EventsViews from '@/components/events/EventsViews.vue'
 import FunnelsChart from '@/components/funnels/view/FunnelsChart.vue'
-import { apiClient } from '@/api/services/apiClient'
+import { apiClient } from '@/api/apiClient'
 
 const reportsStore = useReportsStore()
 const filterGroupsStore = useFilterGroupsStore()

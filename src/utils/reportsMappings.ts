@@ -77,7 +77,7 @@ import {
   UserCustomProperty,
 } from '@/types/events'
 import { Filter } from '@/types/filters'
-import { apiClient } from '@/api/services/apiClient'
+import { apiClient } from '@/api/apiClient'
 
 type GetValues = {
   eventName?: string

@@ -14,7 +14,7 @@ import { useBreakdownsStore } from '@/stores/reports/breakdowns'
 import { useSegmentsStore } from '@/stores/reports/segments'
 import { useProjectsStore } from '@/stores/projects/projects'
 import { usePeriod, TimeTypeEnum } from '@/hooks/usePeriod'
-import { apiClient } from '@/api/services/apiClient'
+import { apiClient } from '@/api/apiClient'
 
 export const convertColumns = (
   columns: DataTableResponseColumnsInner[],

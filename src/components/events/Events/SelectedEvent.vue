@@ -185,7 +185,7 @@ import CommonIdentifier from '@/components/common/identifier/CommonIdentifier.vu
 import PropertySelect from '@/components/events/PropertySelect.vue'
 import { useEventsStore } from '@/stores/eventSegmentation/events'
 import { useProjectsStore } from '@/stores/projects/projects'
-import { apiClient } from '@/api/services/apiClient'
+import { apiClient } from '@/api/apiClient'
 
 const projectsStore = useProjectsStore()
 const eventsStore = useEventsStore()

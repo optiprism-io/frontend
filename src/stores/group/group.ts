@@ -3,7 +3,7 @@ import { GroupRecord, EventRecordsListRequestTime, Value } from '@/api'
 import { useSegmentsStore } from '@/stores/reports/segments'
 import { useProjectsStore } from '@/stores/projects/projects'
 import { usePeriod, TimeTypeEnum } from '@/hooks/usePeriod'
-import { apiClient } from '@/api/services/apiClient'
+import { apiClient } from '@/api/apiClient'
 
 export type GroupMap = {
   [key: number]: GroupRecord

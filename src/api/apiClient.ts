@@ -1,3 +1,4 @@
+/* This file is generated manually */
 import {
   AuthApi,
   Configuration,
@@ -16,7 +17,7 @@ import {
   ReportsApi,
   SystemPropertiesApi,
   UserPropertiesApi,
-} from '@/api'
+} from '@/api/index'
 import { BASE_PATH } from '@/api/base'
 
 const config = new Configuration({

@@ -28,7 +28,7 @@ import {
 import { useCommonStore, PropertyTypeEnum } from '@/stores/common'
 import { useProjectsStore } from '@/stores/projects/projects'
 import { errorHandler } from '@/helpers/errorHandlerHelper'
-import { apiClient } from '@/api/services/apiClient'
+import { apiClient } from '@/api/apiClient'
 
 type Lexicon = {
   i18n: {

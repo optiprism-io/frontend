@@ -25,7 +25,7 @@ import UiPageSidebar from '@/components/uikit/UiPageSidebar.vue'
 import { useRoute } from 'vue-router'
 import { useProjectsStore } from '@/stores/projects/projects'
 import { storeToRefs } from 'pinia'
-import { apiClient } from '@/api/services/apiClient'
+import { apiClient } from '@/api/apiClient'
 
 const route = useRoute()
 

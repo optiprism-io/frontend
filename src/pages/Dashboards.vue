@@ -181,7 +181,7 @@ import UiButton from '@/components/uikit/UiButton.vue'
 import UiSpinner from '@/components/uikit/UiSpinner.vue'
 import DataEmptyPlaceholder from '@/components/common/data/DataEmptyPlaceholder.vue'
 import DashboardFilterToolbar from '@/components/dashboards/DashboardFilterToolbar.vue'
-import { apiClient } from '@/api/services/apiClient'
+import { apiClient } from '@/api/apiClient'
 
 const { t } = usei18n()
 const route = useRoute()

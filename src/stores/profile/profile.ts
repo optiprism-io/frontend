@@ -17,7 +17,7 @@ import {
   ProfileErrors,
   UpdateProfilePasswordRequestExt,
 } from '@/stores/profile/types'
-import { apiClient } from '@/api/services/apiClient'
+import { apiClient } from '@/api/apiClient'
 
 interface ProfileState {
   profile: {
