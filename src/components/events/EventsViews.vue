@@ -92,21 +92,23 @@
     </div>
   </div>
   <div v-if="isShowTable" class="events-views__table pf-c-card">
-    <n-data-table
+    <UiDataTable
       :columns="columns"
       :data="data"
-      :max-height="400"
-      virtual-scroll
+      :bordered="false"
+      :bottom-bordered="false"
+      :virtual-scroll="true"
+      :max-height="500"
     />
   </div>
 </template>
 
 <script lang="ts" setup>
 import { computed, ref } from 'vue'
-
 import { useEventsStore, ChartType } from '@/stores/eventSegmentation/events'
 import { groupByMap, periodMap } from '@/configs/events/controls'
 import { ApplyPayload } from '@/components/uikit/UiCalendar/UiCalendar'
+import { TableColumn, TableColumns } from 'naive-ui/es/data-table/src/interface'
 import { getStringDateByFormat } from '@/helpers/getStringDates'
 import {
   Report,
@@ -126,6 +128,7 @@ import UiLabelGroup from '@/components/uikit/UiLabelGroup.vue'
 import ChartPie from '@/components/charts/ChartPie.vue'
 import ChartLine from '@/components/charts/ChartLine.vue'
 import ChartColumn from '@/components/charts/ChartColumn.vue'
+import UiDataTable from '@/components/uikit/UiDataTable.vue'
 import { getQueryFormattedValue } from '@/helpers/reportTableHelper'
 import { useDateFormat } from '@vueuse/core'
 
@@ -171,17 +174,9 @@ type RowData = {
   [key: string]: CellData
 }
 
-type ColumnData = {
-  key: string
-  title: string
-  fixed?: string
-  width?: number
-  ellipsis?: boolean
-}
-
 const columns = computed(() => {
-  return props.eventSegmentation?.columns?.reduce((acc: ColumnData[], item) => {
-    const column: ColumnData = {
+  return props.eventSegmentation?.columns?.reduce((acc: TableColumns, item) => {
+    const column: TableColumn = {
       key: item.name,
       title: item.name
     }
@@ -198,7 +193,7 @@ const columns = computed(() => {
       acc.push(column)
     }
     return acc
-  }, [])
+  }, []) || []
 })
 
 const data = computed(() => {

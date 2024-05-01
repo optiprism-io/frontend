@@ -12,7 +12,6 @@ import { router } from '@/router'
 import uikitPlugin from '@/plugins/uikit'
 import i18nPlugin from '@/plugins/i18n'
 import GridLayout from 'vue3-drr-grid-layout'
-import naive from 'naive-ui'
 
 /* =====================================MOCK_SERVER================================================ */
 const MOCK_API = import.meta.env.VITE_MOCK_API === 'true'
@@ -29,7 +28,6 @@ if (MOCK_API) {
 const pinia = createPinia()
 const app = createApp(App)
 
-app.use(naive)
 app.use(router)
 app.use(pinia)
 FloatingVue.options.disposeTimeout = 300
