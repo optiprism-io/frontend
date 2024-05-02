@@ -40,7 +40,7 @@ interface Props {
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  type: 'button',
+  type: 'button2',
   beforeIcon: '',
   icon: '',
   ariaLabel: '',
