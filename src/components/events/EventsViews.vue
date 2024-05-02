@@ -3,7 +3,6 @@
     class="events-views"
     :class="{
       'pf-c-card': !props.onlyView,
-      'pf-u-mb-md': !props.onlyView,
     }"
   >
     <div v-if="!props.onlyView" class="pf-c-toolbar">
@@ -91,7 +90,10 @@
       />
     </div>
   </div>
-  <div v-if="isShowTable" class="events-views__table pf-c-card">
+  <div
+    v-if="isShowTable"
+    class="events-views__table pf-c-card pf-u-mt-md"
+  >
     <UiDataTable
       :columns="columns"
       :data="data"

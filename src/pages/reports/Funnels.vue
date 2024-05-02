@@ -1,6 +1,9 @@
 <template>
-  <GridContainer>
-    <GridItem :col-lg="3">
+  <GridContainer class="pf-u-h-100">
+    <GridItem
+      class="overflow-auto pf-u-pb-md"
+      :col-lg="3"
+    >
       <GridContainer>
         <UiCardContainer :title="$t('funnels.steps.title')">
           <UiCardTitle>
@@ -30,7 +33,10 @@
         </UiCard>
       </GridContainer>
     </GridItem>
-    <GridItem :col-lg="9">
+    <GridItem
+      class="overflow-auto pf-u-pb-md"
+      :col-lg="9"
+    >
       <FunnelsViews />
     </GridItem>
   </GridContainer>

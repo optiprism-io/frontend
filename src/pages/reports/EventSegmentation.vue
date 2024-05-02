@@ -1,6 +1,9 @@
 <template>
-  <GridContainer>
-    <GridItem :col-lg="3">
+  <GridContainer class="pf-u-h-100">
+    <GridItem
+      :col-lg="3"
+      class="overflow-auto pf-u-pb-md"
+    >
       <GridContainer>
         <UiCard class="filter-event-segmentation__item" :title="$t('events.events')">
           <Events @on-change="onChange" />
@@ -13,7 +16,10 @@
         </UiCard>
       </GridContainer>
     </GridItem>
-    <GridItem :col-lg="9">
+    <GridItem
+      :col-lg="9"
+      class="overflow-auto pf-u-pb-md"
+    >
       <EventsViews
         :event-segmentation="eventSegmentation"
         :loading="eventSegmentationLoading"
@@ -119,7 +125,7 @@ watch(
 )
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 .page-title {
   color: var(--op-base-color);
   font-size: 1.4rem;
