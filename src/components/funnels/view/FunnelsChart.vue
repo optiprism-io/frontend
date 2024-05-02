@@ -19,7 +19,11 @@
         'pf-u-m-lg': !props.liteChart,
       }"
     >
-      <div v-for="(item, j) in reportSteps" :key="j" class="pf-m-flex-1 pf-m-spacer-none">
+      <div
+        v-for="(item, j) in reportSteps"
+        :key="j"
+        class="pf-m-flex-1 pf-m-spacer-none"
+      >
         <FunnelChartStacked
           :data="item.data"
           :width="stepWidth"

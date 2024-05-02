@@ -33,7 +33,11 @@
           </div>
 
           <div class="pf-c-toolbar__item pf-u-ml-auto">
-            <UiDropdown :items="FUNNEL_VIEWS" :text-button="itemText" @select-value="selectItem" />
+            <UiDropdown
+              :items="FUNNEL_VIEWS"
+              :text-button="itemText"
+              @select-value="selectItem"
+            />
           </div>
         </div>
       </div>
