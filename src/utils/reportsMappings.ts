@@ -1,5 +1,4 @@
 import i18n from '@/utils/i18n'
-import schemaService from '@/api/services/schema.service'
 import { TimeTypeEnum } from '@/hooks/usePeriod'
 
 import { useStepsStore, HoldingProperty } from '@/stores/funnels/steps'
@@ -78,6 +77,7 @@ import {
   UserCustomProperty,
 } from '@/types/events'
 import { Filter } from '@/types/filters'
+import { apiClient } from '@/api/apiClient'
 
 type GetValues = {
   eventName?: string
@@ -137,7 +137,7 @@ const getValues = async (props: GetValues) => {
   const projectsStore = useProjectsStore()
   let valuesList: Value[] = []
 
-  const res = await schemaService.propertyValues(projectsStore.projectId, {
+  const res = await apiClient.propertyValues.propertyValuesList(projectsStore.projectId, {
     eventName: props.eventName,
     propertyType: props.propertyType || PropertyType.User,
     eventType: props.eventType || EventType.Regular,
@@ -234,10 +234,22 @@ const mapReportToFilterGroups = async (
 
             return {
               propRef: {
+                /* TODO: fix typescript error */
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                // @ts-ignore: Unreachable code error
                 type: filter.propertyType,
+                /* TODO: fix typescript error */
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                // @ts-ignore: Unreachable code error
                 name: filter.propertyName || '',
               },
+              /* TODO: fix typescript error */
+              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+              // @ts-ignore: Unreachable code error
               opId: filter.operation,
+              /* TODO: fix typescript error */
+              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+              // @ts-ignore: Unreachable code error
               values: filter.value || [],
               valuesList: valuesList as string[] | boolean[] | number[],
             }

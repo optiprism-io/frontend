@@ -23,9 +23,9 @@ import { pagesMap } from '@/router'
 import UiBreadcrumbs from '@/components/uikit/UiBreadcrumbs.vue'
 import UiPageSidebar from '@/components/uikit/UiPageSidebar.vue'
 import { useRoute } from 'vue-router'
-import { schemaOrganizations } from '@/api/services/organizations.service'
 import { useProjectsStore } from '@/stores/projects/projects'
 import { storeToRefs } from 'pinia'
+import { apiClient } from '@/api/apiClient'
 
 const route = useRoute()
 
@@ -66,7 +66,7 @@ const breadcrumbs = computed(() => {
   return modifiedBreadcrumbs
 })
 
-const { data: organization } = await schemaOrganizations.getOrganization(+route.params.id)
+const { data: organization } = await apiClient.organizations.organization(+route.params.id)
 const { projects } = storeToRefs(useProjectsStore())
 </script>
 

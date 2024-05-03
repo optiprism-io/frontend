@@ -1,9 +1,9 @@
-import schemaService from '@/api/services/schema.service'
 import { EventRef, PropertyRef } from '@/types/events'
 import { useLexiconStore } from '@/stores/lexicon'
 import { useProjectsStore } from '@/stores/projects/projects'
 
 import { EventType, Value, ListPropertyValuesRequest } from '@/api'
+import { apiClient } from '@/api/apiClient'
 
 interface UseFilter {
   getEventRef: (id: number) => EventRef | undefined
@@ -52,7 +52,7 @@ export const useFilter = (): UseFilter => {
       }
 
       try {
-        const res = await schemaService.propertyValues(projectsStore.projectId, props)
+        const res = await apiClient.propertyValues.propertyValuesList(projectsStore.projectId, props)
 
         if (res.data.data) {
           valuesList = res.data.data

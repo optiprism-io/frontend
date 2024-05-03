@@ -1,9 +1,9 @@
 import { defineStore } from 'pinia'
 import { GroupRecord, EventRecordsListRequestTime, Value } from '@/api'
-import { groupRecordsService } from '@/api/services/groupRecords.service'
 import { useSegmentsStore } from '@/stores/reports/segments'
 import { useProjectsStore } from '@/stores/projects/projects'
 import { usePeriod, TimeTypeEnum } from '@/hooks/usePeriod'
+import { apiClient } from '@/api/apiClient'
 
 export type GroupMap = {
   [key: number]: GroupRecord
@@ -45,7 +45,7 @@ export const useGroupStore = defineStore('group', {
       const segmentsStore = useSegmentsStore()
       const projectsStore = useProjectsStore()
       try {
-        const res = await groupRecordsService.getList(projectsStore.projectId, {
+        const res = await apiClient.groupRecords.groupRecordsList(projectsStore.projectId, {
           time: this.timeRequest,
           group: 'users', // TODO any group to use
           segments: segmentsStore.segmentationItems,
@@ -70,7 +70,7 @@ export const useGroupStore = defineStore('group', {
         this.loading = true
       }
       try {
-        await groupRecordsService.updated(projectsStore.projectId, payload.id, {
+        await apiClient.groupRecords.updateGroupRecord(projectsStore.projectId, payload.id, {
           properties: payload.properties,
         })
         await this.getList(payload.noLoading || true)

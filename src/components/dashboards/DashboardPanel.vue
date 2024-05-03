@@ -36,10 +36,9 @@ import {
   FunnelQuery,
   EventSegmentation as EventSegmentationType,
   EventRecordsListRequestTime,
-  EventGroupedFiltersGroupsInnerFiltersInner,
+  EventGroupedFiltersGroupsInnerFiltersInner, EventSegmentationQueryFormatEnum,
 } from '@/api'
 
-import reportsService from '@/api/services/reports.service'
 import { ChartType } from '@/stores/eventSegmentation/events'
 
 import { useReportsStore } from '@/stores/reports/reports'
@@ -47,12 +46,12 @@ import { useFilterGroupsStore } from '@/stores/reports/filters'
 import { useEventsStore } from '@/stores/eventSegmentation/events'
 import { useProjectsStore } from '@/stores/projects/projects'
 
-import dataService from '@/api/services/datas.service'
 import { Step } from '@/types/steps'
 import { mapReportToSteps } from '@/utils/reportsMappings'
 
 import EventsViews from '@/components/events/EventsViews.vue'
 import FunnelsChart from '@/components/funnels/view/FunnelsChart.vue'
+import { apiClient } from '@/api/apiClient'
 
 const reportsStore = useReportsStore()
 const filterGroupsStore = useFilterGroupsStore()
@@ -108,7 +107,7 @@ const getEventSegmentation = async () => {
       if (filterGroupsStore.isSelectedAnyFilter) {
         const filters = filterGroupsStore.filters.groups[0].filters.reduce(
           (acc: EventGroupedFiltersGroupsInnerFiltersInner[], filter) => {
-            if (filter.value?.length) {
+            if ('value' in filter && filter.value?.length) {
               acc.push(filter)
             }
 
@@ -131,7 +130,7 @@ const getEventSegmentation = async () => {
         query.time = filterTime.value
       }
       if (query.events.length) {
-        const res = await reportsService.eventSegmentation(projectsStore.projectId, query)
+        const res = await apiClient.query.eventSegmentationQuery(projectsStore.projectId, EventSegmentationQueryFormatEnum.Json, query)
         if (res) {
           eventSegmentation.value = res.data as DataTableResponse
         }
@@ -154,9 +153,15 @@ const getFunnelsReport = async () => {
       if (ifChangeAnyInFilterTime.value) {
         query.time = filterTime.value
       }
-      const res = await dataService.funnelQuery(projectsStore.projectId, query)
+      const res = await apiClient.query.funnelQuery(projectsStore.projectId, query)
 
+      /* TODO: fix typescript error in funnel query branch */
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore: Unreachable code error
       if (res?.data?.columns) {
+        /* TODO: fix typescript error in funnel query branch */
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore: Unreachable code error
         funnelsReport.value = res.data.columns as DataTableResponseColumnsInner[]
       }
     } catch (error) {

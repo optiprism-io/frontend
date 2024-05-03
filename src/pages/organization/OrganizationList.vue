@@ -11,10 +11,10 @@
 </template>
 
 <script setup lang="ts">
-import { schemaOrganizations } from '@/api/services/organizations.service'
 import { pagesMap } from '@/router'
+import { apiClient } from '@/api/apiClient'
 
-const { data: organizationList } = await schemaOrganizations.getOrganizationList()
+const { data: organizationList } = await apiClient.organizations.organizationsList()
 </script>
 
 <style scoped lang="scss"></style>

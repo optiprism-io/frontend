@@ -35,8 +35,7 @@ import UiCardContainer from '@/components/uikit/UiCard/UiCardContainer.vue'
 import FilterReports from '@/components/events/FiltersReports.vue'
 import GridContainer from '@/components/grid/GridContainer.vue'
 import GridItem from '@/components/grid/GridItem.vue'
-import reportsService from '@/api/services/reports.service'
-import { DataTableResponse } from '@/api'
+import { DataTableResponse, EventSegmentationQueryFormatEnum } from '@/api'
 import { eventsToFunnels } from '@/utils/reportsMappings'
 import { useEventsStore } from '@/stores/eventSegmentation/events'
 import { useFilterGroupsStore } from '@/stores/reports/filters'
@@ -44,6 +43,7 @@ import { useCommonStore } from '@/stores/common'
 import { useSegmentsStore } from '@/stores/reports/segments'
 import { useReportsStore } from '@/stores/reports/reports'
 import { useProjectsStore } from '@/stores/projects/projects'
+import { apiClient } from '@/api/apiClient'
 
 const projectsStore = useProjectsStore()
 const eventsStore = useEventsStore()
@@ -76,8 +76,9 @@ const getEventSegmentation = async () => {
     eventSegmentationLoading.value = true
 
     try {
-      const res = await reportsService.eventSegmentation(
+      const res = await apiClient.query.eventSegmentationQuery(
         projectsStore.projectId,
+        EventSegmentationQueryFormatEnum.Json,
         eventsStore.propsForEventSegmentationResult
       )
       if (res) {

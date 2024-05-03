@@ -1,6 +1,5 @@
 import { defineStore } from 'pinia'
 import useI18n from '@/hooks/useI18n'
-import schemaService from '@/api/services/schema.service'
 import {
   customEventRef,
   EventRef,
@@ -29,6 +28,7 @@ import {
 import { useCommonStore, PropertyTypeEnum } from '@/stores/common'
 import { useProjectsStore } from '@/stores/projects/projects'
 import { errorHandler } from '@/helpers/errorHandlerHelper'
+import { apiClient } from '@/api/apiClient'
 
 type Lexicon = {
   i18n: {
@@ -97,7 +97,7 @@ export const useLexiconStore = defineStore('lexicon', {
       const projectsStore = useProjectsStore()
 
       try {
-        const res = await schemaService.updateEventProperty(
+        const res = await apiClient.eventProperties.updateEventProperty(
           projectsStore.projectId,
           String(commonStore.editEventPropertyPopupId),
           payload
@@ -121,7 +121,7 @@ export const useLexiconStore = defineStore('lexicon', {
       const projectsStore = useProjectsStore()
 
       try {
-        const res = await schemaService.updateUserProperty(
+        const res = await apiClient.userProperties.updateUserProperty(
           projectsStore.projectId,
           Number(commonStore.editEventPropertyPopupId),
           payload
@@ -153,7 +153,7 @@ export const useLexiconStore = defineStore('lexicon', {
       const projectsStore = useProjectsStore()
 
       try {
-        const res = await schemaService.updateEvent(
+        const res = await apiClient.events.updateEvent(
           projectsStore.projectId,
           String(commonStore.editEventManagementPopupId),
           payload
@@ -178,11 +178,11 @@ export const useLexiconStore = defineStore('lexicon', {
       this.eventsLoading = true
 
       try {
-        const res = await schemaService.events(projectsStore.projectId)
+        const res = await apiClient.events.eventsList(projectsStore.projectId)
         if (res.data?.data) {
           this.events = res.data?.data
         }
-        const responseCustomEvents = await schemaService.customEvents(projectsStore.projectId)
+        const responseCustomEvents = await apiClient.customEvents.customEventsList(projectsStore.projectId)
         if (responseCustomEvents?.data?.data) {
           this.customEvents = <CustomEvent[]>responseCustomEvents.data?.data || []
         }
@@ -197,7 +197,7 @@ export const useLexiconStore = defineStore('lexicon', {
 
       this.eventPropertiesLoading = true
       try {
-        const res = await schemaService.eventProperties(projectsStore.projectId)
+        const res = await apiClient.eventProperties.eventPropertiesList(projectsStore.projectId)
         if (res?.data?.data) {
           this.eventProperties = res.data.data
         }
@@ -213,7 +213,7 @@ export const useLexiconStore = defineStore('lexicon', {
       this.systemPropertiesLoading = true
 
       try {
-        const res = await schemaService.systemProperties(projectsStore.projectId)
+        const res = await apiClient.systemProperties.systemPropertiesList(projectsStore.projectId)
         if (res?.data?.data) {
           this.systemProperties = res.data.data
         }
@@ -228,7 +228,7 @@ export const useLexiconStore = defineStore('lexicon', {
 
       this.eventPropertiesLoading = true
       try {
-        const res = await schemaService.userProperties(projectsStore.projectId)
+        const res = await apiClient.userProperties.userPropertiesList(projectsStore.projectId)
 
         this.userProperties = Array.isArray(res?.data?.data) ? res?.data?.data : []
       } catch (error) {

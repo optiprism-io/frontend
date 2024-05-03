@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
-import { schemaProjects } from '@/api/services/projects.service'
 import { Project, UpdateProjectRequest } from '@/api'
+import { apiClient } from '@/api/apiClient'
 
 interface ProjectState {
   project: Project | null
@@ -74,7 +74,7 @@ export const useProjectsStore = defineStore('projects', {
       if (!this.projectId) return
       this.isLoading = true
       try {
-        const { data } = await schemaProjects.project(this.projectId)
+        const { data } = await apiClient.projects.project(this.projectId)
         this.project = data
       } catch (error) {
         throw new Error('error get project')
@@ -85,7 +85,7 @@ export const useProjectsStore = defineStore('projects', {
     async getProjectsList() {
       this.isLoading = true
       try {
-        const res = await schemaProjects.projectsList()
+        const res = await apiClient.projects.projectsList()
 
         this.projects = res.data?.data || []
       } catch (error) {
@@ -127,7 +127,7 @@ export const useProjectsStore = defineStore('projects', {
 
     async __updateProject(id: number, req: UpdateProjectRequest) {
       if (!this.projectId) throw Error
-      const { data } = await schemaProjects.updateProject(id || this.projectId, req)
+      const { data } = await apiClient.projects.updateProject(id || this.projectId, req)
 
       if (data) {
         this.projects = this.projects.map(item => {

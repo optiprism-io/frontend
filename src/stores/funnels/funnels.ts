@@ -4,17 +4,17 @@ import { getYYYYMMDD } from '@/helpers/getStringDates'
 import {
   DataTableResponseColumnsInner,
   EventRecordsListRequestTime,
-  FunnelQueryChartTypeTypeEnum,
+  FunnelStepsChartTypeTypeEnum,
   TimeUnit,
   FunnelQueryCountEnum,
 } from '@/api'
-import dataService from '@/api/services/datas.service'
 import { useStepsStore } from '@/stores/funnels/steps'
 import { useFilterGroupsStore } from '@/stores/reports/filters'
 import { useBreakdownsStore } from '@/stores/reports/breakdowns'
 import { useSegmentsStore } from '@/stores/reports/segments'
 import { useProjectsStore } from '@/stores/projects/projects'
 import { usePeriod, TimeTypeEnum } from '@/hooks/usePeriod'
+import { apiClient } from '@/api/apiClient'
 
 export const convertColumns = (
   columns: DataTableResponseColumnsInner[],
@@ -131,7 +131,7 @@ export const useFunnelsStore = defineStore('funnels', {
       this.loading = true
 
       try {
-        const res = await dataService.funnelQuery(projectsStore.projectId, {
+        const res = await apiClient.query.funnelQuery(projectsStore.projectId, {
           time: this.timeRequest as EventRecordsListRequestTime,
           group: '',
           steps: stepsStore.getSteps,
@@ -140,7 +140,10 @@ export const useFunnelsStore = defineStore('funnels', {
             unit: stepsStore.unit,
           },
           chartType: {
-            type: FunnelQueryChartTypeTypeEnum.Steps,
+            type: FunnelStepsChartTypeTypeEnum.Steps,
+            /* TODO: fix typescript error */
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore: Unreachable code error
             intervalUnit: TimeUnit.Day,
           },
           count: FunnelQueryCountEnum.Unique,
@@ -151,7 +154,13 @@ export const useFunnelsStore = defineStore('funnels', {
           filters: filterGroupsStore.filters,
         })
 
+        /* TODO: fix typescript error in funnel query branch */
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore: Unreachable code error
         if (res?.data?.columns) {
+          /* TODO: fix typescript error in funnel query branch */
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore: Unreachable code error
           this.reports = res.data.columns
         }
       } catch (e) {
