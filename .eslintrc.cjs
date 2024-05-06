@@ -37,8 +37,8 @@ module.exports = {
     'vue/html-indent': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'vue/script-setup-uses-vars': 'error',
     'vue/require-default-prop': 'off',
-    'vue/multi-word-component-names': 'warn',
     'vue/html-self-closing': 'warn',
     'vue/html-closing-bracket-spacing': 'off',
+    'vue/multi-word-component-names': 'off',
   },
 }
