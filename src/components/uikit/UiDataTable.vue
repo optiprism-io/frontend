@@ -1,5 +1,5 @@
 <template>
-    <n-data-table
+    <NDataTable
       :columns="columns"
       :data="data"
       :bordered="bordered"
@@ -30,8 +30,6 @@ withDefaults(
     defineProps<DataTableProps>(),
     {
         singleLine: true,
-        data: () => [],
-        columns: () => [],
     }
 );
 </script>

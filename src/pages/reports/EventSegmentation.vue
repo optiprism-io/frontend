@@ -125,7 +125,7 @@ watch(
 )
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
 .page-title {
   color: var(--op-base-color);
   font-size: 1.4rem;
