@@ -58,6 +58,7 @@
     "eslint-plugin-vue": "^9.4.0",
     "jsonwebtoken": "^8.5.1",
     "miragejs": "^0.1.45",
+    "naive-ui": "^2.38.1",
     "prettier": "^3.2.2",
     "prettier-eslint": "^16.1.2",
     "sass": "^1.54.9",

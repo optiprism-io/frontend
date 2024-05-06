@@ -1,60 +1,71 @@
 <template>
-  <section class="reports">
-    <div class="pf-u-display-flex pf-u-align-items-center">
-      <UiSelect
-        v-if="!editableNameReport && itemsReports.length"
-        class="reports__select pf-u-mr-md"
-        :items="itemsReports"
-        :text-button="reportSelectText"
-        :is-text-select="true"
-        :selections="[Number(reportsStore.reportId)]"
-        :is-toggle="false"
-        :w-100="true"
-        @on-select="onSelectReport"
+  <section class="reports pf-u-py-0">
+    <div class="pf-l-flex pf-m-column pf-u-pt-md pf-u-w-100 pf-u-h-100">
+      <div class="pf-l-flex__item">
+        <div class="pf-u-display-flex pf-u-align-items-center">
+          <UiSelect
+            v-if="!editableNameReport && itemsReports.length"
+            class="reports__select pf-u-mr-md"
+            :items="itemsReports"
+            :text-button="reportSelectText"
+            :is-text-select="true"
+            :selections="[Number(reportsStore.reportId)]"
+            :is-toggle="false"
+            :w-100="true"
+            @on-select="onSelectReport"
+          >
+            <template v-if="reportsStore.loading" #action>
+              <UiSpinner />
+            </template>
+          </UiSelect>
+          <UiInlineEdit
+            v-if="reportsStore.reportId"
+            class="reports__name pf-u-mr-md"
+            :value="reportName"
+            :hide-text="true"
+            :hide-control-edit="!itemsReports.length"
+            @on-input="setNameReport"
+            @on-edit="onEditNameReport"
+          />
+          <UiButton
+            v-if="isShowSaveReport"
+            class="pf-m-link reports__nav-item reports__nav-item_new"
+            :before-icon="'fas fa-floppy-disk'"
+            @click="onSaveReport"
+          >
+            {{ $t('reports.save') }}
+          </UiButton>
+          <UiButton
+            v-if="itemsReports.length && reportsStore.reportId"
+            class="pf-m-link pf-m-danger"
+            :before-icon="'fas fa-times'"
+            @click="onDeleteReport"
+          >
+            {{ $t('reports.delete') }}
+          </UiButton>
+          <UiSwitch
+            v-if="showSyncReports"
+            class="pf-u-ml-auto pf-u-mr-md"
+            :value="commonStore.syncReports"
+            :label="$t('reports.sync')"
+            @input="(value: boolean) => (commonStore.syncReports = value)"
+          />
+        </div>
+      </div>
+      <div class="pf-l-flex__item">
+        <UiTabs
+          class="pf-u-w-100"
+          :items="items"
+          @on-select="onSelectTab"
+        />
+      </div>
+      <div
+        class="pf-l-flex__item pf-u-flex-1 pf-u-w-100 pf-u-min-height"
+        style="--pf-u-min-height--MinHeight: 0"
       >
-        <template v-if="reportsStore.loading" #action>
-          <UiSpinner />
-        </template>
-      </UiSelect>
-      <UiInlineEdit
-        v-if="reportsStore.reportId"
-        class="reports__name pf-u-mr-md"
-        :value="reportName"
-        :hide-text="true"
-        :hide-control-edit="!itemsReports.length"
-        @on-input="setNameReport"
-        @on-edit="onEditNameReport"
-      />
-      <UiButton
-        v-if="isShowSaveReport"
-        class="pf-m-link reports__nav-item reports__nav-item_new"
-        :before-icon="'fas fa-floppy-disk'"
-        @click="onSaveReport"
-      >
-        {{ $t('reports.save') }}
-      </UiButton>
-      <UiButton
-        v-if="itemsReports.length && reportsStore.reportId"
-        class="pf-m-link pf-m-danger"
-        :before-icon="'fas fa-times'"
-        @click="onDeleteReport"
-      >
-        {{ $t('reports.delete') }}
-      </UiButton>
-      <UiSwitch
-        v-if="showSyncReports"
-        class="pf-u-ml-auto pf-u-mr-md"
-        :value="commonStore.syncReports"
-        :label="$t('reports.sync')"
-        @input="(value: boolean) => (commonStore.syncReports = value)"
-      />
+        <router-view />
+      </div> 
     </div>
-    <UiTabs
-      class="pf-u-w-100 pf-u-mb-lg"
-      :items="items"
-      @on-select="onSelectTab"
-    />
-    <router-view />
   </section>
 </template>
 
@@ -264,7 +275,22 @@ onMounted(async () => {
 </script>
 
 <style lang="scss">
+.pf-c-page {
+  height: 100vh;
+  &__main {
+    overflow-y: hidden;
+  }
+}
+
 .reports {
+  height: calc(100vh - 43px);
+  display: block;
+  overflow-y: hidden;
+
+  .overflow-auto {
+   overflow: auto;
+  }
+
   &__name {
     .pf-c-inline-edit__value {
       font-size: 20px;

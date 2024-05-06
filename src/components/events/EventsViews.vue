@@ -3,7 +3,6 @@
     class="events-views"
     :class="{
       'pf-c-card': !props.onlyView,
-      'pf-u-mb-md': !props.onlyView,
     }"
   >
     <div v-if="!props.onlyView" class="pf-c-toolbar">
@@ -91,18 +90,18 @@
       />
     </div>
   </div>
-  <div v-if="isShowTable" class="events-views__table pf-c-card">
-    <UiTable
-      :is-loading="props.loading"
-      :items="dataTable.tableData"
-      :columns="dataTable.tableColumnsValues"
-    >
-      <template #before>
-        <div class="pf-u-font-size-lg">
-          {{ $t('events.breakdownTable') }}
-        </div>
-      </template>
-    </UiTable>
+  <div
+    v-if="isShowTable"
+    class="events-views__table pf-c-card pf-u-mt-md"
+  >
+    <UiDataTable
+      :columns="columns"
+      :data="data"
+      :bordered="false"
+      :bottom-bordered="false"
+      :virtual-scroll="true"
+      :max-height="500"
+    />
   </div>
 </template>
 
@@ -111,8 +110,15 @@ import { computed, ref } from 'vue'
 import { useEventsStore, ChartType } from '@/stores/eventSegmentation/events'
 import { groupByMap, periodMap } from '@/configs/events/controls'
 import { ApplyPayload } from '@/components/uikit/UiCalendar/UiCalendar'
+import { TableColumn, TableColumns } from 'naive-ui/es/data-table/src/interface'
 import { getStringDateByFormat } from '@/helpers/getStringDates'
-import { Report, DataTableResponse, TimeUnit, DataTableResponseColumnsInner } from '@/api'
+import {
+  Report,
+  DataTableResponse,
+  TimeUnit,
+  DataTableResponseColumnsInner,
+  DataType,
+} from '@/api'
 import useDataTable from '@/hooks/useDataTable'
 import usei18n from '@/hooks/useI18n'
 import UiSelect from '@/components/uikit/UiSelect.vue'
@@ -121,11 +127,12 @@ import DataEmptyPlaceholder from '@/components/common/data/DataEmptyPlaceholder.
 import UiIcon from '@/components/uikit/UiIcon.vue'
 import UiDatePicker from '@/components/uikit/UiDatePicker.vue'
 import UiLabelGroup from '@/components/uikit/UiLabelGroup.vue'
-import UiTable from '@/components/uikit/UiTable/UiTable.vue'
 import ChartPie from '@/components/charts/ChartPie.vue'
 import ChartLine from '@/components/charts/ChartLine.vue'
 import ChartColumn from '@/components/charts/ChartColumn.vue'
+import UiDataTable from '@/components/uikit/UiDataTable.vue'
 import { getQueryFormattedValue } from '@/helpers/reportTableHelper'
+import { useDateFormat } from '@vueuse/core'
 
 const compareToMap = ['day', 'week', 'month', 'year']
 const chartTypeMap = [
@@ -162,6 +169,59 @@ const props = withDefaults(defineProps<Props>(), {
 })
 
 const showCompareTo = ref(false)
+
+type CellData = number | string | boolean
+
+type RowData = {
+  [key: string]: CellData
+}
+
+const columns = computed(() => {
+  return props.eventSegmentation?.columns?.reduce((acc: TableColumns, item) => {
+    const column: TableColumn = {
+      key: item.name,
+      title: item.name
+    }
+    
+    if (item.type === 'dimension') {
+      column.fixed = 'left'
+      column.width = 150
+    } else {
+      column.ellipsis = true
+      column.width = 200
+    }
+
+    if (item.name !== 'Segment') {
+      acc.push(column)
+    }
+    return acc
+  }, []) || []
+})
+
+const data = computed(() => {
+  const tableData: RowData[] = [];
+
+  (props.eventSegmentation?.columns || []).forEach((column, i, arr) => {
+    if (column.data?.length) {
+      column.data.forEach((item, indexData) => {
+        if (!tableData[indexData]) {
+          tableData[indexData] = {
+            key: indexData,
+          }
+        }
+        let value: CellData = item || '';
+
+        if (column.dataType === DataType.Timestamp && item) {
+          value = useDateFormat(+item, 'YYYY-MM-DD HH:mm')?.value
+        }
+
+        tableData[indexData][column.name] = value
+      })
+    }
+  })
+
+  return tableData
+})
 
 const dataTable = computed(() => {
   const columns: Array<DataTableResponseColumnsInner> = Object.values(
@@ -206,7 +266,7 @@ const emit = defineEmits<{
   (e: 'on-change'): void
 }>()
 
-const isNoData = computed(() => !props.loading && !dataTable.value.hasData)
+const isNoData = computed(() => !props.loading && !props.eventSegmentation?.columns?.length)
 const chartTypeActive = computed(() => props.chartType ?? eventsStore.chartType)
 const chartTypeLabel = computed(() => `${t('common.chartType')}:`)
 const isShowTable = computed(() => !isNoData.value && !props.onlyView)
