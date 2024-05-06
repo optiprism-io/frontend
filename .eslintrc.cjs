@@ -25,7 +25,6 @@ module.exports = {
     'no-multiple-empty-lines': ['error', { max: 2, maxBOF: 1 }],
     'no-console': ['warn', { allow: ['error'] }],
     'no-debugger': 'error',
-    '@typescript-eslint/interface-name-prefix': 'off',
     '@typescript-eslint/explicit-function-return-type': 'off',
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
