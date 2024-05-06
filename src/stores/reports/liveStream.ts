@@ -4,17 +4,15 @@ import {
   EventFilterByProperty,
   EventRecordRequestEvent,
   EventRecordsListRequest,
+  EventRecordsListRequestTime,
   EventType,
   PropertyFilterOperation,
-  EventRecordsListRequest,
-  DataTableResponseColumnsInner,
-  EventRecordsListRequestTime,
   PropertyRef,
   PropertyType,
 } from '@/api'
 import { Event } from '@/stores/eventSegmentation/events'
 import { useProjectsStore } from '@/stores/projects/projects'
-import { usePeriod, TimeTypeEnum } from '@/hooks/usePeriod'
+import { TimeTypeEnum, usePeriod } from '@/hooks/usePeriod'
 import { useLexiconStore } from '../lexicon'
 import { apiClient } from '@/api/apiClient'
 

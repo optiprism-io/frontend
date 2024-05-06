@@ -34,10 +34,10 @@
 
           <div class="pf-c-toolbar__item pf-u-ml-auto">
             <UiDropdown
-              :items="FUNNEL_VIEWS"
-              :text-button="itemText"
-              @select-value="selectItem"
-            />
+:items="FUNNEL_VIEWS"
+:text-button="itemText"
+@select-value="selectItem"
+/>
           </div>
         </div>
       </div>
@@ -69,7 +69,6 @@ import DataEmptyPlaceholder from '@/components/common/data/DataEmptyPlaceholder.
 import DataLoader from '@/components/common/data/DataLoader.vue'
 import { FUNNEL_VIEWS } from './funnelViews'
 import { useProjectsStore } from '@/stores/projects/projects'
-import queryService from '@/api/services/query.service'
 import {
   EventRecordsListRequestTime,
   FunnelQueryChartTypeTypeEnum,
@@ -82,6 +81,7 @@ import { useMutation } from '@/hooks/useMutation'
 import { getLastNDaysRange } from '@/helpers/calendarHelper'
 import { storeToRefs } from 'pinia'
 import { TimeTypeEnum, usePeriod } from '@/hooks/usePeriod'
+import { apiClient } from '@/api/apiClient'
 
 interface Period {
   from: string
@@ -202,7 +202,7 @@ const applyPeriod = (payload: ApplyPayload): void => {
 async function fetchReports(): Promise<void> {
   const projectsStore = useProjectsStore()
 
-  const res = await queryService.funnelQuery(projectsStore.projectId, {
+  const res = await apiClient.query.funnelQuery(projectsStore.projectId, {
     time: timeRequest.value,
     group: '',
     steps: stepsStore.getSteps,

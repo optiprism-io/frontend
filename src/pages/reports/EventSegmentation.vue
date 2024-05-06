@@ -31,10 +31,9 @@
 </template>
 
 <script setup lang="ts">
-import { onUnmounted, ref, computed, watch } from 'vue'
+import { computed, onUnmounted, ref, watch } from 'vue'
 import Events from '@/components/events/Events/Events.vue'
 import Breakdowns from '@/components/events/Breakdowns.vue'
-import Segments from '@/components/events/Segments/Segments.vue'
 import EventsViews from '@/components/events/EventsViews.vue'
 import UiCard from '@/components/uikit/UiCard/UiCard.vue'
 import UiCardContainer from '@/components/uikit/UiCard/UiCardContainer.vue'

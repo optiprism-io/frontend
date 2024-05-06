@@ -60,7 +60,6 @@ import {
 import { Step } from '@/types/steps'
 import { Condition, EventQueryRef, EventRef } from '@/types/events'
 import { Filter } from '@/types/filters'
-import { apiClient } from '@/api/apiClient'
 
 type Queries =
   | QuerySimple

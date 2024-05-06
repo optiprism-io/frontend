@@ -11,8 +11,8 @@ import {
   EventChartType,
   EventRecordsListRequestTime,
   EventSegmentationSegment,
-  FunnelStepsChartTypeTypeEnum,
   FunnelQueryStepsInner,
+  FunnelStepsChartTypeTypeEnum,
   PropertyRef,
   Report,
   ReportQuery,
@@ -20,7 +20,6 @@ import {
   TimeUnit,
 } from '@/api'
 import { apiClient } from '@/api/apiClient'
-import { ap } from 'vitest/dist/global-58e8e951'
 
 type Reports = {
   list: Report[]

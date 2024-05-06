@@ -35,18 +35,14 @@
 <script setup lang="ts">
 import { computed, PropType } from 'vue'
 import {
-  QueryAggregatePropertyTypeEnum,
   QueryAggregatePropertyPerGroupTypeEnum,
+  QueryAggregatePropertyTypeEnum,
   QueryCountPerGroupTypeEnum,
   QueryFormulaTypeEnum,
-  EventFilterByProperty,
-  EventType,
-  QueryAggregatePropertyPerGroup,
-  QueryAggregateProperty,
   QuerySimpleTypeEnum,
 } from '@/api'
 import { EventQueryRef, EventRef, PropertyRef } from '@/types/events'
-import { useEventsStore, EventPayload } from '@/stores/eventSegmentation/events'
+import { EventPayload, useEventsStore } from '@/stores/eventSegmentation/events'
 import { useLexiconStore } from '@/stores/lexicon'
 import { useCommonStore } from '@/stores/common'
 import EventSelector from '@/components/events/Events/EventSelector.vue'
