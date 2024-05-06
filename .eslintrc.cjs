@@ -24,7 +24,7 @@ module.exports = {
     ],
     'no-multiple-empty-lines': ['error', { max: 2, maxBOF: 1 }],
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
-    'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
+    'no-debugger': 'error',
     'no-duplicate-case': 'off',
     'no-fallthrough': 'off',
     '@typescript-eslint/interface-name-prefix': 'off',
