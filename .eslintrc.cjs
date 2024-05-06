@@ -30,7 +30,7 @@ module.exports = {
     '@typescript-eslint/no-explicit-any': 'off',
     '@typescript-eslint/no-non-null-assertion': 'off',
     '@typescript-eslint/no-unused-vars': ['off', { argsIgnorePattern: '^_' }],
-    'vue/no-v-html': 0,
+    'vue/no-v-html': 'off',
     'vue/html-indent': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'vue/require-default-prop': 'off',
     'vue/html-self-closing': 'warn',
