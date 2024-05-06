@@ -1,6 +1,6 @@
 /* TODO: correct reports mock */
 
-import { FunnelQueryChartTypeTypeEnum, TimeUnit } from '@/api'
+import { FunnelStepsChartTypeTypeEnum, TimeUnit } from '@/api'
 
 export const reports = [
     {
@@ -603,7 +603,7 @@ export const reports = [
             "group": "user",
             "intervalUnit": "day",
             "chartType": {
-                "type": FunnelQueryChartTypeTypeEnum.Steps,
+                "type": FunnelStepsChartTypeTypeEnum.Steps,
                 "intervalUnit": TimeUnit.Day,
             },
             "analysis": {

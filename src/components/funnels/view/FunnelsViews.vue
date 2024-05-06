@@ -71,10 +71,9 @@ import { FUNNEL_VIEWS } from './funnelViews'
 import { useProjectsStore } from '@/stores/projects/projects'
 import {
   EventRecordsListRequestTime,
-  FunnelQueryChartTypeTypeEnum,
   FunnelQueryCountEnum,
   FunnelResponseStepsInner,
-  TimeUnit,
+  FunnelStepsChartTypeTypeEnum,
   TimeUnitWithSession,
 } from '@/api'
 import { useMutation } from '@/hooks/useMutation'
@@ -212,8 +211,7 @@ async function fetchReports(): Promise<void> {
       unit: unit.value as TimeUnitWithSession,
     },
     chartType: {
-      type: FunnelQueryChartTypeTypeEnum.Steps,
-      intervalUnit: TimeUnit.Day,
+      type: FunnelStepsChartTypeTypeEnum.Steps,
     },
     count: FunnelQueryCountEnum.NonUnique,
     touch: {

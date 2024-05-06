@@ -31,10 +31,11 @@ import {
   EventGroupedFiltersGroupsInnerFiltersInner,
   EventRecordsListRequestTime,
   EventSegmentation as EventSegmentationType,
+  EventSegmentationQueryFormatEnum,
   FunnelQuery,
   FunnelResponseStepsInner,
   Report,
-  ReportType, EventSegmentationQueryFormatEnum,
+  ReportType,
 } from '@/api'
 
 import { ChartType, useEventsStore } from '@/stores/eventSegmentation/events'
@@ -126,7 +127,11 @@ const getEventSegmentation = async () => {
         query.time = filterTime.value
       }
       if (query.events.length) {
-        const res = await apiClient.query.eventSegmentationQuery(projectsStore.projectId, EventSegmentationQueryFormatEnum.Json, query)
+        const res = await apiClient.query.eventSegmentationQuery(
+          projectsStore.projectId,
+          EventSegmentationQueryFormatEnum.Json,
+          query
+        )
         if (res) {
           eventSegmentation.value = res.data as DataTableResponse
         }
@@ -151,13 +156,7 @@ const getFunnelsReport = async () => {
       }
       const res = await apiClient.query.funnelQuery(projectsStore.projectId, query)
 
-      /* TODO: fix typescript error in funnel query branch */
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore: Unreachable code error
       if (res?.data?.steps) {
-        /* TODO: fix typescript error in funnel query branch */
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore: Unreachable code error
         reportSteps.value = res.data.steps
       }
     } catch (error) {

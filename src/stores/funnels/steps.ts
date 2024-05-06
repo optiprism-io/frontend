@@ -10,7 +10,7 @@ import {
   FunnelExcludeStepsSteps,
   FunnelQueryExcludeInner,
   FunnelQueryStepsInner,
-  FunnelQueryStepsInnerOrderTypeEnum,
+  FunnelQueryStepsInnerOrderOneOfTypeEnum,
   PropertyRef,
   TimeUnit,
 } from '@/api'
@@ -140,7 +140,7 @@ export const useStepsStore = defineStore('steps', {
                 return {
                     events,
                     order: {
-                      type: FunnelQueryStepsInnerOrderTypeEnum.Exact,
+                      type: FunnelQueryStepsInnerOrderOneOfTypeEnum.Exact,
                     }
                 }
             })

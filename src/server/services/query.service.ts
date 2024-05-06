@@ -2,7 +2,11 @@ import { Server } from 'miragejs'
 import eventSegmentationsMocks from '@/mocks/eventSegmentations/eventSegmentations.json'
 import conversionStepsMocks from '@/mocks/reports/funnels/conversionSteps'
 import conversionOverTimeMocks from '@/mocks/reports/funnels/conversionOverTime'
-import { FunnelQuery, FunnelQueryChartTypeTypeEnum } from '@/api'
+import {
+  FunnelConversionOverTimeChartTypeTypeEnum,
+  FunnelQuery,
+  FunnelStepsChartTypeTypeEnum,
+} from '@/api'
 import { CustomError } from '@/server/models/CustomError'
 
 export function queriesRoutes(server: Server) {
@@ -22,13 +26,13 @@ export function queriesRoutes(server: Server) {
     const body = JSON.parse(request.requestBody) as FunnelQuery
     const graphType = body.chartType.type
 
-    if (graphType === FunnelQueryChartTypeTypeEnum.Steps) {
+    if (graphType === FunnelStepsChartTypeTypeEnum.Steps) {
 
       return {
         steps: conversionStepsMocks.steps.slice(0, body.steps.length)
       }
     }
-    if (graphType === FunnelQueryChartTypeTypeEnum.ConversionOverTime)
+    if (graphType === FunnelConversionOverTimeChartTypeTypeEnum.ConversionOverTime)
       return conversionOverTimeMocks
 
     return new CustomError().NotImplemented("Don't have mock for this type of graph yet")
