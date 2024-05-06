@@ -96,10 +96,6 @@ interface ConfigParameters {
     auth: boolean
 }
 
-const defaultTransformer = (reqData, reqHeaders) => {
-    return reqData;
-}
-
 export const config = (cfg?: ConfigParameters): Configuration => {
     const baseOptions: any = {
         // transformRequest: defaultTransformer,

@@ -92,7 +92,7 @@ export function makeHttpServer({ environment = 'development', isSeed = true } = 
                 }
             })
 
-            this.delete('/projects/:project_id/schema/custom-events/:event_id', (schema, request) => {
+            this.delete('/projects/:project_id/schema/custom-events/:event_id', () => {
                 return EMPTY_SUCCESS_RES;
             })
 
@@ -109,7 +109,7 @@ export function makeHttpServer({ environment = 'development', isSeed = true } = 
                 return schema.db.customEvents
             })
 
-            this.post('/projects/:project_id/event-records/search', (schema, request) => {
+            this.post('/projects/:project_id/event-records/search', (schema) => {
                 return schema.db.liveStreamMocks
             })
 

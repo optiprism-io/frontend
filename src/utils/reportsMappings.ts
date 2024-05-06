@@ -137,7 +137,7 @@ const mapReportToEvents = (items: EventSegmentationEvent[]): Event[] => {
         name: item.eventName || '',
       },
       filters: item.filters ? computedFilter(item.filters) : [],
-      queries: item.queries.map((row, i): EventQuery => {
+      queries: item.queries.map((row): EventQuery => {
         const query = row as Queries
 
         const queryRef: EventQueryRef = {

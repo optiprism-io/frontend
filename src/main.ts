@@ -39,7 +39,7 @@ app.use(i18nPlugin)
 app.config.globalProperties.loadDictionary(lang.en)
 app.mount('#app')
 
-app.config.errorHandler = (error, instance, info) => {
+app.config.errorHandler = (error, _instance, _info) => {
   if (process.env.NODE_ENV) {
     console.error('[errorHandler]:', error)
   }
