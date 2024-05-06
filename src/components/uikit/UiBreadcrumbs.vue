@@ -7,7 +7,7 @@
         class="pf-c-breadcrumb__item"
       >
         <span v-if="idx !== 0" class="pf-c-breadcrumb__item-divider">
-          <i class="fas fa-angle-right" aria-hidden="true"/>
+          <i class="fas fa-angle-right" aria-hidden="true" />
         </span>
         <RouterLink
           :to="item.to"
