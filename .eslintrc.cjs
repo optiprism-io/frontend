@@ -1,15 +1,11 @@
 module.exports = {
   root: true,
+  extends: ['plugin:vue/vue3-recommended', 'eslint:recommended', '@vue/typescript/recommended'],
   env: {
     browser: true,
-    es2021: true,
     node: true,
-    'vue/setup-compiler-macros': true,
   },
-  extends: ['plugin:vue/vue3-recommended', 'eslint:recommended', '@vue/typescript/recommended'],
-  parserOptions: {
-    ecmaVersion: 2021,
-  },
+  parser: 'vue-eslint-parser',
   rules: {
     'vue/max-attributes-per-line': [
       'warn',
