@@ -33,7 +33,6 @@ module.exports = {
     'vue/no-v-html': 'off',
     'vue/html-indent': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'vue/require-default-prop': 'off',
-    'vue/html-self-closing': 'warn',
     'vue/html-closing-bracket-spacing': 'off',
     'vue/multi-word-component-names': 'off',
   },
