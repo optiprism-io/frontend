@@ -35,7 +35,6 @@ module.exports = {
     '@typescript-eslint/no-unused-vars': ['off', { argsIgnorePattern: '^_' }],
     'vue/no-v-html': 0,
     'vue/html-indent': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
-    'vue/script-setup-uses-vars': 'error',
     'vue/require-default-prop': 'off',
     'vue/html-self-closing': 'warn',
     'vue/html-closing-bracket-spacing': 'off',
