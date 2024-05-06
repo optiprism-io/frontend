@@ -59,6 +59,7 @@ interface IProps {
 
 const props = withDefaults(defineProps<IProps>(), {
   minWidthStep: 550,
+  height: undefined,
   liteChart: false,
 })
 

@@ -39,11 +39,14 @@ interface Props {
 
 const props = withDefaults(defineProps<Props>(), {
   modelValue: '',
+  value: '',
   type: 'text',
   mountFocus: false,
   placeholder: undefined,
   min: undefined,
   name: undefined,
+  error: undefined,
+  autocomplete: undefined,
   disabled: false,
 })
 

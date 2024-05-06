@@ -41,6 +41,8 @@ const emit = defineEmits(['update:modelValue', 'input']);
 const props = withDefaults(defineProps<Props>(), {
     modelValue: false,
     label: '',
+    beforeLabel: '',
+    reverse: false,
 });
 
 const updateValue = (e: Event) => {

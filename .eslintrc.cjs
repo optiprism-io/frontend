@@ -32,7 +32,6 @@ module.exports = {
     '@typescript-eslint/no-unused-vars': ['off', { argsIgnorePattern: '^_' }],
     'vue/no-v-html': 'off',
     'vue/html-indent': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
-    'vue/require-default-prop': 'off',
     'vue/multi-word-component-names': 'off',
   },
 }

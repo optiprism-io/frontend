@@ -139,6 +139,7 @@ type Props = {
 
 const props = withDefaults(defineProps<Props>(), {
   items: () => [],
+  filterColumns: () => [],
   groups: () => [],
   compact: true,
   showSelectColumns: false,
@@ -146,6 +147,7 @@ const props = withDefaults(defineProps<Props>(), {
   noDataTitle: '',
   noDataText: '',
   enablePlaceholder: true,
+  defaultColumns: () => [],
 })
 
 const emit = defineEmits<{

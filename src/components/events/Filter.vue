@@ -170,6 +170,9 @@ type Props = {
 const lexiconStore = useLexiconStore()
 
 const props = withDefaults(defineProps<Props>(), {
+  eventRef: undefined,
+  eventRefs: undefined,
+  popperContainer: undefined,
   orientation: OrientationTypeEnum.VERTICAL,
 })
 

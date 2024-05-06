@@ -64,6 +64,8 @@ type Props = {
 
 const props = withDefaults(defineProps<Props>(), {
     name: '',
+    loading: false,
+    events: null,
 })
 
 const emit = defineEmits<{

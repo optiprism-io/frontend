@@ -73,6 +73,9 @@ type Props = {
 }
 
 const props = withDefaults(defineProps<Props>(), {
+  actions: undefined,
+  customEvents: undefined,
+  component: undefined,
 })
 
 const emit = defineEmits<{

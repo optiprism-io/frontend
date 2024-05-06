@@ -71,6 +71,11 @@ interface IProps {
 }
 
 const props = withDefaults(defineProps<IProps>(), {
+  eventRef: undefined,
+  eventRefs: undefined,
+  selectedItems: undefined,
+  updateOpen: false,
+  showIdentifier: false,
   hasIcon: true,
 })
 

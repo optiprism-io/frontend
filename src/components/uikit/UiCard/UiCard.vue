@@ -28,6 +28,9 @@ defineProps({
     type: String,
     default: '',
   },
-  link: [Object, String],
+  link: {
+    type: [Object, String],
+    default: undefined,
+  },
 })
 </script>
