@@ -42,7 +42,11 @@
         </VTooltip>
       </div>
       <div class="pf-c-action-list__item breakdown__control-item">
-        <UiButton class="pf-m-plain" icon="fas fa-times" @click="removeBreakdown" />
+        <UiButton
+          class="pf-m-plain"
+          icon="fas fa-times"
+          @click="removeBreakdown"
+        />
       </div>
     </div>
   </div>

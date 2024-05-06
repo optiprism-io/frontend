@@ -10,7 +10,11 @@
           <div class="pf-c-toolbar__item">
             <div class="pf-l-flex pf-u-align-items-center">
               <slot name="before" />
-              <UiSpinner v-show="props.isLoading" class="pf-u-ml-md" :size="'md'" />
+              <UiSpinner
+                v-show="props.isLoading"
+                class="pf-u-ml-md"
+                :size="'md'"
+              />
             </div>
           </div>
           <div v-if="slots.after" class="pf-c-toolbar__item pf-u-ml-auto">
@@ -73,7 +77,11 @@
             </tr>
           </thead>
           <tbody role="rowgroup">
-            <tr v-for="(row, i) in items" :key="i" role="row">
+            <tr
+v-for="(row, i) in items"
+:key="i"
+role="row"
+>
               <UiTableCellWrapper
                 v-for="(cell, j) in row"
                 :key="j"

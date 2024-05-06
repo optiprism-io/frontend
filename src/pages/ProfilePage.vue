@@ -6,7 +6,11 @@
       </template>
       <template #main>
         <UiCard class="pf-c-card pf-m-compact pf-u-h-100">
-          <UiSpinner v-if="isLoading" class="pf-u-display-flex pf-u-m-auto" size="lg" />
+          <UiSpinner
+            v-if="isLoading"
+            class="pf-u-display-flex pf-u-m-auto"
+            size="lg"
+          />
           <ProfileForm
             v-else
             v-model:is-edit="isEdit"

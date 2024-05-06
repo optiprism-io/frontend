@@ -6,9 +6,18 @@
       </template>
       <template #main>
         <UiCard class="pf-c-card pf-m-compact pf-u-h-100">
-          <UiSpinner v-if="isLoading" class="pf-u-display-flex pf-u-m-auto" size="lg" />
+          <UiSpinner
+            v-if="isLoading"
+            class="pf-u-display-flex pf-u-m-auto"
+            size="lg"
+          />
           <div v-else class="pf-l-flex pf-u-align-items-center pf-m-nowrap">
-            <UiTabs class="pf-u-mb-md" :items="tabs" :is-vertical="true" @on-select="onSelectTab" />
+            <UiTabs
+              class="pf-u-mb-md"
+              :items="tabs"
+              :is-vertical="true"
+              @on-select="onSelectTab"
+            />
             <IntegrationContent>
               <UiAlert v-if="!projectsStore.project?.eventsCount" :item="alert" />
 

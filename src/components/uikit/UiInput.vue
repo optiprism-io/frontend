@@ -14,7 +14,7 @@
     :disabled="disabled"
     @input="updateValue"
     @blur="blur"
-  />
+  >
 </template>
 
 <script setup lang="ts">

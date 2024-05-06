@@ -12,7 +12,11 @@
       @change-breakdown-property="changeBreakdownProperty"
     />
     <div class="pf-l-flex">
-      <PropertySelect :event-refs="eventRefs" :disabled-items="breakdowns" @select="addBreakdown">
+      <PropertySelect
+        :event-refs="eventRefs"
+        :disabled-items="breakdowns"
+        @select="addBreakdown"
+      >
         <UiButton :is-link="true" :before-icon="'fas fa-plus'">
           {{ $t('events.addBreakdown') }}
         </UiButton>

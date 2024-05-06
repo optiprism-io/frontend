@@ -3,7 +3,11 @@
     <div class="pf-c-page__sidebar-body">
       <nav class="pf-c-nav">
         <ul class="pf-c-nav__list">
-          <li v-for="(item, idx) in items" :key="idx" class="pf-c-nav__item">
+          <li
+            v-for="(item, idx) in items"
+            :key="idx"
+            class="pf-c-nav__item"
+          >
             <RouterLink
               :to="item.to"
               class="pf-c-nav__link"

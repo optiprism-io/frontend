@@ -2,8 +2,16 @@
   <header class="app-header">
     <div class="pf-l-flex pf-u-align-items-center">
       <div class="pf-l-flex__item pf-u-ml-md pf-l-flex pf-u-align-items-center">
-        <RouterLink class="app-header__logo" to="/dashboards" aria-current="page">
-          <img class="pf-c-brand" src="@/assets/img/logo-black.svg" alt="OptiPrism" />
+        <RouterLink
+          class="app-header__logo"
+          to="/dashboards"
+          aria-current="page"
+        >
+          <img
+            class="pf-c-brand"
+            src="@/assets/img/logo-black.svg"
+            alt="OptiPrism"
+          >
         </RouterLink>
       </div>
       <div class="pf-l-flex__item">
