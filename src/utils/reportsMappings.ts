@@ -157,12 +157,15 @@ const mapReportToEvents = (items: EventSegmentationEvent[]): Event[] => {
           case QueryAggregatePropertyPerGroupTypeEnum.AggregatePropertyPerGroup:
             queryRef.typeGroupAggregate = query.aggregatePerGroup as QueryAggregatePerGroup
           case QueryAggregatePropertyTypeEnum.AggregateProperty:
+          // eslint-disable-next-line no-duplicate-case
           case QueryAggregatePropertyPerGroupTypeEnum.AggregatePropertyPerGroup:
             queryRef.propRef = {
               type: query.propertyType,
               name: query.propertyName || '',
             }
+          // eslint-disable-next-line no-duplicate-case
           case QueryAggregatePropertyTypeEnum.AggregateProperty:
+          // eslint-disable-next-line no-duplicate-case
           case QueryAggregatePropertyPerGroupTypeEnum.AggregatePropertyPerGroup:
           case QueryCountPerGroupTypeEnum.CountPerGroup:
             queryRef.typeAggregate = query.aggregate as QueryAggregate
@@ -316,6 +319,7 @@ const mapReportToSegments = async (items: EventSegmentationSegment[]): Promise<S
                   res.period = period
                   res.each = each as Each
                 }
+              // eslint-disable-next-line no-duplicate-case
               case SegmentConditionHadPropertyValueTypeEnum.HadPropertyValue:
               case SegmentConditionHasPropertyValueTypeEnum.HasPropertyValue:
                 if (condition.propertyName) {
