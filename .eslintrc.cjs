@@ -23,7 +23,7 @@ module.exports = {
       },
     ],
     'no-multiple-empty-lines': ['error', { max: 2, maxBOF: 1 }],
-    'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
+    'no-console': ['warn', { allow: ['error'] }],
     'no-debugger': 'error',
     'no-duplicate-case': 'off',
     'no-fallthrough': 'off',

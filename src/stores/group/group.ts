@@ -1,8 +1,8 @@
 import { defineStore } from 'pinia'
-import { GroupRecord, EventRecordsListRequestTime, Value } from '@/api'
+import { EventRecordsListRequestTime, GroupRecord, Value } from '@/api'
 import { useSegmentsStore } from '@/stores/reports/segments'
 import { useProjectsStore } from '@/stores/projects/projects'
-import { usePeriod, TimeTypeEnum } from '@/hooks/usePeriod'
+import { TimeTypeEnum, usePeriod } from '@/hooks/usePeriod'
 import { apiClient } from '@/api/apiClient'
 
 export type GroupMap = {
@@ -54,7 +54,7 @@ export const useGroupStore = defineStore('group', {
           this.items = res.data.data
         }
       } catch (e) {
-        console.log('error update event property')
+        console.error('error update event property')
       }
       if (!noLoading) {
         this.loading = false

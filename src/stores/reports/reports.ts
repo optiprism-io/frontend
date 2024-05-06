@@ -113,7 +113,7 @@ export const useReportsStore = defineStore('reports', {
           this.list = res.data.data
         }
       } catch (e) {
-        console.log('error reportsList')
+        console.error('error reportsList')
       }
     },
     async createReport(name: string, type: ReportType) {
@@ -129,7 +129,7 @@ export const useReportsStore = defineStore('reports', {
           this.reportId = Number(res.data.id)
         }
       } catch (e) {
-        console.log('error reportsList')
+        console.error('error reportsList')
       }
 
       this.saveLoading = false
