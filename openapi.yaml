@@ -3841,7 +3841,7 @@ components:
         propertyType:
           $ref: '#/components/schemas/PropertyType'
         group:
-          type: string
+          type: integer
     EventRef:
       type: object
       required: [ 'eventType' ]
