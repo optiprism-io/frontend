@@ -838,6 +838,42 @@ paths:
           $ref: '#/components/responses/Internal'
         '503':
           $ref: '#/components/responses/ServiceUnavailable'
+  /v1/projects/{projectId}/groups:
+    get:
+      summary: Group list
+      operationId: groupList
+      security:
+        - bearerAuth: [ ]
+      tags:
+        - groups
+      parameters:
+        - $ref: '#/components/parameters/ProjectID'
+      responses:
+        '200':
+          description: groups list
+          content:
+            application/json:
+              schema:
+                type: object
+                allOf:
+                  - properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Group'
+                  - $ref: '#/components/schemas/ListResponseMetadata'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/Internal'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
   /v1/projects/{projectId}/schema/events:
     get:
       summary: Events list
@@ -1125,16 +1161,22 @@ paths:
           $ref: '#/components/responses/Internal'
         '503':
           $ref: '#/components/responses/ServiceUnavailable'
-  /v1/projects/{projectId}/schema/user-properties:
+  /v1/projects/{projectId}/schema/group-properties/{groupId}:
     get:
-      summary: User properties list
-      operationId: userPropertiesList
+      summary: Group properties list
+      operationId: groupPropertiesList
       security:
         - bearerAuth: [ ]
       tags:
-        - user properties
+        - group properties
       parameters:
         - $ref: '#/components/parameters/ProjectID'
+        - name: groupId
+          in: path
+          description: Group
+          required: true
+          schema:
+            type: string
       responses:
         '200':
           description: properties list
@@ -1157,65 +1199,19 @@ paths:
           $ref: '#/components/responses/Internal'
         '503':
           $ref: '#/components/responses/ServiceUnavailable'
-  /v1/projects/{projectId}/schema/user-properties/{propertyId}:
+   /v1/projects/{projectId}/schema/system-group-properties:
     get:
-      summary: Get user property
-      operationId: getUserProperty
+      summary: Get system group property
+      operationId: getSystemGroupProperty
       security:
         - bearerAuth: [ ]
       tags:
-        - user properties
+        - system group properties
       parameters:
         - $ref: '#/components/parameters/ProjectID'
-        - name: propertyId
-          in: path
-          description: Property ID
-          required: true
-          schema:
-            type: number
       responses:
         201:
-          description: user property
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Property'
-        '400':
-          $ref: '#/components/responses/BadRequest'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '404':
-          $ref: '#/components/responses/NotFound'
-        '500':
-          $ref: '#/components/responses/Internal'
-        '503':
-          $ref: '#/components/responses/ServiceUnavailable'
-    put:
-      summary: Update user property
-      operationId: updateUserProperty
-      security:
-        - bearerAuth: [ ]
-      tags:
-        - user properties
-      parameters:
-        - $ref: '#/components/parameters/ProjectID'
-        - name: propertyId
-          in: path
-          description: Property ID
-          required: true
-          schema:
-            type: number
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/UpdatePropertyRequest'
-      responses:
-        201:
-          description: property
+          description: system group property
           content:
             application/json:
               schema:
@@ -2481,12 +2477,6 @@ components:
             type: integer
             format: i64
           description: array of id of attached to event properties
-        userProperties:
-          type: array
-          items:
-            type: integer
-            format: i64
-          description: array of id of attached to user properties
     UpdateEventRequest:
       description: Update event request
       type: object
@@ -2503,6 +2493,14 @@ components:
           type: array
           items:
             type: string
+    Group:
+      type: object
+      required: [ 'id', 'name']
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
     UpdateGroupRecordRequest:
       type: object
       required: [ 'properties' ]
@@ -2611,7 +2609,7 @@ components:
                 $ref: '#/components/schemas/EventFilterByProperty'
     Property:
       type: object
-      required: [ "id", "projectId", "isSystem", "scope", "name", "status", "isRequired", "dataType", "nullable", "isArray", "isDictionary" ]
+      required: [ "id", "projectId", "type","isSystem", "name", "status", "dataType", "nullable", "isArray", "isDictionary" ]
       description: |
         Property defines event or user property. For example,
         event "Buy product" may contains next properties like "Product name" and "Price."
@@ -2659,6 +2657,10 @@ components:
         description:
           type: string
           description: description
+        type:
+            $ref: '#/components/schemas/PropertyType'
+        groupId:
+          type: integer
         dataType:
           $ref: '#/components/schemas/DataType'
         status:
@@ -2895,8 +2897,8 @@ components:
             - $ref: '#/components/schemas/TimeFrom'
             - $ref: '#/components/schemas/TimeLast'
         group:
-          type: string
-          example: user
+          type: integer
+          example: group
         steps:
           type: array
           items:
@@ -3198,144 +3200,6 @@ components:
       type: object
       description: event segmentation report type main payload
       required: [ "time", "group", "intervalUnit", "chartType", "analysis", "events" ]
-      example: |
-        {
-          "time": {
-            "type": "between",
-            "from": "2017-07-21T17:32:28Z",
-            "to": "2017-08-21T17:32:28Z"
-          },
-          "group": "user",
-          "intervalUnit": "day",
-          "chartType": "line",
-          "analysis": {
-            "type": "linear"
-          },
-          "compare": {
-            "offset": 1,
-            "unit": "week"
-          },
-          "events": [
-            {
-              "eventName": "Buy Product",
-              "eventType": "regular",
-              "filters": [
-                {
-                  "filterType": "property",
-                  "propertyName": "Device",
-                  "propertyType": "user",
-                  "operation": "exists"
-                },
-                {
-                  "filterType": "property",
-                  "propertyName": "Product Name",
-                  "propertyType": "event",
-                  "operation": "=",
-                  "value": [
-                    "tv"
-                  ]
-                }
-              ],
-              "breakdowns": [
-                {
-                  "breakdownType": "property",
-                  "propertyName": "Device",
-                  "propertyType": "user"
-                }
-              ],
-              "queries": [
-                {
-                  "queryType": "simple",
-                  "query": "countGroups"
-                },
-                {
-                  "queryType": "countPerGroup",
-                  "aggregate": "avg"
-                },
-                {
-                  "queryType": "aggregateProperty",
-                  "propertyName": "revenue",
-                  "propertyType": "event",
-                  "aggregate": "sum"
-                },
-                {
-                  "queryType": "aggregatePropertyPerGroup",
-                  "propertyName": "revenue",
-                  "propertyType": "event",
-                  "aggregatePerGroup": "sum",
-                  "aggregate": "avg"
-                },
-                {
-                  "queryType": "formula",
-                  "formula": "(A+B)/C"
-                }
-              ]
-            }
-          ],
-          "breakdowns": [
-            {
-              "breakdownType": "property",
-              "propertyName": "Country",
-              "propertyType": "user"
-            },
-            {
-              "breakdownType": "property",
-              "propertyName": "Product Name",
-              "propertyType": "event"
-            }
-          ],
-          "filters": {
-            "groupsCondition": "or",
-            "groups": [
-              {
-                "filtersCondition": "and",
-                "filters": [
-                  {
-                    "type": "property",
-                    "propertyName": "Country",
-                    "propertyType": "user",
-                    "operation": "eq",
-                    "value": [
-                      "UK"
-                    ]
-                  },
-                  {
-                    "type": "property",
-                    "propertyName": "Device",
-                    "propertyType": "user",
-                    "operation": "eq",
-                    "value": [
-                      "Iphone"
-                    ]
-                  }
-                ]
-              },
-              {
-                "filtersCondition": "or",
-                "filters": [
-                  {
-                    "type": "property",
-                    "propertyName": "Country",
-                    "propertyType": "user",
-                    "operation": "eq",
-                    "value": [
-                      "General"
-                    ]
-                  },
-                  {
-                    "type": "property",
-                    "propertyName": "Country",
-                    "propertyType": "user",
-                    "operation": "eq",
-                    "value": [
-                      "Electronics"
-                    ]
-                  }
-                ]
-              }
-            ]
-          }
-        }
       properties:
         time:
           type: object
@@ -3345,7 +3209,7 @@ components:
             - $ref: '#/components/schemas/TimeFrom'
             - $ref: '#/components/schemas/TimeLast'
         group:
-          type: string
+          type: integer
           description: group that is used in aggregations by group. For instance, group by user or group by organizartion.
           example: user
         intervalUnit:
@@ -3976,6 +3840,8 @@ components:
           type: string
         propertyType:
           $ref: '#/components/schemas/PropertyType'
+        group:
+          type: string
     EventRef:
       type: object
       required: [ 'eventType' ]
@@ -4020,9 +3886,10 @@ components:
       description: possible property type
       enum:
         - event
-        - user
         - custom
         - system
+        - group
+        - systemGroup
     DataType:
       type: string
       description: data type
