@@ -1,58 +1,65 @@
 import i18n from '@/utils/i18n'
 import { TimeTypeEnum } from '@/hooks/usePeriod'
 
-import { useStepsStore, HoldingProperty } from '@/stores/funnels/steps'
+import { HoldingProperty, useStepsStore } from '@/stores/funnels/steps'
 import { useReportsStore } from '@/stores/reports/reports'
 import { useLexiconStore } from '@/stores/lexicon'
 import { useBreakdownsStore } from '@/stores/reports/breakdowns'
-import { useFilterGroupsStore, FilterGroup } from '@/stores/reports/filters'
-import { useSegmentsStore, Segment } from '@/stores/reports/segments'
+import { FilterGroup, useFilterGroupsStore } from '@/stores/reports/filters'
+import { Segment, useSegmentsStore } from '@/stores/reports/segments'
 import { Each } from '@/components/uikit/UiCalendar/UiCalendar'
-import { Value } from '@/api'
-import { useProjectsStore } from '@/stores/projects/projects'
-
 import {
-  Property,
-  EventType,
-  PropertyType,
-  ReportType,
-  QuerySimple,
-  QueryCountPerGroup,
-  QueryAggregatePropertyPerGroup,
-  QueryAggregateProperty,
-  QueryFormula,
+  BreakdownByProperty,
+  DidEventRelativeCountTypeEnum,
+  Event as EventItem,
+  EventFilterByProperty,
+  EventFilterByPropertyTypeEnum,
+  EventGroupedFiltersGroupsInner,
   EventSegmentation,
+  EventSegmentationEvent,
+  EventSegmentationSegment,
+  EventType,
   FunnelQuery,
-  QueryFormulaTypeEnum,
-  QuerySimpleTypeEnum,
-  QueryCountPerGroupTypeEnum,
+  FunnelQueryStepsInner,
+  Property,
+  PropertyRef,
+  PropertyType,
+  QueryAggregate,
+  QueryAggregatePerGroup,
+  QueryAggregateProperty,
+  QueryAggregatePropertyPerGroup,
   QueryAggregatePropertyPerGroupTypeEnum,
   QueryAggregatePropertyTypeEnum,
-  EventSegmentationEvent,
-  EventGroupedFiltersGroupsInner,
-  EventSegmentationSegment,
-  DidEventRelativeCountTypeEnum,
+  QueryCountPerGroup,
+  QueryCountPerGroupTypeEnum,
+  QueryFormula,
+  QueryFormulaTypeEnum,
+  QuerySimple,
+  QuerySimpleTypeEnum,
+  ReportType,
   SegmentConditionDidEventTypeEnum,
   SegmentConditionHadPropertyValueTypeEnum,
   SegmentConditionHasPropertyValueTypeEnum,
-  TimeBetweenTypeEnum,
-  Event as EventItem,
-  EventFilterByProperty,
-  TimeBetween,
-  TimeLast,
   TimeAfterFirstUse,
-  TimeWindowEach,
-  TimeLastTypeEnum,
   TimeAfterFirstUseTypeEnum,
+  TimeBetween,
+  TimeBetweenTypeEnum,
+  TimeLast,
+  TimeLastTypeEnum,
+  TimeWindowEach,
   TimeWindowEachTypeEnum,
-  BreakdownByProperty,
-  FunnelQueryStepsInner,
-  PropertyRef,
-  QueryAggregate,
-  QueryAggregatePerGroup,
-  EventFilterByPropertyTypeEnum,
-  EventGroupedFiltersGroupsConditionEnum,
+  Value,
 } from '@/api'
+import {
+  ChartType,
+  Event,
+  EventBreakdown,
+  EventQuery,
+  useEventsStore,
+} from '@/stores/eventSegmentation/events'
+import { Step } from '@/types/steps'
+import { Condition, EventQueryRef, EventRef } from '@/types/events'
+import { Filter } from '@/types/filters'
 
 type Queries =
   | QuerySimple
@@ -60,31 +67,6 @@ type Queries =
   | QueryAggregatePropertyPerGroup
   | QueryAggregateProperty
   | QueryFormula
-
-import {
-  useEventsStore,
-  Event,
-  EventQuery,
-  EventBreakdown,
-  ChartType,
-} from '@/stores/eventSegmentation/events'
-import { Step } from '@/types/steps'
-import {
-  EventRef,
-  EventQueryRef,
-  Condition,
-  PropertyRef as PropertyRefEvent,
-  UserCustomProperty,
-} from '@/types/events'
-import { Filter } from '@/types/filters'
-import { apiClient } from '@/api/apiClient'
-
-type GetValues = {
-  eventName?: string
-  eventType?: EventType
-  propertyName: string
-  propertyType?: PropertyType
-}
 
 type GetTime = {
   time: TimeAfterFirstUse | TimeBetween | TimeLast | TimeWindowEach
@@ -133,22 +115,6 @@ const getTime = (props: GetTime) => {
   }
 }
 
-const getValues = async (props: GetValues) => {
-  const projectsStore = useProjectsStore()
-  let valuesList: Value[] = []
-
-  const res = await apiClient.propertyValues.propertyValuesList(projectsStore.projectId, {
-    eventName: props.eventName,
-    propertyType: props.propertyType || PropertyType.User,
-    eventType: props.eventType || EventType.Regular,
-    propertyName: props.propertyName,
-  })
-  if (res?.data?.data) {
-    valuesList = res.data.data
-  }
-  return valuesList
-}
-
 const computedFilter = (items: EventFilterByProperty[]) => {
   return items.map(filter => {
     return {
@@ -171,7 +137,7 @@ const mapReportToEvents = (items: EventSegmentationEvent[]): Event[] => {
         name: item.eventName || '',
       },
       filters: item.filters ? computedFilter(item.filters) : [],
-      queries: item.queries.map((row, i): EventQuery => {
+      queries: item.queries.map((row): EventQuery => {
         const query = row as Queries
 
         const queryRef: EventQueryRef = {
@@ -190,13 +156,17 @@ const mapReportToEvents = (items: EventSegmentationEvent[]): Event[] => {
             break
           case QueryAggregatePropertyPerGroupTypeEnum.AggregatePropertyPerGroup:
             queryRef.typeGroupAggregate = query.aggregatePerGroup as QueryAggregatePerGroup
+          // eslint-disable-next-line no-fallthrough
           case QueryAggregatePropertyTypeEnum.AggregateProperty:
+          // eslint-disable-next-line no-duplicate-case,no-fallthrough
           case QueryAggregatePropertyPerGroupTypeEnum.AggregatePropertyPerGroup:
             queryRef.propRef = {
               type: query.propertyType,
               name: query.propertyName || '',
             }
+          // eslint-disable-next-line no-duplicate-case,no-fallthrough
           case QueryAggregatePropertyTypeEnum.AggregateProperty:
+          // eslint-disable-next-line no-duplicate-case,no-fallthrough
           case QueryAggregatePropertyPerGroupTypeEnum.AggregatePropertyPerGroup:
           case QueryCountPerGroupTypeEnum.CountPerGroup:
             queryRef.typeAggregate = query.aggregate as QueryAggregate
@@ -350,6 +320,7 @@ const mapReportToSegments = async (items: EventSegmentationSegment[]): Promise<S
                   res.period = period
                   res.each = each as Each
                 }
+              // eslint-disable-next-line no-duplicate-case,no-fallthrough
               case SegmentConditionHadPropertyValueTypeEnum.HadPropertyValue:
               case SegmentConditionHasPropertyValueTypeEnum.HasPropertyValue:
                 if (condition.propertyName) {

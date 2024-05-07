@@ -1,6 +1,10 @@
 <template>
   <section>
-    <UiTabs class="pf-u-mb-md" :items="items" @on-select="onSelectPage" />
+    <UiTabs
+      class="pf-u-mb-md"
+      :items="items"
+      @on-select="onSelectPage"
+    />
     <router-view />
     <EventPropertyPopup
       v-if="commonStore.showEventPropertyPopup && editPropertyPopup"

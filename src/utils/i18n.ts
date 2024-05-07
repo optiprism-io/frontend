@@ -15,6 +15,7 @@ const validateKey = (key?: string) => {
 }
 
 const logError = (error: string) => {
+    // eslint-disable-next-line no-console
     console.warn(error)
 }
 

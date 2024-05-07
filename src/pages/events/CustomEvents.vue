@@ -49,7 +49,7 @@ import UiTablePressedCell from '@/components/uikit/UiTable/UiTablePressedCell.vu
 import UiCellTags from '@/components/uikit/cells/UiCellTags.vue'
 import UiCellToolMenu from '@/components/uikit/cells/UiCellToolMenu.vue'
 import ConfirmPopup from '@/components/common/ConfirmPopup.vue'
-import ToolsLayout from '@/layout/tools/ToolsLayout.vue'
+import ToolsLayout from '@/layout/ToolsLayout.vue'
 import UiCardContainer from '@/components/uikit/UiCard/UiCardContainer.vue'
 import { apiClient } from '@/api/apiClient'
 
@@ -179,3 +179,4 @@ const cancelDelete = () => {
     openConfirmPopup.value = false
 }
 </script>
+

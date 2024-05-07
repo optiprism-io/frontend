@@ -67,10 +67,10 @@
       <div v-if="isShowValues && filter.propRef" class="pf-c-action-list__item">
         <div v-if="isShowInputForValue">
           <UiInput
-            v-model="valueInput"
-            class="pf-u-px-lg pf-u-py-md"
-            @blur="onBlurInput"
-          />
+v-model="valueInput"
+class="pf-u-px-lg pf-u-py-md"
+@blur="onBlurInput"
+/>
         </div>
         <ValueSelect
           v-else
@@ -84,10 +84,10 @@
           <template v-if="filter.values.length > 0">
             <div class="pf-c-action-list">
               <div
-                v-for="(item, i) in filterValuesList"
-                :key="i"
-                class="pf-c-action-list__item"
-              >
+v-for="(item, i) in filterValuesList"
+:key="i"
+class="pf-c-action-list__item"
+>
                 <UiButton
                   :class="[props.forPreview ? 'pf-m-control pf-m-small' : 'pf-m-secondary']"
                   :disabled="props.forPreview"
@@ -111,10 +111,10 @@
           </template>
           <template v-else>
             <UiButton
-              :before-icon="'fas fa-plus-circle'"
-              class="pf-m-link"
-              @click="ocClickValue"
-            >
+:before-icon="'fas fa-plus-circle'"
+class="pf-m-link"
+@click="ocClickValue"
+>
               {{ $t('events.select_value') }}
             </UiButton>
           </template>
@@ -122,34 +122,30 @@
       </div>
       <div v-if="filter.values.length === 0" class="pf-c-action-list__item filter__control-item">
         <UiButton
-          ref="elButtonMain"
-          class="pf-m-plain"
-          icon="fas fa-times"
-          @click="removeFilter"
-        />
+ref="elButtonMain"
+class="pf-m-plain"
+icon="fas fa-times"
+@click="removeFilter"
+/>
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, computed } from 'vue'
-import { useElementHover, useDateFormat } from '@vueuse/core'
+import { computed, ref } from 'vue'
+import { useDateFormat, useElementHover } from '@vueuse/core'
 import { EventFilter } from '@/stores/eventSegmentation/events'
 import { useLexiconStore } from '@/stores/lexicon'
 import UiInput from '@/components/uikit/UiInput.vue'
 import PropertySelect from '@/components/events/PropertySelect.vue'
 import OperationSelect from '@/components/events/OperationSelect.vue'
 import ValueSelect from '@/components/events/ValueSelect.vue'
-import { EventRef, PropertyRef } from '@/types/events'
+import { EventRef, PropertyRef, UserCustomProperty } from '@/types/events'
 import { operationById, OperationId, Value } from '@/types'
 import CommonIdentifier from '@/components/common/identifier/CommonIdentifier.vue'
-import { PropertyType, DataType, Property, CustomProperty } from '@/api'
-import { UserCustomProperty } from '@/types/events'
-import { OrientationTypeEnum, OrientationEnum } from '@/types/filters'
-import usei18n from '@/hooks/useI18n'
-
-const { t } = usei18n()
+import { CustomProperty, DataType, Property, PropertyType } from '@/api'
+import { OrientationEnum, OrientationTypeEnum } from '@/types/filters'
 
 const NotAllowedOperationIds = {
   Exists: 'exists',
@@ -157,13 +153,6 @@ const NotAllowedOperationIds = {
   True: 'true',
   False: 'false',
 } as const
-
-const OperationValue = {
-  empty: t('events.operation.empty'),
-}
-
-export type NotAllowedOperationIdsType =
-  (typeof NotAllowedOperationIds)[keyof typeof NotAllowedOperationIds]
 
 type Props = {
   eventRef?: EventRef
@@ -181,6 +170,9 @@ type Props = {
 const lexiconStore = useLexiconStore()
 
 const props = withDefaults(defineProps<Props>(), {
+  eventRef: undefined,
+  eventRefs: undefined,
+  popperContainer: undefined,
   orientation: OrientationTypeEnum.VERTICAL,
 })
 
@@ -216,11 +208,12 @@ const isShowOperation = computed(() => {
 
 const isShowValues = computed(() => {
   return (
-    !(NotAllowedOperationIds.Empty === props.filter.opId ||
+    !(
+      NotAllowedOperationIds.Empty === props.filter.opId ||
       NotAllowedOperationIds.Exists === props.filter.opId ||
       NotAllowedOperationIds.False === props.filter.opId ||
-      NotAllowedOperationIds.True === props.filter.opId) &&
-    isShowOperation.value
+      NotAllowedOperationIds.True === props.filter.opId
+    ) && isShowOperation.value
   )
 })
 

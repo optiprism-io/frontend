@@ -26,7 +26,12 @@ type Props = {
     component?: ReturnType<typeof defineComponent>
 }
 
-const props = withDefaults(defineProps<Props>(), {})
+const props = withDefaults(defineProps<Props>(), {
+    value: undefined,
+    actions: undefined,
+    action: undefined,
+    component: undefined,
+})
 
 const emit = defineEmits<{
     (e: 'on-action', payload: Action): void

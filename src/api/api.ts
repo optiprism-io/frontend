@@ -2436,6 +2436,12 @@ export type FunnelQueryTouchOneOf2TypeEnum = typeof FunnelQueryTouchOneOf2TypeEn
 export interface FunnelResponse {
     /**
      * 
+     * @type {Array<string>}
+     * @memberof FunnelResponse
+     */
+    'groups': Array<string>;
+    /**
+     * 
      * @type {Array<FunnelResponseStepsInner>}
      * @memberof FunnelResponse
      */

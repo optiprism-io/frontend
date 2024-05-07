@@ -1951,8 +1951,12 @@ components:
           format: string
     FunnelResponse:
       type: object
-      required: [ "steps" ]
+      required: [ "groups", "steps" ]
       properties:
+        groups:
+          type: array
+          items:
+            type: string
         steps:
           type: array
           items:

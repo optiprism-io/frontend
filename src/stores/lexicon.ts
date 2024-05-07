@@ -2,30 +2,30 @@ import { defineStore } from 'pinia'
 import useI18n from '@/hooks/useI18n'
 import {
   customEventRef,
-  EventRef,
+  EventQueryRef,
   eventRef,
+  EventRef,
   eventsQueries,
   EventsQuery,
   PropertyRef,
   UserCustomProperty,
-  EventQueryRef,
 } from '@/types/events'
 import { $T, $TKeyExists } from '@/utils/i18n'
-import { Cohort, ApplyPayload } from '@/types'
+import { ApplyPayload, Cohort } from '@/types'
 import { aggregates } from '@/types/aggregate'
 import { Group, Item } from '@/components/Select/SelectTypes'
-import { useEventsStore, Events } from '@/stores/eventSegmentation/events'
+import { Events, useEventsStore } from '@/stores/eventSegmentation/events'
 import {
-  PropertyType,
   CustomEvent,
+  CustomProperty,
+  Event,
   EventType,
   Property,
-  Event,
-  CustomProperty,
-  QueryAggregate,
   PropertyRef as PropertyRefApi,
+  PropertyType,
+  QueryAggregate,
 } from '@/api'
-import { useCommonStore, PropertyTypeEnum } from '@/stores/common'
+import { PropertyTypeEnum, useCommonStore } from '@/stores/common'
 import { useProjectsStore } from '@/stores/projects/projects'
 import { errorHandler } from '@/helpers/errorHandlerHelper'
 import { apiClient } from '@/api/apiClient'
@@ -113,7 +113,7 @@ export const useLexiconStore = defineStore('lexicon', {
           }
         }
       } catch (e) {
-        console.log('error update event property')
+        console.error('error update event property')
       }
     },
     async updateUserProperty(payload: ApplyPayload) {
@@ -187,7 +187,7 @@ export const useLexiconStore = defineStore('lexicon', {
           this.customEvents = <CustomEvent[]>responseCustomEvents.data?.data || []
         }
       } catch (error) {
-        console.log('error customEvents')
+        console.error('error customEvents')
       }
 
       this.eventsLoading = false
@@ -202,7 +202,7 @@ export const useLexiconStore = defineStore('lexicon', {
           this.eventProperties = res.data.data
         }
       } catch (e) {
-        console.log('error getEventProperties')
+        console.error('error getEventProperties')
       }
 
       this.eventPropertiesLoading = false
@@ -218,7 +218,7 @@ export const useLexiconStore = defineStore('lexicon', {
           this.systemProperties = res.data.data
         }
       } catch (e) {
-        console.log('Error Get System Properties')
+        console.error('Error Get System Properties')
       }
 
       this.systemPropertiesLoading = false
@@ -232,7 +232,7 @@ export const useLexiconStore = defineStore('lexicon', {
 
         this.userProperties = Array.isArray(res?.data?.data) ? res?.data?.data : []
       } catch (error) {
-        console.log('error getUserProperties')
+        console.error('error getUserProperties')
       }
       this.eventPropertiesLoading = false
     },

@@ -45,17 +45,15 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, inject, ref } from 'vue'
+import { computed, ref } from 'vue'
 import { getStringDateByFormat } from '@/helpers/getStringDates'
-import { useLiveStreamStore, defaultColumns } from '@/stores/reports/liveStream'
+import { defaultColumns, useLiveStreamStore } from '@/stores/reports/liveStream'
 import { useCommonStore } from '@/stores/common'
 import { useLexiconStore } from '@/stores/lexicon'
 import { useEventsStore } from '@/stores/eventSegmentation/events'
 import useDataTable from '@/hooks/useDataTable'
-import usei18n from '@/hooks/useI18n';
-import {
-  PropertyRef
-} from '@/api'
+import usei18n from '@/hooks/useI18n'
+import { PropertyRef } from '@/api'
 
 import { shortPeriodDays } from '@/components/uikit/UiCalendar/UiCalendar.config'
 import { ApplyPayload } from '@/components/uikit/UiCalendar/UiCalendar'
@@ -65,7 +63,7 @@ import UiDatePicker from '@/components/uikit/UiDatePicker.vue'
 import UiTable from '@/components/uikit/UiTable/UiTable.vue'
 import LiveStreamEventPopup from '@/components/events/LiveStreamEventPopup.vue'
 
-const { t } = usei18n();
+const { t } = usei18n()
 const liveStreamStore = useLiveStreamStore()
 const commonStore = useCommonStore()
 const lexiconStore = useLexiconStore()
@@ -144,7 +142,9 @@ const calendarValueString = computed(() => {
 const selectColumns = (payload: string[]) => {
   liveStreamStore.toggleColumns(
     payload.reduce((acc: PropertyRef[], key) => {
-      const property = lexiconStore.properties.find(property => property.propertyName === key) as PropertyRef
+      const property = lexiconStore.properties.find(
+        property => property.propertyName === key
+      ) as PropertyRef
       if (property) {
         acc.push(property)
       }

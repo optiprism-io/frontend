@@ -1,5 +1,9 @@
 <template>
-  <UiSpinner v-if="isLoading" class="pf-u-display-flex pf-u-m-auto" size="lg" />
+  <UiSpinner
+    v-if="isLoading"
+    class="pf-u-display-flex pf-u-m-auto"
+    size="lg"
+  />
   <ProjectsForm
     v-else-if="project"
     v-model:is-edit="isEdit"

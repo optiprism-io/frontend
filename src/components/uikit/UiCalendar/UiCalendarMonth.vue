@@ -54,11 +54,9 @@ import {getStringDateByFormat, getYYYYMMDD} from '@/helpers/getStringDates';
 import {
     DAYS_IN_WEEK,
     getMonthTable,
-    getOrderedWeekdays,
 } from '@/helpers/calendarHelper';
 
 import { Ranged } from './UiCalendar'
-
 
 interface CellDate {
     date: number;
@@ -105,7 +103,6 @@ const emit = defineEmits<{
     (e: 'on-mouseleave', payload: string): void;
 }>();
 
-
 const now = computed((): Date => new Date());
 const jsMonth = computed(() => currentMonth.value - 1);
 const currentMonth = computed(() => props.month || now.value.getMonth() + 1);
@@ -118,11 +115,6 @@ const monthName = computed(() => {
 });
 
 const title = computed(() => `${monthName.value} ${currentYear.value}`);
-
-const week = computed(() => {
-    const weekDays = props.weekDays || ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
-    return getOrderedWeekdays(weekDays, props.firstDayOfWeek);
-});
 
 const rows = computed(() => {
     const rows = getMonthTable({year: currentYear.value, month: jsMonth.value}, props.firstDayOfWeek);

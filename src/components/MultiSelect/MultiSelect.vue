@@ -42,7 +42,6 @@ const props = defineProps<{
     popperContainer?: string
 }>();
 
-const key = ref(0);
 const searchRef = ref('');
 
 const itemsSelect = computed(() => {

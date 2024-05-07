@@ -6,7 +6,11 @@
     :apply-disabled="projectName.trim() === ''"
     @apply="createProject"
   >
-    <UiFormLabel :text="$t('project.name')" :required="true" for="project-name">
+    <UiFormLabel
+      :text="$t('project.name')"
+      :required="true"
+      for="project-name"
+    >
       <UiInput
         ref="input"
         v-model="projectName"

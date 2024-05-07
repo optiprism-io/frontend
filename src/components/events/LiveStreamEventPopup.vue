@@ -27,15 +27,12 @@
 
 <script lang="ts" setup>
 import { computed, ref } from 'vue';
-import { useLiveStreamStore, Report } from '@/stores/reports/liveStream';
+import { useLiveStreamStore } from '@/stores/reports/liveStream';
 import { useCommonStore, PropertyTypeEnum } from '@/stores/common';
 import { useLexiconStore } from '@/stores/lexicon';
 import UiTable from '@/components/uikit/UiTable/UiTable.vue';
-import {Action, Row} from '@/components/uikit/UiTable/UiTable';
+import { Action } from '@/components/uikit/UiTable/UiTable';
 import UiPopupWindow from '@/components/uikit/UiPopupWindow.vue';
-import UiTablePressedCell from '@/components/uikit/UiTable/UiTablePressedCell.vue';
-import { getStringDateByFormat } from '@/helpers/getStringDates';
-import DataEmptyPlaceholder from '@/components/common/data/DataEmptyPlaceholder.vue';
 import usei18n from '@/hooks/useI18n';
 
 const liveStreamStore = useLiveStreamStore();
@@ -50,7 +47,6 @@ type Props = {
 
 const properties = 'properties';
 const userProperties = 'userProperties';
-const createdAt = 'createdAt';
 
 const mapTabs = [properties, userProperties]
 
@@ -62,10 +58,6 @@ const emit = defineEmits<{
 }>()
 
 const activeTab = ref(properties)
-
-const report = computed(() => {
-    return liveStreamStore.columns.find((item) => item.name === props.name)
-})
 
 const items = computed(() => {
     // const objItems = liveStreamStore.columns.map(item => item.name)

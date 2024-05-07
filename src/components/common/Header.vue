@@ -2,8 +2,16 @@
   <header class="app-header">
     <div class="pf-l-flex pf-u-align-items-center">
       <div class="pf-l-flex__item pf-u-ml-md pf-l-flex pf-u-align-items-center">
-        <RouterLink class="app-header__logo" to="/dashboards" aria-current="page">
-          <img class="pf-c-brand" src="@/assets/img/logo-black.svg" alt="OptiPrism" />
+        <RouterLink
+          class="app-header__logo"
+          to="/dashboards"
+          aria-current="page"
+        >
+          <img
+            class="pf-c-brand"
+            src="@/assets/img/logo-black.svg"
+            alt="OptiPrism"
+          >
         </RouterLink>
       </div>
       <div class="pf-l-flex__item">
@@ -61,23 +69,19 @@ import { GenericUiDropdown, UiDropdownItem } from '@/components/uikit/UiDropdown
 import UiSelect from '@/components/uikit/UiSelect.vue'
 import Nav from '@/components/common/Nav.vue'
 import { useAuthStore } from '@/stores/auth/auth'
-import { RouterLink, useRouter, useRoute } from 'vue-router'
+import { RouterLink } from 'vue-router'
 import { pagesMap, SDKIntegration } from '@/router'
 import { useProjectsStore } from '@/stores/projects/projects'
 import UiIcon from '@/components/uikit/UiIcon.vue'
 import CreateProjectPopup from '@/components/projects/CreateProjectPopup.vue'
 import { useToggle } from '@vueuse/core'
 import { Project } from '@/api'
-import { useEventsStore } from '@/stores/eventSegmentation/events'
 import { useReportsStore } from '@/stores/reports/reports'
 
 const authStore = useAuthStore()
 const projectStore = useProjectsStore()
-const eventsStore = useEventsStore()
 const reportsStore = useReportsStore()
 
-const router = useRouter()
-const route = useRoute()
 const i18n = inject<any>('i18n')
 const UiDropdown = GenericUiDropdown<MenuValues>()
 

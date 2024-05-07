@@ -43,20 +43,19 @@
 </template>
 
 <script setup lang="ts">
-import { onUnmounted } from 'vue';
-import UiCardContainer from '@/components/uikit/UiCard/UiCardContainer.vue';
-import TimeWindow from '@/components/funnels/time-window/TimeWindow.vue';
-import UiCardTitle from '@/components/uikit/UiCard/UiCardTitle.vue';
-import UiCardBody from '@/components/uikit/UiCard/UiCardBody.vue';
-import UiCard from '@/components/uikit/UiCard/UiCard.vue';
-import Breakdowns from '@/components/events/Breakdowns.vue';
-import ExcludeStepsList from '@/components/funnels/exclude/ExcludeStepsList.vue';
-import HoldingConstantSelect from '@/components/funnels/holding/HoldingConstantSelect.vue';
-import ExcludeStepSelect from '@/components/funnels/exclude/ExcludeStepSelect.vue';
-import HoldingConstantList from '@/components/funnels/holding/HoldingConstantList.vue';
-import StepsList from '@/components/funnels/steps/StepsList.vue';
-import Segments from '@/components/events/Segments/Segments.vue';
-import FunnelsViews from '@/components/funnels/view/FunnelsViews.vue';
+import { onUnmounted } from 'vue'
+import UiCardContainer from '@/components/uikit/UiCard/UiCardContainer.vue'
+import TimeWindow from '@/components/funnels/time-window/TimeWindow.vue'
+import UiCardTitle from '@/components/uikit/UiCard/UiCardTitle.vue'
+import UiCardBody from '@/components/uikit/UiCard/UiCardBody.vue'
+import UiCard from '@/components/uikit/UiCard/UiCard.vue'
+import Breakdowns from '@/components/events/Breakdowns.vue'
+import ExcludeStepsList from '@/components/funnels/exclude/ExcludeStepsList.vue'
+import HoldingConstantSelect from '@/components/funnels/holding/HoldingConstantSelect.vue'
+import ExcludeStepSelect from '@/components/funnels/exclude/ExcludeStepSelect.vue'
+import HoldingConstantList from '@/components/funnels/holding/HoldingConstantList.vue'
+import StepsList from '@/components/funnels/steps/StepsList.vue'
+import FunnelsViews from '@/components/funnels/view/FunnelsViews.vue'
 import FilterReports from '@/components/events/FiltersReports.vue'
 import GridContainer from '@/components/grid/GridContainer.vue'
 import GridItem from '@/components/grid/GridItem.vue'
@@ -73,12 +72,12 @@ const segmentsStore = useSegmentsStore()
 const commonStore = useCommonStore()
 
 onUnmounted(() => {
-    if (commonStore.syncReports) {
-        funnelsToEvents()
-    } else {
-        eventsStore.$reset()
-        filterGroupsStore.$reset()
-        segmentsStore.$reset()
-    }
+  if (commonStore.syncReports) {
+    funnelsToEvents()
+  } else {
+    eventsStore.$reset()
+    filterGroupsStore.$reset()
+    segmentsStore.$reset()
+  }
 })
 </script>

@@ -1,11 +1,19 @@
 <template>
   <nav class="pf-c-breadcrumb" aria-label="breadcrumb">
     <ol class="pf-c-breadcrumb__list">
-      <li v-for="(item, idx) in items" :key="idx" class="pf-c-breadcrumb__item">
+      <li
+        v-for="(item, idx) in items"
+        :key="idx"
+        class="pf-c-breadcrumb__item"
+      >
         <span v-if="idx !== 0" class="pf-c-breadcrumb__item-divider">
-          <i class="fas fa-angle-right" aria-hidden="true"></i>
+          <i class="fas fa-angle-right" aria-hidden="true" />
         </span>
-        <RouterLink :to="item.to" :custom="!item.isActive" exact-active-class="pf-m-current">
+        <RouterLink
+          :to="item.to"
+          :custom="!item.isActive"
+          exact-active-class="pf-m-current"
+        >
           <span
             :class="{
               'pf-c-breadcrumb__link': !item.isActive,

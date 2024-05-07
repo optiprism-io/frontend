@@ -20,7 +20,11 @@
   <div class="pf-c-login">
     <div class="pf-c-login__container">
       <header class="pf-c-login__header">
-        <img class="pf-c-brand" src="@/assets/img/logo-black.svg" alt="OptiPrism" />
+        <img
+          class="pf-c-brand"
+          src="@/assets/img/logo-black.svg"
+          alt="OptiPrism"
+        >
       </header>
       <main class="pf-c-login__main">
         <header class="pf-c-login__main-header">
@@ -29,7 +33,11 @@
           </h1>
         </header>
         <div class="pf-c-login__main-body">
-          <UiForm class="login-form" :error-main="errorMain" @submit="actionForm">
+          <UiForm
+            class="login-form"
+            :error-main="errorMain"
+            @submit="actionForm"
+          >
             <UiFormGroup
               :label="'Email'"
               :error="errorFields?.email"
@@ -63,7 +71,11 @@
               </UiInputGroup>
             </UiFormGroup>
             <UiFormGroup>
-              <UiCheckbox v-model="keepLogged" :label="$t('login.keep')" class="pf-u-mb-md" />
+              <UiCheckbox
+                v-model="keepLogged"
+                :label="$t('login.keep')"
+                class="pf-u-mb-md"
+              />
             </UiFormGroup>
             <UiFormGroup :action="true">
               <button class="pf-c-button pf-m-primary pf-m-block" type="submit">

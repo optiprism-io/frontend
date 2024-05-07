@@ -44,6 +44,7 @@ const props = withDefaults(defineProps<Props>(), {
   beforeIcon: '',
   icon: '',
   ariaLabel: '',
+  afterIcon: undefined,
 })
 </script>
 

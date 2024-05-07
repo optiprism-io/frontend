@@ -1,4 +1,8 @@
-[
+/* TODO: correct reports mock */
+
+import { FunnelStepsChartTypeTypeEnum, TimeUnit } from '@/api'
+
+export const reports = [
     {
         "id": "33",
         "name": "Bug/Feature3 - Report from Example",
@@ -598,7 +602,10 @@
             },
             "group": "user",
             "intervalUnit": "day",
-            "chartType": "line",
+            "chartType": {
+                "type": FunnelStepsChartTypeTypeEnum.Steps,
+                "intervalUnit": TimeUnit.Day,
+            },
             "analysis": {
                 "type": "linear"
             },

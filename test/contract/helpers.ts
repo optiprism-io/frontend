@@ -1,7 +1,7 @@
-import {expect, test} from 'vitest';
-import jwt from 'jsonwebtoken';
-import {Configuration} from '../../src/api';
-import {AxiosError} from 'axios';
+import { expect, test } from 'vitest'
+import jwt from 'jsonwebtoken'
+import { Configuration } from '../../src/api'
+import { AxiosError } from 'axios'
 
 const JWT_KEY = 'access_token_key'
 
@@ -94,12 +94,6 @@ export const testRequestWithVariants = (reqFn: (body: any) => Promise<any>, resp
 
 interface ConfigParameters {
     auth: boolean
-}
-
-const defaultTransformer = (reqData, reqHeaders) => {
-    console.log('req', reqData)
-
-    return reqData;
 }
 
 export const config = (cfg?: ConfigParameters): Configuration => {

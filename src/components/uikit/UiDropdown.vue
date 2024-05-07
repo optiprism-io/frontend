@@ -1,6 +1,11 @@
 <template>
   <div class="pf-c-dropdown pf-m-expanded">
-    <VDropdown :placement="placementMenu" :triggers="[]" :shown="isOpen" @hide="onHide">
+    <VDropdown
+      :placement="placementMenu"
+      :triggers="[]"
+      :shown="isOpen"
+      @hide="onHide"
+    >
       <template v-if="$slots.button">
         <div @click="onToggle">
           <slot name="button" />
@@ -37,11 +42,24 @@
       <template #popper>
         <div class="pf-c-dropdown">
           <ul class="pf-c-dropdown__menu" aria-labelledby="dropdown-expanded-button">
-            <li v-for="item in items" :key="item.key" v-close-popper @click="onClick(item)">
-              <RouterLink v-if="item.to" :to="item.to" class="pf-c-dropdown__menu-item">
+            <li
+v-for="item in items"
+:key="item.key"
+v-close-popper
+@click="onClick(item)"
+>
+              <RouterLink
+v-if="item.to"
+:to="item.to"
+class="pf-c-dropdown__menu-item"
+>
                 {{ item.nameDisplay }}
               </RouterLink>
-              <a v-else-if="item.href" class="pf-c-dropdown__menu-item" href="#">
+              <a
+v-else-if="item.href"
+class="pf-c-dropdown__menu-item"
+href="#"
+>
                 {{ item.nameDisplay }}
               </a>
               <button

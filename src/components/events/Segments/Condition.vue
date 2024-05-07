@@ -227,7 +227,6 @@ import {
     PayloadChangeEach,
 } from '@/components/events/Segments/Segments';
 import { conditions } from '@/configs/events/segmentCondition';
-import { useLexiconStore } from '@/stores/lexicon';
 import { getStringDateByFormat } from '@/helpers/getStringDates';
 import { conditions as conditionsMap, conditionsBetween } from '@/configs/events/segmentCondition';
 import usei18n from '@/hooks/useI18n';

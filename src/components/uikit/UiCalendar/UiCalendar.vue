@@ -322,11 +322,6 @@ const initValues = () => {
     }
 };
 
-const cancel = () => {
-    emit('cancel');
-    initValues();
-};
-
 const apply = () => {
     switch (props.selectMode) {
         case 'single':

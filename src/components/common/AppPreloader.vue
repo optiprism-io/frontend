@@ -1,6 +1,10 @@
 <template>
   <div class="app-preloader">
-    <img class="app-preloader__logo" :src="OptiPrismLogo" alt="optiprism-logo" />
+    <img
+      class="app-preloader__logo"
+      :src="OptiPrismLogo"
+      alt="optiprism-logo"
+    >
   </div>
 </template>
 

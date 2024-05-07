@@ -208,9 +208,13 @@ type Props = {
 }
 
 const props = withDefaults(defineProps<Props>(), {
+  breakdowns: undefined,
   eventItems: () => [],
+  queries: undefined,
   showBreakdowns: true,
   showQuery: true,
+  popperContainer: undefined,
+  popperClass: undefined,
   autoHide: true,
   identifier: 'alphabet',
 })

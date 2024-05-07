@@ -15,35 +15,33 @@
       :height-chart="props.heightChart || 240"
     />
     <FunnelsChart
-      v-else
+      v-else-if="reportSteps.length"
+      :report-steps="reportSteps"
+      :height="props.heightChart || 240"
       :lite-chart="true"
-      :reports="funnelsReport"
-      :steps="steps"
-      :height="funnelsChartHeight"
-      :min-width-step="100"
     />
   </div>
 </template>
 
 <script lang="ts" setup>
-import { ref, computed, onMounted, watch } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 import { pagesMap } from '@/router'
 import {
-  Report,
   DataTableResponse,
-  ReportType,
-  DataTableResponseColumnsInner,
-  FunnelQuery,
-  EventSegmentation as EventSegmentationType,
+  EventGroupedFiltersGroupsInnerFiltersInner,
   EventRecordsListRequestTime,
-  EventGroupedFiltersGroupsInnerFiltersInner, EventSegmentationQueryFormatEnum,
+  EventSegmentation as EventSegmentationType,
+  EventSegmentationQueryFormatEnum,
+  FunnelQuery,
+  FunnelResponseStepsInner,
+  Report,
+  ReportType,
 } from '@/api'
 
-import { ChartType } from '@/stores/eventSegmentation/events'
+import { ChartType, useEventsStore } from '@/stores/eventSegmentation/events'
 
 import { useReportsStore } from '@/stores/reports/reports'
 import { useFilterGroupsStore } from '@/stores/reports/filters'
-import { useEventsStore } from '@/stores/eventSegmentation/events'
 import { useProjectsStore } from '@/stores/projects/projects'
 
 import { Step } from '@/types/steps'
@@ -66,13 +64,12 @@ const props = defineProps<{
 
 const loading = ref(false)
 const eventSegmentation = ref<DataTableResponse>()
-const funnelsReport = ref<DataTableResponseColumnsInner[]>()
+const reportSteps = ref<FunnelResponseStepsInner[]>([])
 const steps = ref<Step[]>()
 const filterTimeInitState = ref<EventRecordsListRequestTime | null>(null)
 
 const filterTime = computed(() => eventsStore.timeRequest)
 const activeReport = computed(() => reportsStore.list.find(item => item.id === props.reportId))
-const funnelsChartHeight = computed(() => (props.heightChart ? props.heightChart - 40 : 190))
 const report = computed(() => props.report || activeReport.value)
 const query = computed(() => report.value?.query)
 const reportChartType = computed(() => (report.value?.query?.chartType as ChartType) ?? 'line')
@@ -130,7 +127,11 @@ const getEventSegmentation = async () => {
         query.time = filterTime.value
       }
       if (query.events.length) {
-        const res = await apiClient.query.eventSegmentationQuery(projectsStore.projectId, EventSegmentationQueryFormatEnum.Json, query)
+        const res = await apiClient.query.eventSegmentationQuery(
+          projectsStore.projectId,
+          EventSegmentationQueryFormatEnum.Json,
+          query
+        )
         if (res) {
           eventSegmentation.value = res.data as DataTableResponse
         }
@@ -155,14 +156,8 @@ const getFunnelsReport = async () => {
       }
       const res = await apiClient.query.funnelQuery(projectsStore.projectId, query)
 
-      /* TODO: fix typescript error in funnel query branch */
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore: Unreachable code error
-      if (res?.data?.columns) {
-        /* TODO: fix typescript error in funnel query branch */
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore: Unreachable code error
-        funnelsReport.value = res.data.columns as DataTableResponseColumnsInner[]
+      if (res?.data?.steps) {
+        reportSteps.value = res.data.steps
       }
     } catch (error) {
       throw Error(JSON.stringify(error))

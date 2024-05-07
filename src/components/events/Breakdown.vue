@@ -42,7 +42,11 @@
         </VTooltip>
       </div>
       <div class="pf-c-action-list__item breakdown__control-item">
-        <UiButton class="pf-m-plain" icon="fas fa-times" @click="removeBreakdown" />
+        <UiButton
+          class="pf-m-plain"
+          icon="fas fa-times"
+          @click="removeBreakdown"
+        />
       </div>
     </div>
   </div>
@@ -50,12 +54,10 @@
 
 <script setup lang="ts">
 import { EventBreakdown } from '@/stores/eventSegmentation/events'
-import { useLexiconStore } from '@/stores/lexicon'
 import PropertySelect from '@/components/events/PropertySelect.vue'
 import { EventRef, PropertyRef } from '@/types/events'
 import UiButton from '@/components/uikit/UiButton.vue'
 import CommonIdentifier from '@/components/common/identifier/CommonIdentifier.vue'
-import { PropertyType } from '@/api'
 
 interface IProps {
   eventRef?: EventRef
@@ -69,6 +71,11 @@ interface IProps {
 }
 
 const props = withDefaults(defineProps<IProps>(), {
+  eventRef: undefined,
+  eventRefs: undefined,
+  selectedItems: undefined,
+  updateOpen: false,
+  showIdentifier: false,
   hasIcon: true,
 })
 
@@ -77,8 +84,6 @@ const emit = defineEmits<{
   (e: 'changeBreakdownProperty', breakdownIdx: number, propRef: PropertyRef): void
   (e: 'handleSelectProperty'): void
 }>()
-
-const lexiconStore = useLexiconStore()
 
 const removeBreakdown = (): void => {
   emit('removeBreakdown', props.index)

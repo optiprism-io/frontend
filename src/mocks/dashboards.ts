@@ -1,5 +1,3 @@
-import reportsMocks from './reports/reports.json'
-
 export default [
     {
         'id': 1,

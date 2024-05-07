@@ -55,6 +55,7 @@ const emit = defineEmits<{
 }>()
 
 const props = withDefaults(defineProps<Props>(), {
+    horizontal: undefined,
     compact: true
 })
 

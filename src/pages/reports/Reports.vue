@@ -64,13 +64,13 @@
         style="--pf-u-min-height--MinHeight: 0"
       >
         <router-view />
-      </div> 
+      </div>
     </div>
   </section>
 </template>
 
 <script lang="ts" setup>
-import { ref, computed, onMounted } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { pagesMap } from '@/router'
 import usei18n from '@/hooks/useI18n'
@@ -87,6 +87,8 @@ import UiSelect from '@/components/uikit/UiSelect.vue'
 import UiSwitch from '@/components/uikit/UiSwitch.vue'
 import UiInlineEdit from '@/components/uikit/UiInlineEdit.vue'
 import UiSpinner from '@/components/uikit/UiSpinner.vue'
+import { storeToRefs } from 'pinia'
+import { REPORT_TABS } from './tabs'
 
 const { t } = usei18n()
 const route = useRoute()
@@ -101,43 +103,24 @@ const editableNameReport = ref(false)
 const reportName = ref('')
 const showSyncReports = ref(false)
 
-const reportsId = computed((): number[] => reportsStore.reportsId)
+const { isChangedReport: isShowSaveReport } = storeToRefs(reportsStore)
 
-const items = computed(() => {
-  const mapTabs = [
-    {
-      name: t('events.event_segmentation'),
-      value: pagesMap.reportsEventSegmentation.name,
-      link: {
-        name: pagesMap.reportsEventSegmentation.name,
-      },
-    },
-    {
-      name: t('funnels.funnels'),
-      value: pagesMap.funnels.name,
-      link: {
-        name: pagesMap.funnels.name,
-      },
-    },
-  ]
+const items = computed(() =>
+  REPORT_TABS.map(item => ({
+    ...item,
+    active: route.name === item.value,
+  }))
+)
 
-  return mapTabs.map(item => {
-    return {
-      ...item,
-      active: route.name === item.value,
-    }
-  })
-})
+const reportSelectText = computed(() =>
+  reportsStore.activeReport ? reportsStore.activeReport.name : t('reports.selectReport')
+)
 
-const reportSelectText = computed(() => {
-  return reportsStore.activeReport ? reportsStore.activeReport.name : t('reports.selectReport')
-})
-
-const reportType = computed(() => {
-  return pagesMap.reportsEventSegmentation.name === route.name
+const reportType = computed(() =>
+  pagesMap.reportsEventSegmentation.name === route.name
     ? ReportType.EventSegmentation
     : ReportType.Funnel
-})
+)
 
 const itemsReports = computed(() => {
   return reportsStore.list.map(item => {
@@ -158,11 +141,9 @@ const untitledReportsList = computed(() => {
   )
 })
 
-const untitledReportName = computed(() => {
-  return `${t('reports.untitledReport')} #${untitledReportsList.value.length + 1}`
-})
-
-const isShowSaveReport = computed(() => reportsStore.isChangedReport)
+const untitledReportName = computed(
+  () => `${t('reports.untitledReport')} #${untitledReportsList.value.length + 1}`
+)
 
 const onEditNameReport = (payload: boolean) => {
   editableNameReport.value = payload
@@ -170,7 +151,7 @@ const onEditNameReport = (payload: boolean) => {
 
 const onDeleteReport = async () => {
   try {
-    await confirm(
+    confirm(
       t('reports.deleteConfirm', { name: `<b>${reportsStore?.activeReport?.name}</b>` || '' }),
       {
         applyButton: t('common.apply'),
@@ -199,7 +180,7 @@ const onEditReport = async () => {
 const onCreateReport = async () => {
   await reportsStore.createReport(untitledReportName.value, reportType.value)
 
-  router.push({
+  await router.push({
     params: {
       id: reportsStore.reportId,
     },
@@ -244,7 +225,7 @@ const updateReport = async (id: number) => {
 
 const onSelectReport = async (id: number) => {
   await updateReport(id)
-  router.push({
+  await router.push({
     params: {
       id,
     },

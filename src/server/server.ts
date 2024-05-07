@@ -3,14 +3,12 @@ import { DataType, UserPropertiesList200Response } from '@/api'
 import { BASE_PATH } from '@/api/base'
 import { EventStatus, UserCustomProperty } from '@/types/events'
 import liveStreamMocks from '@/mocks/reports/liveStream.json'
-import funnelsMocks from '@/mocks/reports/funnels.json'
 import userPropertiesMocks from '@/mocks/eventSegmentations/userProperties.json'
-import eventSegmentationsMocks from '@/mocks/eventSegmentations/eventSegmentations.json'
 import eventPropertiesMocks from '@/mocks/eventSegmentations/eventProperties.json'
 import customProperties from '@/mocks/eventSegmentations/customProperties.json'
 import customEventsMocks from '@/mocks/eventSegmentations/customEvents.json'
 import eventMocks from '@/mocks/eventSegmentations/events.json'
-import reportsMocks from '@/mocks/reports/reports.json'
+import { reports } from '@/mocks/reports/reports'
 import dashboardsMocks from '@/mocks/dashboards'
 import groupRecordsMocks from '@/mocks/groupRecords.json'
 import profileMocks from '@/mocks/profile'
@@ -22,6 +20,7 @@ import { authRoutes } from '@/server/services/auth.service'
 import { organizationsRoutes } from '@/server/services/organizations.service'
 import { organizations } from '@/mocks/organizations'
 import { faker } from '@/server/faker'
+import { queriesRoutes } from '@/server/services/query.service'
 
 const urlPrefix = BASE_PATH + '/' + import.meta.env.VITE_API_VERSION
 const SESSION_STORAGE_KEY = 'db'
@@ -32,7 +31,7 @@ const dbTemplate: { [k: string]: any } = {
   eventProperties: eventPropertiesMocks,
   userProperties: userPropertiesMocks,
   customProperties: customProperties,
-  reports: reportsMocks,
+  reports: reports,
   dashboards: dashboardsMocks,
   groupRecords: groupRecordsMocks,
   liveStreamMocks: liveStreamMocks,
@@ -93,7 +92,7 @@ export function makeHttpServer({ environment = 'development', isSeed = true } = 
                 }
             })
 
-            this.delete('/projects/:project_id/schema/custom-events/:event_id', (schema, request) => {
+            this.delete('/projects/:project_id/schema/custom-events/:event_id', () => {
                 return EMPTY_SUCCESS_RES;
             })
 
@@ -110,7 +109,7 @@ export function makeHttpServer({ environment = 'development', isSeed = true } = 
                 return schema.db.customEvents
             })
 
-            this.post('/projects/:project_id/event-records/search', (schema, request) => {
+            this.post('/projects/:project_id/event-records/search', (schema) => {
                 return schema.db.liveStreamMocks
             })
 
@@ -219,22 +218,6 @@ export function makeHttpServer({ environment = 'development', isSeed = true } = 
                 return request.params.report_id;
             })
 
-            this.post('/projects/:project_id/queries/event-segmentation', (_, request) => {
-                const body = JSON.parse(request.requestBody);
-
-                if (body.events?.length || body?.segments?.length) {
-                    return eventSegmentationsMocks;
-                } else {
-                    return {
-                        columns: []
-                    };
-                }
-            })
-
-            this.post(`/projects/:project_id/queries/funnel`, (schema, request) => {
-                return funnelsMocks
-            })
-
             this.get('/projects/:project_id/dashboards', (schema) => {
                 return {
                     data: schema.db.dashboards,
@@ -279,6 +262,7 @@ export function makeHttpServer({ environment = 'development', isSeed = true } = 
              * end Group-records
              */
 
+            queriesRoutes(this)
             authRoutes(this)
             profileRoutes(this)
             projectsRoutes(this)

@@ -1,6 +1,5 @@
 import { defineStore } from 'pinia'
 import { useEventsStore } from '@/stores/eventSegmentation/events'
-import { useFunnelsStore } from '@/stores/funnels/funnels'
 import { useStepsStore } from '@/stores/funnels/steps'
 import { useFilterGroupsStore } from '@/stores/reports/filters'
 import { useBreakdownsStore } from '@/stores/reports/breakdowns'
@@ -8,21 +7,19 @@ import { useSegmentsStore } from '@/stores/reports/segments'
 import { useProjectsStore } from '@/stores/projects/projects'
 
 import {
+  BreakdownByProperty,
+  EventChartType,
+  EventRecordsListRequestTime,
+  EventSegmentationSegment,
+  FunnelQueryStepsInner,
+  FunnelStepsChartTypeTypeEnum,
+  PropertyRef,
   Report,
   ReportQuery,
   ReportType,
-  EventRecordsListRequestTime,
-  EventChartType,
-  FunnelStepsChartTypeTypeEnum,
   TimeUnit,
-  EventGroupedFilters,
-  BreakdownByProperty,
-  EventSegmentationSegment,
-  FunnelQueryStepsInner,
-  PropertyRef,
 } from '@/api'
 import { apiClient } from '@/api/apiClient'
-import { ap } from 'vitest/dist/global-58e8e951'
 
 type Reports = {
   list: Report[]
@@ -34,19 +31,16 @@ type Reports = {
   updateToEmpty: boolean
 }
 
-export const getReport = (type: ReportType) => {
+const getReport = (type: ReportType) => {
+  /* TODO: fix multiple links with other stores  */
   const eventsStore = useEventsStore()
-  const funnelsStore = useFunnelsStore()
   const breakdownsStore = useBreakdownsStore()
   const filterGroupsStore = useFilterGroupsStore()
   const segmentsStore = useSegmentsStore()
   const stepsStore = useStepsStore()
 
   const report = {
-    time:
-      type === ReportType.EventSegmentation
-        ? (eventsStore.timeRequest as EventRecordsListRequestTime)
-        : (funnelsStore.timeRequest as EventRecordsListRequestTime),
+    time: eventsStore.timeRequest as EventRecordsListRequestTime,
     group: eventsStore.group,
     intervalUnit: eventsStore.controlsGroupBy,
     chartType:
@@ -119,7 +113,7 @@ export const useReportsStore = defineStore('reports', {
           this.list = res.data.data
         }
       } catch (e) {
-        console.log('error reportsList')
+        console.error('error reportsList')
       }
     },
     async createReport(name: string, type: ReportType) {
@@ -135,7 +129,7 @@ export const useReportsStore = defineStore('reports', {
           this.reportId = Number(res.data.id)
         }
       } catch (e) {
-        console.log('error reportsList')
+        console.error('error reportsList')
       }
 
       this.saveLoading = false

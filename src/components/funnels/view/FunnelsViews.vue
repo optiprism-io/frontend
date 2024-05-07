@@ -1,169 +1,230 @@
 <template>
-    <div class="pf-c-card pf-u-mb-md">
-        <div class="pf-c-toolbar">
-            <div class="pf-c-toolbar__content">
-                <div class="pf-c-toolbar__content-section pf-m-nowrap">
-                    <div class="pf-c-toolbar__item">
-                        <UiToggleGroup
-                            :items="itemsPeriod"
-                            @select="selectPeriod"
-                        >
-                            <template #after>
-                                <UiDatePicker
-                                    :value="calendarValue"
-                                    :last-count="lastCount"
-                                    :active-tab-controls="funnelsStore.period.type"
-                                    @on-apply="applyPeriod"
-                                >
-                                    <template #action>
-                                        <button
-                                            class="pf-c-toggle-group__button"
-                                            :class="{
-                                                'pf-m-selected': calendarValueString,
-                                            }"
-                                            type="button"
-                                        >
-                                            <div class="pf-u-display-flex pf-u-align-items-center">
-                                                <UiIcon :icon="'far fa-calendar-alt'" />
-                                                &nbsp;
-                                                {{ calendarValueString }}
-                                            </div>
-                                        </button>
-                                    </template>
-                                </UiDatePicker>
-                            </template>
-                        </UiToggleGroup>
-                    </div>
+  <div class="pf-c-card pf-u-mb-md">
+    <div class="pf-c-toolbar">
+      <div class="pf-c-toolbar__content">
+        <div class="pf-c-toolbar__content-section pf-m-nowrap">
+          <div class="pf-c-toolbar__item">
+            <UiToggleGroup :items="itemsPeriod" @select="selectPeriod">
+              <template #after>
+                <UiDatePicker
+                  :value="calendarValue"
+                  :last-count="period.last"
+                  :active-tab-controls="period.type"
+                  @on-apply="applyPeriod"
+                >
+                  <template #action>
+                    <button
+                      class="pf-c-toggle-group__button"
+                      :class="{
+                        'pf-m-selected': calendarValueString,
+                      }"
+                      type="button"
+                    >
+                      <div class="pf-u-display-flex pf-u-align-items-center">
+                        <UiIcon :icon="'far fa-calendar-alt'" />
+                        &nbsp;
+                        {{ calendarValueString }}
+                      </div>
+                    </button>
+                  </template>
+                </UiDatePicker>
+              </template>
+            </UiToggleGroup>
+          </div>
 
-                    <div class="pf-c-toolbar__item pf-u-ml-auto">
-                        <UiDropdown
-                            :items="items"
-                            :text-button="itemText"
-                            @select-value="selectItem"
-                        />
-                    </div>
-                </div>
-            </div>
+          <div class="pf-c-toolbar__item pf-u-ml-auto">
+            <UiDropdown
+              :items="FUNNEL_VIEWS"
+              :text-button="itemText"
+              @select-value="selectItem"
+            />
+          </div>
         </div>
-
-        <DataEmptyPlaceholder v-if="funnelsStore.reports.length === 0">
-            {{ $t('funnels.view.selectToStart') }}
-        </DataEmptyPlaceholder>
-        <DataLoader v-else-if="funnelsStore.loading" />
-        <template v-else>
-            <FunnelsChart />
-            <FunnelsTable class="pf-u-mt-xl" />
-        </template>
+      </div>
     </div>
+
+    <DataLoader v-if="loading" />
+    <template v-else-if="reportSteps.length">
+      <FunnelsChart :report-steps="reportSteps" />
+      <FunnelsTable :report-steps="reportSteps" :groups="groups" />
+    </template>
+    <DataEmptyPlaceholder v-else>
+      {{ $t('funnels.view.selectToStart') }}
+    </DataEmptyPlaceholder>
+  </div>
 </template>
 
 <script lang="ts" setup>
 import { computed, ref, watch } from 'vue'
 import UiDatePicker from '@/components/uikit/UiDatePicker.vue'
-import {periodMap} from '@/configs/events/controls';
-import {UiToggleGroupItem} from '@/components/uikit/UiToggleGroup.vue';
-import {useFunnelsStore} from '@/stores/funnels/funnels';
-import {getStringDateByFormat} from '@/helpers/getStringDates';
-import {ApplyPayload} from '@/components/uikit/UiCalendar/UiCalendar';
-import FunnelsChart from '@/components/funnels/view/FunnelsChart.vue';
-import {UiDropdownItem} from '@/components/uikit/UiDropdown.vue';
-import FunnelsTable from '@/components/funnels/view/FunnelsTable.vue';
-import {useStepsStore} from '@/stores/funnels/steps';
-import DataEmptyPlaceholder from '@/components/common/data/DataEmptyPlaceholder.vue';
-import DataLoader from '@/components/common/data/DataLoader.vue';
-import useI18n from '@/hooks/useI18n';
+import { periodMap } from '@/configs/events/controls'
+import { UiToggleGroupItem } from '@/components/uikit/UiToggleGroup.vue'
+import { getStringDateByFormat, getYYYYMMDD } from '@/helpers/getStringDates'
+import { ApplyPayload } from '@/components/uikit/UiCalendar/UiCalendar'
+import FunnelsChart from '@/components/funnels/view/FunnelsChart.vue'
+import { UiDropdownItem } from '@/components/uikit/UiDropdown.vue'
+import FunnelsTable from '@/components/funnels/view/FunnelsTable.vue'
+import { useStepsStore } from '@/stores/funnels/steps'
+import DataEmptyPlaceholder from '@/components/common/data/DataEmptyPlaceholder.vue'
+import DataLoader from '@/components/common/data/DataLoader.vue'
+import { FUNNEL_VIEWS } from './funnelViews'
+import { useProjectsStore } from '@/stores/projects/projects'
+import {
+  EventRecordsListRequestTime,
+  FunnelQueryCountEnum,
+  FunnelResponseStepsInner,
+  FunnelStepsChartTypeTypeEnum,
+  TimeUnitWithSession,
+} from '@/api'
+import { useMutation } from '@/hooks/useMutation'
+import { getLastNDaysRange } from '@/helpers/calendarHelper'
+import { storeToRefs } from 'pinia'
+import { TimeTypeEnum, usePeriod } from '@/hooks/usePeriod'
+import { apiClient } from '@/api/apiClient'
 
-const { t } = useI18n();
-
-const items = [
-    {
-        key: 0,
-        value: 0,
-        nameDisplay: t('funnels.view.funnelSteps')
-    },
-    {
-        key: 1,
-        value: 1,
-        nameDisplay: t('funnels.view.conversionOverTime'),
-    },
-    {
-        key: 2,
-        value: 2,
-        nameDisplay: t('funnels.view.timeToConvert'),
-    },
-];
-
-const item = ref<string | number>(0)
-const itemText = computed(() => items.find(c => c.key === item.value)?.nameDisplay ?? '')
-
-const selectItem = (value: UiDropdownItem<string>) => {
-    item.value = value.key;
+interface Period {
+  from: string
+  to: string
+  last: number
+  type: TimeTypeEnum
 }
 
-const funnelsStore = useFunnelsStore()
+const item = ref<string | number>(0)
+const itemText = computed(() => FUNNEL_VIEWS.find(c => c.key === item.value)?.nameDisplay ?? '')
+
+const selectItem = (value: UiDropdownItem<string>) => {
+  item.value = value.key
+}
+
 const stepsStore = useStepsStore()
-const loading = ref(false)
+const { size, unit } = storeToRefs(stepsStore)
+
+const reportSteps = ref<FunnelResponseStepsInner[]>([])
+const groups = ref<string[]>([])
+
+const controlsPeriod = ref<string | number>('30')
+const period = ref<Period>({
+  from: '',
+  to: '',
+  type: TimeTypeEnum.Last,
+  last: 30,
+})
+
+const { mutate: getReports, isLoading: loading } = useMutation(fetchReports)
+
+const timeRequest = computed<EventRecordsListRequestTime>(() => {
+  const { getRequestTime } = usePeriod()
+  return getRequestTime(
+    period.value.type,
+    controlsPeriod.value,
+    period.value.from,
+    period.value.to,
+    period.value.last
+  )
+})
+
+function setControlsPeriod(payload: string) {
+  controlsPeriod.value = payload
+}
+
+function setPeriod(payload: Period) {
+  period.value = payload
+}
+
+function initPeriod(): void {
+  const lastNDateRange = getLastNDaysRange(20)
+  period.value = {
+    from: getYYYYMMDD(lastNDateRange.from),
+    to: getYYYYMMDD(new Date()),
+    type: 'last',
+    last: 20,
+  }
+}
 
 const itemsPeriod = computed(() => {
-    const config = periodMap.find(item => item.type === 'day');
+  const config = periodMap.find(item => item.type === 'day')
 
-    return config?.items.map((key, i): UiToggleGroupItem => ({
+  return (
+    config?.items.map(
+      (key): UiToggleGroupItem => ({
         key,
         nameDisplay: key + config.text,
         value: key,
-        selected: key === funnelsStore.controlsPeriod,
-    })) ?? []
+        selected: key === controlsPeriod.value,
+      })
+    ) ?? []
+  )
 })
 
-const period = computed(() => {
-    return funnelsStore.period;
-});
-
 const calendarValue = computed(() => {
-    return {
-        from: period.value.from,
-        to: period.value.to,
-        multiple: false,
-        dates: [],
-    };
-});
-
-const lastCount = computed(() => {
-    return period.value.last;
-});
+  return {
+    from: period.value.from,
+    to: period.value.to,
+    multiple: false,
+    dates: [],
+  }
+})
 
 const calendarValueString = computed(() => {
-    if (funnelsStore.period.from && funnelsStore.period.to && funnelsStore.controlsPeriod === 'calendar') {
-        switch(funnelsStore.period.type) {
-            case 'last':
-                return `Last ${funnelsStore.period.last} ${funnelsStore.period.last === 1 ? 'day' : 'days'}`;
-            case 'since':
-                return `Since ${getStringDateByFormat(funnelsStore.period.from, '%d %b, %Y')}`;
-            case 'between':
-                return `${getStringDateByFormat(funnelsStore.period.from, '%d %b, %Y')} - ${getStringDateByFormat(funnelsStore.period.to, '%d %b, %Y')}`;
-            default:
-                return '';
-        }
-    } else {
-        return '';
+  if (period.value.from && period.value.to && controlsPeriod.value === 'calendar') {
+    switch (period.value.type) {
+      case 'last':
+        return `Last ${period.value.last} ${period.value.last === 1 ? 'day' : 'days'}`
+      case 'since':
+        return `Since ${getStringDateByFormat(period.value.from, '%d %b, %Y')}`
+      case 'between':
+        return `${getStringDateByFormat(period.value.from, '%d %b, %Y')} - ${getStringDateByFormat(period.value.to, '%d %b, %Y')}`
+      default:
+        return ''
     }
-});
+  } else {
+    return ''
+  }
+})
 
 const selectPeriod = (payload: string): void => {
-    funnelsStore.setControlsPeriod(payload);
-    funnelsStore.initPeriod();
-};
+  setControlsPeriod(payload)
+  initPeriod()
+}
 
 const applyPeriod = (payload: ApplyPayload): void => {
-    funnelsStore.setControlsPeriod('calendar');
-    funnelsStore.setPeriod({
-        ...funnelsStore.period,
-        from: payload.value.from || '',
-        to: payload.value.to || '',
-        type: payload.type,
-        last: payload.last,
-    })
-};
+  setControlsPeriod('calendar')
+  setPeriod({
+    ...period.value,
+    from: payload.value.from || '',
+    to: payload.value.to || '',
+    type: payload.type,
+    last: payload.last,
+  })
+}
 
-watch(() => stepsStore.steps.length, funnelsStore.getReports)
+/* TODO: refactor this */
+async function fetchReports(): Promise<void> {
+  const projectsStore = useProjectsStore()
+
+  const res = await apiClient.query.funnelQuery(projectsStore.projectId, {
+    time: timeRequest.value,
+    group: '',
+    steps: stepsStore.getSteps,
+    timeWindow: {
+      n: size.value,
+      /* TODO: fix type and remove "as TimeUnitWithSession" */
+      unit: unit.value as TimeUnitWithSession,
+    },
+    chartType: {
+      type: FunnelStepsChartTypeTypeEnum.Steps,
+    },
+    count: FunnelQueryCountEnum.NonUnique,
+    touch: {
+      type: 'first',
+    },
+  })
+
+  if (res?.data) {
+    reportSteps.value = res.data.steps
+    groups.value = res.data.groups
+  }
+}
+
+watch(() => stepsStore.steps.length, getReports)
 </script>

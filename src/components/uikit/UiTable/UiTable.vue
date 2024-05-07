@@ -10,7 +10,11 @@
           <div class="pf-c-toolbar__item">
             <div class="pf-l-flex pf-u-align-items-center">
               <slot name="before" />
-              <UiSpinner v-show="props.isLoading" class="pf-u-ml-md" :size="'md'" />
+              <UiSpinner
+                v-show="props.isLoading"
+                class="pf-u-ml-md"
+                :size="'md'"
+              />
             </div>
           </div>
           <div v-if="slots.after" class="pf-c-toolbar__item pf-u-ml-auto">
@@ -73,26 +77,30 @@
             </tr>
           </thead>
           <tbody role="rowgroup">
-            <tr v-for="(row, i) in items" :key="i" role="row">
-              <template v-for="(cell, j) in row" :key="j">
-                <UiTableCellWrapper
-                  :fixed="cell.fixed"
-                  :truncate="cell.truncate"
-                  :last-fixed="cell.lastFixed"
-                  :no-wrap="cell.nowrap"
-                  :type="cell.type"
-                >
-                  <component
-                    :is="cell.component || UiTableCell"
-                    :action="cell.action"
-                    :value="cell.value"
-                    :title="cell.title"
-                    :nowrap="cell.nowrap"
+            <tr
+v-for="(row, i) in items"
+:key="i"
+role="row"
+>
+              <UiTableCellWrapper
+                v-for="(cell, j) in row"
+                :key="j"
+                :fixed="cell.fixed"
+                :truncate="cell.truncate"
+                :last-fixed="cell.lastFixed"
+                :no-wrap="cell.nowrap"
+                :type="cell.type"
+              >
+                <Component
+                  :is="cell.component || UiTableCell"
+                  :action="cell.action"
+                  :value="cell.value"
+                  :title="cell.title"
+                  :nowrap="cell.nowrap"
                     :items="cell.items"
-                    @on-action="onAction"
-                  />
-                </UiTableCellWrapper>
-              </template>
+                  @on-action="onAction"
+                />
+              </UiTableCellWrapper>
             </tr>
           </tbody>
         </table>
@@ -131,6 +139,7 @@ type Props = {
 
 const props = withDefaults(defineProps<Props>(), {
   items: () => [],
+  filterColumns: () => [],
   groups: () => [],
   compact: true,
   showSelectColumns: false,
@@ -138,6 +147,7 @@ const props = withDefaults(defineProps<Props>(), {
   noDataTitle: '',
   noDataText: '',
   enablePlaceholder: true,
+  defaultColumns: () => [],
 })
 
 const emit = defineEmits<{

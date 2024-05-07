@@ -1,166 +1,94 @@
 <template>
-    <div class="pf-c-scroll-inner-wrapper">
-        <UiTable
-            :items="data"
-            :columns="columns"
-            :groups="columnGroups"
-        />
-    </div>
+  <NDataTable
+    :columns="columns"
+    :data="data"
+    :scroll-x="scrollX"
+    :single-line="false"
+  />
 </template>
 
 <script lang="ts" setup>
-import {computed, inject} from 'vue';
-import {Column, ColumnGroup, Row} from '@/components/uikit/UiTable/UiTable';
-import {I18N} from '@/utils/i18n';
-import {useEventName} from '@/helpers/useEventName';
-import {useStepsStore} from '@/stores/funnels/steps';
-import { DataTableResponseColumnsInner } from '@/api';
-import { useFunnelsStore } from '@/stores/funnels/funnels';
+import type { FunnelResponseStepsInner } from '@/api'
+import { NDataTable } from 'naive-ui'
+import { computed } from 'vue'
+import { uncamelize } from '@/utils/uncamelize'
+import {
+  TableBaseColumn,
+  TableColumn,
+  TableColumnGroup,
+} from 'naive-ui/es/data-table/src/interface'
+import { StepKey } from '@/components/funnels/view/funnelViews'
 
-const { $t } = inject('i18n') as I18N
+interface IProps {
+  reportSteps: FunnelResponseStepsInner[]
+  groups: string[]
+}
 
-const funnelsStore = useFunnelsStore();
-const stepsStore = useStepsStore()
-const eventName = useEventName()
+const props = withDefaults(defineProps<IProps>(), {})
 
-const stepNames = computed<string[]>(() => {
-    const events = stepsStore.steps.map(step => step.events.map(event => event.event))
-    return events.map(items => {
-        return items.map(eventName).join(' or ')
+const KEY_SPLITTER = '_'
+const KEY_PREFIX = '__'
+const KEY_GROUPS = 'groups'
+const INDEX_FIRST_ARR_ELEMENT = 0
+
+const data = computed(() => {
+  const length = props.reportSteps.at(0)?.data.length ?? 0
+
+  const arr: Record<string, any> = Array.from({ length }, () => ({}))
+
+  props.reportSteps.forEach((step, stepIndex) => {
+    step.data.forEach((el, index) => {
+      const keys = Object.keys(el) as (keyof typeof el)[]
+
+      keys.forEach(key => {
+        const newKey = KEY_PREFIX + key + KEY_SPLITTER + stepIndex
+        arr[index][newKey] = el[key]
+      })
     })
+  })
+
+  return arr
 })
 
-const stepIterator = computed(() => {
-    return Array.from({
-        length: Math.min(stepNames.value.length, funnelsStore.stepNumbers.length)
-    })
-})
+const groupsColumns = computed<TableColumn[]>(() =>
+  props.groups.map((x, index) => ({
+    title: x,
+    key: KEY_PREFIX + KEY_GROUPS + KEY_SPLITTER + INDEX_FIRST_ARR_ELEMENT + `[${index}]`,
+  }))
+)
 
-const columnGroups = computed<ColumnGroup[]>(() => {
-    return [
-        {
-            title: '',
-            value: 'dimensions',
-            span: dimensions.value.length + 1,
-            fixed: true,
-            lastFixed: true,
-        },
-        ...stepIterator.value.map((item, i) => {
-            return {
-                title: stepNames.value[i],
-                value: `step${i + 1}`,
-                span: funnelMetricValues.value[i].length,
-                lastFixed: true
-            }
-        })
-    ]
-})
+const dimensionsColumns = computed(() => {
+  const VISIBLE_KEY: StepKey[] = ['total', 'droppedOff', 'conversionRatio', 'dropOffRatio'] as const
 
-const dimensions = computed(() => {
-    return funnelsStore.reports.filter(col => col.type === 'dimension')
-})
+  const arr: TableColumn[] = []
 
-const totalDimensions = computed(() => dimensions.value[0]?.data?.length ?? 0)
+  props.reportSteps.forEach((step, stepIndex) => {
+    const parentEl: TableColumnGroup = {
+      title: step.step,
+      key: step.step,
+      children: [],
+    }
 
-const funnelMetricValues = computed(() => {
-    const res = funnelsStore.reports
-        .filter(col => col.type === 'metric')
-        .reduce((result, col) => {
-            if (!col.step) {
-                return result
-            }
-
-            if (result[col.step]) {
-                result[col.step].push(col)
-            } else {
-                result[col.step] = [col]
-            }
-
-            return result
-        }, {} as Record<string | number, DataTableResponseColumnsInner[]>)
-
-    const columns: DataTableResponseColumnsInner[][] = []
-
-    Object.keys(res).sort().forEach(key => {
-        columns.push(res[key])
+    VISIBLE_KEY.forEach(key => {
+      const newKey = KEY_PREFIX + key + KEY_SPLITTER + stepIndex
+      const childrenEl: TableBaseColumn = {
+        title: uncamelize(key),
+        key: newKey,
+        resizable: true,
+      }
+      parentEl.children.push(childrenEl)
     })
 
-    return columns.slice(0, stepIterator.value.length)
+    arr.push(parentEl)
+  })
+
+  return arr
 })
 
-const dimensionColumns = computed<Column[]>(() => {
-    return dimensions.value.map((item, i) => {
-        return {
-            title: item.name ?? '',
-            value: `dimension-${i + 1}`,
-            fixed: true
-        }
-    })
-})
+const columns = computed(() => [...groupsColumns.value, ...dimensionsColumns.value])
 
-const funnelMetricValueColumns = computed<Column[]>(() => {
-    return funnelMetricValues.value.map(grp => {
-        return grp.map((item, i) => {
-            return {
-                title: $t(`funnels.view.${item.name}`),
-                value: item.name ?? '',
-                lastFixed: i === grp.length - 1,
-            }
-        })
-    }).flat()
-})
-
-const funnelMetricValueValues = computed(() => {
-    return Array.from({ length: totalDimensions.value }).map((_, i) => {
-        return funnelMetricValues.value.map(grp => {
-            return grp.map((item, j) => {
-                const postfix = item.name?.indexOf('Ratio') !== -1 ? '%' : ''
-                return {
-                    title: item.data ? item.data[i] + postfix : '',
-                    lastFixed: j === grp.length - 1,
-                }
-            })
-        }).flat()
-    })
-})
-
-const columns = computed<Column[]>(() => [
-    ...dimensionColumns.value,
-    ...(
-        funnelsStore.reports.length > 0
-            ? [{
-                title: $t('funnels.view.totalConversionRatio'),
-                value: 'totalConversionRatio',
-                fixed: true,
-                lastFixed: true,
-            }]
-            : []
-    ),
-    ...funnelMetricValueColumns.value
-])
-
-const data = computed<Row[]>(() => {
-    const totalConversionRatio = funnelsStore.reports
-        ?.find(col => col.name === 'totalConversionRatio')
-        ?.data?.map(item => `${item}%`)
-      ?? Array.from({ length: totalDimensions.value }).map(() => '0%')
-
-   /* TODO: columns are not displayed because there is no "key" field */
-    return Array.from({ length: totalDimensions.value }).map((_, i) => {
-        return [
-            ...dimensions.value.map(item => {
-                return {
-                    title: item.data?.[i] ?? '',
-                    fixed: true,
-                }
-            }),
-            {
-                title: totalConversionRatio[i],
-                fixed: true,
-                lastFixed: true
-            },
-            ...funnelMetricValueValues.value[i]
-        ] as Row
-    })
+const scrollX = computed(() => {
+  const WIDTH_ONE_COLUMN = 500 // value calculated experimentally
+  return columns.value.length * WIDTH_ONE_COLUMN
 })
 </script>

@@ -49,7 +49,6 @@
 
 <script lang="ts" setup>
 import { computed, inject, ref } from 'vue';
-import { useRouter } from 'vue-router';
 import { EventCustomProperty } from '@/types/events';
 import { Action, Row } from '@/components/uikit/UiTable/UiTable';
 import { Property, Event } from '@/api';
@@ -62,7 +61,6 @@ import UiTablePressedCell from '@/components/uikit/UiTable/UiTablePressedCell.vu
 import propertiesColumnsConfig from '@/configs/events/propertiesTable.json';
 import { eventValuesConfig, Item as EventValuesConfig, EventValuesConfigKeysEnum } from '@/configs/events/eventValues';
 import usei18n from '@/hooks/useI18n';
-import { pagesMap } from '@/router';
 
 export type EventObject = {
     [key: string]: string | string[] | boolean
@@ -86,7 +84,6 @@ const tabs = {
 };
 
 const { t } = usei18n();
-const router = useRouter()
 
 const props = withDefaults(defineProps<Props>(), {
     name: '',
@@ -210,10 +207,6 @@ const itemsUserProperties = computed(() => getTableRows(props.userProperties))
 const onSelectTab = (payload: string) => {
     activeTab.value = payload
 }
-
-const onAction = () => {
-    router.push({ name: pagesMap.usersProperties });
-};
 
 const apply = () => {
     if (editEvent.value) {

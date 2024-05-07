@@ -6,7 +6,6 @@ import {
   QuerySimpleTypeEnum,
   QueryAggregatePropertyTypeEnum,
   QueryAggregatePropertyPerGroupTypeEnum,
-  PropertyType,
   QueryCountPerGroupTypeEnum,
   QueryFormulaTypeEnum,
 } from '@/api'

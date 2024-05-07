@@ -3,7 +3,11 @@
   <div v-else>
     <div class="pf-l-flex pf-m-justify-content-space-between">
       <h2>Projects</h2>
-      <UiButton class="pf-m-primary" :before-icon="'fas fa-plus'" @click="setShowCreatePopup(true)">
+      <UiButton
+        class="pf-m-primary"
+        :before-icon="'fas fa-plus'"
+        @click="setShowCreatePopup(true)"
+      >
         {{ $t('project.createProject') }}
       </UiButton>
     </div>

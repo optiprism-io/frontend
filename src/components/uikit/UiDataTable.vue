@@ -1,19 +1,19 @@
 <template>
-    <NDataTable
-      :columns="columns"
-      :data="data"
-      :bordered="bordered"
-      :bottom-bordered="bottomBordered"
-      :single-line="singleLine"
-      :virtual-scroll="virtualScroll"
-      :single-column="singleColumn"
-      :max-height="maxHeight"
-    />
+  <NDataTable
+    :columns="columns"
+    :data="data"
+    :bordered="bordered"
+    :bottom-bordered="bottomBordered"
+    :single-line="singleLine"
+    :virtual-scroll="virtualScroll"
+    :single-column="singleColumn"
+    :max-height="maxHeight"
+  />
 </template>
 
 <script setup lang="ts">
-import { NDataTable, } from 'naive-ui'
-import { TableColumns, RowData } from 'naive-ui/es/data-table/src/interface'
+import { NDataTable } from 'naive-ui'
+import { RowData, TableColumns } from 'naive-ui/es/data-table/src/interface'
 
 type DataTableProps = {
   columns: TableColumns<any>
@@ -26,10 +26,8 @@ type DataTableProps = {
   maxHeight?: string | number
 }
 
-withDefaults(
-    defineProps<DataTableProps>(),
-    {
-        singleLine: true,
-    }
-);
+withDefaults(defineProps<DataTableProps>(), {
+  singleLine: true,
+  maxHeight: undefined,
+})
 </script>

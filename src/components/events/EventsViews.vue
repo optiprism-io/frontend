@@ -166,6 +166,9 @@ type Props = {
 const props = withDefaults(defineProps<Props>(), {
   eventSegmentation: null,
   loading: false,
+  chartType: undefined,
+  heightChart: undefined,
+  report: null,
 })
 
 const showCompareTo = ref(false)

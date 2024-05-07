@@ -4,7 +4,11 @@
       <span v-if="!projectStore.projectList.length" class="pf-u-mx-sm">
         {{ $t('project.noProject') }}
       </span>
-      <UiButton class="pf-m-primary" :before-icon="'fas fa-plus'" @click="setShowCreatePopup(true)">
+      <UiButton
+        class="pf-m-primary"
+        :before-icon="'fas fa-plus'"
+        @click="setShowCreatePopup(true)"
+      >
         {{ $t('project.createProject') }}
       </UiButton>
     </DataEmptyPlaceholder>

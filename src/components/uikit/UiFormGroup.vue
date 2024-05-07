@@ -51,6 +51,8 @@ interface Props {
 
 const props = withDefaults(defineProps<Props>(), {
     error: '',
+    label: '',
+    for: undefined,
     required: false,
     action: false,
     indent: true,

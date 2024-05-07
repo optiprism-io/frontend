@@ -62,7 +62,11 @@
       :h-100="true"
     >
       {{ t('dashboards.noDashboards') }}
-      <UiButton class="pf-m-primary pf-u-ml-md" :before-icon="'fas fa-plus'" @click="setNew">
+      <UiButton
+        class="pf-m-primary pf-u-ml-md"
+        :before-icon="'fas fa-plus'"
+        @click="setNew"
+      >
         {{ $t('dashboards.createDashboard') }}
       </UiButton>
     </DataEmptyPlaceholder>
@@ -122,7 +126,11 @@
         </GridItem>
       </template>
     </GridLayout>
-    <DataEmptyPlaceholder v-else-if="showReportdPlacholder" :hide-icon="true" :h-100="true">
+    <DataEmptyPlaceholder
+v-else-if="showReportdPlacholder"
+:hide-icon="true"
+:h-100="true"
+>
       {{ t('dashboards.noReportsInDashboard') }}
       <UiSelect
         class="pf-u-ml-auto pf-u-ml-md dashboards__add-report"
