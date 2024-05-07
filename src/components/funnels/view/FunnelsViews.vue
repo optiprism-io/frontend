@@ -34,10 +34,10 @@
 
           <div class="pf-c-toolbar__item pf-u-ml-auto">
             <UiDropdown
-:items="FUNNEL_VIEWS"
-:text-button="itemText"
-@select-value="selectItem"
-/>
+              :items="FUNNEL_VIEWS"
+              :text-button="itemText"
+              @select-value="selectItem"
+            />
           </div>
         </div>
       </div>
@@ -46,7 +46,7 @@
     <DataLoader v-if="loading" />
     <template v-else-if="reportSteps.length">
       <FunnelsChart :report-steps="reportSteps" />
-      <FunnelsTable :report-steps="reportSteps" />
+      <FunnelsTable :report-steps="reportSteps" :groups="groups" />
     </template>
     <DataEmptyPlaceholder v-else>
       {{ $t('funnels.view.selectToStart') }}
@@ -100,6 +100,7 @@ const stepsStore = useStepsStore()
 const { size, unit } = storeToRefs(stepsStore)
 
 const reportSteps = ref<FunnelResponseStepsInner[]>([])
+const groups = ref<string[]>([])
 
 const controlsPeriod = ref<string | number>('30')
 const period = ref<Period>({
@@ -219,8 +220,9 @@ async function fetchReports(): Promise<void> {
     },
   })
 
-  if (res?.data?.steps) {
+  if (res?.data) {
     reportSteps.value = res.data.steps
+    groups.value = res.data.groups
   }
 }
 

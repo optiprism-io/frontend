@@ -11,7 +11,6 @@
 import type { FunnelResponseStepsInner } from '@/api'
 import { NDataTable } from 'naive-ui'
 import { computed } from 'vue'
-import { camelize } from '@/utils/camelize'
 import { uncamelize } from '@/utils/uncamelize'
 import {
   TableBaseColumn,
@@ -22,25 +21,27 @@ import { StepKey } from '@/components/funnels/view/funnelViews'
 
 interface IProps {
   reportSteps: FunnelResponseStepsInner[]
+  groups: string[]
 }
 
 const props = withDefaults(defineProps<IProps>(), {})
 
 const KEY_SPLITTER = '_'
 const KEY_PREFIX = '__'
+const KEY_GROUPS = 'groups'
+const INDEX_FIRST_ARR_ELEMENT = 0
 
 const data = computed(() => {
   const length = props.reportSteps.at(0)?.data.length ?? 0
 
-  const arr = new Array(length).fill({})
+  const arr: Record<string, any> = Array.from({ length }, () => ({}))
 
-  props.reportSteps.forEach(step => {
+  props.reportSteps.forEach((step, stepIndex) => {
     step.data.forEach((el, index) => {
       const keys = Object.keys(el) as (keyof typeof el)[]
 
       keys.forEach(key => {
-        const stepName = camelize(step.step)
-        const newKey = KEY_PREFIX + stepName + KEY_SPLITTER + key
+        const newKey = KEY_PREFIX + key + KEY_SPLITTER + stepIndex
         arr[index][newKey] = el[key]
       })
     })
@@ -49,12 +50,19 @@ const data = computed(() => {
   return arr
 })
 
-const columns = computed(() => {
+const groupsColumns = computed<TableColumn[]>(() =>
+  props.groups.map((x, index) => ({
+    title: x,
+    key: KEY_PREFIX + KEY_GROUPS + KEY_SPLITTER + INDEX_FIRST_ARR_ELEMENT + `[${index}]`,
+  }))
+)
+
+const dimensionsColumns = computed(() => {
   const VISIBLE_KEY: StepKey[] = ['total', 'droppedOff', 'conversionRatio', 'dropOffRatio'] as const
 
   const arr: TableColumn[] = []
 
-  props.reportSteps.forEach(step => {
+  props.reportSteps.forEach((step, stepIndex) => {
     const parentEl: TableColumnGroup = {
       title: step.step,
       key: step.step,
@@ -62,8 +70,7 @@ const columns = computed(() => {
     }
 
     VISIBLE_KEY.forEach(key => {
-      const stepName = camelize(step.step)
-      const newKey = KEY_PREFIX + stepName + KEY_SPLITTER + key
+      const newKey = KEY_PREFIX + key + KEY_SPLITTER + stepIndex
       const childrenEl: TableBaseColumn = {
         title: uncamelize(key),
         key: newKey,
@@ -77,6 +84,8 @@ const columns = computed(() => {
 
   return arr
 })
+
+const columns = computed(() => [...groupsColumns.value, ...dimensionsColumns.value])
 
 const scrollX = computed(() => {
   const WIDTH_ONE_COLUMN = 500 // value calculated experimentally
