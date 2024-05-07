@@ -1,12 +1,13 @@
 import { FunnelResponse } from '@/api'
 
 export default {
+  groups: ['Country', 'City'],
   steps: [
     {
       step: 'Product Viewed',
       data: [
         {
-          groups: ['0', 'Spain'],
+          groups: ['Spain', 'Barcelona'],
           ts: 1713528506195,
           total: 10,
           conversionRatio: 100.0,
@@ -17,7 +18,7 @@ export default {
           timeToConvertFromStart: 0,
         },
         {
-          groups: ['0', 'Netherlands'],
+          groups: ['Spain', 'Madrid'],
           ts: 1713528506195,
           total: 10,
           conversionRatio: 100.0,
@@ -28,7 +29,7 @@ export default {
           timeToConvertFromStart: 0,
         },
         {
-          groups: ['0', 'India'],
+          groups: ['USA', 'New York'],
           ts: 1713528506195,
           total: 10,
           conversionRatio: 100.0,
@@ -39,7 +40,7 @@ export default {
           timeToConvertFromStart: 0,
         },
         {
-          groups: ['0', 'United Kingdom'],
+          groups: ['USA', 'Los Angeles'],
           ts: 1713528506195,
           total: 10,
           conversionRatio: 100.0,
@@ -55,7 +56,7 @@ export default {
       step: 'Product Added To Cart',
       data: [
         {
-          groups: ['0', 'Spain'],
+          groups: ['Spain', 'Barcelona'],
           ts: 1713528506195,
           total: 5,
           conversionRatio: 50.0,
@@ -66,7 +67,7 @@ export default {
           timeToConvertFromStart: 142000,
         },
         {
-          groups: ['0', 'Netherlands'],
+          groups: ['Spain', 'Madrid'],
           ts: 1713528506195,
           total: 8,
           conversionRatio: 80.0,
@@ -77,7 +78,7 @@ export default {
           timeToConvertFromStart: 142000,
         },
         {
-          groups: ['0', 'India'],
+          groups: ['USA', 'New York'],
           ts: 1713528506195,
           total: 4,
           conversionRatio: 40.0,
@@ -88,7 +89,7 @@ export default {
           timeToConvertFromStart: 142000,
         },
         {
-          groups: ['0', 'United Kingdom'],
+          groups: ['USA', 'Los Angeles'],
           ts: 1713528506195,
           total: 2,
           conversionRatio: 20.0,
@@ -104,7 +105,7 @@ export default {
       step: 'Order Completed',
       data: [
         {
-          groups: ['0', 'Spain'],
+          groups: ['Spain', 'Barcelona'],
           ts: 1713528506195,
           total: 5,
           conversionRatio: 100.0,
@@ -115,7 +116,7 @@ export default {
           timeToConvertFromStart: 142000,
         },
         {
-          groups: ['0', 'Netherlands'],
+          groups: ['Spain', 'Madrid'],
           ts: 1713528506195,
           total: 1,
           conversionRatio: 12.5,
@@ -126,7 +127,7 @@ export default {
           timeToConvertFromStart: 803000,
         },
         {
-          groups: ['0', 'India'],
+          groups: ['USA', 'New York'],
           ts: 1713528506195,
           total: 2,
           conversionRatio: 25.0,
@@ -137,7 +138,7 @@ export default {
           timeToConvertFromStart: 142000,
         },
         {
-          groups: ['0', 'United Kingdom'],
+          groups: ['USA', 'Los Angeles'],
           ts: 1713528506195,
           total: 1,
           conversionRatio: 50.0,

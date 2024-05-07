@@ -29,6 +29,7 @@ export function queriesRoutes(server: Server) {
     if (graphType === FunnelStepsChartTypeTypeEnum.Steps) {
 
       return {
+        groups: conversionStepsMocks.groups,
         steps: conversionStepsMocks.steps.slice(0, body.steps.length)
       }
     }
