@@ -1,23 +1,23 @@
 <template>
-    <UiPopupWindow
-        :title="title"
-        :apply-loading="props.loading"
-        class="event-management-popup"
-        :apply-button="$t('common.save')"
-        :cancel-button="$t('common.close')"
-        :apply-disabled="applyDisabled"
-        @apply="apply"
-        @cancel="cancel"
-    >
-        <div class="event-management-popup__content">
-            <UiDescriptionList
-                v-if="activeTab === 'property'"
-                :items="propertyItems"
-                :horizontal="true"
-                @on-input="onInputPropertyItem"
-            />
-        </div>
-    </UiPopupWindow>
+  <UiPopupWindow
+    :title="title"
+    :apply-loading="props.loading"
+    class="event-management-popup"
+    :apply-button="$t('common.save')"
+    :cancel-button="$t('common.close')"
+    :apply-disabled="applyDisabled"
+    @apply="apply"
+    @cancel="cancel"
+  >
+    <div class="event-management-popup__content">
+      <UiDescriptionList
+        v-if="activeTab === 'property'"
+        :items="propertyItems"
+        :horizontal="true"
+        @on-input="onInputPropertyItem"
+      />
+    </div>
+  </UiPopupWindow>
 </template>
 
 <script lang="ts" setup>

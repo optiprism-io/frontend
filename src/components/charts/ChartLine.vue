@@ -1,13 +1,13 @@
 <template>
-    <div class="chart-line">
-        <ChartWrapper
-            :loading="props.loading"
-            :default-options="defaultOptions"
-            :options="props.options"
-            :chart-constructor="Line"
-            :height="props.options?.height ? `${props.options.height}px` : '350px'"
-        />
-    </div>
+  <div class="chart-line">
+    <ChartWrapper
+      :loading="props.loading"
+      :default-options="defaultOptions"
+      :options="props.options"
+      :chart-constructor="Line"
+      :height="props.options?.height ? `${props.options.height}px` : '350px'"
+    />
+  </div>
 </template>
 
 <script setup lang="ts">

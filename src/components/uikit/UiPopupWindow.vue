@@ -1,97 +1,97 @@
 <template>
-    <div class="ui-popup-window">
-        <div
-            ref="popupWrapper"
-            class="ui-popup-window__wrapper"
-            @mousedown="onClickOutside"
+  <div class="ui-popup-window">
+    <div
+      ref="popupWrapper"
+      class="ui-popup-window__wrapper"
+      @mousedown="onClickOutside"
+    >
+      <div
+        class="pf-c-modal-box ui-popup-window__box"
+        :class="[
+          props.size,
+          {
+            'ui-popup-window__box_full-width': props.fullWidth
+          }
+        ]"
+        aria-modal="true"
+        aria-labelledby="modal-title"
+        aria-describedby="modal-description"
+        @mousedown.stop
+      >
+        <button
+          v-if="closable"
+          class="pf-c-button pf-m-plain"
+          type="button"
+          aria-label="Close"
+          @click="cancel('close-btn')"
         >
-            <div
-                class="pf-c-modal-box ui-popup-window__box"
-                :class="[
-                    props.size,
-                    {
-                        'ui-popup-window__box_full-width': props.fullWidth
-                    }
-                ]"
-                aria-modal="true"
-                aria-labelledby="modal-title"
-                aria-describedby="modal-description"
-                @mousedown.stop
-            >
-                <button
-                    v-if="closable"
-                    class="pf-c-button pf-m-plain"
-                    type="button"
-                    aria-label="Close"
-                    @click="cancel('close-btn')"
-                >
-                    <i
-                        class="fas fa-times"
-                        aria-hidden="true"
-                    />
-                </button>
-                <header
-                    v-if="props.title"
-                    class="pf-c-modal-box__header pf-u-mb-md"
-                >
-                    <h1 class="pf-c-modal-box__title">
-                        {{ props.title }}
-                    </h1>
-                    <div
-                        v-if="props.description"
-                        class="pf-c-modal-box__description"
-                    >
-                        {{ props.description }}
-                    </div>
-                </header>
-                <div class="pf-c-modal-box__body pf-u-mb-md pf-u-pb-md">
-                    <div
-                        v-if="props.content"
-                        v-html="props.content"
-                    />
-                    <slot v-else />
-                </div>
-                <footer
-                    v-if="props.applyButton || props.cancelButton"
-                    class="pf-c-modal-box__footer"
-                >
-                    <div
-                        class="pf-c-action-list"
-                        :class="{
-                            'pf-u-justify-content-flex-end': props.actionButtonsRight
-                        }"
-                    >
-                        <div
-                            v-if="props.applyButton"
-                            class="pf-c-action-list__item"
-                        >
-                            <UiButton
-                                :class="props.applyButtonClass || 'pf-m-primary'"
-                                type="button"
-                                :disabled="props.applyLoading || props.applyDisabled"
-                                :progress="props.applyLoading"
-                                @click="apply"
-                            >
-                                {{ props.applyButton }}
-                            </UiButton>
-                        </div>
-                        <div
-                            v-if="props.cancelButton"
-                            class="pf-c-action-list__item"
-                        >
-                            <UiButton
-                                class=""
-                                type="button"
-                                @click="cancel('cancel-button')"
-                            >
-                                {{ props.cancelButton }}
-                            </UiButton>
-                        </div>
-                    </div>
-                </footer>
-            </div>
+          <i
+            class="fas fa-times"
+            aria-hidden="true"
+          />
+        </button>
+        <header
+          v-if="props.title"
+          class="pf-c-modal-box__header pf-u-mb-md"
+        >
+          <h1 class="pf-c-modal-box__title">
+            {{ props.title }}
+          </h1>
+          <div
+            v-if="props.description"
+            class="pf-c-modal-box__description"
+          >
+            {{ props.description }}
+          </div>
+        </header>
+        <div class="pf-c-modal-box__body pf-u-mb-md pf-u-pb-md">
+          <div
+            v-if="props.content"
+            v-html="props.content"
+          />
+          <slot v-else />
         </div>
+        <footer
+          v-if="props.applyButton || props.cancelButton"
+          class="pf-c-modal-box__footer"
+        >
+          <div
+            class="pf-c-action-list"
+            :class="{
+              'pf-u-justify-content-flex-end': props.actionButtonsRight
+            }"
+          >
+            <div
+              v-if="props.applyButton"
+              class="pf-c-action-list__item"
+            >
+              <UiButton
+                :class="props.applyButtonClass || 'pf-m-primary'"
+                type="button"
+                :disabled="props.applyLoading || props.applyDisabled"
+                :progress="props.applyLoading"
+                @click="apply"
+              >
+                {{ props.applyButton }}
+              </UiButton>
+            </div>
+            <div
+              v-if="props.cancelButton"
+              class="pf-c-action-list__item"
+            >
+              <UiButton
+                class=""
+                type="button"
+                @click="cancel('cancel-button')"
+              >
+                {{ props.cancelButton }}
+              </UiButton>
+            </div>
+          </div>
+        </footer>
+      </div>
     </div>
+  </div>
 </template>
 
 <script setup lang="ts">

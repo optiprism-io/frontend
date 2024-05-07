@@ -1,16 +1,16 @@
 <template>
-    <div class="pf-u-display-flex pf-u-flex-direction-row pf-u-align-items-center">
-        <div class="pf-l-flex__item">
-            <div class="pf-u-display-flex pf-u-flex-direction-row pf-u-align-items-center">
-                <UiButton
-                    class="pf-u-text-nowrap pf-m-link pf-m-inline"
-                    @click="props.action && onAction(props.action)"
-                >
-                    {{ title }}
-                </UiButton>
-            </div>
-        </div>
+  <div class="pf-u-display-flex pf-u-flex-direction-row pf-u-align-items-center">
+    <div class="pf-l-flex__item">
+      <div class="pf-u-display-flex pf-u-flex-direction-row pf-u-align-items-center">
+        <UiButton
+          class="pf-u-text-nowrap pf-m-link pf-m-inline"
+          @click="props.action && onAction(props.action)"
+        >
+          {{ title }}
+        </UiButton>
+      </div>
     </div>
+  </div>
 </template>
 
 <script lang="ts" setup>

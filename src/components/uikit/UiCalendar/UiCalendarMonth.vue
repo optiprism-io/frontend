@@ -1,51 +1,51 @@
 <template>
-    <div class="ui-calendar-month">
-        <div class="ui-calendar-month__side">
-            <div class="ui-calendar-month__title">
-                {{ title }}
-            </div>
-        </div>
-        <div class="ui-calendar-month__calendar">
-            <table class="pf-c-calendar-month__calendar">
-                <tbody class="pf-c-calendar-month__dates">
-                    <tr
-                        v-for="(row, index) in rows"
-                        :key="index"
-                        class="pf-c-calendar-month__dates-row"
-                    >
-                        <td
-                            v-for="(cell, indexRow) in row"
-                            :key="indexRow + '_' + cell.date"
-                            class="pf-c-calendar-month__dates-cell"
-                            :class="{
-                                'pf-m-in-range': cell.ranged,
-                                'pf-m-start-range': cell.from,
-                                'pf-m-disabled': cell.disabled || cell.future,
-                                'pf-m-end-range pf-m-selected': cell.to,
-                                'pf-m-selected': cell.selected,
-                                'pf-m-current': cell.now,
-                            }"
-                        >
-                            <button
-                                v-if="cell.date > 0"
-                                class="pf-c-calendar-month__date"
-                                type="button"
-                                :disabled="cell.future || cell.disabled"
-                                :class="{
-                                    'pf-m-focus': cell.from,
-                                }"
-                                @click="clickItem(cell)"
-                                @mouseover="mouseoverItem(cell.string)"
-                                @mouseleave="mouseleaveItem(cell.string)"
-                            >
-                                {{ cell.date }}
-                            </button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+  <div class="ui-calendar-month">
+    <div class="ui-calendar-month__side">
+      <div class="ui-calendar-month__title">
+        {{ title }}
+      </div>
     </div>
+    <div class="ui-calendar-month__calendar">
+      <table class="pf-c-calendar-month__calendar">
+        <tbody class="pf-c-calendar-month__dates">
+          <tr
+            v-for="(row, index) in rows"
+            :key="index"
+            class="pf-c-calendar-month__dates-row"
+          >
+            <td
+              v-for="(cell, indexRow) in row"
+              :key="indexRow + '_' + cell.date"
+              class="pf-c-calendar-month__dates-cell"
+              :class="{
+                'pf-m-in-range': cell.ranged,
+                'pf-m-start-range': cell.from,
+                'pf-m-disabled': cell.disabled || cell.future,
+                'pf-m-end-range pf-m-selected': cell.to,
+                'pf-m-selected': cell.selected,
+                'pf-m-current': cell.now,
+              }"
+            >
+              <button
+                v-if="cell.date > 0"
+                class="pf-c-calendar-month__date"
+                type="button"
+                :disabled="cell.future || cell.disabled"
+                :class="{
+                  'pf-m-focus': cell.from,
+                }"
+                @click="clickItem(cell)"
+                @mouseover="mouseoverItem(cell.string)"
+                @mouseleave="mouseleaveItem(cell.string)"
+              >
+                {{ cell.date }}
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
 </template>
 
 <script lang="ts" setup>

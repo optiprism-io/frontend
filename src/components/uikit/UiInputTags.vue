@@ -1,22 +1,22 @@
 <template>
+  <div
+    ref="inputTags"
+    class="ui-input-tags"
+  >
+    <UiInput
+      v-if="edit || !props.value?.length"
+      :value="inputValue"
+      :mount-focus="Boolean(props.value?.length)"
+      @input="onInput"
+      @blur="onBlur"
+    />
     <div
-        ref="inputTags"
-        class="ui-input-tags"
+      v-else
+      @click="setEdit"
     >
-        <UiInput
-            v-if="edit || !props.value?.length"
-            :value="inputValue"
-            :mount-focus="Boolean(props.value?.length)"
-            @input="onInput"
-            @blur="onBlur"
-        />
-        <div
-            v-else
-            @click="setEdit"
-        >
-            <UiTags :value="props.value" />
-        </div>
+      <UiTags :value="props.value" />
     </div>
+  </div>
 </template>
 
 <script lang="ts" setup>

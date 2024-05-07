@@ -1,30 +1,30 @@
 <template>
-    <dl
-        class="ui-description-list pf-c-description-list"
-        :class="{
-            'pf-m-horizontal': props.horizontal,
-            'pf-m-compact': props.compact,
-        }"
+  <dl
+    class="ui-description-list pf-c-description-list"
+    :class="{
+      'pf-m-horizontal': props.horizontal,
+      'pf-m-compact': props.compact,
+    }"
+  >
+    <div
+      v-for="item in props.items"
+      :key="item.label"
+      class="pf-c-description-list__group"
     >
-        <div
-            v-for="item in props.items"
-            :key="item.label"
-            class="pf-c-description-list__group"
+      <dt class="pf-c-description-list__term pf-u-pt-xs">
+        <span class="pf-c-description-list__text">{{ item.label }}</span>
+      </dt>
+      <dd class="pf-c-description-list__description">
+        <component
+          :is="item.component"
+          :value="item.value"
+          @input="onInput($event, item.key)"
         >
-            <dt class="pf-c-description-list__term pf-u-pt-xs">
-                <span class="pf-c-description-list__text">{{ item.label }}</span>
-            </dt>
-            <dd class="pf-c-description-list__description">
-                <component
-                    :is="item.component"
-                    :value="item.value"
-                    @input="onInput($event, item.key)"
-                >
-                    {{ item.value }}
-                </component>
-            </dd>
-        </div>
-    </dl>
+          {{ item.value }}
+        </component>
+      </dd>
+    </div>
+  </dl>
 </template>
 
 <script lang="ts" setup>

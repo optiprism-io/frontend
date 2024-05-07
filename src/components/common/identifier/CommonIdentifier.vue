@@ -1,14 +1,14 @@
 <template>
-    <NumericIdentifier
-        v-if="type === 'numeric'"
-        :index="index"
-        class="common-identifier"
-    />
-    <AlphabetIdentifier
-        v-else
-        :index="index"
-        class="common-identifier"
-    />
+  <NumericIdentifier
+    v-if="type === 'numeric'"
+    :index="index"
+    class="common-identifier"
+  />
+  <AlphabetIdentifier
+    v-else
+    :index="index"
+    class="common-identifier"
+  />
 </template>
 
 <script setup lang="ts">

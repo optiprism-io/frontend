@@ -1,16 +1,16 @@
 <template>
-    <ul class="pf-c-alert-group">
-        <li
-            v-for="item in props.items"
-            :key="item.id"
-            class="pf-c-alert-group__item"
-        >
-            <UiAlert
-                :item="item"
-                @close="closeItem(item.id)"
-            />
-        </li>
-    </ul>
+  <ul class="pf-c-alert-group">
+    <li
+      v-for="item in props.items"
+      :key="item.id"
+      class="pf-c-alert-group__item"
+    >
+      <UiAlert
+        :item="item"
+        @close="closeItem(item.id)"
+      />
+    </li>
+  </ul>
 </template>
 
 <script lang="ts" setup>

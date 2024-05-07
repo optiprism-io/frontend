@@ -1,16 +1,16 @@
 <template>
-    <div class="chart-wrapper">
-        <div
-            v-if="loading"
-            class="chart-wrapper__spinner"
-        >
-            <UiSpinner :size="'xl'" />
-        </div>
-        <div
-            ref="chart"
-            class="chart-wrapper__container"
-        />
+  <div class="chart-wrapper">
+    <div
+      v-if="loading"
+      class="chart-wrapper__spinner"
+    >
+      <UiSpinner :size="'xl'" />
     </div>
+    <div
+      ref="chart"
+      class="chart-wrapper__container"
+    />
+  </div>
 </template>
 
 

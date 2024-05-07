@@ -127,10 +127,10 @@
       </template>
     </GridLayout>
     <DataEmptyPlaceholder
-v-else-if="showReportdPlacholder"
-:hide-icon="true"
-:h-100="true"
->
+      v-else-if="showReportdPlacholder"
+      :hide-icon="true"
+      :h-100="true"
+    >
       {{ t('dashboards.noReportsInDashboard') }}
       <UiSelect
         class="pf-u-ml-auto pf-u-ml-md dashboards__add-report"

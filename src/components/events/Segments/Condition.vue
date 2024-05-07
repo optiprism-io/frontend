@@ -1,215 +1,215 @@
 <template>
-    <div
-        class="condition"
-        :class="{
-            'condition_is-one': props.isOne,
-            'pf-m-column': !props.isOne,
-        }"
-    >
-        <div class="pf-c-action-list">
-            <div class="pf-c-action-list__item">
-                <Select
-                    :items="allowAndOr ? conditionItemsAll : conditionItems"
-                    :width-auto="true"
-                    :is-open-mount="false"
-                    :update-open="!isSelectedAction ? updateOpen : false"
-                    @select="changeConditionAction"
-                >
-                    <UiButton
-                        :class="{
-                            'pf-m-secondary': isSelectedAction,
-                            'pf-m-link': !isSelectedAction,
-                        }"
-                        :before-icon="!isSelectedAction ? 'fas fa-plus-circle': ''"
-                    >
-                        {{ displayNameAction }}
-                    </UiButton>
-                </Select>
-            </div>
-            <ConditionDidEvent
-                v-if="isSelectedDidEvent"
-                :index="props.index"
-                :index-parent="props.indexParent"
-                :condition="props.condition"
-                :update-open="props.updateOpen"
-                :auto-hide-event="props.autoHideEvent"
-                @change-property="changeProperty"
-                @change-operation="changeOperation"
-            />
-            <template v-else>
-                <div
-                    v-if="isShowSelectProp"
-                    class="pf-c-action-list__item"
-                >
-                    <PropertySelect
-                        @select="changeProperty"
-                    >
-                        <UiButton
-                            :class="{
-                                'pf-m-secondary': isSelectedProp,
-                                'pf-m-link': !isSelectedProp,
-                            }"
-                            type="button"
-                            :before-icon="!isSelectedProp ? 'fas fa-plus-circle' : ''"
-                        >
-                            {{ displayNameProp }}
-                        </UiButton>
-                    </PropertySelect>
-                </div>
-                <div
-                    v-if="props.condition.propRef && props.condition.opId"
-                    class="pf-c-action-list__item"
-                >
-                    <OperationSelect
-                        :property-ref="props.condition.propRef"
-                        :selected="props.condition.opId"
-                        @select="changeOperation"
-                    >
-                        <UiButton class="pf-m-secondary">
-                            {{ operationButtonText }}
-                        </UiButton>
-                    </OperationSelect>
-                </div>
-                <div
-                    v-if="props.condition.propRef && props.condition.values"
-                    class="pf-c-action-list__item"
-                >
-                    <ValueSelect
-                        :property-ref="props.condition.propRef"
-                        :selected="props.condition.values"
-                        :items="conditionValuesItems"
-                        @add="addValue"
-                        @deselect="removeValue"
-                    >
-                        <template v-if="props.condition.values.length > 0">
-                            <div class="pf-c-action-list">
-                                <div
-                                    v-for="(value, i) in props.condition.values"
-                                    :key="i"
-                                    class="pf-c-action-list__item"
-                                >
-                                    <UiButton class="pf-m-secondary">
-                                        {{ value }}
-                                        <span class="pf-c-button__icon pf-m-end">
-                                            <UiIcon
-                                                icon="fas fa-times"
-                                                @click.stop="removeValue(value)"
-                                            />
-                                        </span>
-                                    </UiButton>
-                                </div>
-                            </div>
-                        </template>
-                        <template v-else>
-                            <UiButton
-                                class="pf-m-link"
-                                :before-icon="'fas fa-plus-circle'"
-                                @click="onClickValue"
-                            >
-                                {{ $t('events.select_value') }}
-                            </UiButton>
-                        </template>
-                    </ValueSelect>
-                </div>
-            </template>
-            <div
-                v-if="isShowSelectDate"
-                class="pf-c-action-list__item"
-            >
-                <UiDatePicker
-                    :value="calendarValue"
-                    :last-count="lastCount"
-                    :active-tab-controls="props.condition?.period?.type"
-                    :show-each="true"
-                    @on-change-each="onChangeEach"
-                    @on-apply="onApplyPeriod"
-                >
-                    <template #action>
-                        <UiButton
-                            :before-icon="props.condition.each ? '' : 'fas fa-calendar-alt'"
-                            :class="{
-                                'pf-m-secondary': isSelectedCalendar,
-                            }"
-                        >
-                            {{ calendarValueString }}
-                        </UiButton>
-                    </template>
-                </UiDatePicker>
-            </div>
-            <PropertySelect
-                v-if="isHasFilter"
-                class="pf-c-action-list__item"
-                :is-open-mount="false"
-                :update-open="false"
-                @select="addFilter"
-            >
-                <div class="condition__control">
-                    <VTooltip popper-class="ui-hint">
-                        <UiIcon icon="fas fa-filter" />
-                        <template #popper>
-                            {{ $t('common.addFilter') }}
-                        </template>
-                    </VTooltip>
-                </div>
-            </PropertySelect>
-            <div
-                v-if="props.showRemove"
-                class="pf-c-action-list__item condition__control"
-                @click="onRemove"
-            >
-                <VTooltip popper-class="ui-hint">
-                    <UiIcon icon="fas fa-times" />
-                    <template #popper>
-                        {{ $t('events.segments.remove_condition') }}
-                    </template>
-                </VTooltip>
-            </div>
-        </div>
-        <div
-            v-if="filters.length"
-            class="pf-l-flex pf-m-column pf-u-pl-xl"
+  <div
+    class="condition"
+    :class="{
+      'condition_is-one': props.isOne,
+      'pf-m-column': !props.isOne,
+    }"
+  >
+    <div class="pf-c-action-list">
+      <div class="pf-c-action-list__item">
+        <Select
+          :items="allowAndOr ? conditionItemsAll : conditionItems"
+          :width-auto="true"
+          :is-open-mount="false"
+          :update-open="!isSelectedAction ? updateOpen : false"
+          @select="changeConditionAction"
         >
-            <Filter
-                v-for="(filter, i) in filters"
-                :key="i"
-                :event-ref="condition?.event?.ref"
-                :filter="filter"
-                :index="i"
-                :update-open="updateOpenFilter"
-                @click="onClickValue"
-                @remove-filter="removeFilter"
-                @change-filter-property="changeFilterProperty"
-                @change-filter-operation="onChangeFilterOperation"
-                @add-filter-value="addFilterValue"
-                @remove-filter-value="removeFilterValue"
-            />
-        </div>
-        <div
-            v-if="isAllowBetweenAdd"
-            class="condition__between-add"
+          <UiButton
             :class="{
-                'condition__between-add_visible': iconVisiblBetweenCondition,
+              'pf-m-secondary': isSelectedAction,
+              'pf-m-link': !isSelectedAction,
             }"
+            :before-icon="!isSelectedAction ? 'fas fa-plus-circle': ''"
+          >
+            {{ displayNameAction }}
+          </UiButton>
+        </Select>
+      </div>
+      <ConditionDidEvent
+        v-if="isSelectedDidEvent"
+        :index="props.index"
+        :index-parent="props.indexParent"
+        :condition="props.condition"
+        :update-open="props.updateOpen"
+        :auto-hide-event="props.autoHideEvent"
+        @change-property="changeProperty"
+        @change-operation="changeOperation"
+      />
+      <template v-else>
+        <div
+          v-if="isShowSelectProp"
+          class="pf-c-action-list__item"
         >
-            <Select
-                :items="conditionItemsAll"
-                :width-auto="true"
-                :is-open-mount="updateOpenBetweenCondition"
-                :update-open="updateOpenBetweenCondition"
-                @hide="onHideConditionBetweenAll"
-                @select="changeBetweenAdd"
+          <PropertySelect
+            @select="changeProperty"
+          >
+            <UiButton
+              :class="{
+                'pf-m-secondary': isSelectedProp,
+                'pf-m-link': !isSelectedProp,
+              }"
+              type="button"
+              :before-icon="!isSelectedProp ? 'fas fa-plus-circle' : ''"
             >
-                <UiButton
-                    :before-icon="'fas fa-arrow-right-to-bracket'"
-                    @click="betweenAdd"
-                />
-            </Select>
+              {{ displayNameProp }}
+            </UiButton>
+          </PropertySelect>
         </div>
-        <i
-            v-if="isAllowBetweenAdd"
-            class="condition__between-add-after"
-        />
+        <div
+          v-if="props.condition.propRef && props.condition.opId"
+          class="pf-c-action-list__item"
+        >
+          <OperationSelect
+            :property-ref="props.condition.propRef"
+            :selected="props.condition.opId"
+            @select="changeOperation"
+          >
+            <UiButton class="pf-m-secondary">
+              {{ operationButtonText }}
+            </UiButton>
+          </OperationSelect>
+        </div>
+        <div
+          v-if="props.condition.propRef && props.condition.values"
+          class="pf-c-action-list__item"
+        >
+          <ValueSelect
+            :property-ref="props.condition.propRef"
+            :selected="props.condition.values"
+            :items="conditionValuesItems"
+            @add="addValue"
+            @deselect="removeValue"
+          >
+            <template v-if="props.condition.values.length > 0">
+              <div class="pf-c-action-list">
+                <div
+                  v-for="(value, i) in props.condition.values"
+                  :key="i"
+                  class="pf-c-action-list__item"
+                >
+                  <UiButton class="pf-m-secondary">
+                    {{ value }}
+                    <span class="pf-c-button__icon pf-m-end">
+                      <UiIcon
+                        icon="fas fa-times"
+                        @click.stop="removeValue(value)"
+                      />
+                    </span>
+                  </UiButton>
+                </div>
+              </div>
+            </template>
+            <template v-else>
+              <UiButton
+                class="pf-m-link"
+                :before-icon="'fas fa-plus-circle'"
+                @click="onClickValue"
+              >
+                {{ $t('events.select_value') }}
+              </UiButton>
+            </template>
+          </ValueSelect>
+        </div>
+      </template>
+      <div
+        v-if="isShowSelectDate"
+        class="pf-c-action-list__item"
+      >
+        <UiDatePicker
+          :value="calendarValue"
+          :last-count="lastCount"
+          :active-tab-controls="props.condition?.period?.type"
+          :show-each="true"
+          @on-change-each="onChangeEach"
+          @on-apply="onApplyPeriod"
+        >
+          <template #action>
+            <UiButton
+              :before-icon="props.condition.each ? '' : 'fas fa-calendar-alt'"
+              :class="{
+                'pf-m-secondary': isSelectedCalendar,
+              }"
+            >
+              {{ calendarValueString }}
+            </UiButton>
+          </template>
+        </UiDatePicker>
+      </div>
+      <PropertySelect
+        v-if="isHasFilter"
+        class="pf-c-action-list__item"
+        :is-open-mount="false"
+        :update-open="false"
+        @select="addFilter"
+      >
+        <div class="condition__control">
+          <VTooltip popper-class="ui-hint">
+            <UiIcon icon="fas fa-filter" />
+            <template #popper>
+              {{ $t('common.addFilter') }}
+            </template>
+          </VTooltip>
+        </div>
+      </PropertySelect>
+      <div
+        v-if="props.showRemove"
+        class="pf-c-action-list__item condition__control"
+        @click="onRemove"
+      >
+        <VTooltip popper-class="ui-hint">
+          <UiIcon icon="fas fa-times" />
+          <template #popper>
+            {{ $t('events.segments.remove_condition') }}
+          </template>
+        </VTooltip>
+      </div>
     </div>
+    <div
+      v-if="filters.length"
+      class="pf-l-flex pf-m-column pf-u-pl-xl"
+    >
+      <Filter
+        v-for="(filter, i) in filters"
+        :key="i"
+        :event-ref="condition?.event?.ref"
+        :filter="filter"
+        :index="i"
+        :update-open="updateOpenFilter"
+        @click="onClickValue"
+        @remove-filter="removeFilter"
+        @change-filter-property="changeFilterProperty"
+        @change-filter-operation="onChangeFilterOperation"
+        @add-filter-value="addFilterValue"
+        @remove-filter-value="removeFilterValue"
+      />
+    </div>
+    <div
+      v-if="isAllowBetweenAdd"
+      class="condition__between-add"
+      :class="{
+        'condition__between-add_visible': iconVisiblBetweenCondition,
+      }"
+    >
+      <Select
+        :items="conditionItemsAll"
+        :width-auto="true"
+        :is-open-mount="updateOpenBetweenCondition"
+        :update-open="updateOpenBetweenCondition"
+        @hide="onHideConditionBetweenAll"
+        @select="changeBetweenAdd"
+      >
+        <UiButton
+          :before-icon="'fas fa-arrow-right-to-bracket'"
+          @click="betweenAdd"
+        />
+      </Select>
+    </div>
+    <i
+      v-if="isAllowBetweenAdd"
+      class="condition__between-add-after"
+    />
+  </div>
 </template>
 
 <script lang="ts" setup>

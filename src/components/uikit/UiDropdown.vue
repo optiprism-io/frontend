@@ -43,23 +43,23 @@
         <div class="pf-c-dropdown">
           <ul class="pf-c-dropdown__menu" aria-labelledby="dropdown-expanded-button">
             <li
-v-for="item in items"
-:key="item.key"
-v-close-popper
-@click="onClick(item)"
->
+              v-for="item in items"
+              :key="item.key"
+              v-close-popper
+              @click="onClick(item)"
+            >
               <RouterLink
-v-if="item.to"
-:to="item.to"
-class="pf-c-dropdown__menu-item"
->
+                v-if="item.to"
+                :to="item.to"
+                class="pf-c-dropdown__menu-item"
+              >
                 {{ item.nameDisplay }}
               </RouterLink>
               <a
-v-else-if="item.href"
-class="pf-c-dropdown__menu-item"
-href="#"
->
+                v-else-if="item.href"
+                class="pf-c-dropdown__menu-item"
+                href="#"
+              >
                 {{ item.nameDisplay }}
               </a>
               <button

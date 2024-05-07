@@ -1,15 +1,15 @@
 <template>
-    <PropertySelect
-        :force-props="lexiconStore.eventProperties"
-        @select="addHoldingConstant"
+  <PropertySelect
+    :force-props="lexiconStore.eventProperties"
+    @select="addHoldingConstant"
+  >
+    <UiButton
+      :is-link="true"
+      :before-icon="'fas fa-plus'"
     >
-        <UiButton
-            :is-link="true"
-            :before-icon="'fas fa-plus'"
-        >
-            {{ $t('funnels.holdingConstant.add') }}
-        </UiButton>
-    </PropertySelect>
+      {{ $t('funnels.holdingConstant.add') }}
+    </UiButton>
+  </PropertySelect>
 </template>
 
 <script lang="ts" setup>

@@ -1,81 +1,81 @@
 <template>
+  <div
+    class="segment pf-l-flex pf-m-column"
+    :class="{
+      'segment_active': dropdownStatesControl,
+    }"
+  >
     <div
-        class="segment pf-l-flex pf-m-column"
-        :class="{
-            'segment_active': dropdownStatesControl,
-        }"
+      v-if="!props.isOneSegment"
+      class="pf-l-flex"
     >
-        <div
-            v-if="!props.isOneSegment"
-            class="pf-l-flex"
-        >
-            <CommonIdentifier
-                class="pf-l-flex__item"
-                :index="props.index"
-            />
-            <div class="pf-c-action-list">
-                <div class="pf-c-action-list__item">
-                    <UiEditableText
-                        :value="name"
-                        @on-save="onRename"
-                    >
-                        <span>{{ name }}</span>
-                    </UiEditableText>
-                </div>
-                <Select
-                    class="pf-c-action-list__item"
-                    :items="conditionItems"
-                    :is-open-mount="false"
-                    @select="addCondition"
-                    @show="show"
-                    @hide="hide"
-                >
-                    <div
-                        class="segment__control"
-                    >
-                        <VTooltip popper-class="ui-hint">
-                            <UiIcon icon="fas fa-filter" />
-                            <template #popper>
-                                {{ $t('events.segments.addCondition') }}
-                            </template>
-                        </VTooltip>
-                    </div>
-                </Select>
-                <div
-                    class="pf-c-action-list__item segment__control"
-                    @click="onRemove"
-                >
-                    <VTooltip popper-class="ui-hint">
-                        <UiIcon icon="fas fa-times" />
-                        <template #popper>
-                            {{ $t('events.segments.remove') }}
-                        </template>
-                    </VTooltip>
-                </div>
-            </div>
+      <CommonIdentifier
+        class="pf-l-flex__item"
+        :index="props.index"
+      />
+      <div class="pf-c-action-list">
+        <div class="pf-c-action-list__item">
+          <UiEditableText
+            :value="name"
+            @on-save="onRename"
+          >
+            <span>{{ name }}</span>
+          </UiEditableText>
         </div>
-        <div
-            class="segment__condition-list"
-            :class="{
-                'pf-u-pl-xl': !props.isOneSegment,
-            }"
+        <Select
+          class="pf-c-action-list__item"
+          :items="conditionItems"
+          :is-open-mount="false"
+          @select="addCondition"
+          @show="show"
+          @hide="hide"
         >
-            <Condition
-                v-for="(condition, i) in props.conditions"
-                :key="i"
-                :index="i"
-                :condition="condition"
-                :next-condition="props.conditions[i + 1] || null"
-                :update-open="updateOpenCondition"
-                :index-parent="props.index"
-                :auto-hide-event="props.autoHideEvent"
-                :is-one="props.isOneSegment"
-                :allow-and-or="props.isOneSegment && i > 0 ? !['and', 'or'].includes(props.conditions[i - 1]?.action?.id || '') : false"
-                :show-remove="props.isOneSegment ? conditionsLength > 1 && (conditionsLength !== i + 1) && (showRemoveCondition.length > 1 ? true : !!condition?.action) : true"
-                @on-click-value="onClickValue"
-            />
+          <div
+            class="segment__control"
+          >
+            <VTooltip popper-class="ui-hint">
+              <UiIcon icon="fas fa-filter" />
+              <template #popper>
+                {{ $t('events.segments.addCondition') }}
+              </template>
+            </VTooltip>
+          </div>
+        </Select>
+        <div
+          class="pf-c-action-list__item segment__control"
+          @click="onRemove"
+        >
+          <VTooltip popper-class="ui-hint">
+            <UiIcon icon="fas fa-times" />
+            <template #popper>
+              {{ $t('events.segments.remove') }}
+            </template>
+          </VTooltip>
         </div>
+      </div>
     </div>
+    <div
+      class="segment__condition-list"
+      :class="{
+        'pf-u-pl-xl': !props.isOneSegment,
+      }"
+    >
+      <Condition
+        v-for="(condition, i) in props.conditions"
+        :key="i"
+        :index="i"
+        :condition="condition"
+        :next-condition="props.conditions[i + 1] || null"
+        :update-open="updateOpenCondition"
+        :index-parent="props.index"
+        :auto-hide-event="props.autoHideEvent"
+        :is-one="props.isOneSegment"
+        :allow-and-or="props.isOneSegment && i > 0 ? !['and', 'or'].includes(props.conditions[i - 1]?.action?.id || '') : false"
+        :show-remove="props.isOneSegment ? conditionsLength > 1 && (conditionsLength !== i + 1) && (showRemoveCondition.length > 1 ? true : !!condition?.action) : true"
+        @on-click-value="onClickValue"
+      />
+    </div>
+  </div>
 </template>
 
 <script setup lang="ts">

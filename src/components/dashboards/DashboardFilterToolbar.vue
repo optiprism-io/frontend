@@ -1,42 +1,42 @@
 <template>
-    <FilterToolbar class="dashboard-filter-toolbar pf-u-px-sm">
-        <template #content>
-            <template v-if="filterGroup">
-                <Filter
-                    v-for="(filter, i) in filterGroup.filters"
-                    :key="i"
-                    class="filter-toolbar__item pf-u-mb-md"
-                    :index="i"
-                    :filter="filter"
-                    :hide-prefix="i === 0"
-                    :orientation="OrientationTypeEnum.HORIZONTAL"
-                    :min-width-prefix="false"
-                    @on-click-value="updateValue"
-                    @remove-filter="removeFilterForGroup(i)"
-                    @change-filter-property="changeFilterPropertyForGroup"
-                    @change-filter-operation="changeFilterOperationForGroup"
-                    @add-filter-value="addFilterValueForGroup"
-                    @remove-filter-value="removeFilterValueForGroup"
-                >
-                    <template #prefix>
-                        {{ filterGroup.condition }}
-                    </template>
-                </Filter>
-            </template>
-            <PropertySelect
-                class="filter-toolbar__item pf-u-mb-md"
-                :is-open-mount="false"
-                @select="addFilterToGroup"
-            >
-                <UiButton
-                    :is-link="true"
-                    :before-icon="'fas fa-plus'"
-                >
-                    {{ $t('common.addFilter') }}
-                </UiButton>
-            </PropertySelect>
-        </template>
-    </FilterToolbar>
+  <FilterToolbar class="dashboard-filter-toolbar pf-u-px-sm">
+    <template #content>
+      <template v-if="filterGroup">
+        <Filter
+          v-for="(filter, i) in filterGroup.filters"
+          :key="i"
+          class="filter-toolbar__item pf-u-mb-md"
+          :index="i"
+          :filter="filter"
+          :hide-prefix="i === 0"
+          :orientation="OrientationTypeEnum.HORIZONTAL"
+          :min-width-prefix="false"
+          @on-click-value="updateValue"
+          @remove-filter="removeFilterForGroup(i)"
+          @change-filter-property="changeFilterPropertyForGroup"
+          @change-filter-operation="changeFilterOperationForGroup"
+          @add-filter-value="addFilterValueForGroup"
+          @remove-filter-value="removeFilterValueForGroup"
+        >
+          <template #prefix>
+            {{ filterGroup.condition }}
+          </template>
+        </Filter>
+      </template>
+      <PropertySelect
+        class="filter-toolbar__item pf-u-mb-md"
+        :is-open-mount="false"
+        @select="addFilterToGroup"
+      >
+        <UiButton
+          :is-link="true"
+          :before-icon="'fas fa-plus'"
+        >
+          {{ $t('common.addFilter') }}
+        </UiButton>
+      </PropertySelect>
+    </template>
+  </FilterToolbar>
 </template>
 
 <script setup lang="ts">

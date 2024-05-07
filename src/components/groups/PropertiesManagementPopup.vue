@@ -1,53 +1,53 @@
 <template>
-    <UiPopupWindow
-        :title="title"
-        :apply-loading="props.loading"
-        class="properties-panagement-popup"
-        :apply-button="$t('common.save')"
-        :cancel-button="$t('common.close')"
-        :apply-disabled="applyDisabled"
-        @apply="apply"
-        @cancel="close"
-    >
-        <div class="properties-panagement-popup__content">
-            <div
-                v-show="isLodingSavePropetries"
-                class="properties-panagement-popup__loading"
-            >
-                <UiSpinner :size="'xl'" />
-            </div>
-            <UiTabs
-                class="pf-u-mb-md"
-                :items="itemsTabs"
-            />
-            <PropertiesManagementLine
-                class="properties-panagement-popup__line"
-                :hide-controls="true"
-                :bold-text="true"
-                :no-edit="true"
-                :value="$t('users.columns.value')"
-                :value-key="$t('users.columns.key')"
-            />
-            <PropertiesManagementLine
-                v-for="(property, i) in itemsProperties"
-                :key="i"
-                class="properties-panagement-popup__line pf-u-mb-md"
-                :hide-controls="false"
-                :index="i"
-                :value="property.value"
-                :value-key="property.key"
-                :error-key="property.error"
-                @apply="onApplyChangePropery"
-                @delete="onDeleteLine"
-            />
-            <UiButton
-                class="pf-m-primary pf-u-mt-md"
-                @click="onAddProperty"
-            >
-                {{ $t('common.addPropery') }}
-            </UiButton>
-        </div>
-    </UiPopupWindow>
+  <UiPopupWindow
+    :title="title"
+    :apply-loading="props.loading"
+    class="properties-panagement-popup"
+    :apply-button="$t('common.save')"
+    :cancel-button="$t('common.close')"
+    :apply-disabled="applyDisabled"
+    @apply="apply"
+    @cancel="close"
+  >
+    <div class="properties-panagement-popup__content">
+      <div
+        v-show="isLodingSavePropetries"
+        class="properties-panagement-popup__loading"
+      >
+        <UiSpinner :size="'xl'" />
+      </div>
+      <UiTabs
+        class="pf-u-mb-md"
+        :items="itemsTabs"
+      />
+      <PropertiesManagementLine
+        class="properties-panagement-popup__line"
+        :hide-controls="true"
+        :bold-text="true"
+        :no-edit="true"
+        :value="$t('users.columns.value')"
+        :value-key="$t('users.columns.key')"
+      />
+      <PropertiesManagementLine
+        v-for="(property, i) in itemsProperties"
+        :key="i"
+        class="properties-panagement-popup__line pf-u-mb-md"
+        :hide-controls="false"
+        :index="i"
+        :value="property.value"
+        :value-key="property.key"
+        :error-key="property.error"
+        @apply="onApplyChangePropery"
+        @delete="onDeleteLine"
+      />
+      <UiButton
+        class="pf-m-primary pf-u-mt-md"
+        @click="onAddProperty"
+      >
+        {{ $t('common.addPropery') }}
+      </UiButton>
+    </div>
+  </UiPopupWindow>
 </template>
 
 <script lang="ts" setup>

@@ -1,50 +1,50 @@
 <template>
-    <UiPopupWindow
-        :title="title"
-        :apply-loading="props.loading"
-        class="event-management-popup"
-        :apply-button="$t('common.save')"
-        :cancel-button="$t('common.close')"
-        :apply-disabled="applyDisabled"
-        @apply="apply"
-        @cancel="cancel"
-    >
-        <UiTabs
-            class="pf-u-mb-md"
-            :items="itemsTabs"
-            @on-select="onSelectTab"
-        />
-        <div class="event-management-popup__content">
-            <UiDescriptionList
-                v-if="activeTab === 'event'"
-                :items="eventItems"
-                :horizontal="true"
-                @on-input="onInputEventItem"
-            />
-            <UiTable
-                v-if="activeTab === 'properties'"
-                :compact="true"
-                :items="itemsProperties"
-                :columns="columnsProperties"
-                :show-toolbar="false"
-                :enable-placeholder="false"
-                @on-action="onActionProperty"
-            />
-            <UiTable
-                v-if="activeTab === 'userProperties'"
-                :compact="true"
-                :items="itemsUserProperties"
-                :columns="columnsProperties"
-                :show-toolbar="false"
-                :enable-placeholder="false"
-                @on-action="onActionUserProperty"
-            />
-            <DataEmptyPlaceholder
-                v-if="noData"
-                :content="noDataText"
-            />
-        </div>
-    </UiPopupWindow>
+  <UiPopupWindow
+    :title="title"
+    :apply-loading="props.loading"
+    class="event-management-popup"
+    :apply-button="$t('common.save')"
+    :cancel-button="$t('common.close')"
+    :apply-disabled="applyDisabled"
+    @apply="apply"
+    @cancel="cancel"
+  >
+    <UiTabs
+      class="pf-u-mb-md"
+      :items="itemsTabs"
+      @on-select="onSelectTab"
+    />
+    <div class="event-management-popup__content">
+      <UiDescriptionList
+        v-if="activeTab === 'event'"
+        :items="eventItems"
+        :horizontal="true"
+        @on-input="onInputEventItem"
+      />
+      <UiTable
+        v-if="activeTab === 'properties'"
+        :compact="true"
+        :items="itemsProperties"
+        :columns="columnsProperties"
+        :show-toolbar="false"
+        :enable-placeholder="false"
+        @on-action="onActionProperty"
+      />
+      <UiTable
+        v-if="activeTab === 'userProperties'"
+        :compact="true"
+        :items="itemsUserProperties"
+        :columns="columnsProperties"
+        :show-toolbar="false"
+        :enable-placeholder="false"
+        @on-action="onActionUserProperty"
+      />
+      <DataEmptyPlaceholder
+        v-if="noData"
+        :content="noDataText"
+      />
+    </div>
+  </UiPopupWindow>
 </template>
 
 <script lang="ts" setup>

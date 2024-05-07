@@ -1,7 +1,7 @@
 <template>
-    <div class="ui-tags-cell">
-        <UiTags :value="props.value" />
-    </div>
+  <div class="ui-tags-cell">
+    <UiTags :value="props.value" />
+  </div>
 </template>
 
 <script lang="ts" setup>

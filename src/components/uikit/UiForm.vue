@@ -1,21 +1,21 @@
 <template>
-    <form
-        class="ui-form pf-c-form"
-        @submit.prevent="handleSubmit"
+  <form
+    class="ui-form pf-c-form"
+    @submit.prevent="handleSubmit"
+  >
+    <div
+      v-if="props.errorMain"
+      class="ui-form__error"
     >
-        <div
-            v-if="props.errorMain"
-            class="ui-form__error"
-        >
-            <UiAlert
-                class="ui-form__error pf-c-form__helper-text pf-m-error"
-                :item="errorMainItem"
-            />
-        </div>
-        <div class="ui-form__content">
-            <slot />
-        </div>
-    </form>
+      <UiAlert
+        class="ui-form__error pf-c-form__helper-text pf-m-error"
+        :item="errorMainItem"
+      />
+    </div>
+    <div class="ui-form__content">
+      <slot />
+    </div>
+  </form>
 </template>
 
 <script setup lang="ts">

@@ -1,24 +1,24 @@
 <template>
-    <VDropdown
-        placement="bottom-start"
-        class="multi-select"
-        :container="props.popperContainer || 'body'"
-    >
-        <span class="multi-select__action">
-            <slot />
-        </span>
-        <template #popper>
-            <div class="multi-select__content pf-c-card pf-m-compact pf-u-min-width">
-                <MultiSelectList
-                    :items="itemsSelect"
-                    :selected="selected"
-                    @select="select"
-                    @deselect="deselect"
-                    @search="search"
-                />
-            </div>
-        </template>
-    </VDropdown>
+  <VDropdown
+    placement="bottom-start"
+    class="multi-select"
+    :container="props.popperContainer || 'body'"
+  >
+    <span class="multi-select__action">
+      <slot />
+    </span>
+    <template #popper>
+      <div class="multi-select__content pf-c-card pf-m-compact pf-u-min-width">
+        <MultiSelectList
+          :items="itemsSelect"
+          :selected="selected"
+          @select="select"
+          @deselect="deselect"
+          @search="search"
+        />
+      </div>
+    </template>
+  </VDropdown>
 </template>
 
 <script setup lang="ts">

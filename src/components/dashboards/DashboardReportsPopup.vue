@@ -5,14 +5,14 @@
     @cancel="emit('cancel')"
   >
     <div>
-        <UiSpinner v-if="loading" />
-        <UiTable
-          v-else
-          :show-toolbar="false"
-          :items="itemsReport"
-          :columns="columns"
-          @on-action="onActionReport"
-        />
+      <UiSpinner v-if="loading" />
+      <UiTable
+        v-else
+        :show-toolbar="false"
+        :items="itemsReport"
+        :columns="columns"
+        @on-action="onActionReport"
+      />
     </div>
   </UiPopupWindow>
 </template>

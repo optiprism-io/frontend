@@ -1,12 +1,12 @@
 <template>
-    <EventSelector @select="excludeEvent">
-        <UiButton
-            :is-link="true"
-            :before-icon="'fas fa-plus'"
-        >
-            {{ $t('funnels.excludeSteps.add') }}
-        </UiButton>
-    </EventSelector>
+  <EventSelector @select="excludeEvent">
+    <UiButton
+      :is-link="true"
+      :before-icon="'fas fa-plus'"
+    >
+      {{ $t('funnels.excludeSteps.add') }}
+    </UiButton>
+  </EventSelector>
 </template>
 
 <script lang="ts" setup>

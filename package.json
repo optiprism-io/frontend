@@ -12,6 +12,7 @@
     "clean": "rm -rf dist && mkdir ./dist",
     "fmt": "prettier ./src --write",
     "check:eslint": "eslint --ext .ts,vue ./",
+    "eslint:fix": "eslint --ext .ts,vue ./ --fix",
     "check:vue-tsc": "vue-tsc --noEmit --skipLibCheck",
     "test:unit": "vitest --run",
     "test:coverage": "vitest --run --coverage",

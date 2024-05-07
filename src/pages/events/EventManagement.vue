@@ -1,19 +1,19 @@
 <template>
-    <ToolsLayout>
-        <template #title>
-            {{ $t('events.events') }}
-        </template>
-        <template #main>
-            <UiCardContainer class="pf-u-h-100">
-                <UiTable
-                    :items="items"
-                    :columns="columns"
-                    :no-data-text="$t('events.noEventsText')"
-                    @on-action="onAction"
-                />
-            </UiCardContainer>
-        </template>
-    </ToolsLayout>
+  <ToolsLayout>
+    <template #title>
+      {{ $t('events.events') }}
+    </template>
+    <template #main>
+      <UiCardContainer class="pf-u-h-100">
+        <UiTable
+          :items="items"
+          :columns="columns"
+          :no-data-text="$t('events.noEventsText')"
+          @on-action="onAction"
+        />
+      </UiCardContainer>
+    </template>
+  </ToolsLayout>
 </template>
 
 <script setup lang="ts">

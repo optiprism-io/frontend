@@ -1,17 +1,17 @@
 <template>
-    <div class="ui-tags">
-        <span
-            v-for="(item, i) in props.value"
-            :key="item"
-            class="ui-tags__item pf-u-mr-sm pf-u-mb-sm"
-        >
-            <UiTag
-                :value="item"
-                :index="i"
-                class="pf-m-blue"
-            />
-        </span>
-    </div>
+  <div class="ui-tags">
+    <span
+      v-for="(item, i) in props.value"
+      :key="item"
+      class="ui-tags__item pf-u-mr-sm pf-u-mb-sm"
+    >
+      <UiTag
+        :value="item"
+        :index="i"
+        class="pf-m-blue"
+      />
+    </span>
+  </div>
 </template>
 
 <script lang="ts" setup>

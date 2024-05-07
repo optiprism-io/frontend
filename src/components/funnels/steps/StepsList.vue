@@ -1,20 +1,20 @@
 <template>
-    <div class="pf-l-flex pf-m-column">
-        <StepItem
-            v-for="(step, index) in stepsStore.steps"
-            :key="index"
-            :index="index"
-            :step="step"
-        />
-        <EventSelector @select="addStep">
-            <UiButton
-                :is-link="true"
-                :before-icon="'fas fa-plus'"
-            >
-                {{ $t('common.add_step') }}
-            </UiButton>
-        </EventSelector>
-    </div>
+  <div class="pf-l-flex pf-m-column">
+    <StepItem
+      v-for="(step, index) in stepsStore.steps"
+      :key="index"
+      :index="index"
+      :step="step"
+    />
+    <EventSelector @select="addStep">
+      <UiButton
+        :is-link="true"
+        :before-icon="'fas fa-plus'"
+      >
+        {{ $t('common.add_step') }}
+      </UiButton>
+    </EventSelector>
+  </div>
 </template>
 
 <script lang="ts" setup>

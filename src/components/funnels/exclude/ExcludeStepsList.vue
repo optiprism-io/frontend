@@ -1,84 +1,84 @@
 <template>
-    <div
-        v-for="(item, index) in excludedEvents"
-        :key="index"
-        class="pf-l-flex pf-m-column"
-    >
-        <UiActionList>
-            <template #main>
-                <div class="pf-l-flex">
-                    <span class="pf-l-flex__item">
-                        {{ $t('funnels.excludeSteps.exclude') }}
-                    </span>
+  <div
+    v-for="(item, index) in excludedEvents"
+    :key="index"
+    class="pf-l-flex pf-m-column"
+  >
+    <UiActionList>
+      <template #main>
+        <div class="pf-l-flex">
+          <span class="pf-l-flex__item">
+            {{ $t('funnels.excludeSteps.exclude') }}
+          </span>
 
-                    <EventSelector
-                        class="pf-l-flex__item"
-                        @select="editEvent($event, index)"
-                    >
-                        <UiButton
-                            class="pf-m-secondary"
-                            is-link
-                        >
-                            {{ eventName(item.event) }}
-                        </UiButton>
-                    </EventSelector>
+          <EventSelector
+            class="pf-l-flex__item"
+            @select="editEvent($event, index)"
+          >
+            <UiButton
+              class="pf-m-secondary"
+              is-link
+            >
+              {{ eventName(item.event) }}
+            </UiButton>
+          </EventSelector>
 
-                    <span class="pf-l-flex__item">
-                        {{ $t('funnels.excludeSteps.between') }}
-                    </span>
+          <span class="pf-l-flex__item">
+            {{ $t('funnels.excludeSteps.between') }}
+          </span>
 
-                    <UiSelect
-                        :items="excludeSteps"
-                        :show-search="false"
-                        @update:model-value="editEventSteps($event, index)"
-                    >
-                        <UiButton
-                            class="pf-m-secondary pf-l-flex__item"
-                            :is-link="true"
-                        >
-                            {{ excludeStepsToString(item.steps) }}
-                        </UiButton>
-                    </UiSelect>
+          <UiSelect
+            :items="excludeSteps"
+            :show-search="false"
+            @update:model-value="editEventSteps($event, index)"
+          >
+            <UiButton
+              class="pf-m-secondary pf-l-flex__item"
+              :is-link="true"
+            >
+              {{ excludeStepsToString(item.steps) }}
+            </UiButton>
+          </UiSelect>
 
-                    <span class="pf-l-flex__item">
-                        {{ $t('funnels.excludeSteps.steps') }}
-                    </span>
-                </div>
-            </template>
+          <span class="pf-l-flex__item">
+            {{ $t('funnels.excludeSteps.steps') }}
+          </span>
+        </div>
+      </template>
 
-            <UiActionListItem @click="createFilterForEvent(index)">
-                <VTooltip popper-class="ui-hint">
-                    <UiIcon icon="fas fa-filter" />
-                    <template #popper>
-                        {{ $t('common.addFilter') }}
-                    </template>
-                </VTooltip>
-            </UiActionListItem>
+      <UiActionListItem @click="createFilterForEvent(index)">
+        <VTooltip popper-class="ui-hint">
+          <UiIcon icon="fas fa-filter" />
+          <template #popper>
+            {{ $t('common.addFilter') }}
+          </template>
+        </VTooltip>
+      </UiActionListItem>
 
-            <UiActionListItem @click="stepsStore.deleteExcludedEvent(index)">
-                <VTooltip popper-class="ui-hint">
-                    <UiIcon icon="fas fa-times" />
-                    <template #popper>
-                        {{ $t('funnels.excludeSteps.remove') }}
-                    </template>
-                </VTooltip>
-            </UiActionListItem>
-        </UiActionList>
+      <UiActionListItem @click="stepsStore.deleteExcludedEvent(index)">
+        <VTooltip popper-class="ui-hint">
+          <UiIcon icon="fas fa-times" />
+          <template #popper>
+            {{ $t('funnels.excludeSteps.remove') }}
+          </template>
+        </VTooltip>
+      </UiActionListItem>
+    </UiActionList>
 
-        <Filter
-            v-for="(filter, filterIndex) in item.filters"
-            :key="filterIndex"
-            :filter="filter"
-            :event-ref="item.event"
-            :index="filterIndex"
-            class="exclude-step-filter"
-            @remove-filter="removeFilterForEvent(index, filterIndex)"
-            @change-filter-property="(...args) => changeFilterPropertyForEvent(index, ...args)"
-            @change-filter-operation="(...args) => changeFilterOperationForEvent(index, ...args)"
-            @add-filter-value="(...args) => addFilterValueForEvent(index, ...args)"
-            @remove-filter-value="(...args) => removeFilterValueForEvent(index, ...args)"
-        />
-    </div>
+    <Filter
+      v-for="(filter, filterIndex) in item.filters"
+      :key="filterIndex"
+      :filter="filter"
+      :event-ref="item.event"
+      :index="filterIndex"
+      class="exclude-step-filter"
+      @remove-filter="removeFilterForEvent(index, filterIndex)"
+      @change-filter-property="(...args) => changeFilterPropertyForEvent(index, ...args)"
+      @change-filter-operation="(...args) => changeFilterOperationForEvent(index, ...args)"
+      @add-filter-value="(...args) => addFilterValueForEvent(index, ...args)"
+      @remove-filter-value="(...args) => removeFilterValueForEvent(index, ...args)"
+    />
+  </div>
 </template>
 
 <script lang="ts" setup>

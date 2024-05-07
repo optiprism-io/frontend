@@ -1,57 +1,57 @@
 <template>
-    <VDropdown
-        placement="bottom-start"
-        :triggers="[]"
-        popper-class="ui-date-picker"
-        :shown="isOpen"
-        @hide="onHide"
-    >
-        <template v-if="$slots.action">
-            <div @click="onToggle">
-                <slot name="action" />
-            </div>
-        </template>
-        <template #popper="{hide}">
-            <div class="ui-date-picker__content">
-                <div class="ui-date-picker__tabs">
-                    <UiCalendarControls
-                        v-if="props.showControls"
-                        :active-tab="activeTab"
-                        :show-each="showEach"
-                        @on-select-tab="onSelectTab"
-                    />
-                </div>
-                <div class="ui-date-picker__action">
-                    <UiCalendarInputs
-                        :active-tab="activeTab"
-                        :since="since"
-                        :last-count="lastCountLocal"
-                        :warning="warning"
-                        :warning-text="warningText"
-                        :from="betweenValue.from"
-                        :to="betweenValue.to"
-                        :each="value.each"
-                        @on-select-last-count="onSelectLastCount"
-                        @on-change-since="onChangeSince"
-                        @on-change-between="onChangeBetween"
-                        @on-change-each="onChangeEach"
-                    />
-                    <UiCalendar
-                        v-if="showCalendar"
-                        :multiple="true"
-                        :value="valueLocal"
-                        :count="props.monthLength"
-                        :offset="props.offsetMonth"
-                        :from-select-only="fromSelectOnly"
-                        :disable-apply="warning"
-                        :button-text="$t('common.apply')"
-                        @on-change="onChange"
-                        @on-apply="($event: any) => {hide(); apply($event)}"
-                    />
-                </div>
-            </div>
-        </template>
-    </VDropdown>
+  <VDropdown
+    placement="bottom-start"
+    :triggers="[]"
+    popper-class="ui-date-picker"
+    :shown="isOpen"
+    @hide="onHide"
+  >
+    <template v-if="$slots.action">
+      <div @click="onToggle">
+        <slot name="action" />
+      </div>
+    </template>
+    <template #popper="{hide}">
+      <div class="ui-date-picker__content">
+        <div class="ui-date-picker__tabs">
+          <UiCalendarControls
+            v-if="props.showControls"
+            :active-tab="activeTab"
+            :show-each="showEach"
+            @on-select-tab="onSelectTab"
+          />
+        </div>
+        <div class="ui-date-picker__action">
+          <UiCalendarInputs
+            :active-tab="activeTab"
+            :since="since"
+            :last-count="lastCountLocal"
+            :warning="warning"
+            :warning-text="warningText"
+            :from="betweenValue.from"
+            :to="betweenValue.to"
+            :each="value.each"
+            @on-select-last-count="onSelectLastCount"
+            @on-change-since="onChangeSince"
+            @on-change-between="onChangeBetween"
+            @on-change-each="onChangeEach"
+          />
+          <UiCalendar
+            v-if="showCalendar"
+            :multiple="true"
+            :value="valueLocal"
+            :count="props.monthLength"
+            :offset="props.offsetMonth"
+            :from-select-only="fromSelectOnly"
+            :disable-apply="warning"
+            :button-text="$t('common.apply')"
+            @on-change="onChange"
+            @on-apply="($event: any) => {hide(); apply($event)}"
+          />
+        </div>
+      </div>
+    </template>
+  </VDropdown>
 </template>
 
 <script lang="ts" setup>

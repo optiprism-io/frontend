@@ -1,12 +1,12 @@
 <template>
-    <Select
-        :items="items"
-        grouped
-        :selected="selectedItem"
-        @select="select"
-    >
-        <slot />
-    </Select>
+  <Select
+    :items="items"
+    grouped
+    :selected="selectedItem"
+    @select="select"
+  >
+    <slot />
+  </Select>
 </template>
 
 <script setup lang="ts">

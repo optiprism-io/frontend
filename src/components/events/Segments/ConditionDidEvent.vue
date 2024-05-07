@@ -1,137 +1,137 @@
 <template>
-    <div class="pf-c-action-list__item">
-        <Select
-            grouped
-            :items="lexiconStore.eventsList"
-            :width-auto="true"
-            :auto-hide="autoHideEvent"
-            @select="changeEvent"
-            @action="selectAction"
-            @edit="edit"
-            @on-hover="onHoverEvent"
-        >
-            <UiButton
-                :class="{
-                    'pf-m-secondary': props.condition.event,
-                    'pf-m-link': !props.condition?.event?.name,
-                }"
-                type="button"
-                :before-icon="!props.condition.event ? 'fas fa-plus-circle' : ''"
-            >
-                {{ props.condition?.event?.name || $t('common.addEvent') }}
-            </UiButton>
-            <template
-                v-if="hoveredCustomEventId"
-                #description
-            >
-                <SelectedEvent
-                    v-for="(event, i) in hoveredCustomEventDescription"
-                    :key="i"
-                    :event="event"
-                    :event-ref="event.ref"
-                    :filters="event.filters"
-                    :index="i"
-                    :show-breakdowns="false"
-                    :show-query="false"
-                    :for-preview="true"
-                />
-            </template>
-        </Select>
-    </div>
-    <div
-        v-if="allowSelectAggregate"
-        class="pf-c-action-list__item"
+  <div class="pf-c-action-list__item">
+    <Select
+      grouped
+      :items="lexiconStore.eventsList"
+      :width-auto="true"
+      :auto-hide="autoHideEvent"
+      @select="changeEvent"
+      @action="selectAction"
+      @edit="edit"
+      @on-hover="onHoverEvent"
     >
-        <Select
-            :items="conditionAggregateItems"
-            :width-auto="true"
-            :is-open-mount="updateOpen"
-            :update-open="!isSelectedAggregate ? updateOpen : false"
-            @select="changeConditionAggregate"
-        >
-            <UiButton
-                :class="{
-                    'pf-m-secondary': isSelectedAggregate,
-                }"
-                :before-icon="!isSelectedAggregate ? 'fas fa-plus-circle': ''"
-            >
-                {{ displayNameAggregate }}
-            </UiButton>
-        </Select>
-    </div>
-    <div
-        v-if="isShowSelectProp"
-        class="pf-c-action-list__item"
+      <UiButton
+        :class="{
+          'pf-m-secondary': props.condition.event,
+          'pf-m-link': !props.condition?.event?.name,
+        }"
+        type="button"
+        :before-icon="!props.condition.event ? 'fas fa-plus-circle' : ''"
+      >
+        {{ props.condition?.event?.name || $t('common.addEvent') }}
+      </UiButton>
+      <template
+        v-if="hoveredCustomEventId"
+        #description
+      >
+        <SelectedEvent
+          v-for="(event, i) in hoveredCustomEventDescription"
+          :key="i"
+          :event="event"
+          :event-ref="event.ref"
+          :filters="event.filters"
+          :index="i"
+          :show-breakdowns="false"
+          :show-query="false"
+          :for-preview="true"
+        />
+      </template>
+    </Select>
+  </div>
+  <div
+    v-if="allowSelectAggregate"
+    class="pf-c-action-list__item"
+  >
+    <Select
+      :items="conditionAggregateItems"
+      :width-auto="true"
+      :is-open-mount="updateOpen"
+      :update-open="!isSelectedAggregate ? updateOpen : false"
+      @select="changeConditionAggregate"
     >
-        <PropertySelect @select="changeProperty">
-            <UiButton
-                :class="{
-                    'pf-m-secondary': isSelectedProp,
-                }"
-                type="button"
-                :before-icon="!isSelectedProp ? 'fas fa-plus-circle' : ''"
-            >
-                {{ displayNameProp }}
-            </UiButton>
-        </PropertySelect>
-    </div>
-    <div
-        v-if="isShowSelectOpt && props.condition.opId"
-        class="pf-c-action-list__item"
+      <UiButton
+        :class="{
+          'pf-m-secondary': isSelectedAggregate,
+        }"
+        :before-icon="!isSelectedAggregate ? 'fas fa-plus-circle': ''"
+      >
+        {{ displayNameAggregate }}
+      </UiButton>
+    </Select>
+  </div>
+  <div
+    v-if="isShowSelectProp"
+    class="pf-c-action-list__item"
+  >
+    <PropertySelect @select="changeProperty">
+      <UiButton
+        :class="{
+          'pf-m-secondary': isSelectedProp,
+        }"
+        type="button"
+        :before-icon="!isSelectedProp ? 'fas fa-plus-circle' : ''"
+      >
+        {{ displayNameProp }}
+      </UiButton>
+    </PropertySelect>
+  </div>
+  <div
+    v-if="isShowSelectOpt && props.condition.opId"
+    class="pf-c-action-list__item"
+  >
+    <OperationSelect
+      :selected="props.condition.opId"
+      :op-items="opItems"
+      @select="changeOperation"
     >
-        <OperationSelect
-            :selected="props.condition.opId"
-            :op-items="opItems"
-            @select="changeOperation"
-        >
-            <UiButton class="pf-m-secondary">
-                {{ operationButtonText }}
-            </UiButton>
-        </OperationSelect>
-    </div>
-    <div
-        v-if="isShowNextEventSelect"
-        class="pf-c-action-list__item"
+      <UiButton class="pf-m-secondary">
+        {{ operationButtonText }}
+      </UiButton>
+    </OperationSelect>
+  </div>
+  <div
+    v-if="isShowNextEventSelect"
+    class="pf-c-action-list__item"
+  >
+    <Select
+      grouped
+      :items="compareEventItems"
+      :width-auto="true"
+      @select="changeCompareEvent"
     >
-        <Select
-            grouped
-            :items="compareEventItems"
-            :width-auto="true"
-            @select="changeCompareEvent"
-        >
-            <UiButton
-                :class="{
-                    'pf-m-secondary': props.condition.compareEvent,
-                    'pf-m-link': !props.condition?.compareEvent?.name,
-                }"
-                type="button"
-                :before-icon="!props.condition.compareEvent ? 'fas fa-plus-circle' : ''"
-            >
-                {{ props.condition?.compareEvent?.name || $t('common.addEvent') }}
-            </UiButton>
-        </Select>
-    </div>
-    <div
-        v-if="isHasValue"
-        class="pf-c-action-list__item"
+      <UiButton
+        :class="{
+          'pf-m-secondary': props.condition.compareEvent,
+          'pf-m-link': !props.condition?.compareEvent?.name,
+        }"
+        type="button"
+        :before-icon="!props.condition.compareEvent ? 'fas fa-plus-circle' : ''"
+      >
+        {{ props.condition?.compareEvent?.name || $t('common.addEvent') }}
+      </UiButton>
+    </Select>
+  </div>
+  <div
+    v-if="isHasValue"
+    class="pf-c-action-list__item"
+  >
+    <Select
+      :items="valueList"
+      :width-auto="true"
+      :selected="props.condition.valueItem"
+      @select="onInputValue"
     >
-        <Select
-            :items="valueList"
-            :width-auto="true"
-            :selected="props.condition.valueItem"
-            @select="onInputValue"
-        >
-            <UiButton
-                :class="{
-                    'pf-m-secondary': props.condition.event,
-                }"
-                type="button"
-                :before-icon="!props.condition.valueItem ? 'fas fa-plus-circle' : ''"
-            >
-                {{ props.condition.valueItem }}
-            </UiButton>
-        </Select>
-    </div>
+      <UiButton
+        :class="{
+          'pf-m-secondary': props.condition.event,
+        }"
+        type="button"
+        :before-icon="!props.condition.valueItem ? 'fas fa-plus-circle' : ''"
+      >
+        {{ props.condition.valueItem }}
+      </UiButton>
+    </Select>
+  </div>
 </template>
 
 <script lang="ts" setup>
