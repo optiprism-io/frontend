@@ -1,23 +1,23 @@
 <template>
-    <UiPopupWindow
-        :title="props.title"
-        :apply-loading="props.loading"
-        class="confirm-popup"
-        :apply-button="props.applyButton || $t('common.ok')"
-        :cancel-button="props.cancelButton || $t('common.cancel')"
-        :apply-button-class="applyButtonClass"
-        @apply="apply"
-        @cancel="cancel"
-    >
-        <template v-if="$slots.content">
-            <slot name="content" />
-        </template>
-        <div
-            v-else
-            class="confirm-popup__content"
-            v-html="props.content"
-        />
-    </UiPopupWindow>
+  <UiPopupWindow
+    :title="props.title"
+    :apply-loading="props.loading"
+    class="confirm-popup"
+    :apply-button="props.applyButton || $t('common.ok')"
+    :cancel-button="props.cancelButton || $t('common.cancel')"
+    :apply-button-class="applyButtonClass"
+    @apply="apply"
+    @cancel="cancel"
+  >
+    <template v-if="$slots.content">
+      <slot name="content" />
+    </template>
+    <div
+      v-else
+      class="confirm-popup__content"
+      v-html="props.content"
+    />
+  </UiPopupWindow>
 </template>
 
 <script lang="ts" setup>

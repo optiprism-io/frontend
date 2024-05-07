@@ -1,13 +1,13 @@
 <template>
-    <Select
-        :items="items"
-        :selected="selectedItem"
-        :width-auto="true"
-        :container="props.popperContainer || 'body'"
-        @select="select"
-    >
-        <slot />
-    </Select>
+  <Select
+    :items="items"
+    :selected="selectedItem"
+    :width-auto="true"
+    :container="props.popperContainer || 'body'"
+    @select="select"
+  >
+    <slot />
+  </Select>
 </template>
 
 <script setup lang="ts">

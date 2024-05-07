@@ -1,91 +1,91 @@
 <template>
+  <div
+    class="properties-management-line pf-u-display-flex pf-m-align-self-baseline pf-u-w-100"
+    :class="{
+      'properties-management-line_no-edit': props.noEdit,
+    }"
+  >
     <div
-        class="properties-management-line pf-u-display-flex pf-m-align-self-baseline pf-u-w-100"
-        :class="{
-            'properties-management-line_no-edit': props.noEdit,
-        }"
+      v-if="noEdit"
+      class="properties-management-line__values pf-u-display-flex pf-u-w-100"
     >
-        <div
-            v-if="noEdit"
-            class="properties-management-line__values pf-u-display-flex pf-u-w-100"
-        >
-            <div
-                class="properties-management-line__item pf-u-align-items-center pf-u-display-flex pf-u-w-100 pf-u-px-lg"
-                :class="{
-                    'pf-u-font-weight-bold': props.boldText,
-                }"
-                @click="openEditInputs(KEY)"
-            >
-                {{ props.valueKey }}
-            </div>
-            <div
-                class="properties-management-line__item pf-u-align-items-center pf-u-display-flex pf-u-w-100 pf-u-px-lg"
-                :class="{
-                    'pf-u-font-weight-bold': props.boldText,
-                }"
-                @click="openEditInputs(VALUE)"
-            >
-                {{ props.value }}
-            </div>
-        </div>
-        <div
-            v-else
-            class="properties-management-line__inputs pf-u-display-flex pf-u-w-100"
-        >
-            <div
-                class="properties-management-line__input pf-u-w-100 pf-u-mr-md"
-                @click="onClickInput"
-            >
-                <UiForm>
-                    <UiFormGroup
-                        :error="props.errorKey ? $t('common.fillField') : ''"
-                        :indent="false"
-                        :for="KEY"
-                    >
-                        <UiInput
-                            v-model="editKey"
-                            class="pf-u-px-lg pf-u-py-md"
-                            :required="true"
-                            :name="KEY"
-                            :invalid="props.errorKey"
-                            :mount-focus="editClickInputType === KEY"
-                            autocomplete="new-password"
-                            @blur="onEdit"
-                        />
-                    </UiFormGroup>
-                </UiForm>
-            </div>
-            <div
-                class="properties-management-line__input pf-u-w-100 pf-u-mr-md"
-                @click="onClickInput"
-            >
-                <UiInput
-                    v-model="editValue"
-                    class="pf-u-px-lg pf-u-py-md"
-                    :required="true"
-                    :name="VALUE"
-                    :mount-focus="editClickInputType === VALUE"
-                    autocomplete="new-password"
-                    @blur="onEdit"
-                />
-            </div>
-        </div>
-        <div
-            v-show="!props.hideControls"
-            class="properties-management-line__controls"
-            :class="{
-                'properties-management-line__controls_hide': props.hideControls,
-            }"
-        >
-            <button
-                class="pf-c-button pf-m-control"
-                type="button"
-                @click="onDelete"
-            >
-                <UiIcon icon="fas fa-times" />
-            </button>
-        </div>
+      <div
+        class="properties-management-line__item pf-u-align-items-center pf-u-display-flex pf-u-w-100 pf-u-px-lg"
+        :class="{
+          'pf-u-font-weight-bold': props.boldText,
+        }"
+        @click="openEditInputs(KEY)"
+      >
+        {{ props.valueKey }}
+      </div>
+      <div
+        class="properties-management-line__item pf-u-align-items-center pf-u-display-flex pf-u-w-100 pf-u-px-lg"
+        :class="{
+          'pf-u-font-weight-bold': props.boldText,
+        }"
+        @click="openEditInputs(VALUE)"
+      >
+        {{ props.value }}
+      </div>
     </div>
+    <div
+      v-else
+      class="properties-management-line__inputs pf-u-display-flex pf-u-w-100"
+    >
+      <div
+        class="properties-management-line__input pf-u-w-100 pf-u-mr-md"
+        @click="onClickInput"
+      >
+        <UiForm>
+          <UiFormGroup
+            :error="props.errorKey ? $t('common.fillField') : ''"
+            :indent="false"
+            :for="KEY"
+          >
+            <UiInput
+              v-model="editKey"
+              class="pf-u-px-lg pf-u-py-md"
+              :required="true"
+              :name="KEY"
+              :invalid="props.errorKey"
+              :mount-focus="editClickInputType === KEY"
+              autocomplete="new-password"
+              @blur="onEdit"
+            />
+          </UiFormGroup>
+        </UiForm>
+      </div>
+      <div
+        class="properties-management-line__input pf-u-w-100 pf-u-mr-md"
+        @click="onClickInput"
+      >
+        <UiInput
+          v-model="editValue"
+          class="pf-u-px-lg pf-u-py-md"
+          :required="true"
+          :name="VALUE"
+          :mount-focus="editClickInputType === VALUE"
+          autocomplete="new-password"
+          @blur="onEdit"
+        />
+      </div>
+    </div>
+    <div
+      v-show="!props.hideControls"
+      class="properties-management-line__controls"
+      :class="{
+        'properties-management-line__controls_hide': props.hideControls,
+      }"
+    >
+      <button
+        class="pf-c-button pf-m-control"
+        type="button"
+        @click="onDelete"
+      >
+        <UiIcon icon="fas fa-times" />
+      </button>
+    </div>
+  </div>
 </template>
 
 <script lang="ts" setup>

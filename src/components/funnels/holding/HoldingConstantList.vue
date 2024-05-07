@@ -1,29 +1,29 @@
 <template>
-    <div
-        v-if="holdingProperties.length > 0"
-        class="pf-l-flex"
+  <div
+    v-if="holdingProperties.length > 0"
+    class="pf-l-flex"
+  >
+    <span class="pf-l-flex__item">
+      {{ $t('funnels.holdingConstant.holding') }}
+    </span>
+    <PropertySelect
+      v-for="(props, index) in holdingProperties"
+      :key="index"
+      class="pf-l-flex__item"
+      :force-props="lexiconStore.eventProperties"
+      @select="editHoldingProperty(index, $event)"
     >
-        <span class="pf-l-flex__item">
-            {{ $t('funnels.holdingConstant.holding') }}
+      <UiButton class="pf-m-secondary">
+        {{ props.name }}
+        <span class="pf-c-button__icon pf-m-end">
+          <UiIcon
+            icon="fas fa-times"
+            @click.stop="deleteHoldingProperty(index)"
+          />
         </span>
-        <PropertySelect
-            v-for="(props, index) in holdingProperties"
-            :key="index"
-            class="pf-l-flex__item"
-            :force-props="lexiconStore.eventProperties"
-            @select="editHoldingProperty(index, $event)"
-        >
-            <UiButton class="pf-m-secondary">
-                {{ props.name }}
-                <span class="pf-c-button__icon pf-m-end">
-                    <UiIcon
-                        icon="fas fa-times"
-                        @click.stop="deleteHoldingProperty(index)"
-                    />
-                </span>
-            </UiButton>
-        </PropertySelect>
-    </div>
+      </UiButton>
+    </PropertySelect>
+  </div>
 </template>
 
 <script lang="ts" setup>

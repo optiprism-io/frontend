@@ -1,17 +1,17 @@
 <template>
-    <label class="ui-checkbox pf-c-check">
-        <input
-            class="pf-c-check__input"
-            type="checkbox"
-            :checked="props.modelValue || props.value"
-            @input="updateValue"
-        >
+  <label class="ui-checkbox pf-c-check">
+    <input
+      class="pf-c-check__input"
+      type="checkbox"
+      :checked="props.modelValue || props.value"
+      @input="updateValue"
+    >
 
-        <span
-            v-if="label"
-            class="pf-c-check__label"
-        >{{ label }}</span>
-    </label>
+    <span
+      v-if="label"
+      class="pf-c-check__label"
+    >{{ label }}</span>
+  </label>
 </template>
 <script setup lang="ts">
 interface Props {

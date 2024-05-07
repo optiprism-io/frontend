@@ -1,11 +1,11 @@
 <template>
-    <Select
-        :selected="selectedItem"
-        :items="items"
-        @select="select"
-    >
-        <slot />
-    </Select>
+  <Select
+    :selected="selectedItem"
+    :items="items"
+    @select="select"
+  >
+    <slot />
+  </Select>
 </template>
 
 <script setup lang="ts">

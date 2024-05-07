@@ -1,41 +1,41 @@
 <template>
-    <Select
-        grouped
-        :items="lexiconStore.eventsList"
-        :width-auto="true"
-        :auto-hide="!commonStore.showCreateCustomEvent"
-        @action="selectAction"
-        @select="emit('select', $event)"
-        @edit="editEvent"
-        @on-hover="onHoverEvent"
+  <Select
+    grouped
+    :items="lexiconStore.eventsList"
+    :width-auto="true"
+    :auto-hide="!commonStore.showCreateCustomEvent"
+    @action="selectAction"
+    @select="emit('select', $event)"
+    @edit="editEvent"
+    @on-hover="onHoverEvent"
+  >
+    <slot>
+      <UiButton
+        :is-link="true"
+        :before-icon="'fas fa-plus'"
+      >
+        {{ $t('common.addEvent') }}
+      </UiButton>
+    </slot>
+    <template
+      v-if="hoveredCustomEventId"
+      #description
     >
-        <slot>
-            <UiButton
-                :is-link="true"
-                :before-icon="'fas fa-plus'"
-            >
-                {{ $t('common.addEvent') }}
-            </UiButton>
-        </slot>
-        <template
-            v-if="hoveredCustomEventId"
-            #description
-        >
-            <div class="pf-l-flex pf-m-column">
-                <SelectedEvent
-                    v-for="(event, index) in hoveredCustomEventDescription"
-                    :key="index"
-                    :event="event"
-                    :event-ref="event.ref"
-                    :filters="event.filters"
-                    :index="index"
-                    :show-breakdowns="false"
-                    :show-query="false"
-                    :for-preview="true"
-                />
-            </div>
-        </template>
-    </Select>
+      <div class="pf-l-flex pf-m-column">
+        <SelectedEvent
+          v-for="(event, index) in hoveredCustomEventDescription"
+          :key="index"
+          :event="event"
+          :event-ref="event.ref"
+          :filters="event.filters"
+          :index="index"
+          :show-breakdowns="false"
+          :show-query="false"
+          :for-preview="true"
+        />
+      </div>
+    </template>
+  </Select>
 </template>
 
 <script setup lang="ts">

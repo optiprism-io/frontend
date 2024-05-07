@@ -1,78 +1,78 @@
 <template>
-    <div class="ui-calendar">
-        <div class="ui-calendar__wrapper">
-            <div class="pf-c-calendar-month">
-                <table class="pf-c-calendar-month__calendar">
-                    <thead
-                        class="pf-c-calendar-month__days"
-                        scope="col"
-                    >
-                        <tr class="pf-c-calendar-month__days-row">
-                            <td
-                                v-for="(day, index) in weekDays"
-                                :key="day + index"
-                                class="pf-c-calendar-month__day"
-                            >
-                                <span
-                                    class="ui-calendar__day"
-                                    aria-hidden="true"
-                                >
-                                    {{ day }}
-                                </span>
-                            </td>
-                        </tr>
-                    </thead>
-                </table>
-                <VirtualisedList
-                    :viewport-height="220"
-                    :get-node-height="getNodeHeight"
-                    :tolerance="1"
-                    :nodes="calendarList"
-                    :initial-scroll-top="initialScrollTop"
-                    class="ui-calendar__list"
+  <div class="ui-calendar">
+    <div class="ui-calendar__wrapper">
+      <div class="pf-c-calendar-month">
+        <table class="pf-c-calendar-month__calendar">
+          <thead
+            class="pf-c-calendar-month__days"
+            scope="col"
+          >
+            <tr class="pf-c-calendar-month__days-row">
+              <td
+                v-for="(day, index) in weekDays"
+                :key="day + index"
+                class="pf-c-calendar-month__day"
+              >
+                <span
+                  class="ui-calendar__day"
+                  aria-hidden="true"
                 >
-                    <template #cell="slotProps">
-                        <div class="ui-calendar__list-item pf-u-pb-md">
-                            <UiCalendarMonth
-                                :month="slotProps.node.month"
-                                :months-names="monthsNames"
-                                :year="slotProps.node.year"
-                                :active-dates="props.activeDates"
-                                :ranged="currentRanged"
-                                :dates="currentDates"
-                                :week-days="weekDays"
-                                :allow-future="props.allowFuture"
-                                :years="yearsSelect"
-                                :show-select-years="props.showSelectYears"
-                                :disable-future-dates="props.disableFutureDates"
-                                :first-day-of-week="props.firstDayOfWeek"
-                                :from-select-only="props.fromSelectOnly"
-                                @on-select="clickDate"
-                                @on-mouseover="mouseoverDate"
-                                @on-mouseleave="mouseleaveDate"
-                                @set-year="setYear"
-                            />
-                        </div>
-                    </template>
-                </VirtualisedList>
-                <div class="ui-calendar__footer pf-u-p-md">
-                    <div
-                        v-if="props.showBottomControls"
-                        class="pf-u-display-flex pf-u-align-items-center"
-                    >
-                        <slot name="footer-right" />
-                        <UiButton
-                            class="pf-m-primary pf-u-ml-auto"
-                            :disabled="props.disableApply"
-                            @click="apply"
-                        >
-                            {{ props.buttonText }}
-                        </UiButton>
-                    </div>
-                </div>
+                  {{ day }}
+                </span>
+              </td>
+            </tr>
+          </thead>
+        </table>
+        <VirtualisedList
+          :viewport-height="220"
+          :get-node-height="getNodeHeight"
+          :tolerance="1"
+          :nodes="calendarList"
+          :initial-scroll-top="initialScrollTop"
+          class="ui-calendar__list"
+        >
+          <template #cell="slotProps">
+            <div class="ui-calendar__list-item pf-u-pb-md">
+              <UiCalendarMonth
+                :month="slotProps.node.month"
+                :months-names="monthsNames"
+                :year="slotProps.node.year"
+                :active-dates="props.activeDates"
+                :ranged="currentRanged"
+                :dates="currentDates"
+                :week-days="weekDays"
+                :allow-future="props.allowFuture"
+                :years="yearsSelect"
+                :show-select-years="props.showSelectYears"
+                :disable-future-dates="props.disableFutureDates"
+                :first-day-of-week="props.firstDayOfWeek"
+                :from-select-only="props.fromSelectOnly"
+                @on-select="clickDate"
+                @on-mouseover="mouseoverDate"
+                @on-mouseleave="mouseleaveDate"
+                @set-year="setYear"
+              />
             </div>
+          </template>
+        </VirtualisedList>
+        <div class="ui-calendar__footer pf-u-p-md">
+          <div
+            v-if="props.showBottomControls"
+            class="pf-u-display-flex pf-u-align-items-center"
+          >
+            <slot name="footer-right" />
+            <UiButton
+              class="pf-m-primary pf-u-ml-auto"
+              :disabled="props.disableApply"
+              @click="apply"
+            >
+              {{ props.buttonText }}
+            </UiButton>
+          </div>
         </div>
+      </div>
     </div>
+  </div>
 </template>
 
 <script lang="ts" setup>

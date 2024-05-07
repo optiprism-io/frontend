@@ -3,20 +3,20 @@
     <span class="pf-l-flex__item">within</span>
 
     <UiSelectSize
-v-model="size"
-:items="sizeItems"
-@search="handleSizeSearch"
->
+      v-model="size"
+      :items="sizeItems"
+      @search="handleSizeSearch"
+    >
       <UiButton class="pf-m-secondary pf-l-flex__item" :is-link="true">
         {{ stepsStore.size }}
       </UiButton>
     </UiSelectSize>
 
     <UiSelectUnit
-v-model="unit"
-:items="unitItems"
-:show-search="false"
->
+      v-model="unit"
+      :items="unitItems"
+      :show-search="false"
+    >
       <UiButton class="pf-m-secondary pf-l-flex__item" :is-link="true">
         {{ $t(`common.timeUnits.${stepsStore.unit}`) }}
       </UiButton>
@@ -25,10 +25,10 @@ v-model="unit"
     <span class="pf-l-flex__item"> {{ $t('criteria.timeWindow') }} {{ $t('criteria.in') }} </span>
 
     <UiSelectOrder
-v-model="order"
-:items="orderItems"
-:show-search="false"
->
+      v-model="order"
+      :items="orderItems"
+      :show-search="false"
+    >
       <UiButton class="pf-m-secondary pf-l-flex__item" :is-link="true">
         {{ $t(`criteria.orderType.${stepsStore.order}`) }}
       </UiButton>

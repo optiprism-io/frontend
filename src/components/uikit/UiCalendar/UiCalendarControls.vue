@@ -1,23 +1,23 @@
 <template>
-    <div class="pf-m-display-lg pf-u-min-width">
-        <div class="pf-c-menu pf-m-plain pf-m-scrollable">
-            <ul class="pf-c-menu__list">
-                <li
-                    v-for="item in itemsTabs"
-                    :key="item.value"
-                    class="pf-c-menu__item"
-                    :class="{
-                        'pf-c-menu__list-item--selected': item.active,
-                    }"
-                    @mouseover="onSelectTab(item.value)"
-                >
-                    <div class="pf-c-menu__item-main">
-                        <span class="pf-c-menu__item-text">{{ item.name }}</span>
-                    </div>
-                </li>
-            </ul>
-        </div>
+  <div class="pf-m-display-lg pf-u-min-width">
+    <div class="pf-c-menu pf-m-plain pf-m-scrollable">
+      <ul class="pf-c-menu__list">
+        <li
+          v-for="item in itemsTabs"
+          :key="item.value"
+          class="pf-c-menu__item"
+          :class="{
+            'pf-c-menu__list-item--selected': item.active,
+          }"
+          @mouseover="onSelectTab(item.value)"
+        >
+          <div class="pf-c-menu__item-main">
+            <span class="pf-c-menu__item-text">{{ item.name }}</span>
+          </div>
+        </li>
+      </ul>
     </div>
+  </div>
 </template>
 
 <script lang="ts" setup>

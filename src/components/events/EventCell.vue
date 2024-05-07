@@ -1,54 +1,54 @@
 <template>
-    <div class="ui-table-event-cell">
+  <div class="ui-table-event-cell">
+    <div class="pf-u-display-flex pf-u-flex-direction-row pf-u-align-items-center">
+      <div class="pf-l-flex__item">
         <div class="pf-u-display-flex pf-u-flex-direction-row pf-u-align-items-center">
-            <div class="pf-l-flex__item">
-                <div class="pf-u-display-flex pf-u-flex-direction-row pf-u-align-items-center">
-                    <div
-                        v-if="props.customEvents && props.customEvents.length"
-                        class="pf-u-display-flex"
-                    >
-                        <div
-                            v-for="event in props.customEvents"
-                            :key="event.value"
-                            class="pf-u-mr-md ui-table-event-cell__custom-event"
-                            :class="{
-                                'pf-u-mb-md': customEventsMargin,
-                            }"
-                            @click="onAction({
-                                name: String(event.value),
-                                icon: '',
-                                type: 'event'
-                            })"
-                        >
-                            <UiButton class="pf-m-secondary">
-                                {{ event.name }}
-                            </UiButton>
-                        </div>
-                    </div>
-                </div>
-            </div>
+          <div
+            v-if="props.customEvents && props.customEvents.length"
+            class="pf-u-display-flex"
+          >
             <div
-                v-if="hasAction"
-                class="pf-l-flex__item pf-u-ml-auto"
+              v-for="event in props.customEvents"
+              :key="event.value"
+              class="pf-u-mr-md ui-table-event-cell__custom-event"
+              :class="{
+                'pf-u-mb-md': customEventsMargin,
+              }"
+              @click="onAction({
+                name: String(event.value),
+                icon: '',
+                type: 'event'
+              })"
             >
-                <div class="pf-c-action-list ui-table-event-cell__action-list">
-                    <div
-                        v-for="action in props.actions"
-                        :key="action.name"
-                        class="pf-c-action-list__item"
-                    >
-                        <UiButton
-                            class="pf-m-link"
-                            :after-icon="action.icon"
-                            @click="onAction(action)"
-                        >
-                            {{ $t('events.live_stream.customEvent') }}
-                        </UiButton>
-                    </div>
-                </div>
+              <UiButton class="pf-m-secondary">
+                {{ event.name }}
+              </UiButton>
             </div>
+          </div>
         </div>
+      </div>
+      <div
+        v-if="hasAction"
+        class="pf-l-flex__item pf-u-ml-auto"
+      >
+        <div class="pf-c-action-list ui-table-event-cell__action-list">
+          <div
+            v-for="action in props.actions"
+            :key="action.name"
+            class="pf-c-action-list__item"
+          >
+            <UiButton
+              class="pf-m-link"
+              :after-icon="action.icon"
+              @click="onAction(action)"
+            >
+              {{ $t('events.live_stream.customEvent') }}
+            </UiButton>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
 </template>
 
 <script lang="ts" setup>

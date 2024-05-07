@@ -1,13 +1,13 @@
 <template>
-    <MultiSelect
-        :items="items"
-        :selected="selected"
-        :popper-container="props.popperContainer"
-        @select="add"
-        @deselect="remove"
-    >
-        <slot />
-    </MultiSelect>
+  <MultiSelect
+    :items="items"
+    :selected="selected"
+    :popper-container="props.popperContainer"
+    @select="add"
+    @deselect="remove"
+  >
+    <slot />
+  </MultiSelect>
 </template>
 
 <script setup lang="ts">

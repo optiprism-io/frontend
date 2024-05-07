@@ -1,37 +1,37 @@
 <template>
-    <ToolsLayout>
-        <template #title>
-            {{ $t('events.customEvents.title') }}
-        </template>
-        <template #main>
-            <UiCardContainer class="pf-u-h-100">
-                <UiTable
-                    :items="items"
-                    :columns="columns"
-                    :no-data-text="$t('events.noEventsText')"
-                    @on-action="onAction"
-                >
-                    <template #before>
-                        <UiButton
-                            class="pf-m-primary"
-                            @click="addCustomEvent"
-                        >
-                            {{ $t('events.add_custom_event') }}
-                        </UiButton>
-                    </template>
-                </UiTable>
-            </UiCardContainer>
-        </template>
-    </ToolsLayout>
-    <ConfirmPopup
-        v-if="openConfirmPopup && actionEventId"
-        :title="confirmPopupDeleteInfo.title"
-        :content="confirmPopupDeleteInfo.content"
-        :apply-button="$t('common.delete')"
-        :apply-button-class="'pf-m-danger'"
-        @apply="applyDelete"
-        @cancel="cancelDelete"
-    />
+  <ToolsLayout>
+    <template #title>
+      {{ $t('events.customEvents.title') }}
+    </template>
+    <template #main>
+      <UiCardContainer class="pf-u-h-100">
+        <UiTable
+          :items="items"
+          :columns="columns"
+          :no-data-text="$t('events.noEventsText')"
+          @on-action="onAction"
+        >
+          <template #before>
+            <UiButton
+              class="pf-m-primary"
+              @click="addCustomEvent"
+            >
+              {{ $t('events.add_custom_event') }}
+            </UiButton>
+          </template>
+        </UiTable>
+      </UiCardContainer>
+    </template>
+  </ToolsLayout>
+  <ConfirmPopup
+    v-if="openConfirmPopup && actionEventId"
+    :title="confirmPopupDeleteInfo.title"
+    :content="confirmPopupDeleteInfo.content"
+    :apply-button="$t('common.delete')"
+    :apply-button-class="'pf-m-danger'"
+    @apply="applyDelete"
+    @cancel="cancelDelete"
+  />
 </template>
 
 <script setup lang="ts">

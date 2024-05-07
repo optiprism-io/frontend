@@ -1,77 +1,77 @@
 <template>
-    <div
-        class="pf-l-flex"
-        @mouseenter="showControls = true"
-        @mouseleave="showControls = false"
-    >
-        <CommonIdentifier
-            class="pf-l-flex__item"
-            :index="index"
-        />
-        <div class="pf-c-action-list">
-            <div class="pf-c-action-list__item">
-                <template v-if="isBreakdownCohort(breakdown)">
-                    <CohortSelect
-                        :selected="breakdownCohort.cohortId"
-                        @select="changeCohort"
-                    >
-                        <button
-                            v-if="breakdownCohort.cohortId"
-                            class="pf-c-button pf-m-secondary"
-                            type="button"
-                        >
-                            {{ breakdownName() }}
-                        </button>
-                        <button
-                            v-else
-                            class="pf-c-button pf-m-primary"
-                            type="button"
-                        >
-                            <span class="pf-c-button__icon pf-m-start">
-                                <i
-                                    class="fas fa-plus-circle"
-                                    aria-hidden="true"
-                                />
-                            </span>
-                            Select cohort
-                        </button>
-                    </CohortSelect>
-                </template>
-                <template v-else>
-                    <BreakdownSelect
-                        :selected="breakdown"
-                        @select="changeBreakdown"
-                    >
-                        <button
-                            class="pf-c-button pf-m-secondary"
-                            type="button"
-                        >
-                            {{ breakdownName() }}
-                        </button>
-                    </BreakdownSelect>
-                </template>
-            </div>
-            <div class="pf-c-action-list__item">
-                {{ breakdownCaption() }}
-            </div>
-            <div
-                v-show="showControls"
-                class="pf-c-action-list__item"
+  <div
+    class="pf-l-flex"
+    @mouseenter="showControls = true"
+    @mouseleave="showControls = false"
+  >
+    <CommonIdentifier
+      class="pf-l-flex__item"
+      :index="index"
+    />
+    <div class="pf-c-action-list">
+      <div class="pf-c-action-list__item">
+        <template v-if="isBreakdownCohort(breakdown)">
+          <CohortSelect
+            :selected="breakdownCohort.cohortId"
+            @select="changeCohort"
+          >
+            <button
+              v-if="breakdownCohort.cohortId"
+              class="pf-c-button pf-m-secondary"
+              type="button"
             >
-                <button
-                    class="pf-c-button pf-m-plain"
-                    type="button"
-                    aria-label="Remove"
-                    @click="removeBreakdown"
-                >
-                    <i
-                        class="fas fa-times"
-                        aria-hidden="true"
-                    />
-                </button>
-            </div>
-        </div>
+              {{ breakdownName() }}
+            </button>
+            <button
+              v-else
+              class="pf-c-button pf-m-primary"
+              type="button"
+            >
+              <span class="pf-c-button__icon pf-m-start">
+                <i
+                  class="fas fa-plus-circle"
+                  aria-hidden="true"
+                />
+              </span>
+              Select cohort
+            </button>
+          </CohortSelect>
+        </template>
+        <template v-else>
+          <BreakdownSelect
+            :selected="breakdown"
+            @select="changeBreakdown"
+          >
+            <button
+              class="pf-c-button pf-m-secondary"
+              type="button"
+            >
+              {{ breakdownName() }}
+            </button>
+          </BreakdownSelect>
+        </template>
+      </div>
+      <div class="pf-c-action-list__item">
+        {{ breakdownCaption() }}
+      </div>
+      <div
+        v-show="showControls"
+        class="pf-c-action-list__item"
+      >
+        <button
+          class="pf-c-button pf-m-plain"
+          type="button"
+          aria-label="Remove"
+          @click="removeBreakdown"
+        >
+          <i
+            class="fas fa-times"
+            aria-hidden="true"
+          />
+        </button>
+      </div>
     </div>
+  </div>
 </template>
 
 <script setup lang="ts">

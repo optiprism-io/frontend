@@ -1,82 +1,82 @@
 <template>
-    <li
-        class="select-list-item pf-c-menu__list-item"
-        :class="{
-            'pf-c-menu__list-item--selected': isSelected,
-            'pf-c-menu__list-item--disabled': isDisabled,
-            'pf-c-menu__list-item--noSelected': noSelected,
-        }"
-    >
-        <template v-if="items">
-            <VMenu
-                placement="right-start"
-                :triggers="['hover']"
-                :delay="{ hide: 200 }"
-                :offset="[0, 0]"
-                class="select-list-item__sub-menu"
-            >
-                <div class="pf-c-menu__item">
-                    <div class="select-list-item__content">
-                        <span class="pf-c-menu__item-text">{{ text }}</span>
-                        <UiIcon
-                            class="select-list-item__icon"
-                            icon="fas fa-chevron-right"
-                        />
-                    </div>
-                </div>
-                <template #popper="{hide}">
-                    <div class="pf-c-card pf-m-display-lg pf-u-min-width">
-                        <div class="pf-c-menu pf-m-plain pf-m-scrollable">
-                            <ul class="pf-c-menu__list">
-                                <li
-                                    v-for="itemInner in items"
-                                    :key="itemInner.item.id"
-                                    class="pf-c-menu__item"
-                                    @click="() => {hide(); clickList(itemInner.item);}"
-                                >
-                                    <div class="pf-c-menu__item-main">
-                                        <span class="pf-c-menu__item-text">{{ itemInner.name }}</span>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </template>
-            </VMenu>
-        </template>
-        <div
-            v-else
-            class="pf-c-menu__item"
-            :class="{
-                'pf-m-selected': isActive,
-            }"
-            @click="onClick"
-        >
-            <span class="select-list-item__content">
-                <span class="pf-c-menu__item-text">{{ text }}</span>
-                <span
-                    v-if="isActive"
-                    class="pf-c-select__menu-item-icon"
-                >
-                    <UiIcon :icon="'fas fa-check'" />
-                </span>
-                <div
-                    v-if="editable"
-                    class="select-list-item__content-edit"
-                    @click="edit"
-                >
-                    <VTooltip
-                        popper-class="ui-hint"
-                    >
-                        <UiIcon icon="fas fa-edit" />
-                        <template #popper>
-                            {{ $t('common.edit') }}
-                        </template>
-                    </VTooltip>
-                </div>
-            </span>
+  <li
+    class="select-list-item pf-c-menu__list-item"
+    :class="{
+      'pf-c-menu__list-item--selected': isSelected,
+      'pf-c-menu__list-item--disabled': isDisabled,
+      'pf-c-menu__list-item--noSelected': noSelected,
+    }"
+  >
+    <template v-if="items">
+      <VMenu
+        placement="right-start"
+        :triggers="['hover']"
+        :delay="{ hide: 200 }"
+        :offset="[0, 0]"
+        class="select-list-item__sub-menu"
+      >
+        <div class="pf-c-menu__item">
+          <div class="select-list-item__content">
+            <span class="pf-c-menu__item-text">{{ text }}</span>
+            <UiIcon
+              class="select-list-item__icon"
+              icon="fas fa-chevron-right"
+            />
+          </div>
         </div>
-    </li>
+        <template #popper="{hide}">
+          <div class="pf-c-card pf-m-display-lg pf-u-min-width">
+            <div class="pf-c-menu pf-m-plain pf-m-scrollable">
+              <ul class="pf-c-menu__list">
+                <li
+                  v-for="itemInner in items"
+                  :key="itemInner.item.id"
+                  class="pf-c-menu__item"
+                  @click="() => {hide(); clickList(itemInner.item);}"
+                >
+                  <div class="pf-c-menu__item-main">
+                    <span class="pf-c-menu__item-text">{{ itemInner.name }}</span>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </template>
+      </VMenu>
+    </template>
+    <div
+      v-else
+      class="pf-c-menu__item"
+      :class="{
+        'pf-m-selected': isActive,
+      }"
+      @click="onClick"
+    >
+      <span class="select-list-item__content">
+        <span class="pf-c-menu__item-text">{{ text }}</span>
+        <span
+          v-if="isActive"
+          class="pf-c-select__menu-item-icon"
+        >
+          <UiIcon :icon="'fas fa-check'" />
+        </span>
+        <div
+          v-if="editable"
+          class="select-list-item__content-edit"
+          @click="edit"
+        >
+          <VTooltip
+            popper-class="ui-hint"
+          >
+            <UiIcon icon="fas fa-edit" />
+            <template #popper>
+              {{ $t('common.edit') }}
+            </template>
+          </VTooltip>
+        </div>
+      </span>
+    </div>
+  </li>
 </template>
 
 <script lang="ts" setup>

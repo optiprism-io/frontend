@@ -1,43 +1,43 @@
 <template>
-    <div class="ui-editable-text">
-        <VDropdown
-            placement="bottom-end"
-            :triggers="[]"
-            :shown="isOpen"
-            :disabled="props.disabledButton"
-            popper-class="ui-editable-text-popup"
-            @hide="onHide"
+  <div class="ui-editable-text">
+    <VDropdown
+      placement="bottom-end"
+      :triggers="[]"
+      :shown="isOpen"
+      :disabled="props.disabledButton"
+      popper-class="ui-editable-text-popup"
+      @hide="onHide"
+    >
+      <div class="ui-editable-text__action">
+        <UiInput
+          v-if="isOpen"
+          v-model="tempValue"
+          :type="'string'"
+          :mount-focus="true"
+          class="pf-u-p-0 pf-u-h-0"
+          @blur="onBlur"
+        />
+        <span
+          v-else
+          @click="onToggleInput"
         >
-            <div class="ui-editable-text__action">
-                <UiInput
-                    v-if="isOpen"
-                    v-model="tempValue"
-                    :type="'string'"
-                    :mount-focus="true"
-                    class="pf-u-p-0 pf-u-h-0"
-                    @blur="onBlur"
-                />
-                <span
-                    v-else
-                    @click="onToggleInput"
-                >
-                    {{ props.value }}
-                </span>
-            </div>
-            <template #popper="{ hide }">
-                <UiButton
-                    icon="fas fa-check"
-                    class="pf-m-primary pf-m-small"
-                    @click="onSave"
-                />
-                <UiButton
-                    icon="fas fa-times"
-                    class="pf-m-primary pf-m-small pf-u-ml-xs"
-                    @click="($event: any) => {hide(); onHide()}"
-                />
-            </template>
-        </VDropdown>
-    </div>
+          {{ props.value }}
+        </span>
+      </div>
+      <template #popper="{ hide }">
+        <UiButton
+          icon="fas fa-check"
+          class="pf-m-primary pf-m-small"
+          @click="onSave"
+        />
+        <UiButton
+          icon="fas fa-times"
+          class="pf-m-primary pf-m-small pf-u-ml-xs"
+          @click="($event: any) => {hide(); onHide()}"
+        />
+      </template>
+    </VDropdown>
+  </div>
 </template>
 
 <script lang="ts" setup>

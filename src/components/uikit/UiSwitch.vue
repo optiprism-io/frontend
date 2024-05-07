@@ -1,30 +1,30 @@
 <template>
-    <label
-        class="pf-c-switch"
-        :class="{
-            'pf-m-reverse': props.reverse,
-        }"
+  <label
+    class="pf-c-switch"
+    :class="{
+      'pf-m-reverse': props.reverse,
+    }"
+  >
+    <span
+      v-if="props.beforeLabel"
+      class="pf-c-switch__label pf-c-switch__before-label"
     >
-        <span
-            v-if="props.beforeLabel"
-            class="pf-c-switch__label pf-c-switch__before-label"
-        >
-            {{ props.beforeLabel }}
-        </span>
-        <input
-            class="pf-c-switch__input"
-            type="checkbox"
-            :checked="props.value"
-            @input="updateValue"
-        >
-        <span class="pf-c-switch__toggle" />
-        <span
-            v-if="props.label"
-            class="pf-c-switch__label"
-        >
-            {{ props.label }}
-        </span>
-    </label>
+      {{ props.beforeLabel }}
+    </span>
+    <input
+      class="pf-c-switch__input"
+      type="checkbox"
+      :checked="props.value"
+      @input="updateValue"
+    >
+    <span class="pf-c-switch__toggle" />
+    <span
+      v-if="props.label"
+      class="pf-c-switch__label"
+    >
+      {{ props.label }}
+    </span>
+  </label>
 </template>
 
 <script lang="ts" setup>

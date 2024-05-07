@@ -1,17 +1,17 @@
 <template>
-    <div class="ui-cell-tool-menu">
-        <UiSelect
-            :show-search="false"
-            :items="selectItems"
-            @update:model-value="onSelectMenu"
-        >
-            <UiButton
-                class="pf-c-dropdown__toggle pf-m-plain pf-u-p-md"
-            >
-                <UiIcon :icon="'fas fa-ellipsis-v'" />
-            </UiButton>
-        </UiSelect>
-    </div>
+  <div class="ui-cell-tool-menu">
+    <UiSelect
+      :show-search="false"
+      :items="selectItems"
+      @update:model-value="onSelectMenu"
+    >
+      <UiButton
+        class="pf-c-dropdown__toggle pf-m-plain pf-u-p-md"
+      >
+        <UiIcon :icon="'fas fa-ellipsis-v'" />
+      </UiButton>
+    </UiSelect>
+  </div>
 </template>
 
 <script lang="ts" setup>

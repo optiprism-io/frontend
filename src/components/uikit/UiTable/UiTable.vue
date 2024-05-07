@@ -78,10 +78,10 @@
           </thead>
           <tbody role="rowgroup">
             <tr
-v-for="(row, i) in items"
-:key="i"
-role="row"
->
+              v-for="(row, i) in items"
+              :key="i"
+              role="row"
+            >
               <UiTableCellWrapper
                 v-for="(cell, j) in row"
                 :key="j"
@@ -97,7 +97,7 @@ role="row"
                   :value="cell.value"
                   :title="cell.title"
                   :nowrap="cell.nowrap"
-                    :items="cell.items"
+                  :items="cell.items"
                   @on-action="onAction"
                 />
               </UiTableCellWrapper>

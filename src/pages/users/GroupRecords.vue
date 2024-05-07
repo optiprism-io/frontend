@@ -1,53 +1,53 @@
 <template>
-    <ToolsLayout :col-lg="12">
-        <template #title>
-            {{ $t('users.title') }}
-        </template>
-        <UiCard
-            class="pf-c-card pf-m-compact pf-u-h-100"
-            :title="$t('events.segments.segment')"
+  <ToolsLayout :col-lg="12">
+    <template #title>
+      {{ $t('users.title') }}
+    </template>
+    <UiCard
+      class="pf-c-card pf-m-compact pf-u-h-100"
+      :title="$t('events.segments.segment')"
+    >
+      <Segments
+        :is-one="true"
+        :hide-add-segment-button="true"
+        @get-event-segmentation="updateData"
+      />
+    </UiCard>
+    <template #main>
+      <UiCardContainer class="pf-u-h-100">
+        <UiTable
+          :items="items"
+          :columns="columns"
+          :show-select-columns="true"
+          :is-loading="groupStore.loading"
+          @on-action="onAction"
         >
-            <Segments
-                :is-one="true"
-                :hide-add-segment-button="true"
-                @get-event-segmentation="updateData"
-            />
-        </UiCard>
-        <template #main>
-            <UiCardContainer class="pf-u-h-100">
-                <UiTable
-                    :items="items"
-                    :columns="columns"
-                    :show-select-columns="true"
-                    :is-loading="groupStore.loading"
-                    @on-action="onAction"
-                >
-                    <template #before>
-                        <UiToggleGroup
-                            :items="itemsPeriod"
-                            @select="onSelectPeriod"
-                        >
-                            <template #after>
-                                <UiDatePickerWrappet
-                                    :is-period-active="groupStore.isPeriodActive"
-                                    :from="groupStore.period.from"
-                                    :to="groupStore.period.to"
-                                    :last="groupStore.period.last"
-                                    :type="groupStore.period.type"
-                                    @on-apply="onSelectData"
-                                />
-                            </template>
-                        </UiToggleGroup>
-                    </template>
-                </UiTable>
-            </UiCardContainer>
-        </template>
-    </ToolsLayout>
-    <PropertiesManagementPopup
-        v-if="groupStore.propertyPopup"
-        :item="selectedItes"
-        @apply="onClosePropertyPopup"
-    />
+          <template #before>
+            <UiToggleGroup
+              :items="itemsPeriod"
+              @select="onSelectPeriod"
+            >
+              <template #after>
+                <UiDatePickerWrappet
+                  :is-period-active="groupStore.isPeriodActive"
+                  :from="groupStore.period.from"
+                  :to="groupStore.period.to"
+                  :last="groupStore.period.last"
+                  :type="groupStore.period.type"
+                  @on-apply="onSelectData"
+                />
+              </template>
+            </UiToggleGroup>
+          </template>
+        </UiTable>
+      </UiCardContainer>
+    </template>
+  </ToolsLayout>
+  <PropertiesManagementPopup
+    v-if="groupStore.propertyPopup"
+    :item="selectedItes"
+    @apply="onClosePropertyPopup"
+  />
 </template>
 
 <script setup lang="ts">

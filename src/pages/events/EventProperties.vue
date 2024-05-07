@@ -1,18 +1,18 @@
 <template>
-    <ToolsLayout>
-        <template #title>
-            {{ $t('events.event_properties') }}
-        </template>
-        <template #main>
-            <UiCardContainer class="pf-u-h-100">
-                <UiTable
-                    :items="items"
-                    :columns="columns"
-                    @on-action="onAction"
-                />
-            </UiCardContainer>
-        </template>
-    </ToolsLayout>
+  <ToolsLayout>
+    <template #title>
+      {{ $t('events.event_properties') }}
+    </template>
+    <template #main>
+      <UiCardContainer class="pf-u-h-100">
+        <UiTable
+          :items="items"
+          :columns="columns"
+          @on-action="onAction"
+        />
+      </UiCardContainer>
+    </template>
+  </ToolsLayout>
 </template>
 
 <script setup lang="ts">

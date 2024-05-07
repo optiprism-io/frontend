@@ -1,35 +1,35 @@
 <template>
-    <UiPopupWindow
-        :title="title"
-        :apply-loading="props.loading"
-        class="event-management-popup"
-        :apply-button="$t('common.save')"
-        :cancel-button="$t('common.close')"
-        :apply-disabled="applyDisabled"
-        @apply="apply"
-        @cancel="cancel"
-    >
-        <UiTabs
-            class="pf-u-mb-md"
-            :items="itemsTabs"
-            @on-select="onSelectTab"
-        />
-        <div class="event-management-popup__content">
-            <UiDescriptionList
-                v-if="activeTab === 'property'"
-                :items="propertyItems"
-                :horizontal="true"
-                @on-input="onInputPropertyItem"
-            />
-            <UiTable
-                v-if="activeTab === 'events'"
-                :items="itemsEvents"
-                :columns="itemsEventsColumns"
-                :show-toolbar="false"
-                @on-action="onActionEvent"
-            />
-        </div>
-    </UiPopupWindow>
+  <UiPopupWindow
+    :title="title"
+    :apply-loading="props.loading"
+    class="event-management-popup"
+    :apply-button="$t('common.save')"
+    :cancel-button="$t('common.close')"
+    :apply-disabled="applyDisabled"
+    @apply="apply"
+    @cancel="cancel"
+  >
+    <UiTabs
+      class="pf-u-mb-md"
+      :items="itemsTabs"
+      @on-select="onSelectTab"
+    />
+    <div class="event-management-popup__content">
+      <UiDescriptionList
+        v-if="activeTab === 'property'"
+        :items="propertyItems"
+        :horizontal="true"
+        @on-input="onInputPropertyItem"
+      />
+      <UiTable
+        v-if="activeTab === 'events'"
+        :items="itemsEvents"
+        :columns="itemsEventsColumns"
+        :show-toolbar="false"
+        @on-action="onActionEvent"
+      />
+    </div>
+  </UiPopupWindow>
 </template>
 
 <script lang="ts" setup>

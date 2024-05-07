@@ -1,38 +1,38 @@
 <template>
-    <div class="pf-l-flex pf-m-column">
-        <SelectedEvent
-            v-for="(event, index) in events"
-            :key="index"
-            :event="event"
-            :event-ref="event.ref"
-            :filters="event.filters"
-            :index="index"
-            :event-items="lexiconStore.eventsList"
-            :show-breakdowns="false"
-            :show-query="false"
-            :auto-hide="!commonStore.showCreateCustomEvent"
-            @set-event="setEvent"
-            @edit="editEvent"
-            @action="selectAction"
-            @remove-event="removeEvent"
-            @on-change="onChange"
-        />
-    </div>
-    <Select
-        grouped
-        :items="lexiconStore.eventsList"
-        :auto-hide="!commonStore.showCreateCustomEvent"
-        @select="addEvent"
-        @action="selectAction"
-        @edit="editEvent"
+  <div class="pf-l-flex pf-m-column">
+    <SelectedEvent
+      v-for="(event, index) in events"
+      :key="index"
+      :event="event"
+      :event-ref="event.ref"
+      :filters="event.filters"
+      :index="index"
+      :event-items="lexiconStore.eventsList"
+      :show-breakdowns="false"
+      :show-query="false"
+      :auto-hide="!commonStore.showCreateCustomEvent"
+      @set-event="setEvent"
+      @edit="editEvent"
+      @action="selectAction"
+      @remove-event="removeEvent"
+      @on-change="onChange"
+    />
+  </div>
+  <Select
+    grouped
+    :items="lexiconStore.eventsList"
+    :auto-hide="!commonStore.showCreateCustomEvent"
+    @select="addEvent"
+    @action="selectAction"
+    @edit="editEvent"
+  >
+    <UiButton
+      :is-link="true"
+      :before-icon="'fas fa-plus'"
     >
-        <UiButton
-            :is-link="true"
-            :before-icon="'fas fa-plus'"
-        >
-            {{ $t('common.addEvent') }}
-        </UiButton>
-    </Select>
+      {{ $t('common.addEvent') }}
+    </UiButton>
+  </Select>
 </template>
 
 <script lang="ts" setup>

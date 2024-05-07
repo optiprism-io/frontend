@@ -1,28 +1,28 @@
 <template>
-    <UiPopupWindow
-        :title="title"
-        :apply-loading="props.loading"
-        class="live-stream-event-popup"
-        @apply="apply"
-        @cancel="cancel"
-    >
-        <UiTabs
-            class="pf-u-mb-md"
-            :items="itemsTabs"
-            @on-select="onSelectTab"
-        />
-        <div class="live-stream-event-popup__content">
-            <UiTable
-                :compact="true"
-                :items="items"
-                :columns="columns"
-                :show-toolbar="false"
-                :no-data-text="noDataText"
-                :is-loading="props?.loading"
-                @on-action="onActionProperty"
-            />
-        </div>
-    </UiPopupWindow>
+  <UiPopupWindow
+    :title="title"
+    :apply-loading="props.loading"
+    class="live-stream-event-popup"
+    @apply="apply"
+    @cancel="cancel"
+  >
+    <UiTabs
+      class="pf-u-mb-md"
+      :items="itemsTabs"
+      @on-select="onSelectTab"
+    />
+    <div class="live-stream-event-popup__content">
+      <UiTable
+        :compact="true"
+        :items="items"
+        :columns="columns"
+        :show-toolbar="false"
+        :no-data-text="noDataText"
+        :is-loading="props?.loading"
+        @on-action="onActionProperty"
+      />
+    </div>
+  </UiPopupWindow>
 </template>
 
 <script lang="ts" setup>

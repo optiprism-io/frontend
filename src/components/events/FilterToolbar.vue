@@ -1,64 +1,64 @@
 <template>
-    <div class="filter-toolbar">
-        <div class="filter-toolbar__content">
-            <div class="filter-toolbar__left">
-                <div class="filter-toolbar__item pf-u-mr-md pf-u-mb-md">
-                    <UiSelect
-                        :items="itemsGroupBy"
-                        :text-button="selectedGroupByString"
-                        :selections="[eventsStore.controlsGroupBy]"
-                        @on-select="onSelectGroupBy"
-                    />
-                </div>
-                <div class="filter-toolbar__item pf-u-mr-md pf-u-mb-md">
-                    <UiToggleGroup
-                        :items="itemsPeriod"
-                        @select="onSelectPerion"
-                    >
-                        <template #after>
-                            <UiDatePicker
-                                :value="calendarValue"
-                                :last-count="lastCount"
-                                :active-tab-controls="eventsStore.period.type"
-                                @on-apply="onApplyPeriod"
-                            >
-                                <template #action>
-                                    <button
-                                        class="pf-c-toggle-group__button"
-                                        :class="{
-                                            'pf-m-selected': calendarValueString,
-                                        }"
-                                        type="button"
-                                    >
-                                        <span
-                                            class="pf-c-toggle-group__icon pf-c-toggle-group__text"
-                                        >
-                                            <UiIcon :icon="'far fa-calendar-alt'" />
-                                        </span>
-                                        <span
-                                            v-if="calendarValueString"
-                                            class="pf-c-toggle-group__text"
-                                        >
-                                            {{ calendarValueString }}
-                                        </span>
-                                    </button>
-                                </template>
-                            </UiDatePicker>
-                        </template>
-                    </UiToggleGroup>
-                </div>
-                <slot name="content" />
-            </div>
-            <div
-                v-if="$slots.right"
-                class="filter-toolbar__right pf-u-ml-auto"
-            >
-                <div class="filter-toolbar__item">
-                    <slot name="right" />
-                </div>
-            </div>
+  <div class="filter-toolbar">
+    <div class="filter-toolbar__content">
+      <div class="filter-toolbar__left">
+        <div class="filter-toolbar__item pf-u-mr-md pf-u-mb-md">
+          <UiSelect
+            :items="itemsGroupBy"
+            :text-button="selectedGroupByString"
+            :selections="[eventsStore.controlsGroupBy]"
+            @on-select="onSelectGroupBy"
+          />
         </div>
+        <div class="filter-toolbar__item pf-u-mr-md pf-u-mb-md">
+          <UiToggleGroup
+            :items="itemsPeriod"
+            @select="onSelectPerion"
+          >
+            <template #after>
+              <UiDatePicker
+                :value="calendarValue"
+                :last-count="lastCount"
+                :active-tab-controls="eventsStore.period.type"
+                @on-apply="onApplyPeriod"
+              >
+                <template #action>
+                  <button
+                    class="pf-c-toggle-group__button"
+                    :class="{
+                      'pf-m-selected': calendarValueString,
+                    }"
+                    type="button"
+                  >
+                    <span
+                      class="pf-c-toggle-group__icon pf-c-toggle-group__text"
+                    >
+                      <UiIcon :icon="'far fa-calendar-alt'" />
+                    </span>
+                    <span
+                      v-if="calendarValueString"
+                      class="pf-c-toggle-group__text"
+                    >
+                      {{ calendarValueString }}
+                    </span>
+                  </button>
+                </template>
+              </UiDatePicker>
+            </template>
+          </UiToggleGroup>
+        </div>
+        <slot name="content" />
+      </div>
+      <div
+        v-if="$slots.right"
+        class="filter-toolbar__right pf-u-ml-auto"
+      >
+        <div class="filter-toolbar__item">
+          <slot name="right" />
+        </div>
+      </div>
     </div>
+  </div>
 </template>
 
 <script setup lang="ts">

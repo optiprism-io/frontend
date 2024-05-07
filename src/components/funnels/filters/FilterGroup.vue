@@ -55,7 +55,7 @@
         <UiButton
           v-if="
             index === filterGroupsStore.filterGroups.length - 1 &&
-            filterGroupsStore.isFiltersAdvanced
+              filterGroupsStore.isFiltersAdvanced
           "
           :is-link="true"
           :before-icon="'fas fa-plus'"

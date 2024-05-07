@@ -1,12 +1,12 @@
 <template>
-    <textarea
-        ref="textarea"
-        :value="props.value"
-        class="ui-textarea pf-c-form-control"
-        :placeholder="props.placeholder"
-        :rows="props.rows"
-        @input="handleInput"
-    />
+  <textarea
+    ref="textarea"
+    :value="props.value"
+    class="ui-textarea pf-c-form-control"
+    :placeholder="props.placeholder"
+    :rows="props.rows"
+    @input="handleInput"
+  />
 </template>
 
 <script setup lang="ts">

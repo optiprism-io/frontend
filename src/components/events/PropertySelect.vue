@@ -1,21 +1,21 @@
 <template>
-    <Select
-        grouped
-        :is-open-mount="isOpenMount"
-        :items="items"
-        :selected="selected"
-        :update-open="updateOpen"
-        :width-auto="true"
-        :disabled="disabled"
-        :placement="placement"
-        :popper-class="props.popperClass"
-        :popper-container="props.popperContainer"
-        @select="select"
-        @hide="emit('hide')"
-        @show="emit('show')"
-    >
-        <slot />
-    </Select>
+  <Select
+    grouped
+    :is-open-mount="isOpenMount"
+    :items="items"
+    :selected="selected"
+    :update-open="updateOpen"
+    :width-auto="true"
+    :disabled="disabled"
+    :placement="placement"
+    :popper-class="props.popperClass"
+    :popper-container="props.popperContainer"
+    @select="select"
+    @hide="emit('hide')"
+    @show="emit('show')"
+  >
+    <slot />
+  </Select>
 </template>
 
 <script setup lang="ts">

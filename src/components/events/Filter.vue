@@ -67,10 +67,10 @@
       <div v-if="isShowValues && filter.propRef" class="pf-c-action-list__item">
         <div v-if="isShowInputForValue">
           <UiInput
-v-model="valueInput"
-class="pf-u-px-lg pf-u-py-md"
-@blur="onBlurInput"
-/>
+            v-model="valueInput"
+            class="pf-u-px-lg pf-u-py-md"
+            @blur="onBlurInput"
+          />
         </div>
         <ValueSelect
           v-else
@@ -84,10 +84,10 @@ class="pf-u-px-lg pf-u-py-md"
           <template v-if="filter.values.length > 0">
             <div class="pf-c-action-list">
               <div
-v-for="(item, i) in filterValuesList"
-:key="i"
-class="pf-c-action-list__item"
->
+                v-for="(item, i) in filterValuesList"
+                :key="i"
+                class="pf-c-action-list__item"
+              >
                 <UiButton
                   :class="[props.forPreview ? 'pf-m-control pf-m-small' : 'pf-m-secondary']"
                   :disabled="props.forPreview"
@@ -111,10 +111,10 @@ class="pf-c-action-list__item"
           </template>
           <template v-else>
             <UiButton
-:before-icon="'fas fa-plus-circle'"
-class="pf-m-link"
-@click="ocClickValue"
->
+              :before-icon="'fas fa-plus-circle'"
+              class="pf-m-link"
+              @click="ocClickValue"
+            >
               {{ $t('events.select_value') }}
             </UiButton>
           </template>
@@ -122,11 +122,11 @@ class="pf-m-link"
       </div>
       <div v-if="filter.values.length === 0" class="pf-c-action-list__item filter__control-item">
         <UiButton
-ref="elButtonMain"
-class="pf-m-plain"
-icon="fas fa-times"
-@click="removeFilter"
-/>
+          ref="elButtonMain"
+          class="pf-m-plain"
+          icon="fas fa-times"
+          @click="removeFilter"
+        />
       </div>
     </div>
   </div>

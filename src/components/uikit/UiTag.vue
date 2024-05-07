@@ -1,26 +1,26 @@
 <template>
-    <span
-        class="ui-tag pf-c-label pf-m-blue"
-        @click="props.editable ? setEditing() : null"
-    >
-        <span class="pf-c-label__content">
-            <input
-                v-show="editing"
-                ref="input"
-                v-model="editingValue"
-                class="ui-tag__input"
-                :style="{
-                    width: `${editingInputWidth}px`
-                }"
-                @blur="blur"
-            >
-            <span
-                v-show="!editing"
-                ref="text"
-                class="ui-tag__text"
-            >{{ props.value }}</span>
-        </span>
+  <span
+    class="ui-tag pf-c-label pf-m-blue"
+    @click="props.editable ? setEditing() : null"
+  >
+    <span class="pf-c-label__content">
+      <input
+        v-show="editing"
+        ref="input"
+        v-model="editingValue"
+        class="ui-tag__input"
+        :style="{
+          width: `${editingInputWidth}px`
+        }"
+        @blur="blur"
+      >
+      <span
+        v-show="!editing"
+        ref="text"
+        class="ui-tag__text"
+      >{{ props.value }}</span>
     </span>
+  </span>
 </template>
 
 <script lang="ts" setup>
