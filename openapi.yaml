@@ -1199,7 +1199,7 @@ paths:
           $ref: '#/components/responses/Internal'
         '503':
           $ref: '#/components/responses/ServiceUnavailable'
-   /v1/projects/{projectId}/schema/system-group-properties:
+  /v1/projects/{projectId}/schema/system-group-properties:
     get:
       summary: Get system group property
       operationId: getSystemGroupProperty
