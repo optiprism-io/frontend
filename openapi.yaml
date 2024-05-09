@@ -2863,7 +2863,7 @@ components:
     GroupRecordsListRequest:
       type: object
       description: request group records sorted by time of creation
-      required: [ "time", "group" ]
+      required: [ "group" ]
       properties:
         time:
           type: object
@@ -2873,18 +2873,17 @@ components:
             - $ref: '#/components/schemas/TimeFrom'
             - $ref: '#/components/schemas/TimeLast'
         group:
-          type: string
+          type: integer
           description: group that is used in aggregations by group. For instance, group by user or group by organization.
           example: user
-        searchTerm:
-          type: string
-        segments:
-          description: array of segments
-          type: array
-          items:
-            $ref: '#/components/schemas/EventSegmentationSegment'
         filters:
           $ref: '#/components/schemas/EventGroupedFilters'
+        properties:
+          type: array
+          items:
+            $ref: '#/components/schemas/PropertyRef'
+        sort:
+          $ref: '#/components/schemas/SortablePropertyRef'
     FunnelQuery:
       type: object
       required: [ "time", "group", "steps", "timeWindow", "chartType", "count", "stepOrder" ]
@@ -3842,6 +3841,19 @@ components:
           $ref: '#/components/schemas/PropertyType'
         group:
           type: integer
+    SortablePropertyRef:
+      type: object
+      required: [ 'propertyType' ]
+      description: reference to a property by id or name, depends on property type
+      properties:
+        propertyName:
+          type: string
+        propertyType:
+          $ref: '#/components/schemas/PropertyType'
+        group:
+          type: integer
+        direction:
+          $ref: '#/components/schemas/SortDirection'
     EventRef:
       type: object
       required: [ 'eventType' ]
@@ -3890,6 +3902,11 @@ components:
         - system
         - group
         - systemGroup
+    SortDirection:
+      type: string
+      enum:
+        - asc
+        - desc
     DataType:
       type: string
       description: data type
