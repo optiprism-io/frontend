@@ -24,9 +24,10 @@ type EventGroupedFiltersGroupsConditionEnumType = EventGroupedFiltersGroupsCondi
 export type QueryType = QuerySimpleTypeEnum | QueryCountPerGroupTypeEnum | DidEventAggregatePropertyTypeEnum | QueryAggregatePropertyPerGroupTypeEnum | QueryFormulaTypeEnum;
 
 export type PropertyRef = {
-    type: PropertyType;
-    id?: number,
-    name: string,
+    type: PropertyType
+    id?: number
+    name: string
+    group?: number
 };
 
 export enum EventStatus {
@@ -46,22 +47,6 @@ export function eventRef(e: Event): EventRef {
 
 export function customEventRef(e: CustomEvent): EventRef {
     return <EventRef>{ type: EventType.Custom, id: e.id, name: e.name }
-}
-
-export function eventPropertyRef(e: EventProperty): PropertyRef {
-    return <PropertyRef>{ type: PropertyType.Event, id: e.id };
-}
-
-export function eventCustomPropertyRef(e: EventCustomProperty): PropertyRef {
-    return <PropertyRef>{ type: PropertyType.Custom, id: e.id };
-}
-
-export function userPropertyRef(e: UserProperty): PropertyRef {
-    return <PropertyRef>{ type: PropertyType.User, id: e.id };
-}
-
-export function userCustomPropertyRef(e: UserCustomProperty): PropertyRef {
-    return <PropertyRef>{ type: PropertyType.Custom, id: e.id };
 }
 
 export interface EventProperty {

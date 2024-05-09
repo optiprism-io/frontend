@@ -63,7 +63,7 @@ export interface EventPayload {
 
 export type Events = {
   events: Event[]
-  group: Group
+  group: number
 
   controlsGroupBy: TimeUnit
   controlsPeriod: string
@@ -102,7 +102,7 @@ const computedEventProperties = (type: PropertyType, items: any): PropertyRef[] 
 export const useEventsStore = defineStore('events', {
   state: (): Events => ({
     events: [],
-    group: Group.User,
+    group: 0,
 
     controlsGroupBy: 'day',
     controlsPeriod: '30',
@@ -154,7 +154,7 @@ export const useEventsStore = defineStore('events', {
 
       return [
         ...new Set(items),
-        ...computedEventProperties(PropertyType.User, lexiconStore.userProperties),
+        ...computedEventProperties(PropertyType.Group, lexiconStore.groupProperties.flat()),
       ]
     },
     propsForEventSegmentationResult(): EventSegmentation {

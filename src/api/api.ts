@@ -2715,31 +2715,31 @@ export interface GroupRecordsListRequest {
      * @type {EventRecordsListRequestTime}
      * @memberof GroupRecordsListRequest
      */
-    'time': EventRecordsListRequestTime;
+    'time'?: EventRecordsListRequestTime;
     /**
      * group that is used in aggregations by group. For instance, group by user or group by organization.
-     * @type {string}
+     * @type {number}
      * @memberof GroupRecordsListRequest
      */
-    'group': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof GroupRecordsListRequest
-     */
-    'searchTerm'?: string;
-    /**
-     * array of segments
-     * @type {Array<EventSegmentationSegment>}
-     * @memberof GroupRecordsListRequest
-     */
-    'segments'?: Array<EventSegmentationSegment>;
+    'group': number;
     /**
      * 
      * @type {EventGroupedFilters}
      * @memberof GroupRecordsListRequest
      */
     'filters'?: EventGroupedFilters;
+    /**
+     * 
+     * @type {Array<PropertyRef>}
+     * @memberof GroupRecordsListRequest
+     */
+    'properties'?: Array<PropertyRef>;
+    /**
+     * 
+     * @type {SortablePropertyRef}
+     * @memberof GroupRecordsListRequest
+     */
+    'sort'?: SortablePropertyRef;
 }
 /**
  * see https://datatracker.ietf.org/doc/html/rfc7519
@@ -3904,6 +3904,53 @@ export interface SignupRequest {
      */
     'lastName'?: string;
 }
+/**
+ * 
+ * @export
+ * @enum {string}
+ */
+
+export const SortDirection = {
+    Asc: 'asc',
+    Desc: 'desc'
+} as const;
+
+export type SortDirection = typeof SortDirection[keyof typeof SortDirection];
+
+
+/**
+ * reference to a property by id or name, depends on property type
+ * @export
+ * @interface SortablePropertyRef
+ */
+export interface SortablePropertyRef {
+    /**
+     * 
+     * @type {string}
+     * @memberof SortablePropertyRef
+     */
+    'propertyName'?: string;
+    /**
+     * 
+     * @type {PropertyType}
+     * @memberof SortablePropertyRef
+     */
+    'propertyType': PropertyType;
+    /**
+     * 
+     * @type {number}
+     * @memberof SortablePropertyRef
+     */
+    'group'?: number;
+    /**
+     * 
+     * @type {SortDirection}
+     * @memberof SortablePropertyRef
+     */
+    'direction'?: SortDirection;
+}
+
+
 /**
  * time spent after the first use of event. Use in segmentation
  * @export
