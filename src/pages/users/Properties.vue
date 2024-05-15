@@ -112,7 +112,7 @@ const setStatePopup = (payload: boolean) => {
 
 const onAction = (payload: Action) => {
   if (payload?.name === 'edit' && typeof payload.type === 'number') {
-    const property = lexiconStore.findUserPropertyById(payload.type)
+    const property = lexiconStore.findGroupProperty(payload.type)
     if (property) {
       commonStore.editEventPropertyPopupId = Number(payload.type) || null
       editProperty.value = property
@@ -122,7 +122,7 @@ const onAction = (payload: Action) => {
 }
 
 const updateData = () => {
-  lexiconStore.getUserProperties()
+  lexiconStore.getGroupProperties()
 }
 
 const userPropertyPopupApply = async (payload: ApplyPayload) => {

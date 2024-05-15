@@ -236,9 +236,9 @@ const onSelectReport = async (id: number) => {
 const initEventsAndProperties = async () => {
   await Promise.all([
     lexiconStore.getEvents(),
-    lexiconStore.getGroups(),
     lexiconStore.getSystemProperties(),
     lexiconStore.getEventProperties(),
+    await lexiconStore.getGroups(),
     lexiconStore.getGroupProperties(),
   ])
 }

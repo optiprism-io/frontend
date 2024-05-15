@@ -241,6 +241,7 @@ export const useLexiconStore = defineStore('lexicon', {
       const projectsStore = useProjectsStore()
       this.eventPropertiesLoading = true
       try {
+        console.log('INFO:', this.groups);
         this.groupProperties = await Promise.all(this.groups.map(async (group) => {
           const res = await apiClient.groupProperties.groupPropertiesList(projectsStore.projectId, `${group.id}`)
           return res?.data?.data || []
@@ -260,12 +261,12 @@ export const useLexiconStore = defineStore('lexicon', {
             propertyName: item.name || item.displayName,
           }
         }),
-        // ...state.groupProperties.map((item): PropertyRefApi => {
-        //   return {
-        //     propertyType: PropertyType.Group,
-        //     propertyName: item.name || item.displayName,
-        //   }
-        // }),
+        ...state.groupProperties.flat().map((item): PropertyRefApi => {
+          return {
+            propertyType: PropertyType.Group,
+            propertyName: item.name || item.displayName,
+          }
+        }),
         ...state.systemProperties.map((item): PropertyRefApi => {
           return {
             propertyType: PropertyType.System,
@@ -354,11 +355,9 @@ export const useLexiconStore = defineStore('lexicon', {
     },
     findEventCustomProperties(state: Lexicon) {
       return (ref: EventRef): CustomProperty[] => {
-        // const event = ref?.id
-        //   ? this.findEventById(ref.id)
-        //   : ref.name
-        //     ? this.findEventByName(ref.name)
-        //     : ({} as Event)
+        // const event = ref.name
+      //     ? this.findEventByName(ref.name)
+      //     : ({} as Event)
         // return state.eventCustomProperties.filter(
         //   (prop): boolean => !!event.userProperties?.includes(Number(prop.id))
         // )
@@ -376,7 +375,7 @@ export const useLexiconStore = defineStore('lexicon', {
         return property
       }
     },
-    findEventCustomPropertyByName(state: Lexicon) {
+    findEventCustomProperty(state: Lexicon) {
       return (name: string): CustomProperty | undefined => {
         const property = state.eventCustomProperties.find((prop): boolean => prop.name === name)
         if (!property) {
@@ -403,18 +402,7 @@ export const useLexiconStore = defineStore('lexicon', {
         return property
       }
     },
-    findSystemPropertyById(state: Lexicon) {
-      return (id: number): Property | undefined => {
-        const property = state.systemProperties.find(
-          (prop): boolean => Number(prop.id) === Number(id)
-        )
-        if (!property) {
-          errorHandler(`undefined System property id: ${id}`)
-        }
-        return property
-      }
-    },
-    findGroupPropertyByName(state: Lexicon) {
+    findGroupProperty(state: Lexicon) {
       return (name: string | number): Property | undefined => {
         const property = state.groupProperties.flat().find((prop): boolean => prop.name === name)
         if (!property) {
@@ -464,9 +452,9 @@ export const useLexiconStore = defineStore('lexicon', {
           case PropertyType.Event:
             return this.findEventPropertyByName(ref.name)
           case PropertyType.Custom:
-            return this.findEventCustomPropertyByName(ref.name)
-          // case PropertyType.Group:
-            // return this.findUserPropertyByName(ref.name)
+            return this.findEventCustomProperty(ref.name)
+          case PropertyType.Group:
+            return this.findGroupProperty(ref.name)
           case PropertyType.System:
             return this.findSystemPropertyByName(ref.name)
           default:

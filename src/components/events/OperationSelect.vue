@@ -11,88 +11,92 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
-import { findOperations, OperationId } from '@/types';
-import { PropertyRef  } from '@/types/events'
-import { Item } from '@/components/Select/SelectTypes';
-import { useLexiconStore } from '@/stores/lexicon';
-import Select from '@/components/Select/Select.vue';
+import { computed } from 'vue'
+import { findOperations, OperationId } from '@/types'
+import { PropertyRef } from '@/types/events'
+import { Item } from '@/components/Select/SelectTypes'
+import { useLexiconStore } from '@/stores/lexicon'
+import Select from '@/components/Select/Select.vue'
 import { DataType, PropertyType } from '@/api'
 
-const lexiconStore = useLexiconStore();
+const lexiconStore = useLexiconStore()
 
 const props = defineProps<{
-    propertyRef?: PropertyRef
-    opItems?: Item<OperationId, null>[]
-    selected?: OperationId
-    popperContainer?: string
-}>();
+  propertyRef?: PropertyRef
+  opItems?: Item<OperationId, null>[]
+  selected?: OperationId
+  popperContainer?: string
+}>()
 
 const emit = defineEmits<{
-    (e: 'select', opId: OperationId): void;
-}>();
+  (e: 'select', opId: OperationId): void
+}>()
 
 const items = computed(() => {
-    let ret: Item<OperationId, null>[] = [];
+  let ret: Item<OperationId, null>[] = []
 
-    if (props.propertyRef) {
-        if (props.propertyRef.type === PropertyType.Event) {
-            const prop = lexiconStore.findEventProperty(props.propertyRef);
-            if (prop) {
-                findOperations(prop.dataType || DataType.String, prop.nullable, prop.isArray).forEach(op =>
-                    ret.push({
-                        item: op.id,
-                        name: op.name
-                    })
-                );
-            }
-        } else if (props.propertyRef.type === PropertyType.Custom) {
-            const prop = lexiconStore.findEventCustomPropertyByName(props.propertyRef.name);
-            if (prop) {
-                findOperations(prop?.type || DataType.String, prop.nullable || false, prop.isArray || false).forEach(op =>
-                    ret.push({
-                        item: op.id,
-                        name: op.name
-                    })
-                );
-            }
-        } else if (props.propertyRef.type === PropertyType.User) {
-            const prop = lexiconStore.findUserPropertyByName(props.propertyRef.name);
-            if (prop) {
-                findOperations(prop.dataType || 'string', prop.nullable, prop.isArray).forEach(op =>
-                    ret.push({
-                        item: op.id,
-                        name: op.name
-                    })
-                );
-            }
-        } else if (props.propertyRef.type === PropertyType.System) {
-            const prop = lexiconStore.findSystemPropertyByName(props.propertyRef.name);
-            if (prop) {
-                findOperations(prop.dataType || 'string', prop.nullable, prop.isArray).forEach(op =>
-                    ret.push({
-                        item: op.id,
-                        name: op.name
-                    })
-                );
-            }
-        }
-    } else if (props.opItems && props.opItems.length) {
-        ret = props.opItems;
+  if (props.propertyRef) {
+    if (props.propertyRef.type === PropertyType.Event) {
+      const prop = lexiconStore.findEventProperty(props.propertyRef)
+      if (prop) {
+        findOperations(prop.dataType || DataType.String, prop.nullable, prop.isArray).forEach(op =>
+          ret.push({
+            item: op.id,
+            name: op.name,
+          })
+        )
+      }
+    } else if (props.propertyRef.type === PropertyType.Custom) {
+      const prop = lexiconStore.findEventCustomProperty(props.propertyRef.name)
+      if (prop) {
+        findOperations(
+          prop?.type || DataType.String,
+          prop.nullable || false,
+          prop.isArray || false
+        ).forEach(op =>
+          ret.push({
+            item: op.id,
+            name: op.name,
+          })
+        )
+      }
+    } else if (props.propertyRef.type === PropertyType.Group) {
+      const prop = lexiconStore.findGroupProperty(props.propertyRef.name)
+      if (prop) {
+        findOperations(prop.dataType || 'string', prop.nullable, prop.isArray).forEach(op =>
+          ret.push({
+            item: op.id,
+            name: op.name,
+          })
+        )
+      }
+    } else if (props.propertyRef.type === PropertyType.System) {
+      const prop = lexiconStore.findSystemPropertyByName(props.propertyRef.name)
+      if (prop) {
+        findOperations(prop.dataType || 'string', prop.nullable, prop.isArray).forEach(op =>
+          ret.push({
+            item: op.id,
+            name: op.name,
+          })
+        )
+      }
     }
+  } else if (props.opItems && props.opItems.length) {
+    ret = props.opItems
+  }
 
-    return ret;
-});
+  return ret
+})
 
 const selectedItem = computed((): OperationId | undefined => {
-    if (props.selected) {
-        return props.selected;
-    } else {
-        return items?.value[0]?.item;
-    }
-});
+  if (props.selected) {
+    return props.selected
+  } else {
+    return items?.value[0]?.item
+  }
+})
 
 const select = (opId: OperationId) => {
-    emit('select', opId);
-};
+  emit('select', opId)
+}
 </script>

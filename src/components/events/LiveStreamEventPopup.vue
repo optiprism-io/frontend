@@ -130,7 +130,7 @@ const onActionProperty = (payload: Action) => {
     let property = null
     if (payload.type === PropertyTypeEnum.UserProperty) {
         commonStore.editEventPropertyPopupType = payload.type
-        property = lexiconStore.findUserPropertyByName(payload.name);
+        property = lexiconStore.findGroupProperty(payload.name);
     } else {
         commonStore.editEventPropertyPopupType = PropertyTypeEnum.EventProperty
         property = lexiconStore.findEventPropertyByName(payload.name);

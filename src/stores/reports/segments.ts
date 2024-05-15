@@ -98,7 +98,7 @@ const computedValueAggregate = (
     const property: Property | undefined =
       item.propRef.type === PropertyType.Event
         ? lexiconStore.findEventPropertyByName(item.propRef.name)
-        : lexiconStore.findUserPropertyByName(item.propRef.name)
+        : lexiconStore.findGroupProperty(item.propRef.name)
 
     if (property) {
       return {
@@ -107,7 +107,7 @@ const computedValueAggregate = (
         operation,
         value: Number(item.valueItem),
         propertyName: property.name,
-        propertyType: PropertyType.User,
+        propertyType: PropertyType.Group,
         aggregate: item.aggregate.typeAggregate as QueryAggregate,
       }
     }
@@ -183,7 +183,7 @@ export const useSegmentsStore = defineStore('segments', {
                             const property: Property | undefined =
                               filterRef?.propRef.type === PropertyType.Event
                                 ? lexiconStore.findEventPropertyByName(filterRef.propRef.name)
-                                : lexiconStore.findUserPropertyByName(filterRef.propRef.name)
+                                : lexiconStore.findGroupProperty(filterRef.propRef.name)
 
                             if (property) {
                               items.push({
@@ -208,7 +208,7 @@ export const useSegmentsStore = defineStore('segments', {
                     const property: Property | undefined =
                       item.propRef.type === PropertyType.Event
                         ? lexiconStore.findEventPropertyByName(item.propRef.name)
-                        : lexiconStore.findUserPropertyByName(item.propRef.name)
+                        : lexiconStore.findGroupProperty(item.propRef.name)
 
                     if (property) {
                       if (
@@ -522,7 +522,7 @@ export const useSegmentsStore = defineStore('segments', {
           try {
             const res = await apiClient.propertyValues.propertyValuesList(projectsStore.projectId, {
               eventName: condition.event?.ref.name,
-              propertyType: (condition.propRef?.type as PropertyType) || PropertyType.User,
+              propertyType: (condition.propRef?.type as PropertyType) || PropertyType.Group,
               eventType: condition.event?.ref?.type as EventType,
               propertyName: condition.propRef?.name,
             })

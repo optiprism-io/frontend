@@ -447,7 +447,8 @@ const initDashboardPage = async () => {
 
   lexiconStore.getSystemProperties()
   lexiconStore.getEventProperties()
-  lexiconStore.getUserProperties()
+  await lexiconStore.getGroups()
+  lexiconStore.getGroupProperties()
 }
 
 const onEditNameDashboard = (payload: boolean) => {

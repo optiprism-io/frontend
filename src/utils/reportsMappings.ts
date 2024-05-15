@@ -326,10 +326,10 @@ const mapReportToSegments = async (items: EventSegmentationSegment[]): Promise<S
                 if (condition.propertyName) {
                   const property: Property | undefined =
                     lexiconStore.findEventPropertyByName(condition.propertyName) ||
-                    lexiconStore.findUserPropertyByName(condition.propertyName)
+                    lexiconStore.findGroupProperty(condition.propertyName)
                   if (property) {
                     res.propRef = {
-                      type: PropertyType.User,
+                      type: PropertyType.Group,
                       id: property?.id,
                       name: property.name || property.displayName || '',
                     }

@@ -122,10 +122,11 @@ const items = computed(() => {
         ret.push(eventProperties);
     }
 
-    const userProperties = getProperties(lexiconStore.userProperties, t('events.userProperties'), PropertyType.User)
-    if (userProperties.items.length) {
-        ret.push(userProperties);
-    }
+    
+    // const gProperties = getProperties(lexiconStore.userProperties, t('events.userProperties'), PropertyType.User)
+    // if (userProperties.items.length) {
+    //     ret.push(userProperties);
+    // }
 
     return ret;
 });

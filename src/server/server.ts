@@ -1,9 +1,8 @@
 import { createServer } from 'miragejs'
-import { DataType, UserPropertiesList200Response } from '@/api'
+import { DataType, ListPropertiesResponse } from '@/api'
 import { BASE_PATH } from '@/api/base'
 import { EventStatus, UserCustomProperty } from '@/types/events'
 import liveStreamMocks from '@/mocks/reports/liveStream.json'
-import userPropertiesMocks from '@/mocks/eventSegmentations/userProperties.json'
 import eventPropertiesMocks from '@/mocks/eventSegmentations/eventProperties.json'
 import customProperties from '@/mocks/eventSegmentations/customProperties.json'
 import customEventsMocks from '@/mocks/eventSegmentations/customEvents.json'
@@ -21,6 +20,9 @@ import { organizationsRoutes } from '@/server/services/organizations.service'
 import { organizations } from '@/mocks/organizations'
 import { faker } from '@/server/faker'
 import { queriesRoutes } from '@/server/services/query.service'
+import { groupsRoutes } from '@/server/services/groups.service'
+import groups from '@/mocks/groups'
+import groupProperties from '@/mocks/groupProperties'
 
 const urlPrefix = BASE_PATH + '/' + import.meta.env.VITE_API_VERSION
 const SESSION_STORAGE_KEY = 'db'
@@ -29,7 +31,6 @@ const dbTemplate: { [k: string]: any } = {
   events: eventMocks,
   customEvents: customEventsMocks,
   eventProperties: eventPropertiesMocks,
-  userProperties: userPropertiesMocks,
   customProperties: customProperties,
   reports: reports,
   dashboards: dashboardsMocks,
@@ -37,6 +38,8 @@ const dbTemplate: { [k: string]: any } = {
   liveStreamMocks: liveStreamMocks,
   projects: projectsMocks,
   organizations: organizations,
+  groups: groups,
+  groupProperties: groupProperties,
 }
 
 const requiredTemplate = {
@@ -86,7 +89,7 @@ export function makeHttpServer({ environment = 'development', isSeed = true } = 
                 };
             })
 
-            this.get('/projects/:project_id/schema/system-properties', (): UserPropertiesList200Response => {
+            this.get('/projects/:project_id/schema/system-properties', (): ListPropertiesResponse => {
                 return {
                     data: [],
                 }
@@ -122,20 +125,6 @@ export function makeHttpServer({ environment = 'development', isSeed = true } = 
             this.put('/projects/:project_id/schema/event-properties/:property_id', (schema, request) => {
                 const property = JSON.parse(request.requestBody)
                 return schema.db.eventProperties.update(request.params.property_id, property)
-            })
-
-            this.get('/projects/:project_id/schema/user-properties', (schema) => {
-                return {
-                    data: schema.db.userProperties.map(item => ({
-                        ...item,
-                        id: Number(item.id),
-                    })),
-                };
-            })
-
-            this.put('/projects/:project_id/schema/user-properties/:property_id', (schema, request) => {
-                const property = JSON.parse(request.requestBody)
-                return schema.db.userProperties.update(request.params.property_id, property)
             })
 
             this.get('/projects/:project_id/schema/custom-properties', () => {
@@ -267,6 +256,7 @@ export function makeHttpServer({ environment = 'development', isSeed = true } = 
             profileRoutes(this)
             projectsRoutes(this)
             organizationsRoutes(this)
+            groupsRoutes(this)
         }
     })
 

@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { EventRef, PropertyRef, EventQueryRef } from '@/types/events'
-import { OperationId, Value, Group } from '@/types'
+import { OperationId, Value } from '@/types'
 import { getYYYYMMDD } from '@/helpers/getStringDates'
 import { getLastNDaysRange } from '@/helpers/calendarHelper'
 import {
