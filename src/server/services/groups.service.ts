@@ -1,5 +1,5 @@
 import { Server } from 'miragejs'
-import { Schema } from '@/server/types'
+import { Schema, Request } from '@/server/types'
 
 export function groupsRoutes(server: Server) {
   server.get('/projects/:project_id/groups', getGroups)
@@ -10,6 +10,8 @@ function getGroups(schema: Schema) {
   return { data: schema.db.groups }
 }
 
-function getGroupProperties(schema: Schema) {
-  return { data: schema.db.groupProperties }
+function getGroupProperties(schema: Schema, request: Request) {
+  return {
+    data: schema.db.groupProperties.map(item => ({ ...item, groupId: request.params.group_id })),
+  }
 }
