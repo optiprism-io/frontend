@@ -241,7 +241,6 @@ export const useLexiconStore = defineStore('lexicon', {
       const projectsStore = useProjectsStore()
       this.eventPropertiesLoading = true
       try {
-        console.log('INFO:', this.groups);
         this.groupProperties = await Promise.all(this.groups.map(async (group) => {
           const res = await apiClient.groupProperties.groupPropertiesList(projectsStore.projectId, `${group.id}`)
           return res?.data?.data || []

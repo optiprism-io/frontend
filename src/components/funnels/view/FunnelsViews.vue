@@ -204,7 +204,7 @@ async function fetchReports(): Promise<void> {
 
   const res = await apiClient.query.funnelQuery(projectsStore.projectId, {
     time: timeRequest.value,
-    group: '', // TODO
+    group: 0, // TODO
     steps: stepsStore.getSteps,
     timeWindow: {
       n: size.value,

@@ -1,6 +1,5 @@
 import { defineStore } from 'pinia'
 import { EventRecordsListRequestTime, GroupRecord, Value } from '@/api'
-import { useSegmentsStore } from '@/stores/reports/segments'
 import { useProjectsStore } from '@/stores/projects/projects'
 import { TimeTypeEnum, usePeriod } from '@/hooks/usePeriod'
 import { apiClient } from '@/api/apiClient'
@@ -42,13 +41,12 @@ export const useGroupStore = defineStore('group', {
       if (!noLoading) {
         this.loading = true
       }
-      const segmentsStore = useSegmentsStore()
       const projectsStore = useProjectsStore()
       try {
+         // TODO integrate Group Page
         const res = await apiClient.groupRecords.groupRecordsList(projectsStore.projectId, {
           time: this.timeRequest,
-          group: 'users', // TODO any group to use
-          segments: segmentsStore.segmentationItems,
+          group: 0,
         })
         if (res?.data?.data) {
           this.items = res.data.data

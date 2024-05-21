@@ -49,9 +49,9 @@ const items = computed(() => {
         ret.push({ name: '', items: items });
     }
 
-    if (lexiconStore.userProperties.length > 0) {
+    if (lexiconStore.groupProperties.flat().length > 0) {
         const items: Item<BreakdownUserProperty, null>[] = [];
-        lexiconStore.userProperties.forEach((prop: Property): void => {
+        lexiconStore.groupProperties.flat().forEach((prop: Property): void => {
             items.push({
                 item: newBreakdownUserProperty(prop.id),
                 name: prop.name

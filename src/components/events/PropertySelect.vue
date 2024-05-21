@@ -64,7 +64,7 @@ const noDataPropertyes = computed(() => {
   return !lexiconStore.propertiesLength
 })
 
-const getProperties = (items: Property[], name: string, type: PropertyType) => {
+const getProperties = (items: Property[], name: string, type: PropertyType, group?: number) => {
   return {
     name,
     items: items.reduce((acc: PropertyItem[], item) => {
@@ -79,6 +79,10 @@ const getProperties = (items: Property[], name: string, type: PropertyType) => {
         type: type,
         id: item.id,
         name: item.name,
+      }
+
+      if (group || group === 0) {
+        propertyRef.group = group
       }
 
       acc.push({
@@ -139,7 +143,8 @@ const items = computed(() => {
     const properties = getProperties(
       lexiconStore.groupProperties[i],
       item.name,
-      PropertyType.Group
+      PropertyType.Group,
+      item.id
     )
 
     if (properties.items.length) {

@@ -54,7 +54,7 @@ const columns = computed(() => {
 })
 
 const items = computed(() => {
-  return lexiconStore.userProperties.map((property: Property): Row => {
+  return lexiconStore.groupProperties.flat().map((property: Property): Row => {
     return [
       {
         key: 'name',
