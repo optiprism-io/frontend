@@ -139,18 +139,20 @@ const items = computed(() => {
     ret.push(eventProperties)
   }
 
-  lexiconStore.groups.forEach((item, i) => {
-    const properties = getProperties(
-      lexiconStore.groupProperties[i],
-      item.name,
-      PropertyType.Group,
-      item.id
-    )
-
-    if (properties.items.length) {
-      ret.push(properties)
-    }
-  })
+  if (lexiconStore.groupProperties.length) {
+    lexiconStore.groups.forEach((item, i) => {
+      const properties = getProperties(
+        lexiconStore.groupProperties[i],
+        item.name,
+        PropertyType.Group,
+        item.id
+      )
+  
+      if (properties.items.length) {
+        ret.push(properties)
+      }
+    })
+  }
 
   return ret
 })

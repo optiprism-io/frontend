@@ -230,9 +230,14 @@ export const useLexiconStore = defineStore('lexicon', {
     },
     async getGroups() {
       const projectsStore = useProjectsStore()
+      const eventsStore = useEventsStore()
       try {
         const res = await apiClient.groups.groupList(projectsStore.projectId)
         this.groups = res?.data?.data || []
+
+        if (!eventsStore.group !== null && res?.data?.data?.length) {
+          eventsStore.group = res?.data?.data[0].id
+        }
       } catch (error) {
         console.error('Error Get Groups')
       }

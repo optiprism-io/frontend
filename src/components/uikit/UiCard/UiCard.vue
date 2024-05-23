@@ -11,7 +11,6 @@
         <slot name="rightTitle" />
       </template>
     </UiCardTitle>
-
     <UiCardBody>
       <slot />
     </UiCardBody>

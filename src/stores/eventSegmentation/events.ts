@@ -63,7 +63,7 @@ export interface EventPayload {
 
 export type Events = {
   events: Event[]
-  group: number
+  group: number | null
 
   controlsGroupBy: TimeUnit
   controlsPeriod: string
@@ -102,7 +102,7 @@ const computedEventProperties = (type: PropertyType, items: any): PropertyRef[] 
 export const useEventsStore = defineStore('events', {
   state: (): Events => ({
     events: [],
-    group: 0,
+    group: null,
 
     controlsGroupBy: 'day',
     controlsPeriod: '30',

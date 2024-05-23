@@ -105,7 +105,7 @@ const filterHelpers = useFilter()
 const { $t } = inject('i18n') as I18N;
 
 const excludedEvents = computed(() => stepsStore.excludedEvents)
-
+  
 const excludeSteps = computed<UiSelectItemInterface<string>[]>(() => {
     const groups: UiSelectItemInterface<string>[] =
       stepsStore.steps.length > 2
