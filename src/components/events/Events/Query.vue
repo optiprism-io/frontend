@@ -225,8 +225,11 @@ const querySelectorName = computed((): string => {
 })
 
 const aggregateString = computed((): string => {
+  const id = eventsStore.group
+  const group = lexiconStore.groups.find(item => item.id === id)
+
   return t('events.perGroupAggregateBy', {
-    group: eventsStore.group,
+    group: group?.name || '',
   })
 })
 

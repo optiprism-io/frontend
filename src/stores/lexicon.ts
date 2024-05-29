@@ -560,6 +560,8 @@ export const useLexiconStore = defineStore('lexicon', {
     },
     eventsQueries() {
       const eventsStore: Events = useEventsStore()
+      const id = eventsStore.group
+      const group = this.groups.find(item => item.id === id)
 
       return eventsQueries.map(item => {
         const query: Item<EventQueryRef, Item<EventQueryRef, null>[] | undefined> = {
@@ -567,7 +569,7 @@ export const useLexiconStore = defineStore('lexicon', {
             type: item.type,
             name: item.name || '',
           },
-          name: item.grouped ? `${item.displayName} ${eventsStore.group}` : item.displayName,
+          name: item.grouped ? `${item.displayName} ${group?.name || ''}` : item.displayName,
         }
 
         if (item.hasAggregate && item.hasProperty) {
