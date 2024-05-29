@@ -29,21 +29,6 @@ export interface Report {
   }>
 }
 
-type LiveStreamStore = {
-  events: Event[]
-  controlsPeriod: string
-  period: {
-    from: string
-    to: string
-    last: number
-    type: TimeTypeEnum
-  }
-  columns: Array<DataTableResponseColumnsInner>
-  activeColumns: PropertyRef[]
-  loading: boolean
-  eventPopup: boolean
-}
-
 const getParamsEventsForRequest = (events: Event[]): EventRecordRequestEvent[] => {
   return events.reduce((items: EventRecordRequestEvent[], event) => {
     const item: EventRecordRequestEvent = {
@@ -51,13 +36,19 @@ const getParamsEventsForRequest = (events: Event[]): EventRecordRequestEvent[] =
       eventType: event.ref.type as EventType,
       filters: event.filters.reduce((acc: EventFilterByProperty[], item) => {
         if (item?.propRef && Array.isArray(item.values) && item.values.length) {
-          acc.push({
+          const property: EventFilterByProperty = {
             type: 'property',
             propertyType: item.propRef.type,
             propertyName: item.propRef.name,
             operation: item.opId as PropertyFilterOperation,
             value: item.values,
-          })
+          }
+
+          if (item.propRef?.group) {
+            property.group = item.propRef?.group
+          }
+
+          acc.push(property)
         }
 
         return acc
@@ -81,6 +72,22 @@ export const defaultColumns = [
   'event'
 ]
 
+type LiveStreamStore = {
+  events: Event[]
+  controlsPeriod: string
+  period: {
+    from: string
+    to: string
+    last: number
+    type: TimeTypeEnum
+  }
+  columns: Array<DataTableResponseColumnsInner>
+  activeColumns: PropertyRef[]
+  loading: boolean
+  eventPopup: boolean
+  group: number
+}
+
 export const useLiveStreamStore = defineStore('liveStream', {
   state: (): LiveStreamStore => ({
     events: [],
@@ -95,6 +102,7 @@ export const useLiveStreamStore = defineStore('liveStream', {
     activeColumns: defaultColumns.map(key => ({propertyName: key, propertyType: PropertyType.System})),
     loading: false,
     eventPopup: false,
+    group: 0,
   }),
   getters: {
     isPeriodActive(): boolean {
@@ -131,7 +139,8 @@ export const useLiveStreamStore = defineStore('liveStream', {
       try {
         const props: EventRecordsListRequest = {
           time: this.timeRequest,
-          properties: properties
+          properties: properties,
+          group: this.group,
         }
 
         if (this.events.length) {

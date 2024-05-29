@@ -47,6 +47,10 @@ export const useFilter = (): UseFilter => {
         propertyType: propRef.type,
       }
 
+      if (propRef?.group) {
+        props.group = propRef.group
+      }
+
       if (eventRef) {
         props.eventName = eventRef.name
       }

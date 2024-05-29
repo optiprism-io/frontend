@@ -33,6 +33,7 @@ export type HoldingProperty = {
     id?: number,
     name: string,
     type: EventFilterByPropertyTypeEnum
+    group?: number
 };
 
 interface ExcludedEvent {
@@ -98,6 +99,7 @@ interface StepsStore {
     excludedEvents: ExcludedEvent[];
     holdingProperties: HoldingProperty[];
     propsAvailableToHold: HoldingProperty[];
+    group: number
 }
 
 export const useStepsStore = defineStore('steps', {
@@ -109,6 +111,7 @@ export const useStepsStore = defineStore('steps', {
         excludedEvents: [],
         holdingProperties: [],
         propsAvailableToHold: [],
+        group: 0
     }),
     getters: {
         getSteps(): FunnelQueryStepsInner[] {
@@ -126,13 +129,19 @@ export const useStepsStore = defineStore('steps', {
                                 property = lexiconStore.property(filter.propRef)
                             }
 
-                            return {
+                            const item: EventFilterByProperty = {
                                 propertyName: property ? property.name : '',
-                                propertyType: filter.propRef?.type ?? '',
+                                propertyType: filter.propRef?.type || 'system',
                                 type: 'property',
                                 operation: filter.opId,
                                 value: filter.values
                             }
+
+                            if (filter.propRef?.group) {
+                                item.group = filter.propRef?.group
+                            }
+
+                            return item;
                         })
                     }
                 }) as FunnelEvent[]
@@ -147,10 +156,16 @@ export const useStepsStore = defineStore('steps', {
         },
         getHoldingProperties(): PropertyRef[] {
             return this.holdingProperties.map(item => {
-                return {
+                const property: PropertyRef = {
                     propertyType: item.type as any,
                     propertyName: item.name
                 }
+
+                if (item.group) {
+                    property.group = item.group
+                }
+
+                return property
             })
         },
         getExcluded(): FunnelQueryExcludeInner[] {

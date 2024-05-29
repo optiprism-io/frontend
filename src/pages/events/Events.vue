@@ -118,9 +118,9 @@ const eventProperties = computed(() => {
 const initEventsAndProperties = async () => {
   await Promise.all([
     lexiconStore.getEvents(),
-    lexiconStore.getGroups(),
     lexiconStore.getSystemProperties(),
     lexiconStore.getEventProperties(),
+    await lexiconStore.getGroups(),
     lexiconStore.getGroupProperties(),
   ])
 }

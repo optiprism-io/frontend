@@ -1521,6 +1521,12 @@ export type EventRecordRequestEventFiltersFiltersInner = EventFilterByGroup | Ev
  */
 export interface EventRecordsListRequest {
     /**
+     * group that is used in aggregations by group. For instance, group by user or group by organization.
+     * @type {number}
+     * @memberof EventRecordsListRequest
+     */
+    'group': number;
+    /**
      * 
      * @type {EventRecordsListRequestTime}
      * @memberof EventRecordsListRequest

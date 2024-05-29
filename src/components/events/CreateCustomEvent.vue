@@ -103,6 +103,7 @@ import {
   EventStatus,
   UpdateCustomEventRequest,
   CustomEventStatus,
+  EventFilterByProperty
 } from '@/api'
 import { apiClient } from '@/api/apiClient'
 const i18n = inject<any>('i18n')
@@ -202,13 +203,19 @@ const resultEvent = computed(() => {
         item.filters.forEach(filter => {
           if (filter.propRef) {
             if (eventProps.filters) {
-              eventProps.filters.push({
+              const item: EventFilterByProperty = {
                 type: 'property',
                 propertyType: filter.propRef.type,
                 propertyName: filter.propRef.name,
                 operation: filter.opId,
                 value: filter.values,
-              })
+              }
+
+              if (filter.propRef?.group) {
+                item.group = filter.propRef?.group
+              }
+              
+              eventProps.filters.push(item)
             }
           }
         })

@@ -26,9 +26,9 @@
         <UiCard class="filter-event-segmentation__item" :title="$t('events.events')">
           <Events @on-change="onChange" />
         </UiCard>
-        <UiCard class="filter-event-segmentation__item">
+        <UiCardContainer class="filter-event-segmentation__item">
           <FilterReports @on-change="onChange" />
-        </UiCard>
+        </UiCardContainer>
         <UiCard class="filter-event-segmentation__item" :title="$t('events.breakdowns')">
           <Breakdowns @on-change="onChange" />
         </UiCard>
@@ -55,6 +55,7 @@ import Breakdowns from '@/components/events/Breakdowns.vue'
 import EventsViews from '@/components/events/EventsViews.vue'
 import UiCard from '@/components/uikit/UiCard/UiCard.vue'
 import UiSelect from '@/components/uikit/UiSelect.vue'
+import UiCardContainer from '@/components/uikit/UiCard/UiCardContainer.vue'
 import FilterReports from '@/components/events/FiltersReports.vue'
 import GridContainer from '@/components/grid/GridContainer.vue'
 import GridItem from '@/components/grid/GridItem.vue'
@@ -68,7 +69,8 @@ import { useReportsStore } from '@/stores/reports/reports'
 import { useProjectsStore } from '@/stores/projects/projects'
 import { apiClient } from '@/api/apiClient'
 import { useLexiconStore } from '@/stores/lexicon'
-import usei18n from '@/hooks/useI18n';
+import usei18n from '@/hooks/useI18n'
+import { useGroup } from '@/hooks/useGroup'
 
 const { t } = usei18n()
 const projectsStore = useProjectsStore()
@@ -78,16 +80,7 @@ const commonStore = useCommonStore()
 const segmentsStore = useSegmentsStore()
 const reportsStore = useReportsStore()
 const lexiconStore = useLexiconStore()
-
-const selectGroups =  computed(() => {
-  return lexiconStore.groups.map((item, i) => {
-    return {
-      key: i,
-      nameDisplay: item.name,
-      value: item.id,
-    }
-  });
-})
+const { selectGroups } = useGroup()
 
 const selectedGroup = computed(() => lexiconStore.groups.find(item => item.id === eventsStore.group))
 const selectedGroupByString = computed(() => `${t('common.group', { name: selectedGroup.value?.name })}`)

@@ -45,6 +45,7 @@ import {
   QueryAggregate,
   EventFilterByProperty,
   EventFilterByPropertyTypeEnum,
+  SegmentConditionDidEventAllOfAggregate,
 } from '@/api'
 import { useProfileStore } from '../profile/profile'
 
@@ -100,7 +101,7 @@ const computedValueAggregate = (
         : lexiconStore.findGroupProperty(item.propRef.name)
 
     if (property) {
-      return {
+      const aggregate: SegmentConditionDidEventAllOfAggregate = {
         type: DidEventAggregatePropertyTypeEnum.AggregateProperty,
         time,
         operation,
@@ -109,6 +110,12 @@ const computedValueAggregate = (
         propertyType: PropertyType.Group,
         aggregate: item.aggregate.typeAggregate as QueryAggregate,
       }
+      
+      if (item.propRef.group) {
+        aggregate.group = property.groupId;
+      }
+
+      return aggregate
     }
   }
 
@@ -124,7 +131,9 @@ const computedValueAggregate = (
       time,
       eventName: eventItem.name,
       eventType:
-        item.compareEvent.ref.type === EventType.Regular ? EventType.Custom : EventType.Regular,
+        item.compareEvent.ref.type === EventType.Regular ?
+          EventType.Custom :
+          EventType.Regular,
     }
   }
 
@@ -185,13 +194,19 @@ export const useSegmentsStore = defineStore('segments', {
                                 : lexiconStore.findGroupProperty(filterRef.propRef.name)
 
                             if (property) {
-                              items.push({
+                              const filter: EventFilterByProperty = {
                                 type: EventFilterByPropertyTypeEnum.Property,
                                 propertyName: property.name,
                                 propertyType: filterRef?.propRef.type,
                                 operation: filterRef.opId as PropertyFilterOperation,
                                 value: filterRef.values,
-                              })
+                              }
+
+                              if (filterRef.propRef.group) {
+                                filter.group = filterRef.propRef.group
+                              }
+
+                              items.push(filter)
                             }
                           }
 
