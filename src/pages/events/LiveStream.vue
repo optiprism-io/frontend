@@ -56,6 +56,7 @@ const selectedGroupByString = computed(() => `${t('common.group', { name: select
 
 const onSelectGroup = (id: number) => {
   liveStreamStore.group = id
+  liveStreamStore.getReportLiveStream()
 }
 
 onMounted(() => {
