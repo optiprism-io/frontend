@@ -226,5 +226,6 @@ async function fetchReports(): Promise<void> {
   }
 }
 
+watch(() => stepsStore.group, getReports)
 watch(() => stepsStore.steps.length, getReports)
 </script>

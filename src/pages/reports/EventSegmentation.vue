@@ -132,6 +132,7 @@ const onChange = () => {
 
 const onSelectGroup = (value: number) => {
   eventsStore.group = value
+  getEventSegmentation()
 }
 
 watch(
