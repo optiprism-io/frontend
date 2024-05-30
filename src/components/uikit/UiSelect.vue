@@ -75,10 +75,15 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import { defineComponent, PropType, ref, computed } from 'vue'
 
 type Value = string | number | Record<string, any> | any[]
+
+export interface UiSelectGroupItem {
+  title: string,
+  items: UiSelectItem<Value>[]
+}
 
 export interface UiSelectItem<T> {
   key: string | number
@@ -88,95 +93,82 @@ export interface UiSelectItem<T> {
   isTextSelect?: boolean
 }
 
-export default defineComponent({
-  name: 'UiSelect',
-  props: {
-    items: {
-      type: Array as PropType<UiSelectItem<Value>[]>,
-      required: true,
-    },
-    selections: {
-      type: Array as PropType<Value[]>,
-      default: () => [],
-    },
-    textButton: { type: String, default: '' },
-    placeholder: { type: String, default: '' },
-    variant: {
-      type: String as PropType<'single' | 'checkbox' | 'multiple'>,
-      default: 'single',
-    },
-    typehead: Boolean,
-    clearable: Boolean,
-    fullText: Boolean,
-    isTextSelect: Boolean,
-    placement: {
-      type: String as PropType<'bottom-start' | 'bottom-end'>,
-      default: 'bottom-start',
-    },
-    isToggle: { type: Boolean, default: true },
-    w100: Boolean,
-  },
-  emits: ['onSelect', 'onClear'],
-  setup(props, { emit }) {
-    const isOpen = ref(false)
+export interface Props {
+  items?: UiSelectItem<Value>[]
+  groupItems?: UiSelectGroupItem[]
+  selections?: Value[]
+  textButton?: string
+  placeholder?: string
+  variant?: 'single' | 'checkbox' | 'multiple'
+  typehead?: boolean
+  clearable?: boolean
+  fullText?: boolean
+  isTextSelect?: boolean
+  placement?: 'bottom-start' | 'bottom-end'
+  isToggle: boolean
+  w100?: boolean
+}
 
-    const textValue = computed(() => {
-      if (props.variant === 'single') {
-        return props.textButton
-          ? props.textButton
-          : selectedSingleOption.value
-            ? selectedSingleOption.value?.nameDisplay
-            : props.placeholder || ''
-      } else {
-        return props.textButton || props.placeholder || ''
-      }
-    })
 
-    const options = computed(() => {
-      return props.items.map(item => {
-        return {
-          ...item,
-          selected: props.selections.includes(item.value),
-        }
-      })
-    })
-
-    const selectedSingleOption = computed(() => {
-      const selected = props.items.find(item => props.selections.includes(item.value))
-
-      return selected || null
-    })
-
-    const onToggle = () => {
-      isOpen.value = !isOpen.value
-    }
-
-    const onHide = () => {
-      isOpen.value = false
-    }
-
-    const onSelect = (item: UiSelectItem<Value>) => {
-      emit('onSelect', item.value)
-    }
-
-    const removeSelect = (e: Event) => {
-      e.stopPropagation()
-      emit('onClear')
-    }
-
-    return {
-      props,
-      isOpen,
-      textValue,
-      options,
-      selectedSingleOption,
-      onToggle,
-      onHide,
-      onSelect,
-      removeSelect,
-    }
-  },
+const props = withDefaults(defineProps<Props>(), {
+  items: [],
+  variant: 'single',
+  isToggle: true,
+  placement: 'bottom-start'
 })
+
+const emit = defineEmits<{
+    (e: 'cancel', target: string): void
+    (e: 'onSelect'): void
+    (e: 'onClear'): void
+}>()
+
+
+const isOpen = ref(false)
+
+const textValue = computed(() => {
+  if (props.variant === 'single') {
+    return props.textButton
+      ? props.textButton
+      : selectedSingleOption.value
+        ? selectedSingleOption.value?.nameDisplay
+        : props.placeholder || ''
+  } else {
+    return props.textButton || props.placeholder || ''
+  }
+})
+
+const options = computed(() => {
+  return props.items.map(item => {
+    return {
+      ...item,
+      selected: props.selections.includes(item.value),
+    }
+  })
+})
+
+  const selectedSingleOption = computed(() => {
+    const selected = props.items.find(item => props.selections.includes(item.value))
+
+    return selected || null
+  })
+
+  const onToggle = () => {
+    isOpen.value = !isOpen.value
+  }
+
+  const onHide = () => {
+    isOpen.value = false
+  }
+
+  const onSelect = (item: UiSelectItem<Value>) => {
+    emit('onSelect', item.value)
+  }
+
+  const removeSelect = (e: Event) => {
+    e.stopPropagation()
+    emit('onClear')
+  }
 </script>
 
 <style lang="scss">
