@@ -201,6 +201,33 @@ paths:
           $ref: '#/components/responses/Internal'
         '503':
           $ref: '#/components/responses/ServiceUnavailable'
+  /v1/profile/set-password:
+    put:
+      summary: Set password from default to defined
+      operationId: setProfilePassword
+      security:
+        - bearerAuth: [ ]
+      tags:
+        - profile
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SetProfilePasswordRequest'
+      responses:
+        204:
+          description: profile
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokensResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/Internal'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
   /v1/organizations:
     get:
       summary: Organizations list
@@ -3967,4 +3994,10 @@ components:
         password:
           type: string
         newPassword:
+          type: string
+    SetProfilePasswordRequest:
+      type: object
+      required: [ 'password' ]
+      properties:
+        password:
           type: string
