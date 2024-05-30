@@ -2827,10 +2827,6 @@ components:
           }
         }
       properties:
-        group:
-          type: integer
-          description: group that is used in aggregations by group. For instance, group by user or group by organization.
-          example: user
         time:
           type: object
           description: select time
