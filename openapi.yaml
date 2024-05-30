@@ -3944,6 +3944,8 @@ components:
           type: string
         timezone:
           type: string
+        forceUpdatePassword:
+          type: boolean
     UpdateProfileNameRequest:
       type: object
       required: [ 'name' ]
