@@ -19,6 +19,7 @@
 
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
+import { useFocus } from '@vueuse/core'
 
 const emit = defineEmits(['update:modelValue', 'blur', 'input'])
 
@@ -35,6 +36,7 @@ interface Props {
   invalid?: boolean
   autocomplete?: 'new-password' | 'current-password' | 'username'
   disabled?: boolean
+  autofocus?: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -48,6 +50,7 @@ const props = withDefaults(defineProps<Props>(), {
   error: undefined,
   autocomplete: undefined,
   disabled: false,
+  autofocus: false,
 })
 
 const input = ref<HTMLCanvasElement | null>(null)
@@ -69,4 +72,9 @@ const updateValue = (e: Event) => {
 }
 
 const blur = (e: any) => emit('blur', e)
+
+const { focused } = useFocus(input)
+onMounted(() => {
+  if (props.autofocus) focused.value = true
+})
 </script>
