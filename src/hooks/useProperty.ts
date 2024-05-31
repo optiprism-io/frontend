@@ -15,6 +15,7 @@ const getProperties = (items: Property[], name: string, type: PropertyType, grou
         type: type,
         id: item.id,
         name: item.name,
+        group: item.groupId
       }
 
       if (group || group === 0) {

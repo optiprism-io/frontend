@@ -7,14 +7,15 @@ import {
   EventRecordsListRequestTime,
   EventType,
   PropertyFilterOperation,
-  PropertyRef,
   PropertyType,
+  PropertyRef as PropertyRefApi
 } from '@/api'
 import { Event } from '@/stores/eventSegmentation/events'
 import { useProjectsStore } from '@/stores/projects/projects'
 import { TimeTypeEnum, usePeriod } from '@/hooks/usePeriod'
 import { useLexiconStore } from '../lexicon'
 import { apiClient } from '@/api/apiClient'
+import { PropertyRef } from '@/types/events'
 
 export interface Report {
   name: string
@@ -66,11 +67,7 @@ const getParamsEventsForRequest = (events: Event[]): EventRecordRequestEvent[] =
   }, [])
 }
 
-export const defaultColumns = [
-  'user_id',
-  'created_at',
-  'event'
-]
+export const defaultColumns = ['user_id', 'created_at', 'event']
 
 type LiveStreamStore = {
   events: Event[]
@@ -99,7 +96,10 @@ export const useLiveStreamStore = defineStore('liveStream', {
       last: 30,
     },
     columns: [],
-    activeColumns: defaultColumns.map(key => ({propertyName: key, propertyType: PropertyType.System})),
+    activeColumns: defaultColumns.map(key => ({
+      name: key,
+      type: PropertyType.System,
+    })),
     loading: false,
     eventPopup: false,
     group: 0,
@@ -127,20 +127,29 @@ export const useLiveStreamStore = defineStore('liveStream', {
   },
   actions: {
     toggleColumns(payload: PropertyRef[]) {
-      this.activeColumns = payload;
+      this.activeColumns = payload
     },
     async getReportLiveStream() {
       this.loading = true
       const projectsStore = useProjectsStore()
-      const lexiconStore = useLexiconStore()
 
-      const properties = this.activeColumns.filter(property => lexiconStore.properties.find(item => item.propertyName === property.propertyName))
+      const properties = this.activeColumns.filter(item => item.name !== 'user_id').map(item => {
+        const property: PropertyRefApi = {
+          propertyName: item.name,
+          propertyType: item.type,
+        }
+
+        if (item.group) {
+          property.group = item.group
+        }
+
+        return property
+      })
 
       try {
         const props: EventRecordsListRequest = {
           time: this.timeRequest,
           properties: properties,
-          group: this.group,
         }
 
         if (this.events.length) {

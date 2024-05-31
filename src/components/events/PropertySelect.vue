@@ -22,10 +22,8 @@
 import { computed } from 'vue'
 import { EventRef, PropertyRef } from '@/types/events'
 import Select from '@/components/Select/Select.vue'
-import { Group, Item } from '@/components/Select/SelectTypes'
 import { useLexiconStore } from '@/stores/lexicon'
-import { PropertyType, Property, DataType } from '@/api'
-import usei18n from '@/hooks/useI18n'
+import { Property, DataType } from '@/api'
 import { useProperty, PropertyItem } from '@/hooks/useProperty'
 
 const { groupedProperties } = useProperty()
