@@ -26,10 +26,9 @@ import { Group, Item } from '@/components/Select/SelectTypes'
 import { useLexiconStore } from '@/stores/lexicon'
 import { PropertyType, Property, DataType } from '@/api'
 import usei18n from '@/hooks/useI18n'
+import { useProperty, PropertyItem } from '@/hooks/useProperty'
 
-type PropertyItem = Item<PropertyRef, null>
-
-const { t } = usei18n()
+const { groupedProperties } = useProperty()
 const lexiconStore = useLexiconStore()
 
 const emit = defineEmits<{
@@ -60,101 +59,24 @@ const checkDisable = (propRef: PropertyRef): boolean => {
     : false
 }
 
-const noDataPropertyes = computed(() => {
-  return !lexiconStore.propertiesLength
-})
-
-const getProperties = (items: Property[], name: string, type: PropertyType, group?: number) => {
-  return {
-    name,
-    items: items.reduce((acc: PropertyItem[], item) => {
-      if (
-        item.hidden ||
-        (props.dataType === DataType.Decimal && item.dataType !== DataType.Decimal)
-      ) {
-        return acc
-      }
-
-      const propertyRef: PropertyRef = {
-        type: type,
-        id: item.id,
-        name: item.name,
-      }
-
-      if (group || group === 0) {
-        propertyRef.group = group
-      }
-
-      acc.push({
-        item: propertyRef,
-        name: item.name,
-        disabled: checkDisable(propertyRef),
-        description: item?.description,
-      })
-
-      return acc
-    }, []),
-  }
-}
-
 const items = computed(() => {
-  const ret: Group<PropertyItem[]>[] = []
-
-  if (noDataPropertyes.value) {
-    return [
-      {
-        name: '',
-        items: [
-          {
-            item: {
-              type: PropertyType.Event,
-              id: 0,
-              name: '',
-            },
-            name: t('common.noProperties'),
-            description: t('common.noPropertiesText'),
-            editable: false,
-            noSelected: true,
-          },
-        ],
-      },
-    ]
-  }
-
-  const systemProperties = getProperties(
-    lexiconStore.systemProperties,
-    t('events.systemProperties'),
-    PropertyType.System
-  )
-  const eventProperties = getProperties(
-    lexiconStore.eventProperties,
-    t('events.eventProperties'),
-    PropertyType.Event
-  )
-  
-  if (systemProperties.items.length) {
-    ret.push(systemProperties)
-  }
-  if (eventProperties.items.length) {
-    ret.push(eventProperties)
-  }
-
-  if (lexiconStore.groupProperties.length) {
-    lexiconStore.groups.forEach((item, i) => {
-      const properties = getProperties(
-        lexiconStore.groupProperties[i],
-        item.name,
-        PropertyType.Group,
-        item.id
-      )
-  
-      if (properties.items.length) {
-        ret.push(properties)
-      }
-    })
-  }
-
-  return ret
+  return groupedProperties.value.map(group => {
+    return {
+      name: group.name,
+      items: group.items.reduce((acc: PropertyItem[], item) => {
+        if (
+          !item.hidden &&
+          !(props.dataType === DataType.Decimal && item.dataType !== DataType.Decimal)
+        ) {
+          acc.push({
+            ...item,
+            disabled: checkDisable(item.item)
+          })
+        }
+        return acc  
+      }, [])
+    }
+  })
 })
 
 const disabled = computed(() => {
