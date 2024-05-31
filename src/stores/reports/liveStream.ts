@@ -13,7 +13,6 @@ import {
 import { Event } from '@/stores/eventSegmentation/events'
 import { useProjectsStore } from '@/stores/projects/projects'
 import { TimeTypeEnum, usePeriod } from '@/hooks/usePeriod'
-import { useLexiconStore } from '../lexicon'
 import { apiClient } from '@/api/apiClient'
 import { PropertyRef } from '@/types/events'
 
