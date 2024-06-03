@@ -29,7 +29,6 @@ export function profileRoutes(server: Server) {
 function getProfile(schema: Schema) {
   const profile = schema.db.profile.at(0)
   return new Profile({
-    id: profile.id,
     name: profile.name,
     email: profile.email,
     timezone: profile.timezone,

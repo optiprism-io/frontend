@@ -19,7 +19,6 @@ import {
   UpdateProfilePasswordRequestExt,
 } from '@/stores/profile/types'
 import { apiClient } from '@/api/apiClient'
-import { MISSING_ID } from '@/stores/constants'
 
 interface ProfileState {
   profile: Profile
@@ -31,7 +30,6 @@ interface ProfileState {
 export const useProfileStore = defineStore('profile', {
   state: (): ProfileState => ({
     profile: {
-      id: MISSING_ID,
       name: '',
       email: '',
       timezone: '',
@@ -61,7 +59,7 @@ export const useProfileStore = defineStore('profile', {
 
   actions: {
     async getProfile() {
-      if (this.profile?.id) return
+      if (this.profile.name) return
 
       this.isLoading = true
       try {

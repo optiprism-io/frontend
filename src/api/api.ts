@@ -2991,12 +2991,6 @@ export interface OrganizationsList200Response {
 export interface Profile {
     /**
      * 
-     * @type {number}
-     * @memberof Profile
-     */
-    'id': number;
-    /**
-     * 
      * @type {string}
      * @memberof Profile
      */
