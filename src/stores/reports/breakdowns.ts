@@ -131,7 +131,7 @@ export const useBreakdownsStore = defineStore('breakdowns', {
           propertyName: item.propRef?.name || '',
         }
 
-        if (item.propRef?.group) {
+        if (item.propRef?.group || item.propRef?.group === 0) {
           filter.group = item.propRef?.group;
         }
 

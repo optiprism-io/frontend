@@ -137,7 +137,7 @@ export const useStepsStore = defineStore('steps', {
                                 value: filter.values
                             }
 
-                            if (filter.propRef?.group) {
+                            if (filter.propRef?.group || filter.propRef?.group === 0) {
                                 item.group = filter.propRef?.group
                             }
 
@@ -161,7 +161,7 @@ export const useStepsStore = defineStore('steps', {
                     propertyName: item.name
                 }
 
-                if (item.group) {
+                if (item.group || item.group === 0) {
                     property.group = item.group
                 }
 

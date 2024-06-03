@@ -211,8 +211,8 @@ const resultEvent = computed(() => {
                 value: filter.values,
               }
 
-              if (filter.propRef?.group) {
-                item.group = filter.propRef?.group
+              if (filter.propRef?.group || filter.propRef?.group === 0) {
+                item.group = filter.propRef.group
               }
               
               eventProps.filters.push(item)

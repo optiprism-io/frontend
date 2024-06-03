@@ -111,7 +111,7 @@ const computedValueAggregate = (
         aggregate: item.aggregate.typeAggregate as QueryAggregate,
       }
       
-      if (item.propRef.group) {
+      if (item.propRef.group || item.propRef.group === 0) {
         aggregate.group = property.groupId;
       }
 
@@ -202,7 +202,7 @@ export const useSegmentsStore = defineStore('segments', {
                                 value: filterRef.values,
                               }
 
-                              if (filterRef.propRef.group) {
+                              if (filterRef.propRef?.group || filterRef.propRef?.group === 0) {
                                 filter.group = filterRef.propRef.group
                               }
 

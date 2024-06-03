@@ -109,8 +109,8 @@ export const useFilterGroupsStore = defineStore('filter-groups', {
                   value: filter.values,
                 } satisfies EventGroupedFiltersGroupsInnerFiltersInner
 
-                if (filter.propRef?.group) {
-                  item.groupId = filter.propRef?.group
+                if (filter.propRef?.group || filter.propRef?.group === 0) {
+                  item.groupId = filter.propRef.group
                 }
 
                 if (filter.opId === OperationId.Empty ||

@@ -210,8 +210,8 @@ export const useEventsStore = defineStore('events', {
                         aggregatePerGroup:
                           query.queryRef.typeGroupAggregate || QueryAggregate.Avg,
                       }
-                      if (query?.queryRef?.propRef.group) {
-                        prop.group = query?.queryRef?.propRef.group
+                      if (query?.queryRef?.propRef?.group || query?.queryRef?.propRef?.group === 0) {
+                        prop.group = query.queryRef.propRef.group
                       }
 
                       acc.push(prop)
@@ -226,8 +226,8 @@ export const useEventsStore = defineStore('events', {
                         aggregate: query.queryRef.typeAggregate || QueryAggregate.Avg,
                       }
 
-                      if (query?.queryRef?.propRef.group) {
-                        prop.group = query?.queryRef?.propRef.group
+                      if (query?.queryRef?.propRef?.group || query?.queryRef?.propRef?.group === 0) {
+                        prop.group = query.queryRef.propRef.group
                       }
                     
                       acc.push(prop)
@@ -254,8 +254,8 @@ export const useEventsStore = defineStore('events', {
                 propertyName: item.propRef?.name || '',
               }
 
-              if (item.propRef?.group) {
-                breakdown.group = item.propRef?.group
+              if (item.propRef?.group || item.propRef?.group === 0) {
+                breakdown.group = item.propRef.group
               }
 
               return breakdown
@@ -280,7 +280,7 @@ export const useEventsStore = defineStore('events', {
                     operation: item.opId
                   }
 
-                  if (item.propRef?.group) {
+                  if (item.propRef?.group || item.propRef?.group === 0) {
                     filter.group = item.propRef.group
                   }
 

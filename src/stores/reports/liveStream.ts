@@ -44,8 +44,8 @@ const getParamsEventsForRequest = (events: Event[]): EventRecordRequestEvent[] =
             value: item.values,
           }
 
-          if (item.propRef?.group) {
-            property.group = item.propRef?.group
+          if (item.propRef?.group || item.propRef?.group === 0) {
+            property.group = item.propRef.group
           }
 
           acc.push(property)
@@ -138,7 +138,7 @@ export const useLiveStreamStore = defineStore('liveStream', {
           propertyType: item.type,
         }
 
-        if (item.group) {
+        if (item.group || item.group === 0) {
           property.group = item.group
         }
 

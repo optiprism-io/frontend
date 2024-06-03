@@ -47,7 +47,7 @@ export const useFilter = (): UseFilter => {
         propertyType: propRef.type,
       }
 
-      if (propRef?.group) {
+      if (propRef?.group || propRef?.group === 0) {
         props.group = propRef.group
       }
 
