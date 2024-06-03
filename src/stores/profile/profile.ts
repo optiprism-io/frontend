@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import {
   Profile,
+  TokensResponse,
   UpdateProfileEmailRequest,
   UpdateProfileNameRequest,
   UpdateProfilePasswordRequest,
@@ -237,7 +238,9 @@ export const useProfileStore = defineStore('profile', {
       this.clearNewAndConfirmPasswordError()
     },
 
-    setFirstPassword() {
+    setFirstPassword(tokens: TokensResponse) {
+      const authStore = useAuthStore()
+      authStore.setToken(tokens)
       this.profile.forceUpdatePassword = false
     }
   },

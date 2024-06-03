@@ -28,9 +28,10 @@ import UiFormLabel from '@/components/uikit/UiFormLabel.vue'
 import { apiClient } from '@/api/apiClient'
 import InputPassword from '@/components/login/InputPassword.vue'
 import { useMutation } from '@/hooks/useMutation'
+import { TokensResponse } from '@/api'
 
 const emit = defineEmits<{
-  (e: 'changed-password'): void
+  (e: 'changed-password', tokens: TokensResponse): void
 }>()
 
 const password = ref('')
@@ -40,10 +41,10 @@ const { mutate: setPassword, isLoading } = useMutation(changePassword)
 async function changePassword() {
   if (!password.value.trim()) return
 
-  await apiClient.profile.setProfilePassword({
+  const { data } = await apiClient.profile.setProfilePassword({
     password: password.value,
   })
 
-  emit('changed-password')
+  emit('changed-password', data)
 }
 </script>
