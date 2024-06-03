@@ -57,18 +57,11 @@
               :for="'login-password'"
               :required="true"
             >
-              <UiInputGroup>
-                <UiInput
-                  v-model="password"
-                  name="login-password"
-                  :type="showPassword ? 'text' : 'password'"
-                  :invalid="Boolean(errorFields?.password)"
-                  @input="e => onInput(e, 'password')"
-                />
-                <UiButton class="pf-m-control" @click="showPassword = !showPassword">
-                  <UiIcon :icon="['fas', showPassword ? 'fa-eye-slash' : 'fa-eye']" />
-                </UiButton>
-              </UiInputGroup>
+              <InputPassword
+                v-model="password"
+                :invalid="Boolean(errorFields?.password)"
+                @input="e => onInput(e, 'password')"
+              />
             </UiFormGroup>
             <UiFormGroup>
               <UiCheckbox
@@ -99,12 +92,10 @@ import UiInput from '@/components/uikit/UiInput.vue'
 import UiCheckbox from '@/components/uikit/UiCheckbox.vue'
 import UiForm from '@/components/uikit/UiForm.vue'
 import UiFormGroup from '@/components/uikit/UiFormGroup.vue'
-import UiIcon from '@/components/uikit/UiIcon.vue'
-import UiInputGroup from '@/components/uikit/UiInputGroup.vue'
 import { safeParse } from 'valibot'
 import { notEmptyEmail, notEmptyString } from '@/utils/validationSchemes'
 import { merge } from 'lodash-es'
-import { useProjectsStore } from '@/stores/projects/projects'
+import InputPassword from '@/components/login/InputPassword.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -114,7 +105,6 @@ const projectStore = useProjectsStore()
 const email = ref('')
 const password = ref('')
 const keepLogged = ref(true)
-const showPassword = ref(false)
 const errorFields = ref<{ [key: string]: string }>({})
 const errorMain = ref('')
 const loading = ref(false)
