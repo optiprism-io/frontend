@@ -4,6 +4,7 @@ export const pagesMap = {
     name: 'login',
   },
   createProject: 'createProject',
+  forceUpdatePassword: 'forceUpdatePassword',
   eventsLiveStream: {
     path: '/events',
     name: 'eventsLiveStream',

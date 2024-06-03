@@ -100,7 +100,6 @@ import InputPassword from '@/components/login/InputPassword.vue'
 const route = useRoute()
 const router = useRouter()
 const authStore = useAuthStore()
-const projectStore = useProjectsStore()
 
 const email = ref('')
 const password = ref('')
@@ -130,14 +129,6 @@ const login = async (): Promise<void | Error> => {
       password: password.value,
       keepLogged: keepLogged.value,
     })
-    if (authStore.accessToken) {
-      await projectStore.init()
-    }
-
-    if (!projectStore.projectId) {
-      await router.push({ name: pagesMap.createProject })
-      return
-    }
 
     await router.push({ path: nextPath.value })
   } catch (e: any) {

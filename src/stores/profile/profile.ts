@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
 import {
+  Profile,
   UpdateProfileEmailRequest,
   UpdateProfileNameRequest,
   UpdateProfilePasswordRequest,
@@ -18,14 +19,10 @@ import {
   UpdateProfilePasswordRequestExt,
 } from '@/stores/profile/types'
 import { apiClient } from '@/api/apiClient'
+import { MISSING_ID } from '@/stores/constants'
 
 interface ProfileState {
-  profile: {
-    id: number | null
-    name: string
-    email: string
-    timezone: string
-  }
+  profile: Profile
   isLoading: boolean
   errors: ProfileErrors
   isEdit: ProfileEdit
@@ -34,10 +31,11 @@ interface ProfileState {
 export const useProfileStore = defineStore('profile', {
   state: (): ProfileState => ({
     profile: {
-      id: null,
+      id: MISSING_ID,
       name: '',
       email: '',
       timezone: '',
+      forceUpdatePassword: false,
     },
     isLoading: false,
     errors: {
@@ -63,6 +61,8 @@ export const useProfileStore = defineStore('profile', {
 
   actions: {
     async getProfile() {
+      if (this.profile?.id) return
+
       this.isLoading = true
       try {
         const { data } = await apiClient.profile.getProfile()
@@ -238,5 +238,9 @@ export const useProfileStore = defineStore('profile', {
       this.clearCurPasswordError()
       this.clearNewAndConfirmPasswordError()
     },
+
+    setFirstPassword() {
+      this.profile.forceUpdatePassword = false
+    }
   },
 })
