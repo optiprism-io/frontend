@@ -3962,9 +3962,6 @@ components:
       description: User profile
       required: [ 'id','name','email', 'timezone' ]
       properties:
-        id:
-          type: integer
-          format: int64
         name:
           type: string
         email:
