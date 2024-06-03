@@ -1,4 +1,5 @@
 import {
+  SetProfilePasswordRequest,
   UpdateProfileEmailRequest,
   UpdateProfileNameRequest,
   UpdateProfilePasswordRequest,
@@ -6,7 +7,14 @@ import {
 import { Request, Response, Server } from 'miragejs'
 import { getErrorResponse } from '@/server/utils/getErrorResponse'
 import { userId } from '@/mocks/profile'
-import { EMPTY_HEADER_RESPONSE, EMPTY_SUCCESS_RES, Stub, Tokens } from '@/server/constants'
+import { Profile } from '@/server/models/Profile'
+import {
+  ADMIN_PASSWORD,
+  EMPTY_HEADER_RESPONSE,
+  EMPTY_SUCCESS_RES,
+  Stub,
+  Tokens,
+} from '@/server/constants'
 import { Schema } from '@/server/types'
 import { HttpStatusCode } from 'axios'
 
@@ -15,10 +23,18 @@ export function profileRoutes(server: Server) {
   server.put('/profile/name', putProfileName)
   server.put('/profile/email', putProfileEmail)
   server.put('/profile/password', putProfilePassword)
+  server.put('/profile/set-password', putSetProfilePassword)
 }
 
 function getProfile(schema: Schema) {
-  return schema.db.profile.at(0)
+  const profile = schema.db.profile.at(0)
+  return new Profile({
+    id: profile.id,
+    name: profile.name,
+    email: profile.email,
+    timezone: profile.timezone,
+    forceUpdatePassword: !profile.password || profile.password === ADMIN_PASSWORD,
+  })
 }
 
 function putProfileName(schema: Schema, request: Request) {
@@ -101,5 +117,12 @@ function putProfilePassword(schema: Schema, request: Request) {
     )
 
   schema.db.profile.update(userId, { password: newPassword })
+  return Tokens
+}
+
+function putSetProfilePassword(schema: Schema, request: Request) {
+  const { password } = JSON.parse(request.requestBody) as SetProfilePasswordRequest
+
+  schema.db.profile.update(userId, { password })
   return Tokens
 }
