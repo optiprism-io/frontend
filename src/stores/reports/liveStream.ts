@@ -7,14 +7,14 @@ import {
   EventRecordsListRequestTime,
   EventType,
   PropertyFilterOperation,
-  PropertyRef,
   PropertyType,
+  PropertyRef as PropertyRefApi
 } from '@/api'
 import { Event } from '@/stores/eventSegmentation/events'
 import { useProjectsStore } from '@/stores/projects/projects'
 import { TimeTypeEnum, usePeriod } from '@/hooks/usePeriod'
-import { useLexiconStore } from '../lexicon'
 import { apiClient } from '@/api/apiClient'
+import { PropertyRef } from '@/types/events'
 
 export interface Report {
   name: string
@@ -29,21 +29,6 @@ export interface Report {
   }>
 }
 
-type LiveStreamStore = {
-  events: Event[]
-  controlsPeriod: string
-  period: {
-    from: string
-    to: string
-    last: number
-    type: TimeTypeEnum
-  }
-  columns: Array<DataTableResponseColumnsInner>
-  activeColumns: PropertyRef[]
-  loading: boolean
-  eventPopup: boolean
-}
-
 const getParamsEventsForRequest = (events: Event[]): EventRecordRequestEvent[] => {
   return events.reduce((items: EventRecordRequestEvent[], event) => {
     const item: EventRecordRequestEvent = {
@@ -51,13 +36,19 @@ const getParamsEventsForRequest = (events: Event[]): EventRecordRequestEvent[] =
       eventType: event.ref.type as EventType,
       filters: event.filters.reduce((acc: EventFilterByProperty[], item) => {
         if (item?.propRef && Array.isArray(item.values) && item.values.length) {
-          acc.push({
+          const property: EventFilterByProperty = {
             type: 'property',
             propertyType: item.propRef.type,
             propertyName: item.propRef.name,
             operation: item.opId as PropertyFilterOperation,
             value: item.values,
-          })
+          }
+
+          if (item.propRef?.group || item.propRef?.group === 0) {
+            property.group = item.propRef.group
+          }
+
+          acc.push(property)
         }
 
         return acc
@@ -75,11 +66,23 @@ const getParamsEventsForRequest = (events: Event[]): EventRecordRequestEvent[] =
   }, [])
 }
 
-export const defaultColumns = [
-  'user_id',
-  'created_at',
-  'event'
-]
+export const defaultColumns = ['user_id', 'created_at', 'event']
+
+type LiveStreamStore = {
+  events: Event[]
+  controlsPeriod: string
+  period: {
+    from: string
+    to: string
+    last: number
+    type: TimeTypeEnum
+  }
+  columns: Array<DataTableResponseColumnsInner>
+  activeColumns: PropertyRef[]
+  loading: boolean
+  eventPopup: boolean
+  group: number
+}
 
 export const useLiveStreamStore = defineStore('liveStream', {
   state: (): LiveStreamStore => ({
@@ -92,9 +95,13 @@ export const useLiveStreamStore = defineStore('liveStream', {
       last: 30,
     },
     columns: [],
-    activeColumns: defaultColumns.map(key => ({propertyName: key, propertyType: PropertyType.System})),
+    activeColumns: defaultColumns.map(key => ({
+      name: key,
+      type: PropertyType.System,
+    })),
     loading: false,
     eventPopup: false,
+    group: 0,
   }),
   getters: {
     isPeriodActive(): boolean {
@@ -119,19 +126,29 @@ export const useLiveStreamStore = defineStore('liveStream', {
   },
   actions: {
     toggleColumns(payload: PropertyRef[]) {
-      this.activeColumns = payload;
+      this.activeColumns = payload
     },
     async getReportLiveStream() {
       this.loading = true
       const projectsStore = useProjectsStore()
-      const lexiconStore = useLexiconStore()
 
-      const properties = this.activeColumns.filter(property => lexiconStore.properties.find(item => item.propertyName === property.propertyName))
+      const properties = this.activeColumns.filter(item => item.name !== 'user_id').map(item => {
+        const property: PropertyRefApi = {
+          propertyName: item.name,
+          propertyType: item.type,
+        }
+
+        if (item.group || item.group === 0) {
+          property.group = item.group
+        }
+
+        return property
+      })
 
       try {
         const props: EventRecordsListRequest = {
           time: this.timeRequest,
-          properties: properties
+          properties: properties,
         }
 
         if (this.events.length) {

@@ -17,17 +17,17 @@ import {useLexiconStore} from '@/stores/lexicon';
 import {useStepsStore} from '@/stores/funnels/steps';
 import PropertySelect from '@/components/events/PropertySelect.vue';
 import {PropertyRef} from '@/types/events';
-import { EventFilterByPropertyTypeEnum } from '@/api';
+import { EventFilterByPropertyTypeEnum, PropertyType } from '@/api';
 
 const lexiconStore = useLexiconStore();
 const stepsStore = useStepsStore();
 
 const addHoldingConstant = (propertyRef: PropertyRef): void => {
-    const property = propertyRef.type === 'user'
-        ? lexiconStore.findUserPropertyById(Number(propertyRef.id))
-        : propertyRef.type === 'custom'
-            ? lexiconStore.findEventCustomPropertyById(Number(propertyRef.id))
-            : lexiconStore.findEventPropertyById(Number(propertyRef.id));
+    const property = propertyRef.type === PropertyType.Group
+        ? lexiconStore.findGroupProperty(propertyRef.name)
+        : propertyRef.type === PropertyType.Custom
+            ? lexiconStore.findEventCustomProperty(propertyRef.name)
+            : lexiconStore.findEventProperty(propertyRef);
 
     if (property?.id && property?.name) {
         stepsStore.addHoldingProperty({

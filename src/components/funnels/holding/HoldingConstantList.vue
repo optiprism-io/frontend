@@ -1,8 +1,5 @@
 <template>
-  <div
-    v-if="holdingProperties.length > 0"
-    class="pf-l-flex"
-  >
+  <div v-if="holdingProperties.length > 0" class="pf-l-flex">
     <span class="pf-l-flex__item">
       {{ $t('funnels.holdingConstant.holding') }}
     </span>
@@ -16,10 +13,7 @@
       <UiButton class="pf-m-secondary">
         {{ props.name }}
         <span class="pf-c-button__icon pf-m-end">
-          <UiIcon
-            icon="fas fa-times"
-            @click.stop="deleteHoldingProperty(index)"
-          />
+          <UiIcon icon="fas fa-times" @click.stop="deleteHoldingProperty(index)" />
         </span>
       </UiButton>
     </PropertySelect>
@@ -27,37 +21,38 @@
 </template>
 
 <script lang="ts" setup>
-import { useStepsStore } from '@/stores/funnels/steps';
-import { computed } from 'vue';
-import { useLexiconStore } from '@/stores/lexicon';
-import PropertySelect from '@/components/events/PropertySelect.vue';
-import { PropertyRef } from '@/types/events';
-import { EventFilterByPropertyTypeEnum } from '@/api';
+import { useStepsStore } from '@/stores/funnels/steps'
+import { computed } from 'vue'
+import { useLexiconStore } from '@/stores/lexicon'
+import PropertySelect from '@/components/events/PropertySelect.vue'
+import { PropertyRef } from '@/types/events'
+import { EventFilterByPropertyTypeEnum, PropertyType } from '@/api'
 
-const lexiconStore = useLexiconStore();
-const stepsStore = useStepsStore();
-const holdingProperties = computed(() => stepsStore.holdingProperties);
+const lexiconStore = useLexiconStore()
+const stepsStore = useStepsStore()
+const holdingProperties = computed(() => stepsStore.holdingProperties)
 
 const editHoldingProperty = (index: number, propertyRef: PropertyRef) => {
-    const property = propertyRef.type === 'user'
-        ? lexiconStore.findUserPropertyById(Number(propertyRef.id))
-        : propertyRef.type === 'custom'
-            ? lexiconStore.findEventCustomPropertyById(Number(propertyRef.id))
-            : lexiconStore.findEventPropertyById(Number(propertyRef.id));
+  const property =
+    propertyRef.type === PropertyType.Group
+      ? lexiconStore.findGroupProperty(propertyRef.name)
+      : propertyRef.type === PropertyType.Custom
+        ? lexiconStore.findEventCustomProperty(propertyRef.name)
+        : lexiconStore.findEventProperty(propertyRef)
 
-    if (property?.id && property?.name) {
-        stepsStore.editHoldingProperty({
-            index,
-            property: {
-                id: property.id,
-                name: property.name,
-                type: EventFilterByPropertyTypeEnum.Property,
-            }
-        });
-    }
-};
+  if (property?.id && property?.name) {
+    stepsStore.editHoldingProperty({
+      index,
+      property: {
+        id: property.id,
+        name: property.name,
+        type: EventFilterByPropertyTypeEnum.Property,
+      },
+    })
+  }
+}
 
-const deleteHoldingProperty = (index: number) : void => {
-    stepsStore.deleteHoldingProperty(index);
-};
+const deleteHoldingProperty = (index: number): void => {
+  stepsStore.deleteHoldingProperty(index)
+}
 </script>

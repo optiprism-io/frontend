@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { EventRef, PropertyRef, EventQueryRef } from '@/types/events'
-import { OperationId, Value, Group } from '@/types'
+import { OperationId, Value } from '@/types'
 import { getYYYYMMDD } from '@/helpers/getStringDates'
 import { getLastNDaysRange } from '@/helpers/calendarHelper'
 import {
@@ -17,11 +17,13 @@ import {
   EventFilterByProperty,
   EventType,
   QueryAggregateProperty,
+  QueryAggregatePropertyPerGroup,
   QueryAggregate,
   QuerySimple,
   QuerySimpleTypeEnum,
   BreakdownByProperty,
   EventSegmentationEventAllOfQueries,
+  EventSegmentationEventAllOfBreakdowns,
 } from '@/api'
 import { useLexiconStore } from '@/stores/lexicon'
 import { useFilterGroupsStore } from '../reports/filters'
@@ -63,7 +65,7 @@ export interface EventPayload {
 
 export type Events = {
   events: Event[]
-  group: Group
+  group: number
 
   controlsGroupBy: TimeUnit
   controlsPeriod: string
@@ -102,7 +104,7 @@ const computedEventProperties = (type: PropertyType, items: any): PropertyRef[] 
 export const useEventsStore = defineStore('events', {
   state: (): Events => ({
     events: [],
-    group: Group.User,
+    group: 0,
 
     controlsGroupBy: 'day',
     controlsPeriod: '30',
@@ -154,7 +156,7 @@ export const useEventsStore = defineStore('events', {
 
       return [
         ...new Set(items),
-        ...computedEventProperties(PropertyType.User, lexiconStore.userProperties),
+        ...computedEventProperties(PropertyType.Group, lexiconStore.groupProperties.flat()),
       ]
     },
     propsForEventSegmentationResult(): EventSegmentation {
@@ -199,33 +201,36 @@ export const useEventsStore = defineStore('events', {
                     } as QuerySimple)
                     break
                   case QueryAggregatePropertyPerGroupTypeEnum.AggregatePropertyPerGroup:
+                    if (query?.queryRef?.propRef && query.queryRef.typeGroupAggregate) {
+                      const prop: QueryAggregatePropertyPerGroup = {
+                        type: QueryAggregatePropertyPerGroupTypeEnum.AggregatePropertyPerGroup,
+                        propertyType: query.queryRef.propRef.type,
+                        propertyName: query.queryRef.propRef.name,
+                        aggregate: query.queryRef.typeAggregate || QueryAggregate.Avg,
+                        aggregatePerGroup:
+                          query.queryRef.typeGroupAggregate || QueryAggregate.Avg,
+                      }
+                      if (query?.queryRef?.propRef?.group || query?.queryRef?.propRef?.group === 0) {
+                        prop.group = query.queryRef.propRef.group
+                      }
+
+                      acc.push(prop)
+                    }
+                    break
                   case QueryAggregatePropertyTypeEnum.AggregateProperty:
                     if (query?.queryRef?.propRef) {
-                      const prop = {
-                        type: type,
+                      const prop: QueryAggregateProperty = {
+                        type: QueryAggregatePropertyTypeEnum.AggregateProperty,
                         propertyType: query.queryRef.propRef.type,
                         propertyName: query.queryRef.propRef.name,
                         aggregate: query.queryRef.typeAggregate || QueryAggregate.Avg,
                       }
 
-                      if (type === QueryAggregatePropertyTypeEnum.AggregateProperty) {
-                        acc.push({
-                          ...(prop as QueryAggregateProperty),
-                          type: QueryAggregatePropertyTypeEnum.AggregateProperty,
-                        })
+                      if (query?.queryRef?.propRef?.group || query?.queryRef?.propRef?.group === 0) {
+                        prop.group = query.queryRef.propRef.group
                       }
-
-                      if (
-                        type === QueryAggregatePropertyPerGroupTypeEnum.AggregatePropertyPerGroup &&
-                        query.queryRef.typeGroupAggregate
-                      ) {
-                        acc.push({
-                          ...prop,
-                          aggregatePerGroup:
-                            query.queryRef.typeGroupAggregate || QueryAggregate.Avg,
-                          type: QueryAggregatePropertyPerGroupTypeEnum.AggregatePropertyPerGroup,
-                        })
-                      }
+                    
+                      acc.push(prop)
                     }
                     break
                   case QueryCountPerGroupTypeEnum.CountPerGroup:
@@ -243,11 +248,17 @@ export const useEventsStore = defineStore('events', {
 
           if (item.breakdowns.length) {
             event.breakdowns = item.breakdowns.map(item => {
-              return {
+              const breakdown: EventSegmentationEventAllOfBreakdowns = {
                 type: 'property',
                 propertyType: item.propRef?.type as BreakdownByProperty['propertyType'],
                 propertyName: item.propRef?.name || '',
               }
+
+              if (item.propRef?.group || item.propRef?.group === 0) {
+                breakdown.group = item.propRef.group
+              }
+
+              return breakdown
             })
           }
 
@@ -267,6 +278,10 @@ export const useEventsStore = defineStore('events', {
                     propertyName: item.propRef?.name || '',
                     propertyType: item.propRef?.type || 'event',
                     operation: item.opId
+                  }
+
+                  if (item.propRef?.group || item.propRef?.group === 0) {
+                    filter.group = item.propRef.group
                   }
 
                   if (item.values.length) {

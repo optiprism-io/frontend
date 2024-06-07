@@ -245,6 +245,12 @@ export interface BreakdownByProperty {
     'propertyType': PropertyType;
     /**
      * 
+     * @type {number}
+     * @memberof BreakdownByProperty
+     */
+    'group'?: number;
+    /**
+     * 
      * @type {string}
      * @memberof BreakdownByProperty
      */
@@ -928,6 +934,12 @@ export interface DidEventAggregateProperty {
     'propertyType': PropertyType;
     /**
      * 
+     * @type {number}
+     * @memberof DidEventAggregateProperty
+     */
+    'group'?: number;
+    /**
+     * 
      * @type {string}
      * @memberof DidEventAggregateProperty
      */
@@ -1239,12 +1251,6 @@ export interface Event {
      * @memberof Event
      */
     'eventProperties'?: Array<number>;
-    /**
-     * array of id of attached to user properties
-     * @type {Array<number>}
-     * @memberof Event
-     */
-    'userProperties'?: Array<number>;
 }
 
 
@@ -1333,6 +1339,12 @@ export interface EventFilterByProperty {
      * @memberof EventFilterByProperty
      */
     'propertyType': PropertyType;
+    /**
+     * 
+     * @type {number}
+     * @memberof EventFilterByProperty
+     */
+    'group'?: number;
     /**
      * 
      * @type {string}
@@ -1575,10 +1587,10 @@ export interface EventSegmentation {
     'time': EventRecordsListRequestTime;
     /**
      * group that is used in aggregations by group. For instance, group by user or group by organizartion.
-     * @type {string}
+     * @type {number}
      * @memberof EventSegmentation
      */
-    'group': string;
+    'group': number;
     /**
      * 
      * @type {TimeUnit}
@@ -1996,10 +2008,10 @@ export interface FunnelQuery {
     'time': EventRecordsListRequestTime;
     /**
      * 
-     * @type {string}
+     * @type {number}
      * @memberof FunnelQuery
      */
-    'group': string;
+    'group': number;
     /**
      * 
      * @type {Array<FunnelQueryStepsInner>}
@@ -2588,6 +2600,63 @@ export type FunnelTimeToConvertChartTypeTypeEnum = typeof FunnelTimeToConvertCha
 /**
  * 
  * @export
+ * @interface Group
+ */
+export interface Group {
+    /**
+     * 
+     * @type {number}
+     * @memberof Group
+     */
+    'id': number;
+    /**
+     * 
+     * @type {string}
+     * @memberof Group
+     */
+    'name': string;
+}
+/**
+ * 
+ * @export
+ * @interface GroupList200Response
+ */
+export interface GroupList200Response {
+    /**
+     * 
+     * @type {ListResponseMetadataMeta}
+     * @memberof GroupList200Response
+     */
+    'meta'?: ListResponseMetadataMeta;
+    /**
+     * 
+     * @type {Array<Group>}
+     * @memberof GroupList200Response
+     */
+    'data'?: Array<Group>;
+}
+/**
+ * 
+ * @export
+ * @interface GroupPropertiesList200Response
+ */
+export interface GroupPropertiesList200Response {
+    /**
+     * 
+     * @type {Array<Property>}
+     * @memberof GroupPropertiesList200Response
+     */
+    'data'?: Array<Property>;
+    /**
+     * 
+     * @type {ListResponseMetadataMeta}
+     * @memberof GroupPropertiesList200Response
+     */
+    'meta'?: ListResponseMetadataMeta;
+}
+/**
+ * 
+ * @export
  * @interface GroupRecord
  */
 export interface GroupRecord {
@@ -2646,31 +2715,31 @@ export interface GroupRecordsListRequest {
      * @type {EventRecordsListRequestTime}
      * @memberof GroupRecordsListRequest
      */
-    'time': EventRecordsListRequestTime;
+    'time'?: EventRecordsListRequestTime;
     /**
      * group that is used in aggregations by group. For instance, group by user or group by organization.
-     * @type {string}
+     * @type {number}
      * @memberof GroupRecordsListRequest
      */
-    'group': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof GroupRecordsListRequest
-     */
-    'searchTerm'?: string;
-    /**
-     * array of segments
-     * @type {Array<EventSegmentationSegment>}
-     * @memberof GroupRecordsListRequest
-     */
-    'segments'?: Array<EventSegmentationSegment>;
+    'group': number;
     /**
      * 
      * @type {EventGroupedFilters}
      * @memberof GroupRecordsListRequest
      */
     'filters'?: EventGroupedFilters;
+    /**
+     * 
+     * @type {Array<PropertyRef>}
+     * @memberof GroupRecordsListRequest
+     */
+    'properties'?: Array<PropertyRef>;
+    /**
+     * 
+     * @type {SortablePropertyRef}
+     * @memberof GroupRecordsListRequest
+     */
+    'sort'?: SortablePropertyRef;
 }
 /**
  * see https://datatracker.ietf.org/doc/html/rfc7519
@@ -2779,6 +2848,12 @@ export interface ListPropertyValuesRequest {
      * @memberof ListPropertyValuesRequest
      */
     'propertyType': PropertyType;
+    /**
+     * 
+     * @type {number}
+     * @memberof ListPropertyValuesRequest
+     */
+    'group'?: number;
     /**
      * 
      * @type {string}
@@ -3099,6 +3174,18 @@ export interface Property {
     'description'?: string;
     /**
      * 
+     * @type {PropertyType}
+     * @memberof Property
+     */
+    'type': PropertyType;
+    /**
+     * 
+     * @type {number}
+     * @memberof Property
+     */
+    'groupId'?: number;
+    /**
+     * 
      * @type {DataType}
      * @memberof Property
      */
@@ -3192,6 +3279,12 @@ export interface PropertyRef {
      * @memberof PropertyRef
      */
     'propertyType': PropertyType;
+    /**
+     * 
+     * @type {number}
+     * @memberof PropertyRef
+     */
+    'group'?: number;
 }
 
 
@@ -3217,9 +3310,10 @@ export type PropertyStatus = typeof PropertyStatus[keyof typeof PropertyStatus];
 
 export const PropertyType = {
     Event: 'event',
-    User: 'user',
     Custom: 'custom',
-    System: 'system'
+    System: 'system',
+    Group: 'group',
+    SystemGroup: 'systemGroup'
 } as const;
 
 export type PropertyType = typeof PropertyType[keyof typeof PropertyType];
@@ -3331,6 +3425,12 @@ export interface QueryAggregateProperty {
     'propertyType': PropertyType;
     /**
      * 
+     * @type {number}
+     * @memberof QueryAggregateProperty
+     */
+    'group'?: number;
+    /**
+     * 
      * @type {string}
      * @memberof QueryAggregateProperty
      */
@@ -3367,6 +3467,12 @@ export interface QueryAggregatePropertyPerGroup {
      * @memberof QueryAggregatePropertyPerGroup
      */
     'propertyType': PropertyType;
+    /**
+     * 
+     * @type {number}
+     * @memberof QueryAggregatePropertyPerGroup
+     */
+    'group'?: number;
     /**
      * 
      * @type {string}
@@ -3798,6 +3904,53 @@ export interface SignupRequest {
      */
     'lastName'?: string;
 }
+/**
+ * 
+ * @export
+ * @enum {string}
+ */
+
+export const SortDirection = {
+    Asc: 'asc',
+    Desc: 'desc'
+} as const;
+
+export type SortDirection = typeof SortDirection[keyof typeof SortDirection];
+
+
+/**
+ * reference to a property by id or name, depends on property type
+ * @export
+ * @interface SortablePropertyRef
+ */
+export interface SortablePropertyRef {
+    /**
+     * 
+     * @type {string}
+     * @memberof SortablePropertyRef
+     */
+    'propertyName'?: string;
+    /**
+     * 
+     * @type {PropertyType}
+     * @memberof SortablePropertyRef
+     */
+    'propertyType': PropertyType;
+    /**
+     * 
+     * @type {number}
+     * @memberof SortablePropertyRef
+     */
+    'group'?: number;
+    /**
+     * 
+     * @type {SortDirection}
+     * @memberof SortablePropertyRef
+     */
+    'direction'?: SortDirection;
+}
+
+
 /**
  * time spent after the first use of event. Use in segmentation
  * @export
@@ -4289,25 +4442,6 @@ export interface UpdateReportRequest {
 }
 
 
-/**
- * 
- * @export
- * @interface UserPropertiesList200Response
- */
-export interface UserPropertiesList200Response {
-    /**
-     * 
-     * @type {Array<Property>}
-     * @memberof UserPropertiesList200Response
-     */
-    'data'?: Array<Property>;
-    /**
-     * 
-     * @type {ListResponseMetadataMeta}
-     * @memberof UserPropertiesList200Response
-     */
-    'meta'?: ListResponseMetadataMeta;
-}
 /**
  * @type Value
  * value
@@ -5605,7 +5739,7 @@ export const EventPropertiesApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async eventPropertiesList(projectId: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UserPropertiesList200Response>> {
+        async eventPropertiesList(projectId: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GroupPropertiesList200Response>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.eventPropertiesList(projectId, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['EventPropertiesApi.eventPropertiesList']?.[localVarOperationServerIndex]?.url;
@@ -5657,7 +5791,7 @@ export const EventPropertiesApiFactory = function (configuration?: Configuration
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        eventPropertiesList(projectId: number, options?: any): AxiosPromise<UserPropertiesList200Response> {
+        eventPropertiesList(projectId: number, options?: any): AxiosPromise<GroupPropertiesList200Response> {
             return localVarFp.eventPropertiesList(projectId, options).then((request) => request(axios, basePath));
         },
         /**
@@ -6218,6 +6352,125 @@ export class EventsApi extends BaseAPI {
 
 
 /**
+ * GroupPropertiesApi - axios parameter creator
+ * @export
+ */
+export const GroupPropertiesApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @summary Group properties list
+         * @param {number} projectId 
+         * @param {string} groupId Group
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        groupPropertiesList: async (projectId: number, groupId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'projectId' is not null or undefined
+            assertParamExists('groupPropertiesList', 'projectId', projectId)
+            // verify required parameter 'groupId' is not null or undefined
+            assertParamExists('groupPropertiesList', 'groupId', groupId)
+            const localVarPath = `/v1/projects/{projectId}/schema/group-properties/{groupId}`
+                .replace(`{${"projectId"}}`, encodeURIComponent(String(projectId)))
+                .replace(`{${"groupId"}}`, encodeURIComponent(String(groupId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearerAuth required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * GroupPropertiesApi - functional programming interface
+ * @export
+ */
+export const GroupPropertiesApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = GroupPropertiesApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @summary Group properties list
+         * @param {number} projectId 
+         * @param {string} groupId Group
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async groupPropertiesList(projectId: number, groupId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GroupPropertiesList200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.groupPropertiesList(projectId, groupId, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['GroupPropertiesApi.groupPropertiesList']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+    }
+};
+
+/**
+ * GroupPropertiesApi - factory interface
+ * @export
+ */
+export const GroupPropertiesApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = GroupPropertiesApiFp(configuration)
+    return {
+        /**
+         * 
+         * @summary Group properties list
+         * @param {number} projectId 
+         * @param {string} groupId Group
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        groupPropertiesList(projectId: number, groupId: string, options?: any): AxiosPromise<GroupPropertiesList200Response> {
+            return localVarFp.groupPropertiesList(projectId, groupId, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * GroupPropertiesApi - object-oriented interface
+ * @export
+ * @class GroupPropertiesApi
+ * @extends {BaseAPI}
+ */
+export class GroupPropertiesApi extends BaseAPI {
+    /**
+     * 
+     * @summary Group properties list
+     * @param {number} projectId 
+     * @param {string} groupId Group
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof GroupPropertiesApi
+     */
+    public groupPropertiesList(projectId: number, groupId: string, options?: RawAxiosRequestConfig) {
+        return GroupPropertiesApiFp(this.configuration).groupPropertiesList(projectId, groupId, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+
+/**
  * GroupRecordsApi - axios parameter creator
  * @export
  */
@@ -6502,6 +6755,118 @@ export class GroupRecordsApi extends BaseAPI {
      */
     public updateGroupRecord(projectId: number, id: number, updateGroupRecordRequest: UpdateGroupRecordRequest, options?: RawAxiosRequestConfig) {
         return GroupRecordsApiFp(this.configuration).updateGroupRecord(projectId, id, updateGroupRecordRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+
+/**
+ * GroupsApi - axios parameter creator
+ * @export
+ */
+export const GroupsApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @summary Group list
+         * @param {number} projectId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        groupList: async (projectId: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'projectId' is not null or undefined
+            assertParamExists('groupList', 'projectId', projectId)
+            const localVarPath = `/v1/projects/{projectId}/groups`
+                .replace(`{${"projectId"}}`, encodeURIComponent(String(projectId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearerAuth required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * GroupsApi - functional programming interface
+ * @export
+ */
+export const GroupsApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = GroupsApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @summary Group list
+         * @param {number} projectId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async groupList(projectId: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GroupList200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.groupList(projectId, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['GroupsApi.groupList']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+    }
+};
+
+/**
+ * GroupsApi - factory interface
+ * @export
+ */
+export const GroupsApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = GroupsApiFp(configuration)
+    return {
+        /**
+         * 
+         * @summary Group list
+         * @param {number} projectId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        groupList(projectId: number, options?: any): AxiosPromise<GroupList200Response> {
+            return localVarFp.groupList(projectId, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * GroupsApi - object-oriented interface
+ * @export
+ * @class GroupsApi
+ * @extends {BaseAPI}
+ */
+export class GroupsApi extends BaseAPI {
+    /**
+     * 
+     * @summary Group list
+     * @param {number} projectId 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof GroupsApi
+     */
+    public groupList(projectId: number, options?: RawAxiosRequestConfig) {
+        return GroupsApiFp(this.configuration).groupList(projectId, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -8547,6 +8912,118 @@ export class ReportsApi extends BaseAPI {
 
 
 /**
+ * SystemGroupPropertiesApi - axios parameter creator
+ * @export
+ */
+export const SystemGroupPropertiesApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @summary Get system group property
+         * @param {number} projectId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getSystemGroupProperty: async (projectId: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'projectId' is not null or undefined
+            assertParamExists('getSystemGroupProperty', 'projectId', projectId)
+            const localVarPath = `/v1/projects/{projectId}/schema/system-group-properties`
+                .replace(`{${"projectId"}}`, encodeURIComponent(String(projectId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearerAuth required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * SystemGroupPropertiesApi - functional programming interface
+ * @export
+ */
+export const SystemGroupPropertiesApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = SystemGroupPropertiesApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @summary Get system group property
+         * @param {number} projectId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getSystemGroupProperty(projectId: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Property>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getSystemGroupProperty(projectId, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['SystemGroupPropertiesApi.getSystemGroupProperty']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+    }
+};
+
+/**
+ * SystemGroupPropertiesApi - factory interface
+ * @export
+ */
+export const SystemGroupPropertiesApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = SystemGroupPropertiesApiFp(configuration)
+    return {
+        /**
+         * 
+         * @summary Get system group property
+         * @param {number} projectId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getSystemGroupProperty(projectId: number, options?: any): AxiosPromise<Property> {
+            return localVarFp.getSystemGroupProperty(projectId, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * SystemGroupPropertiesApi - object-oriented interface
+ * @export
+ * @class SystemGroupPropertiesApi
+ * @extends {BaseAPI}
+ */
+export class SystemGroupPropertiesApi extends BaseAPI {
+    /**
+     * 
+     * @summary Get system group property
+     * @param {number} projectId 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof SystemGroupPropertiesApi
+     */
+    public getSystemGroupProperty(projectId: number, options?: RawAxiosRequestConfig) {
+        return SystemGroupPropertiesApiFp(this.configuration).getSystemGroupProperty(projectId, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+
+/**
  * SystemPropertiesApi - axios parameter creator
  * @export
  */
@@ -8663,7 +9140,7 @@ export const SystemPropertiesApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async systemPropertiesList(projectId: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UserPropertiesList200Response>> {
+        async systemPropertiesList(projectId: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GroupPropertiesList200Response>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.systemPropertiesList(projectId, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['SystemPropertiesApi.systemPropertiesList']?.[localVarOperationServerIndex]?.url;
@@ -8697,7 +9174,7 @@ export const SystemPropertiesApiFactory = function (configuration?: Configuratio
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        systemPropertiesList(projectId: number, options?: any): AxiosPromise<UserPropertiesList200Response> {
+        systemPropertiesList(projectId: number, options?: any): AxiosPromise<GroupPropertiesList200Response> {
             return localVarFp.systemPropertiesList(projectId, options).then((request) => request(axios, basePath));
         },
     };
@@ -8733,287 +9210,6 @@ export class SystemPropertiesApi extends BaseAPI {
      */
     public systemPropertiesList(projectId: number, options?: RawAxiosRequestConfig) {
         return SystemPropertiesApiFp(this.configuration).systemPropertiesList(projectId, options).then((request) => request(this.axios, this.basePath));
-    }
-}
-
-
-
-/**
- * UserPropertiesApi - axios parameter creator
- * @export
- */
-export const UserPropertiesApiAxiosParamCreator = function (configuration?: Configuration) {
-    return {
-        /**
-         * 
-         * @summary Get user property
-         * @param {number} projectId 
-         * @param {number} propertyId Property ID
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getUserProperty: async (projectId: number, propertyId: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'projectId' is not null or undefined
-            assertParamExists('getUserProperty', 'projectId', projectId)
-            // verify required parameter 'propertyId' is not null or undefined
-            assertParamExists('getUserProperty', 'propertyId', propertyId)
-            const localVarPath = `/v1/projects/{projectId}/schema/user-properties/{propertyId}`
-                .replace(`{${"projectId"}}`, encodeURIComponent(String(projectId)))
-                .replace(`{${"propertyId"}}`, encodeURIComponent(String(propertyId)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication bearerAuth required
-            // http bearer authentication required
-            await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @summary Update user property
-         * @param {number} projectId 
-         * @param {number} propertyId Property ID
-         * @param {UpdatePropertyRequest} updatePropertyRequest 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        updateUserProperty: async (projectId: number, propertyId: number, updatePropertyRequest: UpdatePropertyRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'projectId' is not null or undefined
-            assertParamExists('updateUserProperty', 'projectId', projectId)
-            // verify required parameter 'propertyId' is not null or undefined
-            assertParamExists('updateUserProperty', 'propertyId', propertyId)
-            // verify required parameter 'updatePropertyRequest' is not null or undefined
-            assertParamExists('updateUserProperty', 'updatePropertyRequest', updatePropertyRequest)
-            const localVarPath = `/v1/projects/{projectId}/schema/user-properties/{propertyId}`
-                .replace(`{${"projectId"}}`, encodeURIComponent(String(projectId)))
-                .replace(`{${"propertyId"}}`, encodeURIComponent(String(propertyId)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication bearerAuth required
-            // http bearer authentication required
-            await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
-
-    
-            localVarHeaderParameter['Content-Type'] = 'application/json';
-
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(updatePropertyRequest, localVarRequestOptions, configuration)
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @summary User properties list
-         * @param {number} projectId 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        userPropertiesList: async (projectId: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'projectId' is not null or undefined
-            assertParamExists('userPropertiesList', 'projectId', projectId)
-            const localVarPath = `/v1/projects/{projectId}/schema/user-properties`
-                .replace(`{${"projectId"}}`, encodeURIComponent(String(projectId)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication bearerAuth required
-            // http bearer authentication required
-            await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-    }
-};
-
-/**
- * UserPropertiesApi - functional programming interface
- * @export
- */
-export const UserPropertiesApiFp = function(configuration?: Configuration) {
-    const localVarAxiosParamCreator = UserPropertiesApiAxiosParamCreator(configuration)
-    return {
-        /**
-         * 
-         * @summary Get user property
-         * @param {number} projectId 
-         * @param {number} propertyId Property ID
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async getUserProperty(projectId: number, propertyId: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Property>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getUserProperty(projectId, propertyId, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['UserPropertiesApi.getUserProperty']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-        /**
-         * 
-         * @summary Update user property
-         * @param {number} projectId 
-         * @param {number} propertyId Property ID
-         * @param {UpdatePropertyRequest} updatePropertyRequest 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async updateUserProperty(projectId: number, propertyId: number, updatePropertyRequest: UpdatePropertyRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Property>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.updateUserProperty(projectId, propertyId, updatePropertyRequest, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['UserPropertiesApi.updateUserProperty']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-        /**
-         * 
-         * @summary User properties list
-         * @param {number} projectId 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async userPropertiesList(projectId: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UserPropertiesList200Response>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.userPropertiesList(projectId, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['UserPropertiesApi.userPropertiesList']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-    }
-};
-
-/**
- * UserPropertiesApi - factory interface
- * @export
- */
-export const UserPropertiesApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
-    const localVarFp = UserPropertiesApiFp(configuration)
-    return {
-        /**
-         * 
-         * @summary Get user property
-         * @param {number} projectId 
-         * @param {number} propertyId Property ID
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getUserProperty(projectId: number, propertyId: number, options?: any): AxiosPromise<Property> {
-            return localVarFp.getUserProperty(projectId, propertyId, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @summary Update user property
-         * @param {number} projectId 
-         * @param {number} propertyId Property ID
-         * @param {UpdatePropertyRequest} updatePropertyRequest 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        updateUserProperty(projectId: number, propertyId: number, updatePropertyRequest: UpdatePropertyRequest, options?: any): AxiosPromise<Property> {
-            return localVarFp.updateUserProperty(projectId, propertyId, updatePropertyRequest, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @summary User properties list
-         * @param {number} projectId 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        userPropertiesList(projectId: number, options?: any): AxiosPromise<UserPropertiesList200Response> {
-            return localVarFp.userPropertiesList(projectId, options).then((request) => request(axios, basePath));
-        },
-    };
-};
-
-/**
- * UserPropertiesApi - object-oriented interface
- * @export
- * @class UserPropertiesApi
- * @extends {BaseAPI}
- */
-export class UserPropertiesApi extends BaseAPI {
-    /**
-     * 
-     * @summary Get user property
-     * @param {number} projectId 
-     * @param {number} propertyId Property ID
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof UserPropertiesApi
-     */
-    public getUserProperty(projectId: number, propertyId: number, options?: RawAxiosRequestConfig) {
-        return UserPropertiesApiFp(this.configuration).getUserProperty(projectId, propertyId, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
-     * @summary Update user property
-     * @param {number} projectId 
-     * @param {number} propertyId Property ID
-     * @param {UpdatePropertyRequest} updatePropertyRequest 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof UserPropertiesApi
-     */
-    public updateUserProperty(projectId: number, propertyId: number, updatePropertyRequest: UpdatePropertyRequest, options?: RawAxiosRequestConfig) {
-        return UserPropertiesApiFp(this.configuration).updateUserProperty(projectId, propertyId, updatePropertyRequest, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
-     * @summary User properties list
-     * @param {number} projectId 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof UserPropertiesApi
-     */
-    public userPropertiesList(projectId: number, options?: RawAxiosRequestConfig) {
-        return UserPropertiesApiFp(this.configuration).userPropertiesList(projectId, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

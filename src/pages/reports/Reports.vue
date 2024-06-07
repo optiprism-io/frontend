@@ -238,7 +238,8 @@ const initEventsAndProperties = async () => {
     lexiconStore.getEvents(),
     lexiconStore.getSystemProperties(),
     lexiconStore.getEventProperties(),
-    lexiconStore.getUserProperties(),
+    await lexiconStore.getGroups(),
+    lexiconStore.getGroupProperties(),
   ])
 }
 

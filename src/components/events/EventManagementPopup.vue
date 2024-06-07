@@ -30,7 +30,7 @@
         :enable-placeholder="false"
         @on-action="onActionProperty"
       />
-      <UiTable
+      <!-- <UiTable
         v-if="activeTab === 'userProperties'"
         :compact="true"
         :items="itemsUserProperties"
@@ -38,63 +38,62 @@
         :show-toolbar="false"
         :enable-placeholder="false"
         @on-action="onActionUserProperty"
-      />
-      <DataEmptyPlaceholder
-        v-if="noData"
-        :content="noDataText"
-      />
+      /> -->
+      <DataEmptyPlaceholder v-if="noData" :content="noDataText" />
     </div>
   </UiPopupWindow>
 </template>
 
 <script lang="ts" setup>
-import { computed, inject, ref } from 'vue';
-import { EventCustomProperty } from '@/types/events';
-import { Action, Row } from '@/components/uikit/UiTable/UiTable';
-import { Property, Event } from '@/api';
-import DataEmptyPlaceholder from '@/components/common/data/DataEmptyPlaceholder.vue';
-import UiPopupWindow from '@/components/uikit/UiPopupWindow.vue';
-import UiTabs from '@/components/uikit/UiTabs.vue';
-import UiTable from '@/components/uikit/UiTable/UiTable.vue';
-import UiDescriptionList, { Item, ActionPayload } from '@/components/uikit/UiDescriptionList.vue';
-import UiTablePressedCell from '@/components/uikit/UiTable/UiTablePressedCell.vue';
-import propertiesColumnsConfig from '@/configs/events/propertiesTable.json';
-import { eventValuesConfig, Item as EventValuesConfig, EventValuesConfigKeysEnum } from '@/configs/events/eventValues';
-import usei18n from '@/hooks/useI18n';
+import { computed, inject, ref } from 'vue'
+import { EventCustomProperty } from '@/types/events'
+import { Action, Row } from '@/components/uikit/UiTable/UiTable'
+import { Property, Event } from '@/api'
+import DataEmptyPlaceholder from '@/components/common/data/DataEmptyPlaceholder.vue'
+import UiPopupWindow from '@/components/uikit/UiPopupWindow.vue'
+import UiTabs from '@/components/uikit/UiTabs.vue'
+import UiTable from '@/components/uikit/UiTable/UiTable.vue'
+import UiDescriptionList, { Item, ActionPayload } from '@/components/uikit/UiDescriptionList.vue'
+import UiTablePressedCell from '@/components/uikit/UiTable/UiTablePressedCell.vue'
+import propertiesColumnsConfig from '@/configs/events/propertiesTable.json'
+import {
+  eventValuesConfig,
+  Item as EventValuesConfig,
+  EventValuesConfigKeysEnum,
+} from '@/configs/events/eventValues'
+import usei18n from '@/hooks/useI18n'
 
 export type EventObject = {
-    [key: string]: string | string[] | boolean
+  [key: string]: string | string[] | boolean
 }
-export type ApplyPayload = EventObject;
+export type ApplyPayload = EventObject
 
 const i18n = inject<any>('i18n')
 
 type Props = {
-    name?: string
-    loading?: boolean
-    event: Event | null
-    properties: Property[]
-    userProperties: Property[]
+  name?: string
+  loading?: boolean
+  event: Event | null
+  properties: Property[]
 }
 
 const tabs = {
-    event: 'event',
-    properties: 'properties',
-    userProperties: 'userProperties',
-};
+  event: 'event',
+  properties: 'properties',
+}
 
-const { t } = usei18n();
+const { t } = usei18n()
 
 const props = withDefaults(defineProps<Props>(), {
-    name: '',
+  name: '',
 })
 
 const emit = defineEmits<{
-    (e: 'cancel'): void,
-    (e: 'apply', payload: ApplyPayload): void,
-    (e: 'on-action-property', payload: Action): void,
-    (e: 'on-action-user-property', payload: ApplyPayload): void,
-}>();
+  (e: 'cancel'): void
+  (e: 'apply', payload: ApplyPayload): void
+  (e: 'on-action-property', payload: Action): void
+  // (e: 'on-action-user-property', payload: ApplyPayload): void
+}>()
 
 const activeTab = ref('event')
 
@@ -102,143 +101,148 @@ const editEvent = ref<EventObject | null>(null)
 const applyDisabled = computed(() => !editEvent.value)
 
 const noDataText = computed(() => {
-    if (activeTab.value === tabs.userProperties) {
-        return itemsUserProperties.value?.length ? '' : t('common.eventNoUserProperties');
-    }
-    if (activeTab.value === tabs.properties) {
-        return itemsProperties.value?.length ? '' : t('common.eventNoProperties');
-    }
-    return '';
-});
+  if (activeTab.value === tabs.properties) {
+    return itemsProperties.value?.length ? '' : t('common.eventNoProperties')
+  }
+  return ''
+})
 
 const noData = computed(() => {
-    return (!props.loading && noDataText.value);
-});
+  return !props.loading && noDataText.value
+})
 
 const getTableRows = (properties: Property[] | EventCustomProperty[]) => {
-    return properties.map((prop: Property | EventCustomProperty): Row => {
-        const keys = (propertiesColumnsConfig.map(item => item.key) as (keyof typeof prop)[])
-        const rows: Row = [];
+  return properties.map((prop: Property | EventCustomProperty): Row => {
+    const keys = propertiesColumnsConfig.map(item => item.key) as (keyof typeof prop)[]
+    const rows: Row = []
 
-        keys.forEach((key) => {
-            if (prop[key]) {
-                rows.push(key === 'name' ?
-                    {
-                        key: 'name',
-                        title: String(prop[key]) || '',
-                        component: UiTablePressedCell,
-                        action: {
-                            type: prop.id,
-                            name: prop.name,
-                        }
-                    } :
-                    {
-                        key,
-                        title: String(prop[key]) || '',
-                    })
-            }
-        })
-
-        return rows
+    keys.forEach(key => {
+      if (prop[key]) {
+        rows.push(
+          key === 'name'
+            ? {
+                key: 'name',
+                title: String(prop[key]) || '',
+                component: UiTablePressedCell,
+                action: {
+                  type: prop.id,
+                  name: prop.name,
+                },
+              }
+            : {
+                key,
+                title: String(prop[key]) || '',
+              }
+        )
+      }
     })
+
+    return rows
+  })
 }
 
 const getValueEventItems = (key: EventValuesConfigKeysEnum) => {
-    if (props.event) {
-        switch (key) {
-            case EventValuesConfigKeysEnum.Status:
-                return key in props.event ? props.event[key] === 'enabled' : '';
-            case EventValuesConfigKeysEnum.Tags:
-                return props.event[key] || [];
-            default:
-                return editEvent.value && key in editEvent.value ? (editEvent.value[key] || '') : key in props.event ? (props.event[key] || '')  : '';
-        }
-    } else {
-        return '';
+  if (props.event) {
+    switch (key) {
+      case EventValuesConfigKeysEnum.Status:
+        return key in props.event ? props.event[key] === 'enabled' : ''
+      case EventValuesConfigKeysEnum.Tags:
+        return props.event[key] || []
+      default:
+        return editEvent.value && key in editEvent.value
+          ? editEvent.value[key] || ''
+          : key in props.event
+            ? props.event[key] || ''
+            : ''
     }
+  } else {
+    return ''
+  }
 }
 
 const itemsTabs = computed(() => {
-    return Object.values(tabs).map(key => {
-        return {
-            name: i18n.$t(`events.event_management.popup.tabs.${key}`),
-            active: activeTab.value === key,
-            value: key,
-        };
-    });
-});
-
-const eventItems = computed<Item[]>(() => {
-    const items: Item[] = [];
-    const event = props.event;
-
-    if (event) {
-        const keys = (Object.keys(eventValuesConfig) as (keyof typeof props.event)[])
-        keys.forEach(key => {
-            const config: EventValuesConfig = eventValuesConfig[key];
-            if (key in event) {
-                const item: Item = {
-                    label: i18n.$t(config.string),
-                    key,
-                    value: getValueEventItems(key),
-                    component: config.component || 'p'
-                }
-                items.push(item)
-            }
-        })
+  return Object.values(tabs).map(key => {
+    return {
+      name: i18n.$t(`events.event_management.popup.tabs.${key}`),
+      active: activeTab.value === key,
+      value: key,
     }
-    return items
+  })
 })
 
-const title = computed(() => props.event ? `${i18n.$t('events.event_management.event')}: ${props.event.name}` : '')
+const eventItems = computed<Item[]>(() => {
+  const items: Item[] = []
+  const event = props.event
+
+  if (event) {
+    const keys = Object.keys(eventValuesConfig) as (keyof typeof props.event)[]
+    keys.forEach(key => {
+      const config: EventValuesConfig = eventValuesConfig[key]
+      if (key in event) {
+        const item: Item = {
+          label: i18n.$t(config.string),
+          key,
+          value: getValueEventItems(key),
+          component: config.component || 'p',
+        }
+        items.push(item)
+      }
+    })
+  }
+  return items
+})
+
+const title = computed(() =>
+  props.event ? `${i18n.$t('events.event_management.event')}: ${props.event.name}` : ''
+)
 
 const columnsProperties = computed(() => {
-    return propertiesColumnsConfig.map(item => {
-        return {
-            value: item.key,
-            title: i18n.$t(item.string),
-        }
-    })
+  return propertiesColumnsConfig.map(item => {
+    return {
+      value: item.key,
+      title: i18n.$t(item.string),
+    }
+  })
 })
 
 const itemsProperties = computed(() => getTableRows(props.properties))
-const itemsUserProperties = computed(() => getTableRows(props.userProperties))
+// const itemsUserProperties = computed(() => getTableRows(props.userProperties))
 
 const onSelectTab = (payload: string) => {
-    activeTab.value = payload
+  activeTab.value = payload
 }
 
 const apply = () => {
-    if (editEvent.value) {
-        emit('apply', editEvent.value)
-    }
+  if (editEvent.value) {
+    emit('apply', editEvent.value)
+  }
 }
 
 const cancel = () => {
-    emit('cancel')
+  emit('cancel')
 }
 
 const onInputEventItem = async (payload: ActionPayload) => {
-    let value = payload.value
+  let value = payload.value
 
-    if (payload.key === 'status') {
-        value = payload.value ? 'enabled' : 'disabled'
-    }
+  if (payload.key === 'status') {
+    value = payload.value ? 'enabled' : 'disabled'
+  }
 
-    if (editEvent.value) {
-        editEvent.value[payload.key] = value
-    } else {
-        editEvent.value = {
-            [payload.key]: value
-        }
+  if (editEvent.value) {
+    editEvent.value[payload.key] = value
+  } else {
+    editEvent.value = {
+      [payload.key]: value,
     }
+  }
 }
 
-const onActionUserProperty = (payload: Action) => {
-    emit('on-action-user-property', payload as ApplyPayload);
-};
+// const onActionUserProperty = (payload: Action) => {
+//   emit('on-action-user-property', payload as ApplyPayload)
+// }
 
 const onActionProperty = (payload: Action) => {
-    emit('on-action-property', payload);
-};
+  emit('on-action-property', payload)
+}
 </script>

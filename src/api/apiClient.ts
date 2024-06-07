@@ -16,7 +16,8 @@ import {
   QueryApi,
   ReportsApi,
   SystemPropertiesApi,
-  UserPropertiesApi,
+  GroupPropertiesApi,
+  GroupsApi
 } from '@/api/index'
 import { BASE_PATH } from '@/api/base'
 
@@ -40,7 +41,8 @@ class ApiClient {
   query: QueryApi
   reports: ReportsApi
   systemProperties: SystemPropertiesApi
-  userProperties: UserPropertiesApi
+  groupProperties: GroupPropertiesApi
+  groups: GroupsApi
 
   constructor() {
     this.auth = new AuthApi(config)
@@ -58,7 +60,8 @@ class ApiClient {
     this.query = new QueryApi(config)
     this.reports = new ReportsApi(config)
     this.systemProperties = new SystemPropertiesApi(config)
-    this.userProperties = new UserPropertiesApi(config)
+    this.groupProperties = new GroupPropertiesApi(config)
+    this.groups = new GroupsApi(config)
   }
 }
 

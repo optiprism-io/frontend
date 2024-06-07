@@ -184,11 +184,10 @@ import { EventType } from '@/api'
 import CommonIdentifier from '@/components/common/identifier/CommonIdentifier.vue'
 import PropertySelect from '@/components/events/PropertySelect.vue'
 import { useEventsStore } from '@/stores/eventSegmentation/events'
-import { useProjectsStore } from '@/stores/projects/projects'
-import { apiClient } from '@/api/apiClient'
+import { usePropertyValues } from '@/hooks/usePropertyValues'
 
-const projectsStore = useProjectsStore()
 const eventsStore = useEventsStore()
+const { getValues } = usePropertyValues()
 
 type Props = {
   eventRef: EventRef
@@ -253,7 +252,7 @@ const showRows = computed(() => {
 const isShowAddFilter = computed(() => {
   return (
     lexiconStore?.eventProperties?.length ||
-    lexiconStore?.userProperties?.length ||
+    lexiconStore?.groupProperties.flat()?.length ||
     lexiconStore?.userCustomProperties?.length
   )
 })
@@ -286,27 +285,6 @@ const removeFilter = (filterIdx: number): void => {
   const event = props.event
   event.filters.splice(filterIdx, 1)
   emit('on-change')
-}
-
-const getPropertyValues = async (propRef: PropertyRef) => {
-  let valuesList: Value[] = []
-
-  try {
-    const res = await apiClient.propertyValues.propertyValuesList(projectsStore.projectId, {
-      eventName: props.event.ref.name,
-      eventType: props.event.ref.type as EventType,
-      propertyName: propRef.name,
-      propertyType: propRef.type,
-    })
-
-    if (res?.data?.data) {
-      valuesList = res.data.data
-    }
-  } catch (_) {
-    throw new Error('error getPropertyValues')
-  }
-
-  return valuesList
 }
 
 const addFilter = (propRef: PropertyRef): void => {
@@ -347,8 +325,9 @@ const changeFilterProperty = async (filterIdx: number, propRef: PropertyRef, onC
 const updateValue = async (filterIdx: number) => {
   const event = props.event
   const filter = event.filters[filterIdx]
+
   if (filter?.propRef) {
-    filter.valuesList = (await getPropertyValues(filter.propRef)) || []
+    filter.valuesList = (await getValues(filter.propRef, props.eventRef)) || []
     event.filters[filterIdx] = filter
   }
 }

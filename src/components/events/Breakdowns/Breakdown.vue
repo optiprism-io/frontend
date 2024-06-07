@@ -134,7 +134,7 @@ const breakdownName = (): string => {
     }
 
     if (isBreakdownUserProperty(props.breakdown)) {
-        return lexiconStore.findUserPropertyById(
+        return lexiconStore.findGroupProperty(
             (props.breakdown as BreakdownUserProperty).propertyId
         )?.name || '';
     }

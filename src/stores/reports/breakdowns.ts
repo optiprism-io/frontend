@@ -125,11 +125,17 @@ export const useBreakdownsStore = defineStore('breakdowns', {
     },
     breakdownsItems(): BreakdownByProperty[] {
       return this.breakdowns.map(item => {
-        return {
+        const filter: BreakdownByProperty = {
           type: 'property',
           propertyType: item.propRef?.type as BreakdownByProperty['propertyType'],
           propertyName: item.propRef?.name || '',
         }
+
+        if (item.propRef?.group || item.propRef?.group === 0) {
+          filter.group = item.propRef?.group;
+        }
+
+        return filter
       })
     },
   },

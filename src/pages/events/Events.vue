@@ -19,18 +19,10 @@
       v-if="commonStore.showEventManagementPopup"
       :event="editEventManagementPopup"
       :properties="eventProperties"
-      :user-properties="userProperties"
       :loading="eventManagementPopupLoading"
       @apply="eventManagementPopupApply"
       @cancel="eventManagementPopupCancel"
       @on-action-property="onActionProperty"
-      @on-action-user-property="onActiononUserProperty"
-    />
-    <UserPropertyPopup
-      v-if="lexiconStore.userPropertyPopup"
-      :property="editProperty"
-      @apply="userPropertyPopupApply"
-      @cancel="userPropertyPopupCancel"
     />
   </section>
 </template>
@@ -45,9 +37,6 @@ import EventPropertyPopup, { ApplyPayload } from '@/components/events/EventPrope
 import EventManagementPopup, {
   ApplyPayload as ApplyPayloadEvent,
 } from '@/components/events/EventManagementPopup.vue'
-import UserPropertyPopup, {
-  ApplyPayload as ApplyPayloadUser,
-} from '@/components/events/UserPropertyPopup.vue'
 import { Action } from '@/components/uikit/UiTable/UiTable'
 import navPagesConfig from '@/configs/events/navPages.json'
 import { pagesMap } from '@/router'
@@ -60,8 +49,6 @@ const commonStore = useCommonStore()
 
 const propertyPopupLoading = ref(false)
 const eventManagementPopupLoading = ref(false)
-const editProperty = ref<Property | null>(null)
-const popupLoading = ref(false)
 
 const items = computed(() => {
   return navPagesConfig.map(item => {
@@ -74,12 +61,8 @@ const items = computed(() => {
 })
 
 const editPropertyPopup = computed(() => {
-  if (commonStore.editEventPropertyPopupId) {
-    if (commonStore.editEventPropertyPopupType === PropertyTypeEnum.EventProperty) {
-      return lexiconStore.findEventPropertyById(commonStore.editEventPropertyPopupId)
-    } else {
-      return lexiconStore.findUserPropertyById(commonStore.editEventPropertyPopupId)
-    }
+  if (commonStore.editEventPropertyPopupId && commonStore.editEventPropertyPopupType === PropertyTypeEnum.EventProperty) {
+    return lexiconStore.findEventPropertyById(commonStore.editEventPropertyPopupId)
   } else {
     return null
   }
@@ -132,25 +115,13 @@ const eventProperties = computed(() => {
   }, [])
 })
 
-const userPropertiesIds = computed(() => {
-  return (editEventManagementPopup.value && editEventManagementPopup.value?.userProperties) || []
-})
-const userProperties = computed(() => {
-  return userPropertiesIds.value.reduce((acc: Property[], id) => {
-    const property = lexiconStore.findUserPropertyById(id)
-    if (property) {
-      acc.push(property)
-    }
-    return acc
-  }, [])
-})
-
 const initEventsAndProperties = async () => {
   await Promise.all([
     lexiconStore.getEvents(),
     lexiconStore.getSystemProperties(),
     lexiconStore.getEventProperties(),
-    lexiconStore.getUserProperties(),
+    await lexiconStore.getGroups(),
+    lexiconStore.getGroupProperties(),
   ])
 }
 
@@ -187,32 +158,6 @@ const onActionProperty = (payload: Action) => {
   commonStore.editEventPropertyPopupId = Number(payload.type) || null
   commonStore.showEventManagementPopup = false
   commonStore.showEventPropertyPopup = true
-}
-
-const onActiononUserProperty = (payload: ApplyPayloadEvent) => {
-  if (typeof payload.type === 'number') {
-    commonStore.toggleEventManagementPopup(false)
-    const property = lexiconStore.findUserPropertyById(payload.type)
-
-    if (property) {
-      commonStore.editEventPropertyPopupId = Number(payload.type) || null
-      editProperty.value = property
-      lexiconStore.userPropertyPopup = true
-    }
-  }
-}
-
-const userPropertyPopupApply = async (payload: ApplyPayloadUser) => {
-  popupLoading.value = false
-  await lexiconStore.updateUserProperty(payload)
-  popupLoading.value = false
-  commonStore.editEventPropertyPopupId = null
-  lexiconStore.userPropertyPopup = false
-  editProperty.value = null
-}
-
-const userPropertyPopupCancel = () => {
-  lexiconStore.userPropertyPopup = false
 }
 
 const onSelectPage = (value: string) => {

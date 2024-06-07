@@ -204,7 +204,7 @@ async function fetchReports(): Promise<void> {
 
   const res = await apiClient.query.funnelQuery(projectsStore.projectId, {
     time: timeRequest.value,
-    group: '',
+    group: stepsStore.group,
     steps: stepsStore.getSteps,
     timeWindow: {
       n: size.value,
@@ -226,5 +226,6 @@ async function fetchReports(): Promise<void> {
   }
 }
 
+watch(() => stepsStore.group, getReports)
 watch(() => stepsStore.steps.length, getReports)
 </script>

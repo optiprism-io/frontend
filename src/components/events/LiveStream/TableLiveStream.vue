@@ -6,9 +6,8 @@
       :columns="tableData.tableColumnsValues"
       :filter-columns="columnsPropertues"
       :no-data-text="$t('events.noEventsFound')"
-      :show-select-columns="true"
+      :show-select-columns="false"
       :default-columns="defaultColumns"
-      @select-columns="selectColumns"
       @on-action="onAction"
     >
       <template #before>
@@ -39,6 +38,22 @@
           </template>
         </UiToggleGroup>
       </template>
+      <template #after>
+        <Select
+          grouped
+          :items="itemsProperties"
+          :width-auto="true"
+          :multiple="true"
+          @select="selectColumn"
+        >
+          <UiButton
+            class="pf-m-control"
+            :after-icon="'fas fa-caret-down'"
+          >
+            {{ columnsButtonText }}
+          </UiButton>
+        </Select>
+      </template>
     </UiTable>
     <LiveStreamEventPopup v-if="liveStreamStore.eventPopup" :name="eventPopupName" />
   </div>
@@ -53,7 +68,7 @@ import { useLexiconStore } from '@/stores/lexicon'
 import { useEventsStore } from '@/stores/eventSegmentation/events'
 import useDataTable from '@/hooks/useDataTable'
 import usei18n from '@/hooks/useI18n'
-import { PropertyRef } from '@/api'
+import { useProperty } from '@/hooks/useProperty'
 
 import { shortPeriodDays } from '@/components/uikit/UiCalendar/UiCalendar.config'
 import { ApplyPayload } from '@/components/uikit/UiCalendar/UiCalendar'
@@ -62,12 +77,15 @@ import UiToggleGroup, { UiToggleGroupItem } from '@/components/uikit/UiToggleGro
 import UiDatePicker from '@/components/uikit/UiDatePicker.vue'
 import UiTable from '@/components/uikit/UiTable/UiTable.vue'
 import LiveStreamEventPopup from '@/components/events/LiveStreamEventPopup.vue'
+import Select from '@/components/Select/Select.vue'
+import { PropertyRef } from '@/types/events'
 
 const { t } = usei18n()
 const liveStreamStore = useLiveStreamStore()
 const commonStore = useCommonStore()
 const lexiconStore = useLexiconStore()
 const eventsStore = useEventsStore()
+const { groupedProperties } = useProperty()
 
 const createCustomEvent = 'create'
 const eventName = 'eventName'
@@ -94,6 +112,28 @@ const tableData = computed(() => {
     {}
   )
 })
+
+const itemsProperties = computed(() => {
+  return groupedProperties.value.map(group => {
+    return {
+      name: group.name,
+      items: group.items.map(item => {
+        const property = liveStreamStore.activeColumns.find(prop => 
+          prop.group === item.item.group &&
+          prop.id === item.item.id &&
+          prop.name === item.name
+        )
+
+        return {
+          ...item,
+          selected: Boolean(property)
+        }
+      })
+    }
+  })
+})
+
+const columnsButtonText = computed(() => `${liveStreamStore.activeColumns.length} ${t('common.columns')}`)
 
 const lastCount = computed(() => {
   return liveStreamStore.period.last
@@ -139,28 +179,33 @@ const calendarValueString = computed(() => {
   }
 })
 
-const selectColumns = (payload: string[]) => {
-  liveStreamStore.toggleColumns(
-    payload.reduce((acc: PropertyRef[], key) => {
-      const property = lexiconStore.properties.find(
-        property => property.propertyName === key
-      ) as PropertyRef
-      if (property) {
-        acc.push(property)
-      }
-      return acc
-    }, [])
-  )
-
-  updateReport()
-}
-
 const updateReport = () => {
   liveStreamStore.getReportLiveStream()
 }
 
 const onSelectPeriod = (payload: string) => {
   liveStreamStore.controlsPeriod = payload
+  updateReport()
+}
+
+const selectColumn = (payload: PropertyRef) => {
+  const propertyIndex = liveStreamStore.activeColumns.findIndex(prop => 
+    prop.group === payload.group &&
+    prop.id === payload.id &&
+    prop.name === payload.name
+  )
+  const items = liveStreamStore.activeColumns;
+
+  if (propertyIndex === -1) {
+    items.push(payload)
+    liveStreamStore.toggleColumns([
+      ...liveStreamStore.activeColumns,
+      payload
+    ])
+  } else {
+    items[propertyIndex] = payload
+  }
+  liveStreamStore.toggleColumns(items)
   updateReport()
 }
 
