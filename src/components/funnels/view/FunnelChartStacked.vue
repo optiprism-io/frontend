@@ -19,6 +19,7 @@ import { getRandomColor, lighten } from '@/helpers/colorHelper'
 import { humanReadable } from '@/utils/humanReadable'
 import { StepKey } from '@/components/funnels/view/funnelViews'
 import { toFixedFormat } from '@/utils/toFixedFormat'
+import { uncamelize } from '@/utils/uncamelize'
 
 const G = getEngine('canvas')
 const container = ref<HTMLDivElement | null>(null)
@@ -112,7 +113,7 @@ const update = () => {
             ? [
                 {
                   ...item,
-                  name: secondaryKey,
+                  name: uncamelize(secondaryKey),
                   value: secondaryValue,
                 },
               ]
@@ -121,7 +122,7 @@ const update = () => {
         return [
           {
             ...item,
-            name: primaryKey,
+            name: uncamelize(primaryKey),
             value: primaryValue,
           },
           ...secondaryBlock,
