@@ -20,7 +20,7 @@
             </EventSelector>
           </template>
 
-          <UiActionListItem>
+          <UiActionListItem v-if="false">
             <VTooltip class="ui-hint">
               <EventSelector @select="(value) => addStepToEvent(index, value)">
                 <UiIcon icon="fas fa-plus" />
