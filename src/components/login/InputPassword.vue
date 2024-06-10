@@ -2,7 +2,7 @@
   <UiInputGroup>
     <UiInput
       v-model="curModelValue"
-      name="login-password"
+      :name="name"
       :type="showPassword ? 'text' : 'password'"
       :invalid="invalid"
       :autofocus="autofocus"
@@ -25,11 +25,13 @@ interface Props {
   modelValue: string
   invalid?: boolean
   autofocus?: boolean
+  name?: string
 }
 
 const props = withDefaults(defineProps<Props>(), {
   invalid: false,
   autofocus: false,
+  name: 'password',
 })
 
 const emit = defineEmits(['update:modelValue', 'input'])
@@ -38,5 +40,3 @@ const curModelValue = useVModel(props, 'modelValue', emit)
 
 const showPassword = ref(false)
 </script>
-
-<style scoped lang="scss"></style>

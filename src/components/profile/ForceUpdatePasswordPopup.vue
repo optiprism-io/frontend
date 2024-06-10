@@ -31,6 +31,7 @@
       <InputPassword
         v-model="confirmPassword"
         :invalid="!!confirmError"
+        name="confirm-password"
         @update:model-value="clearError"
       />
       <UiFormError :error="confirmError" />

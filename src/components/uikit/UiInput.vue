@@ -1,35 +1,29 @@
 <template>
   <input
     :id="props.name"
-    ref="input"
     class="pf-c-form-control"
-    :value="props.modelValue || props.value"
-    :placeholder="props.placeholder"
-    :min="props.min"
-    :required="props.required"
-    :name="props.name"
-    :type="props.type"
+    :value="modelValue || value"
+    :placeholder="placeholder"
+    :min="min"
+    :required="required"
+    :name="name"
+    :type="type"
     :aria-invalid="invalid"
     :autocomplete="props.autocomplete"
     :disabled="disabled"
+    :autofocus="autofocus"
     @input="updateValue"
     @blur="blur"
   >
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
-import { useFocus } from '@vueuse/core'
-
-const emit = defineEmits(['update:modelValue', 'blur', 'input'])
-
 interface Props {
   modelValue?: number | string
   value?: number | string
   type?: string
   placeholder?: string
   min?: number
-  mountFocus?: boolean
   required?: boolean
   name?: string
   error?: string
@@ -43,7 +37,6 @@ const props = withDefaults(defineProps<Props>(), {
   modelValue: '',
   value: '',
   type: 'text',
-  mountFocus: false,
   placeholder: undefined,
   min: undefined,
   name: undefined,
@@ -53,16 +46,7 @@ const props = withDefaults(defineProps<Props>(), {
   autofocus: false,
 })
 
-const input = ref<HTMLCanvasElement | null>(null)
-
-onMounted(() => {
-  if (props.mountFocus) {
-    const inputElement = input.value
-    if (inputElement) {
-      inputElement.focus()
-    }
-  }
-})
+const emit = defineEmits(['update:modelValue', 'blur', 'input'])
 
 const updateValue = (e: Event) => {
   const target = e.target as HTMLInputElement
@@ -72,9 +56,4 @@ const updateValue = (e: Event) => {
 }
 
 const blur = (e: any) => emit('blur', e)
-
-const { focused } = useFocus(input)
-onMounted(() => {
-  if (props.autofocus) focused.value = true
-})
 </script>
