@@ -45,9 +45,9 @@ export function useProjectSettings() {
   }
 
   async function saveProjectName(id: number, name: string) {
-    const nCheck = safeParse(notEmptyString, name)
+    const nCheck = safeParse(notEmptyString, name, { abortEarly: true })
     if (!nCheck.success) {
-      errors.value.updateProject.name = nCheck.error
+      errors.value.updateProject.name = new Error(nCheck.issues[0].message)
       return
     }
 
@@ -56,9 +56,9 @@ export function useProjectSettings() {
   }
 
   async function saveSessionDuration(id: number, duration: number) {
-    const dCheck = safeParse(moreThanZeroNumber, duration)
+    const dCheck = safeParse(moreThanZeroNumber, duration, { abortEarly: true })
     if (!dCheck.success) {
-      errors.value.updateProject.sessionDurationSeconds = dCheck.error
+      errors.value.updateProject.sessionDurationSeconds = new Error(dCheck.issues[0].message)
       return
     }
 

@@ -1,13 +1,14 @@
 import {
-  custom,
+  check,
   email,
   forward,
   minLength,
   minValue,
   number,
   object,
+  pipe,
   string,
-  toTrimmed,
+  trim,
 } from 'valibot'
 
 const enum Error {
@@ -15,21 +16,20 @@ const enum Error {
   NotMatchPassword = 'The passwords do not match',
 }
 
-export const notEmptyString = string([toTrimmed(), minLength(1, Error.EmptyField)])
+export const notEmptyString = pipe(string(), trim(), minLength(1, Error.EmptyField))
 
-export const notEmptyEmail = string([toTrimmed(), minLength(1, Error.EmptyField), email()])
+export const notEmptyEmail = pipe(notEmptyString, email())
 
-export const moreThanZeroNumber = number([minValue(1)])
+export const moreThanZeroNumber = pipe(number(), minValue(1))
 
-export const confirmPassword = object(
-  {
-    newPassword: string([toTrimmed(), minLength(1, Error.EmptyField)]),
-    confirmPassword: string([toTrimmed(), minLength(1, Error.EmptyField)]),
-  },
-  [
-    forward(
-      custom(input => input.newPassword === input.confirmPassword, Error.NotMatchPassword),
-      ['confirmPassword']
-    ),
-  ]
+/* https://valibot.dev/guides/methods/ */
+export const confirmPassword = pipe(
+  object({
+    newPassword: notEmptyString,
+    confirmPassword: notEmptyString,
+  }),
+  forward(
+    check(input => input.newPassword === input.confirmPassword, Error.NotMatchPassword),
+    ['confirmPassword']
+  )
 )

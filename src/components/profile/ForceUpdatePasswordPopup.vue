@@ -62,12 +62,16 @@ const confirmError = ref<string | null>(null)
 const { mutate: setPassword, isLoading } = useMutation(changePassword)
 
 async function changePassword() {
-  const check = safeParse(confirmPasswordScheme, {
-    newPassword: password.value,
-    confirmPassword: confirmPassword.value,
-  })
+  const check = safeParse(
+    confirmPasswordScheme,
+    {
+      newPassword: password.value,
+      confirmPassword: confirmPassword.value,
+    },
+    { abortEarly: true }
+  )
   if (!check.success) {
-    confirmError.value = check.issues?.[0].message
+    confirmError.value = check.issues[0].message
     return
   }
 

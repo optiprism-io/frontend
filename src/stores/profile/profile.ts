@@ -74,7 +74,7 @@ export const useProfileStore = defineStore('profile', {
     },
 
     async saveEditName({ name }: UpdateProfileNameRequest) {
-      const nCheck = safeParse(notEmptyString, name)
+      const nCheck = safeParse(notEmptyString, name, { abortEarly: true })
       if (!nCheck.success) {
         this.errors.updateName.name = nCheck.issues[0].message
         return
@@ -100,8 +100,8 @@ export const useProfileStore = defineStore('profile', {
     },
 
     async saveEditEmail({ email, password }: UpdateProfileEmailRequest) {
-      const eCheck = safeParse(notEmptyEmail, email)
-      const pCheck = safeParse(notEmptyString, password)
+      const eCheck = safeParse(notEmptyEmail, email, { abortEarly: true })
+      const pCheck = safeParse(notEmptyString, password, { abortEarly: true })
       if (!eCheck.success || !pCheck.success) {
         this.errors.updateEmail.email = eCheck.issues?.[0].message
         this.errors.updateEmail.password = pCheck.issues?.[0].message
@@ -133,12 +133,16 @@ export const useProfileStore = defineStore('profile', {
       newPassword,
       confirmPassword,
     }: UpdateProfilePasswordRequestExt) {
-      const curPCheck = safeParse(notEmptyString, password)
-      const newPCheck = safeParse(notEmptyString, newPassword)
-      const conPCheck = safeParse(confirmPasswordScheme, {
-        newPassword,
-        confirmPassword,
-      })
+      const curPCheck = safeParse(notEmptyString, password, { abortEarly: true })
+      const newPCheck = safeParse(notEmptyString, newPassword, { abortEarly: true })
+      const conPCheck = safeParse(
+        confirmPasswordScheme,
+        {
+          newPassword,
+          confirmPassword,
+        },
+        { abortEarly: true }
+      )
 
       if (!curPCheck.success || !newPCheck.success || !conPCheck.success) {
         this.errors.updatePassword.password = curPCheck.issues?.[0].message
@@ -242,6 +246,6 @@ export const useProfileStore = defineStore('profile', {
       const authStore = useAuthStore()
       authStore.setToken(tokens)
       this.profile.forceUpdatePassword = false
-    }
+    },
   },
 })

@@ -149,8 +149,8 @@ const login = async (): Promise<void | Error> => {
 }
 
 const actionForm = () => {
-  const eCheck = safeParse(notEmptyEmail, email.value)
-  const pCheck = safeParse(notEmptyString, password.value)
+  const eCheck = safeParse(notEmptyEmail, email.value, { abortEarly: true })
+  const pCheck = safeParse(notEmptyString, password.value, { abortEarly: true })
 
   if (!eCheck.success) {
     errorFields.value = merge(errorFields.value, {
