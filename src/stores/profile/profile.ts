@@ -12,7 +12,7 @@ import {
   confirmPassword as confirmPasswordScheme,
   notEmptyEmail,
   notEmptyString,
-} from '@/utils/validationSchemes'
+} from '@/plugins/valibot'
 import {
   isErrorResponseError,
   ProfileEdit,

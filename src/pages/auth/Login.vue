@@ -93,7 +93,7 @@ import UiCheckbox from '@/components/uikit/UiCheckbox.vue'
 import UiForm from '@/components/uikit/UiForm.vue'
 import UiFormGroup from '@/components/uikit/UiFormGroup.vue'
 import { safeParse } from 'valibot'
-import { notEmptyEmail, notEmptyString } from '@/utils/validationSchemes'
+import { notEmptyEmail, notEmptyString } from '@/plugins/valibot'
 import { merge } from 'lodash-es'
 import InputPassword from '@/components/login/InputPassword.vue'
 

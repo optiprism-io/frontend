@@ -1,7 +1,7 @@
 import { ref } from 'vue'
 import { ProjectEdit, ProjectErrors } from '@/stores/projects/types'
 import { safeParse } from 'valibot'
-import { moreThanZeroNumber, notEmptyString } from '@/utils/validationSchemes'
+import { moreThanZeroNumber, notEmptyString } from '@/plugins/valibot'
 import { useProjectsStore } from '@/stores/projects/projects'
 import { apiClient } from '@/api/apiClient'
 

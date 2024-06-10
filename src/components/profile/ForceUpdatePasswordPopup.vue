@@ -49,7 +49,7 @@ import { useMutation } from '@/hooks/useMutation'
 import { TokensResponse } from '@/api'
 import UiFormError from '@/components/uikit/UiFormError.vue'
 import { safeParse } from 'valibot'
-import { confirmPassword as confirmPasswordScheme } from '@/utils/validationSchemes'
+import { confirmPassword as confirmPasswordScheme } from '@/plugins/valibot'
 
 const emit = defineEmits<{
   (e: 'changed-password', tokens: TokensResponse): void
