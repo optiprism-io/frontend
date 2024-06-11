@@ -7,6 +7,7 @@ module.exports = {
   },
   parser: 'vue-eslint-parser',
   rules: {
+    'vue/no-undef-components': 'error',
     'vue/max-attributes-per-line': [
       'warn',
       {
