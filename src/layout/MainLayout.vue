@@ -19,6 +19,7 @@
 </template>
 
 <script setup lang="ts">
+import { RouterView } from 'vue-router'
 import Header from '@/components/common/Header.vue'
 import UiSpinner from '@/components/uikit/UiSpinner.vue'
 import CreateCustomEvent from '@/components/events/CreateCustomEvent.vue'

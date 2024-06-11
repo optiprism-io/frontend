@@ -25,6 +25,7 @@
 
 <script lang="ts" setup>
 import { computed, onMounted, ref, watch } from 'vue'
+import { RouterLink } from 'vue-router'
 import { pagesMap } from '@/router'
 import {
   DataTableResponse,

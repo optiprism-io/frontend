@@ -36,7 +36,7 @@ import UiButton from '@/components/uikit/UiButton.vue'
 import CreateProjectPopup from '@/components/projects/CreateProjectPopup.vue'
 import { useToggle } from '@vueuse/core'
 import UiCellToolMenu from '@/components/uikit/cells/UiCellToolMenu.vue'
-import { useRoute, useRouter } from 'vue-router'
+import { useRoute, useRouter, RouterView } from 'vue-router'
 import { pagesMap } from '@/router'
 
 const router = useRouter()

@@ -165,7 +165,7 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted, onUnmounted } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
+import { useRoute, useRouter, RouterLink } from 'vue-router'
 import usei18n from '@/hooks/useI18n'
 import { DashboardPanel as DashboardPanelType, DashboardPanelTypeEnum } from '@/api'
 

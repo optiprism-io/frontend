@@ -19,6 +19,7 @@
 </template>
 
 <script lang="ts" setup>
+import { RouterView } from 'vue-router'
 import axios, { HttpStatusCode } from 'axios'
 import { useAuthStore } from '@/stores/auth/auth';
 import { useAlertsStore } from '@/stores/alerts';

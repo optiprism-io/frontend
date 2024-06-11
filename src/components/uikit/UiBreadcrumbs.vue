@@ -29,7 +29,7 @@
 </template>
 
 <script setup lang="ts">
-import { RouteLocationMatched } from 'vue-router'
+import { RouteLocationMatched, RouterLink } from 'vue-router'
 import { capitalize } from 'vue'
 
 interface BreadcrumbItem {

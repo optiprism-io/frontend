@@ -29,7 +29,7 @@
 
 <script setup lang="ts">
 import { computed, inject, onMounted, ref } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, RouterView } from 'vue-router'
 import { useLexiconStore } from '@/stores/lexicon'
 import { useLiveStreamStore } from '@/stores/reports/liveStream'
 import { useCommonStore, PropertyTypeEnum } from '@/stores/common'

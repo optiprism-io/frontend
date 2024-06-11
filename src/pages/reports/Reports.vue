@@ -71,7 +71,7 @@
 
 <script lang="ts" setup>
 import { computed, onMounted, ref } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
+import { useRoute, useRouter, RouterView } from 'vue-router'
 import { pagesMap } from '@/router'
 import usei18n from '@/hooks/useI18n'
 import { ReportType } from '@/api'

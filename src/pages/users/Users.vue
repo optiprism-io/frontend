@@ -7,7 +7,7 @@
 
 <script setup lang="ts">
 import { computed, onMounted } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, RouterView } from 'vue-router'
 import { pagesMap } from '@/router'
 import usei18n from '@/hooks/useI18n'
 import UiTabs from '@/components/uikit/UiTabs.vue'

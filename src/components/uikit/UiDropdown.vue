@@ -82,7 +82,7 @@
 
 <script lang="ts">
 import { defineComponent, PropType, ref, computed } from 'vue'
-import { RouteLocationRaw } from 'vue-router'
+import { RouteLocationRaw, RouterLink } from 'vue-router'
 import { Dropdown as VDropdown, VClosePopper } from 'floating-vue'
 
 export interface UiDropdownItem<T> {
@@ -103,7 +103,7 @@ class UiDropdownFactory<T = unknown> {
   define() {
     return defineComponent({
       name: 'UiDropdown',
-      components: { VDropdown },
+      components: { VDropdown, RouterLink },
       directives: { closePopper: VClosePopper },
       props: {
         items: {
