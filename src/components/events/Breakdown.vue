@@ -53,6 +53,7 @@
 </template>
 
 <script setup lang="ts">
+import { Tooltip as VTooltip } from 'floating-vue'
 import { EventBreakdown } from '@/stores/eventSegmentation/events'
 import PropertySelect from '@/components/events/PropertySelect.vue'
 import { EventRef, PropertyRef } from '@/types/events'

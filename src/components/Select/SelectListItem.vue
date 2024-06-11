@@ -81,6 +81,7 @@
 
 <script lang="ts" setup>
 import { computed } from 'vue';
+import { Tooltip as VTooltip, Menu as VMenu } from 'floating-vue'
 
 const props = defineProps<{
     item: any;

@@ -76,6 +76,7 @@
 
 <script lang="ts" setup>
 import { PropType, watch, computed } from 'vue';
+import { VTooltip } from 'floating-vue'
 import { useStepsStore } from '@/stores/funnels/steps';
 import { useLexiconStore } from '@/stores/lexicon';
 import CommonIdentifier from '@/components/common/identifier/CommonIdentifier.vue';

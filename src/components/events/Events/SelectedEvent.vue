@@ -162,6 +162,7 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue'
+import { Tooltip as VTooltip } from 'floating-vue'
 import { EventRef, PropertyRef, EventQueryRef } from '@/types/events'
 import { OperationId, Value } from '@/types'
 import { useLexiconStore } from '@/stores/lexicon'

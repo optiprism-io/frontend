@@ -214,6 +214,7 @@
 
 <script lang="ts" setup>
 import { inject, computed, ref, defineAsyncComponent } from 'vue';
+import { Tooltip as VTooltip } from 'floating-vue'
 import { operationById, OperationId, Value } from '@/types';
 import { PropertyRef, Condition as ConditionType } from '@/types/events';
 import { DidEventRelativeCountTypeEnum } from '@/api';

@@ -70,6 +70,7 @@
 
 <script lang="ts" setup>
 import { computed, inject } from 'vue'
+import { VTooltip } from 'floating-vue'
 import { operationById } from '@/types'
 import UiActionList from '@/components/uikit/UiActionList/UiActionList.vue'
 import UiActionListItem from '@/components/uikit/UiActionList/UiActionListItem.vue'

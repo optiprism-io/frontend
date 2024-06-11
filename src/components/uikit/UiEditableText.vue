@@ -42,6 +42,7 @@
 
 <script lang="ts" setup>
 import { ref, watch, onMounted } from 'vue'
+import { Dropdown as VDropdown } from 'floating-vue'
 import UiInput from '@/components/uikit/UiInput.vue'
 import UiButton from '@/components/uikit/UiButton.vue'
 

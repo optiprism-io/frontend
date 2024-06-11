@@ -80,6 +80,7 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue';
+import { Tooltip as VTooltip } from 'floating-vue'
 import CommonIdentifier from '@/components/common/identifier/CommonIdentifier.vue';
 import UiEditableText from '@/components/uikit/UiEditableText.vue';
 import Condition from '@/components/events/Segments/Condition.vue';

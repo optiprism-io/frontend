@@ -47,6 +47,8 @@
 </template>
 
 <script lang="ts" setup>
+import { VTooltip  as vTooltip } from 'floating-vue'
+
 type Item = {
     name: string,
     value: string,

@@ -33,6 +33,8 @@
 </template>
 
 <script setup lang="ts">
+import { VTooltip } from 'floating-vue'
+
 defineProps({
     label: {
         type: String,

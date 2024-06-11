@@ -7,11 +7,14 @@ import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import lang from '@/lang'
 import App from '@/App.vue'
-import FloatingVue from 'floating-vue'
+import { options } from 'floating-vue'
 import { router } from '@/router'
 import uikitPlugin from '@/plugins/uikit'
 import i18nPlugin from '@/plugins/i18n'
 import GridLayout from 'vue3-drr-grid-layout'
+
+/* https://floating-vue.starpad.dev/guide/installation#import-directly */
+options.disposeTimeout = 300
 
 /* =====================================MOCK_SERVER================================================ */
 const MOCK_API = import.meta.env.VITE_MOCK_API === 'true'
@@ -30,8 +33,6 @@ const app = createApp(App)
 
 app.use(router)
 app.use(pinia)
-FloatingVue.options.disposeTimeout = 300
-app.use(FloatingVue)
 app.use(GridLayout)
 app.use(uikitPlugin)
 app.use(i18nPlugin)

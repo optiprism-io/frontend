@@ -84,6 +84,7 @@
 <script lang="ts" setup>
 import EventSelector from '@/components/events/Events/EventSelector.vue';
 import {computed, inject} from 'vue';
+import { VTooltip } from 'floating-vue'
 import {ExcludedEventSteps, useStepsStore} from '@/stores/funnels/steps';
 import {EventRef, PropertyRef} from '@/types/events';
 import {UiSelectItemInterface} from '@/components/uikit/UiSelect/types';
@@ -105,7 +106,7 @@ const filterHelpers = useFilter()
 const { $t } = inject('i18n') as I18N;
 
 const excludedEvents = computed(() => stepsStore.excludedEvents)
-  
+
 const excludeSteps = computed<UiSelectItemInterface<string>[]>(() => {
     const groups: UiSelectItemInterface<string>[] =
       stepsStore.steps.length > 2

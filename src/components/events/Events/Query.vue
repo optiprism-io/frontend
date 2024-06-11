@@ -110,6 +110,7 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
+import { Tooltip as VTooltip } from 'floating-vue'
 import { EventQuery } from '@/stores/eventSegmentation/events'
 import { useLexiconStore } from '@/stores/lexicon'
 import { useEventsStore, Events } from '@/stores/eventSegmentation/events'

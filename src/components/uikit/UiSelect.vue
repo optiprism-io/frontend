@@ -6,7 +6,10 @@
       :shown="isOpen"
       @hide="onHide"
     >
-      <div v-if="$slots.action" @click="onToggle">
+      <div
+        v-if="$slots.action"
+        @click="onToggle"
+      >
         <slot name="action" />
       </div>
       <button
@@ -37,8 +40,14 @@
         >
           <UiIcon :icon="'fas fa-times'" />
         </span>
-        <span v-else class="pf-c-select__toggle-arrow">
-          <i class="fas fa-caret-down" aria-hidden="true" />
+        <span
+          v-else
+          class="pf-c-select__toggle-arrow"
+        >
+          <i
+            class="fas fa-caret-down"
+            aria-hidden="true"
+          />
         </span>
       </button>
       <template #popper>
@@ -63,7 +72,10 @@
                 }"
               >
                 {{ item.nameDisplay }}
-                <span v-if="item.selected" class="pf-c-select__menu-item-icon">
+                <span
+                  v-if="item.selected"
+                  class="pf-c-select__menu-item-icon"
+                >
                   <UiIcon :icon="'fas fa-check'" />
                 </span>
               </button>
@@ -77,6 +89,7 @@
 
 <script lang="ts">
 import { defineComponent, PropType, ref, computed } from 'vue'
+import { Dropdown as VDropdown, VClosePopper } from 'floating-vue'
 
 type Value = string | number | Record<string, any> | any[]
 
@@ -90,6 +103,8 @@ export interface UiSelectItem<T> {
 
 export default defineComponent({
   name: 'UiSelect',
+  components: { VDropdown },
+  directives: { closePopper: VClosePopper },
   props: {
     items: {
       type: Array as PropType<UiSelectItem<Value>[]>,

@@ -28,6 +28,8 @@
 </template>
 
 <script setup lang="ts">
+import { Menu as VMenu } from 'floating-vue'
+
 defineProps({
     label: {
         type: String,
