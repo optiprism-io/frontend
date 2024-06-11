@@ -110,22 +110,27 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
+
 import { Tooltip as VTooltip } from 'floating-vue'
-import { EventQuery } from '@/stores/eventSegmentation/events'
-import { useLexiconStore } from '@/stores/lexicon'
-import { useEventsStore, Events } from '@/stores/eventSegmentation/events'
-import { EventRef, EventQueryRef, EventsQuery, PropertyRef } from '@/types/events'
-import { AggregateRef } from '@/types/aggregate'
-import { Item } from '@/components/Select/SelectTypes'
-import UiInput from '@/components/uikit/UiInput.vue'
-import Select from '@/components/Select/Select.vue'
+
 import PropertySelect from '@/components/events/PropertySelect.vue'
+import Select from '@/components/Select/Select.vue'
 import UiButton from '@/components/uikit/UiButton.vue'
-import usei18n from '@/hooks/useI18n'
+import UiIcon from '@/components/uikit/UiIcon.vue'
+import UiInput from '@/components/uikit/UiInput.vue'
+
 import {
   DataType,
 } from '@/api'
-import UiIcon from '@/components/uikit/UiIcon.vue'
+import usei18n from '@/hooks/useI18n'
+import { useEventsStore } from '@/stores/eventSegmentation/events'
+import { useLexiconStore } from '@/stores/lexicon'
+
+import type { Item } from '@/components/Select/SelectTypes'
+import type { EventQuery } from '@/stores/eventSegmentation/events'
+import type { Events } from '@/stores/eventSegmentation/events';
+import type { AggregateRef } from '@/types/aggregate'
+import type { EventRef, EventQueryRef, EventsQuery, PropertyRef } from '@/types/events'
 
 const eventsStore: Events = useEventsStore()
 const lexiconStore = useLexiconStore()

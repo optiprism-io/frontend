@@ -1,7 +1,8 @@
 import { defineStore } from 'pinia'
-import { EventRef, PropertyRef } from '@/types/events'
-import { EventBreakdown } from '@/stores/eventSegmentation/events'
-import { BreakdownByProperty } from '@/api'
+
+import type { BreakdownByProperty } from '@/api'
+import type { EventBreakdown } from '@/stores/eventSegmentation/events'
+import type { EventRef, PropertyRef } from '@/types/events'
 
 export type BreakdownUserProperty = {
   type: string

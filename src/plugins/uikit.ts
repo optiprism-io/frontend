@@ -1,5 +1,8 @@
-import { App as Application, createApp } from 'vue';
-import UiPopupWindow, { Props as UiPopupWindowType } from '@/components/uikit/UiPopupWindow.vue'
+import type { App as Application} from 'vue';
+import { createApp } from 'vue';
+
+import type { Props as UiPopupWindowType } from '@/components/uikit/UiPopupWindow.vue';
+import UiPopupWindow from '@/components/uikit/UiPopupWindow.vue'
 
 export default {
     install(app: Application) {

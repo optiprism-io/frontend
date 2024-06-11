@@ -1,6 +1,8 @@
 import { defineStore } from 'pinia'
-import { Project, UpdateProjectRequest } from '@/api'
+
 import { apiClient } from '@/api/apiClient'
+
+import type { Project, UpdateProjectRequest } from '@/api'
 
 interface ProjectState {
   project: Project | null

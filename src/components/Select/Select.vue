@@ -68,11 +68,14 @@
 
 <script setup lang="ts">
 import { computed, ref, onBeforeMount, watchEffect } from 'vue'
+
 import { Dropdown as VDropdown } from 'floating-vue'
+
 import SelectList from '@/components/Select/SelectList.vue'
-import UiSpinner from '@/components/uikit/UiSpinner.vue'
-import { Group, Item } from '@/components/Select/SelectTypes'
 import UiIcon from '@/components/uikit/UiIcon.vue'
+import UiSpinner from '@/components/uikit/UiSpinner.vue'
+
+import type { Group, Item } from '@/components/Select/SelectTypes'
 
 const emit = defineEmits<{
   (e: 'select', item: any): void

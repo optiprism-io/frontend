@@ -12,8 +12,10 @@
 
 <script setup lang="ts">
 import { Pie } from '@antv/g2plot';
-import defaultOptions from '@/configs/chartOptions';
+
 import ChartWrapper from '@/components/charts/ChartWrapper.vue';
+
+import defaultOptions from '@/configs/chartOptions';
 
 const props = withDefaults(
     defineProps<{

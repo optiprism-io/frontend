@@ -88,8 +88,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, ref, computed } from 'vue'
+
+import type { PropType} from 'vue';
+import { defineComponent, ref, computed } from 'vue'
+
 import { Dropdown as VDropdown, VClosePopper } from 'floating-vue'
+
 import UiIcon from '@/components/uikit/UiIcon.vue'
 
 type Value = string | number | Record<string, any> | any[]

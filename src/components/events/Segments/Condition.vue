@@ -214,11 +214,26 @@
 
 <script lang="ts" setup>
 import { inject, computed, ref, defineAsyncComponent } from 'vue';
+
 import { Tooltip as VTooltip } from 'floating-vue'
-import { operationById, OperationId, Value } from '@/types';
-import { PropertyRef, Condition as ConditionType } from '@/types/events';
+
+import Filter from '@/components/events/Filter.vue';
+import OperationSelect from '@/components/events/OperationSelect.vue';
+import PropertySelect from '@/components/events/PropertySelect.vue';
+import ValueSelect from '@/components/events/ValueSelect.vue';
+import Select from '@/components/Select/Select.vue';
+import UiButton from '@/components/uikit/UiButton.vue';
+import UiDatePicker from '@/components/uikit/UiDatePicker.vue';
+import UiIcon from '@/components/uikit/UiIcon.vue'
+
 import { DidEventRelativeCountTypeEnum } from '@/api';
-import {
+import { conditions } from '@/configs/events/segmentCondition';
+import { conditions as conditionsMap, conditionsBetween } from '@/configs/events/segmentCondition';
+import { getStringDateByFormat } from '@/helpers/getStringDates';
+import usei18n from '@/hooks/useI18n';
+import { operationById } from '@/types';
+
+import type {
     ChangeFilterPropertyCondition,
     RemoveFilterCondition,
     ChangeFilterOperation,
@@ -227,19 +242,10 @@ import {
     PeriodConditionPayload,
     PayloadChangeEach,
 } from '@/components/events/Segments/Segments';
-import { conditions } from '@/configs/events/segmentCondition';
-import { getStringDateByFormat } from '@/helpers/getStringDates';
-import { conditions as conditionsMap, conditionsBetween } from '@/configs/events/segmentCondition';
-import usei18n from '@/hooks/useI18n';
-import { Each, ApplyPayload } from '@/components/uikit/UiCalendar/UiCalendar';
-import Select from '@/components/Select/Select.vue';
-import UiButton from '@/components/uikit/UiButton.vue';
-import PropertySelect from '@/components/events/PropertySelect.vue';
-import OperationSelect from '@/components/events/OperationSelect.vue';
-import ValueSelect from '@/components/events/ValueSelect.vue';
-import Filter from '@/components/events/Filter.vue';
-import UiDatePicker from '@/components/uikit/UiDatePicker.vue';
-import UiIcon from '@/components/uikit/UiIcon.vue'
+import type { Each, ApplyPayload } from '@/components/uikit/UiCalendar/UiCalendar';
+import type { OperationId, Value } from '@/types';
+import type { PropertyRef, Condition as ConditionType } from '@/types/events';
+
 const ConditionDidEvent = defineAsyncComponent(() => import('./ConditionDidEvent.vue'));
 const i18n = usei18n();
 
@@ -345,7 +351,6 @@ const isSelectedDidEvent = computed(() => {
 const isHasFilter = computed(() => {
     return props.condition?.action?.id === 'didEvent' && props.condition.event
 })
-
 
 /**
  * Calendar Period

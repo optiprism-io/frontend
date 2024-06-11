@@ -24,9 +24,11 @@
 
 <script lang="ts" setup>
 import { computed } from 'vue'
+
 import FilterGroup from '@/components/funnels/filters/FilterGroup.vue'
-import { useFilterGroupsStore } from '@/stores/reports/filters'
 import UiButton from '@/components/uikit/UiButton.vue'
+
+import { useFilterGroupsStore } from '@/stores/reports/filters'
 
 const filterGroupsStore = useFilterGroupsStore()
 

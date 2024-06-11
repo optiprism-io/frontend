@@ -16,11 +16,14 @@
 
 <script lang="ts" setup>
 import { computed } from 'vue'
-import { UiSelectGeneric } from '@/components/uikit/UiSelect/UiSelectGeneric'
-import { Action, ToolMenuItem } from '@/components/uikit/UiTable/UiTable'
+
 import UiButton from '@/components/uikit/UiButton.vue';
-import { UiSelectItemInterface } from '@/components/uikit/UiSelect/types'
 import UiIcon from '@/components/uikit/UiIcon.vue'
+
+import { UiSelectGeneric } from '@/components/uikit/UiSelect/UiSelectGeneric'
+
+import type { UiSelectItemInterface } from '@/components/uikit/UiSelect/types'
+import type { Action, ToolMenuItem } from '@/components/uikit/UiTable/UiTable'
 
 const UiSelect = UiSelectGeneric<string | number>()
 

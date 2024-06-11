@@ -1,6 +1,8 @@
-import { useProfileStore } from '@/stores/profile/profile'
+import { TimeBetweenTypeEnum, TimeFromTypeEnum } from '@/api'
 import { formatDateTime } from '@/helpers/getStringDates'
-import { TimeBetweenTypeEnum, TimeFromTypeEnum, TimeBetween, TimeFrom } from '@/api'
+import { useProfileStore } from '@/stores/profile/profile'
+
+import type { TimeBetween, TimeFrom } from '@/api';
 
 export const TimeTypeEnum = {
   Last: 'last',

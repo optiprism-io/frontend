@@ -1,14 +1,17 @@
-import {
+import { HttpStatusCode } from 'axios'
+import { Response } from 'miragejs'
+
+import { userId } from '@/mocks/profile'
+import { EMPTY_HEADER_RESPONSE, EMPTY_SUCCESS_RES, Stub, Tokens } from '@/server/constants'
+import { getErrorResponse } from '@/server/utils/getErrorResponse'
+
+import type {
   UpdateProfileEmailRequest,
   UpdateProfileNameRequest,
   UpdateProfilePasswordRequest,
 } from '@/api'
-import { Request, Response, Server } from 'miragejs'
-import { getErrorResponse } from '@/server/utils/getErrorResponse'
-import { userId } from '@/mocks/profile'
-import { EMPTY_HEADER_RESPONSE, EMPTY_SUCCESS_RES, Stub, Tokens } from '@/server/constants'
-import { Schema } from '@/server/types'
-import { HttpStatusCode } from 'axios'
+import type { Schema } from '@/server/types'
+import type { Request, Server } from 'miragejs';
 
 export function profileRoutes(server: Server) {
   server.get('/profile', getProfile)

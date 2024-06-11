@@ -30,15 +30,19 @@
 </template>
 
 <script setup lang="ts">
-import UiSpinner from '@/components/uikit/UiSpinner.vue'
-import UiCard from '@/components/uikit/UiCard/UiCard.vue'
-import ToolsLayout from '@/layout/ToolsLayout.vue'
-import ProjectsForm from '@/components/projects/ProjectsForm.vue'
 import { ref } from 'vue'
+
 import { useRoute } from 'vue-router'
-import { Project } from '@/api'
-import { useProjectSettings } from '@/pages/projectSettings/useProjectSettings'
+
+import ProjectsForm from '@/components/projects/ProjectsForm.vue'
+import UiCard from '@/components/uikit/UiCard/UiCard.vue'
+import UiSpinner from '@/components/uikit/UiSpinner.vue'
+import ToolsLayout from '@/layout/ToolsLayout.vue'
+
 import { useMutation } from '@/hooks/useMutation'
+import { useProjectSettings } from '@/pages/projectSettings/useProjectSettings'
+
+import type { Project } from '@/api'
 
 const route = useRoute()
 const projectID = +route.params.id

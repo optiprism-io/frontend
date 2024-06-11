@@ -97,9 +97,9 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted, computed } from 'vue';
 
-import getScrollbarWidth from '@/helpers/getScrollbarWidth';
-
 import UiButton from '@/components/uikit/UiButton.vue';
+
+import getScrollbarWidth from '@/helpers/getScrollbarWidth';
 
 export interface Props {
     title?: string
@@ -141,7 +141,6 @@ const emit = defineEmits<{
     (e: 'apply'): void
     (e: 'open'): void
 }>()
-
 
 const popupWrapper = ref<HTMLDivElement>()
 const initialBodyOverflow = ref('')

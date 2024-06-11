@@ -81,9 +81,13 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, ref, computed } from 'vue'
-import { RouteLocationRaw, RouterLink } from 'vue-router'
+import type { PropType} from 'vue';
+import { defineComponent, ref, computed } from 'vue'
+
 import { Dropdown as VDropdown, VClosePopper } from 'floating-vue'
+import { RouterLink } from 'vue-router'
+
+import type { RouteLocationRaw} from 'vue-router';
 
 export interface UiDropdownItem<T> {
   key: string | number

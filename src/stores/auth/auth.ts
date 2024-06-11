@@ -1,10 +1,13 @@
-import { defineStore } from 'pinia'
 import axios from 'axios'
-import { LoginRequest, TokensResponse } from '@/api'
-import { LocalStorageAccessor } from '@/utils/localStorageAccessor'
+import { defineStore } from 'pinia'
 import { getCookie, removeCookie, setCookie } from 'typescript-cookie'
-import { DecodedJwt, parseJwt } from '@/utils/parseJwt'
+
 import { apiClient } from '@/api/apiClient'
+import { LocalStorageAccessor } from '@/utils/localStorageAccessor'
+import { parseJwt } from '@/utils/parseJwt'
+
+import type { LoginRequest, TokensResponse } from '@/api'
+import type { DecodedJwt} from '@/utils/parseJwt';
 
 const TOKEN_KEY = 'accessToken'
 const REFRESH_KEY = 'refreshToken'

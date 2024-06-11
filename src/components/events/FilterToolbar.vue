@@ -63,17 +63,20 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
-import usei18n from '@/hooks/useI18n';
-import { TimeUnit } from '@/api';
-import { groupByMap, periodMap } from '@/configs/events/controls';
-import { useEventsStore } from '@/stores/eventSegmentation/events';
-import { getStringDateByFormat } from '@/helpers/getStringDates';
-import { ApplyPayload } from '@/components/uikit/UiCalendar/UiCalendar';
 
-import UiSelect from '@/components/uikit/UiSelect.vue';
-import UiToggleGroup, { UiToggleGroupItem } from '@/components/uikit/UiToggleGroup.vue';
 import UiDatePicker from '@/components/uikit/UiDatePicker.vue';
 import UiIcon from '@/components/uikit/UiIcon.vue'
+import UiSelect from '@/components/uikit/UiSelect.vue';
+import type { UiToggleGroupItem } from '@/components/uikit/UiToggleGroup.vue';
+import UiToggleGroup from '@/components/uikit/UiToggleGroup.vue';
+
+import { groupByMap, periodMap } from '@/configs/events/controls';
+import { getStringDateByFormat } from '@/helpers/getStringDates';
+import usei18n from '@/hooks/useI18n';
+import { useEventsStore } from '@/stores/eventSegmentation/events';
+
+import type { TimeUnit } from '@/api';
+import type { ApplyPayload } from '@/components/uikit/UiCalendar/UiCalendar';
 
 const eventsStore = useEventsStore();
 const { t } = usei18n();
@@ -120,7 +123,6 @@ const lastCount = computed(() => {
     return period.value.last;
 });
 
-
 const calendarValue = computed(() => {
     return {
         from: period.value.from,
@@ -164,7 +166,6 @@ const onSelectPerion = (payload: string) => {
     eventsStore.initPeriod();
     onChange();
 };
-
 
 const onApplyPeriod = (payload: ApplyPayload): void => {
     eventsStore.controlsPeriod = 'calendar';

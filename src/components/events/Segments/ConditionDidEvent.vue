@@ -137,26 +137,26 @@
 <script lang="ts" setup>
 import { inject, computed } from 'vue'
 
-import { useLexiconStore } from '@/stores/lexicon'
-import useCustomEvent from '@/components/events/Events/CustomEventHooks'
-
-import { Item } from '@/components/Select/SelectTypes';
-import { findOperations, operationById, OperationId } from '@/types'
-import { PropertyRef, Condition as ConditionType, EventRef } from '@/types/events'
-import { ChangeEventCondition, PayloadChangeAggregateCondition, PayloadChangeValueItem } from '@/components/events/Segments/Segments'
-
-import { aggregates } from '@/configs/events/segmentConditionDidEventAggregate'
-import { conditions } from '@/configs/events/segmentCondition'
-
-import Select from '@/components/Select/Select.vue'
-import PropertySelect from '@/components/events/PropertySelect.vue'
-import OperationSelect from '@/components/events/OperationSelect.vue'
 import SelectedEvent from '@/components/events/Events/SelectedEvent.vue'
+import OperationSelect from '@/components/events/OperationSelect.vue'
+import PropertySelect from '@/components/events/PropertySelect.vue'
+import Select from '@/components/Select/Select.vue'
 import UiButton from '@/components/uikit/UiButton.vue'
+
 import {
     DataType,
     DidEventRelativeCountTypeEnum,
 } from '@/api'
+import useCustomEvent from '@/components/events/Events/CustomEventHooks'
+import { conditions } from '@/configs/events/segmentCondition'
+import { aggregates } from '@/configs/events/segmentConditionDidEventAggregate'
+import { useLexiconStore } from '@/stores/lexicon'
+import { findOperations, operationById } from '@/types'
+
+import type { ChangeEventCondition, PayloadChangeAggregateCondition, PayloadChangeValueItem } from '@/components/events/Segments/Segments'
+import type { Item } from '@/components/Select/SelectTypes';
+import type { OperationId } from '@/types';
+import type { PropertyRef, Condition as ConditionType, EventRef } from '@/types/events'
 
 const lexiconStore = useLexiconStore()
 const { hoveredCustomEventDescription, hoveredCustomEventId, onHoverEvent } = useCustomEvent()
@@ -194,7 +194,6 @@ const conditionConfig = computed(() => {
         return null
     }
 })
-
 
 /**
  * Event
@@ -281,7 +280,6 @@ const changeConditionAggregate = (payload: { id: string, name: string }) => {
     })
 }
 
-
 /**
  * Property
  */
@@ -297,7 +295,6 @@ const isShowSelectProp = computed(() => {
 const displayNameProp = computed(() => props.condition.propRef?.name || i18n.$t('events.selectProperty'))
 const isSelectedProp = computed(() =>  Boolean(props.condition.propRef))
 const changeProperty = (propRef: PropertyRef) => emit('change-property', propRef)
-
 
 /**
  * Operation
@@ -323,7 +320,6 @@ const opItems = computed(() => {
     return items
 })
 const changeOperation = (opId: OperationId) => emit('change-operation', opId)
-
 
 /**
  * Value

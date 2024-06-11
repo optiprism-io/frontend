@@ -1,4 +1,5 @@
-import {defineComponent} from 'vue'
+import type { defineComponent } from 'vue'
+
 import EventCell from '@/components/events/EventCell.vue'
 import UiTablePressedCell from '@/components/uikit/UiTable/UiTablePressedCell.vue'
 

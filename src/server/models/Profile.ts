@@ -1,5 +1,6 @@
-import { Profile as IProfile } from '@/api'
 import { faker } from '@/server/faker'
+
+import type { Profile as IProfile } from '@/api'
 
 export class Profile implements IProfile {
   id: IProfile['id']

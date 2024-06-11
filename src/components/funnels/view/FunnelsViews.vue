@@ -56,32 +56,40 @@
 
 <script lang="ts" setup>
 import { computed, ref, watch } from 'vue'
-import UiDatePicker from '@/components/uikit/UiDatePicker.vue'
-import { periodMap } from '@/configs/events/controls'
-import UiToggleGroup, { UiToggleGroupItem } from '@/components/uikit/UiToggleGroup.vue'
-import { getStringDateByFormat, getYYYYMMDD } from '@/helpers/getStringDates'
-import { ApplyPayload } from '@/components/uikit/UiCalendar/UiCalendar'
-import FunnelsChart from '@/components/funnels/view/FunnelsChart.vue'
-import UiDropdown, { UiDropdownItem } from '@/components/uikit/UiDropdown.vue'
-import FunnelsTable from '@/components/funnels/view/FunnelsTable.vue'
-import { useStepsStore } from '@/stores/funnels/steps'
+
+import { storeToRefs } from 'pinia'
+
 import DataEmptyPlaceholder from '@/components/common/data/DataEmptyPlaceholder.vue'
 import DataLoader from '@/components/common/data/DataLoader.vue'
-import { FUNNEL_VIEWS } from './funnelViews'
-import { useProjectsStore } from '@/stores/projects/projects'
-import {
-  EventRecordsListRequestTime,
-  FunnelQueryCountEnum,
-  FunnelResponseStepsInner,
-  FunnelStepsChartTypeTypeEnum,
-  TimeUnitWithSession,
-} from '@/api'
-import { useMutation } from '@/hooks/useMutation'
-import { getLastNDaysRange } from '@/helpers/calendarHelper'
-import { storeToRefs } from 'pinia'
-import { TimeTypeEnum, usePeriod } from '@/hooks/usePeriod'
-import { apiClient } from '@/api/apiClient'
+import FunnelsChart from '@/components/funnels/view/FunnelsChart.vue'
+import FunnelsTable from '@/components/funnels/view/FunnelsTable.vue'
+import UiDatePicker from '@/components/uikit/UiDatePicker.vue'
+import type { UiDropdownItem } from '@/components/uikit/UiDropdown.vue';
+import UiDropdown from '@/components/uikit/UiDropdown.vue'
 import UiIcon from '@/components/uikit/UiIcon.vue'
+import type { UiToggleGroupItem } from '@/components/uikit/UiToggleGroup.vue';
+import UiToggleGroup from '@/components/uikit/UiToggleGroup.vue'
+
+import {
+  FunnelQueryCountEnum,
+  FunnelStepsChartTypeTypeEnum
+} from '@/api'
+import { apiClient } from '@/api/apiClient'
+import { periodMap } from '@/configs/events/controls'
+import { getLastNDaysRange } from '@/helpers/calendarHelper'
+import { getStringDateByFormat, getYYYYMMDD } from '@/helpers/getStringDates'
+import { useMutation } from '@/hooks/useMutation'
+import { TimeTypeEnum, usePeriod } from '@/hooks/usePeriod'
+import { useStepsStore } from '@/stores/funnels/steps'
+import { useProjectsStore } from '@/stores/projects/projects'
+
+import { FUNNEL_VIEWS } from './funnelViews'
+
+import type {
+  EventRecordsListRequestTime,
+  FunnelResponseStepsInner,
+  TimeUnitWithSession} from '@/api';
+import type { ApplyPayload } from '@/components/uikit/UiCalendar/UiCalendar'
 
 interface Period {
   from: string

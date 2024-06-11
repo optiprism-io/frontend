@@ -50,28 +50,32 @@
 
 <script setup lang="ts">
 import { computed, onUnmounted, ref, watch } from 'vue'
-import Events from '@/components/events/Events/Events.vue'
+
 import Breakdowns from '@/components/events/Breakdowns.vue'
+import Events from '@/components/events/Events/Events.vue'
 import EventsViews from '@/components/events/EventsViews.vue'
-import UiCard from '@/components/uikit/UiCard/UiCard.vue'
-import UiSelect from '@/components/uikit/UiSelect.vue'
-import UiCardContainer from '@/components/uikit/UiCard/UiCardContainer.vue'
 import FilterReports from '@/components/events/FiltersReports.vue'
 import GridContainer from '@/components/grid/GridContainer.vue'
 import GridItem from '@/components/grid/GridItem.vue'
 import UiButton from '@/components/uikit/UiButton.vue'
-import { DataTableResponse, EventSegmentationQueryFormatEnum } from '@/api'
-import { eventsToFunnels } from '@/utils/reportsMappings'
-import { useEventsStore } from '@/stores/eventSegmentation/events'
-import { useFilterGroupsStore } from '@/stores/reports/filters'
-import { useCommonStore } from '@/stores/common'
-import { useSegmentsStore } from '@/stores/reports/segments'
-import { useReportsStore } from '@/stores/reports/reports'
-import { useProjectsStore } from '@/stores/projects/projects'
+import UiCard from '@/components/uikit/UiCard/UiCard.vue'
+import UiCardContainer from '@/components/uikit/UiCard/UiCardContainer.vue'
+import UiSelect from '@/components/uikit/UiSelect.vue'
+
+import { EventSegmentationQueryFormatEnum } from '@/api'
 import { apiClient } from '@/api/apiClient'
-import { useLexiconStore } from '@/stores/lexicon'
-import usei18n from '@/hooks/useI18n'
 import { useGroup } from '@/hooks/useGroup'
+import usei18n from '@/hooks/useI18n'
+import { useCommonStore } from '@/stores/common'
+import { useEventsStore } from '@/stores/eventSegmentation/events'
+import { useLexiconStore } from '@/stores/lexicon'
+import { useProjectsStore } from '@/stores/projects/projects'
+import { useFilterGroupsStore } from '@/stores/reports/filters'
+import { useReportsStore } from '@/stores/reports/reports'
+import { useSegmentsStore } from '@/stores/reports/segments'
+import { eventsToFunnels } from '@/utils/reportsMappings'
+
+import type { DataTableResponse} from '@/api';
 
 const { t } = usei18n()
 const projectsStore = useProjectsStore()

@@ -81,32 +81,38 @@
 
 <script lang="ts" setup>
 import { ref, computed, onBeforeMount, inject } from 'vue'
-import { EventRef } from '@/types/events'
-import { useLexiconStore } from '@/stores/lexicon'
-import { Event, useEventsStore, EventPayload } from '@/stores/eventSegmentation/events'
-import { useCommonStore } from '@/stores/common'
-import { useProjectsStore } from '@/stores/projects/projects'
-import { usePropertyValues } from '@/hooks/usePropertyValues'
-import UiButton from '@/components/uikit/UiButton.vue'
 
-import UiPopupWindow from '@/components/uikit/UiPopupWindow.vue'
-import UiInput from '@/components/uikit/UiInput.vue'
-import UiTextarea from '@/components/uikit/UiTextarea.vue'
-import UiInputTags from '@/components/uikit/UiInputTags.vue'
-import UiSwitch from '@/components/uikit/UiSwitch.vue'
 import UiFormLabel from '@/components//uikit/UiFormLabel.vue'
-import Select from '@/components/Select/Select.vue'
 import SelectedEvent from '@/components/events/Events/SelectedEvent.vue'
+import Select from '@/components/Select/Select.vue'
+import UiButton from '@/components/uikit/UiButton.vue'
+import UiInput from '@/components/uikit/UiInput.vue'
+import UiInputTags from '@/components/uikit/UiInputTags.vue'
+import UiPopupWindow from '@/components/uikit/UiPopupWindow.vue'
+import UiSwitch from '@/components/uikit/UiSwitch.vue'
+import UiTextarea from '@/components/uikit/UiTextarea.vue'
+
 import {
-  CreateCustomEventRequest,
-  CustomEventEvent,
   EventType,
   EventStatus,
-  UpdateCustomEventRequest,
-  CustomEventStatus,
-  EventFilterByProperty
+  CustomEventStatus
 } from '@/api'
 import { apiClient } from '@/api/apiClient'
+import { usePropertyValues } from '@/hooks/usePropertyValues'
+import { useCommonStore } from '@/stores/common'
+import { useEventsStore } from '@/stores/eventSegmentation/events'
+import { useLexiconStore } from '@/stores/lexicon'
+import { useProjectsStore } from '@/stores/projects/projects'
+
+import type {
+  CreateCustomEventRequest,
+  CustomEventEvent,
+  UpdateCustomEventRequest,
+  EventFilterByProperty
+} from '@/api';
+import type { Event, EventPayload } from '@/stores/eventSegmentation/events';
+import type { EventRef } from '@/types/events'
+
 const i18n = inject<any>('i18n')
 
 const lexiconStore = useLexiconStore()

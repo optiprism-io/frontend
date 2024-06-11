@@ -54,12 +54,14 @@
 
 <script setup lang="ts">
 import { Tooltip as VTooltip } from 'floating-vue'
-import { EventBreakdown } from '@/stores/eventSegmentation/events'
-import PropertySelect from '@/components/events/PropertySelect.vue'
-import { EventRef, PropertyRef } from '@/types/events'
-import UiButton from '@/components/uikit/UiButton.vue'
+
 import CommonIdentifier from '@/components/common/identifier/CommonIdentifier.vue'
+import PropertySelect from '@/components/events/PropertySelect.vue'
+import UiButton from '@/components/uikit/UiButton.vue'
 import UiIcon from '@/components/uikit/UiIcon.vue'
+
+import type { EventBreakdown } from '@/stores/eventSegmentation/events'
+import type { EventRef, PropertyRef } from '@/types/events'
 
 interface IProps {
   eventRef?: EventRef

@@ -1,7 +1,8 @@
-import { CreateProjectRequest, UpdateProjectRequest } from '@/api'
-import { Request, Server } from 'miragejs'
-import { Schema } from '@/server/types'
 import { Project } from '@/server/models/Project'
+
+import type { CreateProjectRequest, UpdateProjectRequest } from '@/api'
+import type { Schema } from '@/server/types'
+import type { Request, Server } from 'miragejs'
 
 export function projectsRoutes(server: Server) {
   server.get('/projects/:project_id', getProject)

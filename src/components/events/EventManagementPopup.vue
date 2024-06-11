@@ -46,22 +46,27 @@
 
 <script lang="ts" setup>
 import { computed, inject, ref } from 'vue'
-import { EventCustomProperty } from '@/types/events'
-import { Action, Row } from '@/components/uikit/UiTable/UiTable'
-import { Property, Event } from '@/api'
+
 import DataEmptyPlaceholder from '@/components/common/data/DataEmptyPlaceholder.vue'
+import type { Item, ActionPayload } from '@/components/uikit/UiDescriptionList.vue';
+import UiDescriptionList from '@/components/uikit/UiDescriptionList.vue'
 import UiPopupWindow from '@/components/uikit/UiPopupWindow.vue'
-import UiTabs from '@/components/uikit/UiTabs.vue'
 import UiTable from '@/components/uikit/UiTable/UiTable.vue'
-import UiDescriptionList, { Item, ActionPayload } from '@/components/uikit/UiDescriptionList.vue'
 import UiTablePressedCell from '@/components/uikit/UiTable/UiTablePressedCell.vue'
-import propertiesColumnsConfig from '@/configs/events/propertiesTable.json'
+import UiTabs from '@/components/uikit/UiTabs.vue'
+
 import {
   eventValuesConfig,
-  Item as EventValuesConfig,
   EventValuesConfigKeysEnum,
 } from '@/configs/events/eventValues'
+import propertiesColumnsConfig from '@/configs/events/propertiesTable.json'
 import usei18n from '@/hooks/useI18n'
+
+import type { Property, Event } from '@/api'
+import type { Action, Row } from '@/components/uikit/UiTable/UiTable'
+import type {
+  Item as EventValuesConfig} from '@/configs/events/eventValues';
+import type { EventCustomProperty } from '@/types/events'
 
 export type EventObject = {
   [key: string]: string | string[] | boolean

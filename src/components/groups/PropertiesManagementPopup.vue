@@ -52,14 +52,18 @@
 
 <script lang="ts" setup>
 import { computed, inject, ref, onMounted, onUnmounted } from 'vue';
-import { I18N } from '@/utils/i18n';
-import { Value, GroupRecord } from '@/api';
-import { useGroupStore } from '@/stores/group/group';
-import UiPopupWindow from '@/components/uikit/UiPopupWindow.vue';
-import PropertiesManagementLine, { ApplyPayload } from './PropertiesManagementLine.vue';
-import UiSpinner from '@/components/uikit/UiSpinner.vue'
+
+import type { ApplyPayload } from './PropertiesManagementLine.vue';
+import PropertiesManagementLine from './PropertiesManagementLine.vue';
 import UiButton from '@/components/uikit/UiButton.vue'
+import UiPopupWindow from '@/components/uikit/UiPopupWindow.vue';
+import UiSpinner from '@/components/uikit/UiSpinner.vue'
 import UiTabs from '@/components/uikit/UiTabs.vue'
+
+import { useGroupStore } from '@/stores/group/group';
+
+import type { Value, GroupRecord } from '@/api';
+import type { I18N } from '@/utils/i18n';
 
 export type Properties = {
     [key: string]: Value,
@@ -146,7 +150,6 @@ const onApplyChangePropery = async (payload: ApplyPayload) => {
         };
     }
 };
-
 
 const onAddProperty = () => {
     propertiesEdit.value.push({

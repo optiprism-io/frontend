@@ -24,12 +24,16 @@
 
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
-import UiPopupWindow from '@/components/uikit/UiPopupWindow.vue'
-import UiInput from '@/components/uikit/UiInput.vue'
-import UiFormLabel from '@/components/uikit/UiFormLabel.vue'
-import { Project } from '@/api'
+
 import { useFocus } from '@vueuse/core'
+
+import UiFormLabel from '@/components/uikit/UiFormLabel.vue'
+import UiInput from '@/components/uikit/UiInput.vue'
+import UiPopupWindow from '@/components/uikit/UiPopupWindow.vue'
+
 import { apiClient } from '@/api/apiClient'
+
+import type { Project } from '@/api'
 
 const emit = defineEmits<{
   (e: 'created-project', project: Project): void

@@ -165,32 +165,35 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted, onUnmounted } from 'vue'
+
 import { useRoute, useRouter, RouterLink } from 'vue-router'
 import { GridLayout, GridItem } from 'vue3-drr-grid-layout'
-import usei18n from '@/hooks/useI18n'
-import { DashboardPanel as DashboardPanelType, DashboardPanelTypeEnum } from '@/api'
 
-import { useDashboardsStore } from '@/stores/dashboards'
-import { useReportsStore } from '@/stores/reports/reports'
-import { useLexiconStore } from '@/stores/lexicon'
-import { useFilterGroupsStore } from '@/stores/reports/filters'
-import { useEventsStore } from '@/stores/eventSegmentation/events'
-import { useProjectsStore } from '@/stores/projects/projects'
-
-import useConfirm from '@/hooks/useConfirm'
-import { pagesMap } from '@/router'
-
-import UiCard from '@/components/uikit/UiCard/UiCard.vue'
-import DashboardPanel from '@/components/dashboards/DashboardPanel.vue'
-import DashboardReportsPopup from '@/components/dashboards/DashboardReportsPopup.vue'
-import UiInlineEdit from '@/components/uikit/UiInlineEdit.vue'
-import UiDropdown, { UiDropdownItem } from '@/components/uikit/UiDropdown.vue'
-import UiSelect from '@/components/uikit/UiSelect.vue'
-import UiButton from '@/components/uikit/UiButton.vue'
-import UiSpinner from '@/components/uikit/UiSpinner.vue'
 import DataEmptyPlaceholder from '@/components/common/data/DataEmptyPlaceholder.vue'
 import DashboardFilterToolbar from '@/components/dashboards/DashboardFilterToolbar.vue'
+import DashboardPanel from '@/components/dashboards/DashboardPanel.vue'
+import DashboardReportsPopup from '@/components/dashboards/DashboardReportsPopup.vue'
+import UiButton from '@/components/uikit/UiButton.vue'
+import UiCard from '@/components/uikit/UiCard/UiCard.vue'
+import type { UiDropdownItem } from '@/components/uikit/UiDropdown.vue';
+import UiDropdown from '@/components/uikit/UiDropdown.vue'
+import UiInlineEdit from '@/components/uikit/UiInlineEdit.vue'
+import UiSelect from '@/components/uikit/UiSelect.vue'
+import UiSpinner from '@/components/uikit/UiSpinner.vue'
+
+import { DashboardPanelTypeEnum } from '@/api'
 import { apiClient } from '@/api/apiClient'
+import useConfirm from '@/hooks/useConfirm'
+import usei18n from '@/hooks/useI18n'
+import { pagesMap } from '@/router'
+import { useDashboardsStore } from '@/stores/dashboards'
+import { useEventsStore } from '@/stores/eventSegmentation/events'
+import { useLexiconStore } from '@/stores/lexicon'
+import { useProjectsStore } from '@/stores/projects/projects'
+import { useFilterGroupsStore } from '@/stores/reports/filters'
+import { useReportsStore } from '@/stores/reports/reports'
+
+import type { DashboardPanel as DashboardPanelType} from '@/api';
 
 const { t } = usei18n()
 const route = useRoute()

@@ -11,9 +11,11 @@
 </template>
 
 <script setup lang="ts">
-import { Value } from '@/types';
-import { PropertyRef } from '@/types/events';
-import MultiSelect, { Item } from '@/components/MultiSelect/MultiSelect.vue';
+import type { Item } from '@/components/MultiSelect/MultiSelect.vue';
+import MultiSelect from '@/components/MultiSelect/MultiSelect.vue';
+
+import type { Value } from '@/types';
+import type { PropertyRef } from '@/types/events';
 
 const props = withDefaults(
     defineProps<{

@@ -11,9 +11,11 @@
 
 <script lang="ts" setup>
 import EventSelector from '@/components/events/Events/EventSelector.vue';
-import {EventRef} from '@/types/events';
-import {useStepsStore} from '@/stores/funnels/steps';
 import UiButton from '@/components/uikit/UiButton.vue'
+
+import {useStepsStore} from '@/stores/funnels/steps';
+
+import type {EventRef} from '@/types/events';
 
 const stepsStore = useStepsStore()
 

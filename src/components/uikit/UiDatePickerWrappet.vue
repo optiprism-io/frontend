@@ -27,12 +27,15 @@
 
 <script lang="ts" setup>
 import { computed, inject } from 'vue'
-import { getStringDateByFormat } from '@/helpers/getStringDates'
-import { ApplyPayload } from '@/components/uikit/UiCalendar/UiCalendar'
+
 import UiDatePicker from '@/components/uikit/UiDatePicker.vue'
-import { TimeTypeEnum } from '@/hooks/usePeriod'
-import { I18N } from '@/utils/i18n'
 import UiIcon from '@/components/uikit/UiIcon.vue'
+
+import { getStringDateByFormat } from '@/helpers/getStringDates'
+import { TimeTypeEnum } from '@/hooks/usePeriod'
+
+import type { ApplyPayload } from '@/components/uikit/UiCalendar/UiCalendar'
+import type { I18N } from '@/utils/i18n'
 
 export interface DataPickerPeriod {
   from: string
@@ -97,4 +100,3 @@ const onApply = (payload: ApplyPayload): void => {
   )
 }
 </script>
-

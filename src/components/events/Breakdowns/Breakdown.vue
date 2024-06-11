@@ -76,16 +76,13 @@
 
 <script setup lang="ts">
 import { computed, ref } from 'vue';
-import { useLexiconStore } from '@/stores/lexicon';
+
 import BreakdownSelect from './BreakdownSelect.vue';
 import CohortSelect from './CohortSelect.vue';
 import CommonIdentifier from '@/components/common/identifier/CommonIdentifier.vue';
+
+import { useLexiconStore } from '@/stores/lexicon';
 import {
-    Breakdown,
-    BreakdownCohort,
-    BreakdownEventCommonCustomProperty,
-    BreakdownEventCommonProperty,
-    BreakdownUserProperty,
     isBreakdownCohort,
     isBreakdownEventCommonCustomProperty,
     isBreakdownEventCommonProperty,
@@ -93,6 +90,13 @@ import {
     isBreakdownUserProperty,
     newBreakdownCohort
 } from '@/stores/reports/breakdowns';
+
+import type {
+    Breakdown,
+    BreakdownCohort,
+    BreakdownEventCommonCustomProperty,
+    BreakdownEventCommonProperty,
+    BreakdownUserProperty} from '@/stores/reports/breakdowns';
 
 const props = defineProps<{
     breakdown: Breakdown;

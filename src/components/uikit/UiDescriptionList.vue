@@ -28,7 +28,7 @@
 </template>
 
 <script lang="ts" setup>
-import { defineComponent } from 'vue'
+import type { defineComponent } from 'vue'
 
 export type Item = {
     label: string
@@ -48,7 +48,6 @@ type Props = {
     horizontal?: boolean | undefined
     items: Item[]
 }
-
 
 const emit = defineEmits<{
     (e: 'onInput', payload: ActionPayload): void

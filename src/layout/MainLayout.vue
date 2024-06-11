@@ -20,11 +20,13 @@
 
 <script setup lang="ts">
 import { RouterView } from 'vue-router'
+
 import Header from '@/components/common/Header.vue'
-import UiSpinner from '@/components/uikit/UiSpinner.vue'
 import CreateCustomEvent from '@/components/events/CreateCustomEvent.vue'
-import { useCommonStore } from '@/stores/common'
+import UiSpinner from '@/components/uikit/UiSpinner.vue'
+
 import { useInitialAppData } from '@/hooks/useInitialAppData'
+import { useCommonStore } from '@/stores/common'
 
 const commonStore = useCommonStore()
 

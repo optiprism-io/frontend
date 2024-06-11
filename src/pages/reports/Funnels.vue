@@ -64,33 +64,34 @@
 
 <script setup lang="ts">
 import { onUnmounted, computed } from 'vue'
-import UiCardContainer from '@/components/uikit/UiCard/UiCardContainer.vue'
-import TimeWindow from '@/components/funnels/time-window/TimeWindow.vue'
-import UiCardTitle from '@/components/uikit/UiCard/UiCardTitle.vue'
-import UiCardBody from '@/components/uikit/UiCard/UiCardBody.vue'
-import UiCard from '@/components/uikit/UiCard/UiCard.vue'
-import UiSelect from '@/components/uikit/UiSelect.vue'
+
 import Breakdowns from '@/components/events/Breakdowns.vue'
-import ExcludeStepsList from '@/components/funnels/exclude/ExcludeStepsList.vue'
-import HoldingConstantSelect from '@/components/funnels/holding/HoldingConstantSelect.vue'
-import ExcludeStepSelect from '@/components/funnels/exclude/ExcludeStepSelect.vue'
-import HoldingConstantList from '@/components/funnels/holding/HoldingConstantList.vue'
-import StepsList from '@/components/funnels/steps/StepsList.vue'
-import FunnelsViews from '@/components/funnels/view/FunnelsViews.vue'
 import FilterReports from '@/components/events/FiltersReports.vue'
+import ExcludeStepSelect from '@/components/funnels/exclude/ExcludeStepSelect.vue'
+import ExcludeStepsList from '@/components/funnels/exclude/ExcludeStepsList.vue'
+import HoldingConstantList from '@/components/funnels/holding/HoldingConstantList.vue'
+import HoldingConstantSelect from '@/components/funnels/holding/HoldingConstantSelect.vue'
+import StepsList from '@/components/funnels/steps/StepsList.vue'
+import TimeWindow from '@/components/funnels/time-window/TimeWindow.vue'
+import FunnelsViews from '@/components/funnels/view/FunnelsViews.vue'
 import GridContainer from '@/components/grid/GridContainer.vue'
 import GridItem from '@/components/grid/GridItem.vue'
 import UiButton from '@/components/uikit/UiButton.vue'
-import { funnelsToEvents } from '@/utils/reportsMappings'
-import usei18n from '@/hooks/useI18n';
+import UiCard from '@/components/uikit/UiCard/UiCard.vue'
+import UiCardBody from '@/components/uikit/UiCard/UiCardBody.vue'
+import UiCardContainer from '@/components/uikit/UiCard/UiCardContainer.vue'
+import UiCardTitle from '@/components/uikit/UiCard/UiCardTitle.vue'
+import UiSelect from '@/components/uikit/UiSelect.vue'
 
+import { useGroup } from '@/hooks/useGroup'
+import usei18n from '@/hooks/useI18n';
+import { useCommonStore } from '@/stores/common'
 import { useEventsStore } from '@/stores/eventSegmentation/events'
+import { useStepsStore } from '@/stores/funnels/steps'
+import { useLexiconStore } from '@/stores/lexicon'
 import { useFilterGroupsStore } from '@/stores/reports/filters'
 import { useSegmentsStore } from '@/stores/reports/segments'
-import { useCommonStore } from '@/stores/common'
-import { useLexiconStore } from '@/stores/lexicon'
-import { useStepsStore } from '@/stores/funnels/steps'
-import { useGroup } from '@/hooks/useGroup'
+import { funnelsToEvents } from '@/utils/reportsMappings'
 
 const { t } = usei18n()
 const eventsStore = useEventsStore()

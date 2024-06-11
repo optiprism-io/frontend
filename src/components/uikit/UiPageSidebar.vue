@@ -23,7 +23,9 @@
   </div>
 </template>
 <script setup lang="ts">
-import { RouteLocationMatched, RouteLocationRaw, RouterLink } from 'vue-router'
+import { RouterLink } from 'vue-router'
+
+import type { RouteLocationMatched, RouteLocationRaw} from 'vue-router';
 
 interface NavItem {
   title: string

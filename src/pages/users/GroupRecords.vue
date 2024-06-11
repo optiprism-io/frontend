@@ -52,23 +52,27 @@
 
 <script setup lang="ts">
 import { computed, inject, onMounted, onUnmounted, ref } from 'vue';
-import { Row, Action } from '@/components/uikit/UiTable/UiTable';
-import { useGroupStore } from '@/stores/group/group';
-import { useSegmentsStore } from '@/stores/reports/segments';
-import { GroupRecord } from '@/api';
-import { I18N } from '@/utils/i18n';
 
 import Segments from '@/components/events/Segments/Segments.vue';
-import ToolsLayout from '@/layout/ToolsLayout.vue';
-import UiCardContainer from '@/components/uikit/UiCard/UiCardContainer.vue';
-import UiCard from '@/components/uikit/UiCard/UiCard.vue';
-import UiTable from '@/components/uikit/UiTable/UiTable.vue';
-import UiToggleGroup, { UiToggleGroupItem } from '@/components/uikit/UiToggleGroup.vue';
-import UiDatePickerWrappet, { DataPickerPeriod } from '@/components/uikit/UiDatePickerWrappet.vue';
-import UiCellToolMenu from '@/components/uikit/cells/UiCellToolMenu.vue';
-import UiTablePressedCell from '@/components/uikit/UiTable/UiTablePressedCell.vue';
 import PropertiesManagementPopup from '@/components/groups/PropertiesManagementPopup.vue';
+import UiCellToolMenu from '@/components/uikit/cells/UiCellToolMenu.vue';
+import UiCard from '@/components/uikit/UiCard/UiCard.vue';
+import UiCardContainer from '@/components/uikit/UiCard/UiCardContainer.vue';
+import type { DataPickerPeriod } from '@/components/uikit/UiDatePickerWrappet.vue';
+import UiDatePickerWrappet from '@/components/uikit/UiDatePickerWrappet.vue';
+import UiTable from '@/components/uikit/UiTable/UiTable.vue';
+import UiTablePressedCell from '@/components/uikit/UiTable/UiTablePressedCell.vue';
+import type { UiToggleGroupItem } from '@/components/uikit/UiToggleGroup.vue';
+import UiToggleGroup from '@/components/uikit/UiToggleGroup.vue';
+import ToolsLayout from '@/layout/ToolsLayout.vue';
+
 import { shortPeriodDays } from '@/components/uikit/UiCalendar/UiCalendar.config';
+import { useGroupStore } from '@/stores/group/group';
+import { useSegmentsStore } from '@/stores/reports/segments';
+
+import type { GroupRecord } from '@/api';
+import type { Row, Action } from '@/components/uikit/UiTable/UiTable';
+import type { I18N } from '@/utils/i18n';
 
 const i18n = inject('i18n') as I18N;
 const groupStore = useGroupStore();

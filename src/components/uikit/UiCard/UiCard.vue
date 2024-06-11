@@ -19,9 +19,10 @@
 
 <script setup lang="ts">
 import { RouterLink } from 'vue-router'
+
+import UiCardBody from '@/components/uikit/UiCard/UiCardBody.vue'
 import UiCardContainer from '@/components/uikit/UiCard/UiCardContainer.vue'
 import UiCardTitle from '@/components/uikit/UiCard/UiCardTitle.vue'
-import UiCardBody from '@/components/uikit/UiCard/UiCardBody.vue'
 
 defineProps({
   title: {

@@ -33,7 +33,12 @@
 </template>
 
 <script setup lang="ts">
-import { computed, PropType } from 'vue'
+import { computed } from 'vue'
+import type { PropType } from 'vue';
+
+import EventSelector from '@/components/events/Events/EventSelector.vue'
+import SelectedEvent from '@/components/events/Events/SelectedEvent.vue'
+
 import {
   QueryAggregatePropertyPerGroupTypeEnum,
   QueryAggregatePropertyTypeEnum,
@@ -41,12 +46,12 @@ import {
   QueryFormulaTypeEnum,
   QuerySimpleTypeEnum,
 } from '@/api'
-import { EventQueryRef, EventRef, PropertyRef } from '@/types/events'
-import { EventPayload, useEventsStore } from '@/stores/eventSegmentation/events'
-import { useLexiconStore } from '@/stores/lexicon'
 import { useCommonStore } from '@/stores/common'
-import EventSelector from '@/components/events/Events/EventSelector.vue'
-import SelectedEvent from '@/components/events/Events/SelectedEvent.vue'
+import { useEventsStore } from '@/stores/eventSegmentation/events'
+import { useLexiconStore } from '@/stores/lexicon'
+
+import type { EventPayload} from '@/stores/eventSegmentation/events';
+import type { EventQueryRef, EventRef, PropertyRef } from '@/types/events'
 
 const props = defineProps({
   identifier: {

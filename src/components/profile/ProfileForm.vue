@@ -110,6 +110,9 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'
 
+import { useVModel } from '@vueuse/core'
+import { cloneDeep } from 'lodash-es'
+
 import UiFormError from '@/components/uikit/UiFormError.vue'
 import UiInlineEditSlot from '@/components/uikit/UiInlineEditSlot.vue'
 import UiInput from '@/components/uikit/UiInput.vue'
@@ -117,10 +120,8 @@ import UiLabelAndSlot from '@/components/uikit/UiLabelAndSlot.vue'
 
 import usei18n from '@/hooks/useI18n'
 
-import { UpdateProfileEmailRequest, UpdateProfileNameRequest } from '@/api'
-import { useVModel } from '@vueuse/core'
-import { cloneDeep } from 'lodash-es'
-import { ProfileEdit, ProfileErrors, UpdateProfilePasswordRequestExt } from '@/stores/profile/types'
+import type { UpdateProfileEmailRequest, UpdateProfileNameRequest } from '@/api'
+import type { ProfileEdit, ProfileErrors, UpdateProfilePasswordRequestExt } from '@/stores/profile/types'
 
 const { t } = usei18n()
 

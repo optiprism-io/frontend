@@ -12,8 +12,9 @@
 
 <script setup lang="ts">
 import { RouterLink } from 'vue-router'
-import { pagesMap } from '@/router'
+
 import { apiClient } from '@/api/apiClient'
+import { pagesMap } from '@/router'
 
 const { data: organizationList } = await apiClient.organizations.organizationsList()
 </script>

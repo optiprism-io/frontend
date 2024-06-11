@@ -3,14 +3,18 @@ import '@patternfly/patternfly/patternfly-addons.scss'
 import 'floating-vue/dist/style.css'
 import '@/assets/styles/main.scss'
 import 'vue3-drr-grid-layout/dist/style.css'
+
 import { createApp } from 'vue'
-import { createPinia } from 'pinia'
-import lang from '@/lang'
-import App from '@/App.vue'
+
 import { options } from 'floating-vue'
-import { router } from '@/router'
-import uikitPlugin from '@/plugins/uikit'
+import { createPinia } from 'pinia'
+
+import App from '@/App.vue'
+
+import lang from '@/lang'
 import i18nPlugin from '@/plugins/i18n'
+import uikitPlugin from '@/plugins/uikit'
+import { router } from '@/router'
 
 /* https://floating-vue.starpad.dev/guide/installation#import-directly */
 options.disposeTimeout = 300

@@ -12,8 +12,10 @@
 
 <script lang="ts" setup>
 import { computed } from 'vue'
-import { humanReadable } from '@/utils/humanReadable'
+
 import { isNumber } from 'lodash-es'
+
+import { humanReadable } from '@/utils/humanReadable'
 
 type Props = {
   title: string | number

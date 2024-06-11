@@ -111,13 +111,16 @@
 
 <script lang="ts" setup>
 import { computed, inject, useSlots, ref, onBeforeMount } from 'vue'
-import { Row, Column, Action, ColumnGroup } from '@/components/uikit/UiTable/UiTable'
-import UiTableHeadCell from '@/components/uikit/UiTable/UiTableHeadCell.vue'
+
+import DataEmptyPlaceholder from '@/components/common/data/DataEmptyPlaceholder.vue'
+import type { UiSelectItem } from '@/components/uikit/UiSelect.vue';
+import UiSelect from '@/components/uikit/UiSelect.vue'
+import UiSpinner from '@/components/uikit/UiSpinner.vue'
 import UiTableCell from '@/components/uikit/UiTable/UiTableCell.vue'
 import UiTableCellWrapper from '@/components/uikit/UiTable/UiTableCellWrapper.vue'
-import UiSelect, { UiSelectItem } from '@/components/uikit/UiSelect.vue'
-import UiSpinner from '@/components/uikit/UiSpinner.vue'
-import DataEmptyPlaceholder from '@/components/common/data/DataEmptyPlaceholder.vue'
+import UiTableHeadCell from '@/components/uikit/UiTable/UiTableHeadCell.vue'
+
+import type { Row, Column, Action, ColumnGroup } from '@/components/uikit/UiTable/UiTable'
 
 const i18n = inject<any>('i18n')
 const slots = useSlots()

@@ -37,17 +37,18 @@
 
 <script lang="ts" setup>
 import { computed } from 'vue'
-import { EventRef } from '@/types/events'
-import { EventPayload } from '@/stores/eventSegmentation/events'
 
-import { useLexiconStore } from '@/stores/lexicon'
-import { useLiveStreamStore } from '@/stores/reports/liveStream'
+import SelectedEvent from '@/components/events/Events/SelectedEvent.vue'
+import Select from '@/components/Select/Select.vue'
+import UiButton from '@/components/uikit/UiButton.vue'
+
 import { useCommonStore } from '@/stores/common'
 import { useEventsStore } from '@/stores/eventSegmentation/events'
+import { useLexiconStore } from '@/stores/lexicon'
+import { useLiveStreamStore } from '@/stores/reports/liveStream'
 
-import Select from '@/components/Select/Select.vue'
-import SelectedEvent from '@/components/events/Events/SelectedEvent.vue'
-import UiButton from '@/components/uikit/UiButton.vue'
+import type { EventPayload } from '@/stores/eventSegmentation/events'
+import type { EventRef } from '@/types/events'
 
 const lexiconStore = useLexiconStore()
 const liveStreamStore = useLiveStreamStore()

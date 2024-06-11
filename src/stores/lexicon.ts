@@ -1,35 +1,41 @@
 import { defineStore } from 'pinia'
+
+import {
+  EventType,
+  PropertyType
+} from '@/api'
+import { apiClient } from '@/api/apiClient'
+import { errorHandler } from '@/helpers/errorHandlerHelper'
 import useI18n from '@/hooks/useI18n'
+import { PropertyTypeEnum, useCommonStore } from '@/stores/common'
+import { useEventsStore } from '@/stores/eventSegmentation/events'
+import { useProjectsStore } from '@/stores/projects/projects'
+import { aggregates } from '@/types/aggregate'
 import {
   customEventRef,
-  EventQueryRef,
   eventRef,
-  EventRef,
-  eventsQueries,
-  EventsQuery,
-  PropertyRef,
-  UserCustomProperty,
+  eventsQueries
 } from '@/types/events'
-import { $T, $TKeyExists } from '@/utils/i18n'
-import { ApplyPayload, Cohort } from '@/types'
-import { aggregates } from '@/types/aggregate'
-import { Group as GroupSelect, Item } from '@/components/Select/SelectTypes'
-import { Events, useEventsStore } from '@/stores/eventSegmentation/events'
-import {
+
+import type {
   CustomEvent,
   CustomProperty,
   Event,
-  EventType,
   Property,
   PropertyRef as PropertyRefApi,
-  PropertyType,
   QueryAggregate,
   Group
-} from '@/api'
-import { PropertyTypeEnum, useCommonStore } from '@/stores/common'
-import { useProjectsStore } from '@/stores/projects/projects'
-import { errorHandler } from '@/helpers/errorHandlerHelper'
-import { apiClient } from '@/api/apiClient'
+} from '@/api';
+import type { Group as GroupSelect, Item } from '@/components/Select/SelectTypes'
+import type { Events} from '@/stores/eventSegmentation/events';
+import type { ApplyPayload, Cohort } from '@/types'
+import type {
+  EventQueryRef,
+  EventRef,
+  EventsQuery,
+  PropertyRef,
+  UserCustomProperty} from '@/types/events';
+import type { $T, $TKeyExists } from '@/utils/i18n'
 
 type Lexicon = {
   i18n: {

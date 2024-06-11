@@ -56,16 +56,18 @@
 
 <script lang="ts" setup>
 import { ref, computed, onMounted, watch } from 'vue'
-import { Dropdown as VDropdown } from 'floating-vue'
-import { getYYYYMMDD } from '@/helpers/getStringDates';
-import { getLastNDaysRange, dateDiff, isDate } from '@/helpers/calendarHelper';
 
-import UiCalendarControls from '@/components/uikit/UiCalendar/UiCalendarControls.vue';
+import { Dropdown as VDropdown } from 'floating-vue'
+
 import UiCalendarInputs from './UiCalendar/UiCalendarInputs.vue'
 import UiCalendar from '@/components/uikit/UiCalendar/UiCalendar.vue';
+import UiCalendarControls from '@/components/uikit/UiCalendar/UiCalendarControls.vue';
+
+import { getLastNDaysRange, dateDiff, isDate } from '@/helpers/calendarHelper';
+import { getYYYYMMDD } from '@/helpers/getStringDates';
 import { TimeTypeEnum } from '@/hooks/usePeriod'
 
-import { Each, ApplyPayload, CurrentValue, Value } from '@/components/uikit/UiCalendar/UiCalendar'
+import type { Each, ApplyPayload, CurrentValue, Value } from '@/components/uikit/UiCalendar/UiCalendar'
 
 interface Props {
     showControls?: boolean

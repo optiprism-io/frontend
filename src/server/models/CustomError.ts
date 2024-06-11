@@ -1,5 +1,5 @@
-import { Response } from 'miragejs'
 import { HttpStatusCode } from 'axios'
+import { Response } from 'miragejs'
 
 export class CustomError {
   BadRequest(msg = 'bad request') {

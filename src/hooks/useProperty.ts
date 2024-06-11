@@ -1,9 +1,12 @@
 import { computed } from 'vue'
-import { PropertyType, Property } from '@/api'
-import { PropertyRef } from '@/types/events'
-import { Group, Item } from '@/components/Select/SelectTypes'
-import { useLexiconStore } from '@/stores/lexicon'
+
+import { PropertyType } from '@/api'
 import usei18n from '@/hooks/useI18n'
+import { useLexiconStore } from '@/stores/lexicon'
+
+import type { Property } from '@/api';
+import type { Group, Item } from '@/components/Select/SelectTypes'
+import type { PropertyRef } from '@/types/events'
 
 export type PropertyItem = Item<PropertyRef, null>
 

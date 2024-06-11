@@ -1,8 +1,5 @@
 import {
-  Report,
   ReportType,
-  EventSegmentation,
-  EventSegmentationEvent,
   QuerySimpleTypeEnum,
   QueryAggregatePropertyTypeEnum,
   QueryAggregatePropertyPerGroupTypeEnum,
@@ -10,8 +7,13 @@ import {
   QueryFormulaTypeEnum,
 } from '@/api'
 import useI18n from '@/hooks/useI18n'
-import { useLexiconStore } from '@/stores/lexicon'
 import { useEventsStore } from '@/stores/eventSegmentation/events'
+import { useLexiconStore } from '@/stores/lexicon'
+
+import type {
+  Report,
+  EventSegmentation,
+  EventSegmentationEvent} from '@/api';
 
 const getAggregateString = (key: string) => {
   const { t } = useI18n()

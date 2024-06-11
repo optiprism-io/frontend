@@ -60,22 +60,25 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'
 
+import { useVModel } from '@vueuse/core'
+import { cloneDeep } from 'lodash-es'
+
 import UiFormError from '@/components/uikit/UiFormError.vue'
 import UiInlineEditSlot from '@/components/uikit/UiInlineEditSlot.vue'
 import UiInput from '@/components/uikit/UiInput.vue'
 import UiLabelAndSlot from '@/components/uikit/UiLabelAndSlot.vue'
 import UiSelect from '@/components/uikit/UiSelect.vue'
 
-import usei18n from '@/hooks/useI18n'
-import { useVModel } from '@vueuse/core'
-import { cloneDeep } from 'lodash-es'
-import { ProjectEdit, ProjectErrors } from '@/stores/projects/types'
 import {
   fromSessionTimeout,
-  Period,
   sessionPeriodOptions,
   toSessionTimeout,
 } from '@/components/projects/helpers'
+import usei18n from '@/hooks/useI18n'
+
+import type {
+  Period} from '@/components/projects/helpers';
+import type { ProjectEdit, ProjectErrors } from '@/stores/projects/types'
 
 const { t } = usei18n()
 

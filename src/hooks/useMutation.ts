@@ -1,5 +1,6 @@
 import { ref } from 'vue'
-import { ErrorResponse } from '@/api'
+
+import type { ErrorResponse } from '@/api'
 
 /* Simple version of the function - https://tanstack.com/query/latest/docs/framework/vue/reference/useMutation */
 export function useMutation<T, A extends any[]>(fn: (...args: A) => Promise<T>) {

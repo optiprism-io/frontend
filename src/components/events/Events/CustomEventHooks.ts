@@ -1,7 +1,9 @@
 import {computed, ref} from 'vue'
+
 import {useLexiconStore} from '@/stores/lexicon'
-import {EventRef} from '@/types/events'
-import {Event, EventFilter} from '@/stores/eventSegmentation/events'
+
+import type {Event, EventFilter} from '@/stores/eventSegmentation/events'
+import type {EventRef} from '@/types/events'
 
 export default function useCustomEvent(){
     const lexiconStore = useLexiconStore()

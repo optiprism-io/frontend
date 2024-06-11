@@ -1,5 +1,6 @@
-import { Group as IGroup } from '@/api'
 import { faker } from '@/server/faker'
+
+import type { Group as IGroup } from '@/api'
 
 export class Group implements IGroup {
   id: IGroup['id']

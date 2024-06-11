@@ -1,6 +1,9 @@
-import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
-import { checkCreatedProject, isAuth } from '@/router/routerGuards'
+import { createRouter, createWebHistory } from 'vue-router'
+
 import { pagesMap } from '@/router/pagesMap'
+import { checkCreatedProject, isAuth } from '@/router/routerGuards'
+
+import type { RouteRecordRaw } from 'vue-router';
 
 export enum SDKIntegration {
   javascript = 'javascript',

@@ -22,8 +22,9 @@
 
 <script lang="ts" setup>
 import { computed } from 'vue'
-import { TimeTypeEnum } from '@/hooks/usePeriod'
+
 import usei18n from '@/hooks/useI18n'
+import { TimeTypeEnum } from '@/hooks/usePeriod'
 
 const { t } = usei18n()
 

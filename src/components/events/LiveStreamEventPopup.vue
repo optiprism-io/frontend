@@ -27,14 +27,17 @@
 
 <script lang="ts" setup>
 import { computed, ref } from 'vue';
-import { useLiveStreamStore } from '@/stores/reports/liveStream';
+
+import UiPopupWindow from '@/components/uikit/UiPopupWindow.vue';
+import UiTable from '@/components/uikit/UiTable/UiTable.vue';
+import UiTabs from '@/components/uikit/UiTabs.vue'
+
+import usei18n from '@/hooks/useI18n';
 import { useCommonStore, PropertyTypeEnum } from '@/stores/common';
 import { useLexiconStore } from '@/stores/lexicon';
-import UiTable from '@/components/uikit/UiTable/UiTable.vue';
-import { Action } from '@/components/uikit/UiTable/UiTable';
-import UiPopupWindow from '@/components/uikit/UiPopupWindow.vue';
-import usei18n from '@/hooks/useI18n';
-import UiTabs from '@/components/uikit/UiTabs.vue'
+import { useLiveStreamStore } from '@/stores/reports/liveStream';
+
+import type { Action } from '@/components/uikit/UiTable/UiTable';
 
 const liveStreamStore = useLiveStreamStore();
 const commonStore = useCommonStore();

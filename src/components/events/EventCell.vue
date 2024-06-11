@@ -52,9 +52,12 @@
 </template>
 
 <script lang="ts" setup>
-import { defineComponent, computed } from 'vue'
-import { Action, Cell } from '@/components/uikit/UiTable/UiTable';
+import { computed } from 'vue'
+import type { defineComponent} from 'vue';
+
 import UiButton from '@/components/uikit/UiButton.vue'
+
+import type { Action, Cell } from '@/components/uikit/UiTable/UiTable';
 
 export type EventCell = Cell & {
     customEvents: {

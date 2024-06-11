@@ -1,5 +1,5 @@
-import { Organization } from '@/server/models/Organization'
 import { faker } from '@/server/faker'
+import { Organization } from '@/server/models/Organization'
 
 export const orgId = 1
 

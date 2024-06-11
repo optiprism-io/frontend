@@ -1,4 +1,5 @@
 import { computed } from 'vue'
+
 import { useLexiconStore } from '@/stores/lexicon'
 
 export const useGroup = () => {

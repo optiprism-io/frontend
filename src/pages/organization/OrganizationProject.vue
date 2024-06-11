@@ -19,13 +19,17 @@
 </template>
 
 <script setup lang="ts">
-import { useRoute } from 'vue-router'
 import { ref } from 'vue'
-import { useProjectSettings } from '@/pages/projectSettings/useProjectSettings'
-import { Project } from '@/api'
+
+import { useRoute } from 'vue-router'
+
 import ProjectsForm from '@/components/projects/ProjectsForm.vue'
 import UiSpinner from '@/components/uikit/UiSpinner.vue'
+
 import { useMutation } from '@/hooks/useMutation'
+import { useProjectSettings } from '@/pages/projectSettings/useProjectSettings'
+
+import type { Project } from '@/api'
 
 const route = useRoute()
 const projectID = +route.params.projectId

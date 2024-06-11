@@ -29,19 +29,26 @@
 
 <script setup lang="ts">
 import { computed, inject, onMounted, ref } from 'vue'
+
 import { useRoute, RouterView } from 'vue-router'
-import { useLexiconStore } from '@/stores/lexicon'
-import { useLiveStreamStore } from '@/stores/reports/liveStream'
-import { useCommonStore, PropertyTypeEnum } from '@/stores/common'
-import EventPropertyPopup, { ApplyPayload } from '@/components/events/EventPropertyPopup.vue'
-import EventManagementPopup, {
+
+import type {
   ApplyPayload as ApplyPayloadEvent,
-} from '@/components/events/EventManagementPopup.vue'
-import { Action } from '@/components/uikit/UiTable/UiTable'
+} from '@/components/events/EventManagementPopup.vue';
+import EventManagementPopup from '@/components/events/EventManagementPopup.vue'
+import type { ApplyPayload } from '@/components/events/EventPropertyPopup.vue';
+import EventPropertyPopup from '@/components/events/EventPropertyPopup.vue'
+import UiTabs from '@/components/uikit/UiTabs.vue'
+
 import navPagesConfig from '@/configs/events/navPages.json'
 import { pagesMap } from '@/router'
-import { Property } from '@/api'
-import UiTabs from '@/components/uikit/UiTabs.vue'
+import { useCommonStore, PropertyTypeEnum } from '@/stores/common'
+import { useLexiconStore } from '@/stores/lexicon'
+import { useLiveStreamStore } from '@/stores/reports/liveStream'
+
+import type { Property } from '@/api'
+import type { Action } from '@/components/uikit/UiTable/UiTable'
+
 const i18n = inject<any>('i18n')
 const route = useRoute()
 const lexiconStore = useLexiconStore()

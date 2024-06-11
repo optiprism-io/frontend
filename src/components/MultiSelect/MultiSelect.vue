@@ -23,7 +23,9 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue'
+
 import { Dropdown as VDropdown } from 'floating-vue'
+
 import MultiSelectList from '@/components/MultiSelect/MultiSelectList.vue'
 
 export interface Item {
