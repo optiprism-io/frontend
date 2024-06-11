@@ -113,6 +113,7 @@
 import { computed, ref } from 'vue';
 import { Group, Item } from '@/components/Select/SelectTypes';
 import SelectListItem from '@/components/Select/SelectListItem.vue';
+import UiButton from '@/components/uikit/UiButton.vue'
 
 const emit = defineEmits<{
     (e: 'select', item: any): void;

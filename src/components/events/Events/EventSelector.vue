@@ -41,6 +41,7 @@
 <script setup lang="ts">
 import Select from '@/components/Select/Select.vue';
 import SelectedEvent from '@/components/events/Events/SelectedEvent.vue';
+import UiButton from '@/components/uikit/UiButton.vue'
 import { useLexiconStore } from '@/stores/lexicon';
 import { useCommonStore } from '@/stores/common';
 import { useEventsStore } from '@/stores/eventSegmentation/events';

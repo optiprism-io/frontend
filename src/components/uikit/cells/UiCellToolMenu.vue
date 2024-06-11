@@ -20,6 +20,7 @@ import { UiSelectGeneric } from '@/components/uikit/UiSelect/UiSelectGeneric'
 import { Action, ToolMenuItem } from '@/components/uikit/UiTable/UiTable'
 import UiButton from '@/components/uikit/UiButton.vue';
 import { UiSelectItemInterface } from '@/components/uikit/UiSelect/types'
+import UiIcon from '@/components/uikit/UiIcon.vue'
 
 const UiSelect = UiSelectGeneric<string | number>()
 

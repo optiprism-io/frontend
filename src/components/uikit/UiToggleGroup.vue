@@ -55,13 +55,15 @@
 </template>
 
 <script lang="ts" setup>
+import UiIcon from '@/components/uikit/UiIcon.vue'
+
 export interface UiToggleGroupItem {
     key: string | number;
     nameDisplay: string;
     value: string;
     selected?: boolean;
     disabled?: boolean;
-    iconBefore?: boolean;
+    iconBefore?: string;
     iconAfter?: string;
 }
 

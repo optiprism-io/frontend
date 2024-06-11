@@ -32,6 +32,7 @@ import { ApplyPayload } from '@/components/uikit/UiCalendar/UiCalendar'
 import UiDatePicker from '@/components/uikit/UiDatePicker.vue'
 import { TimeTypeEnum } from '@/hooks/usePeriod'
 import { I18N } from '@/utils/i18n'
+import UiIcon from '@/components/uikit/UiIcon.vue'
 
 export interface DataPickerPeriod {
   from: string

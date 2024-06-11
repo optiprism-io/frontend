@@ -89,6 +89,8 @@ import UiActionListItem from '@/components/uikit/UiActionList/UiActionListItem.v
 import {OperationId, Value} from '@/types';
 import Filter from '@/components/events/Filter.vue';
 import {useFilter} from '@/hooks/useFilter';
+import UiIcon from '@/components/uikit/UiIcon.vue'
+import UiButton from '@/components/uikit/UiButton.vue'
 
 const stepsStore = useStepsStore();
 const lexiconStore = useLexiconStore();

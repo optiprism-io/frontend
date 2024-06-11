@@ -27,6 +27,8 @@ import { useLexiconStore } from '@/stores/lexicon'
 import PropertySelect from '@/components/events/PropertySelect.vue'
 import { PropertyRef } from '@/types/events'
 import { EventFilterByPropertyTypeEnum, PropertyType } from '@/api'
+import UiIcon from '@/components/uikit/UiIcon.vue'
+import UiButton from '@/components/uikit/UiButton.vue'
 
 const lexiconStore = useLexiconStore()
 const stepsStore = useStepsStore()

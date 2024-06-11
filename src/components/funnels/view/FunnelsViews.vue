@@ -58,11 +58,11 @@
 import { computed, ref, watch } from 'vue'
 import UiDatePicker from '@/components/uikit/UiDatePicker.vue'
 import { periodMap } from '@/configs/events/controls'
-import { UiToggleGroupItem } from '@/components/uikit/UiToggleGroup.vue'
+import UiToggleGroup, { UiToggleGroupItem } from '@/components/uikit/UiToggleGroup.vue'
 import { getStringDateByFormat, getYYYYMMDD } from '@/helpers/getStringDates'
 import { ApplyPayload } from '@/components/uikit/UiCalendar/UiCalendar'
 import FunnelsChart from '@/components/funnels/view/FunnelsChart.vue'
-import { UiDropdownItem } from '@/components/uikit/UiDropdown.vue'
+import UiDropdown, { UiDropdownItem } from '@/components/uikit/UiDropdown.vue'
 import FunnelsTable from '@/components/funnels/view/FunnelsTable.vue'
 import { useStepsStore } from '@/stores/funnels/steps'
 import DataEmptyPlaceholder from '@/components/common/data/DataEmptyPlaceholder.vue'
@@ -81,6 +81,7 @@ import { getLastNDaysRange } from '@/helpers/calendarHelper'
 import { storeToRefs } from 'pinia'
 import { TimeTypeEnum, usePeriod } from '@/hooks/usePeriod'
 import { apiClient } from '@/api/apiClient'
+import UiIcon from '@/components/uikit/UiIcon.vue'
 
 interface Period {
   from: string

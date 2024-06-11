@@ -73,6 +73,7 @@ import { ApplyPayload } from '@/components/uikit/UiCalendar/UiCalendar';
 import UiSelect from '@/components/uikit/UiSelect.vue';
 import UiToggleGroup, { UiToggleGroupItem } from '@/components/uikit/UiToggleGroup.vue';
 import UiDatePicker from '@/components/uikit/UiDatePicker.vue';
+import UiIcon from '@/components/uikit/UiIcon.vue'
 
 const eventsStore = useEventsStore();
 const { t } = usei18n();

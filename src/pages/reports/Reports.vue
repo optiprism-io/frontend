@@ -89,6 +89,8 @@ import UiInlineEdit from '@/components/uikit/UiInlineEdit.vue'
 import UiSpinner from '@/components/uikit/UiSpinner.vue'
 import { storeToRefs } from 'pinia'
 import { REPORT_TABS } from './tabs'
+import UiTabs from '@/components/uikit/UiTabs.vue'
+import UiButton from '@/components/uikit/UiButton.vue'
 
 const { t } = usei18n()
 const route = useRoute()

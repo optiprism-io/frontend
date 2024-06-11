@@ -239,6 +239,7 @@ import OperationSelect from '@/components/events/OperationSelect.vue';
 import ValueSelect from '@/components/events/ValueSelect.vue';
 import Filter from '@/components/events/Filter.vue';
 import UiDatePicker from '@/components/uikit/UiDatePicker.vue';
+import UiIcon from '@/components/uikit/UiIcon.vue'
 const ConditionDidEvent = defineAsyncComponent(() => import('./ConditionDidEvent.vue'));
 const i18n = usei18n();
 

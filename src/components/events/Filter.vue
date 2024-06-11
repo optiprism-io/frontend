@@ -146,6 +146,8 @@ import { operationById, OperationId, Value } from '@/types'
 import CommonIdentifier from '@/components/common/identifier/CommonIdentifier.vue'
 import { CustomProperty, DataType, Property, PropertyType } from '@/api'
 import { OrientationEnum, OrientationTypeEnum } from '@/types/filters'
+import UiIcon from '@/components/uikit/UiIcon.vue'
+import UiButton from '@/components/uikit/UiButton.vue'
 
 const NotAllowedOperationIds = {
   Exists: 'exists',

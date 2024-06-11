@@ -96,6 +96,8 @@ import {useEventName} from '@/helpers/useEventName';
 import Filter from '@/components/events/Filter.vue';
 import {OperationId, Value} from '@/types';
 import {useFilter} from '@/hooks/useFilter';
+import UiIcon from '@/components/uikit/UiIcon.vue'
+import UiButton from '@/components/uikit/UiButton.vue'
 
 const UiSelect = UiSelectGeneric();
 

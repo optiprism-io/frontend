@@ -41,6 +41,7 @@ import { Action } from '@/components/uikit/UiTable/UiTable'
 import navPagesConfig from '@/configs/events/navPages.json'
 import { pagesMap } from '@/router'
 import { Property } from '@/api'
+import UiTabs from '@/components/uikit/UiTabs.vue'
 const i18n = inject<any>('i18n')
 const route = useRoute()
 const lexiconStore = useLexiconStore()

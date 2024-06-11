@@ -125,6 +125,7 @@ import usei18n from '@/hooks/useI18n'
 import {
   DataType,
 } from '@/api'
+import UiIcon from '@/components/uikit/UiIcon.vue'
 
 const eventsStore: Events = useEventsStore()
 const lexiconStore = useLexiconStore()

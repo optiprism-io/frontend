@@ -26,6 +26,7 @@
 import { computed } from 'vue'
 import FilterGroup from '@/components/funnels/filters/FilterGroup.vue'
 import { useFilterGroupsStore } from '@/stores/reports/filters'
+import UiButton from '@/components/uikit/UiButton.vue'
 
 const filterGroupsStore = useFilterGroupsStore()
 

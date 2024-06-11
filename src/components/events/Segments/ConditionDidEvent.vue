@@ -152,6 +152,7 @@ import Select from '@/components/Select/Select.vue'
 import PropertySelect from '@/components/events/PropertySelect.vue'
 import OperationSelect from '@/components/events/OperationSelect.vue'
 import SelectedEvent from '@/components/events/Events/SelectedEvent.vue'
+import UiButton from '@/components/uikit/UiButton.vue'
 import {
     DataType,
     DidEventRelativeCountTypeEnum,

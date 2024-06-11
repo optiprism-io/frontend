@@ -90,6 +90,7 @@
 <script lang="ts">
 import { defineComponent, PropType, ref, computed } from 'vue'
 import { Dropdown as VDropdown, VClosePopper } from 'floating-vue'
+import UiIcon from '@/components/uikit/UiIcon.vue'
 
 type Value = string | number | Record<string, any> | any[]
 
@@ -103,7 +104,7 @@ export interface UiSelectItem<T> {
 
 export default defineComponent({
   name: 'UiSelect',
-  components: { VDropdown },
+  components: { UiIcon, VDropdown },
   directives: { closePopper: VClosePopper },
   props: {
     items: {

@@ -59,6 +59,7 @@ import PropertySelect from '@/components/events/PropertySelect.vue'
 import { EventRef, PropertyRef } from '@/types/events'
 import UiButton from '@/components/uikit/UiButton.vue'
 import CommonIdentifier from '@/components/common/identifier/CommonIdentifier.vue'
+import UiIcon from '@/components/uikit/UiIcon.vue'
 
 interface IProps {
   eventRef?: EventRef

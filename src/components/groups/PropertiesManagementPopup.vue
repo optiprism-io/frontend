@@ -57,6 +57,9 @@ import { Value, GroupRecord } from '@/api';
 import { useGroupStore } from '@/stores/group/group';
 import UiPopupWindow from '@/components/uikit/UiPopupWindow.vue';
 import PropertiesManagementLine, { ApplyPayload } from './PropertiesManagementLine.vue';
+import UiSpinner from '@/components/uikit/UiSpinner.vue'
+import UiButton from '@/components/uikit/UiButton.vue'
+import UiTabs from '@/components/uikit/UiTabs.vue'
 
 export type Properties = {
     [key: string]: Value,

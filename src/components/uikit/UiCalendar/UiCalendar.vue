@@ -80,6 +80,7 @@ import { computed, ref, onMounted, watch, inject } from 'vue';
 import { VirtualisedList } from 'vue-virtualised';
 
 import { RangeValue, CurrentValue, Value, Ranged } from './UiCalendar'
+import UiButton from '@/components/uikit/UiButton.vue'
 
 import UiCalendarMonth from './UiCalendarMonth.vue';
 

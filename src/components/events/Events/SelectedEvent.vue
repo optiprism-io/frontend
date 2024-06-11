@@ -186,6 +186,8 @@ import CommonIdentifier from '@/components/common/identifier/CommonIdentifier.vu
 import PropertySelect from '@/components/events/PropertySelect.vue'
 import { useEventsStore } from '@/stores/eventSegmentation/events'
 import { usePropertyValues } from '@/hooks/usePropertyValues'
+import UiIcon from '@/components/uikit/UiIcon.vue'
+import UiButton from '@/components/uikit/UiButton.vue'
 
 const eventsStore = useEventsStore()
 const { getValues } = usePropertyValues()

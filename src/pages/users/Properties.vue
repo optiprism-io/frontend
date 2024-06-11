@@ -35,6 +35,7 @@ import { Property } from '@/api'
 import { Action, Row } from '@/components/uikit/UiTable/UiTable'
 import usei18n from '@/hooks/useI18n'
 import UserPropertyPopup, { ApplyPayload } from '@/components/events/UserPropertyPopup.vue'
+import UiTable from '@/components/uikit/UiTable/UiTable.vue'
 
 const { t } = usei18n()
 const lexiconStore = useLexiconStore()

@@ -13,6 +13,7 @@
 import EventSelector from '@/components/events/Events/EventSelector.vue';
 import {EventRef} from '@/types/events';
 import {useStepsStore} from '@/stores/funnels/steps';
+import UiButton from '@/components/uikit/UiButton.vue'
 
 const stepsStore = useStepsStore()
 

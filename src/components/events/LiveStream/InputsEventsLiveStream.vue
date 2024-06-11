@@ -47,6 +47,7 @@ import { useEventsStore } from '@/stores/eventSegmentation/events'
 
 import Select from '@/components/Select/Select.vue'
 import SelectedEvent from '@/components/events/Events/SelectedEvent.vue'
+import UiButton from '@/components/uikit/UiButton.vue'
 
 const lexiconStore = useLexiconStore()
 const liveStreamStore = useLiveStreamStore()

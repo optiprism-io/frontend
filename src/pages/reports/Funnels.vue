@@ -80,6 +80,7 @@ import FunnelsViews from '@/components/funnels/view/FunnelsViews.vue'
 import FilterReports from '@/components/events/FiltersReports.vue'
 import GridContainer from '@/components/grid/GridContainer.vue'
 import GridItem from '@/components/grid/GridItem.vue'
+import UiButton from '@/components/uikit/UiButton.vue'
 import { funnelsToEvents } from '@/utils/reportsMappings'
 import usei18n from '@/hooks/useI18n';
 

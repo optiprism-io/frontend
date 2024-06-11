@@ -45,6 +45,7 @@ import { TimeUnit, TimeUnitWithSession } from '@/api'
 import { I18N } from '@/utils/i18n'
 import { UiSelectItemInterface } from '@/components/uikit/UiSelect/types'
 import { UiSelectGeneric } from '@/components/uikit/UiSelect/UiSelectGeneric'
+import UiButton from '@/components/uikit/UiButton.vue'
 
 const UiSelectSize = UiSelectGeneric<number>()
 const UiSelectUnit = UiSelectGeneric<TimeUnitWithSession>()

@@ -18,6 +18,7 @@ import {useStepsStore} from '@/stores/funnels/steps';
 import PropertySelect from '@/components/events/PropertySelect.vue';
 import {PropertyRef} from '@/types/events';
 import { EventFilterByPropertyTypeEnum, PropertyType } from '@/api';
+import UiButton from '@/components/uikit/UiButton.vue'
 
 const lexiconStore = useLexiconStore();
 const stepsStore = useStepsStore();

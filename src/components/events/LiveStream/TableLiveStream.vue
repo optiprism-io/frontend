@@ -76,9 +76,11 @@ import { Action } from '@/components/uikit/UiTable/UiTable'
 import UiToggleGroup, { UiToggleGroupItem } from '@/components/uikit/UiToggleGroup.vue'
 import UiDatePicker from '@/components/uikit/UiDatePicker.vue'
 import UiTable from '@/components/uikit/UiTable/UiTable.vue'
+import UiButton from '@/components/uikit/UiButton.vue'
 import LiveStreamEventPopup from '@/components/events/LiveStreamEventPopup.vue'
 import Select from '@/components/Select/Select.vue'
 import { PropertyRef } from '@/types/events'
+import UiIcon from '@/components/uikit/UiIcon.vue'
 
 const { t } = usei18n()
 const liveStreamStore = useLiveStreamStore()
@@ -118,7 +120,7 @@ const itemsProperties = computed(() => {
     return {
       name: group.name,
       items: group.items.map(item => {
-        const property = liveStreamStore.activeColumns.find(prop => 
+        const property = liveStreamStore.activeColumns.find(prop =>
           prop.group === item.item.group &&
           prop.id === item.item.id &&
           prop.name === item.name
@@ -189,7 +191,7 @@ const onSelectPeriod = (payload: string) => {
 }
 
 const selectColumn = (payload: PropertyRef) => {
-  const propertyIndex = liveStreamStore.activeColumns.findIndex(prop => 
+  const propertyIndex = liveStreamStore.activeColumns.findIndex(prop =>
     prop.group === payload.group &&
     prop.id === payload.id &&
     prop.name === payload.name

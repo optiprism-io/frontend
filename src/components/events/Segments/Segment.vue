@@ -88,6 +88,7 @@ import { Condition as ConditionType } from '@/types/events';
 import { conditions as conditionsMap } from '@/configs/events/segmentCondition';
 import Select from '@/components/Select/Select.vue';
 import usei18n from '@/hooks/useI18n';
+import UiIcon from '@/components/uikit/UiIcon.vue'
 
 type Item = {
     id: string,

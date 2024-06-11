@@ -28,6 +28,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { PropertyRef } from '@/types/events'
+import UiButton from '@/components/uikit/UiButton.vue'
 import Breakdown from '@/components/events/Breakdown.vue'
 import PropertySelect from '@/components/events/PropertySelect.vue'
 import { useEventsStore } from '@/stores/eventSegmentation/events'

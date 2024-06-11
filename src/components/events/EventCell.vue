@@ -54,6 +54,7 @@
 <script lang="ts" setup>
 import { defineComponent, computed } from 'vue'
 import { Action, Cell } from '@/components/uikit/UiTable/UiTable';
+import UiButton from '@/components/uikit/UiButton.vue'
 
 export type EventCell = Cell & {
     customEvents: {

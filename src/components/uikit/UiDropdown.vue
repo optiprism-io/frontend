@@ -99,7 +99,8 @@ export interface UiDropdownItem<T> {
   to?: RouteLocationRaw
 }
 
-class UiDropdownFactory<T = unknown> {
+/* TODO: change type any to unknown */
+class UiDropdownFactory<T = any> {
   define() {
     return defineComponent({
       name: 'UiDropdown',

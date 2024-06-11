@@ -34,6 +34,7 @@
 
 <script setup lang="ts">
 import { VTooltip } from 'floating-vue'
+import UiIcon from '@/components/uikit/UiIcon.vue'
 
 defineProps({
     label: {

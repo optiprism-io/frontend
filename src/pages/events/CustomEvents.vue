@@ -51,6 +51,7 @@ import UiCellToolMenu from '@/components/uikit/cells/UiCellToolMenu.vue'
 import ConfirmPopup from '@/components/common/ConfirmPopup.vue'
 import ToolsLayout from '@/layout/ToolsLayout.vue'
 import UiCardContainer from '@/components/uikit/UiCard/UiCardContainer.vue'
+import UiButton from '@/components/uikit/UiButton.vue'
 import { apiClient } from '@/api/apiClient'
 
 const i18n = inject<any>('i18n')

@@ -87,6 +87,7 @@ import { Event, useEventsStore, EventPayload } from '@/stores/eventSegmentation/
 import { useCommonStore } from '@/stores/common'
 import { useProjectsStore } from '@/stores/projects/projects'
 import { usePropertyValues } from '@/hooks/usePropertyValues'
+import UiButton from '@/components/uikit/UiButton.vue'
 
 import UiPopupWindow from '@/components/uikit/UiPopupWindow.vue'
 import UiInput from '@/components/uikit/UiInput.vue'
@@ -214,7 +215,7 @@ const resultEvent = computed(() => {
               if (filter.propRef?.group || filter.propRef?.group === 0) {
                 item.group = filter.propRef.group
               }
-              
+
               eventProps.filters.push(item)
             }
           }

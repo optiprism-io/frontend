@@ -52,6 +52,7 @@ import { aggregates } from '@/configs/events/segmentConditionDidEventAggregate'
 import { conditions } from '@/configs/events/segmentCondition'
 import { PropertyRef } from '@/types/events'
 import { DidEventCountTypeEnum } from '@/api'
+import UiButton from '@/components/uikit/UiButton.vue'
 
 const i18n = inject<any>('i18n')
 const segmentsStore = useSegmentsStore()

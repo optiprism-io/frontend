@@ -34,6 +34,7 @@ import UiTable from '@/components/uikit/UiTable/UiTable.vue';
 import { Action } from '@/components/uikit/UiTable/UiTable';
 import UiPopupWindow from '@/components/uikit/UiPopupWindow.vue';
 import usei18n from '@/hooks/useI18n';
+import UiTabs from '@/components/uikit/UiTabs.vue'
 
 const liveStreamStore = useLiveStreamStore();
 const commonStore = useCommonStore();

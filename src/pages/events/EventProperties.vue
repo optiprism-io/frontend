@@ -27,6 +27,7 @@ import UiCellTags from '@/components/uikit/cells/UiCellTags.vue'
 import UiCellToolMenu from '@/components/uikit/cells/UiCellToolMenu.vue'
 import ToolsLayout from '@/layout/ToolsLayout.vue'
 import UiCardContainer from '@/components/uikit/UiCard/UiCardContainer.vue'
+import UiTable from '@/components/uikit/UiTable/UiTable.vue'
 
 const i18n = inject<any>('i18n')
 const lexiconStore = useLexiconStore()
