@@ -11,7 +11,6 @@ import { options } from 'floating-vue'
 import { router } from '@/router'
 import uikitPlugin from '@/plugins/uikit'
 import i18nPlugin from '@/plugins/i18n'
-import GridLayout from 'vue3-drr-grid-layout'
 
 /* https://floating-vue.starpad.dev/guide/installation#import-directly */
 options.disposeTimeout = 300
@@ -33,7 +32,6 @@ const app = createApp(App)
 
 app.use(router)
 app.use(pinia)
-app.use(GridLayout)
 app.use(uikitPlugin)
 app.use(i18nPlugin)
 
