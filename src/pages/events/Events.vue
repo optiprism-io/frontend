@@ -5,7 +5,7 @@
       :items="items"
       @on-select="onSelectPage"
     />
-    <router-view />
+    <RouterView />
     <EventPropertyPopup
       v-if="commonStore.showEventPropertyPopup && editPropertyPopup"
       :loading="propertyPopupLoading"

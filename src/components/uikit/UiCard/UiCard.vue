@@ -1,9 +1,9 @@
 <template>
   <UiCardContainer>
     <UiCardTitle v-if="title">
-      <router-link v-if="link" :to="link">
+      <RouterLink v-if="link" :to="link">
         {{ title }}
-      </router-link>
+      </RouterLink>
       <span v-else>
         {{ title }}
       </span>

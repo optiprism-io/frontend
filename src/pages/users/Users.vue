@@ -1,7 +1,7 @@
 <template>
   <section>
     <UiTabs class="pf-u-mb-md" :items="items" />
-    <router-view />
+    <RouterView />
   </section>
 </template>
 

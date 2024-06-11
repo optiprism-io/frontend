@@ -1,6 +1,6 @@
 <template>
   <section class="pf-c-page__main-section">
-    <router-view />
+    <RouterView />
   </section>
 </template>
 

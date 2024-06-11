@@ -147,11 +147,11 @@
       :h-100="true"
     >
       {{ t('dashboards.noReports') }}
-      <router-link :to="pagesMap.reports" aria-current="page">
+      <RouterLink :to="pagesMap.reports" aria-current="page">
         <UiButton class="pf-m-primary pf-u-ml-md">
           {{ $t('dashboards.createReport') }}
         </UiButton>
-      </router-link>
+      </RouterLink>
     </DataEmptyPlaceholder>
     <DashboardReportsPopup
       v-if="visibleReportsPopup"

@@ -63,7 +63,7 @@
         class="pf-l-flex__item pf-u-flex-1 pf-u-w-100 pf-u-min-height"
         style="--pf-u-min-height--MinHeight: 0"
       >
-        <router-view />
+        <RouterView />
       </div>
     </div>
   </section>

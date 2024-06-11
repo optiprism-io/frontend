@@ -8,6 +8,7 @@ module.exports = {
   parser: 'vue-eslint-parser',
   rules: {
     'vue/no-undef-components': 'error',
+    'vue/component-name-in-template-casing': 'error',
     'vue/max-attributes-per-line': [
       'warn',
       {

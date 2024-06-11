@@ -1,9 +1,9 @@
 <template>
   <div class="dashboard-panel">
     <div class="dashboard-panel__name">
-      <router-link v-if="reportLink" :to="reportLink">
+      <RouterLink v-if="reportLink" :to="reportLink">
         {{ report?.name }}
-      </router-link>
+      </RouterLink>
     </div>
     <EventsViews
       v-if="isEventsViews"
