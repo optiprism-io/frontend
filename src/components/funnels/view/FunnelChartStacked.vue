@@ -114,7 +114,7 @@ const update = () => {
                 {
                   ...item,
                   name: uncamelize(secondaryKey),
-                  value: secondaryValue,
+                  value: secondaryValue + ' %',
                 },
               ]
             : []
