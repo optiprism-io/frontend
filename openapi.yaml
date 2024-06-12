@@ -1532,7 +1532,7 @@ paths:
           $ref: '#/components/responses/Internal'
         '503':
           $ref: '#/components/responses/ServiceUnavailable'
-  /v1/projects/{projectId}/group-records/{id}:
+  /v1/projects/{projectId}/group-records/{group}/{id}:
     get:
       summary: Get group record
       operationId: getGroupRecord
@@ -1542,6 +1542,13 @@ paths:
         - group records
       parameters:
         - $ref: '#/components/parameters/ProjectID'
+        - name: group
+          in: path
+          description: Group ID
+          required: true
+          schema:
+            type: integer
+            format: i64
         - name: id
           in: path
           description: Group Record ID
