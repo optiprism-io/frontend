@@ -2887,6 +2887,8 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/PropertyRef'
+        sort:
+          $ref: '#/components/schemas/SortablePropertyRef'
     GroupRecordsListRequest:
       type: object
       description: request group records sorted by time of creation
