@@ -82,6 +82,11 @@ import { storeToRefs } from 'pinia'
 import { TimeTypeEnum, usePeriod } from '@/hooks/usePeriod'
 import { apiClient } from '@/api/apiClient'
 
+const MIN_COUNT_FOR_REQUEST = 2
+
+const projectsStore = useProjectsStore()
+const { projectId } = storeToRefs(projectsStore)
+
 interface Period {
   from: string
   to: string
@@ -200,9 +205,9 @@ const applyPeriod = (payload: ApplyPayload): void => {
 
 /* TODO: refactor this */
 async function fetchReports(): Promise<void> {
-  const projectsStore = useProjectsStore()
+  if (stepsStore.getSteps.length < MIN_COUNT_FOR_REQUEST) return
 
-  const res = await apiClient.query.funnelQuery(projectsStore.projectId, {
+  const res = await apiClient.query.funnelQuery(projectId.value, {
     time: timeRequest.value,
     group: stepsStore.group,
     steps: stepsStore.getSteps,
