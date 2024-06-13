@@ -115,6 +115,6 @@ onUnmounted(() => {
     filterGroupsStore.$reset()
     segmentsStore.$reset()
   }
-  stepsStore.group = 0
+  stepsStore.$reset()
 })
 </script>
