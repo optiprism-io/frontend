@@ -74,18 +74,20 @@ import {
   FunnelQueryCountEnum,
   FunnelResponseStepsInner,
   FunnelStepsChartTypeTypeEnum,
-  TimeUnitWithSession,
 } from '@/api'
 import { useMutation } from '@/hooks/useMutation'
 import { getLastNDaysRange } from '@/helpers/calendarHelper'
-import { storeToRefs } from 'pinia'
 import { TimeTypeEnum, usePeriod } from '@/hooks/usePeriod'
 import { apiClient } from '@/api/apiClient'
+import { useFilterGroupsStore } from '@/stores/reports/filters'
+import { useBreakdownsStore } from '@/stores/reports/breakdowns'
 
 const MIN_COUNT_FOR_REQUEST = 2
 
+const stepsStore = useStepsStore()
 const projectsStore = useProjectsStore()
-const { projectId } = storeToRefs(projectsStore)
+const filterGroupsStore = useFilterGroupsStore()
+const breakdownsStore = useBreakdownsStore()
 
 interface Period {
   from: string
@@ -100,9 +102,6 @@ const itemText = computed(() => FUNNEL_VIEWS.find(c => c.key === item.value)?.na
 const selectItem = (value: UiDropdownItem<string>) => {
   item.value = value.key
 }
-
-const stepsStore = useStepsStore()
-const { size, unit } = storeToRefs(stepsStore)
 
 const reportSteps = ref<FunnelResponseStepsInner[]>([])
 const groups = ref<string[]>([])
@@ -203,18 +202,18 @@ const applyPeriod = (payload: ApplyPayload): void => {
   })
 }
 
-/* TODO: refactor this */
 async function fetchReports(): Promise<void> {
   if (stepsStore.getSteps.length < MIN_COUNT_FOR_REQUEST) return
 
-  const res = await apiClient.query.funnelQuery(projectId.value, {
+  const res = await apiClient.query.funnelQuery(projectsStore.projectId, {
     time: timeRequest.value,
     group: stepsStore.group,
     steps: stepsStore.getSteps,
+    breakdowns: breakdownsStore.breakdownsItems,
+    filters: filterGroupsStore.filters,
     timeWindow: {
-      n: size.value,
-      /* TODO: fix type and remove "as TimeUnitWithSession" */
-      unit: unit.value as TimeUnitWithSession,
+      n: stepsStore.size,
+      unit: stepsStore.unit,
     },
     chartType: {
       type: FunnelStepsChartTypeTypeEnum.Steps,
@@ -231,6 +230,7 @@ async function fetchReports(): Promise<void> {
   }
 }
 
-watch(() => stepsStore.group, getReports)
-watch(() => stepsStore.steps.length, getReports)
+watch(() => [stepsStore, filterGroupsStore, breakdownsStore, timeRequest], getReports, {
+  deep: true,
+})
 </script>
