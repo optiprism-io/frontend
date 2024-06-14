@@ -1,5 +1,10 @@
 <template>
-  <div class="ui-table">
+  <div
+    class="ui-table"
+    :class="{
+      'ui-table_clickable': allowClickCell
+    }"
+  >
     <DataEmptyPlaceholder
       v-if="showPlaceholder"
       :content="props?.noDataText || $t('common.noData')"
@@ -90,6 +95,7 @@
                 :last-fixed="cell.lastFixed"
                 :no-wrap="cell.nowrap"
                 :type="cell.type"
+                @click="clickCell(cell, row)"
               >
                 <Component
                   :is="cell.component || UiTableCell"
@@ -111,16 +117,13 @@
 
 <script lang="ts" setup>
 import { computed, inject, useSlots, ref, onBeforeMount } from 'vue'
-
-import DataEmptyPlaceholder from '@/components/common/data/DataEmptyPlaceholder.vue'
-import type { UiSelectItem } from '@/components/uikit/UiSelect.vue';
-import UiSelect from '@/components/uikit/UiSelect.vue'
-import UiSpinner from '@/components/uikit/UiSpinner.vue'
+import { Row, Cell, Column, Action, ColumnGroup } from '@/components/uikit/UiTable/UiTable'
+import UiTableHeadCell from '@/components/uikit/UiTable/UiTableHeadCell.vue'
 import UiTableCell from '@/components/uikit/UiTable/UiTableCell.vue'
 import UiTableCellWrapper from '@/components/uikit/UiTable/UiTableCellWrapper.vue'
-import UiTableHeadCell from '@/components/uikit/UiTable/UiTableHeadCell.vue'
-
-import type { Row, Column, Action, ColumnGroup } from '@/components/uikit/UiTable/UiTable'
+import UiSelect, { UiSelectItem } from '@/components/uikit/UiSelect.vue'
+import UiSpinner from '@/components/uikit/UiSpinner.vue'
+import DataEmptyPlaceholder from '@/components/common/data/DataEmptyPlaceholder.vue'
 
 const i18n = inject<any>('i18n')
 const slots = useSlots()
@@ -138,6 +141,7 @@ type Props = {
   noDataText?: string
   enablePlaceholder?: boolean
   defaultColumns?: string[]
+  allowClickCell?: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -154,6 +158,7 @@ const props = withDefaults(defineProps<Props>(), {
 })
 
 const emit = defineEmits<{
+  (e: 'click-cell', call: Cell, row: Row): void
   (e: 'on-action', payload: Action): void
   (e: 'select-columns', payload: string[]): void
 }>()
@@ -194,6 +199,10 @@ const toggleColumns = (payload: string) => {
 onBeforeMount(() => {
   activeColumns.value = props.defaultColumns || props.columns.map(item => item.value)
 })
+
+const clickCell = (cell: Cell, row: Row) => {
+  emit('click-cell', cell, row);
+}
 </script>
 
 <style lang="scss">
@@ -206,6 +215,13 @@ onBeforeMount(() => {
   }
   .pf-c-scroll-outer-wrapper {
     min-height: auto;
+  }
+
+  &_clickable {
+    tr:hover {
+      background-color: rgba(247, 247, 250, 1);
+      cursor: pointer;
+    }
   }
 }
 

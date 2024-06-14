@@ -1,7 +1,7 @@
 <template>
   <ToolsLayout :col-lg="12">
     <template #title>
-      {{ $t('events.live_stream.title') }}
+      {{ $t('events.liveStream.title') }}
     </template>
     <UiCard class="pf-c-card pf-m-compact pf-u-h-100" :title="$t('events.events')">
       <InputsEventsLiveStream />
