@@ -153,7 +153,6 @@ export const useLiveStreamStore = defineStore('liveStream', {
         const props: EventRecordsListRequest = {
           time: this.timeRequest,
           properties: properties,
-          group: 0,
         }
 
         if (this.events.length) {
