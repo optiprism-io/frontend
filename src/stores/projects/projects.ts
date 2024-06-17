@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 
 import { apiClient } from '@/api/apiClient'
+import { MISSING_ID } from '@/stores/constants'
 
 import type { Project, UpdateProjectRequest } from '@/api'
 
@@ -26,7 +27,7 @@ const STORAGE_PROJECT_ID_KEY = 'projectId'
 export const useProjectsStore = defineStore('projects', {
   state: (): ProjectState => ({
     project: null,
-    projectId: 0,
+    projectId: MISSING_ID,
     projects: [],
     isLoading: false,
   }),

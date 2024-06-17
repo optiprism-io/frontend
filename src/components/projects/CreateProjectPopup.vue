@@ -16,6 +16,7 @@
         v-model="projectName"
         :required="true"
         name="project-name"
+        :autofocus="true"
         @keyup.enter="createProject"
       />
     </UiFormLabel>
@@ -23,9 +24,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
-
-import { useFocus } from '@vueuse/core'
+import { ref } from 'vue'
 
 import UiFormLabel from '@/components/uikit/UiFormLabel.vue'
 import UiInput from '@/components/uikit/UiInput.vue'
@@ -38,12 +37,6 @@ import type { Project } from '@/api'
 const emit = defineEmits<{
   (e: 'created-project', project: Project): void
 }>()
-
-const input = ref()
-const { focused } = useFocus(input)
-onMounted(() => {
-  focused.value = true
-})
 
 const projectName = ref('')
 

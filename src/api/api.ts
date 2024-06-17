@@ -2991,12 +2991,6 @@ export interface OrganizationsList200Response {
 export interface Profile {
     /**
      * 
-     * @type {number}
-     * @memberof Profile
-     */
-    'id': number;
-    /**
-     * 
      * @type {string}
      * @memberof Profile
      */
@@ -3013,6 +3007,12 @@ export interface Profile {
      * @memberof Profile
      */
     'timezone': string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof Profile
+     */
+    'forceUpdatePassword'?: boolean;
 }
 /**
  * 
@@ -3867,6 +3867,19 @@ export const SegmentConditionHasPropertyValueTypeEnum = {
 
 export type SegmentConditionHasPropertyValueTypeEnum = typeof SegmentConditionHasPropertyValueTypeEnum[keyof typeof SegmentConditionHasPropertyValueTypeEnum];
 
+/**
+ * 
+ * @export
+ * @interface SetProfilePasswordRequest
+ */
+export interface SetProfilePasswordRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof SetProfilePasswordRequest
+     */
+    'password': string;
+}
 /**
  * 
  * @export
@@ -7092,6 +7105,46 @@ export const ProfileApiAxiosParamCreator = function (configuration?: Configurati
         },
         /**
          * 
+         * @summary Set password from default to defined
+         * @param {SetProfilePasswordRequest} setProfilePasswordRequest 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        setProfilePassword: async (setProfilePasswordRequest: SetProfilePasswordRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'setProfilePasswordRequest' is not null or undefined
+            assertParamExists('setProfilePassword', 'setProfilePasswordRequest', setProfilePasswordRequest)
+            const localVarPath = `/v1/profile/set-password`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearerAuth required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(setProfilePasswordRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @summary Update email
          * @param {UpdateProfileEmailRequest} updateProfileEmailRequest 
          * @param {*} [options] Override http request option.
@@ -7234,6 +7287,19 @@ export const ProfileApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @summary Set password from default to defined
+         * @param {SetProfilePasswordRequest} setProfilePasswordRequest 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async setProfilePassword(setProfilePasswordRequest: SetProfilePasswordRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<TokensResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.setProfilePassword(setProfilePasswordRequest, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ProfileApi.setProfilePassword']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
          * @summary Update email
          * @param {UpdateProfileEmailRequest} updateProfileEmailRequest 
          * @param {*} [options] Override http request option.
@@ -7292,6 +7358,16 @@ export const ProfileApiFactory = function (configuration?: Configuration, basePa
         },
         /**
          * 
+         * @summary Set password from default to defined
+         * @param {SetProfilePasswordRequest} setProfilePasswordRequest 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        setProfilePassword(setProfilePasswordRequest: SetProfilePasswordRequest, options?: any): AxiosPromise<TokensResponse> {
+            return localVarFp.setProfilePassword(setProfilePasswordRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @summary Update email
          * @param {UpdateProfileEmailRequest} updateProfileEmailRequest 
          * @param {*} [options] Override http request option.
@@ -7339,6 +7415,18 @@ export class ProfileApi extends BaseAPI {
      */
     public getProfile(options?: RawAxiosRequestConfig) {
         return ProfileApiFp(this.configuration).getProfile(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Set password from default to defined
+     * @param {SetProfilePasswordRequest} setProfilePasswordRequest 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ProfileApi
+     */
+    public setProfilePassword(setProfilePasswordRequest: SetProfilePasswordRequest, options?: RawAxiosRequestConfig) {
+        return ProfileApiFp(this.configuration).setProfilePassword(setProfilePasswordRequest, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

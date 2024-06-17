@@ -5774,10 +5774,10 @@ v8-to-istanbul@^9.0.0:
     "@types/istanbul-lib-coverage" "^2.0.1"
     convert-source-map "^1.6.0"
 
-valibot@^0.25.0:
-  version "0.25.0"
-  resolved "https://registry.yarnpkg.com/valibot/-/valibot-0.25.0.tgz#bdbb3a6e910f983b5a65b56b2bff24dfd09064ca"
-  integrity sha512-cmD0ca15oyAbT75iYLNW6uU6doAeIwYfOshpXka/E1Bx4frzbkrgb7gvkI7K0YK/DVOksei4FfxWfRoBP3NFTg==
+valibot@^0.31.1:
+  version "0.31.1"
+  resolved "https://registry.yarnpkg.com/valibot/-/valibot-0.31.1.tgz#fa1481da7cf28a2fdb15e37b0b292023a30293cb"
+  integrity sha512-2YYIhPrnVSz/gfT2/iXVTrSj92HwchCt9Cga/6hX4B26iCz9zkIsGTS0HjDYTZfTi1Un0X6aRvhBi1cfqs/i0Q==
 
 vdirs@^0.1.4, vdirs@^0.1.8:
   version "0.1.8"
