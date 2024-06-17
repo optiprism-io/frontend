@@ -384,7 +384,9 @@
     "password": "Password",
     "curPassword": "Current Password",
     "newPassword": "New Password",
-    "confirmPassword": "Confirm Password"
+    "confirmPassword": "Confirm Password",
+    "setPassword": "Set Password",
+    "setPasswordText": "Please set your password to continue"
   },
   "project": {
     "createProject": "Create project",

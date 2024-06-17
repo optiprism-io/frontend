@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
-import { checkCreatedProject, isAuth } from '@/router/routerGuards'
+import { checkChangedPass, checkCreatedProject, isAuth } from '@/router/routerGuards'
 import { pagesMap } from '@/router/pagesMap'
 
 export enum SDKIntegration {
@@ -17,11 +17,25 @@ const routes: RouteRecordRaw[] = [
     component: () => import('@/pages/auth/Login.vue'),
   },
 
+  /* pages are accessible only with a changed password */
+  {
+    path: '/force_update_password',
+    component: () => import('@/layout/EmptyLayout.vue'),
+    beforeEnter: [isAuth],
+    children: [
+      {
+        path: '',
+        name: pagesMap.forceUpdatePassword,
+        component: () => import('@/pages/ForceUpdatePassword.vue'),
+      },
+    ],
+  },
+
   /* pages are accessible without a created project */
   {
     path: '/projects/create',
     component: () => import('@/layout/MainLayout.vue'),
-    beforeEnter: [isAuth],
+    beforeEnter: [isAuth, checkChangedPass],
     children: [
       {
         path: '',
@@ -33,7 +47,7 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/profile',
     component: () => import('@/layout/MainLayout.vue'),
-    beforeEnter: [isAuth],
+    beforeEnter: [isAuth, checkChangedPass],
     children: [
       {
         path: '',
@@ -47,7 +61,7 @@ const routes: RouteRecordRaw[] = [
   {
     path: '',
     component: () => import('@/layout/MainLayout.vue'),
-    beforeEnter: [isAuth, checkCreatedProject],
+    beforeEnter: [isAuth, checkChangedPass, checkCreatedProject],
     children: [
       {
         path: '',

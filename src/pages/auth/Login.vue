@@ -57,18 +57,11 @@
               :for="'login-password'"
               :required="true"
             >
-              <UiInputGroup>
-                <UiInput
-                  v-model="password"
-                  name="login-password"
-                  :type="showPassword ? 'text' : 'password'"
-                  :invalid="Boolean(errorFields?.password)"
-                  @input="e => onInput(e, 'password')"
-                />
-                <UiButton class="pf-m-control" @click="showPassword = !showPassword">
-                  <UiIcon :icon="['fas', showPassword ? 'fa-eye-slash' : 'fa-eye']" />
-                </UiButton>
-              </UiInputGroup>
+              <InputPassword
+                v-model="password"
+                :invalid="Boolean(errorFields?.password)"
+                @input="e => onInput(e, 'password')"
+              />
             </UiFormGroup>
             <UiFormGroup>
               <UiCheckbox
@@ -99,22 +92,18 @@ import UiInput from '@/components/uikit/UiInput.vue'
 import UiCheckbox from '@/components/uikit/UiCheckbox.vue'
 import UiForm from '@/components/uikit/UiForm.vue'
 import UiFormGroup from '@/components/uikit/UiFormGroup.vue'
-import UiIcon from '@/components/uikit/UiIcon.vue'
-import UiInputGroup from '@/components/uikit/UiInputGroup.vue'
 import { safeParse } from 'valibot'
-import { notEmptyEmail, notEmptyString } from '@/utils/validationSchemes'
+import { notEmptyEmail, notEmptyString } from '@/plugins/valibot'
 import { merge } from 'lodash-es'
-import { useProjectsStore } from '@/stores/projects/projects'
+import InputPassword from '@/components/login/InputPassword.vue'
 
 const route = useRoute()
 const router = useRouter()
 const authStore = useAuthStore()
-const projectStore = useProjectsStore()
 
 const email = ref('')
 const password = ref('')
 const keepLogged = ref(true)
-const showPassword = ref(false)
 const errorFields = ref<{ [key: string]: string }>({})
 const errorMain = ref('')
 const loading = ref(false)
@@ -140,14 +129,6 @@ const login = async (): Promise<void | Error> => {
       password: password.value,
       keepLogged: keepLogged.value,
     })
-    if (authStore.accessToken) {
-      await projectStore.init()
-    }
-
-    if (!projectStore.projectId) {
-      await router.push({ name: pagesMap.createProject })
-      return
-    }
 
     await router.push({ path: nextPath.value })
   } catch (e: any) {
@@ -168,8 +149,8 @@ const login = async (): Promise<void | Error> => {
 }
 
 const actionForm = () => {
-  const eCheck = safeParse(notEmptyEmail, email.value)
-  const pCheck = safeParse(notEmptyString, password.value)
+  const eCheck = safeParse(notEmptyEmail, email.value, { abortEarly: true })
+  const pCheck = safeParse(notEmptyString, password.value, { abortEarly: true })
 
   if (!eCheck.success) {
     errorFields.value = merge(errorFields.value, {

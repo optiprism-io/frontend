@@ -1,5 +1,7 @@
 import { defineStore } from 'pinia'
 import {
+  Profile,
+  TokensResponse,
   UpdateProfileEmailRequest,
   UpdateProfileNameRequest,
   UpdateProfilePasswordRequest,
@@ -10,7 +12,7 @@ import {
   confirmPassword as confirmPasswordScheme,
   notEmptyEmail,
   notEmptyString,
-} from '@/utils/validationSchemes'
+} from '@/plugins/valibot'
 import {
   isErrorResponseError,
   ProfileEdit,
@@ -20,12 +22,7 @@ import {
 import { apiClient } from '@/api/apiClient'
 
 interface ProfileState {
-  profile: {
-    id: number | null
-    name: string
-    email: string
-    timezone: string
-  }
+  profile: Profile
   isLoading: boolean
   errors: ProfileErrors
   isEdit: ProfileEdit
@@ -34,10 +31,10 @@ interface ProfileState {
 export const useProfileStore = defineStore('profile', {
   state: (): ProfileState => ({
     profile: {
-      id: null,
       name: '',
       email: '',
       timezone: '',
+      forceUpdatePassword: false,
     },
     isLoading: false,
     errors: {
@@ -63,6 +60,8 @@ export const useProfileStore = defineStore('profile', {
 
   actions: {
     async getProfile() {
+      if (this.profile.name) return
+
       this.isLoading = true
       try {
         const { data } = await apiClient.profile.getProfile()
@@ -75,7 +74,7 @@ export const useProfileStore = defineStore('profile', {
     },
 
     async saveEditName({ name }: UpdateProfileNameRequest) {
-      const nCheck = safeParse(notEmptyString, name)
+      const nCheck = safeParse(notEmptyString, name, { abortEarly: true })
       if (!nCheck.success) {
         this.errors.updateName.name = nCheck.issues[0].message
         return
@@ -101,8 +100,8 @@ export const useProfileStore = defineStore('profile', {
     },
 
     async saveEditEmail({ email, password }: UpdateProfileEmailRequest) {
-      const eCheck = safeParse(notEmptyEmail, email)
-      const pCheck = safeParse(notEmptyString, password)
+      const eCheck = safeParse(notEmptyEmail, email, { abortEarly: true })
+      const pCheck = safeParse(notEmptyString, password, { abortEarly: true })
       if (!eCheck.success || !pCheck.success) {
         this.errors.updateEmail.email = eCheck.issues?.[0].message
         this.errors.updateEmail.password = pCheck.issues?.[0].message
@@ -134,12 +133,16 @@ export const useProfileStore = defineStore('profile', {
       newPassword,
       confirmPassword,
     }: UpdateProfilePasswordRequestExt) {
-      const curPCheck = safeParse(notEmptyString, password)
-      const newPCheck = safeParse(notEmptyString, newPassword)
-      const conPCheck = safeParse(confirmPasswordScheme, {
-        newPassword,
-        confirmPassword,
-      })
+      const curPCheck = safeParse(notEmptyString, password, { abortEarly: true })
+      const newPCheck = safeParse(notEmptyString, newPassword, { abortEarly: true })
+      const conPCheck = safeParse(
+        confirmPasswordScheme,
+        {
+          newPassword,
+          confirmPassword,
+        },
+        { abortEarly: true }
+      )
 
       if (!curPCheck.success || !newPCheck.success || !conPCheck.success) {
         this.errors.updatePassword.password = curPCheck.issues?.[0].message
@@ -237,6 +240,12 @@ export const useProfileStore = defineStore('profile', {
       this.isEdit.password = false
       this.clearCurPasswordError()
       this.clearNewAndConfirmPasswordError()
+    },
+
+    setFirstPassword(tokens: TokensResponse) {
+      const authStore = useAuthStore()
+      authStore.setToken(tokens)
+      this.profile.forceUpdatePassword = false
     },
   },
 })
