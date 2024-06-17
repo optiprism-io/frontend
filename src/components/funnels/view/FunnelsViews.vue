@@ -232,7 +232,19 @@ async function fetchReports(): Promise<void> {
   }
 }
 
+function resetFunnelViews(): void {
+  reportSteps.value = []
+  groups.value = []
+}
+
 watch(() => [stepsStore, filterGroupsStore, breakdownsStore, timeRequest], getReports, {
   deep: true,
 })
+
+watch(
+  () => stepsStore.getSteps.length,
+  (value, oldValue) => {
+    if (value < MIN_COUNT_FOR_REQUEST && oldValue > value) resetFunnelViews()
+  }
+)
 </script>
