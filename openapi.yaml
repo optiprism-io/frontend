@@ -2220,38 +2220,16 @@ components:
     EventRecord:
       type: object
       required: [ 'id', 'name' ]
-      example: |
-        {
-          "id": 213,
-          "name": "Buy Product",
-          "eventProperties": {
-            "createdAt": "2017-07-21T17:32:28Z",
-            "Product Name": "TV"
-          },
-          "userProperties": {
-            "country": "UK"
-          },
-          "matchedCustomEvents": [
-            {
-              "id": 1
-            }
-          ]
-        }
       properties:
         id:
           type: integer
         name:
           type: string
-        eventProperties:
-          type: object
-          description: map of property name and property value pairs
-          additionalProperties:
-            $ref: '#/components/schemas/Value'
-        userProperties:
-          type: object
-          description: map of user name and property value pairs
-          additionalProperties:
-            $ref: '#/components/schemas/Value'
+        properties:
+          type: array
+          description: array of property name and property value pairs
+          items:
+            $ref: '#/components/schemas/PropertyAndValue'
         matchedCustomEvents:
           type: array
           items:
@@ -2522,7 +2500,7 @@ components:
             type: string
     Group:
       type: object
-      required: [ 'id', 'name']
+      required: [ 'id', 'name' ]
       properties:
         id:
           type: integer
@@ -2685,7 +2663,7 @@ components:
           type: string
           description: description
         type:
-            $ref: '#/components/schemas/PropertyType'
+          $ref: '#/components/schemas/PropertyType'
         groupId:
           type: integer
         dataType:
@@ -3832,6 +3810,16 @@ components:
         - percentile75
         - percentile90
         - percentile99
+    PropertyAndValue:
+      type: object
+      description: property name, type and value
+      allOf:
+        - $ref: '#/components/schemas/PropertyRef'
+        - type: object
+          required: [ 'value' ]
+          properties:
+            value:
+              $ref: '#/components/schemas/Value'
     Value:
       type: object
       description: value
