@@ -55,7 +55,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref, watch } from 'vue'
+import { computed, nextTick, ref, watch } from 'vue'
 import UiDatePicker from '@/components/uikit/UiDatePicker.vue'
 import { periodMap } from '@/configs/events/controls'
 import { UiToggleGroupItem } from '@/components/uikit/UiToggleGroup.vue'
@@ -203,6 +203,8 @@ const applyPeriod = (payload: ApplyPayload): void => {
 }
 
 async function fetchReports(): Promise<void> {
+  /* need nextTick for update stepsStore.getSteps */
+  await nextTick()
   if (stepsStore.getSteps.length < MIN_COUNT_FOR_REQUEST) return
 
   const res = await apiClient.query.funnelQuery(projectsStore.projectId, {
