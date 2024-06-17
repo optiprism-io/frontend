@@ -1,4 +1,4 @@
-import { ErrorResponse, UpdateProfilePasswordRequest } from '@/api'
+import type { ErrorResponse, UpdateProfilePasswordRequest } from '@/api'
 
 export interface ProfileErrors {
   updateName: {

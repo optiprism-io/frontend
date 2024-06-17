@@ -1,5 +1,13 @@
 import { defineStore } from 'pinia'
+
 import {
+  PropertyType
+} from '@/api'
+import { apiClient } from '@/api/apiClient'
+import { TimeTypeEnum, usePeriod } from '@/hooks/usePeriod'
+import { useProjectsStore } from '@/stores/projects/projects'
+
+import type {
   DataTableResponseColumnsInner,
   EventFilterByProperty,
   EventRecordRequestEvent,
@@ -7,14 +15,10 @@ import {
   EventRecordsListRequestTime,
   EventType,
   PropertyFilterOperation,
-  PropertyType,
   PropertyRef as PropertyRefApi
-} from '@/api'
-import { Event } from '@/stores/eventSegmentation/events'
-import { useProjectsStore } from '@/stores/projects/projects'
-import { TimeTypeEnum, usePeriod } from '@/hooks/usePeriod'
-import { apiClient } from '@/api/apiClient'
-import { PropertyRef } from '@/types/events'
+} from '@/api';
+import type { Event } from '@/stores/eventSegmentation/events'
+import type { PropertyRef } from '@/types/events'
 
 export interface Report {
   name: string

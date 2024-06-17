@@ -17,9 +17,9 @@
 <script lang="ts" setup>
 import InputsEventsLiveStream from '@/components/events/LiveStream/InputsEventsLiveStream.vue'
 import TableLiveStream from '@/components/events/LiveStream/TableLiveStream.vue'
-import ToolsLayout from '@/layout/ToolsLayout.vue'
 import UiCard from '@/components/uikit/UiCard/UiCard.vue'
 import UiCardContainer from '@/components/uikit/UiCard/UiCardContainer.vue'
+import ToolsLayout from '@/layout/ToolsLayout.vue'
 </script>
 
 <style lang="scss"></style>

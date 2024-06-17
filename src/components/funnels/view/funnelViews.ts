@@ -1,6 +1,7 @@
 import i18n from '@/utils/i18n'
+
+import type { FunnelResponseStepsInner } from '@/api'
 import type { FunnelResponseStepsInnerDataInner } from '@/api'
-import { FunnelResponseStepsInner } from '@/api'
 
 export type StepKey = keyof FunnelResponseStepsInnerDataInner | keyof FunnelResponseStepsInner
 

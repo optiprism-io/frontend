@@ -14,11 +14,14 @@
 
 <script lang="ts" setup>
 import { computed, ref, watch } from 'vue'
+
 import { Chart, getEngine } from '@antv/g2'
+
 import { getRandomColor, lighten } from '@/helpers/colorHelper'
 import { humanReadable } from '@/utils/humanReadable'
-import { StepKey } from '@/components/funnels/view/funnelViews'
 import { toFixedFormat } from '@/utils/toFixedFormat'
+
+import type { StepKey } from '@/components/funnels/view/funnelViews'
 
 const G = getEngine('canvas')
 const container = ref<HTMLDivElement | null>(null)

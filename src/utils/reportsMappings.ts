@@ -1,16 +1,35 @@
-import i18n from '@/utils/i18n'
+import {
+  DidEventRelativeCountTypeEnum,
+  EventType,
+  PropertyType,
+  QueryAggregatePropertyPerGroupTypeEnum,
+  QueryAggregatePropertyTypeEnum,
+  QueryCountPerGroupTypeEnum,
+  QueryFormulaTypeEnum,
+  QuerySimpleTypeEnum,
+  ReportType,
+  SegmentConditionDidEventTypeEnum,
+  SegmentConditionHadPropertyValueTypeEnum,
+  SegmentConditionHasPropertyValueTypeEnum,
+  TimeAfterFirstUseTypeEnum,
+  TimeBetweenTypeEnum,
+  TimeLastTypeEnum,
+  TimeWindowEachTypeEnum
+} from '@/api'
 import { TimeTypeEnum } from '@/hooks/usePeriod'
-
-import { HoldingProperty, useStepsStore } from '@/stores/funnels/steps'
-import { useReportsStore } from '@/stores/reports/reports'
+import {
+  useEventsStore,
+} from '@/stores/eventSegmentation/events'
+import { useStepsStore } from '@/stores/funnels/steps'
 import { useLexiconStore } from '@/stores/lexicon'
 import { useBreakdownsStore } from '@/stores/reports/breakdowns'
-import { FilterGroup, useFilterGroupsStore } from '@/stores/reports/filters'
-import { Segment, useSegmentsStore } from '@/stores/reports/segments'
-import { Each } from '@/components/uikit/UiCalendar/UiCalendar'
-import {
+import { useFilterGroupsStore } from '@/stores/reports/filters'
+import { useReportsStore } from '@/stores/reports/reports'
+import { useSegmentsStore } from '@/stores/reports/segments'
+import i18n from '@/utils/i18n'
+
+import type {
   BreakdownByProperty,
-  DidEventRelativeCountTypeEnum,
   Event as EventItem,
   EventFilterByProperty,
   EventFilterByPropertyTypeEnum,
@@ -18,48 +37,34 @@ import {
   EventSegmentation,
   EventSegmentationEvent,
   EventSegmentationSegment,
-  EventType,
   FunnelQuery,
   FunnelQueryStepsInner,
   Property,
   PropertyRef,
-  PropertyType,
   QueryAggregate,
   QueryAggregatePerGroup,
   QueryAggregateProperty,
   QueryAggregatePropertyPerGroup,
-  QueryAggregatePropertyPerGroupTypeEnum,
-  QueryAggregatePropertyTypeEnum,
   QueryCountPerGroup,
-  QueryCountPerGroupTypeEnum,
   QueryFormula,
-  QueryFormulaTypeEnum,
   QuerySimple,
-  QuerySimpleTypeEnum,
-  ReportType,
-  SegmentConditionDidEventTypeEnum,
-  SegmentConditionHadPropertyValueTypeEnum,
-  SegmentConditionHasPropertyValueTypeEnum,
   TimeAfterFirstUse,
-  TimeAfterFirstUseTypeEnum,
   TimeBetween,
-  TimeBetweenTypeEnum,
   TimeLast,
-  TimeLastTypeEnum,
   TimeWindowEach,
-  TimeWindowEachTypeEnum,
-  Value,
-} from '@/api'
-import {
+  Value} from '@/api';
+import type { Each } from '@/components/uikit/UiCalendar/UiCalendar'
+import type {
   ChartType,
   Event,
   EventBreakdown,
-  EventQuery,
-  useEventsStore,
-} from '@/stores/eventSegmentation/events'
-import { Step } from '@/types/steps'
-import { Condition, EventQueryRef, EventRef } from '@/types/events'
-import { Filter } from '@/types/filters'
+  EventQuery} from '@/stores/eventSegmentation/events';
+import type { HoldingProperty} from '@/stores/funnels/steps';
+import type { FilterGroup} from '@/stores/reports/filters';
+import type { Segment} from '@/stores/reports/segments';
+import type { Condition, EventQueryRef, EventRef } from '@/types/events'
+import type { Filter } from '@/types/filters'
+import type { Step } from '@/types/steps'
 
 type Queries =
   | QuerySimple

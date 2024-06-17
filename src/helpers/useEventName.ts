@@ -1,6 +1,8 @@
+import { EventType } from '@/api'
 import {useLexiconStore} from '@/stores/lexicon';
-import {EventRef} from '@/types/events';
-import { EventType, Event } from '@/api'
+
+import type { Event } from '@/api';
+import type {EventRef} from '@/types/events';
 
 export const useEventName = (): (ref: EventRef) => string => {
     const lexiconStore = useLexiconStore();

@@ -1,10 +1,45 @@
 import { defineStore } from 'pinia'
-import { Condition, ConditionFilter, PropertyRef } from '@/types/events'
-import { OperationId, Value } from '@/types'
-import { useLexiconStore } from '@/stores/lexicon'
-import { usePropertyValues } from '@/hooks/usePropertyValues'
 
 import {
+  EventType,
+  PropertyType,
+  SegmentConditionHasPropertyValueTypeEnum,
+  SegmentConditionDidEventTypeEnum,
+  SegmentConditionHadPropertyValueTypeEnum,
+  TimeBetweenTypeEnum,
+  TimeWindowEachTypeEnum,
+  TimeLastTypeEnum,
+  DidEventCountTypeEnum,
+  DidEventRelativeCountTypeEnum,
+  DidEventAggregatePropertyTypeEnum,
+  EventFilterByPropertyTypeEnum
+} from '@/api'
+import { usePropertyValues } from '@/hooks/usePropertyValues'
+import { useLexiconStore } from '@/stores/lexicon'
+import { OperationId } from '@/types'
+
+import { useProfileStore } from '../profile/profile'
+
+import type {
+  Event,
+  Property,
+  PropertyFilterOperation,
+  EventSegmentationSegment,
+  EventSegmentationSegmentConditionsInner,
+  SegmentConditionHasPropertyValue,
+  SegmentConditionDidEvent,
+  SegmentConditionHadPropertyValue,
+  SegmentConditionHadPropertyValueTime,
+  TimeUnit,
+  DidEventCount,
+  DidEventRelativeCount,
+  DidEventAggregateProperty,
+  DidEventHistoricalCount,
+  QueryAggregate,
+  EventFilterByProperty,
+  SegmentConditionDidEventAllOfAggregate
+} from '@/api';
+import type {
   ChangeEventCondition,
   ChangeFilterOperation,
   ChangeFilterPropertyCondition,
@@ -16,38 +51,8 @@ import {
   PeriodConditionPayload,
   RemoveFilterCondition,
 } from '@/components/events/Segments/Segments'
-import {
-  Event,
-  EventType,
-  Property,
-  PropertyType,
-  PropertyFilterOperation,
-  EventSegmentationSegment,
-  EventSegmentationSegmentConditionsInner,
-  SegmentConditionHasPropertyValue,
-  SegmentConditionHasPropertyValueTypeEnum,
-  SegmentConditionDidEvent,
-  SegmentConditionDidEventTypeEnum,
-  SegmentConditionHadPropertyValue,
-  SegmentConditionHadPropertyValueTypeEnum,
-  SegmentConditionHadPropertyValueTime,
-  TimeBetweenTypeEnum,
-  TimeWindowEachTypeEnum,
-  TimeUnit,
-  TimeLastTypeEnum,
-  DidEventCount,
-  DidEventRelativeCount,
-  DidEventAggregateProperty,
-  DidEventHistoricalCount,
-  DidEventCountTypeEnum,
-  DidEventRelativeCountTypeEnum,
-  DidEventAggregatePropertyTypeEnum,
-  QueryAggregate,
-  EventFilterByProperty,
-  EventFilterByPropertyTypeEnum,
-  SegmentConditionDidEventAllOfAggregate,
-} from '@/api'
-import { useProfileStore } from '../profile/profile'
+import type { Value } from '@/types';
+import type { Condition, ConditionFilter, PropertyRef } from '@/types/events'
 
 export interface Segment {
   name: string
@@ -110,7 +115,7 @@ const computedValueAggregate = (
         propertyType: PropertyType.Group,
         aggregate: item.aggregate.typeAggregate as QueryAggregate,
       }
-      
+
       if (item.propRef.group || item.propRef.group === 0) {
         aggregate.group = property.groupId;
       }

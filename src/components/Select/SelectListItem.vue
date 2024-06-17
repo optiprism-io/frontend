@@ -82,6 +82,10 @@
 <script lang="ts" setup>
 import { computed } from 'vue';
 
+import { Tooltip as VTooltip, Menu as VMenu } from 'floating-vue'
+
+import UiIcon from '@/components/uikit/UiIcon.vue'
+
 const props = defineProps<{
     item: any;
     items?: any[];

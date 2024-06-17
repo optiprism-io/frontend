@@ -82,19 +82,28 @@
 </template>
 
 <script lang="ts" setup>
+import { computed, inject } from 'vue';
+
+import { VTooltip } from 'floating-vue'
+
 import EventSelector from '@/components/events/Events/EventSelector.vue';
-import {computed, inject} from 'vue';
-import {ExcludedEventSteps, useStepsStore} from '@/stores/funnels/steps';
-import {EventRef, PropertyRef} from '@/types/events';
-import {UiSelectItemInterface} from '@/components/uikit/UiSelect/types';
-import {UiSelectGeneric} from '@/components/uikit/UiSelect/UiSelectGeneric';
-import {I18N} from '@/utils/i18n';
+import Filter from '@/components/events/Filter.vue';
 import UiActionList from '@/components/uikit/UiActionList/UiActionList.vue';
 import UiActionListItem from '@/components/uikit/UiActionList/UiActionListItem.vue';
-import {useEventName} from '@/helpers/useEventName';
-import Filter from '@/components/events/Filter.vue';
-import {OperationId, Value} from '@/types';
-import {useFilter} from '@/hooks/useFilter';
+import UiButton from '@/components/uikit/UiButton.vue'
+import UiIcon from '@/components/uikit/UiIcon.vue'
+
+import { UiSelectGeneric } from '@/components/uikit/UiSelect/UiSelectGeneric';
+import { useEventName } from '@/helpers/useEventName';
+import { useFilter } from '@/hooks/useFilter';
+import { useStepsStore} from '@/stores/funnels/steps';
+import { OperationId } from '@/types';
+
+import type { UiSelectItemInterface } from '@/components/uikit/UiSelect/types';
+import type { ExcludedEventSteps } from '@/stores/funnels/steps';
+import type { Value } from '@/types';
+import type { EventRef, PropertyRef } from '@/types/events';
+import type { I18N } from '@/utils/i18n';
 
 const UiSelect = UiSelectGeneric();
 
@@ -105,7 +114,7 @@ const filterHelpers = useFilter()
 const { $t } = inject('i18n') as I18N;
 
 const excludedEvents = computed(() => stepsStore.excludedEvents)
-  
+
 const excludeSteps = computed<UiSelectItemInterface<string>[]>(() => {
     const groups: UiSelectItemInterface<string>[] =
       stepsStore.steps.length > 2

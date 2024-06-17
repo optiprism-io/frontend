@@ -3,3 +3,7 @@
     <UiSpinner :size="'xl'" />
   </div>
 </template>
+
+<script setup lang="ts">
+import UiSpinner from '@/components/uikit/UiSpinner.vue'
+</script>

@@ -19,13 +19,15 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import UiCardTitle from '@/components/uikit/UiCard/UiCardTitle.vue'
-import UiCardBody from '@/components/uikit/UiCard/UiCardBody.vue'
+
 import FilterGroupsList from '@/components/funnels/filters/FilterGroupsList.vue'
+import UiCardBody from '@/components/uikit/UiCard/UiCardBody.vue'
+import UiCardTitle from '@/components/uikit/UiCard/UiCardTitle.vue'
 import UiSwitch from '@/components/uikit/UiSwitch.vue'
-import { useFilterGroupsStore } from '@/stores/reports/filters'
+
 import useConfirm from '@/hooks/useConfirm'
 import usei18n from '@/hooks/useI18n'
+import { useFilterGroupsStore } from '@/stores/reports/filters'
 
 export interface Props {
   isAllowAdvanced?: boolean

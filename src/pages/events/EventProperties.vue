@@ -17,16 +17,19 @@
 
 <script setup lang="ts">
 import { computed, inject } from 'vue'
-import { useLexiconStore } from '@/stores/lexicon'
-import { useCommonStore } from '@/stores/common'
-import { Property } from '@/api'
-import { Action, Row }  from '@/components/uikit/UiTable/UiTable'
 
-import UiTablePressedCell from '@/components/uikit/UiTable/UiTablePressedCell.vue'
 import UiCellTags from '@/components/uikit/cells/UiCellTags.vue'
 import UiCellToolMenu from '@/components/uikit/cells/UiCellToolMenu.vue'
-import ToolsLayout from '@/layout/ToolsLayout.vue'
 import UiCardContainer from '@/components/uikit/UiCard/UiCardContainer.vue'
+import UiTable from '@/components/uikit/UiTable/UiTable.vue'
+import UiTablePressedCell from '@/components/uikit/UiTable/UiTablePressedCell.vue'
+import ToolsLayout from '@/layout/ToolsLayout.vue'
+
+import { useCommonStore } from '@/stores/common'
+import { useLexiconStore } from '@/stores/lexicon'
+
+import type { Property } from '@/api'
+import type { Action, Row }  from '@/components/uikit/UiTable/UiTable'
 
 const i18n = inject<any>('i18n')
 const lexiconStore = useLexiconStore()

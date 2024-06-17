@@ -1,9 +1,12 @@
 import { ref } from 'vue'
-import { ProjectEdit, ProjectErrors } from '@/stores/projects/types'
+
 import { safeParse } from 'valibot'
+
+import { apiClient } from '@/api/apiClient'
 import { moreThanZeroNumber, notEmptyString } from '@/plugins/valibot'
 import { useProjectsStore } from '@/stores/projects/projects'
-import { apiClient } from '@/api/apiClient'
+
+import type { ProjectEdit, ProjectErrors } from '@/stores/projects/types'
 
 export function useProjectSettings() {
   const { saveProjectName: saveProjectNameStore, saveSessionDuration: saveSessionDurationStore } =

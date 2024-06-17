@@ -49,14 +49,15 @@
 </template>
 
 <script lang="ts" setup>
-import {computed} from 'vue';
-import {getStringDateByFormat, getYYYYMMDD} from '@/helpers/getStringDates';
+import { computed } from 'vue';
+
 import {
     DAYS_IN_WEEK,
     getMonthTable,
 } from '@/helpers/calendarHelper';
+import { getStringDateByFormat, getYYYYMMDD } from '@/helpers/getStringDates';
 
-import { Ranged } from './UiCalendar'
+import type { Ranged } from './UiCalendar'
 
 interface CellDate {
     date: number;

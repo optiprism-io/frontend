@@ -12,5 +12,7 @@
 </template>
 
 <script setup lang="ts">
+import { RouterView } from 'vue-router'
+
 import UiSpinner from '@/components/uikit/UiSpinner.vue'
 </script>

@@ -1,25 +1,25 @@
 import { defineStore } from 'pinia'
-import {
-  Profile,
-  TokensResponse,
-  UpdateProfileEmailRequest,
-  UpdateProfileNameRequest,
-  UpdateProfilePasswordRequest,
-} from '@/api'
-import { useAuthStore } from '@/stores/auth/auth'
 import { safeParse } from 'valibot'
+
+import { apiClient } from '@/api/apiClient'
 import {
   confirmPassword as confirmPasswordScheme,
   notEmptyEmail,
   notEmptyString,
 } from '@/plugins/valibot'
-import {
-  isErrorResponseError,
+import { useAuthStore } from '@/stores/auth/auth'
+import { isErrorResponseError } from '@/stores/profile/types'
+
+import type {
+  Profile, TokensResponse,
+  UpdateProfileEmailRequest,
+  UpdateProfileNameRequest,
+  UpdateProfilePasswordRequest,
+} from '@/api'
+import type {
   ProfileEdit,
   ProfileErrors,
-  UpdateProfilePasswordRequestExt,
-} from '@/stores/profile/types'
-import { apiClient } from '@/api/apiClient'
+  UpdateProfilePasswordRequestExt} from '@/stores/profile/types';
 
 interface ProfileState {
   profile: Profile

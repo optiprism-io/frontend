@@ -8,16 +8,19 @@
 </template>
 
 <script lang="ts" setup>
-import type { FunnelResponseStepsInner } from '@/api'
-import { NDataTable } from 'naive-ui'
 import { computed } from 'vue'
+
+import { NDataTable } from 'naive-ui'
+
 import { uncamelize } from '@/utils/uncamelize'
-import {
+
+import type { FunnelResponseStepsInner } from '@/api'
+import type { StepKey } from '@/components/funnels/view/funnelViews'
+import type {
   TableBaseColumn,
   TableColumn,
   TableColumnGroup,
 } from 'naive-ui/es/data-table/src/interface'
-import { StepKey } from '@/components/funnels/view/funnelViews'
 
 interface IProps {
   reportSteps: FunnelResponseStepsInner[]

@@ -12,12 +12,16 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import { findOperations, OperationId } from '@/types'
-import { PropertyRef } from '@/types/events'
-import { Item } from '@/components/Select/SelectTypes'
-import { useLexiconStore } from '@/stores/lexicon'
+
 import Select from '@/components/Select/Select.vue'
+
 import { DataType, PropertyType } from '@/api'
+import { useLexiconStore } from '@/stores/lexicon'
+import { findOperations } from '@/types'
+
+import type { Item } from '@/components/Select/SelectTypes'
+import type { OperationId } from '@/types';
+import type { PropertyRef } from '@/types/events'
 
 const lexiconStore = useLexiconStore()
 

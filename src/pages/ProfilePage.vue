@@ -36,8 +36,8 @@
 import { storeToRefs } from 'pinia'
 
 import ProfileForm from '@/components/profile/ProfileForm.vue'
-import UiSpinner from '@/components/uikit/UiSpinner.vue'
 import UiCard from '@/components/uikit/UiCard/UiCard.vue'
+import UiSpinner from '@/components/uikit/UiSpinner.vue'
 import ToolsLayout from '@/layout/ToolsLayout.vue'
 
 import { useProfileStore } from '@/stores/profile/profile'

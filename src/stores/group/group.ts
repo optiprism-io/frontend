@@ -1,8 +1,10 @@
 import { defineStore } from 'pinia'
-import { EventRecordsListRequestTime, GroupRecord, Value } from '@/api'
-import { useProjectsStore } from '@/stores/projects/projects'
-import { TimeTypeEnum, usePeriod } from '@/hooks/usePeriod'
+
 import { apiClient } from '@/api/apiClient'
+import { TimeTypeEnum, usePeriod } from '@/hooks/usePeriod'
+import { useProjectsStore } from '@/stores/projects/projects'
+
+import type { EventRecordsListRequestTime, GroupRecord, Value } from '@/api'
 
 export type GroupMap = {
   [key: number]: GroupRecord

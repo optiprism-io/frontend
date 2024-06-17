@@ -1,7 +1,7 @@
-import { defineComponent } from 'vue'
+import type { defineComponent } from 'vue'
 
-import UiInputTags from '@/components/uikit/UiInputTags.vue'
 import UiInput from '@/components/uikit/UiInput.vue'
+import UiInputTags from '@/components/uikit/UiInputTags.vue'
 import UiSwitch from '@/components/uikit/UiSwitch.vue'
 import UiTextarea from '@/components/uikit/UiTextarea.vue'
 

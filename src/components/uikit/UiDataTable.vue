@@ -13,7 +13,8 @@
 
 <script setup lang="ts">
 import { NDataTable } from 'naive-ui'
-import { RowData, TableColumns } from 'naive-ui/es/data-table/src/interface'
+
+import type { RowData, TableColumns } from 'naive-ui/es/data-table/src/interface'
 
 type DataTableProps = {
   columns: TableColumns<any>

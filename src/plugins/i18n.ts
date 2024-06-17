@@ -1,4 +1,5 @@
-import { App as Application } from 'vue'
+import type { App as Application } from 'vue'
+
 import i18n from '@/utils/i18n'
 
 export default {

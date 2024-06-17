@@ -13,11 +13,15 @@
 </template>
 
 <script lang="ts" setup>
-import {useLexiconStore} from '@/stores/lexicon';
-import {useStepsStore} from '@/stores/funnels/steps';
 import PropertySelect from '@/components/events/PropertySelect.vue';
-import {PropertyRef} from '@/types/events';
-import { EventFilterByPropertyTypeEnum, PropertyType } from '@/api';
+import UiButton from '@/components/uikit/UiButton.vue'
+
+import { PropertyType } from '@/api';
+import { useStepsStore } from '@/stores/funnels/steps';
+import { useLexiconStore } from '@/stores/lexicon';
+
+import type { EventFilterByPropertyTypeEnum} from '@/api';
+import type {PropertyRef} from '@/types/events';
 
 const lexiconStore = useLexiconStore();
 const stepsStore = useStepsStore();

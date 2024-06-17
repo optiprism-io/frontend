@@ -1,16 +1,20 @@
 <template>
   <section>
     <UiTabs class="pf-u-mb-md" :items="items" />
-    <router-view />
+    <RouterView />
   </section>
 </template>
 
 <script setup lang="ts">
+
 import { computed, onMounted } from 'vue'
-import { useRoute } from 'vue-router'
-import { pagesMap } from '@/router'
-import usei18n from '@/hooks/useI18n'
+
+import { useRoute, RouterView } from 'vue-router'
+
 import UiTabs from '@/components/uikit/UiTabs.vue'
+
+import usei18n from '@/hooks/useI18n'
+import { pagesMap } from '@/router'
 import { useLexiconStore } from '@/stores/lexicon'
 
 const { t } = usei18n()

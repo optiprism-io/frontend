@@ -80,13 +80,19 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue';
+
+import { Tooltip as VTooltip } from 'floating-vue'
+
 import CommonIdentifier from '@/components/common/identifier/CommonIdentifier.vue';
-import UiEditableText from '@/components/uikit/UiEditableText.vue';
 import Condition from '@/components/events/Segments/Condition.vue';
-import { Condition as ConditionType } from '@/types/events';
-import { conditions as conditionsMap } from '@/configs/events/segmentCondition';
 import Select from '@/components/Select/Select.vue';
+import UiEditableText from '@/components/uikit/UiEditableText.vue';
+import UiIcon from '@/components/uikit/UiIcon.vue'
+
+import { conditions as conditionsMap } from '@/configs/events/segmentCondition';
 import usei18n from '@/hooks/useI18n';
+
+import type { Condition as ConditionType } from '@/types/events';
 
 type Item = {
     id: string,

@@ -21,12 +21,17 @@
 </template>
 
 <script lang="ts" setup>
-import { useStepsStore } from '@/stores/funnels/steps'
 import { computed } from 'vue'
-import { useLexiconStore } from '@/stores/lexicon'
+
 import PropertySelect from '@/components/events/PropertySelect.vue'
-import { PropertyRef } from '@/types/events'
+import UiButton from '@/components/uikit/UiButton.vue'
+import UiIcon from '@/components/uikit/UiIcon.vue'
+
 import { EventFilterByPropertyTypeEnum, PropertyType } from '@/api'
+import { useStepsStore } from '@/stores/funnels/steps'
+import { useLexiconStore } from '@/stores/lexicon'
+
+import type { PropertyRef } from '@/types/events'
 
 const lexiconStore = useLexiconStore()
 const stepsStore = useStepsStore()

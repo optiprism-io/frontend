@@ -1,6 +1,6 @@
-import {EventRef, PropertyRef} from '@/types/events'
-import {OperationId, Value} from '@/types'
-import {ApplyPayload, Each} from '@/components/uikit/UiCalendar/UiCalendar'
+import type { ApplyPayload, Each } from '@/components/uikit/UiCalendar/UiCalendar'
+import type { OperationId, Value } from '@/types'
+import type { EventRef, PropertyRef } from '@/types/events'
 
 export type Ids = {
     idx: number

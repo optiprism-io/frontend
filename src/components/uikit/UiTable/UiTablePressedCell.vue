@@ -14,9 +14,11 @@
 </template>
 
 <script lang="ts" setup>
-import { defineComponent } from 'vue'
-import { Action } from './UiTable'
+import type { defineComponent } from 'vue'
+
 import UiButton from '../UiButton.vue'
+
+import type { Action } from './UiTable'
 
 type Props = {
     value?: string | number

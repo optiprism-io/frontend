@@ -1,7 +1,8 @@
 import { apiClient } from '@/api/apiClient'
 import { useProjectsStore } from '@/stores/projects/projects'
-import { EventType, ListPropertyValuesRequest, Value } from '@/api'
-import { PropertyRef, EventRef } from '@/types/events'
+
+import type { EventType, ListPropertyValuesRequest, Value } from '@/api'
+import type { PropertyRef, EventRef } from '@/types/events'
 
 export const usePropertyValues = () => {
   const projectsStore = useProjectsStore()

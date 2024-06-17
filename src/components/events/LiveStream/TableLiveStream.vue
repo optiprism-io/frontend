@@ -61,24 +61,29 @@
 
 <script lang="ts" setup>
 import { computed, ref } from 'vue'
+
+import LiveStreamEventPopup from '@/components/events/LiveStreamEventPopup.vue'
+import Select from '@/components/Select/Select.vue'
+import UiButton from '@/components/uikit/UiButton.vue'
+import UiDatePicker from '@/components/uikit/UiDatePicker.vue'
+import UiIcon from '@/components/uikit/UiIcon.vue'
+import UiTable from '@/components/uikit/UiTable/UiTable.vue'
+import type { UiToggleGroupItem } from '@/components/uikit/UiToggleGroup.vue';
+import UiToggleGroup from '@/components/uikit/UiToggleGroup.vue'
+
+import { shortPeriodDays } from '@/components/uikit/UiCalendar/UiCalendar.config'
 import { getStringDateByFormat } from '@/helpers/getStringDates'
-import { defaultColumns, useLiveStreamStore } from '@/stores/reports/liveStream'
-import { useCommonStore } from '@/stores/common'
-import { useLexiconStore } from '@/stores/lexicon'
-import { useEventsStore } from '@/stores/eventSegmentation/events'
 import useDataTable from '@/hooks/useDataTable'
 import usei18n from '@/hooks/useI18n'
 import { useProperty } from '@/hooks/useProperty'
+import { useCommonStore } from '@/stores/common'
+import { useEventsStore } from '@/stores/eventSegmentation/events'
+import { useLexiconStore } from '@/stores/lexicon'
+import { defaultColumns, useLiveStreamStore } from '@/stores/reports/liveStream'
 
-import { shortPeriodDays } from '@/components/uikit/UiCalendar/UiCalendar.config'
-import { ApplyPayload } from '@/components/uikit/UiCalendar/UiCalendar'
-import { Action } from '@/components/uikit/UiTable/UiTable'
-import UiToggleGroup, { UiToggleGroupItem } from '@/components/uikit/UiToggleGroup.vue'
-import UiDatePicker from '@/components/uikit/UiDatePicker.vue'
-import UiTable from '@/components/uikit/UiTable/UiTable.vue'
-import LiveStreamEventPopup from '@/components/events/LiveStreamEventPopup.vue'
-import Select from '@/components/Select/Select.vue'
-import { PropertyRef } from '@/types/events'
+import type { ApplyPayload } from '@/components/uikit/UiCalendar/UiCalendar'
+import type { Action } from '@/components/uikit/UiTable/UiTable'
+import type { PropertyRef } from '@/types/events'
 
 const { t } = usei18n()
 const liveStreamStore = useLiveStreamStore()
@@ -118,7 +123,7 @@ const itemsProperties = computed(() => {
     return {
       name: group.name,
       items: group.items.map(item => {
-        const property = liveStreamStore.activeColumns.find(prop => 
+        const property = liveStreamStore.activeColumns.find(prop =>
           prop.group === item.item.group &&
           prop.id === item.item.id &&
           prop.name === item.name
@@ -189,7 +194,7 @@ const onSelectPeriod = (payload: string) => {
 }
 
 const selectColumn = (payload: PropertyRef) => {
-  const propertyIndex = liveStreamStore.activeColumns.findIndex(prop => 
+  const propertyIndex = liveStreamStore.activeColumns.findIndex(prop =>
     prop.group === payload.group &&
     prop.id === payload.id &&
     prop.name === payload.name

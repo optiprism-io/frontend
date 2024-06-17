@@ -1,13 +1,15 @@
-import { Server } from 'miragejs'
-import eventSegmentationsMocks from '@/mocks/eventSegmentations/eventSegmentations.json'
-import conversionStepsMocks from '@/mocks/reports/funnels/conversionSteps'
-import conversionOverTimeMocks from '@/mocks/reports/funnels/conversionOverTime'
 import {
   FunnelConversionOverTimeChartTypeTypeEnum,
-  FunnelQuery,
   FunnelStepsChartTypeTypeEnum,
 } from '@/api'
+import eventSegmentationsMocks from '@/mocks/eventSegmentations/eventSegmentations.json'
+import conversionOverTimeMocks from '@/mocks/reports/funnels/conversionOverTime'
+import conversionStepsMocks from '@/mocks/reports/funnels/conversionSteps'
 import { CustomError } from '@/server/models/CustomError'
+
+import type {
+  FunnelQuery} from '@/api';
+import type { Server } from 'miragejs'
 
 export function queriesRoutes(server: Server) {
   server.post('/projects/:project_id/queries/event-segmentation', (_, request) => {

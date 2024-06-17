@@ -17,6 +17,12 @@
     },
     "types": ["vite/client", "node"],
     "noUnusedLocals": true,
+
+    /**
+     * imports processed at linter level
+     * https://typescript-eslint.io/rules/consistent-type-imports/
+     */
+    "preserveValueImports": false
   },
   "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.vue"],
   "exclude": ["node_modules/**/*", "dist/**/*", "node_modules/valibot"]

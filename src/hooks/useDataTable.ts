@@ -1,11 +1,14 @@
 import { useDateFormat } from '@vueuse/core'
+
 import {
-  DataTableResponse,
-  DataTableResponseColumnsInner,
   DataType,
 } from '@/api'
 import { getStringDateByFormat } from '@/helpers/getStringDates'
-import { Column, Row } from '@/components/uikit/UiTable/UiTable'
+
+import type {
+  DataTableResponse,
+  DataTableResponseColumnsInner} from '@/api';
+import type { Column, Row } from '@/components/uikit/UiTable/UiTable'
 
 const FIXED_COLUMNS_TYPES_DEFAULT: { [key: string]: string } = {
   dimension: 'dimension',

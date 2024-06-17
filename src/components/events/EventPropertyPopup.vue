@@ -34,16 +34,20 @@
 
 <script lang="ts" setup>
 import { computed, inject, ref } from 'vue'
-import { Property, Event } from '@/api'
 
+import type { Item, ActionPayload } from '@/components/uikit/UiDescriptionList.vue';
+import UiDescriptionList from '@/components/uikit/UiDescriptionList.vue'
 import UiPopupWindow from '@/components/uikit/UiPopupWindow.vue'
-import UiTabs from '@/components/uikit/UiTabs.vue'
 import UiTable from '@/components/uikit/UiTable/UiTable.vue'
 import UiTablePressedCell from '@/components/uikit/UiTable/UiTablePressedCell.vue'
-import UiDescriptionList, { Item, ActionPayload } from '@/components/uikit/UiDescriptionList.vue'
-import { Action, Row } from '@/components/uikit/UiTable/UiTable'
-import { propertyValuesConfig, Item as PropertyValueConfig, DisplayName } from '@/configs/events/eventValues'
+import UiTabs from '@/components/uikit/UiTabs.vue'
+
+import { propertyValuesConfig, DisplayName } from '@/configs/events/eventValues'
 import { useCommonStore, PropertyTypeEnum } from '@/stores/common'
+
+import type { Property, Event } from '@/api'
+import type { Action, Row } from '@/components/uikit/UiTable/UiTable'
+import type { Item as PropertyValueConfig} from '@/configs/events/eventValues';
 
 export type EventObject = {
     [key: string]: string | string[] | boolean

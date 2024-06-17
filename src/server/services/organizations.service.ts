@@ -1,5 +1,5 @@
-import { Request, Server } from 'miragejs'
-import { Schema } from '@/server/types'
+import type { Schema } from '@/server/types'
+import type { Request, Server } from 'miragejs'
 
 export function organizationsRoutes(server: Server) {
   server.get('/organizations', getOrganizations)

@@ -1,13 +1,7 @@
-import {
-  SetProfilePasswordRequest,
-  UpdateProfileEmailRequest,
-  UpdateProfileNameRequest,
-  UpdateProfilePasswordRequest,
-} from '@/api'
-import { Request, Response, Server } from 'miragejs'
-import { getErrorResponse } from '@/server/utils/getErrorResponse'
+import { HttpStatusCode } from 'axios'
+import { Response } from 'miragejs'
+
 import { userId } from '@/mocks/profile'
-import { Profile } from '@/server/models/Profile'
 import {
   ADMIN_PASSWORD,
   EMPTY_HEADER_RESPONSE,
@@ -15,8 +9,17 @@ import {
   Stub,
   Tokens,
 } from '@/server/constants'
-import { Schema } from '@/server/types'
-import { HttpStatusCode } from 'axios'
+import { Profile } from '@/server/models/Profile'
+import { getErrorResponse } from '@/server/utils/getErrorResponse'
+
+import type {
+  SetProfilePasswordRequest,
+  UpdateProfileEmailRequest,
+  UpdateProfileNameRequest,
+  UpdateProfilePasswordRequest,
+} from '@/api'
+import type { Schema } from '@/server/types'
+import type { Request, Server } from 'miragejs';
 
 export function profileRoutes(server: Server) {
   server.get('/profile', getProfile)

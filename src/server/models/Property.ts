@@ -1,5 +1,6 @@
-import { Property as IProperty } from '@/api'
 import { faker } from '@/server/faker'
+
+import type { Property as IProperty } from '@/api'
 
 export class Property implements IProperty {
   id: IProperty['id']

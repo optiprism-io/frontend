@@ -10,9 +10,12 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
+
 import Select from '@/components/Select/Select.vue';
-import { Item } from '@/components/Select/SelectTypes';
+
 import { useLexiconStore } from '@/stores/lexicon';
+
+import type { Item } from '@/components/Select/SelectTypes';
 
 const props = defineProps<{
     selected?: number;
