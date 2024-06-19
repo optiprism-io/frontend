@@ -1999,7 +1999,7 @@ components:
                 type: array
                 items:
                   type: object
-                  required: [ "groups","ts","total","conversionRatio","avgTimeToConvert","droppedOff","dropOffRatio","timeToConvert","timeToConvertFromStart" ]
+                  required: [ "groups","ts","total","conversionRatio","avgTimeToConvert","avgTimeToConvertFromStart","droppedOff","dropOffRatio","timeToConvert","timeToConvertFromStart" ]
                   properties:
                     groups:
                       type: array
@@ -2012,6 +2012,8 @@ components:
                     conversionRatio:
                       type: number
                     avgTimeToConvert:
+                      type: number
+                    avgTimeToConvertFromStart:
                       type: number
                     droppedOff:
                       type: number
