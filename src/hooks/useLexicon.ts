@@ -1,8 +1,9 @@
-import { ref, computed } from 'vue'
-import { useProjectsStore } from '@/stores/projects/projects'
-// import { errorHandler } from '@/helpers/errorHandlerHelper'
+import { ref } from 'vue'
+
 import { apiClient } from '@/api/apiClient'
-import { Property, PropertyRef } from '@/api'
+import { useProjectsStore } from '@/stores/projects/projects'
+
+import type { Property } from '@/api'
 
 const useLexicon = () => {
   const projectsStore = useProjectsStore()

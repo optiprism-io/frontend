@@ -16,14 +16,17 @@
 
 <script lang="ts" setup>
 import { ref, onMounted } from 'vue'
+
 import InputsEventsLiveStream from '@/components/events/LiveStream/InputsEventsLiveStream.vue'
 import TableLiveStream from '@/components/events/LiveStream/TableLiveStream.vue'
 import UiCard from '@/components/uikit/UiCard/UiCard.vue'
 import UiCardContainer from '@/components/uikit/UiCard/UiCardContainer.vue'
-import { useLiveStreamStore } from '@/stores/reports/liveStream'
+import ToolsLayout from '@/layout/ToolsLayout.vue'
+
 import { PropertyType } from '@/api'
-import { useLexiconStore } from '@/stores/lexicon'
 import usei18n from '@/hooks/useI18n'
+import { useLexiconStore } from '@/stores/lexicon'
+import { useLiveStreamStore } from '@/stores/reports/liveStream'
 
 const { t } = usei18n()
 const liveStreamStore = useLiveStreamStore()
@@ -39,7 +42,6 @@ const strings = {
 onMounted(async () => {
   loading.value = true;
   await lexiconStore.initEventsAndProperties();
-
 
   liveStreamStore.activeColumns = ['event_id', 'created_at', 'event'].map(name => {
     const property = lexiconStore.systemProperties.find(item => item.name === name);

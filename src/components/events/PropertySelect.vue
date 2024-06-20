@@ -24,10 +24,12 @@ import { computed } from 'vue'
 import Select from '@/components/Select/Select.vue'
 
 import { DataType } from '@/api'
-import { useProperty } from '@/hooks/useProperty'
+import useProperty from '@/hooks/useProperty'
 import { useLexiconStore } from '@/stores/lexicon'
-import { Property, DataType } from '@/api'
-import useProperty, { PropertyItem } from '@/hooks/useProperty'
+
+import type { Property} from '@/api';
+import type { PropertyItem } from '@/hooks/useProperty';
+import type { EventRef, PropertyRef } from '@/types/events'
 
 const { groupedProperties } = useProperty()
 const lexiconStore = useLexiconStore()

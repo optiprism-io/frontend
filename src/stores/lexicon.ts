@@ -24,12 +24,17 @@ import type {
   Property,
   PropertyRef as PropertyRefApi,
   QueryAggregate,
-  Group,
-} from '@/api'
-import { PropertyTypeEnum, useCommonStore } from '@/stores/common'
-import { useProjectsStore } from '@/stores/projects/projects'
-import { errorHandler } from '@/helpers/errorHandlerHelper'
-import { apiClient } from '@/api/apiClient'
+  Group} from '@/api';
+import type { Group as GroupSelect, Item } from '@/components/Select/SelectTypes'
+import type { Events} from '@/stores/eventSegmentation/events';
+import type { ApplyPayload, Cohort } from '@/types'
+import type {
+  EventQueryRef,
+  EventRef,
+  EventsQuery,
+  PropertyRef,
+  UserCustomProperty} from '@/types/events';
+import type { $T, $TKeyExists } from '@/utils/i18n'
 
 type Lexicon = {
   i18n: {

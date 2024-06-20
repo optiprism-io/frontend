@@ -33,16 +33,8 @@
 
 <script setup lang="ts">
 import { ref, computed, inject, onMounted } from 'vue'
-import { useLexiconStore } from '@/stores/lexicon'
-import { useEventsStore } from '@/stores/eventSegmentation/events'
-import { useCommonStore } from '@/stores/common'
-import { useProjectsStore } from '@/stores/projects/projects'
 
-import { Row, Action } from '@/components/uikit/UiTable/UiTable'
-import { CustomEvent } from '@/api'
-
-import UiTable from '@/components/uikit/UiTable/UiTable.vue'
-import UiTablePressedCell from '@/components/uikit/UiTable/UiTablePressedCell.vue'
+import ConfirmPopup from '@/components/common/ConfirmPopup.vue'
 import UiCellTags from '@/components/uikit/cells/UiCellTags.vue'
 import UiCellToolMenu from '@/components/uikit/cells/UiCellToolMenu.vue'
 import UiButton from '@/components/uikit/UiButton.vue'

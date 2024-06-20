@@ -5,7 +5,6 @@
       :items="tableData.tableData"
       :columns="tableData.tableColumnsValues"
       :no-data-text="strings.noDataText"
-      :no-data-text="strings.noDataText"
       :show-select-columns="false"
       :allow-click-cell="true"
       @on-action="onAction"
@@ -58,9 +57,6 @@
       :id="eventPopupId"
       :name="eventPopupName"
       :groups-map="lexiconStore.groupsMap"
-      :id="eventPopupId"
-      :name="eventPopupName"
-      :groups-map="lexiconStore.groupsMap"
       @cancel="closeEventPopup"
     />
   </div>
@@ -68,24 +64,29 @@
 
 <script lang="ts" setup>
 import { computed, ref } from 'vue'
+
+import LiveStreamEventPopup from '@/components/events/LiveStreamEventPopup.vue'
+import Select from '@/components/Select/Select.vue'
+import UiButton from '@/components/uikit/UiButton.vue'
+import UiDatePicker from '@/components/uikit/UiDatePicker.vue'
+import UiIcon from '@/components/uikit/UiIcon.vue'
+import UiTable from '@/components/uikit/UiTable/UiTable.vue'
+import type { UiToggleGroupItem } from '@/components/uikit/UiToggleGroup.vue';
+import UiToggleGroup from '@/components/uikit/UiToggleGroup.vue'
+
+import { shortPeriodDays } from '@/components/uikit/UiCalendar/UiCalendar.config'
 import { getStringDateByFormat } from '@/helpers/getStringDates'
-import { useLiveStreamStore } from '@/stores/reports/liveStream'
-import { useLiveStreamStore } from '@/stores/reports/liveStream'
-import { useCommonStore } from '@/stores/common'
-import { useLexiconStore } from '@/stores/lexicon'
-import { useEventsStore } from '@/stores/eventSegmentation/events'
 import useDataTable from '@/hooks/useDataTable'
 import usei18n from '@/hooks/useI18n'
 import useProperty from '@/hooks/useProperty'
-import { Cell, Action } from '@/components/uikit/UiTable/UiTable'
-import { shortPeriodDays } from '@/components/uikit/UiCalendar/UiCalendar.config'
-import { ApplyPayload } from '@/components/uikit/UiCalendar/UiCalendar'
-import UiToggleGroup, { UiToggleGroupItem } from '@/components/uikit/UiToggleGroup.vue'
-import UiDatePicker from '@/components/uikit/UiDatePicker.vue'
-import UiTable from '@/components/uikit/UiTable/UiTable.vue'
-import LiveStreamEventPopup from '@/components/events/LiveStreamEventPopup.vue'
-import Select from '@/components/Select/Select.vue'
-import { PropertyRef } from '@/types/events'
+import { useCommonStore } from '@/stores/common'
+import { useEventsStore } from '@/stores/eventSegmentation/events'
+import { useLexiconStore } from '@/stores/lexicon'
+import { useLiveStreamStore } from '@/stores/reports/liveStream'
+
+import type { ApplyPayload } from '@/components/uikit/UiCalendar/UiCalendar'
+import type { Cell, Action } from '@/components/uikit/UiTable/UiTable'
+import type { PropertyRef } from '@/types/events'
 
 const { t } = usei18n()
 const liveStreamStore = useLiveStreamStore()
@@ -99,12 +100,7 @@ const eventName = 'eventName'
 
 const eventPopupName = ref('')
 const eventPopupId = ref<number>(0)
-const eventPopupId = ref<number>(0)
 const eventPopup = ref(false)
-
-const strings = {
-  noDataText: t('events.noEventsFound'),
-}
 
 const strings = {
   noDataText: t('events.noEventsFound'),
@@ -140,15 +136,8 @@ const itemsProperties = computed(() => {
           columnProperty.group === groupItem.item.group &&
           columnProperty.id === groupItem.item.id &&
           columnProperty.name === groupItem.item.name)
-      items: group.items.map(groupItem => {
-        const activeProperty = liveStreamStore.activeColumns.find(columnProperty =>
-          columnProperty.group === groupItem.item.group &&
-          columnProperty.id === groupItem.item.id &&
-          columnProperty.name === groupItem.item.name)
 
         return {
-          ...groupItem,
-          selected: Boolean(activeProperty),
           ...groupItem,
           selected: Boolean(activeProperty),
         }
@@ -164,7 +153,6 @@ const columnsButtonText = computed(
 const lastCount = computed(() => {
   return liveStreamStore.period.last
 })
-
 
 const calendarValue = computed(() => {
   return {
@@ -229,18 +217,6 @@ const onApplyPeriod = (payload: ApplyPayload): void => {
   updateReport()
 }
 
-const clickCell = async (cell: Cell, rowIndex: number) => {
-  const row = tableData.value.tableData[rowIndex]
-
-  if (row) {
-    const eventIdCell = row.find(item => item.key === 'event_id')
-    const eventNameCell = row.find(item => item.key === 'Event')
-
-    if (eventIdCell?.value) {
-      eventPopupId.value = +eventIdCell.value
-      eventPopupName.value = eventNameCell?.value as string || '';
-      eventPopup.value = true
-    }
 const clickCell = async (cell: Cell, rowIndex: number) => {
   const row = tableData.value.tableData[rowIndex]
 

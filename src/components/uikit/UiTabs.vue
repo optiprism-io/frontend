@@ -47,6 +47,8 @@
 </template>
 
 <script lang="ts" setup>
+import UiIcon from '@/components/uikit/UiIcon.vue'
+
 export type Item = {
     name: string,
     value: string,

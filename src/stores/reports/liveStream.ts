@@ -1,8 +1,5 @@
 import { defineStore } from 'pinia'
 
-import {
-  PropertyType
-} from '@/api'
 import { apiClient } from '@/api/apiClient'
 import { TimeTypeEnum, usePeriod } from '@/hooks/usePeriod'
 import { useProjectsStore } from '@/stores/projects/projects'
