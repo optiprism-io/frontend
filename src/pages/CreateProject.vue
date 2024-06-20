@@ -22,11 +22,13 @@
 </template>
 
 <script setup lang="ts">
-import UiButton from '@/components/uikit/UiButton.vue'
-import DataEmptyPlaceholder from '@/components/common/data/DataEmptyPlaceholder.vue'
-import CreateProjectPopup from '@/components/projects/CreateProjectPopup.vue'
 import { useToggle } from '@vueuse/core'
 import { useRouter } from 'vue-router'
+
+import DataEmptyPlaceholder from '@/components/common/data/DataEmptyPlaceholder.vue'
+import CreateProjectPopup from '@/components/projects/CreateProjectPopup.vue'
+import UiButton from '@/components/uikit/UiButton.vue'
+
 import { pagesMap } from '@/router'
 import { useProjectsStore } from '@/stores/projects/projects'
 

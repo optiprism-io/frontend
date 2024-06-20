@@ -33,7 +33,8 @@
 
 <script lang="ts" setup>
 import { computed } from 'vue'
-import { Alert } from '@/stores/alerts'
+
+import type { Alert } from '@/stores/alerts'
 
 const props = defineProps<{
     item: Alert

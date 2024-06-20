@@ -39,12 +39,18 @@
 </template>
 
 <script setup lang="ts">
-import { StepOrder, stepOrders, useStepsStore } from '@/stores/funnels/steps'
 import { computed, inject, ref } from 'vue'
-import { TimeUnit, TimeUnitWithSession } from '@/api'
-import { I18N } from '@/utils/i18n'
-import { UiSelectItemInterface } from '@/components/uikit/UiSelect/types'
+
+import UiButton from '@/components/uikit/UiButton.vue'
+
+import { TimeUnit } from '@/api'
 import { UiSelectGeneric } from '@/components/uikit/UiSelect/UiSelectGeneric'
+import { stepOrders, useStepsStore } from '@/stores/funnels/steps'
+
+import type { TimeUnitWithSession } from '@/api';
+import type { UiSelectItemInterface } from '@/components/uikit/UiSelect/types'
+import type { StepOrder} from '@/stores/funnels/steps';
+import type { I18N } from '@/utils/i18n'
 
 const UiSelectSize = UiSelectGeneric<number>()
 const UiSelectUnit = UiSelectGeneric<TimeUnitWithSession>()

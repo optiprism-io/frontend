@@ -66,19 +66,28 @@
 </template>
 
 <script lang="ts" setup>
-import { PropType, watch, computed } from 'vue';
+import { watch, computed } from 'vue';
+import type { PropType} from 'vue';
+
+import { VTooltip } from 'floating-vue'
+
+import CommonIdentifier from '@/components/common/identifier/CommonIdentifier.vue';
+import EventSelector from '@/components/events/Events/EventSelector.vue';
+import Filter from '@/components/events/Filter.vue';
+import UiActionList from '@/components/uikit/UiActionList/UiActionList.vue';
+import UiActionListItem from '@/components/uikit/UiActionList/UiActionListItem.vue';
+import UiButton from '@/components/uikit/UiButton.vue'
+import UiIcon from '@/components/uikit/UiIcon.vue'
+
+import {useEventName} from '@/helpers/useEventName';
+import {useFilter} from '@/hooks/useFilter';
 import { useStepsStore } from '@/stores/funnels/steps';
 import { useLexiconStore } from '@/stores/lexicon';
-import CommonIdentifier from '@/components/common/identifier/CommonIdentifier.vue';
-import {Step} from '@/types/steps';
-import UiActionList from '@/components/uikit/UiActionList/UiActionList.vue';
-import {useEventName} from '@/helpers/useEventName';
-import {EventRef, PropertyRef} from '@/types/events';
-import EventSelector from '@/components/events/Events/EventSelector.vue';
-import UiActionListItem from '@/components/uikit/UiActionList/UiActionListItem.vue';
-import {OperationId, Value} from '@/types';
-import Filter from '@/components/events/Filter.vue';
-import {useFilter} from '@/hooks/useFilter';
+import {OperationId} from '@/types';
+
+import type { Value} from '@/types';
+import type {EventRef, PropertyRef} from '@/types/events';
+import type {Step} from '@/types/steps';
 
 const stepsStore = useStepsStore();
 const lexiconStore = useLexiconStore();

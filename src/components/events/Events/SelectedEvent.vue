@@ -162,29 +162,38 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue'
-import { EventRef, PropertyRef, EventQueryRef } from '@/types/events'
-import { OperationId, Value } from '@/types'
-import { useLexiconStore } from '@/stores/lexicon'
+
+import { Tooltip as VTooltip } from 'floating-vue'
+
+import CommonIdentifier from '@/components/common/identifier/CommonIdentifier.vue'
+import Breakdown from '@/components/events/Breakdown.vue'
+import Query from '@/components/events/Events/Query.vue'
+import Filter from '@/components/events/Filter.vue'
+import PropertySelect from '@/components/events/PropertySelect.vue'
+import Select from '@/components/Select/Select.vue'
+import UiButton from '@/components/uikit/UiButton.vue'
+import UiIcon from '@/components/uikit/UiIcon.vue'
+
+import { EventType } from '@/api'
+import useCustomEvent from '@/components/events/Events/CustomEventHooks'
+import { useEventName } from '@/helpers/useEventName'
+import { usePropertyValues } from '@/hooks/usePropertyValues'
+import { useEventsStore } from '@/stores/eventSegmentation/events'
 import {
+  initialQuery
+} from '@/stores/eventSegmentation/events'
+import { useLexiconStore } from '@/stores/lexicon'
+import { OperationId } from '@/types'
+
+import type { Group, Item } from '@/components/Select/SelectTypes'
+import type {
   EventBreakdown,
   EventFilter,
   EventQuery,
   Event,
-  initialQuery,
-  EventPayload,
-} from '@/stores/eventSegmentation/events'
-import Select from '@/components/Select/Select.vue'
-import Filter from '@/components/events/Filter.vue'
-import Breakdown from '@/components/events/Breakdown.vue'
-import Query from '@/components/events/Events/Query.vue'
-import { Group, Item } from '@/components/Select/SelectTypes'
-import useCustomEvent from '@/components/events/Events/CustomEventHooks'
-import { useEventName } from '@/helpers/useEventName'
-import { EventType } from '@/api'
-import CommonIdentifier from '@/components/common/identifier/CommonIdentifier.vue'
-import PropertySelect from '@/components/events/PropertySelect.vue'
-import { useEventsStore } from '@/stores/eventSegmentation/events'
-import { usePropertyValues } from '@/hooks/usePropertyValues'
+  EventPayload} from '@/stores/eventSegmentation/events';
+import type { Value } from '@/types';
+import type { EventRef, PropertyRef, EventQueryRef } from '@/types/events'
 
 const eventsStore = useEventsStore()
 const { getValues } = usePropertyValues()

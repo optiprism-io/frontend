@@ -85,17 +85,20 @@
 
 <script lang="ts" setup>
 import { computed, ref } from 'vue'
+
+import { merge } from 'lodash-es'
+import { safeParse } from 'valibot'
 import { useRoute, useRouter } from 'vue-router'
-import { useAuthStore } from '@/stores/auth/auth'
-import { pagesMap } from '@/router'
-import UiInput from '@/components/uikit/UiInput.vue'
+
+import InputPassword from '@/components/login/InputPassword.vue'
 import UiCheckbox from '@/components/uikit/UiCheckbox.vue'
 import UiForm from '@/components/uikit/UiForm.vue'
 import UiFormGroup from '@/components/uikit/UiFormGroup.vue'
-import { safeParse } from 'valibot'
+import UiInput from '@/components/uikit/UiInput.vue'
+
 import { notEmptyEmail, notEmptyString } from '@/plugins/valibot'
-import { merge } from 'lodash-es'
-import InputPassword from '@/components/login/InputPassword.vue'
+import { pagesMap } from '@/router'
+import { useAuthStore } from '@/stores/auth/auth'
 
 const route = useRoute()
 const router = useRouter()

@@ -1,8 +1,11 @@
-import { TokensResponse } from '@/api'
-import { Response, Server } from 'miragejs'
 import { HttpStatusCode } from 'axios'
+import { Response } from 'miragejs'
+
 import { EMPTY_HEADER_RESPONSE, Tokens } from '@/server/constants'
 import { getErrorResponse } from '@/server/utils/getErrorResponse'
+
+import type { TokensResponse } from '@/api'
+import type { Server } from 'miragejs';
 
 const MIN_EMAIL_LENGTH = 8
 const MIN_PASSWORD_LENGTH = 5

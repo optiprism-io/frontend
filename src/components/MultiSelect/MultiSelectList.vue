@@ -29,8 +29,9 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import { Item } from '@/components/MultiSelect/MultiSelect.vue';
+
 import MultiSelectListItem from './MultiSelectListItem.vue';
+import type { Item } from '@/components/MultiSelect/MultiSelect.vue';
 
 const props = defineProps<{
     items: Item[];

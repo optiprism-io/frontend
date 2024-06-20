@@ -41,15 +41,19 @@
 
 <script setup lang="ts">
 import { computed, ref } from 'vue'
-import UiPopupWindow from '@/components/uikit/UiPopupWindow.vue'
-import UiFormLabel from '@/components/uikit/UiFormLabel.vue'
-import { apiClient } from '@/api/apiClient'
-import InputPassword from '@/components/login/InputPassword.vue'
-import { useMutation } from '@/hooks/useMutation'
-import { TokensResponse } from '@/api'
-import UiFormError from '@/components/uikit/UiFormError.vue'
+
 import { safeParse } from 'valibot'
+
+import InputPassword from '@/components/login/InputPassword.vue'
+import UiFormError from '@/components/uikit/UiFormError.vue'
+import UiFormLabel from '@/components/uikit/UiFormLabel.vue'
+import UiPopupWindow from '@/components/uikit/UiPopupWindow.vue'
+
+import { apiClient } from '@/api/apiClient'
+import { useMutation } from '@/hooks/useMutation'
 import { confirmPassword as confirmPasswordScheme } from '@/plugins/valibot'
+
+import type { TokensResponse } from '@/api'
 
 const emit = defineEmits<{
   (e: 'changed-password', tokens: TokensResponse): void

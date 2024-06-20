@@ -42,13 +42,15 @@
 
 <script setup lang="ts">
 import { computed, ref } from 'vue'
+
+import { useElementSize } from '@vueuse/core'
+
 import LegendMarker from '@/components/charts/LegendMarker.vue'
 import FunnelChartStacked from '@/components/funnels/view/FunnelChartStacked.vue'
 
 import { CHART_COLORS_7 } from '@/helpers/colorHelper'
 
 import type { FunnelResponseStepsInner } from '@/api'
-import { useElementSize } from '@vueuse/core'
 
 interface IProps {
   reportSteps: FunnelResponseStepsInner[]

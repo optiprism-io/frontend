@@ -29,8 +29,19 @@
 
 <script lang="ts" setup>
 import { computed, inject, provide } from 'vue'
-import { OperationId, Value } from '@/types'
-import {
+
+import Segment from '@/components/events/Segments/Segment.vue'
+import UiButton from '@/components/uikit/UiButton.vue'
+
+import { DidEventCountTypeEnum } from '@/api'
+import { conditions } from '@/configs/events/segmentCondition'
+import { aggregates } from '@/configs/events/segmentConditionDidEventAggregate'
+import { useCommonStore } from '@/stores/common'
+import { useEventsStore } from '@/stores/eventSegmentation/events'
+import { useLexiconStore } from '@/stores/lexicon'
+import { useSegmentsStore } from '@/stores/reports/segments'
+
+import type {
   ChangeEventCondition,
   ChangeFilterPropertyCondition,
   RemoveFilterCondition,
@@ -42,16 +53,8 @@ import {
   PayloadChangeValueItem,
   PayloadChangeEach,
 } from '@/components/events/Segments/Segments'
-import { useSegmentsStore } from '@/stores/reports/segments'
-import { useEventsStore } from '@/stores/eventSegmentation/events'
-import { useLexiconStore } from '@/stores/lexicon'
-import { useCommonStore } from '@/stores/common'
-
-import Segment from '@/components/events/Segments/Segment.vue'
-import { aggregates } from '@/configs/events/segmentConditionDidEventAggregate'
-import { conditions } from '@/configs/events/segmentCondition'
-import { PropertyRef } from '@/types/events'
-import { DidEventCountTypeEnum } from '@/api'
+import type { OperationId, Value } from '@/types'
+import type { PropertyRef } from '@/types/events'
 
 const i18n = inject<any>('i18n')
 const segmentsStore = useSegmentsStore()

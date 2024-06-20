@@ -32,6 +32,8 @@
 </template>
 
 <script lang="ts" setup>
+import UiIcon from '@/components/uikit/UiIcon.vue'
+
 const props = defineProps<{
     hideIcon?: boolean;
     h100?: boolean;

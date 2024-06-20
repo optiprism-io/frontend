@@ -1,8 +1,11 @@
 import {
     DataType,
-    PropertyFilterOperation,
-    Value as ApiValue
+    PropertyFilterOperation
 } from '@/api'
+
+import type {
+    Value as ApiValue
+} from '@/api';
 
 export type Value = ApiValue
 

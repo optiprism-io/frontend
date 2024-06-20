@@ -21,8 +21,9 @@
 
 <script lang="ts" setup>
 import { ref, onMounted, onBeforeUnmount } from 'vue'
-import UiTags from './UiTags.vue'
+
 import UiInput from './UiInput.vue'
+import UiTags from './UiTags.vue'
 
 const emit = defineEmits(['input'])
 

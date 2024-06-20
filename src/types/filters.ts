@@ -1,5 +1,5 @@
-import {PropertyRef} from '@/types/events'
-import {OperationId, Value} from '@/types'
+import type { OperationId, Value } from '@/types'
+import type { PropertyRef } from '@/types/events'
 
 export interface Filter {
     propRef?: PropertyRef;

@@ -19,14 +19,16 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import usei18n from '@/hooks/useI18n'
-import { Report } from '@/api'
 
 import UiPopupWindow from '@/components/uikit/UiPopupWindow.vue'
+import UiSpinner from '@/components/uikit/UiSpinner.vue'
 import UiTable from '@/components/uikit/UiTable/UiTable.vue'
 import UiTablePressedCell from '@/components/uikit/UiTable/UiTablePressedCell.vue'
-import UiSpinner from '@/components/uikit/UiSpinner.vue'
-import { Action, Row } from '@/components/uikit/UiTable/UiTable'
+
+import usei18n from '@/hooks/useI18n'
+
+import type { Report } from '@/api'
+import type { Action, Row } from '@/components/uikit/UiTable/UiTable'
 
 const { t } = usei18n()
 

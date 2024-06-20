@@ -1,7 +1,9 @@
 <script lang="ts">
+import { defineComponent, h } from 'vue';
+import type { VNode } from 'vue';
+
 import GridContainer from '@/components/grid/GridContainer.vue';
 import GridItem from '@/components/grid/GridItem.vue';
-import { defineComponent, h, VNode } from 'vue';
 
 export default defineComponent({
     components: {

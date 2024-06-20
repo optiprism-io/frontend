@@ -20,12 +20,16 @@
 
 <script lang="ts" setup>
 import axios, { HttpStatusCode } from 'axios'
-import { useAuthStore } from '@/stores/auth/auth';
-import { useAlertsStore } from '@/stores/alerts';
-import { ErrorResponse } from '@/api';
+import { RouterView } from 'vue-router'
+
 import UiAlertGroup from './components/uikit/UiAlertGroup.vue';
-import usei18n from '@/hooks/useI18n';
 import AppPreloader from '@/components/common/AppPreloader.vue'
+
+import usei18n from '@/hooks/useI18n';
+import { useAlertsStore } from '@/stores/alerts';
+import { useAuthStore } from '@/stores/auth/auth';
+
+import type { ErrorResponse } from '@/api';
 
 const { t } = usei18n();
 const authStore = useAuthStore();

@@ -28,16 +28,20 @@
 </template>
 
 <script setup lang="ts">
-import { useProjectsStore } from '@/stores/projects/projects'
-import UiTable from '@/components/uikit/UiTable/UiTable.vue'
-import { Action, Column, Row } from '@/components/uikit/UiTable/UiTable'
 import { capitalize, computed } from 'vue'
-import UiButton from '@/components/uikit/UiButton.vue'
-import CreateProjectPopup from '@/components/projects/CreateProjectPopup.vue'
+
 import { useToggle } from '@vueuse/core'
+import { useRoute, useRouter, RouterView } from 'vue-router'
+
+import CreateProjectPopup from '@/components/projects/CreateProjectPopup.vue'
 import UiCellToolMenu from '@/components/uikit/cells/UiCellToolMenu.vue'
-import { useRoute, useRouter } from 'vue-router'
+import UiButton from '@/components/uikit/UiButton.vue'
+import UiTable from '@/components/uikit/UiTable/UiTable.vue'
+
 import { pagesMap } from '@/router'
+import { useProjectsStore } from '@/stores/projects/projects'
+
+import type { Action, Column, Row } from '@/components/uikit/UiTable/UiTable'
 
 const router = useRouter()
 const route = useRoute()

@@ -24,17 +24,22 @@
 
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue'
-import { useLexiconStore } from '@/stores/lexicon'
-import { useCommonStore } from '@/stores/common'
-import ToolsLayout from '@/layout/ToolsLayout.vue'
-import UiCardContainer from '@/components/uikit/UiCard/UiCardContainer.vue'
-import UiTablePressedCell from '@/components/uikit/UiTable/UiTablePressedCell.vue'
+
+import type { ApplyPayload } from '@/components/events/UserPropertyPopup.vue';
+import UserPropertyPopup from '@/components/events/UserPropertyPopup.vue'
 import UiCellTags from '@/components/uikit/cells/UiCellTags.vue'
 import UiCellToolMenu from '@/components/uikit/cells/UiCellToolMenu.vue'
-import { Property } from '@/api'
-import { Action, Row } from '@/components/uikit/UiTable/UiTable'
+import UiCardContainer from '@/components/uikit/UiCard/UiCardContainer.vue'
+import UiTable from '@/components/uikit/UiTable/UiTable.vue'
+import UiTablePressedCell from '@/components/uikit/UiTable/UiTablePressedCell.vue'
+import ToolsLayout from '@/layout/ToolsLayout.vue'
+
 import usei18n from '@/hooks/useI18n'
-import UserPropertyPopup, { ApplyPayload } from '@/components/events/UserPropertyPopup.vue'
+import { useCommonStore } from '@/stores/common'
+import { useLexiconStore } from '@/stores/lexicon'
+
+import type { Property } from '@/api'
+import type { Action, Row } from '@/components/uikit/UiTable/UiTable'
 
 const { t } = usei18n()
 const lexiconStore = useLexiconStore()
@@ -144,4 +149,3 @@ onMounted(() => {
   updateData()
 })
 </script>
-

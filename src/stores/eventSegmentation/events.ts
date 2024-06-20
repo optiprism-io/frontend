@@ -1,34 +1,39 @@
 import { defineStore } from 'pinia'
-import { EventRef, PropertyRef, EventQueryRef } from '@/types/events'
-import { OperationId, Value } from '@/types'
-import { getYYYYMMDD } from '@/helpers/getStringDates'
-import { getLastNDaysRange } from '@/helpers/calendarHelper'
+
 import {
   PropertyType,
+  QueryAggregatePropertyTypeEnum,
+  QueryAggregatePropertyPerGroupTypeEnum,
+  QueryCountPerGroupTypeEnum,
+  QueryFormulaTypeEnum,
+  EventType,
+  QueryAggregate,
+  QuerySimpleTypeEnum
+} from '@/api'
+import { getLastNDaysRange } from '@/helpers/calendarHelper'
+import { getYYYYMMDD } from '@/helpers/getStringDates'
+import { usePeriod, TimeTypeEnum } from '@/hooks/usePeriod'
+import { useLexiconStore } from '@/stores/lexicon'
+import { OperationId } from '@/types'
+
+import { useBreakdownsStore } from '../reports/breakdowns'
+import { useFilterGroupsStore } from '../reports/filters'
+
+import type {
   TimeUnit,
   EventSegmentation,
   EventRecordsListRequestTime,
   EventChartType,
   EventSegmentationEvent,
-  QueryAggregatePropertyTypeEnum,
-  QueryAggregatePropertyPerGroupTypeEnum,
-  QueryCountPerGroupTypeEnum,
-  QueryFormulaTypeEnum,
   EventFilterByProperty,
-  EventType,
   QueryAggregateProperty,
   QueryAggregatePropertyPerGroup,
-  QueryAggregate,
   QuerySimple,
-  QuerySimpleTypeEnum,
   BreakdownByProperty,
   EventSegmentationEventAllOfQueries,
-  EventSegmentationEventAllOfBreakdowns,
-} from '@/api'
-import { useLexiconStore } from '@/stores/lexicon'
-import { useFilterGroupsStore } from '../reports/filters'
-import { useBreakdownsStore } from '../reports/breakdowns'
-import { usePeriod, TimeTypeEnum } from '@/hooks/usePeriod'
+  EventSegmentationEventAllOfBreakdowns} from '@/api';
+import type { Value } from '@/types';
+import type { EventRef, PropertyRef, EventQueryRef } from '@/types/events'
 
 export type ChartType = 'line' | 'pie' | 'column'
 

@@ -1,5 +1,5 @@
-import {Filter} from '@/types/filters'
-import {EventRef} from '@/types/events'
+import type { EventRef } from '@/types/events'
+import type { Filter } from '@/types/filters'
 
 export interface Step {
     events: {

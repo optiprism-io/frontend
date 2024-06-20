@@ -42,8 +42,11 @@
 
 <script lang="ts" setup>
 import { ref, watch, onMounted } from 'vue'
-import UiInput from '@/components/uikit/UiInput.vue'
+
+import { Dropdown as VDropdown } from 'floating-vue'
+
 import UiButton from '@/components/uikit/UiButton.vue'
+import UiInput from '@/components/uikit/UiInput.vue'
 
 interface Props {
     value: string
@@ -102,4 +105,3 @@ const onBlur = () => {
 }
 
 </style>
-

@@ -1,5 +1,5 @@
-import { Server } from 'miragejs'
-import { Schema, Request } from '@/server/types'
+import type { Schema, Request } from '@/server/types'
+import type { Server } from 'miragejs'
 
 export function groupsRoutes(server: Server) {
   server.get('/projects/:project_id/groups', getGroups)

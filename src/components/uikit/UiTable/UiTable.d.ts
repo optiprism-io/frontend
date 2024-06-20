@@ -1,4 +1,4 @@
-import {defineComponent} from 'vue'
+import type {defineComponent} from 'vue'
 
 export type StyleCell = {
     left?: string

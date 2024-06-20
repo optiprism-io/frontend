@@ -1,4 +1,5 @@
-import { TimeTypeEnum } from '@/hooks/usePeriod'
+import type { TimeTypeEnum } from '@/hooks/usePeriod'
+
 export type Each = 'month' | 'week' | 'day' | 'hour' | 'minute'
 
 export interface RangeValue {

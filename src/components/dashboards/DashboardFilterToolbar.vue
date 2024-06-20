@@ -41,16 +41,20 @@
 
 <script setup lang="ts">
 import { computed, onUnmounted } from 'vue';
-import { FilterGroup, useFilterGroupsStore } from '@/stores/reports/filters';
-import { PropertyRef } from '@/types/events';
-import { useFilter } from '@/hooks/useFilter';
-import { OperationId, Value } from '@/types';
-import { OrientationTypeEnum } from '@/types/filters';
 
 import Filter from '@/components/events/Filter.vue';
-import UiButton from '@/components/uikit/UiButton.vue';
 import FilterToolbar from '@/components/events/FilterToolbar.vue';
 import PropertySelect from '@/components/events/PropertySelect.vue';
+import UiButton from '@/components/uikit/UiButton.vue';
+
+import { useFilter } from '@/hooks/useFilter';
+import { useFilterGroupsStore } from '@/stores/reports/filters';
+import { OperationId } from '@/types';
+import { OrientationTypeEnum } from '@/types/filters';
+
+import type { FilterGroup} from '@/stores/reports/filters';
+import type { Value } from '@/types';
+import type { PropertyRef } from '@/types/events';
 
 const filterGroupsStore = useFilterGroupsStore();
 const filterHelpers = useFilter();

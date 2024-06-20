@@ -77,11 +77,13 @@
 
 <script lang="ts" setup>
 import { computed, ref, onMounted, watch, inject } from 'vue';
+
 import { VirtualisedList } from 'vue-virtualised';
 
-import { RangeValue, CurrentValue, Value, Ranged } from './UiCalendar'
-
 import UiCalendarMonth from './UiCalendarMonth.vue';
+import UiButton from '@/components/uikit/UiButton.vue'
+
+import type { RangeValue, CurrentValue, Value, Ranged } from './UiCalendar'
 
 const i18n = inject<any>('i18n')
 
@@ -144,7 +146,6 @@ const emit = defineEmits<{
     (e: 'on-change', payload: CurrentValue): void;
     (e: 'set-multiple', payload: boolean): void;
 }>();
-
 
 const date = ref(new Date().getTime());
 const start = ref(-1);
@@ -333,7 +334,6 @@ const apply = () => {
     }
 };
 
-
 const onDateClickSingle = (e: string) => {
     currentDates.value = [e];
     emit('on-change', currentValue.value);
@@ -387,7 +387,6 @@ const mouseleaveDate = () => {
 onMounted(() => {
     initValues();
 });
-
 
 watch(() => props.multiple, value => {
     currentMultiple.value = value;

@@ -15,7 +15,8 @@
 
 <script lang="ts" setup>
 import UiAlert from './UiAlert.vue'
-import { Alert } from '@/stores/alerts'
+
+import type { Alert } from '@/stores/alerts'
 
 const props = defineProps<{
     items: Alert[]

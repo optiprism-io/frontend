@@ -1,6 +1,7 @@
-import { defineStore } from 'pinia'
 import { nanoid } from 'nanoid'
-import { AlertTypeEnum } from '@/types'
+import { defineStore } from 'pinia'
+
+import type { AlertTypeEnum } from '@/types'
 
 export type AlertTypeEnum = typeof AlertTypeEnum[keyof typeof AlertTypeEnum]
 

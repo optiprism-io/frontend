@@ -15,11 +15,14 @@
 </template>
 
 <script setup lang="ts">
-import UiIcon from '@/components/uikit/UiIcon.vue'
-import UiInputGroup from '@/components/uikit/UiInputGroup.vue'
-import UiInput from '@/components/uikit/UiInput.vue'
-import { useVModel } from '@vueuse/core'
 import { ref } from 'vue'
+
+import { useVModel } from '@vueuse/core'
+
+import UiButton from '@/components/uikit/UiButton.vue'
+import UiIcon from '@/components/uikit/UiIcon.vue'
+import UiInput from '@/components/uikit/UiInput.vue'
+import UiInputGroup from '@/components/uikit/UiInputGroup.vue'
 
 interface Props {
   modelValue: string

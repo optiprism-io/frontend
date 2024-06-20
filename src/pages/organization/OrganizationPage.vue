@@ -19,13 +19,16 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import { pagesMap } from '@/router'
+
+import { storeToRefs } from 'pinia'
+import { useRoute, RouterView } from 'vue-router'
+
 import UiBreadcrumbs from '@/components/uikit/UiBreadcrumbs.vue'
 import UiPageSidebar from '@/components/uikit/UiPageSidebar.vue'
-import { useRoute } from 'vue-router'
-import { useProjectsStore } from '@/stores/projects/projects'
-import { storeToRefs } from 'pinia'
+
 import { apiClient } from '@/api/apiClient'
+import { pagesMap } from '@/router'
+import { useProjectsStore } from '@/stores/projects/projects'
 
 const route = useRoute()
 

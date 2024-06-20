@@ -63,7 +63,7 @@
         class="pf-l-flex__item pf-u-flex-1 pf-u-w-100 pf-u-min-height"
         style="--pf-u-min-height--MinHeight: 0"
       >
-        <router-view :key="key" />
+        <RouterView :key="key" />
       </div>
     </div>
   </section>
@@ -71,23 +71,27 @@
 
 <script lang="ts" setup>
 import { computed, onMounted, ref } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
-import { pagesMap } from '@/router'
-import usei18n from '@/hooks/useI18n'
+
+import { storeToRefs } from 'pinia'
+import { useRoute, useRouter, RouterView } from 'vue-router'
+
+import UiButton from '@/components/uikit/UiButton.vue'
+import UiInlineEdit from '@/components/uikit/UiInlineEdit.vue'
+import UiSelect from '@/components/uikit/UiSelect.vue'
+import UiSpinner from '@/components/uikit/UiSpinner.vue'
+import UiSwitch from '@/components/uikit/UiSwitch.vue'
+import UiTabs from '@/components/uikit/UiTabs.vue'
+
 import { ReportType } from '@/api'
+import useConfirm from '@/hooks/useConfirm'
+import usei18n from '@/hooks/useI18n'
+import { pagesMap } from '@/router'
+import { useCommonStore } from '@/stores/common'
+import { useEventsStore } from '@/stores/eventSegmentation/events'
+import { useLexiconStore } from '@/stores/lexicon'
+import { useReportsStore } from '@/stores/reports/reports'
 import { reportToStores } from '@/utils/reportsMappings'
 
-import useConfirm from '@/hooks/useConfirm'
-import { useEventsStore } from '@/stores/eventSegmentation/events'
-import { useReportsStore } from '@/stores/reports/reports'
-import { useCommonStore } from '@/stores/common'
-import { useLexiconStore } from '@/stores/lexicon'
-
-import UiSelect from '@/components/uikit/UiSelect.vue'
-import UiSwitch from '@/components/uikit/UiSwitch.vue'
-import UiInlineEdit from '@/components/uikit/UiInlineEdit.vue'
-import UiSpinner from '@/components/uikit/UiSpinner.vue'
-import { storeToRefs } from 'pinia'
 import { REPORT_TABS } from './tabs'
 
 const { t } = usei18n()

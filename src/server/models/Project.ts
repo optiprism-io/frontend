@@ -1,5 +1,6 @@
-import { Project as IProject } from '@/api'
 import { faker } from '@/server/faker'
+
+import type { Project as IProject } from '@/api'
 
 export class Project implements IProject {
   id: IProject['id']

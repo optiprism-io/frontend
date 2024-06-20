@@ -107,32 +107,39 @@
 
 <script lang="ts" setup>
 import { computed, ref } from 'vue'
-import { useEventsStore, ChartType } from '@/stores/eventSegmentation/events'
-import { groupByMap, periodMap } from '@/configs/events/controls'
-import { ApplyPayload } from '@/components/uikit/UiCalendar/UiCalendar'
-import { TableColumn, TableColumns } from 'naive-ui/es/data-table/src/interface'
-import { getStringDateByFormat } from '@/helpers/getStringDates'
+
+import { useDateFormat } from '@vueuse/core'
+
+import ChartColumn from '@/components/charts/ChartColumn.vue'
+import ChartLine from '@/components/charts/ChartLine.vue'
+import ChartPie from '@/components/charts/ChartPie.vue'
+import DataEmptyPlaceholder from '@/components/common/data/DataEmptyPlaceholder.vue'
+import UiDataTable from '@/components/uikit/UiDataTable.vue'
+import UiDatePicker from '@/components/uikit/UiDatePicker.vue'
+import UiIcon from '@/components/uikit/UiIcon.vue'
+import UiLabelGroup from '@/components/uikit/UiLabelGroup.vue'
+import UiSelect from '@/components/uikit/UiSelect.vue'
+import type { UiToggleGroupItem } from '@/components/uikit/UiToggleGroup.vue';
+import UiToggleGroup from '@/components/uikit/UiToggleGroup.vue'
+
 import {
+  DataType,
+} from '@/api'
+import { groupByMap, periodMap } from '@/configs/events/controls'
+import { getStringDateByFormat } from '@/helpers/getStringDates'
+import { getQueryFormattedValue } from '@/helpers/reportTableHelper'
+import useDataTable from '@/hooks/useDataTable'
+import usei18n from '@/hooks/useI18n'
+import { useEventsStore } from '@/stores/eventSegmentation/events'
+
+import type {
   Report,
   DataTableResponse,
   TimeUnit,
-  DataTableResponseColumnsInner,
-  DataType,
-} from '@/api'
-import useDataTable from '@/hooks/useDataTable'
-import usei18n from '@/hooks/useI18n'
-import UiSelect from '@/components/uikit/UiSelect.vue'
-import UiToggleGroup, { UiToggleGroupItem } from '@/components/uikit/UiToggleGroup.vue'
-import DataEmptyPlaceholder from '@/components/common/data/DataEmptyPlaceholder.vue'
-import UiIcon from '@/components/uikit/UiIcon.vue'
-import UiDatePicker from '@/components/uikit/UiDatePicker.vue'
-import UiLabelGroup from '@/components/uikit/UiLabelGroup.vue'
-import ChartPie from '@/components/charts/ChartPie.vue'
-import ChartLine from '@/components/charts/ChartLine.vue'
-import ChartColumn from '@/components/charts/ChartColumn.vue'
-import UiDataTable from '@/components/uikit/UiDataTable.vue'
-import { getQueryFormattedValue } from '@/helpers/reportTableHelper'
-import { useDateFormat } from '@vueuse/core'
+  DataTableResponseColumnsInner} from '@/api';
+import type { ApplyPayload } from '@/components/uikit/UiCalendar/UiCalendar'
+import type { ChartType } from '@/stores/eventSegmentation/events';
+import type { TableColumn, TableColumns } from 'naive-ui/es/data-table/src/interface'
 
 const compareToMap = ['day', 'week', 'month', 'year']
 const chartTypeMap = [

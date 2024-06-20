@@ -84,12 +84,14 @@
 
 <script lang="ts" setup>
 import { computed, inject } from 'vue'
+
 import UiInput from '@/components/uikit/UiInput.vue'
-import { Each } from './UiCalendar'
+
 import { eachMap } from './UiCalendar.config'
 
-const i18n = inject<any>('i18n')
+import type { Each } from './UiCalendar'
 
+const i18n = inject<any>('i18n')
 
 const emit = defineEmits<{
     (e: 'on-select-last-count', payload: number): void;

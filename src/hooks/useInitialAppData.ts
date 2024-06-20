@@ -1,5 +1,5 @@
-import { useProjectsStore } from '@/stores/projects/projects'
 import { useProfileStore } from '@/stores/profile/profile'
+import { useProjectsStore } from '@/stores/projects/projects'
 
 export const useInitialAppData = () => {
   const profileStore = useProfileStore()

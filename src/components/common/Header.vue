@@ -65,18 +65,23 @@
 
 <script setup lang="ts">
 import { computed, inject } from 'vue'
-import { GenericUiDropdown, UiDropdownItem } from '@/components/uikit/UiDropdown.vue'
-import UiSelect from '@/components/uikit/UiSelect.vue'
-import Nav from '@/components/common/Nav.vue'
-import { useAuthStore } from '@/stores/auth/auth'
-import { RouterLink } from 'vue-router'
-import { pagesMap, SDKIntegration } from '@/router'
-import { useProjectsStore } from '@/stores/projects/projects'
-import UiIcon from '@/components/uikit/UiIcon.vue'
-import CreateProjectPopup from '@/components/projects/CreateProjectPopup.vue'
+
 import { useToggle } from '@vueuse/core'
-import { Project } from '@/api'
+import { RouterLink } from 'vue-router'
+
+import Nav from '@/components/common/Nav.vue'
+import CreateProjectPopup from '@/components/projects/CreateProjectPopup.vue'
+import type { UiDropdownItem } from '@/components/uikit/UiDropdown.vue';
+import { GenericUiDropdown } from '@/components/uikit/UiDropdown.vue'
+import UiIcon from '@/components/uikit/UiIcon.vue'
+import UiSelect from '@/components/uikit/UiSelect.vue'
+
+import { pagesMap, SDKIntegration } from '@/router'
+import { useAuthStore } from '@/stores/auth/auth'
+import { useProjectsStore } from '@/stores/projects/projects'
 import { useReportsStore } from '@/stores/reports/reports'
+
+import type { Project } from '@/api'
 
 const authStore = useAuthStore()
 const projectStore = useProjectsStore()

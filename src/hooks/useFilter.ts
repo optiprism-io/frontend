@@ -1,9 +1,10 @@
-import { EventRef, PropertyRef } from '@/types/events'
+import { EventType } from '@/api'
+import { apiClient } from '@/api/apiClient'
 import { useLexiconStore } from '@/stores/lexicon'
 import { useProjectsStore } from '@/stores/projects/projects'
 
-import { EventType, Value, ListPropertyValuesRequest } from '@/api'
-import { apiClient } from '@/api/apiClient'
+import type { Value, ListPropertyValuesRequest } from '@/api';
+import type { EventRef, PropertyRef } from '@/types/events'
 
 interface UseFilter {
   getEventRef: (id: number) => EventRef | undefined

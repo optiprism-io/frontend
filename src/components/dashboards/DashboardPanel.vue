@@ -1,9 +1,9 @@
 <template>
   <div class="dashboard-panel">
     <div class="dashboard-panel__name">
-      <router-link v-if="reportLink" :to="reportLink">
+      <RouterLink v-if="reportLink" :to="reportLink">
         {{ report?.name }}
-      </router-link>
+      </RouterLink>
     </div>
     <EventsViews
       v-if="isEventsViews"
@@ -25,31 +25,34 @@
 
 <script lang="ts" setup>
 import { computed, onMounted, ref, watch } from 'vue'
-import { pagesMap } from '@/router'
+
+import { RouterLink } from 'vue-router'
+
+import EventsViews from '@/components/events/EventsViews.vue'
+import FunnelsChart from '@/components/funnels/view/FunnelsChart.vue'
+
 import {
+  EventSegmentationQueryFormatEnum,
+  ReportType,
+} from '@/api'
+import { apiClient } from '@/api/apiClient'
+import { pagesMap } from '@/router'
+import { useEventsStore } from '@/stores/eventSegmentation/events'
+import { useProjectsStore } from '@/stores/projects/projects'
+import { useFilterGroupsStore } from '@/stores/reports/filters'
+import { useReportsStore } from '@/stores/reports/reports'
+import { mapReportToSteps } from '@/utils/reportsMappings'
+
+import type {
   DataTableResponse,
   EventGroupedFiltersGroupsInnerFiltersInner,
   EventRecordsListRequestTime,
   EventSegmentation as EventSegmentationType,
-  EventSegmentationQueryFormatEnum,
   FunnelQuery,
   FunnelResponseStepsInner,
-  Report,
-  ReportType,
-} from '@/api'
-
-import { ChartType, useEventsStore } from '@/stores/eventSegmentation/events'
-
-import { useReportsStore } from '@/stores/reports/reports'
-import { useFilterGroupsStore } from '@/stores/reports/filters'
-import { useProjectsStore } from '@/stores/projects/projects'
-
-import { Step } from '@/types/steps'
-import { mapReportToSteps } from '@/utils/reportsMappings'
-
-import EventsViews from '@/components/events/EventsViews.vue'
-import FunnelsChart from '@/components/funnels/view/FunnelsChart.vue'
-import { apiClient } from '@/api/apiClient'
+  Report} from '@/api';
+import type { ChartType} from '@/stores/eventSegmentation/events';
+import type { Step } from '@/types/steps'
 
 const reportsStore = useReportsStore()
 const filterGroupsStore = useFilterGroupsStore()

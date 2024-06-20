@@ -39,12 +39,14 @@
 </template>
 
 <script setup lang="ts">
-import Select from '@/components/Select/Select.vue';
 import SelectedEvent from '@/components/events/Events/SelectedEvent.vue';
-import { useLexiconStore } from '@/stores/lexicon';
+import Select from '@/components/Select/Select.vue';
+import UiButton from '@/components/uikit/UiButton.vue'
+
+import useCustomEvent from '@/components/events/Events/CustomEventHooks';
 import { useCommonStore } from '@/stores/common';
 import { useEventsStore } from '@/stores/eventSegmentation/events';
-import useCustomEvent from '@/components/events/Events/CustomEventHooks';
+import { useLexiconStore } from '@/stores/lexicon';
 
 const lexiconStore = useLexiconStore();
 const commonStore = useCommonStore();

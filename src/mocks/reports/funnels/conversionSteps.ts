@@ -1,4 +1,4 @@
-import { FunnelResponse } from '@/api'
+import type { FunnelResponse } from '@/api'
 
 export default {
   groups: ['Country', 'City'],

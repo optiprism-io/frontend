@@ -20,7 +20,9 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
+
 import UiAlert from '@/components/uikit/UiAlert.vue'
+
 import { AlertTypeEnum } from '@/types'
 
 interface Props {

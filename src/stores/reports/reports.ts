@@ -1,25 +1,28 @@
 import { defineStore } from 'pinia'
-import { useEventsStore } from '@/stores/eventSegmentation/events'
-import { useStepsStore } from '@/stores/funnels/steps'
-import { useFilterGroupsStore } from '@/stores/reports/filters'
-import { useBreakdownsStore } from '@/stores/reports/breakdowns'
-import { useSegmentsStore } from '@/stores/reports/segments'
-import { useProjectsStore } from '@/stores/projects/projects'
 
 import {
+  FunnelStepsChartTypeTypeEnum,
+  ReportType,
+  TimeUnit,
+} from '@/api'
+import { apiClient } from '@/api/apiClient'
+import { useEventsStore } from '@/stores/eventSegmentation/events'
+import { useStepsStore } from '@/stores/funnels/steps'
+import { useProjectsStore } from '@/stores/projects/projects'
+import { useBreakdownsStore } from '@/stores/reports/breakdowns'
+import { useFilterGroupsStore } from '@/stores/reports/filters'
+import { useSegmentsStore } from '@/stores/reports/segments'
+
+import type {
   BreakdownByProperty,
   EventChartType,
   EventRecordsListRequestTime,
   EventSegmentationSegment,
   FunnelQueryStepsInner,
-  FunnelStepsChartTypeTypeEnum,
   PropertyRef,
   Report,
-  ReportQuery,
-  ReportType,
-  TimeUnit,
-} from '@/api'
-import { apiClient } from '@/api/apiClient'
+  ReportQuery
+} from '@/api';
 
 type Reports = {
   list: Report[]

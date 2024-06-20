@@ -90,10 +90,13 @@
 
 <script lang="ts" setup>
 import { ref, onBeforeMount } from 'vue';
-import { Value } from '@/api';
-import UiInput from '@/components/uikit/UiInput.vue';
-import UiFormGroup from '@/components/uikit/UiFormGroup.vue';
+
 import UiForm from '@/components/uikit/UiForm.vue';
+import UiFormGroup from '@/components/uikit/UiFormGroup.vue';
+import UiIcon from '@/components/uikit/UiIcon.vue'
+import UiInput from '@/components/uikit/UiInput.vue';
+
+import type { Value } from '@/api';
 
 export type ApplyPayload = {
     value: Value,

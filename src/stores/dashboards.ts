@@ -1,8 +1,9 @@
 import { defineStore } from 'pinia';
-import { Dashboard } from '@/api';
-import { useProjectsStore } from '@/stores/projects/projects'
 
 import { apiClient } from '@/api/apiClient'
+import { useProjectsStore } from '@/stores/projects/projects'
+
+import type { Dashboard } from '@/api';
 
 type DashboardsStore = {
     dashboards: Dashboard[],

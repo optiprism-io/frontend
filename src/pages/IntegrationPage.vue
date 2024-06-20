@@ -34,18 +34,21 @@
 </template>
 
 <script setup lang="ts">
-import UiCard from '@/components/uikit/UiCard/UiCard.vue'
-import ToolsLayout from '@/layout/ToolsLayout.vue'
-import UiTabs from '@/components/uikit/UiTabs.vue'
 import { computed, inject } from 'vue'
-import { pagesMap, SDKIntegration } from '@/router'
+
+import { storeToRefs } from 'pinia'
 import { useRoute, useRouter } from 'vue-router'
+
 import IntegrationContent from '@/components/integration/IntegrationContent.vue'
 import IntegrationContentJS from '@/components/integration/IntegrationContentJS.vue'
-import { useProjectsStore } from '@/stores/projects/projects'
-import { storeToRefs } from 'pinia'
-import UiSpinner from '@/components/uikit/UiSpinner.vue'
 import UiAlert from '@/components/uikit/UiAlert.vue'
+import UiCard from '@/components/uikit/UiCard/UiCard.vue'
+import UiSpinner from '@/components/uikit/UiSpinner.vue'
+import UiTabs from '@/components/uikit/UiTabs.vue'
+import ToolsLayout from '@/layout/ToolsLayout.vue'
+
+import { pagesMap, SDKIntegration } from '@/router'
+import { useProjectsStore } from '@/stores/projects/projects'
 import { AlertTypeEnum } from '@/types'
 import { generateUUID } from '@/utils/generateUuid'
 

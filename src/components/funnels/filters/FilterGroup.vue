@@ -70,25 +70,34 @@
 
 <script lang="ts" setup>
 import { computed, inject } from 'vue'
-import { operationById } from '@/types'
+
+import { VTooltip } from 'floating-vue'
+
+import Filter from '@/components/events/Filter.vue'
+import PropertySelect from '@/components/events/PropertySelect.vue'
 import UiActionList from '@/components/uikit/UiActionList/UiActionList.vue'
 import UiActionListItem from '@/components/uikit/UiActionList/UiActionListItem.vue'
-import Filter from '@/components/events/Filter.vue'
+import UiButton from '@/components/uikit/UiButton.vue'
+import UiIcon from '@/components/uikit/UiIcon.vue'
+
+import { DataType } from '@/api'
 import { UiSelectGeneric } from '@/components/uikit/UiSelect/UiSelectGeneric'
-import { UiSelectItemInterface } from '@/components/uikit/UiSelect/types'
-import PropertySelect from '@/components/events/PropertySelect.vue'
-import { OperationId, Value } from '@/types'
-import { PropertyRef } from '@/types/events'
+import { useFilter } from '@/hooks/useFilter'
 import { useStepsStore } from '@/stores/funnels/steps'
 import {
-  FilterCondition,
   filterConditions,
-  FilterGroup,
   useFilterGroupsStore,
 } from '@/stores/reports/filters'
-import { useFilter } from '@/hooks/useFilter'
-import { I18N } from '@/utils/i18n'
-import { DataType } from '@/api'
+import { operationById } from '@/types'
+import { OperationId } from '@/types'
+
+import type { UiSelectItemInterface } from '@/components/uikit/UiSelect/types'
+import type {
+  FilterCondition,
+  FilterGroup} from '@/stores/reports/filters';
+import type { Value } from '@/types';
+import type { PropertyRef } from '@/types/events'
+import type { I18N } from '@/utils/i18n'
 
 const UiSelectMatch = UiSelectGeneric<FilterCondition>()
 

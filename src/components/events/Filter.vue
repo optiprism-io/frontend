@@ -134,18 +134,27 @@
 
 <script setup lang="ts">
 import { computed, ref } from 'vue'
+
 import { useDateFormat, useElementHover } from '@vueuse/core'
-import { EventFilter } from '@/stores/eventSegmentation/events'
-import { useLexiconStore } from '@/stores/lexicon'
-import UiInput from '@/components/uikit/UiInput.vue'
-import PropertySelect from '@/components/events/PropertySelect.vue'
-import OperationSelect from '@/components/events/OperationSelect.vue'
-import ValueSelect from '@/components/events/ValueSelect.vue'
-import { EventRef, PropertyRef, UserCustomProperty } from '@/types/events'
-import { operationById, OperationId, Value } from '@/types'
+
 import CommonIdentifier from '@/components/common/identifier/CommonIdentifier.vue'
-import { CustomProperty, DataType, Property, PropertyType } from '@/api'
-import { OrientationEnum, OrientationTypeEnum } from '@/types/filters'
+import OperationSelect from '@/components/events/OperationSelect.vue'
+import PropertySelect from '@/components/events/PropertySelect.vue'
+import ValueSelect from '@/components/events/ValueSelect.vue'
+import UiButton from '@/components/uikit/UiButton.vue'
+import UiIcon from '@/components/uikit/UiIcon.vue'
+import UiInput from '@/components/uikit/UiInput.vue'
+
+import { DataType } from '@/api'
+import { useLexiconStore } from '@/stores/lexicon'
+import { operationById, OperationId } from '@/types'
+import { OrientationTypeEnum } from '@/types/filters'
+
+import type { CustomProperty, Property, PropertyType } from '@/api';
+import type { EventFilter } from '@/stores/eventSegmentation/events'
+import type { Value } from '@/types';
+import type { EventRef, PropertyRef, UserCustomProperty } from '@/types/events'
+import type { OrientationEnum} from '@/types/filters';
 
 const NotAllowedOperationIds = {
   Exists: 'exists',

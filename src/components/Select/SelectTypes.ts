@@ -1,4 +1,4 @@
-import { DataType } from '@/api'
+import type { DataType } from '@/api'
 
 export interface Action {
   type: string
