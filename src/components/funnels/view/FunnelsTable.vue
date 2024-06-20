@@ -57,6 +57,7 @@ const groupsColumns = computed<TableColumn[]>(() =>
   props.groups.map((x, index) => ({
     title: x,
     key: KEY_PREFIX + KEY_GROUPS + KEY_SPLITTER + INDEX_FIRST_ARR_ELEMENT + `[${index}]`,
+    resizable: true,
   }))
 )
 
