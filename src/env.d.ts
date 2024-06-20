@@ -13,5 +13,4 @@ declare module '@vue/runtime-core' {
         $t: $T
     }
 }
-declare module 'v-tooltip';
 declare module 'VirtualisedList';

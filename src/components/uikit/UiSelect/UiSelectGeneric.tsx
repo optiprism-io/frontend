@@ -1,20 +1,24 @@
 // TODO: add types for UiSelectGeneric
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
-import {computed, DefineComponent, defineComponent, PropType, Ref, ref} from 'vue';
-import UiSelectItem from '@/components/uikit/UiSelect/UiSelectItem.vue'
-import {UiSelectItemInterface} from './types';
-import UiSelectGroup from '@/components/uikit/UiSelect/UiSelectGroup.vue'
-import UiIcon from '@/components/uikit/UiIcon.vue'
-import '@/components/uikit/UiSelect/styles.scss'
+import type { PropType, Ref } from 'vue';
+import { computed, defineComponent, ref } from 'vue';
 
-declare const VDropdown: DefineComponent<{ placement: string }>;
+import { Dropdown as VDropdown } from 'floating-vue'
+
+import UiIcon from '@/components/uikit/UiIcon.vue'
+import UiSelectGroup from '@/components/uikit/UiSelect/UiSelectGroup.vue'
+import UiSelectItem from '@/components/uikit/UiSelect/UiSelectItem.vue'
+
+import type { UiSelectItemInterface } from './types';
+import '@/components/uikit/UiSelect/styles.scss'
 
 export function UiSelectGeneric<T>() {
     return defineComponent({
         name: 'UiSelect',
         components: {
             UiSelectItem,
+            VDropdown
         },
         props: {
             items: {

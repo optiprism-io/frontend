@@ -71,7 +71,7 @@
 <script lang="ts" setup>
 import { computed, inject } from 'vue'
 
-import { VTooltip } from 'floating-vue'
+import { Tooltip as VTooltip } from 'floating-vue'
 
 import Filter from '@/components/events/Filter.vue'
 import PropertySelect from '@/components/events/PropertySelect.vue'

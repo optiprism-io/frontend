@@ -78,7 +78,7 @@
 import { watch, computed } from 'vue';
 import type { PropType} from 'vue';
 
-import { VTooltip } from 'floating-vue'
+import { Tooltip as VTooltip } from 'floating-vue'
 
 import CommonIdentifier from '@/components/common/identifier/CommonIdentifier.vue';
 import EventSelector from '@/components/events/Events/EventSelector.vue';
