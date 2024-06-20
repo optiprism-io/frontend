@@ -3,7 +3,7 @@
     <LegendMarker
       v-for="(item, i) in reportSteps.at(0)?.data || []"
       :key="i"
-      :marker-name="item.groups.join('/')"
+      :marker-name="item.groups.join(' / ')"
       :color="barsColors[i]"
     />
   </div>
