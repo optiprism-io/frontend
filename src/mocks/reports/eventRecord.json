@@ -1,0 +1,39 @@
+[
+  {
+    "propertyType": "event",
+    "propertyName": "Client Version Minor",
+    "value": 24
+  },
+  {
+    "propertyType": "event",
+    "propertyName": "Version Patch",
+    "value": 24
+  },
+  {
+    "propertyType": "event",
+    "propertyName": "Device Family",
+    "value": "mobile"
+  },
+  {
+    "propertyType": "system",
+    "propertyName": "project_id",
+    "value": 1
+  },
+  {
+    "propertyType": "system",
+    "propertyName": "created_at",
+    "value": 1711168954000
+  },
+  {
+    "propertyType": "group",
+    "propertyName": "Staff",
+    "value": "user",
+    "group": 1
+  },
+  {
+    "propertyType": "group",
+    "propertyName": "Age",
+    "value": "27",
+    "group": 2
+  }
+]

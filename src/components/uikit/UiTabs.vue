@@ -47,7 +47,7 @@
 </template>
 
 <script lang="ts" setup>
-import { VTooltip as vTooltip } from 'floating-vue'
+import { VTooltip  as vTooltip } from 'floating-vue'
 
 import UiIcon from '@/components/uikit/UiIcon.vue'
 

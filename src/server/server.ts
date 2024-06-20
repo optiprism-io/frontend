@@ -7,12 +7,14 @@ import customEventsMocks from '@/mocks/eventSegmentations/customEvents.json'
 import customProperties from '@/mocks/eventSegmentations/customProperties.json'
 import eventPropertiesMocks from '@/mocks/eventSegmentations/eventProperties.json'
 import eventMocks from '@/mocks/eventSegmentations/events.json'
+import systemPropertiesMocks from '@/mocks/eventSegmentations/systemProperties.json'
 import groupProperties from '@/mocks/groupProperties'
 import groupRecordsMocks from '@/mocks/groupRecords.json'
 import groups from '@/mocks/groups'
 import { organizations } from '@/mocks/organizations'
 import profileMocks from '@/mocks/profile'
 import projectsMocks from '@/mocks/projects'
+import eventRecordMocks from '@/mocks/reports/eventRecord.json'
 import liveStreamMocks from '@/mocks/reports/liveStream.json'
 import { reports } from '@/mocks/reports/reports'
 import { EMPTY_SUCCESS_RES } from '@/server/constants'
@@ -35,11 +37,13 @@ const dbTemplate: { [k: string]: any } = {
   events: eventMocks,
   customEvents: customEventsMocks,
   eventProperties: eventPropertiesMocks,
+  systemProperties: systemPropertiesMocks,
   customProperties: customProperties,
   reports: reports,
   dashboards: dashboardsMocks,
   groupRecords: groupRecordsMocks,
-  liveStreamMocks: liveStreamMocks,
+  liveStream: liveStreamMocks,
+  eventRecord: eventRecordMocks,
   projects: projectsMocks,
   organizations: organizations,
   groups: groups,
@@ -117,12 +121,26 @@ export function makeHttpServer({ environment = 'development', isSeed = true } = 
             })
 
             this.post('/projects/:project_id/event-records/search', (schema) => {
-                return schema.db.liveStreamMocks
+                return {
+                    'columns': schema.db.liveStream
+                }
+            })
+
+            this.get('/projects/:project_id/event-records/:id', (schema) => {
+                return {
+                    properties: schema.db.eventRecord
+                }
             })
 
             this.get('/projects/:project_id/schema/event-properties', (schema) => {
                 return {
                     data: schema.db.eventProperties
+                }
+            })
+
+            this.get('/projects/:project_id/schema/system-properties', (schema) => {
+                return {
+                    data: schema.db.systemProperties
                 }
             })
 
