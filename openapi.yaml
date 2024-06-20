@@ -2211,7 +2211,6 @@ components:
             $ref: '#/components/schemas/GroupPropertyAndValue'
     EventRecord:
       type: object
-      required: [ 'id', 'name' ]
       properties:
         properties:
           type: array
