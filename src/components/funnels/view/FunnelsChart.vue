@@ -1,5 +1,5 @@
 <template>
-  <div class="pf-l-flex pf-u-justify-content-center pf-u-flex-nowrap">
+  <div class="pf-l-flex pf-u-justify-content-center">
     <LegendMarker
       v-for="(item, i) in reportSteps.at(0)?.data || []"
       :key="i"
