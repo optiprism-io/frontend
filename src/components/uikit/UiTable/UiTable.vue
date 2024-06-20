@@ -95,7 +95,7 @@
                 :last-fixed="cell.lastFixed"
                 :no-wrap="cell.nowrap"
                 :type="cell.type"
-                @click="clickCell(cell, row)"
+                @click="clickCell(cell, i)"
               >
                 <Component
                   :is="cell.component || UiTableCell"
@@ -158,7 +158,7 @@ const props = withDefaults(defineProps<Props>(), {
 })
 
 const emit = defineEmits<{
-  (e: 'click-cell', call: Cell, row: Row): void
+  (e: 'click-cell', call: Cell, rowIndex: number): void
   (e: 'on-action', payload: Action): void
   (e: 'select-columns', payload: string[]): void
 }>()
@@ -200,8 +200,8 @@ onBeforeMount(() => {
   activeColumns.value = props.defaultColumns || props.columns.map(item => item.value)
 })
 
-const clickCell = (cell: Cell, row: Row) => {
-  emit('click-cell', cell, row);
+const clickCell = (cell: Cell, rowIndex: number) => {
+  emit('click-cell', cell, rowIndex);
 }
 </script>
 

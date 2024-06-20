@@ -17,7 +17,11 @@
 </template>
 
 <script setup lang="ts">
-import { computed, inject } from 'vue'
+import { computed, inject, onMounted } from 'vue'
+import { useLexiconStore } from '@/stores/lexicon'
+import { useCommonStore } from '@/stores/common'
+import { Row, Action } from '@/components/uikit/UiTable/UiTable'
+import { Event } from '@/api'
 
 import UiCellTags from '@/components/uikit/cells/UiCellTags.vue'
 import UiCellToolMenu from '@/components/uikit/cells/UiCellToolMenu.vue'
@@ -103,4 +107,8 @@ const onAction = (payload: Action) => {
     commonStore.updateEditEventManagementPopupId(Number(payload.type) || null)
     commonStore.toggleEventManagementPopup(true)
 }
+
+onMounted(async () => {
+  await lexiconStore.initEventsAndProperties()
+})
 </script>

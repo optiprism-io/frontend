@@ -28,11 +28,13 @@
 </template>
 
 <script setup lang="ts">
-import { computed, inject, onMounted, ref } from 'vue'
-
-import { useRoute, RouterView } from 'vue-router'
-
-import type {
+import { computed, inject, ref } from 'vue'
+import { useRoute } from 'vue-router'
+import { useLexiconStore } from '@/stores/lexicon'
+import { useLiveStreamStore } from '@/stores/reports/liveStream'
+import { useCommonStore, PropertyTypeEnum } from '@/stores/common'
+import EventPropertyPopup, { ApplyPayload } from '@/components/events/EventPropertyPopup.vue'
+import EventManagementPopup, {
   ApplyPayload as ApplyPayloadEvent,
 } from '@/components/events/EventManagementPopup.vue';
 import EventManagementPopup from '@/components/events/EventManagementPopup.vue'
@@ -121,24 +123,6 @@ const eventProperties = computed(() => {
     }
     return acc
   }, [])
-})
-
-const initEventsAndProperties = async () => {
-  await Promise.all([
-    lexiconStore.getEvents(),
-    lexiconStore.getSystemProperties(),
-    lexiconStore.getEventProperties(),
-    await lexiconStore.getGroups(),
-    lexiconStore.getGroupProperties(),
-  ])
-}
-
-onMounted(async () => {
-  await initEventsAndProperties()
-
-  if (route.name === pagesMap.eventsLiveStream.name) {
-    liveStreamStore.getReportLiveStream()
-  }
 })
 
 const propertyPopupApply = async (payload: ApplyPayload) => {

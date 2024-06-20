@@ -1,18 +1,24 @@
 <template>
   <UiPopupWindow
     :title="title"
-    :apply-loading="loading"
     class="live-stream-event-popup"
     @cancel="cancel"
   >
-    <UiTabs class="pf-u-mb-md" :items="itemsTabs" />
+    <UiTabs
+      class="pf-u-mb-md"
+      :items="tabs"
+      @on-select="selectTab"
+    />
     <div class="live-stream-event-popup__content">
+      <UiSpinner v-if="loading" />
       <UiTable
+        v-else
+        class="live-stream-event-popup__table"
         :compact="true"
         :items="items"
         :columns="columns"
         :show-toolbar="false"
-        :no-data-text="noDataText"
+        :no-data-text="strings.eventNoProperties"
         :is-loading="loading"
       />
     </div>
@@ -20,95 +26,124 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref, onMounted } from 'vue';
-import { apiClient } from "@/api/apiClient";
-import { useProjectsStore } from "@/stores/projects/projects";
-import { EventRecord } from "@/api";
-import { getStringDateByFormat } from '@/helpers/getStringDates';
-
-import UiPopupWindow from '@/components/uikit/UiPopupWindow.vue';
-import UiTable from '@/components/uikit/UiTable/UiTable.vue';
+import { computed, ref, onMounted } from 'vue'
+import { useDateFormat } from '@vueuse/core'
+import usei18n from '@/hooks/useI18n'
+import { useLiveStreamStore } from '@/stores/reports/liveStream'
+import UiTable from '@/components/uikit/UiTable/UiTable.vue'
+import UiPopupWindow from '@/components/uikit/UiPopupWindow.vue'
+import { Row } from '@/components/uikit/UiTable/UiTable'
+import UiSpinner from '@/components/uikit/UiSpinner.vue'
+import { apiClient } from '@/api/apiClient'
 import UiTabs from '@/components/uikit/UiTabs.vue'
-import type { Row } from '@/components/uikit/UiTable/UiTable';
+import { useProjectsStore } from '@/stores/projects/projects'
+import { EventRecord, PropertyType, PropertyAndValue, Group } from '@/api'
+import { getStringDateByFormat } from '@/helpers/getStringDates'
+import { value } from 'valibot'
 
-import usei18n from '@/hooks/useI18n';
-import { useLiveStreamStore } from '@/stores/reports/liveStream';
+const projectsStore = useProjectsStore()
+const liveStreamStore = useLiveStreamStore()
+const { t } = usei18n()
 
-const projectsStore = useProjectsStore();
-const liveStreamStore = useLiveStreamStore();
-const { t } = usei18n();
-
-type Props = {
-  id: number;
-};
-
-const props = defineProps<Props>();
+const props = defineProps<{
+  id: number
+  name: string
+  groupsMap: { [key: number]: Group }
+}>()
 
 const emit = defineEmits<{
-  (e: "cancel"): void;
-  (e: "apply"): void;
-}>();
+  (e: 'cancel'): void
+  (e: 'apply'): void
+}>()
 
-const activeTab = ref('eventProperties');
-const loading = ref(false);
-const event = ref<EventRecord | null>(null);
+const strings = {
+  eventNoProperties: t('common.eventNoProperties'),
+}
 
-const items = computed(() => {
-  const eventProperties = event.value?.eventProperties || {};
-  const userProperties = event.value?.userProperties || {};
+type PropertiesMapKey = PropertyType | number
 
-  const property = activeTab.value === 'eventProperties' ? eventProperties : userProperties;
+const activeTab = ref<PropertiesMapKey>()
+const loading = ref(true)
+const event = ref<EventRecord | null>(null)
 
-  return property ? Object.keys(property).map((key): Row => {
+const properties = computed(() => event.value?.properties || [])
+
+
+type PropertiesMap = {
+  [key in PropertiesMapKey]?: Array<PropertyAndValue>
+}
+const propertiesMap = computed<PropertiesMap>(() => {
+  const items: PropertiesMap = {}
+
+  properties.value.forEach(item => {
+    let key: PropertiesMapKey = item.propertyType;
+
+    if (item.propertyType === PropertyType.Group && item.group) {
+      key = item.group
+    }
+
+    if (items[key]) {
+      items[key]?.push(item)
+    } else {
+      items[key] = [item]
+    }
+  })
+
+  return items
+})
+
+const propertiesTypes = computed(() => Object.keys(propertiesMap.value))
+
+const title = computed(() => {
+  return t('events.liveStream.popup.title', {
+    name: props.name,
+  })
+})
+
+const items = computed<Row[]>(() => {
+  const properties = activeTab.value ? propertiesMap.value[activeTab.value] || [] : [];
+  return properties ? properties.map((item): Row => {
     return [
-        {
-              key: 'name',
-              title: key === 'createdAt' ? t('events.liveStream.columns.createdAt') : key
-          },
-          {
-              key: 'value',
-              title: key === 'createdAt' ? getStringDateByFormat(String(property[key]), '%d %b, %Y') : property[key],
-          }
+      {
+        key: 'name',
+        title: item.propertyName || '',
+      }, {
+        key: 'value',
+        title: item.propertyName === 'created_at' ? useDateFormat(+item.value, 'YYYY-MM-DD HH:mm').value : item.value
+      }
     ]
   }) : []
-});
+})
 
 const columns = computed(() => {
-  return ['name', 'value'].map((key) => {
+  return ['name', 'value'].map(key => {
     return {
       value: key,
       title: t(`events.event_management.columns.${key}`),
-    };
-  });
-});
+    }
+  })
+})
 
-const title = computed(() => {
-  return event.value?.name
-    ? `${t("events.event_management.event")}: ${event.value.name}`
-    : "";
-});
-
-const itemsTabs = computed(() => {
-  return ['eventProperties', 'userProperties'].map((key) => {
+const tabs = computed(() => {
+  return propertiesTypes.value.map((key) => {
     return {
-      name: t(`events.liveStream.popupTabs.${key}`),
+      name: props.groupsMap[+key] ? props.groupsMap[+key]?.name || '' : t(`events.liveStream.popup.tabs.${key}`),
       active: activeTab.value === key,
       value: key,
     };
-  });
-});
-
-const noDataText = computed(() => {
-  return t("common.eventNoProperties");
-});
+  })
+})
 
 const cancel = () => {
-  emit("cancel");
-  liveStreamStore.eventPopup = false;
-};
+  emit('cancel')
+}
+
+const selectTab = (value: string) => {
+  activeTab.value = value as PropertiesMapKey
+}
 
 const getEvent = async () => {
-  loading.value = true;
+  loading.value = true
   const res = await apiClient.eventRecords.getEventRecord(
     projectsStore.projectId,
     props.id
@@ -117,20 +152,27 @@ const getEvent = async () => {
   if (res.data) {
     event.value = res.data;
   }
-  loading.value = false;
-};
+  activeTab.value = propertiesTypes.value[0] as PropertiesMapKey
+
+  loading.value = false
+}
 
 onMounted(async () => {
   if (props.id) {
-    getEvent();
+    await getEvent()
   }
-});
+})
 </script>
 
 <style lang="scss">
 .live-stream-event-popup {
   .pf-c-modal-box__body {
     min-height: 316px;
+  }
+  &__table {
+    th {
+      width: 50%;
+    }
   }
 }
 </style>

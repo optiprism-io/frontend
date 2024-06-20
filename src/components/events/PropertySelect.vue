@@ -26,10 +26,8 @@ import Select from '@/components/Select/Select.vue'
 import { DataType } from '@/api'
 import { useProperty } from '@/hooks/useProperty'
 import { useLexiconStore } from '@/stores/lexicon'
-
-import type { Property} from '@/api';
-import type { PropertyItem } from '@/hooks/useProperty';
-import type { EventRef, PropertyRef } from '@/types/events'
+import { Property, DataType } from '@/api'
+import useProperty, { PropertyItem } from '@/hooks/useProperty'
 
 const { groupedProperties } = useProperty()
 const lexiconStore = useLexiconStore()
@@ -76,7 +74,7 @@ const items = computed(() => {
             disabled: checkDisable(item.item)
           })
         }
-        return acc  
+        return acc
       }, [])
     }
   })

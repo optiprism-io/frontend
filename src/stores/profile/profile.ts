@@ -65,7 +65,10 @@ export const useProfileStore = defineStore('profile', {
       this.isLoading = true
       try {
         const { data } = await apiClient.profile.getProfile()
-        this.profile = data
+        this.profile = {
+          ...data,
+          id: null
+        }
       } catch (error) {
         throw new Error('error get profile')
       } finally {

@@ -5,6 +5,7 @@
       :items="tableData.tableData"
       :columns="tableData.tableColumnsValues"
       :no-data-text="strings.noDataText"
+      :no-data-text="strings.noDataText"
       :show-select-columns="false"
       :allow-click-cell="true"
       @on-action="onAction"
@@ -57,6 +58,9 @@
       :id="eventPopupId"
       :name="eventPopupName"
       :groups-map="lexiconStore.groupsMap"
+      :id="eventPopupId"
+      :name="eventPopupName"
+      :groups-map="lexiconStore.groupsMap"
       @cancel="closeEventPopup"
     />
   </div>
@@ -66,12 +70,13 @@
 import { computed, ref } from 'vue'
 import { getStringDateByFormat } from '@/helpers/getStringDates'
 import { useLiveStreamStore } from '@/stores/reports/liveStream'
+import { useLiveStreamStore } from '@/stores/reports/liveStream'
 import { useCommonStore } from '@/stores/common'
 import { useLexiconStore } from '@/stores/lexicon'
 import { useEventsStore } from '@/stores/eventSegmentation/events'
 import useDataTable from '@/hooks/useDataTable'
 import usei18n from '@/hooks/useI18n'
-import { useProperty } from '@/hooks/useProperty'
+import useProperty from '@/hooks/useProperty'
 import { Cell, Action } from '@/components/uikit/UiTable/UiTable'
 import { shortPeriodDays } from '@/components/uikit/UiCalendar/UiCalendar.config'
 import { ApplyPayload } from '@/components/uikit/UiCalendar/UiCalendar'
@@ -94,7 +99,12 @@ const eventName = 'eventName'
 
 const eventPopupName = ref('')
 const eventPopupId = ref<number>(0)
+const eventPopupId = ref<number>(0)
 const eventPopup = ref(false)
+
+const strings = {
+  noDataText: t('events.noEventsFound'),
+}
 
 const strings = {
   noDataText: t('events.noEventsFound'),
@@ -130,8 +140,15 @@ const itemsProperties = computed(() => {
           columnProperty.group === groupItem.item.group &&
           columnProperty.id === groupItem.item.id &&
           columnProperty.name === groupItem.item.name)
+      items: group.items.map(groupItem => {
+        const activeProperty = liveStreamStore.activeColumns.find(columnProperty =>
+          columnProperty.group === groupItem.item.group &&
+          columnProperty.id === groupItem.item.id &&
+          columnProperty.name === groupItem.item.name)
 
         return {
+          ...groupItem,
+          selected: Boolean(activeProperty),
           ...groupItem,
           selected: Boolean(activeProperty),
         }
@@ -212,6 +229,18 @@ const onApplyPeriod = (payload: ApplyPayload): void => {
   updateReport()
 }
 
+const clickCell = async (cell: Cell, rowIndex: number) => {
+  const row = tableData.value.tableData[rowIndex]
+
+  if (row) {
+    const eventIdCell = row.find(item => item.key === 'event_id')
+    const eventNameCell = row.find(item => item.key === 'Event')
+
+    if (eventIdCell?.value) {
+      eventPopupId.value = +eventIdCell.value
+      eventPopupName.value = eventNameCell?.value as string || '';
+      eventPopup.value = true
+    }
 const clickCell = async (cell: Cell, rowIndex: number) => {
   const row = tableData.value.tableData[rowIndex]
 

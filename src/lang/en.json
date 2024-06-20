@@ -192,9 +192,15 @@
         "eventName": "Event Name",
         "customEvents": "Custom events"
       },
-      "popupTabs": {
-        "eventProperties": "Event Properties",
-        "userProperties": "User Properties"
+      "popup": {
+        "title": "Event: :name",
+        "tabs": {
+          "event": "Event Properties",
+          "system": "System Properties",
+          "custom": "Custom Properties",
+          "systemGroups": "System Groups Properties",
+          "groups": "Groups Properties"
+        }
       }
     },
     "customEvents": {

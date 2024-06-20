@@ -99,10 +99,7 @@ export const useLiveStreamStore = defineStore('liveStream', {
       last: 30,
     },
     columns: [],
-    activeColumns: defaultColumns.map(key => ({
-      name: key,
-      type: PropertyType.System,
-    })),
+    activeColumns: [],
     loading: false,
     eventPopup: false,
     group: 0,
@@ -152,7 +149,7 @@ export const useLiveStreamStore = defineStore('liveStream', {
       try {
         const props: EventRecordsListRequest = {
           time: this.timeRequest,
-          properties: properties,
+          properties: properties
         }
 
         if (this.events.length) {

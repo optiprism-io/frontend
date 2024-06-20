@@ -12,10 +12,7 @@
           @on-action="onAction"
         >
           <template #before>
-            <UiButton
-              class="pf-m-primary"
-              @click="addCustomEvent"
-            >
+            <UiButton class="pf-m-primary" @click="addCustomEvent">
               {{ $t('events.add_custom_event') }}
             </UiButton>
           </template>
@@ -35,9 +32,17 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, inject } from 'vue'
+import { ref, computed, inject, onMounted } from 'vue'
+import { useLexiconStore } from '@/stores/lexicon'
+import { useEventsStore } from '@/stores/eventSegmentation/events'
+import { useCommonStore } from '@/stores/common'
+import { useProjectsStore } from '@/stores/projects/projects'
 
-import ConfirmPopup from '@/components/common/ConfirmPopup.vue'
+import { Row, Action } from '@/components/uikit/UiTable/UiTable'
+import { CustomEvent } from '@/api'
+
+import UiTable from '@/components/uikit/UiTable/UiTable.vue'
+import UiTablePressedCell from '@/components/uikit/UiTable/UiTablePressedCell.vue'
 import UiCellTags from '@/components/uikit/cells/UiCellTags.vue'
 import UiCellToolMenu from '@/components/uikit/cells/UiCellToolMenu.vue'
 import UiButton from '@/components/uikit/UiButton.vue'
@@ -65,119 +70,125 @@ const actionEventId = ref<number | null>(null)
 const openConfirmPopup = ref(false)
 
 const actionEvent = computed(() => {
-    if (actionEventId.value) {
-        return lexiconStore.findCustomEventById(actionEventId.value)
-    } else {
-        return null
-    }
+  if (actionEventId.value) {
+    return lexiconStore.findCustomEventById(actionEventId.value)
+  } else {
+    return null
+  }
 })
 
 const confirmPopupDeleteInfo = computed(() => {
-    const info = {
-        title: '',
-        content: '',
-    }
+  const info = {
+    title: '',
+    content: '',
+  }
 
-    if (actionEvent.value) {
-        info.title = `${i18n.$t('events.customEvents.deleteTitle')}: ${actionEvent.value?.name}`
-        info.content = i18n.$t('events.customEvents.deleteContent', { name: `<b>${actionEvent.value?.name}</b>` })
-    }
+  if (actionEvent.value) {
+    info.title = `${i18n.$t('events.customEvents.deleteTitle')}: ${actionEvent.value?.name}`
+    info.content = i18n.$t('events.customEvents.deleteContent', {
+      name: `<b>${actionEvent.value?.name}</b>`,
+    })
+  }
 
-    return info
+  return info
 })
 
 const columns = computed(() => {
-    return ['name', 'description', 'tags', 'status', 'action'].map(key => {
-        const isAction = key === 'action'
+  return ['name', 'description', 'tags', 'status', 'action'].map(key => {
+    const isAction = key === 'action'
 
-        return {
-            value: key,
-            title: isAction ? '' : i18n.$t(`events.event_management.columns.${key}`),
-            default: isAction,
-            type: isAction? 'action' : '',
-        }
-    })
+    return {
+      value: key,
+      title: isAction ? '' : i18n.$t(`events.event_management.columns.${key}`),
+      default: isAction,
+      type: isAction ? 'action' : '',
+    }
+  })
 })
 
 const items = computed(() => {
-    return lexiconStore.customEvents.map((event: CustomEvent): Row => {
-        return [
-            {
-                key: 'name',
-                value: event.name,
-                title: event.name,
-                component: UiTablePressedCell,
-                action: {
-                    type: event.id,
-                    name: 'edit',
-                }
-            },
-            {
-                key: 'description',
-                title: event.description || '',
-            },
-            {
-                key: 'tags',
-                title: 'tags',
-                value: event.tags || [],
-                nowrap: Boolean(event.tags?.length || 0 <= 5),
-                component: UiCellTags,
-            },
-            {
-                title: event.status || '',
-                key: 'status'
-            },
-            {
-                title: 'action',
-                key: 'action',
-                value: event.id,
-                component: UiCellToolMenu,
-                items: [
-                    {
-                        label: i18n.$t('common.edit'),
-                        value: 'edit',
-                    },
-                    {
-                        label: i18n.$t('common.delete'),
-                        value: 'delete',
-                    }
-                ],
-                type: 'action'
-            }
-        ]
-    })
+  return lexiconStore.customEvents.map((event: CustomEvent): Row => {
+    return [
+      {
+        key: 'name',
+        value: event.name,
+        title: event.name,
+        component: UiTablePressedCell,
+        action: {
+          type: event.id,
+          name: 'edit',
+        },
+      },
+      {
+        key: 'description',
+        title: event.description || '',
+      },
+      {
+        key: 'tags',
+        title: 'tags',
+        value: event.tags || [],
+        nowrap: Boolean(event.tags?.length || 0 <= 5),
+        component: UiCellTags,
+      },
+      {
+        title: event.status || '',
+        key: 'status',
+      },
+      {
+        title: 'action',
+        key: 'action',
+        value: event.id,
+        component: UiCellToolMenu,
+        items: [
+          {
+            label: i18n.$t('common.edit'),
+            value: 'edit',
+          },
+          {
+            label: i18n.$t('common.delete'),
+            value: 'delete',
+          },
+        ],
+        type: 'action',
+      },
+    ]
+  })
 })
 
 const onAction = (payload: Action) => {
-    if (payload.name === 'edit') {
-        eventsStore.setEditCustomEvent(Number(payload.type))
-        commonStore.togglePopupCreateCustomEvent(true)
-    }
+  if (payload.name === 'edit') {
+    eventsStore.setEditCustomEvent(Number(payload.type))
+    commonStore.togglePopupCreateCustomEvent(true)
+  }
 
-    if (payload.name === 'delete') {
-        actionEventId.value = Number(payload.type)
-        openConfirmPopup.value = true
-    }
+  if (payload.name === 'delete') {
+    actionEventId.value = Number(payload.type)
+    openConfirmPopup.value = true
+  }
 }
 
 const addCustomEvent = () => {
-    eventsStore.setEditCustomEvent(null)
-    commonStore.togglePopupCreateCustomEvent(true)
+  eventsStore.setEditCustomEvent(null)
+  commonStore.togglePopupCreateCustomEvent(true)
 }
 
 const applyDelete = async () => {
-    if (actionEventId.value) {
-        try {
-            await apiClient.customEvents.deleteCustomEvent(projectsStore.projectId, actionEventId.value)
-            lexiconStore.deleteCustomEvent(actionEventId.value)
-        } catch (e) {
-            throw new Error('error Delete Custom Events')
-        }
+  if (actionEventId.value) {
+    try {
+      await apiClient.customEvents.deleteCustomEvent(projectsStore.projectId, actionEventId.value)
+      lexiconStore.deleteCustomEvent(actionEventId.value)
+    } catch (e) {
+      throw new Error('error Delete Custom Events')
     }
-    openConfirmPopup.value = false
+  }
+  openConfirmPopup.value = false
 }
 
 const cancelDelete = () => {
-    openConfirmPopup.value = false
+  openConfirmPopup.value = false
 }
+
+onMounted(async () => {
+  await lexiconStore.initEventsAndProperties()
+})
 </script>

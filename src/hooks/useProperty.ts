@@ -18,7 +18,10 @@ const getProperties = (items: Property[], name: string, type: PropertyType, grou
         type: type,
         id: item.id,
         name: item.name,
-        group: item.groupId
+      }
+
+      if (item.groupId) {
+        propertyRef.group = item.groupId
       }
 
       if (group || group === 0) {
@@ -38,12 +41,23 @@ const getProperties = (items: Property[], name: string, type: PropertyType, grou
   }
 }
 
-export const useProperty = () => {
+const userProperty = () => {
   const lexiconStore = useLexiconStore()
   const { t } = usei18n()
 
+  const strings = {
+    systemProperties: t('events.systemProperties'),
+  }
+
   const noDataPropertyes = computed(() => {
     return !lexiconStore.propertiesLength
+  })
+
+  const systemProperties =  computed(() => {
+    return getProperties(
+      lexiconStore.systemProperties,
+      strings.systemProperties,
+      PropertyType.System)
   })
 
   const groupedProperties = computed(() => {
@@ -70,20 +84,14 @@ export const useProperty = () => {
       ]
     }
 
-    const systemProperties = getProperties(
-      lexiconStore.systemProperties,
-      t('events.systemProperties'),
-      PropertyType.System
-    )
-
     const eventProperties = getProperties(
       lexiconStore.eventProperties,
       t('events.eventProperties'),
       PropertyType.Event
     )
 
-    if (systemProperties.items.length) {
-      ret.push(systemProperties)
+    if (lexiconStore.systemProperties?.length) {
+      ret.push(systemProperties.value)
     }
 
     if (eventProperties.items.length) {
@@ -110,5 +118,8 @@ export const useProperty = () => {
 
   return {
     groupedProperties,
+    systemProperties,
   }
 }
+
+export default userProperty;

@@ -1438,48 +1438,11 @@ export type EventGroupedFiltersGroupsInnerFiltersInner = EventFilterByCohort | E
  */
 export interface EventRecord {
     /**
-     * 
-     * @type {number}
+     * array of property name and property value pairs
+     * @type {Array<PropertyAndValue>}
      * @memberof EventRecord
      */
-    'id': number;
-    /**
-     * 
-     * @type {string}
-     * @memberof EventRecord
-     */
-    'name': string;
-    /**
-     * map of property name and property value pairs
-     * @type {{ [key: string]: Value; }}
-     * @memberof EventRecord
-     */
-    'eventProperties'?: { [key: string]: Value; };
-    /**
-     * map of user name and property value pairs
-     * @type {{ [key: string]: Value; }}
-     * @memberof EventRecord
-     */
-    'userProperties'?: { [key: string]: Value; };
-    /**
-     * 
-     * @type {Array<EventRecordMatchedCustomEventsInner>}
-     * @memberof EventRecord
-     */
-    'matchedCustomEvents'?: Array<EventRecordMatchedCustomEventsInner>;
-}
-/**
- * 
- * @export
- * @interface EventRecordMatchedCustomEventsInner
- */
-export interface EventRecordMatchedCustomEventsInner {
-    /**
-     * 
-     * @type {number}
-     * @memberof EventRecordMatchedCustomEventsInner
-     */
-    'id'?: number;
+    'properties'?: Array<PropertyAndValue>;
 }
 /**
  * 
@@ -1544,6 +1507,12 @@ export interface EventRecordsListRequest {
      * @memberof EventRecordsListRequest
      */
     'properties'?: Array<PropertyRef>;
+    /**
+     * 
+     * @type {SortablePropertyRef}
+     * @memberof EventRecordsListRequest
+     */
+    'sort'?: SortablePropertyRef;
 }
 /**
  * @type EventRecordsListRequestTime
@@ -2655,35 +2624,49 @@ export interface GroupPropertiesList200Response {
     'meta'?: ListResponseMetadataMeta;
 }
 /**
+ * property name and value
+ * @export
+ * @interface GroupPropertyAndValue
+ */
+export interface GroupPropertyAndValue {
+    /**
+     * 
+     * @type {GroupPropertyAndValueProperties}
+     * @memberof GroupPropertyAndValue
+     */
+    'properties'?: GroupPropertyAndValueProperties;
+}
+/**
+ * 
+ * @export
+ * @interface GroupPropertyAndValueProperties
+ */
+export interface GroupPropertyAndValueProperties {
+    /**
+     * 
+     * @type {string}
+     * @memberof GroupPropertyAndValueProperties
+     */
+    'propertyName'?: string;
+    /**
+     * 
+     * @type {Value}
+     * @memberof GroupPropertyAndValueProperties
+     */
+    'value'?: Value;
+}
+/**
  * 
  * @export
  * @interface GroupRecord
  */
 export interface GroupRecord {
     /**
-     * 
-     * @type {number}
+     * list of props with values
+     * @type {Array<GroupPropertyAndValue>}
      * @memberof GroupRecord
      */
-    'id': number;
-    /**
-     * 
-     * @type {string}
-     * @memberof GroupRecord
-     */
-    'strId'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof GroupRecord
-     */
-    'group': string;
-    /**
-     * map of group property name and property value pairs
-     * @type {{ [key: string]: Value; }}
-     * @memberof GroupRecord
-     */
-    'properties': { [key: string]: Value; };
+    'properties': Array<GroupPropertyAndValue>;
 }
 /**
  * 
@@ -3232,6 +3215,39 @@ export interface Property {
      * @memberof Property
      */
     'dictionaryType'?: DictionaryDataType;
+}
+
+
+/**
+ * property name, type and value
+ * @export
+ * @interface PropertyAndValue
+ */
+export interface PropertyAndValue {
+    /**
+     * 
+     * @type {string}
+     * @memberof PropertyAndValue
+     */
+    'propertyName'?: string;
+    /**
+     * 
+     * @type {PropertyType}
+     * @memberof PropertyAndValue
+     */
+    'propertyType': PropertyType;
+    /**
+     * 
+     * @type {number}
+     * @memberof PropertyAndValue
+     */
+    'group'?: number;
+    /**
+     * 
+     * @type {Value}
+     * @memberof PropertyAndValue
+     */
+    'value': Value;
 }
 
 
@@ -6493,17 +6509,21 @@ export const GroupRecordsApiAxiosParamCreator = function (configuration?: Config
          * 
          * @summary Get group record
          * @param {number} projectId 
+         * @param {number} group Group ID
          * @param {number} id Group Record ID
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getGroupRecord: async (projectId: number, id: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        getGroupRecord: async (projectId: number, group: number, id: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'projectId' is not null or undefined
             assertParamExists('getGroupRecord', 'projectId', projectId)
+            // verify required parameter 'group' is not null or undefined
+            assertParamExists('getGroupRecord', 'group', group)
             // verify required parameter 'id' is not null or undefined
             assertParamExists('getGroupRecord', 'id', id)
-            const localVarPath = `/v1/projects/{projectId}/group-records/{id}`
+            const localVarPath = `/v1/projects/{projectId}/group-records/{group}/{id}`
                 .replace(`{${"projectId"}}`, encodeURIComponent(String(projectId)))
+                .replace(`{${"group"}}`, encodeURIComponent(String(group)))
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -6591,7 +6611,7 @@ export const GroupRecordsApiAxiosParamCreator = function (configuration?: Config
             assertParamExists('updateGroupRecord', 'id', id)
             // verify required parameter 'updateGroupRecordRequest' is not null or undefined
             assertParamExists('updateGroupRecord', 'updateGroupRecordRequest', updateGroupRecordRequest)
-            const localVarPath = `/v1/projects/{projectId}/group-records/{id}`
+            const localVarPath = `/v1/projects/{projectId}/group-records/{group}/{id}`
                 .replace(`{${"projectId"}}`, encodeURIComponent(String(projectId)))
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -6637,12 +6657,13 @@ export const GroupRecordsApiFp = function(configuration?: Configuration) {
          * 
          * @summary Get group record
          * @param {number} projectId 
+         * @param {number} group Group ID
          * @param {number} id Group Record ID
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getGroupRecord(projectId: number, id: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GroupRecord>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getGroupRecord(projectId, id, options);
+        async getGroupRecord(projectId: number, group: number, id: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GroupRecord>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getGroupRecord(projectId, group, id, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['GroupRecordsApi.getGroupRecord']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -6690,12 +6711,13 @@ export const GroupRecordsApiFactory = function (configuration?: Configuration, b
          * 
          * @summary Get group record
          * @param {number} projectId 
+         * @param {number} group Group ID
          * @param {number} id Group Record ID
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getGroupRecord(projectId: number, id: number, options?: any): AxiosPromise<GroupRecord> {
-            return localVarFp.getGroupRecord(projectId, id, options).then((request) => request(axios, basePath));
+        getGroupRecord(projectId: number, group: number, id: number, options?: any): AxiosPromise<GroupRecord> {
+            return localVarFp.getGroupRecord(projectId, group, id, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -6734,13 +6756,14 @@ export class GroupRecordsApi extends BaseAPI {
      * 
      * @summary Get group record
      * @param {number} projectId 
+     * @param {number} group Group ID
      * @param {number} id Group Record ID
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof GroupRecordsApi
      */
-    public getGroupRecord(projectId: number, id: number, options?: RawAxiosRequestConfig) {
-        return GroupRecordsApiFp(this.configuration).getGroupRecord(projectId, id, options).then((request) => request(this.axios, this.basePath));
+    public getGroupRecord(projectId: number, group: number, id: number, options?: RawAxiosRequestConfig) {
+        return GroupRecordsApiFp(this.configuration).getGroupRecord(projectId, group, id, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
