@@ -29,7 +29,6 @@
 import { computed, ref, onMounted } from 'vue'
 import { useDateFormat } from '@vueuse/core'
 import usei18n from '@/hooks/useI18n'
-import { useLiveStreamStore } from '@/stores/reports/liveStream'
 import UiTable from '@/components/uikit/UiTable/UiTable.vue'
 import UiPopupWindow from '@/components/uikit/UiPopupWindow.vue'
 import { Row } from '@/components/uikit/UiTable/UiTable'
@@ -38,11 +37,8 @@ import { apiClient } from '@/api/apiClient'
 import UiTabs from '@/components/uikit/UiTabs.vue'
 import { useProjectsStore } from '@/stores/projects/projects'
 import { EventRecord, PropertyType, PropertyAndValue, Group } from '@/api'
-import { getStringDateByFormat } from '@/helpers/getStringDates'
-import { value } from 'valibot'
 
 const projectsStore = useProjectsStore()
-const liveStreamStore = useLiveStreamStore()
 const { t } = usei18n()
 
 const props = defineProps<{
