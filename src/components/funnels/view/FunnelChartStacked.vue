@@ -17,6 +17,7 @@ import { computed, ref, watch } from 'vue'
 
 import { Chart, getEngine } from '@antv/g2'
 
+import { DEFAULT_SEPARATOR } from '@/constants'
 import { getRandomColor, lighten } from '@/helpers/colorHelper'
 import { humanReadable } from '@/utils/humanReadable'
 import { toFixedFormat } from '@/utils/toFixedFormat'
@@ -70,7 +71,7 @@ const dataView = computed(() => {
 
         return {
           index: i,
-          [xKey]: item.groups.join('/'),
+          [xKey]: item.groups.join(DEFAULT_SEPARATOR),
           primaryKey,
           secondaryKey,
           primaryValue,

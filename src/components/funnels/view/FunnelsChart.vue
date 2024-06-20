@@ -3,7 +3,7 @@
     <LegendMarker
       v-for="(item, i) in reportSteps.at(0)?.data || []"
       :key="i"
-      :marker-name="item.groups.join(' / ')"
+      :marker-name="item.groups.join(DEFAULT_SEPARATOR)"
       :color="barsColors[i]"
     />
   </div>
@@ -48,6 +48,7 @@ import { useElementSize } from '@vueuse/core'
 import LegendMarker from '@/components/charts/LegendMarker.vue'
 import FunnelChartStacked from '@/components/funnels/view/FunnelChartStacked.vue'
 
+import { DEFAULT_SEPARATOR } from '@/constants'
 import { CHART_COLORS_7 } from '@/helpers/colorHelper'
 
 import type { FunnelResponseStepsInner } from '@/api'
