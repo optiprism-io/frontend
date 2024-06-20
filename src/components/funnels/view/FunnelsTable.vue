@@ -92,7 +92,7 @@ const dimensionsColumns = computed(() => {
 const columns = computed(() => [...groupsColumns.value, ...dimensionsColumns.value])
 
 const scrollX = computed(() => {
-  const WIDTH_ONE_COLUMN = 500 // value calculated experimentally
+  const WIDTH_ONE_COLUMN = 350 // value calculated experimentally
   return columns.value.length * WIDTH_ONE_COLUMN
 })
 </script>
