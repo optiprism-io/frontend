@@ -150,7 +150,7 @@ const update = () => {
           const commonProps = {
             textAlign: 'left',
             fontSize: size,
-            fontFamily: 'sans-serif',
+            fontFamily: 'RedHatText',
             textBaseline: 'top',
           }
 
