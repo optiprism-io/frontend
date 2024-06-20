@@ -58,6 +58,7 @@ const groupsColumns = computed<TableColumn[]>(() =>
     title: x,
     key: KEY_PREFIX + KEY_GROUPS + KEY_SPLITTER + INDEX_FIRST_ARR_ELEMENT + `[${index}]`,
     resizable: true,
+    ellipsis: true
   }))
 )
 
@@ -79,6 +80,7 @@ const dimensionsColumns = computed(() => {
         title: uncamelize(key),
         key: newKey,
         resizable: true,
+        ellipsis: true
       }
       parentEl.children.push(childrenEl)
     })
