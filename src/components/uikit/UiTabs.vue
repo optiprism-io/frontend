@@ -4,7 +4,7 @@
     :class="{
       'pf-m-box': props.box,
       'pf-m-vertical': props.isVertical,
-      'pf-u-flex-direction-row': props.isVertical
+      'pf-u-flex-direction-row': props.isVertical,
     }"
   >
     <ul class="pf-c-tabs__list">
@@ -34,9 +34,7 @@
               :icon="item.icon"
             />
           </span>
-          <span
-            class="pf-c-tabs__item-text"
-          >
+          <span class="pf-c-tabs__item-text">
             {{ item.name }}
           </span>
         </component>
@@ -47,35 +45,35 @@
 </template>
 
 <script lang="ts" setup>
-import { VTooltip  as vTooltip } from 'floating-vue'
+import { VTooltip as vTooltip } from 'floating-vue'
 
 import UiIcon from '@/components/uikit/UiIcon.vue'
 
-export type Item = {
-    name: string,
-    value: string,
-    icon?: string,
-    active?: boolean,
-    link?: any,
-    disabled?: boolean,
-    tooltip?: string,
+type Item = {
+  name: string
+  value: string
+  icon?: string
+  active?: boolean
+  link?: any
+  disabled?: boolean
+  tooltip?: string
 }
 
 interface Props {
-    items: Item[],
-    box?: boolean,
-    isVertical?: boolean
+  items: Item[]
+  box?: boolean
+  isVertical?: boolean
 }
 
-const props = withDefaults(defineProps<Props>(), {});
+const props = withDefaults(defineProps<Props>(), {})
 
 const emit = defineEmits<{
-    (e: 'on-select', payload: string): void;
-}>();
+  (e: 'on-select', payload: string): void
+}>()
 
 const onSelect = (value: string) => {
-    emit('on-select', value);
-};
+  emit('on-select', value)
+}
 </script>
 
 <style lang="scss" scoped></style>
