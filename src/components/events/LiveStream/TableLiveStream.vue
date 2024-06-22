@@ -1,5 +1,8 @@
 <template>
-  <div class="table-live-steam pf-u-min-height" style="--pf-u-min-height--MinHeight: 24ch">
+  <div
+    class="table-live-steam pf-u-min-height"
+    style="--pf-u-min-height--MinHeight: 24ch"
+  >
     <UiTable
       :is-loading="liveStreamStore.loading"
       :items="tableData.tableData"
@@ -11,7 +14,10 @@
       @click-cell="clickCell"
     >
       <template #before>
-        <UiToggleGroup :items="itemsPeriod" @select="onSelectPeriod">
+        <UiToggleGroup
+          :items="itemsPeriod"
+          @select="onSelectPeriod"
+        >
           <template #after>
             <UiDatePicker
               :value="calendarValue"
@@ -46,7 +52,10 @@
           :multiple="true"
           @select="selectColumn"
         >
-          <UiButton class="pf-m-control" :after-icon="'fas fa-caret-down'">
+          <UiButton
+            class="pf-m-control"
+            :after-icon="'fas fa-caret-down'"
+          >
             {{ columnsButtonText }}
           </UiButton>
         </Select>
@@ -71,7 +80,7 @@ import UiButton from '@/components/uikit/UiButton.vue'
 import UiDatePicker from '@/components/uikit/UiDatePicker.vue'
 import UiIcon from '@/components/uikit/UiIcon.vue'
 import UiTable from '@/components/uikit/UiTable/UiTable.vue'
-import type { UiToggleGroupItem } from '@/components/uikit/UiToggleGroup.vue';
+import type { UiToggleGroupItem } from '@/components/uikit/UiToggleGroup.vue'
 import UiToggleGroup from '@/components/uikit/UiToggleGroup.vue'
 
 import { shortPeriodDays } from '@/components/uikit/UiCalendar/UiCalendar.config'
@@ -132,10 +141,12 @@ const itemsProperties = computed(() => {
     return {
       name: group.name,
       items: group.items.map(groupItem => {
-        const activeProperty = liveStreamStore.activeColumns.find(columnProperty =>
-          columnProperty.group === groupItem.item.group &&
-          columnProperty.id === groupItem.item.id &&
-          columnProperty.name === groupItem.item.name)
+        const activeProperty = liveStreamStore.activeColumns.find(
+          columnProperty =>
+            columnProperty.group === groupItem.item.group &&
+            columnProperty.id === groupItem.item.id &&
+            columnProperty.name === groupItem.item.name
+        )
 
         return {
           ...groupItem,
@@ -167,11 +178,19 @@ const calendarValueString = computed(() => {
   if (liveStreamStore.isPeriodActive) {
     switch (liveStreamStore.period.type) {
       case 'last':
-        return `${t('common.calendar.last')} ${liveStreamStore.period.last} ${t(liveStreamStore.period.last === 1 ? 'common.calendar.day' : 'common.calendar.days')}`
+        return `${t('common.calendar.last')} ${liveStreamStore.period.last} ${t(
+          liveStreamStore.period.last === 1 ? 'common.calendar.day' : 'common.calendar.days'
+        )}`
       case 'since':
-        return `${t('common.calendar.since')} ${getStringDateByFormat(liveStreamStore.period.from, '%d %b, %Y')}`
+        return `${t('common.calendar.since')} ${getStringDateByFormat(
+          liveStreamStore.period.from,
+          '%d %b, %Y'
+        )}`
       case 'between':
-        return `${getStringDateByFormat(liveStreamStore.period.from, '%d %b, %Y')} - ${getStringDateByFormat(liveStreamStore.period.to, '%d %b, %Y')}`
+        return `${getStringDateByFormat(
+          liveStreamStore.period.from,
+          '%d %b, %Y'
+        )} - ${getStringDateByFormat(liveStreamStore.period.to, '%d %b, %Y')}`
       default:
         return t('common.custom')
     }
@@ -226,7 +245,7 @@ const clickCell = async (cell: Cell, rowIndex: number) => {
 
     if (eventIdCell?.value) {
       eventPopupId.value = +eventIdCell.value
-      eventPopupName.value = eventNameCell?.value as string || '';
+      eventPopupName.value = (eventNameCell?.value as string) || ''
       eventPopup.value = true
     }
   }

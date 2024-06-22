@@ -1,9 +1,6 @@
 import { defineStore } from 'pinia'
 
-import {
-  EventType,
-  PropertyType
-} from '@/api'
+import { EventType, PropertyType } from '@/api'
 import { apiClient } from '@/api/apiClient'
 import { errorHandler } from '@/helpers/errorHandlerHelper'
 import useI18n from '@/hooks/useI18n'
@@ -11,11 +8,7 @@ import { PropertyTypeEnum, useCommonStore } from '@/stores/common'
 import { useEventsStore } from '@/stores/eventSegmentation/events'
 import { useProjectsStore } from '@/stores/projects/projects'
 import { aggregates } from '@/types/aggregate'
-import {
-  customEventRef,
-  eventRef,
-  eventsQueries
-} from '@/types/events'
+import { customEventRef, eventRef, eventsQueries } from '@/types/events'
 
 import type {
   CustomEvent,
@@ -24,16 +17,18 @@ import type {
   Property,
   PropertyRef as PropertyRefApi,
   QueryAggregate,
-  Group} from '@/api';
+  Group,
+} from '@/api'
 import type { Group as GroupSelect, Item } from '@/components/Select/SelectTypes'
-import type { Events} from '@/stores/eventSegmentation/events';
+import type { Events } from '@/stores/eventSegmentation/events'
 import type { ApplyPayload, Cohort } from '@/types'
 import type {
   EventQueryRef,
   EventRef,
   EventsQuery,
   PropertyRef,
-  UserCustomProperty} from '@/types/events';
+  UserCustomProperty,
+} from '@/types/events'
 import type { $T, $TKeyExists } from '@/utils/i18n'
 
 type Lexicon = {
@@ -273,9 +268,9 @@ export const useLexiconStore = defineStore('lexicon', {
   getters: {
     groupsMap(state) {
       return state.groups.reduce((acc: { [key: number]: Group }, item) => {
-        acc[item.id] = item;
-        return acc;
-      }, {});
+        acc[+item.id] = item
+        return acc
+      }, {})
     },
     properties(state) {
       return [

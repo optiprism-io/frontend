@@ -40,7 +40,7 @@ import { apiClient } from '@/api/apiClient'
 import usei18n from '@/hooks/useI18n'
 import { useProjectsStore } from '@/stores/projects/projects'
 
-import type { EventRecord, PropertyAndValue, Group } from '@/api';
+import type { EventRecord, PropertyAndValue, Group } from '@/api'
 import type { Row } from '@/components/uikit/UiTable/UiTable'
 
 const projectsStore = useProjectsStore()
@@ -76,9 +76,9 @@ const propertiesMap = computed<PropertiesMap>(() => {
   const items: PropertiesMap = {}
 
   properties.value.forEach(item => {
-    let key: PropertiesMapKey = item.propertyType;
+    let key: PropertiesMapKey = item.propertyType
 
-    if (item.propertyType === PropertyType.Group && item.group) {
+    if (item.propertyType === PropertyType.Group && (item.group || item.group === 0)) {
       key = item.group
     }
 
@@ -92,7 +92,11 @@ const propertiesMap = computed<PropertiesMap>(() => {
   return items
 })
 
-const propertiesTypes = computed(() => Object.keys(propertiesMap.value))
+const propertiesTypes = computed(() =>
+  Object.keys(propertiesMap.value).sort((a, b) => {
+    return a === 'event' ? -1 : a === 'system' ? 1 : -1
+  })
+)
 
 const title = computed(() => {
   return t('events.liveStream.popup.title', {
@@ -101,18 +105,24 @@ const title = computed(() => {
 })
 
 const items = computed<Row[]>(() => {
-  const properties = activeTab.value ? propertiesMap.value[activeTab.value] || [] : [];
-  return properties ? properties.map((item): Row => {
-    return [
-      {
-        key: 'name',
-        title: item.propertyName || '',
-      }, {
-        key: 'value',
-        title: item.propertyName === 'created_at' ? useDateFormat(+item.value, 'YYYY-MM-DD HH:mm').value : item.value
-      }
-    ]
-  }) : []
+  const properties = activeTab.value ? propertiesMap.value[activeTab.value] || [] : []
+  return properties
+    ? properties.map((item): Row => {
+        return [
+          {
+            key: 'name',
+            title: item.propertyName || '',
+          },
+          {
+            key: 'value',
+            title:
+              item.propertyName === 'created_at'
+                ? useDateFormat(+item.value, 'YYYY-MM-DD HH:mm').value
+                : item.value,
+          },
+        ]
+      })
+    : []
 })
 
 const columns = computed(() => {
@@ -125,12 +135,14 @@ const columns = computed(() => {
 })
 
 const tabs = computed(() => {
-  return propertiesTypes.value.map((key) => {
+  return propertiesTypes.value.map(key => {
     return {
-      name: props.groupsMap[+key] ? props.groupsMap[+key]?.name || '' : t(`events.liveStream.popup.tabs.${key}`),
+      name: props.groupsMap[+key]
+        ? props.groupsMap[+key]?.name || ''
+        : t(`events.liveStream.popup.tabs.${key}`),
       active: activeTab.value === key,
       value: key,
-    };
+    }
   })
 })
 
@@ -144,13 +156,10 @@ const selectTab = (value: string) => {
 
 const getEvent = async () => {
   loading.value = true
-  const res = await apiClient.eventRecords.getEventRecord(
-    projectsStore.projectId,
-    props.id
-  );
+  const res = await apiClient.eventRecords.getEventRecord(projectsStore.projectId, props.id)
 
   if (res.data) {
-    event.value = res.data;
+    event.value = res.data
   }
   activeTab.value = propertiesTypes.value[0] as PropertiesMapKey
 
