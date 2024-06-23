@@ -17,7 +17,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, inject } from 'vue'
+import { computed, inject, onMounted } from 'vue'
 
 import UiCellTags from '@/components/uikit/cells/UiCellTags.vue'
 import UiCellToolMenu from '@/components/uikit/cells/UiCellToolMenu.vue'
@@ -37,70 +37,74 @@ const lexiconStore = useLexiconStore()
 const commonStore = useCommonStore()
 
 const columns = computed(() => {
-    return ['name', 'displayName', 'description', 'tags', 'status', 'action'].map(key => {
-        const isAction = key === 'action'
+  return ['name', 'displayName', 'description', 'tags', 'status', 'action'].map(key => {
+    const isAction = key === 'action'
 
-        return {
-            value: key,
-            title: isAction ? '' : i18n.$t(`events.event_management.columns.${key}`),
-            default: isAction,
-            type: isAction ? 'action' : '',
-        }
-    })
+    return {
+      value: key,
+      title: isAction ? '' : i18n.$t(`events.event_management.columns.${key}`),
+      default: isAction,
+      type: isAction ? 'action' : '',
+    }
+  })
 })
 
 const items = computed(() => {
-    return lexiconStore.events.map((event: Event): Row => {
-        return [
-            {
-                key: 'name',
-                value: 'name',
-                title: event.name,
-                component: UiTablePressedCell,
-                action: {
-                    type: event.id,
-                    name: event.name,
-                }
-            },
-            {
-                key: 'displayName',
-                title: event.displayName || '',
-                nowrap: true,
-            },
-            {
-                key: 'description',
-                title: event.description || '',
-            },
-            {
-                key: 'tags',
-                title: 'tags',
-                value: event.tags || [],
-                nowrap: Boolean(event.tags?.length || 0 <= 5),
-                component: UiCellTags,
-            },
-            {
-                key: 'status',
-                title: event.status || '',
-            },
-            {
-                title: 'action',
-                key: 'action',
-                value: event.id,
-                component: UiCellToolMenu,
-                items: [
-                    {
-                        label: i18n.$t('events.editEvent'),
-                        value: 'edit',
-                    },
-                ],
-                type: 'action'
-            }
-        ]
-    })
+  return lexiconStore.events.map((event: Event): Row => {
+    return [
+      {
+        key: 'name',
+        value: 'name',
+        title: event.name,
+        component: UiTablePressedCell,
+        action: {
+          type: event.id,
+          name: event.name,
+        },
+      },
+      {
+        key: 'displayName',
+        title: event.displayName || '',
+        nowrap: true,
+      },
+      {
+        key: 'description',
+        title: event.description || '',
+      },
+      {
+        key: 'tags',
+        title: 'tags',
+        value: event.tags || [],
+        nowrap: Boolean(event.tags?.length || 0 <= 5),
+        component: UiCellTags,
+      },
+      {
+        key: 'status',
+        title: event.status || '',
+      },
+      {
+        title: 'action',
+        key: 'action',
+        value: event.id,
+        component: UiCellToolMenu,
+        items: [
+          {
+            label: i18n.$t('events.editEvent'),
+            value: 'edit',
+          },
+        ],
+        type: 'action',
+      },
+    ]
+  })
 })
 
 const onAction = (payload: Action) => {
-    commonStore.updateEditEventManagementPopupId(Number(payload.type) || null)
-    commonStore.toggleEventManagementPopup(true)
+  commonStore.updateEditEventManagementPopupId(Number(payload.type) || null)
+  commonStore.toggleEventManagementPopup(true)
 }
+
+onMounted(async () => {
+  await lexiconStore.initEventsAndProperties()
+})
 </script>

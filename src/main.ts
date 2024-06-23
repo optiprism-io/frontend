@@ -6,7 +6,6 @@ import 'vue3-drr-grid-layout/dist/style.css'
 
 import { createApp } from 'vue'
 
-import { options } from 'floating-vue'
 import { createPinia } from 'pinia'
 
 import App from '@/App.vue'
@@ -15,9 +14,6 @@ import lang from '@/lang'
 import i18nPlugin from '@/plugins/i18n'
 import uikitPlugin from '@/plugins/uikit'
 import { router } from '@/router'
-
-/* https://floating-vue.starpad.dev/guide/installation#import-directly */
-options.disposeTimeout = 300
 
 /* =====================================MOCK_SERVER================================================ */
 const MOCK_API = import.meta.env.VITE_MOCK_API === 'true'

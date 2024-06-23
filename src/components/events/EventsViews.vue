@@ -192,7 +192,7 @@ const columns = computed(() => {
       key: item.name,
       title: item.name
     }
-    
+
     if (item.type === 'dimension') {
       column.fixed = 'left'
       column.width = 150

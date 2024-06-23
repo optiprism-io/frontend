@@ -81,6 +81,7 @@ const mapTabs = ['userProperties'];
 
 type Props = {
     item: GroupRecord | null
+    itemIndex?: number
     loading?: boolean
 };
 
@@ -94,7 +95,7 @@ const activeTab = ref('userProperties');
 const isLodingSavePropetries = ref(false);
 const propertiesEdit = ref<PropertiesEdit[]>([]);
 
-const title = computed(() => `${i18n.$t('users.user')}: ${props.item?.id}`);
+const title = computed(() => `${i18n.$t('users.user')}: ${props.itemIndex}`);
 const itemsTabs = computed(() => {
     return mapTabs.map(key => {
         return {
@@ -131,7 +132,7 @@ onMounted(() => {
     propertiesEdit.value = props.item?.properties ?
         Object.keys(props.item.properties).map(key => {
             return {
-                value: props.item?.properties[key] || '',
+                value: props.item?.properties.find(item => item.properties?.propertyName === key)?.properties?.value || '',
                 key: key || '',
             }
         }) : [];
@@ -142,7 +143,7 @@ onUnmounted(() => {
 });
 
 const onApplyChangePropery = async (payload: ApplyPayload) => {
-    if (props.item?.id) {
+    if (props.itemIndex) {
         propertiesEdit.value[payload.index] = {
             key: payload.valueKey,
             value: payload.value,
@@ -159,7 +160,7 @@ const onAddProperty = () => {
 };
 
 const onDeleteLine = async (index: number) => {
-    if (props.item?.id) {
+    if (props.itemIndex) {
         propertiesEdit.value.splice(index, 1);
     }
 };
@@ -178,12 +179,12 @@ const checkError = () => {
 };
 
 const apply = async () => {
-    if (props.item?.id) {
+    if (props.itemIndex) {
         const error = propertiesEdit.value.findIndex(item => !item.key.trim());
         if (error === -1) {
             isLodingSavePropetries.value = true;
             await groupStore.update({
-                id: props.item.id,
+                id: props.itemIndex,
                 properties: propertiesEdit.value.reduce((acc: Properties, item) => {
                     acc[item.key] = item.value;
                     return acc;

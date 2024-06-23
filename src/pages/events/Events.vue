@@ -28,15 +28,16 @@
 </template>
 
 <script setup lang="ts">
-import { computed, inject, onMounted, ref } from 'vue'
+import { computed, inject, ref } from 'vue'
 
-import { useRoute, RouterView } from 'vue-router'
+import { RouterView } from 'vue-router'
+import { useRoute } from 'vue-router'
 
 import type {
   ApplyPayload as ApplyPayloadEvent,
-} from '@/components/events/EventManagementPopup.vue';
+} from '@/components/events/EventManagementPopup.vue'
 import EventManagementPopup from '@/components/events/EventManagementPopup.vue'
-import type { ApplyPayload } from '@/components/events/EventPropertyPopup.vue';
+import type { ApplyPayload } from '@/components/events/EventPropertyPopup.vue'
 import EventPropertyPopup from '@/components/events/EventPropertyPopup.vue'
 import UiTabs from '@/components/uikit/UiTabs.vue'
 
@@ -121,24 +122,6 @@ const eventProperties = computed(() => {
     }
     return acc
   }, [])
-})
-
-const initEventsAndProperties = async () => {
-  await Promise.all([
-    lexiconStore.getEvents(),
-    lexiconStore.getSystemProperties(),
-    lexiconStore.getEventProperties(),
-    await lexiconStore.getGroups(),
-    lexiconStore.getGroupProperties(),
-  ])
-}
-
-onMounted(async () => {
-  await initEventsAndProperties()
-
-  if (route.name === pagesMap.eventsLiveStream.name) {
-    liveStreamStore.getReportLiveStream()
-  }
 })
 
 const propertyPopupApply = async (payload: ApplyPayload) => {

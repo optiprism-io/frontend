@@ -7,7 +7,7 @@ export class Group implements IGroup {
   name: IGroup['name']
 
   constructor(group: Partial<IGroup> = {}) {
-    this.id = group.id || faker.number.int({ min: 1, max: 5 })
+    this.id = group.id || faker.number.int({ min: 0, max: 5 })
     this.name = group.name || faker.person.jobType()
   }
 }
