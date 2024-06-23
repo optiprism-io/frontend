@@ -23,6 +23,7 @@ jobs:
         uses: reviewdog/action-eslint@v1
         with:
           reporter: github-check
+          eslint_flags: "./src"
 
   typescript-compile:
     runs-on: ubuntu-latest
