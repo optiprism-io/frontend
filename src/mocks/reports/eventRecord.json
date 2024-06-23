@@ -1,0 +1,292 @@
+[
+  {
+    "propertyType": "system",
+    "propertyName": "project_id",
+    "value": 1
+  },
+  {
+    "propertyType": "system",
+    "propertyName": "group_0",
+    "value": "roderick_beatae@yahoo.com"
+  },
+  {
+    "propertyType": "system",
+    "propertyName": "group_1",
+    "value": "Outfitsing"
+  },
+  {
+    "propertyType": "system",
+    "propertyName": "group_2",
+    "value": "Project 4"
+  },
+  {
+    "propertyType": "system",
+    "propertyName": "group_3",
+    "value": ""
+  },
+  {
+    "propertyType": "system",
+    "propertyName": "group_4",
+    "value": ""
+  },
+  {
+    "propertyType": "system",
+    "propertyName": "created_at",
+    "value": 1712621639000
+  },
+  {
+    "propertyType": "system",
+    "propertyName": "event_id",
+    "value": 32193
+  },
+  {
+    "propertyType": "system",
+    "propertyName": "event",
+    "value": "Product Added To Cart"
+  },
+  {
+    "propertyType": "system",
+    "propertyName": "ip",
+    "value": ""
+  },
+  {
+    "propertyType": "event",
+    "propertyName": "Client Family",
+    "value": ""
+  },
+  {
+    "propertyType": "event",
+    "propertyName": "Client Version Minor",
+    "value": ""
+  },
+  {
+    "propertyType": "event",
+    "propertyName": "Client Version Major",
+    "value": ""
+  },
+  {
+    "propertyType": "event",
+    "propertyName": "Version Patch",
+    "value": ""
+  },
+  {
+    "propertyType": "event",
+    "propertyName": "Device Family",
+    "value": ""
+  },
+  {
+    "propertyType": "event",
+    "propertyName": "Device Brand",
+    "value": ""
+  },
+  {
+    "propertyType": "event",
+    "propertyName": "Device Model",
+    "value": ""
+  },
+  {
+    "propertyType": "event",
+    "propertyName": "OS",
+    "value": "Macintosh"
+  },
+  {
+    "propertyType": "event",
+    "propertyName": "OS Family",
+    "value": ""
+  },
+  {
+    "propertyType": "event",
+    "propertyName": "OS Version Major",
+    "value": ""
+  },
+  {
+    "propertyType": "event",
+    "propertyName": "OS Version Minor",
+    "value": ""
+  },
+  {
+    "propertyType": "event",
+    "propertyName": "OS Version Patch",
+    "value": ""
+  },
+  {
+    "propertyType": "event",
+    "propertyName": "OS Version Patch Minor",
+    "value": ""
+  },
+  {
+    "propertyType": "event",
+    "propertyName": "Country",
+    "value": "Canada"
+  },
+  {
+    "propertyType": "event",
+    "propertyName": "City",
+    "value": "Toronto"
+  },
+  {
+    "propertyType": "event",
+    "propertyName": "UTM Source",
+    "value": "Facebook Text"
+  },
+  {
+    "propertyType": "event",
+    "propertyName": "UTM Medium",
+    "value": "cpc"
+  },
+  {
+    "propertyType": "event",
+    "propertyName": "UTM Campaign",
+    "value": "campaign"
+  },
+  {
+    "propertyType": "event",
+    "propertyName": "UTM Term",
+    "value": "tech"
+  },
+  {
+    "propertyType": "event",
+    "propertyName": "UTM Content",
+    "value": "textlink"
+  },
+  {
+    "propertyType": "event",
+    "propertyName": "Name",
+    "value": ""
+  },
+  {
+    "propertyType": "event",
+    "propertyName": "Href",
+    "value": ""
+  },
+  {
+    "propertyType": "event",
+    "propertyName": "ID",
+    "value": ""
+  },
+  {
+    "propertyType": "event",
+    "propertyName": "Class",
+    "value": ""
+  },
+  {
+    "propertyType": "event",
+    "propertyName": "Text",
+    "value": ""
+  },
+  {
+    "propertyType": "event",
+    "propertyName": "Element",
+    "value": ""
+  },
+  {
+    "propertyType": "event",
+    "propertyName": "Page Path",
+    "value": ""
+  },
+  {
+    "propertyType": "event",
+    "propertyName": "Page Referer",
+    "value": ""
+  },
+  {
+    "propertyType": "event",
+    "propertyName": "Page Search",
+    "value": ""
+  },
+  {
+    "propertyType": "event",
+    "propertyName": "Page Title",
+    "value": ""
+  },
+  {
+    "propertyType": "event",
+    "propertyName": "Page URL",
+    "value": ""
+  },
+  {
+    "propertyType": "event",
+    "propertyName": "Session Length",
+    "value": 0
+  },
+  {
+    "propertyType": "group",
+    "propertyName": "Age",
+    "group": 1,
+    "value": 20000000000000000
+  },
+  {
+    "propertyType": "group",
+    "propertyName": "Staff",
+    "group": 1,
+    "value": 540000000000000000
+  },
+  {
+    "propertyType": "event",
+    "propertyName": "Product Subcategory",
+    "value": " Pulleys & Tensioners"
+  },
+  {
+    "propertyType": "event",
+    "propertyName": "Product Price",
+    "value": 364000000000000000
+  },
+  {
+    "propertyType": "event",
+    "propertyName": "Product Brand",
+    "value": "INA"
+  },
+  {
+    "propertyType": "event",
+    "propertyName": "Product Name",
+    "value": "INA 535026410 Over-Running Alternator Pulley"
+  },
+  {
+    "propertyType": "event",
+    "propertyName": "Product Category",
+    "value": "Vehicle Parts & Accessories"
+  },
+  {
+    "propertyType": "group",
+    "propertyName": "Age",
+    "group": 0,
+    "value": 300000000000000000
+  },
+  {
+    "propertyType": "group",
+    "propertyName": "Last Name",
+    "group": 0,
+    "value": "Kuphal"
+  },
+  {
+    "propertyType": "group",
+    "propertyName": "First Name",
+    "group": 0,
+    "value": "Garret"
+  },
+  {
+    "propertyType": "event",
+    "propertyName": "Cart Amount",
+    "value": 6552100000000000000
+  },
+  {
+    "propertyType": "event",
+    "propertyName": "Cart Items Number",
+    "value": 60000000000000000
+  },
+  {
+    "propertyType": "event",
+    "propertyName": "Product Discount Price",
+    "value": 0
+  },
+  {
+    "propertyType": "event",
+    "propertyName": "Spent Total",
+    "value": 0
+  },
+  {
+    "propertyType": "event",
+    "propertyName": "Revenue",
+    "value": 0
+  }
+]

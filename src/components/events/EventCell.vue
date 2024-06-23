@@ -42,7 +42,7 @@
               :after-icon="action.icon"
               @click="onAction(action)"
             >
-              {{ $t('events.live_stream.customEvent') }}
+              {{ $t('events.liveStream.customEvent') }}
             </UiButton>
           </div>
         </div>

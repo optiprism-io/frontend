@@ -67,6 +67,7 @@ export default function useDataTable(
           lineChart.push({
             date: column.name ? new Date(column.name) : '',
             value: item ?? 0,
+
             category: dimensionColumns
               .map((columnInner: DataTableResponseColumnsInner) => {
                 return (columnInner.data || [])[indexData] || ''

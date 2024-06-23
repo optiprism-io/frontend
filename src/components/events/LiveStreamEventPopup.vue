@@ -1,154 +1,187 @@
 <template>
   <UiPopupWindow
     :title="title"
-    :apply-loading="props.loading"
     class="live-stream-event-popup"
-    @apply="apply"
     @cancel="cancel"
   >
     <UiTabs
       class="pf-u-mb-md"
-      :items="itemsTabs"
-      @on-select="onSelectTab"
+      :items="tabs"
+      @on-select="selectTab"
     />
     <div class="live-stream-event-popup__content">
+      <UiSpinner v-if="loading" />
       <UiTable
+        v-else
+        class="live-stream-event-popup__table"
         :compact="true"
         :items="items"
         :columns="columns"
         :show-toolbar="false"
-        :no-data-text="noDataText"
-        :is-loading="props?.loading"
-        @on-action="onActionProperty"
+        :no-data-text="strings.eventNoProperties"
+        :is-loading="loading"
       />
     </div>
   </UiPopupWindow>
 </template>
 
 <script lang="ts" setup>
-import { computed, ref } from 'vue';
+import { computed, ref, onMounted } from 'vue'
 
-import UiPopupWindow from '@/components/uikit/UiPopupWindow.vue';
-import UiTable from '@/components/uikit/UiTable/UiTable.vue';
+import { useDateFormat } from '@vueuse/core'
+
+import UiPopupWindow from '@/components/uikit/UiPopupWindow.vue'
+import UiSpinner from '@/components/uikit/UiSpinner.vue'
+import UiTable from '@/components/uikit/UiTable/UiTable.vue'
 import UiTabs from '@/components/uikit/UiTabs.vue'
 
-import usei18n from '@/hooks/useI18n';
-import { useCommonStore, PropertyTypeEnum } from '@/stores/common';
-import { useLexiconStore } from '@/stores/lexicon';
-import { useLiveStreamStore } from '@/stores/reports/liveStream';
+import { PropertyType } from '@/api'
+import { apiClient } from '@/api/apiClient'
+import usei18n from '@/hooks/useI18n'
+import { useProjectsStore } from '@/stores/projects/projects'
 
-import type { Action } from '@/components/uikit/UiTable/UiTable';
+import type { EventRecord, PropertyAndValue, Group } from '@/api'
+import type { Row } from '@/components/uikit/UiTable/UiTable'
 
-const liveStreamStore = useLiveStreamStore();
-const commonStore = useCommonStore();
-const lexiconStore = useLexiconStore();
-const { t } = usei18n();
+const projectsStore = useProjectsStore()
+const { t } = usei18n()
 
-type Props = {
-    name: string,
-    loading?: boolean,
-};
-
-const properties = 'properties';
-const userProperties = 'userProperties';
-
-const mapTabs = [properties, userProperties]
-
-const props = defineProps<Props>()
-
-const emit = defineEmits<{
-    (e: 'cancel'): void
-    (e: 'apply'): void
+const props = defineProps<{
+  id: number
+  name: string
+  groupsMap: { [key: number]: Group }
 }>()
 
-const activeTab = ref(properties)
+const emit = defineEmits<{
+  (e: 'cancel'): void
+  (e: 'apply'): void
+}>()
 
-const items = computed(() => {
-    // const objItems = liveStreamStore.columns.map(item => item.name)
+const strings = {
+  eventNoProperties: t('common.eventNoProperties'),
+}
 
-    return [];
-    // if (objItems) {
-    //     return Object.keys(objItems).map((key): Row => {
-    //         return [
-    //             {
-    //                 key: 'name',
-    //                 title: key === createdAt ? t('events.live_stream.columns.createdAt') : activeTab.value === properties ? key.charAt(0).toUpperCase() + key.slice(1) : key,
-    //                 component: UiTablePressedCell,
-    //                 action: {
-    //                     type: activeTab.value === userProperties ? PropertyTypeEnum.UserProperty : PropertyTypeEnum.EventProperty,
-    //                     name: key,
-    //                 }
-    //             },
-    //             {
-    //                 key: 'value',
-    //                 title: key === createdAt ? getStringDateByFormat(String(objItems[key]), '%d %b, %Y') : objItems[key],
-    //             }
-    //         ]
-    //     })
-    // } else {
-    //     return []
-    // }
+type PropertiesMapKey = PropertyType | number
+
+const activeTab = ref<PropertiesMapKey>()
+const loading = ref(true)
+const event = ref<EventRecord | null>(null)
+
+const properties = computed(() => event.value?.properties || [])
+
+type PropertiesMap = {
+  [key in PropertiesMapKey]?: Array<PropertyAndValue>
+}
+const propertiesMap = computed<PropertiesMap>(() => {
+  const items: PropertiesMap = {}
+
+  properties.value.forEach(item => {
+    let key: PropertiesMapKey = item.propertyType
+
+    if (item.propertyType === PropertyType.Group && (item.group || item.group === 0)) {
+      key = item.group
+    }
+
+    if (items[key]) {
+      items[key]?.push(item)
+    } else {
+      items[key] = [item]
+    }
+  })
+
+  return items
+})
+
+const propertiesTypes = computed(() =>
+  Object.keys(propertiesMap.value).sort((a, b) => {
+    return a === 'event' ? -1 : a === 'system' ? 1 : -1
+  })
+)
+
+const title = computed(() => {
+  return t('events.liveStream.popup.title', {
+    name: props.name,
+  })
+})
+
+const items = computed<Row[]>(() => {
+  const properties = activeTab.value ? propertiesMap.value[activeTab.value] || [] : []
+  return properties
+    ? properties.map((item): Row => {
+        return [
+          {
+            key: 'name',
+            title: item.propertyName || '',
+          },
+          {
+            key: 'value',
+            title:
+              item.propertyName === 'created_at'
+                ? useDateFormat(+item.value, 'YYYY-MM-DD HH:mm').value
+                : item.value,
+          },
+        ]
+      })
+    : []
 })
 
 const columns = computed(() => {
-    return ['name', 'value'].map(key => {
-        return {
-            value: key,
-            title: t(`events.event_management.columns.${key}`),
-        }
-    })
+  return ['name', 'value'].map(key => {
+    return {
+      value: key,
+      title: t(`events.event_management.columns.${key}`),
+    }
+  })
 })
 
-const title = computed(() => {
-    return `${t('events.event_management.event')}: ${props.name}`
+const tabs = computed(() => {
+  return propertiesTypes.value.map(key => {
+    return {
+      name: props.groupsMap[+key]
+        ? props.groupsMap[+key]?.name || ''
+        : t(`events.liveStream.popup.tabs.${key}`),
+      active: activeTab.value === key,
+      value: key,
+    }
+  })
 })
-
-const itemsTabs = computed(() => {
-    return mapTabs.map(key => {
-        return {
-            name: t(`events.live_stream.popupTabs.${key}`),
-            active: activeTab.value === key,
-            value: key,
-        }
-    })
-});
-
-const noDataText = computed(() => {
-    return t(activeTab.value === properties ? 'common.eventNoProperties' : 'common.eventNoUserProperties');
-});
-
-const onSelectTab = (payload: string) => {
-    activeTab.value = payload
-}
-
-const apply = () => {
-    emit('apply')
-}
 
 const cancel = () => {
-    emit('cancel')
-    liveStreamStore.eventPopup = false
+  emit('cancel')
 }
 
-const onActionProperty = (payload: Action) => {
-    let property = null
-    if (payload.type === PropertyTypeEnum.UserProperty) {
-        commonStore.editEventPropertyPopupType = payload.type
-        property = lexiconStore.findGroupProperty(payload.name);
-    } else {
-        commonStore.editEventPropertyPopupType = PropertyTypeEnum.EventProperty
-        property = lexiconStore.findEventPropertyByName(payload.name);
-    }
-    commonStore.editEventPropertyPopupId = property?.id || null
-    liveStreamStore.eventPopup = false
-    commonStore.showEventPropertyPopup = true
+const selectTab = (value: string) => {
+  activeTab.value = value as PropertiesMapKey
 }
+
+const getEvent = async () => {
+  loading.value = true
+  const res = await apiClient.eventRecords.getEventRecord(projectsStore.projectId, props.id)
+
+  if (res.data) {
+    event.value = res.data
+  }
+  activeTab.value = propertiesTypes.value[0] as PropertiesMapKey
+
+  loading.value = false
+}
+
+onMounted(async () => {
+  if (props.id) {
+    await getEvent()
+  }
+})
 </script>
 
 <style lang="scss">
 .live-stream-event-popup {
-    .pf-c-modal-box__body {
-        min-height: 316px;
+  .pf-c-modal-box__body {
+    min-height: 316px;
+  }
+  &__table {
+    th {
+      width: 50%;
     }
+  }
 }
 </style>

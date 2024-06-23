@@ -1,14 +1,18 @@
 export default [
   {
+    id: 0,
+    name: 'User',
+  },
+  {
     id: 1,
-    name: 'User'
+    name: 'App',
   },
   {
     id: 2,
-    name: 'Document'
+    name: 'Document',
   },
   {
     id: 3,
-    name: 'Company'
+    name: 'Company',
   },
 ]

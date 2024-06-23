@@ -2202,70 +2202,21 @@ components:
           type: string
     GroupRecord:
       type: object
-      required: [ 'id', 'group', 'properties' ]
-      example: |
-        {
-          "id": 213,
-          "properties": {
-            "createdAt": "2017-07-21T17:32:28Z",
-            "Name": "Sam",
-            "Age": 36
-          }
-        }
+      required: [ 'properties' ]
       properties:
-        id:
-          type: integer
-        strId:
-          type: string
-        group:
-          type: string
         properties:
-          type: object
-          description: map of group property name and property value pairs
-          additionalProperties:
-            $ref: '#/components/schemas/Value'
+          type: array
+          description: list of props with values
+          items:
+            $ref: '#/components/schemas/GroupPropertyAndValue'
     EventRecord:
       type: object
-      required: [ 'id', 'name' ]
-      example: |
-        {
-          "id": 213,
-          "name": "Buy Product",
-          "eventProperties": {
-            "createdAt": "2017-07-21T17:32:28Z",
-            "Product Name": "TV"
-          },
-          "userProperties": {
-            "country": "UK"
-          },
-          "matchedCustomEvents": [
-            {
-              "id": 1
-            }
-          ]
-        }
       properties:
-        id:
-          type: integer
-        name:
-          type: string
-        eventProperties:
-          type: object
-          description: map of property name and property value pairs
-          additionalProperties:
-            $ref: '#/components/schemas/Value'
-        userProperties:
-          type: object
-          description: map of user name and property value pairs
-          additionalProperties:
-            $ref: '#/components/schemas/Value'
-        matchedCustomEvents:
+        properties:
           type: array
+          description: array of property name and property value pairs
           items:
-            type: object
-            properties:
-              id:
-                type: integer
+            $ref: '#/components/schemas/PropertyAndValue'
     DashboardPanel:
       type: object
       required: [ 'x', 'y', 'w', 'h', 'type','reportId' ]
@@ -2529,7 +2480,7 @@ components:
             type: string
     Group:
       type: object
-      required: [ 'id', 'name']
+      required: [ 'id', 'name' ]
       properties:
         id:
           type: integer
@@ -3841,6 +3792,27 @@ components:
         - percentile75
         - percentile90
         - percentile99
+    GroupPropertyAndValue:
+      type: object
+      description: property name and value
+      properties:
+        properties:
+          type: object
+          properties:
+            propertyName:
+              type: string
+            value:
+              $ref: '#/components/schemas/Value'
+    PropertyAndValue:
+      type: object
+      description: property name, type and value
+      allOf:
+        - $ref: '#/components/schemas/PropertyRef'
+        - type: object
+          required: [ 'value' ]
+          properties:
+            value:
+              $ref: '#/components/schemas/Value'
     Value:
       type: object
       description: value

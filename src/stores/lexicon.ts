@@ -1,9 +1,6 @@
 import { defineStore } from 'pinia'
 
-import {
-  EventType,
-  PropertyType
-} from '@/api'
+import { EventType, PropertyType } from '@/api'
 import { apiClient } from '@/api/apiClient'
 import { errorHandler } from '@/helpers/errorHandlerHelper'
 import useI18n from '@/hooks/useI18n'
@@ -11,11 +8,7 @@ import { PropertyTypeEnum, useCommonStore } from '@/stores/common'
 import { useEventsStore } from '@/stores/eventSegmentation/events'
 import { useProjectsStore } from '@/stores/projects/projects'
 import { aggregates } from '@/types/aggregate'
-import {
-  customEventRef,
-  eventRef,
-  eventsQueries
-} from '@/types/events'
+import { customEventRef, eventRef, eventsQueries } from '@/types/events'
 
 import type {
   CustomEvent,
@@ -24,17 +17,18 @@ import type {
   Property,
   PropertyRef as PropertyRefApi,
   QueryAggregate,
-  Group
-} from '@/api';
+  Group,
+} from '@/api'
 import type { Group as GroupSelect, Item } from '@/components/Select/SelectTypes'
-import type { Events} from '@/stores/eventSegmentation/events';
+import type { Events } from '@/stores/eventSegmentation/events'
 import type { ApplyPayload, Cohort } from '@/types'
 import type {
   EventQueryRef,
   EventRef,
   EventsQuery,
   PropertyRef,
-  UserCustomProperty} from '@/types/events';
+  UserCustomProperty,
+} from '@/types/events'
 import type { $T, $TKeyExists } from '@/utils/i18n'
 
 type Lexicon = {
@@ -51,10 +45,10 @@ type Lexicon = {
   eventProperties: Property[]
   eventCustomProperties: CustomProperty[]
   eventPropertiesLoading: boolean
-  
-  groups: Group[],
+
+  groups: Group[]
   groupProperties: Property[][]
-  
+
   userPropertyPopup: boolean
   userCustomProperties: UserCustomProperty[]
   userPropertiesLoading: boolean
@@ -130,7 +124,6 @@ export const useLexiconStore = defineStore('lexicon', {
     async updateUserProperty(payload: ApplyPayload) {
       // const commonStore = useCommonStore()
       // const projectsStore = useProjectsStore()
-
       // try {
       //   const res = await apiClient.userProperties.updateUserProperty(
       //     projectsStore.projectId,
@@ -142,7 +135,6 @@ export const useLexiconStore = defineStore('lexicon', {
       //     const index: number = this.userProperties.findIndex(
       //       property => Number(property.id) === Number(commonStore.editEventPropertyPopupId)
       //     )
-
       //     if (~index) {
       //       this.userProperties[index] = newProperty
       //     }
@@ -193,7 +185,9 @@ export const useLexiconStore = defineStore('lexicon', {
         if (res.data?.data) {
           this.events = res.data?.data
         }
-        const responseCustomEvents = await apiClient.customEvents.customEventsList(projectsStore.projectId)
+        const responseCustomEvents = await apiClient.customEvents.customEventsList(
+          projectsStore.projectId
+        )
         if (responseCustomEvents?.data?.data) {
           this.customEvents = <CustomEvent[]>responseCustomEvents.data?.data || []
         }
@@ -247,17 +241,37 @@ export const useLexiconStore = defineStore('lexicon', {
       const projectsStore = useProjectsStore()
       this.eventPropertiesLoading = true
       try {
-        this.groupProperties = await Promise.all(this.groups.map(async (group) => {
-          const res = await apiClient.groupProperties.groupPropertiesList(projectsStore.projectId, `${group.id}`)
-          return res?.data?.data || []
-        }))
+        this.groupProperties = await Promise.all(
+          this.groups.map(async group => {
+            const res = await apiClient.groupProperties.groupPropertiesList(
+              projectsStore.projectId,
+              `${group.id}`
+            )
+            return res?.data?.data || []
+          })
+        )
       } catch (error) {
         console.error('error getGroupProperties')
       }
       this.eventPropertiesLoading = false
     },
+    async initEventsAndProperties() {
+      await Promise.all([
+        this.getEvents(),
+        this.getSystemProperties(),
+        this.getEventProperties(),
+        await this.getGroups(),
+        this.getGroupProperties(),
+      ])
+    },
   },
   getters: {
+    groupsMap(state) {
+      return state.groups.reduce((acc: { [key: number]: Group }, item) => {
+        acc[+item.id] = item
+        return acc
+      }, {})
+    },
     properties(state) {
       return [
         ...state.eventProperties.map((item): PropertyRefApi => {
@@ -270,7 +284,7 @@ export const useLexiconStore = defineStore('lexicon', {
           return {
             propertyType: PropertyType.Group,
             propertyName: item.name || item.displayName,
-            group: item.groupId
+            group: item.groupId,
           }
         }),
         ...state.systemProperties.map((item): PropertyRefApi => {
@@ -278,7 +292,7 @@ export const useLexiconStore = defineStore('lexicon', {
             propertyType: PropertyType.System,
             propertyName: item.name || item.displayName,
           }
-        })
+        }),
       ]
     },
     propertiesLength(): number {
@@ -328,7 +342,7 @@ export const useLexiconStore = defineStore('lexicon', {
           case EventType.Custom:
             return ref.name ? this.findCustomEventByName(ref.name).name : ''
           default:
-            return ref?.name || '';
+            return ref?.name || ''
         }
       }
     },
@@ -362,8 +376,8 @@ export const useLexiconStore = defineStore('lexicon', {
     findEventCustomProperties(state: Lexicon) {
       return (ref: EventRef): CustomProperty[] => {
         // const event = ref.name
-      //     ? this.findEventByName(ref.name)
-      //     : ({} as Event)
+        //     ? this.findEventByName(ref.name)
+        //     : ({} as Event)
         // return state.eventCustomProperties.filter(
         //   (prop): boolean => !!event.userProperties?.includes(Number(prop.id))
         // )
@@ -419,9 +433,9 @@ export const useLexiconStore = defineStore('lexicon', {
     },
     findGroupPropertyById(state: Lexicon) {
       return (id: number): Property | undefined => {
-        const property = state.groupProperties.flat().find(
-          (prop): boolean => Number(prop.id) === Number(id)
-        )
+        const property = state.groupProperties
+          .flat()
+          .find((prop): boolean => Number(prop.id) === Number(id))
         if (!property) {
           errorHandler(`undefined group property id: ${id}`)
         }

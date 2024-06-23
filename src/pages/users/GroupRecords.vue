@@ -46,6 +46,7 @@
   <PropertiesManagementPopup
     v-if="groupStore.propertyPopup"
     :item="selectedItes"
+    :item-index="selectedItesIndex"
     @apply="onClosePropertyPopup"
   />
 </template>
@@ -61,7 +62,6 @@ import UiCardContainer from '@/components/uikit/UiCard/UiCardContainer.vue';
 import type { DataPickerPeriod } from '@/components/uikit/UiDatePickerWrappet.vue';
 import UiDatePickerWrappet from '@/components/uikit/UiDatePickerWrappet.vue';
 import UiTable from '@/components/uikit/UiTable/UiTable.vue';
-import UiTablePressedCell from '@/components/uikit/UiTable/UiTablePressedCell.vue';
 import type { UiToggleGroupItem } from '@/components/uikit/UiToggleGroup.vue';
 import UiToggleGroup from '@/components/uikit/UiToggleGroup.vue';
 import ToolsLayout from '@/layout/ToolsLayout.vue';
@@ -78,6 +78,7 @@ const i18n = inject('i18n') as I18N;
 const groupStore = useGroupStore();
 const segmentsStore = useSegmentsStore();
 const selectedItes = ref<GroupRecord | null>(null);
+const selectedItesIndex = ref<number>();
 
 const itemsPeriod = computed(() => {
     return shortPeriodDays.map((key): UiToggleGroupItem => ({
@@ -109,20 +110,10 @@ const columns = computed(() => {
 });
 
 const items = computed(() => {
-    return groupStore.items.map((item: GroupRecord): Row => {
+    return groupStore.items.map((item: GroupRecord, i): Row => {
         return [
-            {
-                key: 'id',
-                value: 'id',
-                title: item.id,
-                component: UiTablePressedCell,
-                action: {
-                    type: item.id,
-                    name: item.group,
-                }
-            },
             ...columnsPropertiesKeys.value.map(key => {
-                const value = item.properties[key] ?? '';
+                const value = item.properties.find(item => item.properties?.propertyName === key)?.properties?.value ?? '';
                 return {
                     key,
                     value,
@@ -133,7 +124,7 @@ const items = computed(() => {
             {
                 title: 'action',
                 key: 'action',
-                value: item.id,
+                value: i,
                 component: UiCellToolMenu,
                 items: [
                     {
@@ -148,9 +139,11 @@ const items = computed(() => {
 });
 
 const onAction = (payload: Action) => {
-    const item = groupStore.items.find(item => item.id === payload.type);
-    if (item) {
-        selectedItes.value = item;
+    const index = groupStore.items.findIndex((_, i) => i === payload.type);
+    if (index >= 0) {
+        selectedItes.value = groupStore.items[index];
+        selectedItesIndex.value = index;
+
     }
     groupStore.propertyPopup = true;
 };

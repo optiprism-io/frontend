@@ -1,67 +1,167 @@
 [
-    {
-        "name": "Search",
-        "properties": {
-            "productName": "TV",
-            "createdAt": "2017-07-21T17:32:28Z"
-        },
-        "matchedCustomEvents": [
-            {
-                "id": 1
-            }
-        ]
-    },
-    {
-        "name": "Purchase Product",
-        "properties": {
-            "createdAt": "2022-01-03T17:32:28Z"
-        },
-        "userProperties": {
-            "country": "UK",
-            "element": "Button",
-            "name": "View Product",
-            "class": ".buy-product"
-        }
-    },
-    {
-        "name": "Sign Up",
-        "properties": {
-            "createdAt": "2022-01-01T17:32:28Z"
-        },
-        "userProperties": {
-            "country": "UK",
-            "element": "a",
-            "name": "Search Product",
-            "class": ".search-product"
-        },
-        "matchedCustomEvents": [
-            {
-                "id": 1
-            },
-            {
-                "id": 2
-            }
-        ]
-    },
-    {
-        "name": "Purchase Product",
-        "properties": {
-            "createdAt": "2023-02-01T12:32:28Z"
-        },
-        "userProperties": {
-            "country": "UK",
-            "element": "a",
-            "name": "Search Product",
-            "class": ".search-product",
-            "model:": "Watch"
-        },
-        "matchedCustomEvents": [
-            {
-                "id": 1
-            },
-            {
-                "id": 2
-            }
-        ]
-    }
+  {
+    "type": "dimension",
+    "name": "project_id",
+    "isNullable": false,
+    "dataType": "int64",
+    "data": [
+      1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+      1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+      1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+      1, 1, 1, 1, 1, 1, 1
+    ],
+    "compareValues": null
+  },
+  {
+    "type": "dimension",
+    "name": "event_id",
+    "isNullable": false,
+    "dataType": "int64",
+    "data": [
+      20447, 20448, 20449, 20450, 20451, 20452, 20453, 20454, 20455, 20456, 20457, 20458, 20459,
+      20461, 3798, 3799, 3800, 3801, 3802, 3803, 3804, 3805, 3806, 3807, 3808, 3810, 30330, 30331,
+      30332, 30333, 30334, 30335, 30336, 30337, 30338, 30339, 30340, 30341, 30342, 30343, 30344,
+      30345, 30346, 30347, 30349, 21067, 21068, 21069, 21070, 21071, 21072, 21073, 21074, 21075,
+      21076, 21077, 21078, 21079, 21080, 21082, 12541, 12542, 12543, 12544, 12545, 12546, 12547,
+      12549, 31005, 31006, 31007, 31011, 31009, 31010, 31012, 31013, 31014, 31015, 31016, 31017,
+      31018, 31020, 28358, 28359, 28360, 28361, 28362, 28363, 28364, 28366, 30286, 30287, 30288,
+      30289, 30290, 30292, 31053, 31054, 31055, 31056
+    ],
+    "compareValues": null
+  },
+  {
+    "type": "dimension",
+    "name": "Created At",
+    "isNullable": false,
+    "dataType": "timestamp",
+    "data": [
+      1716366693000, 1716366715000, 1716366723000, 1716366734000, 1716366756000, 1716366789000,
+      1716366853000, 1716366858000, 1716366863000, 1716366883000, 1716366898000, 1716366918000,
+      1716366929000, 1716366939000, 1716377643000, 1716377651000, 1716377673000, 1716377683000,
+      1716377716000, 1716377721000, 1716377726000, 1716377748000, 1716377764000, 1716377785000,
+      1716377796000, 1716377807000, 1716378611000, 1716378674000, 1716378677000, 1716378690000,
+      1716378721000, 1716378732000, 1716378764000, 1716378770000, 1716378775000, 1716378783000,
+      1716378794000, 1716378826000, 1716378831000, 1716378836000, 1716378858000, 1716378874000,
+      1716378894000, 1716378905000, 1716378916000, 1716379072000, 1716379080000, 1716379091000,
+      1716379123000, 1716379184000, 1716379195000, 1716379216000, 1716379246000, 1716379251000,
+      1716379256000, 1716379276000, 1716379292000, 1716379312000, 1716379323000, 1716379333000,
+      1716382434000, 1716382449000, 1716382464000, 1716382494000, 1716382504000, 1716382509000,
+      1716382512000, 1716382517000, 1716418956000, 1716418964000, 1716418975000, 1716418996000,
+      1716418996000, 1716418996000, 1716419026000, 1716419031000, 1716419036000, 1716419056000,
+      1716419072000, 1716419094000, 1716419104000, 1716419114000, 1716431102000, 1716431110000,
+      1716431132000, 1716431143000, 1716431176000, 1716431240000, 1716431245000, 1716431250000,
+      1716435339000, 1716435347000, 1716435357000, 1716435389000, 1716435399000, 1716435404000,
+      1716448775000, 1716448791000, 1716448806000, 1716448838000
+    ],
+    "compareValues": null
+  },
+  {
+    "type": "dimension",
+    "name": "Event",
+    "isNullable": false,
+    "dataType": "string",
+    "data": [
+      "Index Page Viewed",
+      "Index Page Viewed",
+      "Deals Viewed",
+      "Product Viewed",
+      "Product Viewed",
+      "Product Added To Cart",
+      "Product Added To Cart",
+      "Cart Viewed",
+      "Customer Information Entered",
+      "Shipping Method Entered",
+      "Payment Method Entered",
+      "Order Verified",
+      "Order Completed",
+      "Session End",
+      "Index Page Viewed",
+      "Deals Viewed",
+      "Deals Viewed",
+      "Product Viewed",
+      "Product Added To Cart",
+      "Cart Viewed",
+      "Customer Information Entered",
+      "Shipping Method Entered",
+      "Payment Method Entered",
+      "Order Verified",
+      "Order Completed",
+      "Session End",
+      "Index Page Viewed",
+      "Index Page Viewed",
+      "Index Page Viewed",
+      "Product Viewed",
+      "Product Added To Cart",
+      "Product Viewed",
+      "Product Added To Cart",
+      "Product Searched",
+      "Index Page Viewed",
+      "Deals Viewed",
+      "Product Viewed",
+      "Product Added To Cart",
+      "Cart Viewed",
+      "Customer Information Entered",
+      "Shipping Method Entered",
+      "Payment Method Entered",
+      "Order Verified",
+      "Order Completed",
+      "Session End",
+      "Index Page Viewed",
+      "Deals Viewed",
+      "Product Viewed",
+      "Product Added To Cart",
+      "Product Added To Cart",
+      "Product Viewed",
+      "Product Viewed",
+      "Product Added To Cart",
+      "Cart Viewed",
+      "Customer Information Entered",
+      "Shipping Method Entered",
+      "Payment Method Entered",
+      "Order Verified",
+      "Order Completed",
+      "Session End",
+      "Index Page Viewed",
+      "Product Searched",
+      "Product Viewed",
+      "Product Added To Cart",
+      "Product Viewed",
+      "Index Page Viewed",
+      "Index Page Viewed",
+      "Session End",
+      "Index Page Viewed",
+      "Deals Viewed",
+      "Product Viewed",
+      "Product Viewed",
+      "User Registered",
+      "User Logged In",
+      "Product Added To Cart",
+      "Cart Viewed",
+      "Customer Information Entered",
+      "Shipping Method Entered",
+      "Payment Method Entered",
+      "Order Verified",
+      "Order Completed",
+      "Session End",
+      "Index Page Viewed",
+      "Deals Viewed",
+      "Deals Viewed",
+      "Product Viewed",
+      "Product Added To Cart",
+      "Product Added To Cart",
+      "Cart Viewed",
+      "Session End",
+      "Index Page Viewed",
+      "Deals Viewed",
+      "Product Viewed",
+      "Product Added To Cart",
+      "Product Viewed",
+      "Session End",
+      "Index Page Viewed",
+      "Product Searched",
+      "Product Viewed",
+      "Product Added To Cart"
+    ],
+    "compareValues": null
+  }
 ]

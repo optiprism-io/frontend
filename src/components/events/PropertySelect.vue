@@ -24,7 +24,7 @@ import { computed } from 'vue'
 import Select from '@/components/Select/Select.vue'
 
 import { DataType } from '@/api'
-import { useProperty } from '@/hooks/useProperty'
+import useProperty from '@/hooks/useProperty'
 import { useLexiconStore } from '@/stores/lexicon'
 
 import type { Property} from '@/api';
@@ -76,7 +76,7 @@ const items = computed(() => {
             disabled: checkDisable(item.item)
           })
         }
-        return acc  
+        return acc
       }, [])
     }
   })
