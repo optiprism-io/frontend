@@ -1,10 +1,6 @@
 import { defineStore } from 'pinia'
 
-import {
-  FunnelStepsChartTypeTypeEnum,
-  ReportType,
-  TimeUnit,
-} from '@/api'
+import { FunnelQueryCountEnum, FunnelStepsChartTypeTypeEnum, ReportType, TimeUnit } from '@/api'
 import { apiClient } from '@/api/apiClient'
 import { useEventsStore } from '@/stores/eventSegmentation/events'
 import { useStepsStore } from '@/stores/funnels/steps'
@@ -13,16 +9,7 @@ import { useBreakdownsStore } from '@/stores/reports/breakdowns'
 import { useFilterGroupsStore } from '@/stores/reports/filters'
 import { useSegmentsStore } from '@/stores/reports/segments'
 
-import type {
-  BreakdownByProperty,
-  EventChartType,
-  EventRecordsListRequestTime,
-  EventSegmentationSegment,
-  FunnelQueryStepsInner,
-  PropertyRef,
-  Report,
-  ReportQuery
-} from '@/api';
+import type { EventChartType, Report, EventSegmentation, FunnelQuery, ReportQuery } from '@/api'
 
 type Reports = {
   list: Report[]
@@ -34,7 +21,7 @@ type Reports = {
   updateToEmpty: boolean
 }
 
-const getReport = (type: ReportType) => {
+const getReport = (type: ReportType): ReportQuery => {
   /* TODO: fix multiple links with other stores  */
   const eventsStore = useEventsStore()
   const breakdownsStore = useBreakdownsStore()
@@ -42,39 +29,50 @@ const getReport = (type: ReportType) => {
   const segmentsStore = useSegmentsStore()
   const stepsStore = useStepsStore()
 
-  const report = {
-    time: eventsStore.timeRequest as EventRecordsListRequestTime,
-    group: eventsStore.group,
-    intervalUnit: eventsStore.controlsGroupBy,
-    chartType:
-      type === ReportType.EventSegmentation
-        ? (eventsStore.chartType as EventChartType)
-        : {
-            type: FunnelStepsChartTypeTypeEnum.Steps,
-            intervalUnit: TimeUnit.Day,
-          },
-    analysis: { type: 'linear' },
-    events:
-      type === ReportType.EventSegmentation
-        ? eventsStore?.propsForEventSegmentationResult?.events || []
-        : [],
-    steps: stepsStore.getSteps as FunnelQueryStepsInner[],
-    holdingConstants: stepsStore.getHoldingProperties as PropertyRef[],
-    exclude: stepsStore.getExcluded,
-  } as ReportQuery
+  const filters = filterGroupsStore.isSelectedAnyFilter ? filterGroupsStore.filters : undefined
+  const breakdowns = breakdownsStore.isSelectedAnyBreakdown
+    ? breakdownsStore.breakdownsItems
+    : undefined
+  const segments = segmentsStore.isSelectedAnySegments ? segmentsStore.segmentationItems : undefined
 
-  if (filterGroupsStore.isSelectedAnyFilter) {
-    report.filters = filterGroupsStore.filters
-  }
+  if (type === ReportType.EventSegmentation) {
+    const events = eventsStore?.propsForEventSegmentationResult?.events || []
+    const chartType = eventsStore.chartType as EventChartType
 
-  if (breakdownsStore.isSelectedAnyBreakdown) {
-    report.breakdowns = breakdownsStore.breakdownsItems as BreakdownByProperty[]
-  }
+    return {
+      time: eventsStore.timeRequest,
+      group: eventsStore.group,
+      intervalUnit: eventsStore.controlsGroupBy,
+      chartType,
+      analysis: { type: 'linear' },
+      events,
+      filters,
+      breakdowns,
+      segments,
+    } satisfies EventSegmentation
+  } else {
+    const chartType = {
+      type: FunnelStepsChartTypeTypeEnum.Steps,
+      intervalUnit: TimeUnit.Day,
+    }
 
-  if (segmentsStore.isSelectedAnySegments) {
-    report.segments = segmentsStore.segmentationItems as EventSegmentationSegment[]
+    return {
+      time: eventsStore.timeRequest,
+      group: eventsStore.group,
+      steps: stepsStore.getSteps,
+      timeWindow: {
+        n: stepsStore.size,
+        unit: stepsStore.unit,
+      },
+      chartType,
+      count: FunnelQueryCountEnum.NonUnique,
+      holdingConstants: stepsStore.getHoldingProperties,
+      exclude: stepsStore.getExcluded,
+      filters,
+      breakdowns,
+      segments,
+    } satisfies FunnelQuery
   }
-  return report
 }
 
 export const useReportsStore = defineStore('reports', {
