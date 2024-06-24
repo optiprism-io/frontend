@@ -1,8 +1,6 @@
 import { defineStore } from 'pinia'
 
-import {
-  FunnelQueryStepsInnerOrderOneOfTypeEnum
-} from '@/api'
+import { FunnelQueryStepsInnerOrderOneOfTypeEnum } from '@/api'
 import { useEventName } from '@/helpers/useEventName'
 import { useLexiconStore } from '@/stores/lexicon'
 
@@ -15,13 +13,11 @@ import type {
   FunnelQueryExcludeInner,
   FunnelQueryStepsInner,
   PropertyRef,
-  TimeUnit} from '@/api';
+  TimeUnit,
+} from '@/api'
 import type { EventFilter } from '@/stores/eventSegmentation/events'
 import type { EventRef } from '@/types/events'
 import type { Step } from '@/types/steps'
-
-export const stepOrders = ['exact', 'any'] as const
-export type StepOrder = typeof stepOrders[number];
 
 export type ExcludedEventSteps = {
     type: 'all';
@@ -97,7 +93,7 @@ interface StepsStore {
     steps: Step[];
     size: number;
     unit: TimeUnit;
-    order: StepOrder;
+    order: FunnelQueryStepsInnerOrderOneOfTypeEnum;
     excludedEvents: ExcludedEvent[];
     holdingProperties: HoldingProperty[];
     propsAvailableToHold: HoldingProperty[];
@@ -109,7 +105,7 @@ export const useStepsStore = defineStore('steps', {
         steps: [],
         size: 10,
         unit: 'hour',
-        order: 'any',
+        order: FunnelQueryStepsInnerOrderOneOfTypeEnum.Exact,
         excludedEvents: [],
         holdingProperties: [],
         propsAvailableToHold: [],
@@ -203,7 +199,7 @@ export const useStepsStore = defineStore('steps', {
         setUnit(unit: TimeUnit): void {
             this.unit = unit;
         },
-        setOrder(order: StepOrder): void {
+        setOrder(order: FunnelQueryStepsInnerOrderOneOfTypeEnum): void {
             this.order = order;
         },
         addExcludedEvent({ event, steps }: AddExcludedEventPayload): void {
