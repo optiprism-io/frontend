@@ -4,6 +4,7 @@
     :data="data"
     :scroll-x="scrollX"
     :single-line="false"
+    :render-cell="renderCell"
   />
 </template>
 
@@ -16,6 +17,7 @@ import { uncamelize } from '@/utils/uncamelize'
 
 import type { FunnelResponseStepsInner } from '@/api'
 import type { StepKey } from '@/components/funnels/view/funnelViews'
+import type { DataTableBaseColumn } from 'naive-ui'
 import type {
   TableBaseColumn,
   TableColumn,
@@ -58,7 +60,7 @@ const groupsColumns = computed<TableColumn[]>(() =>
     title: x,
     key: KEY_PREFIX + KEY_GROUPS + KEY_SPLITTER + INDEX_FIRST_ARR_ELEMENT + `[${index}]`,
     resizable: true,
-    ellipsis: true
+    ellipsis: true,
   }))
 )
 
@@ -80,7 +82,7 @@ const dimensionsColumns = computed(() => {
         title: uncamelize(key),
         key: newKey,
         resizable: true,
-        ellipsis: true
+        ellipsis: true,
       }
       parentEl.children.push(childrenEl)
     })
@@ -92,6 +94,11 @@ const dimensionsColumns = computed(() => {
 })
 
 const columns = computed(() => [...groupsColumns.value, ...dimensionsColumns.value])
+
+function renderCell(value: any, rowData: object, column: DataTableBaseColumn) {
+  if (typeof column.title !== 'string') throw new Error('Column title must be a string')
+  return column.title.includes('Ratio') ? `${value}%` : value
+}
 
 const scrollX = computed(() => {
   const WIDTH_ONE_COLUMN = 350 // value calculated experimentally
