@@ -233,6 +233,8 @@ async function fetchReports(): Promise<void> {
     touch: {
       type: 'first',
     },
+    exclude: stepsStore.getExcluded,
+    holdingConstants: stepsStore.getHoldingProperties,
   })
 
   if (res?.data) {
