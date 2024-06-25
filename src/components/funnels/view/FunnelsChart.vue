@@ -49,7 +49,7 @@ import LegendMarker from '@/components/charts/LegendMarker.vue'
 import FunnelChartStacked from '@/components/funnels/view/FunnelChartStacked.vue'
 
 import { DEFAULT_SEPARATOR } from '@/constants'
-import { CHART_COLORS_7 } from '@/helpers/colorHelper'
+import { getPseudoRandomColor } from '@/utils/colorHelper'
 
 import type { FunnelResponseStepsInner } from '@/api'
 
@@ -66,7 +66,9 @@ const props = withDefaults(defineProps<IProps>(), {
   liteChart: false,
 })
 
-const barsColors = computed(() => CHART_COLORS_7.slice(0, props.reportSteps.at(0)?.data.length))
+const barsColors = computed<string[]>(
+  () => props.reportSteps.at(0)?.data.map((_, i) => getPseudoRandomColor(i)) || []
+)
 
 const container = ref<HTMLDivElement | null>(null)
 const { width: containerWidth } = useElementSize(container)

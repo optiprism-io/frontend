@@ -28,13 +28,29 @@ export const darken = (hex: string, amount: number): string => {
   return rgb2hex(r2, g2, b2)
 }
 
-export function getRandomColor(): string {
-  const letters = '0123456789ABCDEF'
-  let color = '#'
-  for (let i = 0; i < 6; i++) {
-    color += letters[Math.floor(Math.random() * 16)]
+/* https://stackoverflow.com/questions/36721830/convert-hsl-to-rgb-and-hex */
+export function hsl2hex(h: number, s: number, l: number) {
+  l /= 100
+  const a = (s * Math.min(l, 1 - l)) / 100
+  const f = (n: number) => {
+    const k = (n + h / 30) % 12
+    const color = l - a * Math.max(Math.min(k - 3, 9 - k, 1), -1)
+    return Math.round(255 * color)
+      .toString(16)
+      .padStart(2, '0') // convert to Hex and prefix "0" if needed
   }
-  return color
+  return `#${f(0)}${f(8)}${f(4)}`
 }
 
-export const CHART_COLORS_7 = ['#ee5253', '#2e86de', '#ff9f43', '#5f27cd', '#10ac84', '#f368e0', '#0abde3']
+export function getPseudoRandomColor(index: number): string {
+  const MAX_HSL_DEGREES = 360
+  const DEGREE_STEP = 120
+  const INITIAL_DEGREE = 250
+  const SHIFT = 45
+
+  const h = (INITIAL_DEGREE + index * DEGREE_STEP - index * SHIFT) % MAX_HSL_DEGREES
+  const s = 70
+  const l = 70
+
+  return hsl2hex(h, s, l)
+}

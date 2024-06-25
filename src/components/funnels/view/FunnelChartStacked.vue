@@ -18,7 +18,7 @@ import { computed, ref, watch } from 'vue'
 import { Chart, getEngine } from '@antv/g2'
 
 import { DEFAULT_SEPARATOR } from '@/constants'
-import { getRandomColor, lighten } from '@/helpers/colorHelper'
+import { getPseudoRandomColor, lighten } from '@/utils/colorHelper'
 import { humanReadable } from '@/utils/humanReadable'
 import { toFixedFormat } from '@/utils/toFixedFormat'
 import { uncamelize } from '@/utils/uncamelize'
@@ -58,7 +58,7 @@ const dataView = computed(() => {
         const primaryKey = primaryKeys[iterator]
         const secondaryKey = secondaryKeys[iterator]
 
-        const color = props.colors[i] ? lighten(props.colors[i], iterator * 80) : getRandomColor()
+        const color = props.colors[i] ? lighten(props.colors[i], iterator * 80) : getPseudoRandomColor(i)
 
         let primaryValue = item[primaryKey]
         let secondaryValue = item[secondaryKey]
