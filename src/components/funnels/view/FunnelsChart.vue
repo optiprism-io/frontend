@@ -15,9 +15,6 @@
     <div
       ref="container"
       class="pf-l-flex pf-u-flex-nowrap"
-      :class="{
-        'pf-u-m-lg': !props.liteChart,
-      }"
     >
       <div
         v-for="(item, j) in reportSteps"
