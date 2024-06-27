@@ -3,7 +3,10 @@
     <template #title>
       {{ strings.title }}
     </template>
-    <UiCard class="pf-c-card pf-m-compact pf-u-h-100" :title="strings.events">
+    <UiCard
+      class="pf-c-card pf-m-compact pf-u-h-100"
+      :title="strings.events"
+    >
       <InputsEventsLiveStream />
     </UiCard>
     <template #main>
@@ -32,7 +35,7 @@ const { t } = usei18n()
 const liveStreamStore = useLiveStreamStore()
 const lexiconStore = useLexiconStore()
 
-const loading = ref(false);
+const loading = ref(false)
 
 const strings = {
   title: t('events.liveStream.title'),
@@ -40,19 +43,19 @@ const strings = {
 }
 
 onMounted(async () => {
-  loading.value = true;
-  await lexiconStore.initEventsAndProperties();
+  loading.value = true
+  await lexiconStore.initEventsAndProperties()
 
   liveStreamStore.activeColumns = ['event_id', 'created_at', 'event'].map(name => {
-    const property = lexiconStore.systemProperties.find(item => item.name === name);
+    const property = lexiconStore.systemProperties.find(item => item.name === name)
     return {
       id: property?.id,
       name: name,
       type: PropertyType.System,
     }
-  });
+  })
 
-  loading.value = false;
+  loading.value = false
   liveStreamStore.getReportLiveStream()
 })
 </script>

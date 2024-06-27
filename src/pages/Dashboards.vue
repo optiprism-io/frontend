@@ -15,7 +15,10 @@
         :w-100="true"
         @on-select="onSelectDashboard"
       >
-        <template v-if="isLoading" #action>
+        <template
+          v-if="isLoading"
+          #action
+        >
           <UiSpinner />
         </template>
       </UiSelect>
@@ -113,7 +116,10 @@
                     type="button"
                     aria-label="Actions"
                   >
-                    <i class="fas fa-ellipsis-v" aria-hidden="true" />
+                    <i
+                      class="fas fa-ellipsis-v"
+                      aria-hidden="true"
+                    />
                   </button>
                 </template>
               </UiDropdown>
@@ -147,7 +153,10 @@
       :h-100="true"
     >
       {{ t('dashboards.noReports') }}
-      <RouterLink :to="pagesMap.reports" aria-current="page">
+      <RouterLink
+        :to="pagesMap.reports"
+        aria-current="page"
+      >
         <UiButton class="pf-m-primary pf-u-ml-md">
           {{ $t('dashboards.createReport') }}
         </UiButton>
@@ -175,7 +184,7 @@ import DashboardPanel from '@/components/dashboards/DashboardPanel.vue'
 import DashboardReportsPopup from '@/components/dashboards/DashboardReportsPopup.vue'
 import UiButton from '@/components/uikit/UiButton.vue'
 import UiCard from '@/components/uikit/UiCard/UiCard.vue'
-import type { UiDropdownItem } from '@/components/uikit/UiDropdown.vue';
+import type { UiDropdownItem } from '@/components/uikit/UiDropdown.vue'
 import UiDropdown from '@/components/uikit/UiDropdown.vue'
 import UiInlineEdit from '@/components/uikit/UiInlineEdit.vue'
 import UiSelect from '@/components/uikit/UiSelect.vue'
@@ -193,7 +202,7 @@ import { useProjectsStore } from '@/stores/projects/projects'
 import { useFilterGroupsStore } from '@/stores/reports/filters'
 import { useReportsStore } from '@/stores/reports/reports'
 
-import type { DashboardPanel as DashboardPanelType} from '@/api';
+import type { DashboardPanel as DashboardPanelType } from '@/api'
 
 const { t } = usei18n()
 const route = useRoute()
@@ -359,7 +368,10 @@ const updateCreateDashboard = async (panels?: Layout[]) => {
         dataForRequest
       )
     } else {
-      const res = await  apiClient.dashboards.createDashboard(projectsStore.projectId, dataForRequest)
+      const res = await apiClient.dashboards.createDashboard(
+        projectsStore.projectId,
+        dataForRequest
+      )
       if (res.data?.id) {
         dashboardName.value = res.data?.name || dashboardName.value || untitledDashboardName.value
         onSelectDashboard(res.data?.id)
@@ -449,7 +461,6 @@ const initDashboardPage = async () => {
 
   isLoading.value = false
 
-  lexiconStore.getSystemProperties()
   lexiconStore.getEventProperties()
   await lexiconStore.getGroups()
   lexiconStore.getGroupProperties()

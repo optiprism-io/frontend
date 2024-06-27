@@ -94,7 +94,7 @@ const propertiesMap = computed<PropertiesMap>(() => {
 
 const propertiesTypes = computed(() =>
   Object.keys(propertiesMap.value).sort((a, b) => {
-    return a === 'event' ? -1 : a === 'system' ? 1 : -1
+    return a === 'event' ? -1 : 1
   })
 )
 
