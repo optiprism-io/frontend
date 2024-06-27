@@ -138,7 +138,6 @@
   "events": {
     "eventProperties": "Event Properties",
     "userProperties": "User Properties",
-    "systemProperties": "System Properties",
     "noEvents": "No events",
     "noEventsFound": "No events found",
     "noEventsText": "You don't have events yet. Please start tracking. Click <a href=\"/events?help=start_tracking\" target=\"_blank\">here</a> for details",
@@ -196,7 +195,6 @@
         "title": "Event: :name",
         "tabs": {
           "event": "Event Properties",
-          "system": "System Properties",
           "custom": "Custom Properties",
           "systemGroups": "System Groups Properties",
           "groups": "Groups Properties"

@@ -30,7 +30,7 @@ export class Property implements IProperty {
     this.createdBy = property.createdBy || faker.number.int({ min: 1, max: 1000 })
     this.updatedBy = property.updatedBy || this.createdBy
     this.projectId = property.projectId || faker.number.int({ min: 1, max: 1000 })
-    this.type = property.type || 'system'
+    this.type = property.type || 'event'
     this.name = property.name || faker.commerce.productName()
     this.dataType = property.dataType || 'string'
     this.status = property.status || 'enabled'

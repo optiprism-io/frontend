@@ -20,7 +20,7 @@ import { useLexiconStore } from '@/stores/lexicon'
 import { findOperations } from '@/types'
 
 import type { Item } from '@/components/Select/SelectTypes'
-import type { OperationId } from '@/types';
+import type { OperationId } from '@/types'
 import type { PropertyRef } from '@/types/events'
 
 const lexiconStore = useLexiconStore()
@@ -66,16 +66,6 @@ const items = computed(() => {
       }
     } else if (props.propertyRef.type === PropertyType.Group) {
       const prop = lexiconStore.findGroupProperty(props.propertyRef.name)
-      if (prop) {
-        findOperations(prop.dataType || 'string', prop.nullable, prop.isArray).forEach(op =>
-          ret.push({
-            item: op.id,
-            name: op.name,
-          })
-        )
-      }
-    } else if (props.propertyRef.type === PropertyType.System) {
-      const prop = lexiconStore.findSystemPropertyByName(props.propertyRef.name)
       if (prop) {
         findOperations(prop.dataType || 'string', prop.nullable, prop.isArray).forEach(op =>
           ret.push({
