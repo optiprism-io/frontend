@@ -20,6 +20,11 @@ const routes: RouteRecordRaw[] = [
     component: () => import('@/pages/auth/Login.vue'),
   },
 
+  {
+    path: '/test',
+    component: () => import('@/pages/Test.vue'),
+  },
+
   /* pages are accessible only with a changed password */
   {
     path: '/force_update_password',
