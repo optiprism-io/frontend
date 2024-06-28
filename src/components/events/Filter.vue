@@ -1,6 +1,6 @@
 <template>
   <div class="filter pf-l-flex pf-m-nowrap" :class="orientationClass">
-    <div v-if="!hidePrefix" class="pf-c-action-list__item pf-u-mb-0 pf-u-mt-xs">
+    <div v-if="!hidePrefix" class="icon pf-c-action-list__item pf-u-mb-0 pf-u-mt-xs">
       <slot name="prefix">
         <UiIcon icon="fas fa-filter" />
       </slot>
@@ -391,6 +391,10 @@ const removeValueButton = (value: Value) => {
     position: relative;
     flex-wrap: wrap;
     align-items: flex-start;
+  }
+
+  .icon {
+    color: var(--op-base-color);
   }
 }
 </style>
