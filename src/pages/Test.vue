@@ -11,8 +11,9 @@ import { computed, onMounted } from 'vue'
 import { Column } from '@antv/g2plot'
 
 import { DEFAULT_SEPARATOR } from '@/constants'
-import { getPseudoRandomColor } from '@/utils/colorHelper'
 import { uncamelize } from '@/utils/uncamelize'
+
+import type { StepKey } from '@/components/funnels/view/funnelViews'
 
 const data = [
   {
@@ -98,45 +99,65 @@ const data = [
   },
 ]
 
-const dataView = computed(() =>
-  data.map(item => ({
-    ...item,
-    groupsName: item.groups.join(DEFAULT_SEPARATOR),
-  }))
-)
+const primaryKeys: StepKey[] = ['total', 'droppedOff']
 
-const legendItems = computed(() => {
-  const types = dataView.value.map(item => item.groupsName)
-  return Array.from(new Set(types))
+const dataView = computed(() => {
+  return data
+    .map((item, i) => {
+      return Array.from({ length: primaryKeys.length }).map((_, j) => {
+        const iterator = primaryKeys.length - 1 - j
+
+        const primaryKey = primaryKeys[iterator]
+
+        return {
+          index: i,
+          type: primaryKey,
+          value: item[primaryKey],
+          groupsName: item.groups.join(DEFAULT_SEPARATOR),
+          step: item.step,
+        }
+      })
+    })
+    .flat()
 })
+
+// const groups = computed(() => {
+//   return Array.from(new Set(dataView.value.map(item => item.groupsName)))
+// })
+
+// const legendItems = computed(() => {
+//   return groups.value.map((item, index) => ({
+//     name: item,
+//     value: index,
+//   }))
+// })
 
 onMounted(() => {
   const plot = new Column('container', {
     data: dataView.value,
     xField: 'step',
-    yField: 'total',
-    seriesField: 'groupsName',
+    yField: 'value',
     isGroup: true,
-    scrollbar: {
-      type: 'horizontal',
-    },
-    color: ({ groupsName }) => {
-      const index = legendItems.value.indexOf(groupsName)
-      return getPseudoRandomColor(index)
-    },
+    isStack: true,
+    seriesField: 'type',
+    // seriesField: 'groupsName',
+    groupField: 'groupsName',
     tooltip: {
       shared: false,
-      fields: ['total', 'conversionRatio', 'droppedOff', 'dropOffRatio'],
       showTitle: false,
       customItems(originalItems) {
         return originalItems.map(item => ({
           ...item,
-          name: uncamelize(item.name),
+          name: item.data.groupsName + ' ' + uncamelize(item.data.type),
         }))
       },
     },
+    scrollbar: {
+      type: 'horizontal',
+    },
     label: {
-      position: 'top',
+      position: 'middle',
+      formatter: item => item.value || undefined,
     },
     yAxis: {
       grid: null,
@@ -148,6 +169,7 @@ onMounted(() => {
     },
     legend: {
       position: 'top',
+      // items: legendItems.value,
     },
   })
 
