@@ -12,8 +12,8 @@ import type {
   EventRecordsListRequestTime,
   EventType,
   PropertyFilterOperation,
-  PropertyRef as PropertyRefApi
-} from '@/api';
+  PropertyRef as PropertyRefApi,
+} from '@/api'
 import type { Event } from '@/stores/eventSegmentation/events'
 import type { PropertyRef } from '@/types/events'
 
@@ -130,23 +130,25 @@ export const useLiveStreamStore = defineStore('liveStream', {
       this.loading = true
       const projectsStore = useProjectsStore()
 
-      const properties = this.activeColumns.filter(item => item.name !== 'user_id').map(item => {
-        const property: PropertyRefApi = {
-          propertyName: item.name,
-          propertyType: item.type,
-        }
+      const properties = this.activeColumns
+        .filter(item => item.name !== 'user_id')
+        .map(item => {
+          const property: PropertyRefApi = {
+            propertyName: item.name,
+            propertyType: item.type,
+          }
 
-        if (item.group || item.group === 0) {
-          property.group = item.group
-        }
+          if (item.group || item.group === 0) {
+            property.group = item.group
+          }
 
-        return property
-      })
+          return property
+        })
 
       try {
         const props: EventRecordsListRequest = {
           time: this.timeRequest,
-          properties: properties
+          properties: properties,
         }
 
         if (this.events.length) {

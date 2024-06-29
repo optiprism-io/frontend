@@ -47,12 +47,11 @@ onMounted(async () => {
   await lexiconStore.initEventsAndProperties()
 
   liveStreamStore.activeColumns = ['event_id', 'created_at', 'event'].map(name => {
-    const property = lexiconStore.groupProperties.flat().find(item => item.name === name)
+    const property = lexiconStore.properties.find(item => item.propertyName === name)
     return {
-      id: property?.id,
       name: name,
-      type: PropertyType.Group,
-      group: property.group,
+      type: property?.propertyType || PropertyType.Group,
+      group: property?.group,
     }
   })
 

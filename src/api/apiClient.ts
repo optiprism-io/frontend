@@ -16,7 +16,8 @@ import {
   PropertyValuesApi,
   QueryApi,
   ReportsApi,
-  SystemPropertiesApi,
+  GroupPropertiesApi,
+  GroupsApi,
 } from '@/api/index'
 import { axiosInstance } from '@/plugins/axios'
 
@@ -35,7 +36,6 @@ class ApiClient {
   propertyValues: PropertyValuesApi
   query: QueryApi
   reports: ReportsApi
-  systemProperties: SystemPropertiesApi
   groupProperties: GroupPropertiesApi
   groups: GroupsApi
 
@@ -54,7 +54,6 @@ class ApiClient {
     this.propertyValues = new PropertyValuesApi(undefined, '', axiosInstance)
     this.query = new QueryApi(undefined, '', axiosInstance)
     this.reports = new ReportsApi(undefined, '', axiosInstance)
-    this.systemProperties = new SystemPropertiesApi(undefined, '', axiosInstance)
     this.groupProperties = new GroupPropertiesApi(undefined, '', axiosInstance)
     this.groups = new GroupsApi(undefined, '', axiosInstance)
   }
