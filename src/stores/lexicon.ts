@@ -52,7 +52,7 @@ type Lexicon = {
   userPropertyPopup: boolean
   userCustomProperties: UserCustomProperty[]
   userPropertiesLoading: boolean
-
+}
 
 export const useLexiconStore = defineStore('lexicon', {
   state: (): Lexicon => ({

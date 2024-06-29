@@ -15,7 +15,6 @@ import {
   PropertyValuesApi,
   QueryApi,
   ReportsApi,
-  SystemPropertiesApi,
   GroupPropertiesApi,
   GroupsApi
 } from '@/api/index'
@@ -40,7 +39,6 @@ class ApiClient {
   propertyValues: PropertyValuesApi
   query: QueryApi
   reports: ReportsApi
-  systemProperties: SystemPropertiesApi
   groupProperties: GroupPropertiesApi
   groups: GroupsApi
 
@@ -59,7 +57,6 @@ class ApiClient {
     this.propertyValues = new PropertyValuesApi(config)
     this.query = new QueryApi(config)
     this.reports = new ReportsApi(config)
-    this.systemProperties = new SystemPropertiesApi(config)
     this.groupProperties = new GroupPropertiesApi(config)
     this.groups = new GroupsApi(config)
   }

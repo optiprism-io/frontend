@@ -26,7 +26,6 @@ import { projectsRoutes } from '@/server/services/projects.service'
 import { queriesRoutes } from '@/server/services/query.service'
 import { EventStatus } from '@/types/events'
 
-import type { ListPropertiesResponse } from '@/api'
 import type { UserCustomProperty } from '@/types/events'
 
 const urlPrefix = BASE_PATH + '/' + import.meta.env.VITE_API_VERSION
