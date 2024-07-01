@@ -907,7 +907,7 @@ paths:
       security:
         - bearerAuth: [ ]
       tags:
-        - reports
+        - bookmarks
       parameters:
         - $ref: '#/components/parameters/ProjectID'
         - name: bookmarkId
@@ -4063,8 +4063,7 @@ components:
       required: ['id']
       properties:
         id:
-          type: integer
-          format: int64
+          type: string
         createdAt:
           type: string
           format: date-time
