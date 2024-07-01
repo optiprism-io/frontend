@@ -228,6 +228,33 @@ paths:
           $ref: '#/components/responses/Internal'
         '503':
           $ref: '#/components/responses/ServiceUnavailable'
+  /v1/profile/set-email:
+    put:
+      summary: Set email from default to defined
+      operationId: setProfileEmail
+      security:
+        - bearerAuth: [ ]
+      tags:
+        - profile
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SetProfileEmailRequest'
+      responses:
+        204:
+          description: profile
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokensResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/Internal'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
   /v1/organizations:
     get:
       summary: Organizations list
@@ -865,76 +892,6 @@ paths:
           $ref: '#/components/responses/Internal'
         '503':
           $ref: '#/components/responses/ServiceUnavailable'
-  /v1/projects/{projectId}/bookmarks:
-    post:
-      summary: Create bookmark
-      operationId: createBookmark
-      security:
-        - bearerAuth: [ ]
-      tags:
-        - reports
-      parameters:
-        - $ref: '#/components/parameters/ProjectID'
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/CreateBookmarkRequest'
-      responses:
-        201:
-          description: bookmark
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Bookmark'
-        '400':
-          $ref: '#/components/responses/BadRequest'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '404':
-          $ref: '#/components/responses/NotFound'
-        '500':
-          $ref: '#/components/responses/Internal'
-        '503':
-          $ref: '#/components/responses/ServiceUnavailable'
-  /v1/projects/{projectId}/bookmarks/{bookmarkId}:
-    get:
-      summary: Get bookmark
-      operationId: getBookmark
-      security:
-        - bearerAuth: [ ]
-      tags:
-        - bookmarks
-      parameters:
-        - $ref: '#/components/parameters/ProjectID'
-        - name: bookmarkId
-          in: path
-          description: Bookmark ID
-          required: true
-          schema:
-            type: string
-      responses:
-        200:
-          description: bookmark
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Bookmark'
-        '400':
-          $ref: '#/components/responses/BadRequest'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '404':
-          $ref: '#/components/responses/NotFound'
-        '500':
-          $ref: '#/components/responses/Internal'
-        '503':
-          $ref: '#/components/responses/ServiceUnavailable'
   /v1/projects/{projectId}/groups:
     get:
       summary: Group list
@@ -1296,35 +1253,6 @@ paths:
           $ref: '#/components/responses/Internal'
         '503':
           $ref: '#/components/responses/ServiceUnavailable'
-  /v1/projects/{projectId}/schema/system-group-properties:
-    get:
-      summary: Get system group property
-      operationId: getSystemGroupProperty
-      security:
-        - bearerAuth: [ ]
-      tags:
-        - system group properties
-      parameters:
-        - $ref: '#/components/parameters/ProjectID'
-      responses:
-        201:
-          description: system group property
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Property'
-        '400':
-          $ref: '#/components/responses/BadRequest'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '404':
-          $ref: '#/components/responses/NotFound'
-        '500':
-          $ref: '#/components/responses/Internal'
-        '503':
-          $ref: '#/components/responses/ServiceUnavailable'
   /v1/projects/{projectId}/schema/event-properties:
     get:
       summary: Event properties list
@@ -1416,73 +1344,6 @@ paths:
       responses:
         201:
           description: property
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Property'
-        '400':
-          $ref: '#/components/responses/BadRequest'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '404':
-          $ref: '#/components/responses/NotFound'
-        '500':
-          $ref: '#/components/responses/Internal'
-        '503':
-          $ref: '#/components/responses/ServiceUnavailable'
-  /v1/projects/{projectId}/schema/system-properties:
-    get:
-      summary: System properties list
-      operationId: systemPropertiesList
-      security:
-        - bearerAuth: [ ]
-      tags:
-        - system properties
-      parameters:
-        - $ref: '#/components/parameters/ProjectID'
-      responses:
-        '200':
-          description: properties list
-          content:
-            application/json:
-              schema:
-                type: object
-                allOf:
-                  - $ref: '#/components/schemas/ListPropertiesResponse'
-                  - $ref: '#/components/schemas/ListResponseMetadata'
-        '400':
-          $ref: '#/components/responses/BadRequest'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '404':
-          $ref: '#/components/responses/NotFound'
-        '500':
-          $ref: '#/components/responses/Internal'
-        '503':
-          $ref: '#/components/responses/ServiceUnavailable'
-  /v1/projects/{projectId}/schema/system-properties/{propertyId}:
-    get:
-      summary: Get system property
-      operationId: getSystemProperty
-      security:
-        - bearerAuth: [ ]
-      tags:
-        - system properties
-      parameters:
-        - $ref: '#/components/parameters/ProjectID'
-        - name: propertyId
-          in: path
-          description: Property ID
-          required: true
-          schema:
-            type: number
-      responses:
-        201:
-          description: system property
           content:
             application/json:
               schema:
@@ -3978,10 +3839,8 @@ components:
       description: possible property type
       enum:
         - event
-        - custom
-        - system
         - group
-        - systemGroup
+        - custom
     SortDirection:
       type: string
       enum:
@@ -4051,28 +3910,3 @@ components:
       properties:
         password:
           type: string
-    CreateBookmarkRequest:
-      type: object
-      properties:
-        query:
-          oneOf:
-            - $ref: '#/components/schemas/EventSegmentation'
-            - $ref: '#/components/schemas/FunnelQuery'
-    Bookmark:
-      type: object
-      required: ['id']
-      properties:
-        id:
-          type: string
-        createdAt:
-          type: string
-          format: date-time
-        createdBy:
-          type: integer
-          format: int64
-        query:
-          oneOf:
-            - $ref: '#/components/schemas/EventSegmentation'
-            - $ref: '#/components/schemas/FunnelQuery'
-
-
