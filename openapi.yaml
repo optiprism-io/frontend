@@ -2129,6 +2129,10 @@ components:
             type: object
             required: [ 'type', 'dataType', 'isNullable', 'name', 'data' ]
             properties:
+              propertyName:
+                type: string
+              propertyType:
+                $ref: '#/components/schemas/PropertyType'
               type:
                 type: string
                 enum:
