@@ -16,6 +16,7 @@ export default {
           dropOffRatio: 0.0,
           timeToConvert: 0,
           timeToConvertFromStart: 0,
+          avgTimeToConvertFromStart: 0,
         },
         {
           groups: ['Spain', 'Madrid'],
@@ -27,6 +28,7 @@ export default {
           dropOffRatio: 0.0,
           timeToConvert: 0,
           timeToConvertFromStart: 0,
+          avgTimeToConvertFromStart: 0,
         },
         {
           groups: ['USA', 'New York'],
@@ -38,6 +40,7 @@ export default {
           dropOffRatio: 0.0,
           timeToConvert: 0,
           timeToConvertFromStart: 0,
+          avgTimeToConvertFromStart: 0,
         },
         {
           groups: ['USA', 'Los Angeles'],
@@ -49,6 +52,7 @@ export default {
           dropOffRatio: 0.0,
           timeToConvert: 0,
           timeToConvertFromStart: 0,
+          avgTimeToConvertFromStart: 0,
         },
       ],
     },
@@ -65,6 +69,7 @@ export default {
           dropOffRatio: 50.0,
           timeToConvert: 142000,
           timeToConvertFromStart: 142000,
+          avgTimeToConvertFromStart: 0,
         },
         {
           groups: ['Spain', 'Madrid'],
@@ -76,6 +81,7 @@ export default {
           dropOffRatio: 20.0,
           timeToConvert: 142000,
           timeToConvertFromStart: 142000,
+          avgTimeToConvertFromStart: 0,
         },
         {
           groups: ['USA', 'New York'],
@@ -87,6 +93,7 @@ export default {
           dropOffRatio: 60.0,
           timeToConvert: 142000,
           timeToConvertFromStart: 142000,
+          avgTimeToConvertFromStart: 0,
         },
         {
           groups: ['USA', 'Los Angeles'],
@@ -98,6 +105,7 @@ export default {
           dropOffRatio: 80.0,
           timeToConvert: 52000,
           timeToConvertFromStart: 52000,
+          avgTimeToConvertFromStart: 0,
         },
       ],
     },
@@ -114,6 +122,7 @@ export default {
           dropOffRatio: 0.0,
           timeToConvert: 142000,
           timeToConvertFromStart: 142000,
+          avgTimeToConvertFromStart: 0,
         },
         {
           groups: ['Spain', 'Madrid'],
@@ -125,6 +134,7 @@ export default {
           dropOffRatio: 87.5,
           timeToConvert: 661000,
           timeToConvertFromStart: 803000,
+          avgTimeToConvertFromStart: 0,
         },
         {
           groups: ['USA', 'New York'],
@@ -136,6 +146,7 @@ export default {
           dropOffRatio: 75.0,
           timeToConvert: 142000,
           timeToConvertFromStart: 142000,
+          avgTimeToConvertFromStart: 0,
         },
         {
           groups: ['USA', 'Los Angeles'],
@@ -147,6 +158,7 @@ export default {
           dropOffRatio: 50.0,
           timeToConvert: 266000,
           timeToConvertFromStart: 318000,
+          avgTimeToConvertFromStart: 0,
         },
       ],
     },
