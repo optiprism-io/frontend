@@ -237,11 +237,11 @@ const onApplyPeriod = (payload: ApplyPayload): void => {
 }
 
 const clickCell = async (cell: Cell, rowIndex: number) => {
-  const row = tableData.value.tableData[rowIndex]
+  const row = tableData.value?.tableData[rowIndex]
 
   if (row) {
-    const eventIdCell = row.find(item => item.key === 'event_id')
-    const eventNameCell = row.find(item => item.key === 'Event')
+    const eventIdCell = row.find(item => item.key === 'Event ID' || item.key === 'event_id')
+    const eventNameCell = row.find(item => item.key === 'Event' || item.key === 'event')
 
     if (eventIdCell?.value) {
       eventPopupId.value = +eventIdCell.value
