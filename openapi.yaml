@@ -3882,6 +3882,8 @@ components:
           type: string
         forceUpdatePassword:
           type: boolean
+        forceUpdateEmail:
+          type: boolean
     UpdateProfileNameRequest:
       type: object
       required: [ 'name' ]
