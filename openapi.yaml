@@ -4078,6 +4078,13 @@ components:
       properties:
         password:
           type: string
+    SetProfileEmailRequest:
+      type: object
+      required: [ 'email' ]
+      properties:
+        email:
+          type: string
+
     CreateBookmarkRequest:
       type: object
       properties:
