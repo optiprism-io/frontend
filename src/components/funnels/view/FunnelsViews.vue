@@ -4,7 +4,10 @@
       <div class="pf-c-toolbar__content">
         <div class="pf-c-toolbar__content-section pf-m-nowrap">
           <div class="pf-c-toolbar__item">
-            <UiToggleGroup :items="itemsPeriod" @select="selectPeriod">
+            <UiToggleGroup
+              :items="itemsPeriod"
+              @select="selectPeriod"
+            >
               <template #after>
                 <UiDatePicker
                   :value="calendarValue"
@@ -45,8 +48,20 @@
 
     <DataLoader v-if="loading" />
     <template v-else-if="reportSteps.length">
-      <FunnelsChart :report-steps="reportSteps" />
-      <FunnelsTable :report-steps="reportSteps" :groups="groups" />
+      <FunnelsChart
+        v-if="checkedRowKeys.length"
+        :report-steps="filteredReportSteps"
+      />
+      <DataEmptyPlaceholder v-else>
+        {{ $t('funnels.view.selectRowInTable') }}
+      </DataEmptyPlaceholder>
+
+      <FunnelsTable
+        v-model:checked-row-keys="checkedRowKeys"
+        :report-steps="reportSteps"
+        :groups="groups"
+        :max-checked-rows="MAX_CHECKED_ROWS"
+      />
     </template>
     <DataEmptyPlaceholder v-else>
       {{ $t('funnels.view.selectToStart') }}
@@ -62,18 +77,16 @@ import DataLoader from '@/components/common/data/DataLoader.vue'
 import FunnelsChart from '@/components/funnels/view/FunnelsChart.vue'
 import FunnelsTable from '@/components/funnels/view/FunnelsTable.vue'
 import UiDatePicker from '@/components/uikit/UiDatePicker.vue'
-import type { UiDropdownItem } from '@/components/uikit/UiDropdown.vue';
+import type { UiDropdownItem } from '@/components/uikit/UiDropdown.vue'
 import UiDropdown from '@/components/uikit/UiDropdown.vue'
 import UiIcon from '@/components/uikit/UiIcon.vue'
-import type { UiToggleGroupItem } from '@/components/uikit/UiToggleGroup.vue';
+import type { UiToggleGroupItem } from '@/components/uikit/UiToggleGroup.vue'
 import UiToggleGroup from '@/components/uikit/UiToggleGroup.vue'
 
-import {
-  FunnelQueryCountEnum,
-  FunnelStepsChartTypeTypeEnum
-} from '@/api'
+import { FunnelQueryCountEnum, FunnelStepsChartTypeTypeEnum } from '@/api'
 import { apiClient } from '@/api/apiClient'
 import { periodMap } from '@/configs/events/controls'
+import { DEFAULT_SEPARATOR } from '@/constants'
 import { getLastNDaysRange } from '@/helpers/calendarHelper'
 import { getStringDateByFormat, getYYYYMMDD } from '@/helpers/getStringDates'
 import { useMutation } from '@/hooks/useMutation'
@@ -85,13 +98,13 @@ import { useFilterGroupsStore } from '@/stores/reports/filters'
 
 import { FUNNEL_VIEWS } from './funnelViews'
 
-import type {
-  EventRecordsListRequestTime,
-  FunnelResponseStepsInner,
-} from '@/api';
+import type { EventRecordsListRequestTime, FunnelResponseStepsInner } from '@/api'
 import type { ApplyPayload } from '@/components/uikit/UiCalendar/UiCalendar'
+import type { DataTableRowKey } from 'naive-ui'
 
 const MIN_COUNT_FOR_REQUEST = 2
+const MAX_CHECKED_ROWS = 12
+const DEFAULT_CHECKED_ROWS = 5
 
 const stepsStore = useStepsStore()
 const projectsStore = useProjectsStore()
@@ -114,6 +127,18 @@ const selectItem = (value: UiDropdownItem<string>) => {
 
 const reportSteps = ref<FunnelResponseStepsInner[]>([])
 const groups = ref<string[]>([])
+const checkedRowKeys = ref<DataTableRowKey[]>([])
+
+const filteredReportSteps = computed<FunnelResponseStepsInner[]>(() => {
+  return reportSteps.value.map(step => {
+    return {
+      ...step,
+      data: step.data.filter(item =>
+        checkedRowKeys.value.includes(item.groups.join(DEFAULT_SEPARATOR))
+      ),
+    }
+  })
+})
 
 const controlsPeriod = ref<string | number>('30')
 const period = ref<Period>({
@@ -240,6 +265,12 @@ async function fetchReports(): Promise<void> {
   if (res?.data) {
     reportSteps.value = res.data.steps
     groups.value = res.data.groups
+
+    /* select first N rows */
+    checkedRowKeys.value =
+      res.data.steps[0]?.data
+        .map(item => item.groups.join(DEFAULT_SEPARATOR))
+        .slice(0, DEFAULT_CHECKED_ROWS) ?? []
   }
 }
 
