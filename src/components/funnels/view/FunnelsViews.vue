@@ -55,17 +55,19 @@
       <DataEmptyPlaceholder v-else>
         {{ $t('funnels.view.selectRowInTable') }}
       </DataEmptyPlaceholder>
-
-      <FunnelsTable
-        v-model:checked-row-keys="checkedRowKeys"
-        :report-steps="reportSteps"
-        :groups="groups"
-        :max-checked-rows="MAX_CHECKED_ROWS"
-      />
     </template>
     <DataEmptyPlaceholder v-else>
       {{ $t('funnels.view.selectToStart') }}
     </DataEmptyPlaceholder>
+  </div>
+
+  <div v-if="reportSteps.length" class="pf-c-card pf-u-mt-md">
+    <FunnelsTable
+      v-model:checked-row-keys="checkedRowKeys"
+      :report-steps="reportSteps"
+      :groups="groups"
+      :max-checked-rows="MAX_CHECKED_ROWS"
+    />
   </div>
 </template>
 
