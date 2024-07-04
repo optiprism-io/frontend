@@ -228,6 +228,33 @@ paths:
           $ref: '#/components/responses/Internal'
         '503':
           $ref: '#/components/responses/ServiceUnavailable'
+  /v1/profile/set-email:
+    put:
+      summary: Set email from default to defined
+      operationId: setProfileEmail
+      security:
+        - bearerAuth: [ ]
+      tags:
+        - profile
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SetProfileEmailRequest'
+      responses:
+        204:
+          description: profile
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokensResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/Internal'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
   /v1/organizations:
     get:
       summary: Organizations list
@@ -853,6 +880,76 @@ paths:
       responses:
         204:
           description: deleted successfully
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/Internal'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+  /v1/projects/{projectId}/bookmarks:
+    post:
+      summary: Create bookmark
+      operationId: createBookmark
+      security:
+        - bearerAuth: [ ]
+      tags:
+        - reports
+      parameters:
+        - $ref: '#/components/parameters/ProjectID'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateBookmarkRequest'
+      responses:
+        201:
+          description: bookmark
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Bookmark'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/Internal'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+  /v1/projects/{projectId}/bookmarks/{bookmarkId}:
+    get:
+      summary: Get bookmark
+      operationId: getBookmark
+      security:
+        - bearerAuth: [ ]
+      tags:
+        - bookmarks
+      parameters:
+        - $ref: '#/components/parameters/ProjectID'
+        - name: bookmarkId
+          in: path
+          description: Bookmark ID
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: bookmark
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Bookmark'
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -1999,7 +2096,7 @@ components:
                 type: array
                 items:
                   type: object
-                  required: [ "groups","ts","total","conversionRatio","avgTimeToConvert","droppedOff","dropOffRatio","timeToConvert","timeToConvertFromStart" ]
+                  required: [ "groups","ts","total","conversionRatio","avgTimeToConvert","avgTimeToConvertFromStart","droppedOff","dropOffRatio","timeToConvert","timeToConvertFromStart" ]
                   properties:
                     groups:
                       type: array
@@ -2012,6 +2109,8 @@ components:
                     conversionRatio:
                       type: number
                     avgTimeToConvert:
+                      type: number
+                    avgTimeToConvertFromStart:
                       type: number
                     droppedOff:
                       type: number
@@ -2030,6 +2129,10 @@ components:
             type: object
             required: [ 'type', 'dataType', 'isNullable', 'name', 'data' ]
             properties:
+              propertyName:
+                type: string
+              propertyType:
+                $ref: '#/components/schemas/PropertyType'
               type:
                 type: string
                 enum:
@@ -3907,9 +4010,7 @@ components:
       enum:
         - event
         - custom
-        - system
         - group
-        - systemGroup
     SortDirection:
       type: string
       enum:
@@ -3951,6 +4052,8 @@ components:
           type: string
         forceUpdatePassword:
           type: boolean
+        forceUpdateEmail:
+          type: boolean
     UpdateProfileNameRequest:
       type: object
       required: [ 'name' ]
@@ -3979,3 +4082,35 @@ components:
       properties:
         password:
           type: string
+    SetProfileEmailRequest:
+      type: object
+      required: [ 'email' ]
+      properties:
+        email:
+          type: string
+
+    CreateBookmarkRequest:
+      type: object
+      properties:
+        query:
+          oneOf:
+            - $ref: '#/components/schemas/EventSegmentation'
+            - $ref: '#/components/schemas/FunnelQuery'
+    Bookmark:
+      type: object
+      required: ['id']
+      properties:
+        id:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        createdBy:
+          type: integer
+          format: int64
+        query:
+          oneOf:
+            - $ref: '#/components/schemas/EventSegmentation'
+            - $ref: '#/components/schemas/FunnelQuery'
+
+
