@@ -100,7 +100,7 @@ import { useFilterGroupsStore } from '@/stores/reports/filters'
 
 import { FUNNEL_VIEWS } from './funnelViews'
 
-import type { EventRecordsListRequestTime, FunnelResponseStepsInner } from '@/api'
+import type { EventRecordsListRequestTime, FunnelResponseStepsInner , FunnelQueryStepsInner} from '@/api'
 import type { ApplyPayload } from '@/components/uikit/UiCalendar/UiCalendar'
 import type { DataTableRowKey } from 'naive-ui'
 
@@ -241,12 +241,13 @@ const applyPeriod = (payload: ApplyPayload): void => {
 async function fetchReports(): Promise<void> {
   /* need nextTick for update stepsStore.getSteps */
   await nextTick()
-  if (stepsStore.getSteps.length < MIN_COUNT_FOR_REQUEST) return
+  const steps = stepsStore.getSteps
+  if (steps.length < MIN_COUNT_FOR_REQUEST || hasEmptyFilterValues(steps)) return
 
   const res = await apiClient.query.funnelQuery(projectsStore.projectId, {
+    steps,
     time: timeRequest.value,
     group: stepsStore.group,
-    steps: stepsStore.getSteps,
     breakdowns: breakdownsStore.breakdownsItems,
     filters: filterGroupsStore.filters,
     timeWindow: {
@@ -279,6 +280,10 @@ async function fetchReports(): Promise<void> {
 function resetFunnelViews(): void {
   reportSteps.value = []
   groups.value = []
+}
+
+function hasEmptyFilterValues(steps: FunnelQueryStepsInner[]): boolean {
+  return steps.some(step => step.events.some(event => event.filters.some(filter => !filter.value?.length)))
 }
 
 watch(() => [stepsStore, filterGroupsStore, breakdownsStore, timeRequest], getReports, {
