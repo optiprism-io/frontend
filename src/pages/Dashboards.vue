@@ -119,7 +119,7 @@
               </UiDropdown>
             </template>
             <DashboardPanel
-              :height-chart="item.h * ROW_HEIGHT - 20"
+              :height-chart="item.h * ROW_HEIGHT - 50"
               :report-id="Number(item.reportId)"
             />
           </UiCard>

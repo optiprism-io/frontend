@@ -101,7 +101,7 @@ const update = () => {
     container: container.value as HTMLElement,
     height: props.height,
     width: props.width,
-    padding: props.liteChart ? [30, 5, 0, 5] : [50, 30, 0, 30],
+    padding: [50, 30, 0, 30],
     renderer: 'canvas',
   })
 

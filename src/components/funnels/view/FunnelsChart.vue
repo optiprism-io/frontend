@@ -14,7 +14,7 @@
   >
     <div
       ref="container"
-      class="pf-l-flex pf-u-flex-nowrap"
+      class="pf-l-flex pf-u-flex-nowrap overflow-auto"
     >
       <div
         v-for="(item, j) in reportSteps"
@@ -74,3 +74,9 @@ const stepWidth = computed(() => {
   return Math.max(containerWidth.value / props.reportSteps.length, props.minWidthStep)
 })
 </script>
+
+<style lang="scss" scoped>
+.overflow-auto {
+  overflow: auto;
+}
+</style>
