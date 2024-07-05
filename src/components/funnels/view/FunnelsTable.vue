@@ -43,7 +43,8 @@ const emit = defineEmits(['update:checkedRowKeys'])
 
 const KEY_SPLITTER = '_'
 const KEY_PREFIX = '__'
-const KEY_GROUPS = 'groups'
+const KEY_GROUPS: StepKey = 'groups'
+const KEY_TOTAL: StepKey = 'conversionRatio'
 const INDEX_FIRST_ARR_ELEMENT = 0
 const UNIQ_KEY = 'id'
 
@@ -78,19 +79,33 @@ function handleCheck(rowKeys: DataTableRowKey[]) {
 
 const selectionColumn = computed<TableColumn>(() => ({
   type: 'selection',
-  disabled (row: RowData) {
-    return props.checkedRowKeys.length === props.maxCheckedRows && !props.checkedRowKeys.includes(rowKey(row))
-  }
+  disabled(row: RowData) {
+    return (
+      props.checkedRowKeys.length === props.maxCheckedRows &&
+      !props.checkedRowKeys.includes(rowKey(row))
+    )
+  },
 }))
 
-const groupsColumns = computed<TableColumn[]>(() =>
-  props.groups.map((x, index) => ({
+const groupsColumns = computed<TableColumn[]>(() => {
+  const cols = props.groups.map((x, index) => ({
     title: x,
     key: KEY_PREFIX + KEY_GROUPS + KEY_SPLITTER + INDEX_FIRST_ARR_ELEMENT + `[${index}]`,
     resizable: true,
     ellipsis: true,
   }))
-)
+
+  const lastIndex = props.reportSteps.length - 1
+
+  cols.push({
+    title: 'Conversion Ratio',
+    key: KEY_PREFIX + KEY_TOTAL + KEY_SPLITTER + lastIndex,
+    resizable: true,
+    ellipsis: true,
+  })
+
+  return cols
+})
 
 const dimensionsColumns = computed(() => {
   const VISIBLE_KEY: StepKey[] = ['total', 'droppedOff', 'conversionRatio', 'dropOffRatio'] as const
@@ -133,7 +148,7 @@ function renderCell(value: any, rowData: object, column: DataTableBaseColumn) {
 }
 
 const scrollX = computed(() => {
-  const WIDTH_ONE_COLUMN = 350 // value calculated experimentally
+  const WIDTH_ONE_COLUMN = 250 // value calculated experimentally
   return columns.value.length * WIDTH_ONE_COLUMN
 })
 </script>
