@@ -1,6 +1,9 @@
 <template>
   <div class="pf-l-flex pf-m-column">
-    <div ref="container" class="pf-l-flex__item" />
+    <div
+      ref="container"
+      class="pf-l-flex__item"
+    />
     <div
       class="pf-u-font-weight-bold pf-l-flex__item pf-u-px-lg"
       :class="{
@@ -58,7 +61,9 @@ const dataView = computed(() => {
         const primaryKey = primaryKeys[iterator]
         const secondaryKey = secondaryKeys[iterator]
 
-        const color = props.colors[i] ? lighten(props.colors[i], iterator * 80) : getPseudoRandomColor(i)
+        const color = props.colors[i]
+          ? lighten(props.colors[i], iterator * 80)
+          : getPseudoRandomColor(i)
 
         let primaryValue = item[primaryKey]
         let secondaryValue = item[secondaryKey]
@@ -132,6 +137,11 @@ const update = () => {
         ]
       },
       showMarkers: false,
+      domStyles: {
+        'g2-tooltip-title': {
+          fontWeight: 'bold',
+        },
+      },
     })
     .data(dataView.value)
     .axis(xKey, false)
