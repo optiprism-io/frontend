@@ -1,5 +1,5 @@
 <template>
-  <div class="pf-l-flex">
+  <div class="time-window">
     <span class="pf-l-flex__item">within</span>
 
     <UiSelectSize
@@ -148,3 +148,13 @@ const handleSizeSearch = (value: string) => {
   dynamicSize.value = parsedSize
 }
 </script>
+
+<style lang="scss" scoped>
+.time-window {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+  text-wrap: nowrap;
+}
+</style>

@@ -341,7 +341,9 @@ const removeValueButton = (value: Value) => {
 <style lang="scss">
 .filter {
   .pf-c-action-list {
-    flex-wrap: wrap;
+    position: relative;
+    flex-wrap: nowrap;
+    align-items: flex-start;
     gap: 0.5rem;
 
     & > * + * {
@@ -386,11 +388,6 @@ const removeValueButton = (value: Value) => {
 
   > .pf-c-action-list {
     position: relative;
-  }
-  .pf-c-action-list {
-    position: relative;
-    flex-wrap: wrap;
-    align-items: flex-start;
   }
 
   .icon {
