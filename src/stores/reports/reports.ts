@@ -39,7 +39,9 @@ const getReport = (type: ReportType): ReportQuery => {
     const events = eventsStore?.propsForEventSegmentationResult?.events || []
     const chartType = eventsStore.chartType as EventChartType
 
+    /* TODO: fix "as EventSegmentation" -> "satisfies EventSegmentation" */
     return {
+      type,
       time: eventsStore.timeRequest,
       group: eventsStore.group,
       intervalUnit: eventsStore.controlsGroupBy,
@@ -49,14 +51,16 @@ const getReport = (type: ReportType): ReportQuery => {
       filters,
       breakdowns,
       segments,
-    } satisfies EventSegmentation
+    } as EventSegmentation
   } else {
     const chartType = {
       type: FunnelStepsChartTypeTypeEnum.Steps,
       intervalUnit: TimeUnit.Day,
     }
 
+    /* TODO: fix "as FunnelQuery" -> "satisfies FunnelQuery" */
     return {
+      type,
       time: eventsStore.timeRequest,
       group: eventsStore.group,
       steps: stepsStore.getSteps,
@@ -71,7 +75,10 @@ const getReport = (type: ReportType): ReportQuery => {
       filters,
       breakdowns,
       segments,
-    } satisfies FunnelQuery
+      touch: {
+        type: 'first'
+      }
+    } as FunnelQuery
   }
 }
 
