@@ -3875,6 +3875,8 @@ components:
       properties:
         eventName:
           type: string
+        eventId:
+          type: number
         eventType:
           $ref: '#/components/schemas/EventType'
     EventType:
