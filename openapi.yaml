@@ -3622,7 +3622,8 @@ components:
             - hasPropertyValue
         propertyName:
           type: string
-          description: property name. Because property here is a user only, we don't need propertyType
+        propertyType:
+          $ref: '#/components/schemas/PropertyType'
         operation:
           $ref: '#/components/schemas/PropertyFilterOperation'
         value:
@@ -3641,7 +3642,8 @@ components:
             - hadPropertyValue
         propertyName:
           type: string
-          description: property name. Because property here is a user only, we don't need propertyType
+        propertyType:
+          $ref: '#/components/schemas/PropertyType'
         operation:
           $ref: '#/components/schemas/PropertyFilterOperation'
         value:
