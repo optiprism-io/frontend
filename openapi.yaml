@@ -3100,10 +3100,7 @@ components:
         exclude:
           type: array
           items:
-            type: object
-            allOf:
-              - $ref: '#/components/schemas/FunnelEvent'
-              - $ref: '#/components/schemas/FunnelExcludeSteps'
+            - $ref: '#/components/schemas/FunnelExcludeSteps'
         breakdowns:
           type: array
           description: array of breakdowns
@@ -4098,7 +4095,7 @@ components:
             - $ref: '#/components/schemas/FunnelQuery'
     Bookmark:
       type: object
-      required: ['id']
+      required: [ 'id' ]
       properties:
         id:
           type: string
