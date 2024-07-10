@@ -2978,6 +2978,8 @@ components:
       type: object
       required: [ "time", "group", "steps", "timeWindow", "chartType", "count", "stepOrder" ]
       properties:
+        type:
+          $ref: '#/components/schemas/ReportType'
         time:
           type: object
           description: select time
@@ -3287,6 +3289,8 @@ components:
       description: event segmentation report type main payload
       required: [ "time", "group", "intervalUnit", "chartType", "analysis", "events" ]
       properties:
+        type:
+          $ref: '#/components/schemas/ReportType'
         time:
           type: object
           description: select time
