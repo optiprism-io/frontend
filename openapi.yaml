@@ -2976,7 +2976,7 @@ components:
           $ref: '#/components/schemas/SortablePropertyRef'
     FunnelQuery:
       type: object
-      required: [ "time", "group", "steps", "timeWindow", "chartType", "count", "stepOrder", "touch" ]
+      required: [ "time", "group", "steps", "timeWindow", "chartType", "count", "stepOrder" ]
       properties:
         type:
           $ref: '#/components/schemas/ReportType'
