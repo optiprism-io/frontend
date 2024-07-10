@@ -3100,10 +3100,7 @@ components:
         exclude:
           type: array
           items:
-            type: object
-            allOf:
-              - $ref: '#/components/schemas/FunnelEvent'
-              - $ref: '#/components/schemas/FunnelExcludeSteps'
+            - $ref: '#/components/schemas/FunnelExcludeSteps'
         breakdowns:
           type: array
           description: array of breakdowns
@@ -3625,7 +3622,8 @@ components:
             - hasPropertyValue
         propertyName:
           type: string
-          description: property name. Because property here is a user only, we don't need propertyType
+        propertyType:
+          $ref: '#/components/schemas/PropertyType'
         operation:
           $ref: '#/components/schemas/PropertyFilterOperation'
         value:
@@ -3644,7 +3642,8 @@ components:
             - hadPropertyValue
         propertyName:
           type: string
-          description: property name. Because property here is a user only, we don't need propertyType
+        propertyType:
+          $ref: '#/components/schemas/PropertyType'
         operation:
           $ref: '#/components/schemas/PropertyFilterOperation'
         value:
@@ -3972,6 +3971,8 @@ components:
       properties:
         eventName:
           type: string
+        eventId:
+          type: integer
         eventType:
           $ref: '#/components/schemas/EventType'
     EventType:
@@ -4098,7 +4099,7 @@ components:
             - $ref: '#/components/schemas/FunnelQuery'
     Bookmark:
       type: object
-      required: ['id']
+      required: [ 'id' ]
       properties:
         id:
           type: string
