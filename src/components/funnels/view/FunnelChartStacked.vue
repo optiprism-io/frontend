@@ -101,6 +101,7 @@ const update = () => {
     container: container.value as HTMLElement,
     height: props.height,
     width: props.width,
+    autoFit: true,
     padding: [50, 30, 0, 30],
     renderer: 'canvas',
   })
