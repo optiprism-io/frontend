@@ -3455,7 +3455,7 @@ components:
     TimeBetween:
       type: object
       description: time range between fixed values
-      required: [ "type", "from", "to", "timezone" ]
+      required: [ "type", "from", "to"]
       example: |
         {
           "time": {
@@ -3479,12 +3479,10 @@ components:
           format: date-time
           description: end date
           example: 2017-08-21T17:32:28Z
-        timezone:
-          type: string
     TimeFrom:
       type: object
       description: time range between fixed value and current time
-      required: [ "type", "from", "timezone" ]
+      required: [ "type", "from" ]
       example: |
         {
           "time": {
@@ -3502,12 +3500,10 @@ components:
           format: date-time
           description: start date
           example: 2017-0-21T17:32:28Z
-        timezone:
-          type: string
     TimeLast:
       type: object
       description: take last N days/weeks
-      required: [ "type", "last", "unit", "timezone" ]
+      required: [ "type", "last", "unit" ]
       example: |
         {
           "time": {
