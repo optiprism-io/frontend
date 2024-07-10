@@ -3081,7 +3081,10 @@ components:
         exclude:
           type: array
           items:
-            $ref: '#/components/schemas/FunnelExcludeSteps'
+            type: object
+            allOf:
+              - $ref: '#/components/schemas/FunnelEvent'
+              - $ref: '#/components/schemas/FunnelExcludeSteps'
         breakdowns:
           type: array
           description: array of breakdowns
