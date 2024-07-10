@@ -3100,7 +3100,7 @@ components:
         exclude:
           type: array
           items:
-            - $ref: '#/components/schemas/FunnelExcludeSteps'
+            $ref: '#/components/schemas/FunnelExcludeSteps'
         breakdowns:
           type: array
           description: array of breakdowns
