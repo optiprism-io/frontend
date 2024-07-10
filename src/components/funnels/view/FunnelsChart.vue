@@ -1,5 +1,5 @@
 <template>
-  <div class="pf-l-flex pf-u-justify-content-center">
+  <div v-if="(reportSteps.at(0)?.data.length || 0) > 1" class="pf-l-flex pf-u-justify-content-center">
     <LegendMarker
       v-for="(item, i) in reportSteps.at(0)?.data || []"
       :key="i"
