@@ -4042,12 +4042,6 @@ export interface TimeBetween {
      * @memberof TimeBetween
      */
     'to': string;
-    /**
-     *
-     * @type {string}
-     * @memberof TimeBetween
-     */
-    'timezone': string;
 }
 
 export const TimeBetweenTypeEnum = {
@@ -4074,12 +4068,6 @@ export interface TimeFrom {
      * @memberof TimeFrom
      */
     'from': string;
-    /**
-     *
-     * @type {string}
-     * @memberof TimeFrom
-     */
-    'timezone': string;
 }
 
 export const TimeFromTypeEnum = {
