@@ -508,6 +508,7 @@ onUnmounted(() => {
   .vue-grid-item {
     .pf-c-card__body {
       height: calc(100% - 36px);
+      width: 100%;
     }
   }
   &__add-report,
