@@ -226,6 +226,37 @@ export const AnalysisRollingAverageTypeEnum = {
 export type AnalysisRollingAverageTypeEnum = typeof AnalysisRollingAverageTypeEnum[keyof typeof AnalysisRollingAverageTypeEnum];
 
 /**
+ * 
+ * @export
+ * @interface Bookmark
+ */
+export interface Bookmark {
+    /**
+     * 
+     * @type {string}
+     * @memberof Bookmark
+     */
+    'id': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof Bookmark
+     */
+    'createdAt'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof Bookmark
+     */
+    'createdBy'?: number;
+    /**
+     * 
+     * @type {ReportQuery}
+     * @memberof Bookmark
+     */
+    'query'?: ReportQuery;
+}
+/**
  * breakdown by property.
  * @export
  * @interface BreakdownByProperty
@@ -263,6 +294,19 @@ export const BreakdownByPropertyTypeEnum = {
 
 export type BreakdownByPropertyTypeEnum = typeof BreakdownByPropertyTypeEnum[keyof typeof BreakdownByPropertyTypeEnum];
 
+/**
+ * 
+ * @export
+ * @interface CreateBookmarkRequest
+ */
+export interface CreateBookmarkRequest {
+    /**
+     * 
+     * @type {ReportQuery}
+     * @memberof CreateBookmarkRequest
+     */
+    'query'?: ReportQuery;
+}
 /**
  * Custom Event is an alias to an expression which is used while querying. You can use regular or custom events in expression. You can combine events in expression, you can use filter by properties. 
  * @export
@@ -824,6 +868,18 @@ export interface DataTableResponse {
  * @interface DataTableResponseColumnsInner
  */
 export interface DataTableResponseColumnsInner {
+    /**
+     * 
+     * @type {string}
+     * @memberof DataTableResponseColumnsInner
+     */
+    'propertyName'?: string;
+    /**
+     * 
+     * @type {PropertyType}
+     * @memberof DataTableResponseColumnsInner
+     */
+    'propertyType'?: PropertyType;
     /**
      * 
      * @type {string}
@@ -3002,6 +3058,12 @@ export interface Profile {
      * @memberof Profile
      */
     'forceUpdatePassword'?: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof Profile
+     */
+    'forceUpdateEmail'?: boolean;
 }
 /**
  * 
@@ -3890,6 +3952,19 @@ export type SegmentConditionHasPropertyValueTypeEnum = typeof SegmentConditionHa
 /**
  * 
  * @export
+ * @interface SetProfileEmailRequest
+ */
+export interface SetProfileEmailRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof SetProfileEmailRequest
+     */
+    'email': string;
+}
+/**
+ * 
+ * @export
  * @interface SetProfilePasswordRequest
  */
 export interface SetProfilePasswordRequest {
@@ -4730,6 +4805,125 @@ export class AuthApi extends BaseAPI {
      */
     public refreshToken(refreshTokenRequest: RefreshTokenRequest, options?: RawAxiosRequestConfig) {
         return AuthApiFp(this.configuration).refreshToken(refreshTokenRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+
+/**
+ * BookmarksApi - axios parameter creator
+ * @export
+ */
+export const BookmarksApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @summary Get bookmark
+         * @param {number} projectId 
+         * @param {string} bookmarkId Bookmark ID
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getBookmark: async (projectId: number, bookmarkId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'projectId' is not null or undefined
+            assertParamExists('getBookmark', 'projectId', projectId)
+            // verify required parameter 'bookmarkId' is not null or undefined
+            assertParamExists('getBookmark', 'bookmarkId', bookmarkId)
+            const localVarPath = `/v1/projects/{projectId}/bookmarks/{bookmarkId}`
+                .replace(`{${"projectId"}}`, encodeURIComponent(String(projectId)))
+                .replace(`{${"bookmarkId"}}`, encodeURIComponent(String(bookmarkId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearerAuth required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * BookmarksApi - functional programming interface
+ * @export
+ */
+export const BookmarksApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = BookmarksApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @summary Get bookmark
+         * @param {number} projectId 
+         * @param {string} bookmarkId Bookmark ID
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getBookmark(projectId: number, bookmarkId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Bookmark>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getBookmark(projectId, bookmarkId, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['BookmarksApi.getBookmark']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+    }
+};
+
+/**
+ * BookmarksApi - factory interface
+ * @export
+ */
+export const BookmarksApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = BookmarksApiFp(configuration)
+    return {
+        /**
+         * 
+         * @summary Get bookmark
+         * @param {number} projectId 
+         * @param {string} bookmarkId Bookmark ID
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getBookmark(projectId: number, bookmarkId: string, options?: any): AxiosPromise<Bookmark> {
+            return localVarFp.getBookmark(projectId, bookmarkId, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * BookmarksApi - object-oriented interface
+ * @export
+ * @class BookmarksApi
+ * @extends {BaseAPI}
+ */
+export class BookmarksApi extends BaseAPI {
+    /**
+     * 
+     * @summary Get bookmark
+     * @param {number} projectId 
+     * @param {string} bookmarkId Bookmark ID
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof BookmarksApi
+     */
+    public getBookmark(projectId: number, bookmarkId: string, options?: RawAxiosRequestConfig) {
+        return BookmarksApiFp(this.configuration).getBookmark(projectId, bookmarkId, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -7132,6 +7326,46 @@ export const ProfileApiAxiosParamCreator = function (configuration?: Configurati
         },
         /**
          * 
+         * @summary Set email from default to defined
+         * @param {SetProfileEmailRequest} setProfileEmailRequest 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        setProfileEmail: async (setProfileEmailRequest: SetProfileEmailRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'setProfileEmailRequest' is not null or undefined
+            assertParamExists('setProfileEmail', 'setProfileEmailRequest', setProfileEmailRequest)
+            const localVarPath = `/v1/profile/set-email`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearerAuth required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(setProfileEmailRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @summary Set password from default to defined
          * @param {SetProfilePasswordRequest} setProfilePasswordRequest 
          * @param {*} [options] Override http request option.
@@ -7314,6 +7548,19 @@ export const ProfileApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @summary Set email from default to defined
+         * @param {SetProfileEmailRequest} setProfileEmailRequest 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async setProfileEmail(setProfileEmailRequest: SetProfileEmailRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<TokensResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.setProfileEmail(setProfileEmailRequest, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ProfileApi.setProfileEmail']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
          * @summary Set password from default to defined
          * @param {SetProfilePasswordRequest} setProfilePasswordRequest 
          * @param {*} [options] Override http request option.
@@ -7385,6 +7632,16 @@ export const ProfileApiFactory = function (configuration?: Configuration, basePa
         },
         /**
          * 
+         * @summary Set email from default to defined
+         * @param {SetProfileEmailRequest} setProfileEmailRequest 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        setProfileEmail(setProfileEmailRequest: SetProfileEmailRequest, options?: any): AxiosPromise<TokensResponse> {
+            return localVarFp.setProfileEmail(setProfileEmailRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @summary Set password from default to defined
          * @param {SetProfilePasswordRequest} setProfilePasswordRequest 
          * @param {*} [options] Override http request option.
@@ -7442,6 +7699,18 @@ export class ProfileApi extends BaseAPI {
      */
     public getProfile(options?: RawAxiosRequestConfig) {
         return ProfileApiFp(this.configuration).getProfile(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Set email from default to defined
+     * @param {SetProfileEmailRequest} setProfileEmailRequest 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ProfileApi
+     */
+    public setProfileEmail(setProfileEmailRequest: SetProfileEmailRequest, options?: RawAxiosRequestConfig) {
+        return ProfileApiFp(this.configuration).setProfileEmail(setProfileEmailRequest, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -8591,6 +8860,50 @@ export const ReportsApiAxiosParamCreator = function (configuration?: Configurati
     return {
         /**
          * 
+         * @summary Create bookmark
+         * @param {number} projectId 
+         * @param {CreateBookmarkRequest} createBookmarkRequest 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createBookmark: async (projectId: number, createBookmarkRequest: CreateBookmarkRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'projectId' is not null or undefined
+            assertParamExists('createBookmark', 'projectId', projectId)
+            // verify required parameter 'createBookmarkRequest' is not null or undefined
+            assertParamExists('createBookmark', 'createBookmarkRequest', createBookmarkRequest)
+            const localVarPath = `/v1/projects/{projectId}/bookmarks`
+                .replace(`{${"projectId"}}`, encodeURIComponent(String(projectId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearerAuth required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(createBookmarkRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @summary Create report
          * @param {number} projectId 
          * @param {CreateReportRequest} createReportRequest 
@@ -8815,6 +9128,20 @@ export const ReportsApiFp = function(configuration?: Configuration) {
     return {
         /**
          * 
+         * @summary Create bookmark
+         * @param {number} projectId 
+         * @param {CreateBookmarkRequest} createBookmarkRequest 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async createBookmark(projectId: number, createBookmarkRequest: CreateBookmarkRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Bookmark>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.createBookmark(projectId, createBookmarkRequest, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ReportsApi.createBookmark']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
          * @summary Create report
          * @param {number} projectId 
          * @param {CreateReportRequest} createReportRequest 
@@ -8895,6 +9222,17 @@ export const ReportsApiFactory = function (configuration?: Configuration, basePa
     return {
         /**
          * 
+         * @summary Create bookmark
+         * @param {number} projectId 
+         * @param {CreateBookmarkRequest} createBookmarkRequest 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createBookmark(projectId: number, createBookmarkRequest: CreateBookmarkRequest, options?: any): AxiosPromise<Bookmark> {
+            return localVarFp.createBookmark(projectId, createBookmarkRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @summary Create report
          * @param {number} projectId 
          * @param {CreateReportRequest} createReportRequest 
@@ -8958,6 +9296,19 @@ export const ReportsApiFactory = function (configuration?: Configuration, basePa
  * @extends {BaseAPI}
  */
 export class ReportsApi extends BaseAPI {
+    /**
+     * 
+     * @summary Create bookmark
+     * @param {number} projectId 
+     * @param {CreateBookmarkRequest} createBookmarkRequest 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ReportsApi
+     */
+    public createBookmark(projectId: number, createBookmarkRequest: CreateBookmarkRequest, options?: RawAxiosRequestConfig) {
+        return ReportsApiFp(this.configuration).createBookmark(projectId, createBookmarkRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+
     /**
      * 
      * @summary Create report

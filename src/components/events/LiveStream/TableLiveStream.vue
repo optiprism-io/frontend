@@ -91,7 +91,7 @@ import useProperty from '@/hooks/useProperty'
 import { useCommonStore } from '@/stores/common'
 import { useEventsStore } from '@/stores/eventSegmentation/events'
 import { useLexiconStore } from '@/stores/lexicon'
-import { useLiveStreamStore } from '@/stores/reports/liveStream'
+import { useLiveStreamStore, defaultColumns } from '@/stores/reports/liveStream'
 
 import type { ApplyPayload } from '@/components/uikit/UiCalendar/UiCalendar'
 import type { Cell, Action } from '@/components/uikit/UiTable/UiTable'
@@ -209,6 +209,9 @@ const onSelectPeriod = (payload: string) => {
 }
 
 const selectColumn = (payload: PropertyRef) => {
+  if (defaultColumns.includes(payload.name)) {
+    return
+  }
   const propertyIndex = liveStreamStore.activeColumns.findIndex(
     prop => prop.group === payload.group && prop.id === payload.id && prop.name === payload.name
   )

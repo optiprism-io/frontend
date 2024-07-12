@@ -31,6 +31,8 @@ import usei18n from '@/hooks/useI18n'
 import { useLexiconStore } from '@/stores/lexicon'
 import { useLiveStreamStore } from '@/stores/reports/liveStream'
 
+import type { PropertyRef } from '@/types/events'
+
 const { t } = usei18n()
 const liveStreamStore = useLiveStreamStore()
 const lexiconStore = useLexiconStore()
@@ -47,10 +49,18 @@ onMounted(async () => {
   await lexiconStore.initEventsAndProperties()
 
   liveStreamStore.activeColumns = ['event_id', 'created_at', 'event'].map(name => {
-    return {
+    const eventProperty = lexiconStore.findEventPropertyByName(name)
+
+    const property: PropertyRef = {
       name: name,
       type: PropertyType.Event,
     }
+
+    if (eventProperty) {
+      property.id = eventProperty.id
+    }
+
+    return property
   })
 
   loading.value = false
