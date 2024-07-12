@@ -19,14 +19,6 @@ import type { EventFilter } from '@/stores/eventSegmentation/events'
 import type { EventRef } from '@/types/events'
 import type { Step } from '@/types/steps'
 
-export type ExcludedEventSteps = {
-    type: 'all';
-} | {
-    type: 'between';
-    from: number;
-    to: number;
-}
-
 export type HoldingProperty = {
     id?: number,
     name: string,
@@ -36,7 +28,7 @@ export type HoldingProperty = {
 
 interface ExcludedEvent {
     event: EventRef;
-    steps: ExcludedEventSteps;
+    steps: FunnelExcludeStepsSteps;
     filters: EventFilter[];
 }
 

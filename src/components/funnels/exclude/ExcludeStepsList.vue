@@ -93,14 +93,18 @@ import UiActionListItem from '@/components/uikit/UiActionList/UiActionListItem.v
 import UiButton from '@/components/uikit/UiButton.vue'
 import UiIcon from '@/components/uikit/UiIcon.vue'
 
+import {
+  FunnelExcludeStepsStepsOneOf1TypeEnum,
+  FunnelExcludeStepsStepsOneOfTypeEnum,
+} from '@/api'
 import { UiSelectGeneric } from '@/components/uikit/UiSelect/UiSelectGeneric';
 import { useEventName } from '@/helpers/useEventName';
 import { useFilter } from '@/hooks/useFilter';
 import { useStepsStore} from '@/stores/funnels/steps';
 import { OperationId } from '@/types';
 
+import type { FunnelExcludeStepsSteps } from '@/api';
 import type { UiSelectItemInterface } from '@/components/uikit/UiSelect/types';
-import type { ExcludedEventSteps } from '@/stores/funnels/steps';
 import type { Value } from '@/types';
 import type { EventRef, PropertyRef } from '@/types/events';
 import type { I18N } from '@/utils/i18n';
@@ -226,7 +230,7 @@ const removeFilterValueForEvent = (index: number, filterIndex: number, value: Va
     })
 }
 
-const excludeStepsFromString = (stepsString: string): ExcludedEventSteps => {
+const excludeStepsFromString = (stepsString: string): FunnelExcludeStepsSteps => {
     if (stepsString === 'all') {
         return {
             type: 'all'
@@ -241,11 +245,13 @@ const excludeStepsFromString = (stepsString: string): ExcludedEventSteps => {
     }
 }
 
-const excludeStepsToString = (steps: ExcludedEventSteps): string => {
-    if (steps.type === 'all') {
+const excludeStepsToString = (steps: FunnelExcludeStepsSteps): string => {
+    if (steps.type === FunnelExcludeStepsStepsOneOfTypeEnum.All) {
         return $t('funnels.excludeSteps.all');
-    } else {
+    } else if (steps.type === FunnelExcludeStepsStepsOneOf1TypeEnum.Between) {
         return `${steps.from} ${$t('funnels.excludeSteps.and')} ${steps.to}`
+    } else {
+      return ''
     }
 }
 </script>
