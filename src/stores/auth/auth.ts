@@ -1,8 +1,8 @@
-import axios from 'axios'
 import { defineStore } from 'pinia'
 import { getCookie, removeCookie, setCookie } from 'typescript-cookie'
 
 import { apiClient } from '@/api/apiClient'
+import { axiosInstance } from '@/plugins/axios'
 import { LocalStorageAccessor } from '@/utils/localStorageAccessor'
 import { parseJwt } from '@/utils/parseJwt'
 
@@ -74,17 +74,22 @@ export const useAuthStore = defineStore('auth', {
             }
         },
         setToken(token: TokensResponse, keepLogged?: boolean): void {
+            if (!token.accessToken) throw new Error('accessToken is empty')
+            if (!token.refreshToken) throw new Error('refreshToken is empty')
+
             if (keepLogged) {
-                setCookie(TOKEN_KEY, token?.accessToken ?? '', {
-                    expires: EXPIRES_DAYS
+                setCookie(TOKEN_KEY, token.accessToken, {
+                  expires: EXPIRES_DAYS,
+                  sameSite: 'strict',
                 })
                 localStorage.setItem(KEEP_LOGGED, 'true')
             } else {
-                sessionStorage.setItem(TOKEN_KEY, token?.accessToken ?? '')
+                sessionStorage.setItem(TOKEN_KEY, token.accessToken)
             }
-            axios.defaults.headers.common[HEADER_KEY] = token?.accessToken ? `Bearer ${token.accessToken}` : ''
-            this.accessToken = token.accessToken ?? ''
-            this.refreshToken.value = token.refreshToken ?? ''
+            axiosInstance.defaults.headers.common[HEADER_KEY] = `Bearer ${token.accessToken}`
+
+            this.accessToken = token.accessToken
+            this.refreshToken.value = token.refreshToken
         },
         reset(): void {
             localStorage.removeItem(KEEP_LOGGED)
