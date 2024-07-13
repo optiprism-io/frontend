@@ -535,6 +535,12 @@ export interface CustomEventEvent {
     'eventName'?: string;
     /**
      * 
+     * @type {number}
+     * @memberof CustomEventEvent
+     */
+    'eventId'?: number;
+    /**
+     * 
      * @type {EventType}
      * @memberof CustomEventEvent
      */
@@ -1136,6 +1142,12 @@ export interface DidEventRelativeCount {
     'eventName'?: string;
     /**
      * 
+     * @type {number}
+     * @memberof DidEventRelativeCount
+     */
+    'eventId'?: number;
+    /**
+     * 
      * @type {EventType}
      * @memberof DidEventRelativeCount
      */
@@ -1514,6 +1526,12 @@ export interface EventRecordRequestEvent {
     'eventName'?: string;
     /**
      * 
+     * @type {number}
+     * @memberof EventRecordRequestEvent
+     */
+    'eventId'?: number;
+    /**
+     * 
      * @type {EventType}
      * @memberof EventRecordRequestEvent
      */
@@ -1589,6 +1607,12 @@ export interface EventRef {
      * @memberof EventRef
      */
     'eventName'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof EventRef
+     */
+    'eventId'?: number;
     /**
      * 
      * @type {EventType}
@@ -1707,6 +1731,12 @@ export interface EventSegmentationEvent {
      * @memberof EventSegmentationEvent
      */
     'eventName'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof EventSegmentationEvent
+     */
+    'eventId'?: number;
     /**
      * 
      * @type {EventType}
@@ -1909,6 +1939,12 @@ export interface FunnelEvent {
     'eventName'?: string;
     /**
      * 
+     * @type {number}
+     * @memberof FunnelEvent
+     */
+    'eventId'?: number;
+    /**
+     * 
      * @type {EventType}
      * @memberof FunnelEvent
      */
@@ -2081,10 +2117,10 @@ export interface FunnelQuery {
     'holdingConstants'?: Array<PropertyRef>;
     /**
      * 
-     * @type {Array<FunnelQueryExcludeInner>}
+     * @type {Array<FunnelExcludeSteps>}
      * @memberof FunnelQuery
      */
-    'exclude'?: Array<FunnelQueryExcludeInner>;
+    'exclude'?: Array<FunnelExcludeSteps>;
     /**
      * array of breakdowns
      * @type {Array<BreakdownByProperty>}
@@ -2177,39 +2213,6 @@ export type FunnelQueryAttributionOneOf1TypeEnum = typeof FunnelQueryAttribution
  * @export
  */
 export type FunnelQueryChartType = FunnelConversionOverTimeChartType | FunnelStepsChartType;
-
-/**
- * 
- * @export
- * @interface FunnelQueryExcludeInner
- */
-export interface FunnelQueryExcludeInner {
-    /**
-     * 
-     * @type {string}
-     * @memberof FunnelQueryExcludeInner
-     */
-    'eventName'?: string;
-    /**
-     * 
-     * @type {EventType}
-     * @memberof FunnelQueryExcludeInner
-     */
-    'eventType': EventType;
-    /**
-     * array of event filters
-     * @type {Array<FunnelEventAllOfFilters>}
-     * @memberof FunnelQueryExcludeInner
-     */
-    'filters': Array<FunnelEventAllOfFilters>;
-    /**
-     * 
-     * @type {FunnelExcludeStepsSteps}
-     * @memberof FunnelQueryExcludeInner
-     */
-    'steps': FunnelExcludeStepsSteps;
-}
-
 
 /**
  * @type FunnelQueryFilter
@@ -2905,6 +2908,12 @@ export interface ListPropertyValuesRequest {
      * @memberof ListPropertyValuesRequest
      */
     'eventName'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof ListPropertyValuesRequest
+     */
+    'eventId'?: number;
     /**
      * 
      * @type {EventType}
@@ -3792,6 +3801,12 @@ export interface SegmentConditionDidEvent {
     'eventName'?: string;
     /**
      * 
+     * @type {number}
+     * @memberof SegmentConditionDidEvent
+     */
+    'eventId'?: number;
+    /**
+     * 
      * @type {EventType}
      * @memberof SegmentConditionDidEvent
      */
@@ -3873,11 +3888,17 @@ export interface SegmentConditionHadPropertyValue {
      */
     'type': SegmentConditionHadPropertyValueTypeEnum;
     /**
-     * property name. Because property here is a user only, we don\'t need propertyType
+     * 
      * @type {string}
      * @memberof SegmentConditionHadPropertyValue
      */
     'propertyName': string;
+    /**
+     * 
+     * @type {PropertyType}
+     * @memberof SegmentConditionHadPropertyValue
+     */
+    'propertyType'?: PropertyType;
     /**
      * 
      * @type {PropertyFilterOperation}
@@ -3924,11 +3945,17 @@ export interface SegmentConditionHasPropertyValue {
      */
     'type': SegmentConditionHasPropertyValueTypeEnum;
     /**
-     * property name. Because property here is a user only, we don\'t need propertyType
+     * 
      * @type {string}
      * @memberof SegmentConditionHasPropertyValue
      */
     'propertyName': string;
+    /**
+     * 
+     * @type {PropertyType}
+     * @memberof SegmentConditionHasPropertyValue
+     */
+    'propertyType'?: PropertyType;
     /**
      * 
      * @type {PropertyFilterOperation}
