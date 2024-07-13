@@ -81,6 +81,7 @@ export const useAuthStore = defineStore('auth', {
                 setCookie(TOKEN_KEY, token.accessToken, {
                   expires: EXPIRES_DAYS,
                   sameSite: 'strict',
+                  path: '/'
                 })
                 localStorage.setItem(KEEP_LOGGED, 'true')
             } else {
@@ -94,7 +95,7 @@ export const useAuthStore = defineStore('auth', {
         reset(): void {
             localStorage.removeItem(KEEP_LOGGED)
             sessionStorage.removeItem(TOKEN_KEY)
-            removeCookie(TOKEN_KEY)
+            removeCookie(TOKEN_KEY, { sameSite: 'strict', path: '/' })
             this.accessToken = null
             this.refreshToken.value = null
         },
