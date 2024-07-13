@@ -1,13 +1,14 @@
 /* This file is generated manually */
 import {
   AuthApi,
-  Configuration,
   CustomEventsApi,
   DashboardsApi,
   EventPropertiesApi,
   EventRecordsApi,
   EventsApi,
+  GroupPropertiesApi,
   GroupRecordsApi,
+  GroupsApi,
   OrganizationsApi,
   ProfileApi,
   ProjectsApi,
@@ -16,14 +17,8 @@ import {
   QueryApi,
   ReportsApi,
   SystemPropertiesApi,
-  GroupPropertiesApi,
-  GroupsApi
 } from '@/api/index'
-import { BASE_PATH } from '@/api/base'
-
-const config = new Configuration({
-  basePath: import.meta.env.VITE_API_BASE_PATH || BASE_PATH,
-})
+import { axiosInstance } from '@/plugins/axios'
 
 class ApiClient {
   auth: AuthApi
@@ -45,23 +40,23 @@ class ApiClient {
   groups: GroupsApi
 
   constructor() {
-    this.auth = new AuthApi(config)
-    this.customEvents = new CustomEventsApi(config)
-    this.dashboards = new DashboardsApi(config)
-    this.eventProperties = new EventPropertiesApi(config)
-    this.eventRecords = new EventRecordsApi(config)
-    this.events = new EventsApi(config)
-    this.groupRecords = new GroupRecordsApi(config)
-    this.organizations = new OrganizationsApi(config)
-    this.profile = new ProfileApi(config)
-    this.projects = new ProjectsApi(config)
-    this.properties = new PropertiesApi(config)
-    this.propertyValues = new PropertyValuesApi(config)
-    this.query = new QueryApi(config)
-    this.reports = new ReportsApi(config)
-    this.systemProperties = new SystemPropertiesApi(config)
-    this.groupProperties = new GroupPropertiesApi(config)
-    this.groups = new GroupsApi(config)
+    this.auth = new AuthApi(undefined, '', axiosInstance)
+    this.customEvents = new CustomEventsApi(undefined, '', axiosInstance)
+    this.dashboards = new DashboardsApi(undefined, '', axiosInstance)
+    this.eventProperties = new EventPropertiesApi(undefined, '', axiosInstance)
+    this.eventRecords = new EventRecordsApi(undefined, '', axiosInstance)
+    this.events = new EventsApi(undefined, '', axiosInstance)
+    this.groupRecords = new GroupRecordsApi(undefined, '', axiosInstance)
+    this.organizations = new OrganizationsApi(undefined, '', axiosInstance)
+    this.profile = new ProfileApi(undefined, '', axiosInstance)
+    this.projects = new ProjectsApi(undefined, '', axiosInstance)
+    this.properties = new PropertiesApi(undefined, '', axiosInstance)
+    this.propertyValues = new PropertyValuesApi(undefined, '', axiosInstance)
+    this.query = new QueryApi(undefined, '', axiosInstance)
+    this.reports = new ReportsApi(undefined, '', axiosInstance)
+    this.systemProperties = new SystemPropertiesApi(undefined, '', axiosInstance)
+    this.groupProperties = new GroupPropertiesApi(undefined, '', axiosInstance)
+    this.groups = new GroupsApi(undefined, '', axiosInstance)
   }
 }
 

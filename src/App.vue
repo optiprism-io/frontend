@@ -19,13 +19,14 @@
 </template>
 
 <script lang="ts" setup>
-import axios, { HttpStatusCode } from 'axios'
+import { HttpStatusCode } from 'axios'
 import { RouterView } from 'vue-router'
 
 import UiAlertGroup from './components/uikit/UiAlertGroup.vue';
 import AppPreloader from '@/components/common/AppPreloader.vue'
 
 import usei18n from '@/hooks/useI18n';
+import { axiosInstance } from '@/plugins/axios'
 import { useAlertsStore } from '@/stores/alerts';
 import { useAuthStore } from '@/stores/auth/auth';
 
@@ -46,7 +47,7 @@ const createErrorGeneral = (res: ErrorResponse, text?: string) => {
 };
 
 /* TODO: think about where to move the interceptors to a more suitable place */
-axios.interceptors.response.use(
+axiosInstance.interceptors.response.use(
   res => res,
   async err => {
     const status = err.response ? err.response.status : null
@@ -73,7 +74,7 @@ axios.interceptors.response.use(
 
           err.config.headers['Authorization'] = 'Bearer ' + authStore.accessToken
           err.config.baseURL = undefined
-          return axios.request(err.config)
+          return axiosInstance.request(err.config)
         })
 
       case HttpStatusCode.BadRequest:

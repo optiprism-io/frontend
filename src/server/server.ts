@@ -1,7 +1,6 @@
 import { createServer } from 'miragejs'
 
 import { DataType } from '@/api'
-import { BASE_PATH } from '@/api/base'
 import dashboardsMocks from '@/mocks/dashboards'
 import customEventsMocks from '@/mocks/eventSegmentations/customEvents.json'
 import customProperties from '@/mocks/eventSegmentations/customProperties.json'
@@ -30,7 +29,7 @@ import { EventStatus } from '@/types/events'
 import type { ListPropertiesResponse } from '@/api';
 import type { UserCustomProperty } from '@/types/events';
 
-const urlPrefix = BASE_PATH + '/' + import.meta.env.VITE_API_VERSION
+const urlPrefix = import.meta.env.VITE_API_BASE_PATH + '/' + import.meta.env.VITE_API_VERSION
 const SESSION_STORAGE_KEY = 'db'
 
 const dbTemplate: { [k: string]: any } = {
