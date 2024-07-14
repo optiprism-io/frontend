@@ -35,7 +35,7 @@
           <UiCardTitle>
             {{ $t('criteria.label') }}
           </UiCardTitle>
-          <UiCardBody>
+          <UiCardBody class="pf-l-flex pf-m-column">
             <TimeWindow />
             <HoldingConstantList />
             <ExcludeStepsList />

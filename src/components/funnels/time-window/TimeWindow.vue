@@ -153,7 +153,6 @@ const handleSizeSearch = (value: string) => {
 .time-window {
   display: flex;
   align-items: center;
-  justify-content: center;
   gap: 0.25rem;
   text-wrap: nowrap;
 }

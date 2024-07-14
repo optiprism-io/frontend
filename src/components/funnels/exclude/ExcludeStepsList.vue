@@ -6,7 +6,7 @@
   >
     <UiActionList>
       <template #main>
-        <div class="pf-l-flex">
+        <div class="pf-l-flex row-gap">
           <span class="pf-l-flex__item">
             {{ $t('funnels.excludeSteps.exclude') }}
           </span>
@@ -259,5 +259,9 @@ const excludeStepsToString = (steps: FunnelExcludeStepsSteps): string => {
 <style lang="scss" scoped>
 .exclude-step-filter {
   margin-left: 20px;
+}
+
+.row-gap {
+  row-gap: 0.5rem;
 }
 </style>
