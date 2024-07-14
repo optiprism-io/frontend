@@ -52,9 +52,6 @@ type Lexicon = {
   userPropertyPopup: boolean
   userCustomProperties: UserCustomProperty[]
   userPropertiesLoading: boolean
-
-  systemProperties: Property[]
-  systemPropertiesLoading: boolean
 }
 
 export const useLexiconStore = defineStore('lexicon', {
@@ -88,9 +85,6 @@ export const useLexiconStore = defineStore('lexicon', {
     userPropertyPopup: false,
     userPropertiesLoading: false,
     userCustomProperties: [],
-
-    systemProperties: [],
-    systemPropertiesLoading: false,
   }),
   actions: {
     deleteCustomEvent(payload: number) {
@@ -212,22 +206,6 @@ export const useLexiconStore = defineStore('lexicon', {
 
       this.eventPropertiesLoading = false
     },
-    async getSystemProperties() {
-      const projectsStore = useProjectsStore()
-
-      this.systemPropertiesLoading = true
-
-      try {
-        const res = await apiClient.systemProperties.systemPropertiesList(projectsStore.projectId)
-        if (res?.data?.data) {
-          this.systemProperties = res.data.data
-        }
-      } catch (e) {
-        console.error('Error Get System Properties')
-      }
-
-      this.systemPropertiesLoading = false
-    },
     async getGroups() {
       const projectsStore = useProjectsStore()
       try {
@@ -258,7 +236,6 @@ export const useLexiconStore = defineStore('lexicon', {
     async initEventsAndProperties() {
       await Promise.all([
         this.getEvents(),
-        this.getSystemProperties(),
         this.getEventProperties(),
         await this.getGroups(),
         this.getGroupProperties(),
@@ -285,12 +262,6 @@ export const useLexiconStore = defineStore('lexicon', {
             propertyType: PropertyType.Group,
             propertyName: item.name || item.displayName,
             group: item.groupId,
-          }
-        }),
-        ...state.systemProperties.map((item): PropertyRefApi => {
-          return {
-            propertyType: PropertyType.System,
-            propertyName: item.name || item.displayName,
           }
         }),
       ]
@@ -413,15 +384,6 @@ export const useLexiconStore = defineStore('lexicon', {
         return property
       }
     },
-    findSystemPropertyByName(state: Lexicon) {
-      return (name: string | number): Property | undefined => {
-        const property = state.systemProperties.find((prop): boolean => prop.name === name)
-        if (!property) {
-          errorHandler(`undefined System property name: ${name}`)
-        }
-        return property
-      }
-    },
     findGroupProperty(state: Lexicon) {
       return (name: string | number): Property | undefined => {
         const property = state.groupProperties.flat().find((prop): boolean => prop.name === name)
@@ -475,8 +437,6 @@ export const useLexiconStore = defineStore('lexicon', {
             return this.findEventCustomProperty(ref.name)
           case PropertyType.Group:
             return this.findGroupProperty(ref.name)
-          case PropertyType.System:
-            return this.findSystemPropertyByName(ref.name)
           default:
             return undefined
         }

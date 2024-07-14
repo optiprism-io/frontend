@@ -14,7 +14,10 @@
             :w-100="true"
             @on-select="onSelectReport"
           >
-            <template v-if="reportsStore.loading" #action>
+            <template
+              v-if="reportsStore.loading"
+              #action
+            >
               <UiSpinner />
             </template>
           </UiSelect>
@@ -242,7 +245,6 @@ const onSelectReport = async (id: number) => {
 const initEventsAndProperties = async () => {
   await Promise.all([
     lexiconStore.getEvents(),
-    lexiconStore.getSystemProperties(),
     lexiconStore.getEventProperties(),
     await lexiconStore.getGroups(),
     lexiconStore.getGroupProperties(),
@@ -276,7 +278,7 @@ onMounted(async () => {
   overflow-y: hidden;
 
   .overflow-auto {
-   overflow: auto;
+    overflow: auto;
   }
 
   &__name {

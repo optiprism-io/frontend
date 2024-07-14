@@ -41,6 +41,7 @@ export default {
           dropOffRatio: 0.0,
           timeToConvert: 0,
           timeToConvertFromStart: 0,
+          avgTimeToConvertFromStart: 0,
         },
         {
           groups: ['0', 'Chrome OS'],
@@ -53,6 +54,7 @@ export default {
           dropOffRatio: 0.0,
           timeToConvert: 0,
           timeToConvertFromStart: 0,
+          avgTimeToConvertFromStart: 0,
         },
         {
           groups: ['0', 'Macintosh'],
@@ -65,6 +67,7 @@ export default {
           dropOffRatio: 0.0,
           timeToConvert: 0,
           timeToConvertFromStart: 0,
+          avgTimeToConvertFromStart: 0,
         },
         {
           groups: ['0', 'Windows'],
@@ -77,6 +80,7 @@ export default {
           dropOffRatio: 0.0,
           timeToConvert: 0,
           timeToConvertFromStart: 0,
+          avgTimeToConvertFromStart: 0,
         },
       ],
     },
@@ -118,6 +122,7 @@ export default {
           dropOffRatio: 17.708,
           timeToConvert: 2253000,
           timeToConvertFromStart: 2253000,
+          avgTimeToConvertFromStart: 0,
         },
         {
           groups: ['0', 'Chrome OS'],
@@ -130,6 +135,7 @@ export default {
           dropOffRatio: 15.0,
           timeToConvert: 1816000,
           timeToConvertFromStart: 1816000,
+          avgTimeToConvertFromStart: 0,
         },
         {
           groups: ['0', 'Macintosh'],
@@ -142,6 +148,7 @@ export default {
           dropOffRatio: 23.869,
           timeToConvert: 5671000,
           timeToConvertFromStart: 5671000,
+          avgTimeToConvertFromStart: 0,
         },
         {
           groups: ['0', 'Windows'],
@@ -154,6 +161,7 @@ export default {
           dropOffRatio: 15.278,
           timeToConvert: 3080000,
           timeToConvertFromStart: 3080000,
+          avgTimeToConvertFromStart: 0,
         },
       ],
     },
@@ -195,6 +203,7 @@ export default {
           dropOffRatio: 14.583,
           timeToConvert: 873000,
           timeToConvertFromStart: 2488000,
+          avgTimeToConvertFromStart: 0,
         },
         {
           groups: ['0', 'Chrome OS'],
@@ -207,6 +216,7 @@ export default {
           dropOffRatio: 0.0,
           timeToConvert: 811000,
           timeToConvertFromStart: 2627000,
+          avgTimeToConvertFromStart: 0,
         },
         {
           groups: ['0', 'Macintosh'],
@@ -219,6 +229,7 @@ export default {
           dropOffRatio: 6.608,
           timeToConvert: 4433000,
           timeToConvertFromStart: 9313000,
+          avgTimeToConvertFromStart: 0,
         },
         {
           groups: ['0', 'Windows'],
@@ -231,6 +242,7 @@ export default {
           dropOffRatio: 21.944,
           timeToConvert: 2476000,
           timeToConvertFromStart: 5323000,
+          avgTimeToConvertFromStart: 0,
         },
       ],
     },

@@ -1323,35 +1323,6 @@ paths:
           $ref: '#/components/responses/Internal'
         '503':
           $ref: '#/components/responses/ServiceUnavailable'
-  /v1/projects/{projectId}/schema/system-group-properties:
-    get:
-      summary: Get system group property
-      operationId: getSystemGroupProperty
-      security:
-        - bearerAuth: [ ]
-      tags:
-        - system group properties
-      parameters:
-        - $ref: '#/components/parameters/ProjectID'
-      responses:
-        201:
-          description: system group property
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Property'
-        '400':
-          $ref: '#/components/responses/BadRequest'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '404':
-          $ref: '#/components/responses/NotFound'
-        '500':
-          $ref: '#/components/responses/Internal'
-        '503':
-          $ref: '#/components/responses/ServiceUnavailable'
   /v1/projects/{projectId}/schema/event-properties:
     get:
       summary: Event properties list
@@ -1443,73 +1414,6 @@ paths:
       responses:
         201:
           description: property
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Property'
-        '400':
-          $ref: '#/components/responses/BadRequest'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '404':
-          $ref: '#/components/responses/NotFound'
-        '500':
-          $ref: '#/components/responses/Internal'
-        '503':
-          $ref: '#/components/responses/ServiceUnavailable'
-  /v1/projects/{projectId}/schema/system-properties:
-    get:
-      summary: System properties list
-      operationId: systemPropertiesList
-      security:
-        - bearerAuth: [ ]
-      tags:
-        - system properties
-      parameters:
-        - $ref: '#/components/parameters/ProjectID'
-      responses:
-        '200':
-          description: properties list
-          content:
-            application/json:
-              schema:
-                type: object
-                allOf:
-                  - $ref: '#/components/schemas/ListPropertiesResponse'
-                  - $ref: '#/components/schemas/ListResponseMetadata'
-        '400':
-          $ref: '#/components/responses/BadRequest'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '404':
-          $ref: '#/components/responses/NotFound'
-        '500':
-          $ref: '#/components/responses/Internal'
-        '503':
-          $ref: '#/components/responses/ServiceUnavailable'
-  /v1/projects/{projectId}/schema/system-properties/{propertyId}:
-    get:
-      summary: Get system property
-      operationId: getSystemProperty
-      security:
-        - bearerAuth: [ ]
-      tags:
-        - system properties
-      parameters:
-        - $ref: '#/components/parameters/ProjectID'
-        - name: propertyId
-          in: path
-          description: Property ID
-          required: true
-          schema:
-            type: number
-      responses:
-        201:
-          description: system property
           content:
             application/json:
               schema:
@@ -4010,8 +3914,8 @@ components:
       description: possible property type
       enum:
         - event
-        - custom
         - group
+        - custom
     SortDirection:
       type: string
       enum:

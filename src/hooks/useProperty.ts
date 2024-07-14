@@ -4,7 +4,7 @@ import { PropertyType } from '@/api'
 import usei18n from '@/hooks/useI18n'
 import { useLexiconStore } from '@/stores/lexicon'
 
-import type { Property } from '@/api';
+import type { Property } from '@/api'
 import type { Group, Item } from '@/components/Select/SelectTypes'
 import type { PropertyRef } from '@/types/events'
 
@@ -33,7 +33,7 @@ const getProperties = (items: Property[], name: string, type: PropertyType, grou
         name: item.name,
         description: item?.description,
         hidden: item.hidden,
-        dataType: item.dataType
+        dataType: item.dataType,
       })
 
       return acc
@@ -45,19 +45,8 @@ const userProperty = () => {
   const lexiconStore = useLexiconStore()
   const { t } = usei18n()
 
-  const strings = {
-    systemProperties: t('events.systemProperties'),
-  }
-
   const noDataPropertyes = computed(() => {
     return !lexiconStore.propertiesLength
-  })
-
-  const systemProperties =  computed(() => {
-    return getProperties(
-      lexiconStore.systemProperties,
-      strings.systemProperties,
-      PropertyType.System)
   })
 
   const groupedProperties = computed(() => {
@@ -90,10 +79,6 @@ const userProperty = () => {
       PropertyType.Event
     )
 
-    if (lexiconStore.systemProperties?.length) {
-      ret.push(systemProperties.value)
-    }
-
     if (eventProperties.items.length) {
       ret.push(eventProperties)
     }
@@ -118,8 +103,7 @@ const userProperty = () => {
 
   return {
     groupedProperties,
-    systemProperties,
   }
 }
 
-export default userProperty;
+export default userProperty

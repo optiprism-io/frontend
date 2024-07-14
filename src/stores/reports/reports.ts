@@ -9,7 +9,8 @@ import { useBreakdownsStore } from '@/stores/reports/breakdowns'
 import { useFilterGroupsStore } from '@/stores/reports/filters'
 import { useSegmentsStore } from '@/stores/reports/segments'
 
-import type { EventChartType, Report, EventSegmentation, FunnelQuery, ReportQuery } from '@/api'
+import type { EventChartType, Report, EventSegmentation, FunnelQuery, ReportQuery ,
+} from '@/api'
 
 type Reports = {
   list: Report[]
