@@ -2882,6 +2882,8 @@ components:
       type: object
       required: [ "time", "group", "steps", "timeWindow", "chartType", "count", "stepOrder" ]
       properties:
+        type:
+          $ref: '#/components/schemas/ReportType'
         time:
           type: object
           description: select time
@@ -2976,27 +2978,6 @@ components:
                 to:
                   type: integer
                   description: From timestamp
-        attribution:
-          type: object
-          required: [ 'type' ]
-          oneOf:
-            - type: object
-              required: [ 'type' ]
-              properties:
-                type:
-                  type: string
-                  enum:
-                    - first
-                    - last
-            - type: object
-              required: [ 'type', 'step' ]
-              properties:
-                type:
-                  type: string
-                  enum:
-                    - step
-                step:
-                  type: integer
         holdingConstants:
           type: array
           items:
@@ -3004,7 +2985,10 @@ components:
         exclude:
           type: array
           items:
-            $ref: '#/components/schemas/FunnelExcludeSteps'
+            type: object
+            allOf:
+              - $ref: '#/components/schemas/FunnelEvent'
+              - $ref: '#/components/schemas/FunnelExcludeSteps'
         breakdowns:
           type: array
           description: array of breakdowns
@@ -3191,6 +3175,8 @@ components:
       description: event segmentation report type main payload
       required: [ "time", "group", "intervalUnit", "chartType", "analysis", "events" ]
       properties:
+        type:
+          $ref: '#/components/schemas/ReportType'
         time:
           type: object
           description: select time
@@ -3376,7 +3362,7 @@ components:
     TimeBetween:
       type: object
       description: time range between fixed values
-      required: [ "type", "from", "to", "timezone" ]
+      required: [ "type", "from", "to"]
       example: |
         {
           "time": {
@@ -3400,12 +3386,10 @@ components:
           format: date-time
           description: end date
           example: 2017-08-21T17:32:28Z
-        timezone:
-          type: string
     TimeFrom:
       type: object
       description: time range between fixed value and current time
-      required: [ "type", "from", "timezone" ]
+      required: [ "type", "from" ]
       example: |
         {
           "time": {
@@ -3423,12 +3407,10 @@ components:
           format: date-time
           description: start date
           example: 2017-0-21T17:32:28Z
-        timezone:
-          type: string
     TimeLast:
       type: object
       description: take last N days/weeks
-      required: [ "type", "last", "unit", "timezone" ]
+      required: [ "type", "last", "unit" ]
       example: |
         {
           "time": {
