@@ -16,8 +16,6 @@ import {
   PropertyValuesApi,
   QueryApi,
   ReportsApi,
-  GroupPropertiesApi,
-  GroupsApi,
 } from '@/api/index'
 import { axiosInstance } from '@/plugins/axios'
 

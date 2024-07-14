@@ -7,10 +7,7 @@ import { useLexiconStore } from '@/stores/lexicon'
 import type {
   EventFilterByProperty,
   EventFilterByPropertyTypeEnum,
-  EventType,
   FunnelEvent,
-  FunnelExcludeStepsSteps,
-  FunnelQueryExcludeInner,
   FunnelQueryStepsInner,
   PropertyRef,
   TimeUnit,
@@ -169,25 +166,6 @@ export const useStepsStore = defineStore('steps', {
         }
 
         return property
-      })
-    },
-    getExcluded(): FunnelQueryExcludeInner[] {
-      const eventName = useEventName()
-
-      return this.excludedEvents.map((item): FunnelQueryExcludeInner => {
-        return {
-          eventName: eventName(item.event),
-          eventType: item.event.type as EventType,
-          filters: item.filters.map(filter => {
-            return {
-              propertyType: filter.propRef?.type ?? '',
-              type: 'property',
-              operation: filter.opId,
-              value: filter.values,
-            }
-          }) as EventFilterByProperty[],
-          steps: this.getSteps as FunnelExcludeStepsSteps,
-        }
       })
     },
   },
