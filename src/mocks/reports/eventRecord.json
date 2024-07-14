@@ -1,55 +1,5 @@
 [
   {
-    "propertyType": "system",
-    "propertyName": "project_id",
-    "value": 1
-  },
-  {
-    "propertyType": "system",
-    "propertyName": "group_0",
-    "value": "roderick_beatae@yahoo.com"
-  },
-  {
-    "propertyType": "system",
-    "propertyName": "group_1",
-    "value": "Outfitsing"
-  },
-  {
-    "propertyType": "system",
-    "propertyName": "group_2",
-    "value": "Project 4"
-  },
-  {
-    "propertyType": "system",
-    "propertyName": "group_3",
-    "value": ""
-  },
-  {
-    "propertyType": "system",
-    "propertyName": "group_4",
-    "value": ""
-  },
-  {
-    "propertyType": "system",
-    "propertyName": "created_at",
-    "value": 1712621639000
-  },
-  {
-    "propertyType": "system",
-    "propertyName": "event_id",
-    "value": 32193
-  },
-  {
-    "propertyType": "system",
-    "propertyName": "event",
-    "value": "Product Added To Cart"
-  },
-  {
-    "propertyType": "system",
-    "propertyName": "ip",
-    "value": ""
-  },
-  {
     "propertyType": "event",
     "propertyName": "Client Family",
     "value": ""

@@ -1,311 +1,296 @@
 import { defineStore } from 'pinia'
 
-import {
-  FunnelQueryStepsInnerOrderOneOfTypeEnum
-} from '@/api'
+import { FunnelQueryStepsInnerOrderOneOfTypeEnum } from '@/api'
 import { useEventName } from '@/helpers/useEventName'
 import { useLexiconStore } from '@/stores/lexicon'
 
 import type {
   EventFilterByProperty,
   EventFilterByPropertyTypeEnum,
-  EventType,
   FunnelEvent,
-  FunnelExcludeStepsSteps,
-  FunnelQueryExcludeInner,
   FunnelQueryStepsInner,
   PropertyRef,
-  TimeUnit} from '@/api';
+  TimeUnit,
+} from '@/api'
 import type { EventFilter } from '@/stores/eventSegmentation/events'
 import type { EventRef } from '@/types/events'
 import type { Step } from '@/types/steps'
 
 export const stepOrders = ['exact', 'any'] as const
-export type StepOrder = typeof stepOrders[number];
+export type StepOrder = (typeof stepOrders)[number]
 
-export type ExcludedEventSteps = {
-    type: 'all';
-} | {
-    type: 'between';
-    from: number;
-    to: number;
-}
+export type ExcludedEventSteps =
+  | {
+      type: 'all'
+    }
+  | {
+      type: 'between'
+      from: number
+      to: number
+    }
 
 export type HoldingProperty = {
-    id?: number,
-    name: string,
-    type: EventFilterByPropertyTypeEnum
-    group?: number
-};
+  id?: number
+  name: string
+  type: EventFilterByPropertyTypeEnum
+  group?: number
+}
 
 interface ExcludedEvent {
-    event: EventRef;
-    steps: ExcludedEventSteps;
-    filters: EventFilter[];
+  event: EventRef
+  steps: ExcludedEventSteps
+  filters: EventFilter[]
 }
 
-type AddExcludedEventPayload = Omit<ExcludedEvent, 'filters'>;
+type AddExcludedEventPayload = Omit<ExcludedEvent, 'filters'>
 type EditExcludedEventPayload = {
-    index: number;
-    excludedEvent: Partial<ExcludedEvent>;
+  index: number
+  excludedEvent: Partial<ExcludedEvent>
 }
 type RemoveFilterForEventPayload = {
-    index: number;
-    filterIndex: number;
+  index: number
+  filterIndex: number
 }
 type EditFilterForEventPayload = {
-    index: number;
-    filterIndex: number;
-    filter: Partial<EventFilter>;
+  index: number
+  filterIndex: number
+  filter: Partial<EventFilter>
 }
-type AddHoldingPropertyPayload = HoldingProperty;
+type AddHoldingPropertyPayload = HoldingProperty
 type EditHoldingPropertyPayload = {
-    index: number;
-    property: HoldingProperty;
+  index: number
+  property: HoldingProperty
 }
 type AddEventToStepPayload = {
-    index: number;
-    event: EventRef;
+  index: number
+  event: EventRef
 }
 type DeleteEventFormStepPayload = {
-    index: number;
-    eventIndex: number;
+  index: number
+  eventIndex: number
 }
 type EditStepEventPayload = {
-    index: number;
-    eventIndex: number;
-    eventRef: EventRef;
+  index: number
+  eventIndex: number
+  eventRef: EventRef
 }
 type AddFilterToStepPayload = {
-    index: number;
-    eventIndex: number;
-    filter: EventFilter;
+  index: number
+  eventIndex: number
+  filter: EventFilter
 }
 type RemoveFilterForStepEventPayload = {
-    index: number;
-    eventIndex: number;
-    filterIndex: number;
+  index: number
+  eventIndex: number
+  filterIndex: number
 }
 type EditFilterForStepEventPayload = {
-    index: number;
-    eventIndex: number;
-    filterIndex: number;
-    filter: Partial<EventFilter>;
+  index: number
+  eventIndex: number
+  filterIndex: number
+  filter: Partial<EventFilter>
 }
 
 interface StepsStore {
-    steps: Step[];
-    size: number;
-    unit: TimeUnit;
-    order: StepOrder;
-    excludedEvents: ExcludedEvent[];
-    holdingProperties: HoldingProperty[];
-    propsAvailableToHold: HoldingProperty[];
-    group: number
+  steps: Step[]
+  size: number
+  unit: TimeUnit
+  order: StepOrder
+  excludedEvents: ExcludedEvent[]
+  holdingProperties: HoldingProperty[]
+  propsAvailableToHold: HoldingProperty[]
+  group: number
 }
 
 export const useStepsStore = defineStore('steps', {
-    state: (): StepsStore => ({
-        steps: [],
-        size: 10,
-        unit: 'hour',
-        order: 'any',
-        excludedEvents: [],
-        holdingProperties: [],
-        propsAvailableToHold: [],
-        group: 0
-    }),
-    getters: {
-        getSteps(): FunnelQueryStepsInner[] {
-            const eventName = useEventName()
-            const lexiconStore = useLexiconStore()
+  state: (): StepsStore => ({
+    steps: [],
+    size: 10,
+    unit: 'hour',
+    order: 'any',
+    excludedEvents: [],
+    holdingProperties: [],
+    propsAvailableToHold: [],
+    group: 0,
+  }),
+  getters: {
+    getSteps(): FunnelQueryStepsInner[] {
+      const eventName = useEventName()
+      const lexiconStore = useLexiconStore()
 
-            return this.steps.map(item => {
-                const events = item.events.map(event => {
-                    return {
-                        eventType: event.event.type,
-                        eventName: eventName(event.event),
-                        filters: event.filters.map(filter => {
-                            let property
-                            if (filter.propRef) {
-                                property = lexiconStore.property(filter.propRef)
-                            }
+      return this.steps.map(item => {
+        const events = item.events.map(event => {
+          return {
+            eventType: event.event.type,
+            eventName: eventName(event.event),
+            filters: event.filters.map(filter => {
+              let property
+              if (filter.propRef) {
+                property = lexiconStore.property(filter.propRef)
+              }
 
-                            const item: EventFilterByProperty = {
-                                propertyName: property ? property.name : '',
-                                propertyType: filter.propRef?.type || 'system',
-                                type: 'property',
-                                operation: filter.opId,
-                                value: filter.values
-                            }
+              const item: EventFilterByProperty = {
+                propertyName: property ? property.name : '',
+                propertyType: filter.propRef?.type || 'event',
+                type: 'property',
+                operation: filter.opId,
+                value: filter.values,
+              }
 
-                            if (filter.propRef?.group || filter.propRef?.group === 0) {
-                                item.group = filter.propRef?.group
-                            }
+              if (filter.propRef?.group || filter.propRef?.group === 0) {
+                item.group = filter.propRef?.group
+              }
 
-                            return item;
-                        })
-                    }
-                }) as FunnelEvent[]
+              return item
+            }),
+          }
+        }) as FunnelEvent[]
 
-                return {
-                    events,
-                    order: {
-                      type: FunnelQueryStepsInnerOrderOneOfTypeEnum.Exact,
-                    }
-                }
-            })
-        },
-        getHoldingProperties(): PropertyRef[] {
-            return this.holdingProperties.map(item => {
-                const property: PropertyRef = {
-                    propertyType: item.type as any,
-                    propertyName: item.name
-                }
-
-                if (item.group || item.group === 0) {
-                    property.group = item.group
-                }
-
-                return property
-            })
-        },
-        getExcluded(): FunnelQueryExcludeInner[] {
-            const eventName = useEventName()
-
-            return this.excludedEvents.map((item): FunnelQueryExcludeInner => {
-                return {
-                    eventName: eventName(item.event),
-                    eventType: item.event.type as EventType,
-                    filters: item.filters.map(filter => {
-                        return {
-                            propertyType: filter.propRef?.type ?? '',
-                            type: 'property',
-                            operation: filter.opId,
-                            value: filter.values
-                        }
-                    }) as EventFilterByProperty[],
-                    steps: this.getSteps as FunnelExcludeStepsSteps
-                }
-            })
-        },
+        return {
+          events,
+          order: {
+            type: FunnelQueryStepsInnerOrderOneOfTypeEnum.Exact,
+          },
+        }
+      })
     },
-    actions: {
-        addStep(step: Step): void {
-            this.steps.push(step);
-        },
-        deleteStep(index: number): void {
-            this.steps.splice(index, 1);
-        },
-        setSize(size: number): void {
-            this.size = size;
-        },
-        setUnit(unit: TimeUnit): void {
-            this.unit = unit;
-        },
-        setOrder(order: StepOrder): void {
-            this.order = order;
-        },
-        addExcludedEvent({ event, steps }: AddExcludedEventPayload): void {
-            this.excludedEvents.push({
-                event,
-                steps,
-                filters: []
-            });
-        },
-        editExcludedEvent({ index, excludedEvent }: EditExcludedEventPayload): void {
-            const { event, steps, filters } = excludedEvent
-            if (event) {
-                this.excludedEvents[index].event = event
-            }
-            if (steps) {
-                this.excludedEvents[index].steps = steps
-            }
-            if (filters) {
-                this.excludedEvents[index].filters = [
-                    ...this.excludedEvents[index].filters,
-                    ...filters
-                ]
-            }
-        },
-        removeFilterForEvent({index, filterIndex}: RemoveFilterForEventPayload): void {
-            this.excludedEvents[index].filters.splice(filterIndex, 1)
-        },
-        editFilterForEvent({index, filterIndex, filter}: EditFilterForEventPayload): void {
-            const prevFilter = this.excludedEvents[index].filters[filterIndex];
-            this.excludedEvents[index].filters[filterIndex] = {
-                ...prevFilter,
-                ...filter
-            }
-        },
-        deleteExcludedEvent(index: number): void {
-            this.excludedEvents.splice(index, 1);
-        },
-        addHoldingProperty(payload: AddHoldingPropertyPayload): void {
-            this.holdingProperties.push(payload);
-        },
-        editHoldingProperty({index, property}: EditHoldingPropertyPayload): void {
-            this.holdingProperties[index] = property;
-        },
-        deleteHoldingProperty(index: number): void {
-            this.holdingProperties.splice(index, 1);
-        },
-        clearHoldingProperties(): void {
-            this.holdingProperties = [];
-        },
-        setPropsAvailableToHold(properties: HoldingProperty[]): void {
-            this.propsAvailableToHold = properties;
-        },
-        addEventToStep({index, event}: AddEventToStepPayload): void {
-            this.steps[index].events.push({
-                event,
-                filters: []
-            })
-        },
-        editStepEvent({index, eventIndex, eventRef}: EditStepEventPayload): void {
-            const event = this.steps[index]
-            if (event) {
-                event.events[eventIndex].event = eventRef;
-                event.events[eventIndex].filters = [];
-            }
-        },
-        deleteEventFromStep({index, eventIndex}: DeleteEventFormStepPayload): void {
-            const step = this.steps[index];
-            if (step) {
-                step.events.splice(eventIndex, 1);
-            }
-        },
-        addFilterToStep({index, eventIndex, filter}: AddFilterToStepPayload): void {
-            this.steps[index].events[eventIndex].filters.push(filter);
-        },
-        removeFilterForStepEvent({index, eventIndex, filterIndex}: RemoveFilterForStepEventPayload): void {
-            const step = this.steps[index];
-            if (!step) {
-                return
-            }
+    getHoldingProperties(): PropertyRef[] {
+      return this.holdingProperties.map(item => {
+        const property: PropertyRef = {
+          propertyType: item.type as any,
+          propertyName: item.name,
+        }
 
-            const event = step.events[eventIndex];
-            if (!event) {
-                return
-            }
+        if (item.group || item.group === 0) {
+          property.group = item.group
+        }
 
-            event.filters.splice(filterIndex, 1);
-        },
-        editFilterForStepEvent({index, eventIndex, filterIndex, filter}: EditFilterForStepEventPayload): void {
-            const step = this.steps[index];
-            if (!step) {
-                return
-            }
+        return property
+      })
+    },
+  },
+  actions: {
+    addStep(step: Step): void {
+      this.steps.push(step)
+    },
+    deleteStep(index: number): void {
+      this.steps.splice(index, 1)
+    },
+    setSize(size: number): void {
+      this.size = size
+    },
+    setUnit(unit: TimeUnit): void {
+      this.unit = unit
+    },
+    setOrder(order: StepOrder): void {
+      this.order = order
+    },
+    addExcludedEvent({ event, steps }: AddExcludedEventPayload): void {
+      this.excludedEvents.push({
+        event,
+        steps,
+        filters: [],
+      })
+    },
+    editExcludedEvent({ index, excludedEvent }: EditExcludedEventPayload): void {
+      const { event, steps, filters } = excludedEvent
+      if (event) {
+        this.excludedEvents[index].event = event
+      }
+      if (steps) {
+        this.excludedEvents[index].steps = steps
+      }
+      if (filters) {
+        this.excludedEvents[index].filters = [...this.excludedEvents[index].filters, ...filters]
+      }
+    },
+    removeFilterForEvent({ index, filterIndex }: RemoveFilterForEventPayload): void {
+      this.excludedEvents[index].filters.splice(filterIndex, 1)
+    },
+    editFilterForEvent({ index, filterIndex, filter }: EditFilterForEventPayload): void {
+      const prevFilter = this.excludedEvents[index].filters[filterIndex]
+      this.excludedEvents[index].filters[filterIndex] = {
+        ...prevFilter,
+        ...filter,
+      }
+    },
+    deleteExcludedEvent(index: number): void {
+      this.excludedEvents.splice(index, 1)
+    },
+    addHoldingProperty(payload: AddHoldingPropertyPayload): void {
+      this.holdingProperties.push(payload)
+    },
+    editHoldingProperty({ index, property }: EditHoldingPropertyPayload): void {
+      this.holdingProperties[index] = property
+    },
+    deleteHoldingProperty(index: number): void {
+      this.holdingProperties.splice(index, 1)
+    },
+    clearHoldingProperties(): void {
+      this.holdingProperties = []
+    },
+    setPropsAvailableToHold(properties: HoldingProperty[]): void {
+      this.propsAvailableToHold = properties
+    },
+    addEventToStep({ index, event }: AddEventToStepPayload): void {
+      this.steps[index].events.push({
+        event,
+        filters: [],
+      })
+    },
+    editStepEvent({ index, eventIndex, eventRef }: EditStepEventPayload): void {
+      const event = this.steps[index]
+      if (event) {
+        event.events[eventIndex].event = eventRef
+        event.events[eventIndex].filters = []
+      }
+    },
+    deleteEventFromStep({ index, eventIndex }: DeleteEventFormStepPayload): void {
+      const step = this.steps[index]
+      if (step) {
+        step.events.splice(eventIndex, 1)
+      }
+    },
+    addFilterToStep({ index, eventIndex, filter }: AddFilterToStepPayload): void {
+      this.steps[index].events[eventIndex].filters.push(filter)
+    },
+    removeFilterForStepEvent({
+      index,
+      eventIndex,
+      filterIndex,
+    }: RemoveFilterForStepEventPayload): void {
+      const step = this.steps[index]
+      if (!step) {
+        return
+      }
 
-            const event = step.events[eventIndex];
-            if (!event) {
-                return
-            }
+      const event = step.events[eventIndex]
+      if (!event) {
+        return
+      }
 
-            event.filters[filterIndex] = {
-                ...event.filters[filterIndex],
-                ...filter
-            }
-        },
-    }
+      event.filters.splice(filterIndex, 1)
+    },
+    editFilterForStepEvent({
+      index,
+      eventIndex,
+      filterIndex,
+      filter,
+    }: EditFilterForStepEventPayload): void {
+      const step = this.steps[index]
+      if (!step) {
+        return
+      }
+
+      const event = step.events[eventIndex]
+      if (!event) {
+        return
+      }
+
+      event.filters[filterIndex] = {
+        ...event.filters[filterIndex],
+        ...filter,
+      }
+    },
+  },
 })

@@ -91,7 +91,7 @@ import useProperty from '@/hooks/useProperty'
 import { useCommonStore } from '@/stores/common'
 import { useEventsStore } from '@/stores/eventSegmentation/events'
 import { useLexiconStore } from '@/stores/lexicon'
-import { useLiveStreamStore } from '@/stores/reports/liveStream'
+import { useLiveStreamStore, defaultColumns } from '@/stores/reports/liveStream'
 
 import type { ApplyPayload } from '@/components/uikit/UiCalendar/UiCalendar'
 import type { Cell, Action } from '@/components/uikit/UiTable/UiTable'
@@ -209,6 +209,9 @@ const onSelectPeriod = (payload: string) => {
 }
 
 const selectColumn = (payload: PropertyRef) => {
+  if (defaultColumns.includes(payload.name)) {
+    return
+  }
   const propertyIndex = liveStreamStore.activeColumns.findIndex(
     prop => prop.group === payload.group && prop.id === payload.id && prop.name === payload.name
   )
@@ -237,11 +240,11 @@ const onApplyPeriod = (payload: ApplyPayload): void => {
 }
 
 const clickCell = async (cell: Cell, rowIndex: number) => {
-  const row = tableData.value.tableData[rowIndex]
+  const row = tableData.value?.tableData[rowIndex]
 
   if (row) {
-    const eventIdCell = row.find(item => item.key === 'event_id')
-    const eventNameCell = row.find(item => item.key === 'Event')
+    const eventIdCell = row.find(item => item.key === 'Event ID' || item.key === 'event_id')
+    const eventNameCell = row.find(item => item.key === 'Event' || item.key === 'event')
 
     if (eventIdCell?.value) {
       eventPopupId.value = +eventIdCell.value

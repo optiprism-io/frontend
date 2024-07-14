@@ -1,10 +1,6 @@
 import { defineStore } from 'pinia'
 
-import {
-  FunnelStepsChartTypeTypeEnum,
-  ReportType,
-  TimeUnit,
-} from '@/api'
+import { FunnelStepsChartTypeTypeEnum, ReportType, TimeUnit } from '@/api'
 import { apiClient } from '@/api/apiClient'
 import { useEventsStore } from '@/stores/eventSegmentation/events'
 import { useStepsStore } from '@/stores/funnels/steps'
@@ -21,8 +17,8 @@ import type {
   FunnelQueryStepsInner,
   PropertyRef,
   Report,
-  ReportQuery
-} from '@/api';
+  ReportQuery,
+} from '@/api'
 
 type Reports = {
   list: Report[]
@@ -60,7 +56,6 @@ const getReport = (type: ReportType) => {
         : [],
     steps: stepsStore.getSteps as FunnelQueryStepsInner[],
     holdingConstants: stepsStore.getHoldingProperties as PropertyRef[],
-    exclude: stepsStore.getExcluded,
   } as ReportQuery
 
   if (filterGroupsStore.isSelectedAnyFilter) {

@@ -226,6 +226,37 @@ export const AnalysisRollingAverageTypeEnum = {
 export type AnalysisRollingAverageTypeEnum = typeof AnalysisRollingAverageTypeEnum[keyof typeof AnalysisRollingAverageTypeEnum];
 
 /**
+ * 
+ * @export
+ * @interface Bookmark
+ */
+export interface Bookmark {
+    /**
+     * 
+     * @type {string}
+     * @memberof Bookmark
+     */
+    'id': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof Bookmark
+     */
+    'createdAt'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof Bookmark
+     */
+    'createdBy'?: number;
+    /**
+     * 
+     * @type {ReportQuery}
+     * @memberof Bookmark
+     */
+    'query'?: ReportQuery;
+}
+/**
  * breakdown by property.
  * @export
  * @interface BreakdownByProperty
@@ -263,6 +294,19 @@ export const BreakdownByPropertyTypeEnum = {
 
 export type BreakdownByPropertyTypeEnum = typeof BreakdownByPropertyTypeEnum[keyof typeof BreakdownByPropertyTypeEnum];
 
+/**
+ * 
+ * @export
+ * @interface CreateBookmarkRequest
+ */
+export interface CreateBookmarkRequest {
+    /**
+     * 
+     * @type {ReportQuery}
+     * @memberof CreateBookmarkRequest
+     */
+    'query'?: ReportQuery;
+}
 /**
  * Custom Event is an alias to an expression which is used while querying. You can use regular or custom events in expression. You can combine events in expression, you can use filter by properties. 
  * @export
@@ -489,6 +533,12 @@ export interface CustomEventEvent {
      * @memberof CustomEventEvent
      */
     'eventName'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof CustomEventEvent
+     */
+    'eventId'?: number;
     /**
      * 
      * @type {EventType}
@@ -829,6 +879,18 @@ export interface DataTableResponseColumnsInner {
      * @type {string}
      * @memberof DataTableResponseColumnsInner
      */
+    'propertyName'?: string;
+    /**
+     * 
+     * @type {PropertyType}
+     * @memberof DataTableResponseColumnsInner
+     */
+    'propertyType'?: PropertyType;
+    /**
+     * 
+     * @type {string}
+     * @memberof DataTableResponseColumnsInner
+     */
     'type': DataTableResponseColumnsInnerTypeEnum;
     /**
      * 
@@ -1078,6 +1140,12 @@ export interface DidEventRelativeCount {
      * @memberof DidEventRelativeCount
      */
     'eventName'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof DidEventRelativeCount
+     */
+    'eventId'?: number;
     /**
      * 
      * @type {EventType}
@@ -1458,6 +1526,12 @@ export interface EventRecordRequestEvent {
     'eventName'?: string;
     /**
      * 
+     * @type {number}
+     * @memberof EventRecordRequestEvent
+     */
+    'eventId'?: number;
+    /**
+     * 
      * @type {EventType}
      * @memberof EventRecordRequestEvent
      */
@@ -1533,6 +1607,12 @@ export interface EventRef {
      * @memberof EventRef
      */
     'eventName'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof EventRef
+     */
+    'eventId'?: number;
     /**
      * 
      * @type {EventType}
@@ -1651,6 +1731,12 @@ export interface EventSegmentationEvent {
      * @memberof EventSegmentationEvent
      */
     'eventName'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof EventSegmentationEvent
+     */
+    'eventId'?: number;
     /**
      * 
      * @type {EventType}
@@ -1853,6 +1939,12 @@ export interface FunnelEvent {
     'eventName'?: string;
     /**
      * 
+     * @type {number}
+     * @memberof FunnelEvent
+     */
+    'eventId'?: number;
+    /**
+     * 
      * @type {EventType}
      * @memberof FunnelEvent
      */
@@ -2025,10 +2117,10 @@ export interface FunnelQuery {
     'holdingConstants'?: Array<PropertyRef>;
     /**
      * 
-     * @type {Array<FunnelQueryExcludeInner>}
+     * @type {Array<FunnelExcludeSteps>}
      * @memberof FunnelQuery
      */
-    'exclude'?: Array<FunnelQueryExcludeInner>;
+    'exclude'?: Array<FunnelExcludeSteps>;
     /**
      * array of breakdowns
      * @type {Array<BreakdownByProperty>}
@@ -2121,39 +2213,6 @@ export type FunnelQueryAttributionOneOf1TypeEnum = typeof FunnelQueryAttribution
  * @export
  */
 export type FunnelQueryChartType = FunnelConversionOverTimeChartType | FunnelStepsChartType;
-
-/**
- * 
- * @export
- * @interface FunnelQueryExcludeInner
- */
-export interface FunnelQueryExcludeInner {
-    /**
-     * 
-     * @type {string}
-     * @memberof FunnelQueryExcludeInner
-     */
-    'eventName'?: string;
-    /**
-     * 
-     * @type {EventType}
-     * @memberof FunnelQueryExcludeInner
-     */
-    'eventType': EventType;
-    /**
-     * array of event filters
-     * @type {Array<FunnelEventAllOfFilters>}
-     * @memberof FunnelQueryExcludeInner
-     */
-    'filters': Array<FunnelEventAllOfFilters>;
-    /**
-     * 
-     * @type {FunnelExcludeStepsSteps}
-     * @memberof FunnelQueryExcludeInner
-     */
-    'steps': FunnelExcludeStepsSteps;
-}
-
 
 /**
  * @type FunnelQueryFilter
@@ -2483,6 +2542,12 @@ export interface FunnelResponseStepsInnerDataInner {
      * @memberof FunnelResponseStepsInnerDataInner
      */
     'avgTimeToConvert': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof FunnelResponseStepsInnerDataInner
+     */
+    'avgTimeToConvertFromStart': number;
     /**
      * 
      * @type {number}
@@ -2845,6 +2910,12 @@ export interface ListPropertyValuesRequest {
     'eventName'?: string;
     /**
      * 
+     * @type {number}
+     * @memberof ListPropertyValuesRequest
+     */
+    'eventId'?: number;
+    /**
+     * 
      * @type {EventType}
      * @memberof ListPropertyValuesRequest
      */
@@ -2996,6 +3067,12 @@ export interface Profile {
      * @memberof Profile
      */
     'forceUpdatePassword'?: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof Profile
+     */
+    'forceUpdateEmail'?: boolean;
 }
 /**
  * 
@@ -3326,10 +3403,8 @@ export type PropertyStatus = typeof PropertyStatus[keyof typeof PropertyStatus];
 
 export const PropertyType = {
     Event: 'event',
-    Custom: 'custom',
-    System: 'system',
     Group: 'group',
-    SystemGroup: 'systemGroup'
+    Custom: 'custom'
 } as const;
 
 export type PropertyType = typeof PropertyType[keyof typeof PropertyType];
@@ -3726,6 +3801,12 @@ export interface SegmentConditionDidEvent {
     'eventName'?: string;
     /**
      * 
+     * @type {number}
+     * @memberof SegmentConditionDidEvent
+     */
+    'eventId'?: number;
+    /**
+     * 
      * @type {EventType}
      * @memberof SegmentConditionDidEvent
      */
@@ -3807,11 +3888,17 @@ export interface SegmentConditionHadPropertyValue {
      */
     'type': SegmentConditionHadPropertyValueTypeEnum;
     /**
-     * property name. Because property here is a user only, we don\'t need propertyType
+     * 
      * @type {string}
      * @memberof SegmentConditionHadPropertyValue
      */
     'propertyName': string;
+    /**
+     * 
+     * @type {PropertyType}
+     * @memberof SegmentConditionHadPropertyValue
+     */
+    'propertyType'?: PropertyType;
     /**
      * 
      * @type {PropertyFilterOperation}
@@ -3858,11 +3945,17 @@ export interface SegmentConditionHasPropertyValue {
      */
     'type': SegmentConditionHasPropertyValueTypeEnum;
     /**
-     * property name. Because property here is a user only, we don\'t need propertyType
+     * 
      * @type {string}
      * @memberof SegmentConditionHasPropertyValue
      */
     'propertyName': string;
+    /**
+     * 
+     * @type {PropertyType}
+     * @memberof SegmentConditionHasPropertyValue
+     */
+    'propertyType'?: PropertyType;
     /**
      * 
      * @type {PropertyFilterOperation}
@@ -3883,6 +3976,19 @@ export const SegmentConditionHasPropertyValueTypeEnum = {
 
 export type SegmentConditionHasPropertyValueTypeEnum = typeof SegmentConditionHasPropertyValueTypeEnum[keyof typeof SegmentConditionHasPropertyValueTypeEnum];
 
+/**
+ * 
+ * @export
+ * @interface SetProfileEmailRequest
+ */
+export interface SetProfileEmailRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof SetProfileEmailRequest
+     */
+    'email': string;
+}
 /**
  * 
  * @export
@@ -4726,6 +4832,125 @@ export class AuthApi extends BaseAPI {
      */
     public refreshToken(refreshTokenRequest: RefreshTokenRequest, options?: RawAxiosRequestConfig) {
         return AuthApiFp(this.configuration).refreshToken(refreshTokenRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+
+/**
+ * BookmarksApi - axios parameter creator
+ * @export
+ */
+export const BookmarksApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @summary Get bookmark
+         * @param {number} projectId 
+         * @param {string} bookmarkId Bookmark ID
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getBookmark: async (projectId: number, bookmarkId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'projectId' is not null or undefined
+            assertParamExists('getBookmark', 'projectId', projectId)
+            // verify required parameter 'bookmarkId' is not null or undefined
+            assertParamExists('getBookmark', 'bookmarkId', bookmarkId)
+            const localVarPath = `/v1/projects/{projectId}/bookmarks/{bookmarkId}`
+                .replace(`{${"projectId"}}`, encodeURIComponent(String(projectId)))
+                .replace(`{${"bookmarkId"}}`, encodeURIComponent(String(bookmarkId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearerAuth required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * BookmarksApi - functional programming interface
+ * @export
+ */
+export const BookmarksApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = BookmarksApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @summary Get bookmark
+         * @param {number} projectId 
+         * @param {string} bookmarkId Bookmark ID
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getBookmark(projectId: number, bookmarkId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Bookmark>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getBookmark(projectId, bookmarkId, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['BookmarksApi.getBookmark']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+    }
+};
+
+/**
+ * BookmarksApi - factory interface
+ * @export
+ */
+export const BookmarksApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = BookmarksApiFp(configuration)
+    return {
+        /**
+         * 
+         * @summary Get bookmark
+         * @param {number} projectId 
+         * @param {string} bookmarkId Bookmark ID
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getBookmark(projectId: number, bookmarkId: string, options?: any): AxiosPromise<Bookmark> {
+            return localVarFp.getBookmark(projectId, bookmarkId, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * BookmarksApi - object-oriented interface
+ * @export
+ * @class BookmarksApi
+ * @extends {BaseAPI}
+ */
+export class BookmarksApi extends BaseAPI {
+    /**
+     * 
+     * @summary Get bookmark
+     * @param {number} projectId 
+     * @param {string} bookmarkId Bookmark ID
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof BookmarksApi
+     */
+    public getBookmark(projectId: number, bookmarkId: string, options?: RawAxiosRequestConfig) {
+        return BookmarksApiFp(this.configuration).getBookmark(projectId, bookmarkId, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -7128,6 +7353,46 @@ export const ProfileApiAxiosParamCreator = function (configuration?: Configurati
         },
         /**
          * 
+         * @summary Set email from default to defined
+         * @param {SetProfileEmailRequest} setProfileEmailRequest 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        setProfileEmail: async (setProfileEmailRequest: SetProfileEmailRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'setProfileEmailRequest' is not null or undefined
+            assertParamExists('setProfileEmail', 'setProfileEmailRequest', setProfileEmailRequest)
+            const localVarPath = `/v1/profile/set-email`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearerAuth required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(setProfileEmailRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @summary Set password from default to defined
          * @param {SetProfilePasswordRequest} setProfilePasswordRequest 
          * @param {*} [options] Override http request option.
@@ -7310,6 +7575,19 @@ export const ProfileApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @summary Set email from default to defined
+         * @param {SetProfileEmailRequest} setProfileEmailRequest 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async setProfileEmail(setProfileEmailRequest: SetProfileEmailRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<TokensResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.setProfileEmail(setProfileEmailRequest, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ProfileApi.setProfileEmail']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
          * @summary Set password from default to defined
          * @param {SetProfilePasswordRequest} setProfilePasswordRequest 
          * @param {*} [options] Override http request option.
@@ -7381,6 +7659,16 @@ export const ProfileApiFactory = function (configuration?: Configuration, basePa
         },
         /**
          * 
+         * @summary Set email from default to defined
+         * @param {SetProfileEmailRequest} setProfileEmailRequest 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        setProfileEmail(setProfileEmailRequest: SetProfileEmailRequest, options?: any): AxiosPromise<TokensResponse> {
+            return localVarFp.setProfileEmail(setProfileEmailRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @summary Set password from default to defined
          * @param {SetProfilePasswordRequest} setProfilePasswordRequest 
          * @param {*} [options] Override http request option.
@@ -7438,6 +7726,18 @@ export class ProfileApi extends BaseAPI {
      */
     public getProfile(options?: RawAxiosRequestConfig) {
         return ProfileApiFp(this.configuration).getProfile(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Set email from default to defined
+     * @param {SetProfileEmailRequest} setProfileEmailRequest 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ProfileApi
+     */
+    public setProfileEmail(setProfileEmailRequest: SetProfileEmailRequest, options?: RawAxiosRequestConfig) {
+        return ProfileApiFp(this.configuration).setProfileEmail(setProfileEmailRequest, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -8587,6 +8887,50 @@ export const ReportsApiAxiosParamCreator = function (configuration?: Configurati
     return {
         /**
          * 
+         * @summary Create bookmark
+         * @param {number} projectId 
+         * @param {CreateBookmarkRequest} createBookmarkRequest 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createBookmark: async (projectId: number, createBookmarkRequest: CreateBookmarkRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'projectId' is not null or undefined
+            assertParamExists('createBookmark', 'projectId', projectId)
+            // verify required parameter 'createBookmarkRequest' is not null or undefined
+            assertParamExists('createBookmark', 'createBookmarkRequest', createBookmarkRequest)
+            const localVarPath = `/v1/projects/{projectId}/bookmarks`
+                .replace(`{${"projectId"}}`, encodeURIComponent(String(projectId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearerAuth required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(createBookmarkRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @summary Create report
          * @param {number} projectId 
          * @param {CreateReportRequest} createReportRequest 
@@ -8811,6 +9155,20 @@ export const ReportsApiFp = function(configuration?: Configuration) {
     return {
         /**
          * 
+         * @summary Create bookmark
+         * @param {number} projectId 
+         * @param {CreateBookmarkRequest} createBookmarkRequest 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async createBookmark(projectId: number, createBookmarkRequest: CreateBookmarkRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Bookmark>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.createBookmark(projectId, createBookmarkRequest, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ReportsApi.createBookmark']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
          * @summary Create report
          * @param {number} projectId 
          * @param {CreateReportRequest} createReportRequest 
@@ -8891,6 +9249,17 @@ export const ReportsApiFactory = function (configuration?: Configuration, basePa
     return {
         /**
          * 
+         * @summary Create bookmark
+         * @param {number} projectId 
+         * @param {CreateBookmarkRequest} createBookmarkRequest 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createBookmark(projectId: number, createBookmarkRequest: CreateBookmarkRequest, options?: any): AxiosPromise<Bookmark> {
+            return localVarFp.createBookmark(projectId, createBookmarkRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @summary Create report
          * @param {number} projectId 
          * @param {CreateReportRequest} createReportRequest 
@@ -8956,6 +9325,19 @@ export const ReportsApiFactory = function (configuration?: Configuration, basePa
 export class ReportsApi extends BaseAPI {
     /**
      * 
+     * @summary Create bookmark
+     * @param {number} projectId 
+     * @param {CreateBookmarkRequest} createBookmarkRequest 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ReportsApi
+     */
+    public createBookmark(projectId: number, createBookmarkRequest: CreateBookmarkRequest, options?: RawAxiosRequestConfig) {
+        return ReportsApiFp(this.configuration).createBookmark(projectId, createBookmarkRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
      * @summary Create report
      * @param {number} projectId 
      * @param {CreateReportRequest} createReportRequest 
@@ -9017,310 +9399,6 @@ export class ReportsApi extends BaseAPI {
      */
     public updateReport(projectId: number, reportId: number, updateReportRequest: UpdateReportRequest, options?: RawAxiosRequestConfig) {
         return ReportsApiFp(this.configuration).updateReport(projectId, reportId, updateReportRequest, options).then((request) => request(this.axios, this.basePath));
-    }
-}
-
-
-
-/**
- * SystemGroupPropertiesApi - axios parameter creator
- * @export
- */
-export const SystemGroupPropertiesApiAxiosParamCreator = function (configuration?: Configuration) {
-    return {
-        /**
-         * 
-         * @summary Get system group property
-         * @param {number} projectId 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getSystemGroupProperty: async (projectId: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'projectId' is not null or undefined
-            assertParamExists('getSystemGroupProperty', 'projectId', projectId)
-            const localVarPath = `/v1/projects/{projectId}/schema/system-group-properties`
-                .replace(`{${"projectId"}}`, encodeURIComponent(String(projectId)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication bearerAuth required
-            // http bearer authentication required
-            await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-    }
-};
-
-/**
- * SystemGroupPropertiesApi - functional programming interface
- * @export
- */
-export const SystemGroupPropertiesApiFp = function(configuration?: Configuration) {
-    const localVarAxiosParamCreator = SystemGroupPropertiesApiAxiosParamCreator(configuration)
-    return {
-        /**
-         * 
-         * @summary Get system group property
-         * @param {number} projectId 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async getSystemGroupProperty(projectId: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Property>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getSystemGroupProperty(projectId, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['SystemGroupPropertiesApi.getSystemGroupProperty']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-    }
-};
-
-/**
- * SystemGroupPropertiesApi - factory interface
- * @export
- */
-export const SystemGroupPropertiesApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
-    const localVarFp = SystemGroupPropertiesApiFp(configuration)
-    return {
-        /**
-         * 
-         * @summary Get system group property
-         * @param {number} projectId 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getSystemGroupProperty(projectId: number, options?: any): AxiosPromise<Property> {
-            return localVarFp.getSystemGroupProperty(projectId, options).then((request) => request(axios, basePath));
-        },
-    };
-};
-
-/**
- * SystemGroupPropertiesApi - object-oriented interface
- * @export
- * @class SystemGroupPropertiesApi
- * @extends {BaseAPI}
- */
-export class SystemGroupPropertiesApi extends BaseAPI {
-    /**
-     * 
-     * @summary Get system group property
-     * @param {number} projectId 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof SystemGroupPropertiesApi
-     */
-    public getSystemGroupProperty(projectId: number, options?: RawAxiosRequestConfig) {
-        return SystemGroupPropertiesApiFp(this.configuration).getSystemGroupProperty(projectId, options).then((request) => request(this.axios, this.basePath));
-    }
-}
-
-
-
-/**
- * SystemPropertiesApi - axios parameter creator
- * @export
- */
-export const SystemPropertiesApiAxiosParamCreator = function (configuration?: Configuration) {
-    return {
-        /**
-         * 
-         * @summary Get system property
-         * @param {number} projectId 
-         * @param {number} propertyId Property ID
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getSystemProperty: async (projectId: number, propertyId: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'projectId' is not null or undefined
-            assertParamExists('getSystemProperty', 'projectId', projectId)
-            // verify required parameter 'propertyId' is not null or undefined
-            assertParamExists('getSystemProperty', 'propertyId', propertyId)
-            const localVarPath = `/v1/projects/{projectId}/schema/system-properties/{propertyId}`
-                .replace(`{${"projectId"}}`, encodeURIComponent(String(projectId)))
-                .replace(`{${"propertyId"}}`, encodeURIComponent(String(propertyId)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication bearerAuth required
-            // http bearer authentication required
-            await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @summary System properties list
-         * @param {number} projectId 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        systemPropertiesList: async (projectId: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'projectId' is not null or undefined
-            assertParamExists('systemPropertiesList', 'projectId', projectId)
-            const localVarPath = `/v1/projects/{projectId}/schema/system-properties`
-                .replace(`{${"projectId"}}`, encodeURIComponent(String(projectId)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication bearerAuth required
-            // http bearer authentication required
-            await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-    }
-};
-
-/**
- * SystemPropertiesApi - functional programming interface
- * @export
- */
-export const SystemPropertiesApiFp = function(configuration?: Configuration) {
-    const localVarAxiosParamCreator = SystemPropertiesApiAxiosParamCreator(configuration)
-    return {
-        /**
-         * 
-         * @summary Get system property
-         * @param {number} projectId 
-         * @param {number} propertyId Property ID
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async getSystemProperty(projectId: number, propertyId: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Property>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getSystemProperty(projectId, propertyId, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['SystemPropertiesApi.getSystemProperty']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-        /**
-         * 
-         * @summary System properties list
-         * @param {number} projectId 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async systemPropertiesList(projectId: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GroupPropertiesList200Response>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.systemPropertiesList(projectId, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['SystemPropertiesApi.systemPropertiesList']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-    }
-};
-
-/**
- * SystemPropertiesApi - factory interface
- * @export
- */
-export const SystemPropertiesApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
-    const localVarFp = SystemPropertiesApiFp(configuration)
-    return {
-        /**
-         * 
-         * @summary Get system property
-         * @param {number} projectId 
-         * @param {number} propertyId Property ID
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getSystemProperty(projectId: number, propertyId: number, options?: any): AxiosPromise<Property> {
-            return localVarFp.getSystemProperty(projectId, propertyId, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @summary System properties list
-         * @param {number} projectId 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        systemPropertiesList(projectId: number, options?: any): AxiosPromise<GroupPropertiesList200Response> {
-            return localVarFp.systemPropertiesList(projectId, options).then((request) => request(axios, basePath));
-        },
-    };
-};
-
-/**
- * SystemPropertiesApi - object-oriented interface
- * @export
- * @class SystemPropertiesApi
- * @extends {BaseAPI}
- */
-export class SystemPropertiesApi extends BaseAPI {
-    /**
-     * 
-     * @summary Get system property
-     * @param {number} projectId 
-     * @param {number} propertyId Property ID
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof SystemPropertiesApi
-     */
-    public getSystemProperty(projectId: number, propertyId: number, options?: RawAxiosRequestConfig) {
-        return SystemPropertiesApiFp(this.configuration).getSystemProperty(projectId, propertyId, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
-     * @summary System properties list
-     * @param {number} projectId 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof SystemPropertiesApi
-     */
-    public systemPropertiesList(projectId: number, options?: RawAxiosRequestConfig) {
-        return SystemPropertiesApiFp(this.configuration).systemPropertiesList(projectId, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
