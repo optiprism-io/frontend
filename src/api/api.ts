@@ -534,7 +534,8 @@ export interface CustomEventEvent {
      */
     'eventName'?: string;
     /**
-     ** @type {number}
+     *
+     * @type {number}
      * @memberof CustomEventEvent
      */
     'eventId'?: number;
@@ -1140,7 +1141,8 @@ export interface DidEventRelativeCount {
      */
     'eventName'?: string;
     /**
-     ** @type {number}
+     *
+     * @type {number}
      * @memberof DidEventRelativeCount
      */
     'eventId'?: number;
@@ -1523,7 +1525,8 @@ export interface EventRecordRequestEvent {
      */
     'eventName'?: string;
     /**
-     ** @type {number}
+     *
+     * @type {number}
      * @memberof EventRecordRequestEvent
      */
     'eventId'?: number;
@@ -1605,7 +1608,8 @@ export interface EventRef {
      */
     'eventName'?: string;
     /**
-     ** @type {number}
+     *
+     * @type {number}
      * @memberof EventRef
      */
     'eventId'?: number;
@@ -1624,6 +1628,12 @@ export interface EventRef {
  * @interface EventSegmentation
  */
 export interface EventSegmentation {
+    /**
+     *
+     * @type {ReportType}
+     * @memberof EventSegmentation
+     */
+    'type'?: ReportType;
     /**
      *
      * @type {EventRecordsListRequestTime}
@@ -1728,7 +1738,8 @@ export interface EventSegmentationEvent {
      */
     'eventName'?: string;
     /**
-     ** @type {number}
+     *
+     * @type {number}
      * @memberof EventSegmentationEvent
      */
     'eventId'?: number;
@@ -1933,7 +1944,8 @@ export interface FunnelEvent {
      */
     'eventName'?: string;
     /**
-     ** @type {number}
+     *
+     * @type {number}
      * @memberof FunnelEvent
      */
     'eventId'?: number;
@@ -2057,6 +2069,12 @@ export type FunnelFrequencyChartTypeTypeEnum = typeof FunnelFrequencyChartTypeTy
 export interface FunnelQuery {
     /**
      *
+     * @type {ReportType}
+     * @memberof FunnelQuery
+     */
+    'type'?: ReportType;
+    /**
+     *
      * @type {EventRecordsListRequestTime}
      * @memberof FunnelQuery
      */
@@ -2099,22 +2117,16 @@ export interface FunnelQuery {
     'filter'?: FunnelQueryFilter;
     /**
      *
-     * @type {FunnelQueryAttribution}
-     * @memberof FunnelQuery
-     */
-    'attribution'?: FunnelQueryAttribution;
-    /**
-     *
      * @type {Array<PropertyRef>}
      * @memberof FunnelQuery
      */
     'holdingConstants'?: Array<PropertyRef>;
     /**
      *
-     * @type {Array<FunnelExcludeSteps>}
+     * @type {Array<FunnelQueryExcludeInner>}
      * @memberof FunnelQuery
      */
-    'exclude'?: Array<FunnelExcludeSteps>;
+    'exclude'?: Array<FunnelQueryExcludeInner>;
     /**
      * array of breakdowns
      * @type {Array<BreakdownByProperty>}
@@ -2150,63 +2162,49 @@ export const FunnelQueryCountEnum = {
 export type FunnelQueryCountEnum = typeof FunnelQueryCountEnum[keyof typeof FunnelQueryCountEnum];
 
 /**
- * @type FunnelQueryAttribution
- * @export
- */
-export type FunnelQueryAttribution = FunnelQueryAttributionOneOf | FunnelQueryAttributionOneOf1;
-
-/**
- *
- * @export
- * @interface FunnelQueryAttributionOneOf
- */
-export interface FunnelQueryAttributionOneOf {
-    /**
-     *
-     * @type {string}
-     * @memberof FunnelQueryAttributionOneOf
-     */
-    'type': FunnelQueryAttributionOneOfTypeEnum;
-}
-
-export const FunnelQueryAttributionOneOfTypeEnum = {
-    First: 'first',
-    Last: 'last'
-} as const;
-
-export type FunnelQueryAttributionOneOfTypeEnum = typeof FunnelQueryAttributionOneOfTypeEnum[keyof typeof FunnelQueryAttributionOneOfTypeEnum];
-
-/**
- *
- * @export
- * @interface FunnelQueryAttributionOneOf1
- */
-export interface FunnelQueryAttributionOneOf1 {
-    /**
-     *
-     * @type {string}
-     * @memberof FunnelQueryAttributionOneOf1
-     */
-    'type': FunnelQueryAttributionOneOf1TypeEnum;
-    /**
-     *
-     * @type {number}
-     * @memberof FunnelQueryAttributionOneOf1
-     */
-    'step': number;
-}
-
-export const FunnelQueryAttributionOneOf1TypeEnum = {
-    Step: 'step'
-} as const;
-
-export type FunnelQueryAttributionOneOf1TypeEnum = typeof FunnelQueryAttributionOneOf1TypeEnum[keyof typeof FunnelQueryAttributionOneOf1TypeEnum];
-
-/**
  * @type FunnelQueryChartType
  * @export
  */
 export type FunnelQueryChartType = FunnelConversionOverTimeChartType | FunnelStepsChartType;
+
+/**
+ *
+ * @export
+ * @interface FunnelQueryExcludeInner
+ */
+export interface FunnelQueryExcludeInner {
+    /**
+     *
+     * @type {string}
+     * @memberof FunnelQueryExcludeInner
+     */
+    'eventName'?: string;
+    /**
+     *
+     * @type {number}
+     * @memberof FunnelQueryExcludeInner
+     */
+    'eventId'?: number;
+    /**
+     *
+     * @type {EventType}
+     * @memberof FunnelQueryExcludeInner
+     */
+    'eventType': EventType;
+    /**
+     * array of event filters
+     * @type {Array<FunnelEventAllOfFilters>}
+     * @memberof FunnelQueryExcludeInner
+     */
+    'filters': Array<FunnelEventAllOfFilters>;
+    /**
+     *
+     * @type {FunnelExcludeStepsSteps}
+     * @memberof FunnelQueryExcludeInner
+     */
+    'steps': FunnelExcludeStepsSteps;
+}
+
 
 /**
  * @type FunnelQueryFilter
@@ -2903,7 +2901,8 @@ export interface ListPropertyValuesRequest {
      */
     'eventName'?: string;
     /**
-     ** @type {number}
+     *
+     * @type {number}
      * @memberof ListPropertyValuesRequest
      */
     'eventId'?: number;
@@ -3793,7 +3792,8 @@ export interface SegmentConditionDidEvent {
      */
     'eventName'?: string;
     /**
-     ** @type {number}
+     *
+     * @type {number}
      * @memberof SegmentConditionDidEvent
      */
     'eventId'?: number;
@@ -3886,7 +3886,8 @@ export interface SegmentConditionHadPropertyValue {
      */
     'propertyName': string;
     /**
-     ** @type {PropertyType}
+     *
+     * @type {PropertyType}
      * @memberof SegmentConditionHadPropertyValue
      */
     'propertyType'?: PropertyType;
@@ -3942,7 +3943,8 @@ export interface SegmentConditionHasPropertyValue {
      */
     'propertyName': string;
     /**
-     ** @type {PropertyType}
+     *
+     * @type {PropertyType}
      * @memberof SegmentConditionHasPropertyValue
      */
     'propertyType'?: PropertyType;
@@ -7552,7 +7554,8 @@ export const ProfileApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
-         ** @summary Set email from default to defined
+         *
+         * @summary Set email from default to defined
          * @param {SetProfileEmailRequest} setProfileEmailRequest
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -7635,7 +7638,8 @@ export const ProfileApiFactory = function (configuration?: Configuration, basePa
             return localVarFp.getProfile(options).then((request) => request(axios, basePath));
         },
         /**
-         ** @summary Set email from default to defined
+         *
+         * @summary Set email from default to defined
          * @param {SetProfileEmailRequest} setProfileEmailRequest
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -9130,7 +9134,8 @@ export const ReportsApiFp = function(configuration?: Configuration) {
     const localVarAxiosParamCreator = ReportsApiAxiosParamCreator(configuration)
     return {
         /**
-         ** @summary Create bookmark
+         *
+         * @summary Create bookmark
          * @param {number} projectId
          * @param {CreateBookmarkRequest} createBookmarkRequest
          * @param {*} [options] Override http request option.
@@ -9223,7 +9228,8 @@ export const ReportsApiFactory = function (configuration?: Configuration, basePa
     const localVarFp = ReportsApiFp(configuration)
     return {
         /**
-         ** @summary Create bookmark
+         *
+         * @summary Create bookmark
          * @param {number} projectId
          * @param {CreateBookmarkRequest} createBookmarkRequest
          * @param {*} [options] Override http request option.
