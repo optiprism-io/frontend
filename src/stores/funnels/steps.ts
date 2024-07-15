@@ -1,16 +1,20 @@
 import { defineStore } from 'pinia'
 
-import { FunnelQueryStepsInnerOrderOneOfTypeEnum } from '@/api'
+import {
+  FunnelQueryStepsInnerOrderOneOfTypeEnum,
+  EventFilterByPropertyTypeEnum
+} from '@/api'
 import { useEventName } from '@/helpers/useEventName'
 import { useLexiconStore } from '@/stores/lexicon'
 
 import type {
   EventFilterByProperty,
-  EventFilterByPropertyTypeEnum,
   FunnelEvent,
   FunnelQueryStepsInner,
   PropertyRef,
   TimeUnit,
+  FunnelQueryExcludeInner,
+  FunnelExcludeStepsSteps
 } from '@/api'
 import type { EventFilter } from '@/stores/eventSegmentation/events'
 import type { EventRef } from '@/types/events'
@@ -141,6 +145,29 @@ export const useStepsStore = defineStore('steps', {
         }
       })
     },
+
+    getExcluded(): FunnelQueryExcludeInner[] {
+      const eventName = useEventName()
+
+      const excluded: FunnelQueryExcludeInner[] = this.excludedEvents.map((item) => ({
+        eventId: item.event.id,
+        eventName: eventName(item.event),
+        eventType: item.event.type,
+        filters: item.filters.map(filter => {
+          if (!filter.propRef) throw new Error('Property reference is required')
+          return {
+            propertyType: filter.propRef.type,
+            type: EventFilterByPropertyTypeEnum.Property,
+            operation: filter.opId,
+            value: filter.values
+          }
+        }),
+        steps: item.steps
+      }) satisfies FunnelQueryExcludeInner )
+
+      return excluded
+    },
+
     getHoldingProperties(): PropertyRef[] {
       return this.holdingProperties.map(item => {
         const property: PropertyRef = {
