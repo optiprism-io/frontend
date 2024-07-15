@@ -61,7 +61,10 @@
     </DataEmptyPlaceholder>
   </div>
 
-  <div v-if="reportSteps.length" class="pf-c-card pf-u-mt-md">
+  <div
+    v-if="reportSteps.length"
+    class="pf-c-card pf-u-mt-md"
+  >
     <FunnelsTable
       v-model:checked-row-keys="checkedRowKeys"
       :report-steps="reportSteps"
@@ -100,8 +103,13 @@ import { useFilterGroupsStore } from '@/stores/reports/filters'
 
 import { FUNNEL_VIEWS } from './funnelViews'
 
-import type { EventRecordsListRequestTime, FunnelResponseStepsInner , FunnelQueryStepsInner} from '@/api'
+import type {
+  EventRecordsListRequestTime,
+  FunnelResponseStepsInner,
+  FunnelQueryStepsInner,
+} from '@/api'
 import type { ApplyPayload } from '@/components/uikit/UiCalendar/UiCalendar'
+import type { FilterGroup } from '@/stores/reports/filters'
 import type { DataTableRowKey } from 'naive-ui'
 
 const MIN_COUNT_FOR_REQUEST = 2
@@ -242,7 +250,12 @@ async function fetchReports(): Promise<void> {
   /* need nextTick for update stepsStore.getSteps */
   await nextTick()
   const steps = stepsStore.getSteps
-  if (steps.length < MIN_COUNT_FOR_REQUEST || hasEmptyFilterValues(steps)) return
+  if (
+    steps.length < MIN_COUNT_FOR_REQUEST ||
+    hasEmptyFilterValuesInSteps(steps) ||
+    hasEmptyFilterValuesInFilters(filterGroupsStore.filterGroups)
+  )
+    return
 
   const res = await apiClient.query.funnelQuery(projectsStore.projectId, {
     steps,
@@ -282,8 +295,14 @@ function resetFunnelViews(): void {
   groups.value = []
 }
 
-function hasEmptyFilterValues(steps: FunnelQueryStepsInner[]): boolean {
-  return steps.some(step => step.events.some(event => event.filters.some(filter => !filter.value?.length)))
+function hasEmptyFilterValuesInSteps(steps: FunnelQueryStepsInner[]): boolean {
+  return steps.some(step =>
+    step.events.some(event => event.filters.some(filter => !filter.value?.length))
+  )
+}
+
+function hasEmptyFilterValuesInFilters(filters: FilterGroup[]): boolean {
+  return filters.some(filter => filter.filters.some(filter => !filter.values.length))
 }
 
 watch(() => [stepsStore, filterGroupsStore, breakdownsStore, timeRequest], getReports, {
