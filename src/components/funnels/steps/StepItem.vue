@@ -1,6 +1,9 @@
 <template>
   <div class="pf-l-flex pf-m-column">
-    <template v-for="(event, i) in step.events" :key="event.event.id">
+    <template
+      v-for="(event, i) in step.events"
+      :key="event.event.id"
+    >
       <div class="pf-l-flex pf-u-align-items-center pf-m-nowrap">
         <CommonIdentifier
           class="pf-l-flex__item"
@@ -28,17 +31,22 @@
           </UiActionListItem>
 
           <UiActionListItem v-if="isShowAddFilter">
-            <VTooltip class="ui-hint">
-              <UiIcon icon="fas fa-filter" @click="addFilterToStep(i)" />
-              <template #popper>
-                {{ $t('funnels.steps.addFilter') }}
-              </template>
-            </VTooltip>
+            <PropertySelect @select="(propRef) => addProperty(propRef, i)">
+              <VTooltip class="ui-hint">
+                <UiIcon icon="fas fa-filter" />
+                <template #popper>
+                  {{ $t('funnels.steps.addFilter') }}
+                </template>
+              </VTooltip>
+            </PropertySelect>
           </UiActionListItem>
 
           <UiActionListItem>
             <VTooltip class="ui-hint">
-              <UiIcon icon="fas fa-times" @click="deleteEventFromStep(i)" />
+              <UiIcon
+                icon="fas fa-times"
+                @click="deleteEventFromStep(i)"
+              />
               <template #popper>
                 {{ $t('funnels.steps.removeEvent') }}
               </template>
@@ -71,16 +79,17 @@ import { Tooltip as VTooltip } from 'floating-vue'
 import CommonIdentifier from '@/components/common/identifier/CommonIdentifier.vue';
 import EventSelector from '@/components/events/Events/EventSelector.vue';
 import Filter from '@/components/events/Filter.vue';
+import PropertySelect from '@/components/events/PropertySelect.vue';
 import UiActionList from '@/components/uikit/UiActionList/UiActionList.vue';
 import UiActionListItem from '@/components/uikit/UiActionList/UiActionListItem.vue';
 import UiButton from '@/components/uikit/UiButton.vue'
 import UiIcon from '@/components/uikit/UiIcon.vue'
 
-import {useEventName} from '@/helpers/useEventName';
-import {useFilter} from '@/hooks/useFilter';
+import { useEventName } from '@/helpers/useEventName';
+import { useFilter } from '@/hooks/useFilter';
 import { useStepsStore } from '@/stores/funnels/steps';
 import { useLexiconStore } from '@/stores/lexicon';
-import {OperationId} from '@/types';
+import { OperationId } from '@/types';
 
 import type { Value} from '@/types';
 import type {EventRef, PropertyRef} from '@/types/events';
@@ -125,16 +134,17 @@ const deleteEventFromStep = (eventIndex: number): void => {
     });
 }
 
-const addFilterToStep = (eventIndex: number): void => {
-    stepsStore.addFilterToStep({
-        index: props.index,
-        eventIndex,
-        filter: {
-            opId: OperationId.Eq,
-            values: [],
-            valuesList: []
-        }
-    });
+const addProperty = async (payload: PropertyRef, eventIndex: number) => {
+  stepsStore.addFilterToStep({
+    index: props.index,
+    eventIndex,
+    filter: {
+      propRef: payload,
+      opId: OperationId.Eq,
+      values: [],
+      valuesList: await getValues(payload),
+    },
+  })
 }
 
 const removeFilterForStepEvent = (eventIndex: number, filterIndex: number): void => {
