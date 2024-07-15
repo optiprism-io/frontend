@@ -6,7 +6,7 @@
   >
     <UiActionList>
       <template #main>
-        <div class="pf-l-flex row-gap">
+        <div class="pf-l-flex pf-m-nowrap row-gap">
           <span class="pf-l-flex__item">
             {{ $t('funnels.excludeSteps.exclude') }}
           </span>
