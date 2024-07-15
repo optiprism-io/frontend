@@ -2987,7 +2987,17 @@ components:
           items:
             type: object
             allOf:
-              - $ref: '#/components/schemas/FunnelEvent'
+              - $ref: '#/components/schemas/EventRef'
+              - type: object
+                properties:
+                  filters:
+                    type: array
+                    description: array of event filters
+                    items:
+                      type: object
+                      required: [ 'type' ]
+                      oneOf:
+                        - $ref: '#/components/schemas/EventFilterByProperty'
               - $ref: '#/components/schemas/FunnelExcludeSteps'
         breakdowns:
           type: array
