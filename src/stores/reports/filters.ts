@@ -1,21 +1,15 @@
 import { defineStore } from 'pinia'
 
+import { EventGroupedFiltersGroupsConditionEnum } from '@/api';
 import { OperationId } from '@/types'
 
 import type {
   EventGroupedFilters,
-  EventGroupedFiltersGroupsConditionEnum,
   EventGroupedFiltersGroupsInnerFiltersInner,
 } from '@/api'
 import type { Filter } from '@/types/filters'
 
-export const filterConditions = ['and', 'or'] as const
-export type FilterCondition = (typeof filterConditions)[number]
-
-export const filterConditionOperations: Record<FilterCondition, string> = {
-  and: 'all',
-  or: 'any',
-}
+export const filterConditions = [EventGroupedFiltersGroupsConditionEnum.And, EventGroupedFiltersGroupsConditionEnum.Or] as const
 
 export interface FilterGroup {
   condition?: EventGroupedFiltersGroupsConditionEnum
@@ -51,10 +45,10 @@ interface FilterGroupsStore {
 
 export const useFilterGroupsStore = defineStore('filter-groups', {
   state: (): FilterGroupsStore => ({
-    condition: 'and',
+    condition: EventGroupedFiltersGroupsConditionEnum.And,
     filterGroups: [
       {
-        condition: 'and',
+        condition: EventGroupedFiltersGroupsConditionEnum.And,
         filters: [],
       },
     ],

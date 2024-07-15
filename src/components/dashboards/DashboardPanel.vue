@@ -32,6 +32,7 @@ import EventsViews from '@/components/events/EventsViews.vue'
 import FunnelsChart from '@/components/funnels/view/FunnelsChart.vue'
 
 import {
+  EventGroupedFiltersGroupsConditionEnum,
   EventSegmentationQueryFormatEnum,
   ReportType,
 } from '@/api'
@@ -118,10 +119,10 @@ const getEventSegmentation = async () => {
 
         if (filters.length) {
           query.filters = {
-            groupsCondition: 'and',
+            groupsCondition: EventGroupedFiltersGroupsConditionEnum.And,
             groups: [
               {
-                filtersCondition: 'and',
+                filtersCondition: EventGroupedFiltersGroupsConditionEnum.And,
                 filters,
               },
             ],

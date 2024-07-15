@@ -25,6 +25,7 @@ import UiCardBody from '@/components/uikit/UiCard/UiCardBody.vue'
 import UiCardTitle from '@/components/uikit/UiCard/UiCardTitle.vue'
 import UiSwitch from '@/components/uikit/UiSwitch.vue'
 
+import { EventGroupedFiltersGroupsConditionEnum } from '@/api'
 import useConfirm from '@/hooks/useConfirm'
 import usei18n from '@/hooks/useI18n'
 import { useFilterGroupsStore } from '@/stores/reports/filters'
@@ -60,7 +61,7 @@ const onBeforeChangeFiltersType = async (e: Event) => {
       filterGroupsStore.isFiltersAdvanced = false
       filterGroupsStore.filterGroups = [
         {
-          condition: 'and',
+          condition: EventGroupedFiltersGroupsConditionEnum.And,
           filters: [],
         },
       ]
