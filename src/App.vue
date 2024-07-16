@@ -50,7 +50,7 @@ const createErrorGeneral = (res: ErrorResponse, text?: string) => {
 axiosInstance.interceptors.response.use(
   res => res,
   async err => {
-    const status = err.response ? err.response.status : null
+    const status = err.response ? err.response.status : err.error ? err.error.status : null
     const error = `${err?.response?.status || err?.error?.status || ''} ${err?.code || ''} ${err?.message}`
 
     if (err.code === 'ERR_NETWORK') {
@@ -159,7 +159,7 @@ axiosInstance.interceptors.response.use(
     position: fixed;
     top: 30px;
     right: 30px;
-    z-index: 1000;
+    z-index: 10000;
     max-width: 550px;
     max-height: calc(100vh - 50px);
     overflow: auto;

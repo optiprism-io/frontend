@@ -19,9 +19,10 @@
       <InputPassword
         v-model="password"
         :autofocus="true"
-        :invalid="!!confirmError"
+        :invalid="!!confirmError || !!passwordError"
         @update:model-value="clearError"
       />
+      <UiFormError :error="passwordError" />
     </UiFormLabel>
     <UiFormLabel
       :text="$t('profile.confirmPassword')"
@@ -30,7 +31,7 @@
     >
       <InputPassword
         v-model="confirmPassword"
-        :invalid="!!confirmError"
+        :invalid="!!confirmError || !!passwordError"
         name="confirm-password"
         @update:model-value="clearError"
       />
@@ -52,6 +53,7 @@ import UiPopupWindow from '@/components/uikit/UiPopupWindow.vue'
 import { apiClient } from '@/api/apiClient'
 import { useMutation } from '@/hooks/useMutation'
 import { confirmPassword as confirmPasswordScheme } from '@/plugins/valibot'
+import { isErrorResponseError } from '@/stores/profile/types'
 
 import type { TokensResponse } from '@/api'
 
@@ -62,6 +64,7 @@ const emit = defineEmits<{
 const password = ref('')
 const confirmPassword = ref('')
 const confirmError = ref<string | null>(null)
+const passwordError = ref<string | null>(null)
 
 const { mutate: setPassword, isLoading } = useMutation(changePassword)
 
@@ -79,14 +82,24 @@ async function changePassword() {
     return
   }
 
-  const { data } = await apiClient.profile.setProfilePassword({
-    password: password.value,
-  })
+  const res = await apiClient.profile
+    .setProfilePassword({
+      password: password.value,
+    })
+    .catch(error => {
+      if (isErrorResponseError(error)) {
+        const err = error.error
 
-  emit('changed-password', data)
+        if (err?.fields?.password) passwordError.value = err.fields.password
+      }
+      throw new Error('error update password')
+    })
+
+  emit('changed-password', res.data)
 }
 
 function clearError() {
+  passwordError.value = null
   confirmError.value = null
 }
 
