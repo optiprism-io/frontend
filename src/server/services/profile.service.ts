@@ -10,6 +10,7 @@ import {
   Tokens,
 } from '@/server/constants'
 import { Profile } from '@/server/models/Profile'
+import { MIN_PASSWORD_LENGTH } from '@/server/services/auth.service'
 import { getErrorResponse } from '@/server/utils/getErrorResponse'
 
 import type {
@@ -19,7 +20,7 @@ import type {
   UpdateProfilePasswordRequest,
 } from '@/api'
 import type { Schema } from '@/server/types'
-import type { Request, Server } from 'miragejs';
+import type { Request, Server } from 'miragejs'
 
 export function profileRoutes(server: Server) {
   server.get('/profile', getProfile)
@@ -126,5 +127,21 @@ function putSetProfilePassword(schema: Schema, request: Request) {
   const { password } = JSON.parse(request.requestBody) as SetProfilePasswordRequest
 
   schema.db.profile.update(userId, { password })
+
+  if (password.toLowerCase() === Stub.TOAST)
+    return new Response(HttpStatusCode.BadRequest, EMPTY_HEADER_RESPONSE, {
+      error: {
+        status: HttpStatusCode.BadRequest,
+        message: Stub.ERROR,
+      },
+    })
+
+  if (password.length < MIN_PASSWORD_LENGTH)
+    return new Response(
+      HttpStatusCode.BadRequest,
+      EMPTY_HEADER_RESPONSE,
+      getErrorResponse([['password', 'Password is too short']])
+    )
+
   return Tokens
 }
