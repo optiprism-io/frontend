@@ -3,7 +3,6 @@
     <ForceUpdateProfilePopup
       :force-pass="profileStore.profile.forceUpdatePassword"
       :force-email="profileStore.profile.forceUpdateEmail"
-      :loading="loading"
       @changed-password="onChangedPassword"
       @changed-email="onChangedEmail"
       @submit-fields="submitFields"
@@ -12,7 +11,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted } from 'vue'
+import { onMounted } from 'vue'
 
 import { useRouter } from 'vue-router'
 
@@ -27,8 +26,6 @@ const router = useRouter()
 const profileStore = useProfileStore()
 const { setFirstPassword, setFirstEmail, getProfile } = profileStore
 
-const loading = ref(false)
-
 async function onChangedPassword(tokens: TokensResponse) {
   setFirstPassword(tokens)
 }
@@ -42,10 +39,8 @@ const submitFields = () => {
 }
 
 onMounted(async () => {
-  loading.value = true;
   await getProfile()
 
-  loading.value = false;
   if (!profileStore.profile.forceUpdatePassword && !profileStore.profile.forceUpdateEmail) {
     router.push({ name: pagesMap.dashboards.name })
   }

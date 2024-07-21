@@ -4,39 +4,24 @@
     :apply-button="strings.save"
     :apply-disabled="applyDisabled"
     :closable="false"
-    :loading-content="loading"
     :apply-loading="isLoading || isLoadingEmail"
     @apply="setFields"
   >
     <UiFormGroup
       v-if="forceEmail"
       :label="strings.setEmailText"
-      :error="confirmErrorEmail"
+      :error="confirmErrorPassword"
       :for="'force-email'"
       :required="true"
     >
       <UiInput
         v-model="email"
         name="force-email"
-        :invalid="!!confirmErrorEmail"
+        :invalid="Boolean(confirmErrorPassword)"
         @update:model-value="clearError"
       />
     </UiFormGroup>
-    <UiFormGroup
-      v-if="forceEmail"
-      :label="strings.confirmEmail"
-      :error="confirmErrorEmail"
-      :for="'confirm-email'"
-      :required="true"
-    >
-      <UiInput
-        v-model="confirmEmail"
-        name="confirm-email"
-        :invalid="!!confirmErrorEmail"
-        @update:model-value="clearError"
-      />
-      <UiFormError :error="confirmErrorEmail" />
-    </UiFormGroup>
+
     <UiFormGroup
       v-if="forcePass"
       :label="strings.setPassText"
@@ -47,8 +32,7 @@
       <InputPassword
         v-model="password"
         :autofocus="true"
-        :invalid="!!confirmErrorPassword"
-        name="force-password"
+        :invalid="Boolean(confirmErrorPassword)"
         @update:model-value="clearError"
       />
     </UiFormGroup>
@@ -61,7 +45,7 @@
     >
       <InputPassword
         v-model="confirmPassword"
-        :invalid="!!confirmErrorPassword"
+        :invalid="Boolean(confirmErrorPassword)"
         name="confirm-password"
         @update:model-value="clearError"
       />
@@ -94,7 +78,6 @@ const { t } = usei18n()
 const props = defineProps({
   forcePass: Boolean,
   forceEmail: Boolean,
-  loading: Boolean
 })
 
 const emit = defineEmits<{
@@ -106,7 +89,6 @@ const emit = defineEmits<{
 const strings = computed(() => {
   return {
     setEmailText: t('profile.setEmailText'),
-    confirmEmail: t('profile.confirmEmail'),
     setPassText: t('profile.setPasswordText'),
     confirmPassword: t('profile.confirmPassword'),
     setPassword: t('profile.setPassword'),
@@ -125,11 +107,7 @@ const title = computed(() => {
     return strings.value.setEmail
   }
 
-  if (props.forcePass) {
-    return strings.value.setPassword
-  }
-
-  return '';
+  return strings.value.setPassword
 })
 
 const password = ref('')
@@ -191,7 +169,7 @@ function clearError() {
 }
 
 const passwordDisabled = computed(() => !password.value.trim() || !confirmPassword.value.trim())
-const emailDisabled = computed(() => !email.value.trim() || !confirmEmail.value.trim())
+const emailDisabled = computed(() => !email.value.trim())
 const applyDisabled = computed(
   () => (props.forceEmail && emailDisabled.value) || (props.forcePass && passwordDisabled.value)
 )
