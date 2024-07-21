@@ -72,7 +72,6 @@ const computedValueTime = (
       type: TimeBetweenTypeEnum.Between,
       from: String(item.period.from),
       to: String(item.period.to),
-      timezone,
     }
   }
 

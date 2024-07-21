@@ -31,3 +31,14 @@ export const confirmPassword = pipe(
     ['confirmPassword']
   )
 )
+
+export const confirmEmail = pipe(
+  object({
+    newEmail: notEmptyString,
+    confirmEmail: notEmptyString,
+  }),
+  forward(
+    check(input => input.newEmail === input.confirmEmail),
+    ['confirmEmail']
+  )
+)

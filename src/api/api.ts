@@ -1630,6 +1630,12 @@ export interface EventRef {
 export interface EventSegmentation {
     /**
      * 
+     * @type {ReportType}
+     * @memberof EventSegmentation
+     */
+    'type'?: ReportType;
+    /**
+     * 
      * @type {EventRecordsListRequestTime}
      * @memberof EventSegmentation
      */
@@ -2063,6 +2069,12 @@ export type FunnelFrequencyChartTypeTypeEnum = typeof FunnelFrequencyChartTypeTy
 export interface FunnelQuery {
     /**
      * 
+     * @type {ReportType}
+     * @memberof FunnelQuery
+     */
+    'type'?: ReportType;
+    /**
+     * 
      * @type {EventRecordsListRequestTime}
      * @memberof FunnelQuery
      */
@@ -2105,22 +2117,16 @@ export interface FunnelQuery {
     'filter'?: FunnelQueryFilter;
     /**
      * 
-     * @type {FunnelQueryAttribution}
-     * @memberof FunnelQuery
-     */
-    'attribution'?: FunnelQueryAttribution;
-    /**
-     * 
      * @type {Array<PropertyRef>}
      * @memberof FunnelQuery
      */
     'holdingConstants'?: Array<PropertyRef>;
     /**
      * 
-     * @type {Array<FunnelExcludeSteps>}
+     * @type {Array<FunnelQueryExcludeInner>}
      * @memberof FunnelQuery
      */
-    'exclude'?: Array<FunnelExcludeSteps>;
+    'exclude'?: Array<FunnelQueryExcludeInner>;
     /**
      * array of breakdowns
      * @type {Array<BreakdownByProperty>}
@@ -2156,63 +2162,55 @@ export const FunnelQueryCountEnum = {
 export type FunnelQueryCountEnum = typeof FunnelQueryCountEnum[keyof typeof FunnelQueryCountEnum];
 
 /**
- * @type FunnelQueryAttribution
- * @export
- */
-export type FunnelQueryAttribution = FunnelQueryAttributionOneOf | FunnelQueryAttributionOneOf1;
-
-/**
- * 
- * @export
- * @interface FunnelQueryAttributionOneOf
- */
-export interface FunnelQueryAttributionOneOf {
-    /**
-     * 
-     * @type {string}
-     * @memberof FunnelQueryAttributionOneOf
-     */
-    'type': FunnelQueryAttributionOneOfTypeEnum;
-}
-
-export const FunnelQueryAttributionOneOfTypeEnum = {
-    First: 'first',
-    Last: 'last'
-} as const;
-
-export type FunnelQueryAttributionOneOfTypeEnum = typeof FunnelQueryAttributionOneOfTypeEnum[keyof typeof FunnelQueryAttributionOneOfTypeEnum];
-
-/**
- * 
- * @export
- * @interface FunnelQueryAttributionOneOf1
- */
-export interface FunnelQueryAttributionOneOf1 {
-    /**
-     * 
-     * @type {string}
-     * @memberof FunnelQueryAttributionOneOf1
-     */
-    'type': FunnelQueryAttributionOneOf1TypeEnum;
-    /**
-     * 
-     * @type {number}
-     * @memberof FunnelQueryAttributionOneOf1
-     */
-    'step': number;
-}
-
-export const FunnelQueryAttributionOneOf1TypeEnum = {
-    Step: 'step'
-} as const;
-
-export type FunnelQueryAttributionOneOf1TypeEnum = typeof FunnelQueryAttributionOneOf1TypeEnum[keyof typeof FunnelQueryAttributionOneOf1TypeEnum];
-
-/**
  * @type FunnelQueryChartType
  * @export
  */
 export type FunnelQueryChartType = FunnelConversionOverTimeChartType | FunnelStepsChartType;
+
+/**
+ * 
+ * @export
+ * @interface FunnelQueryExcludeInner
+ */
+export interface FunnelQueryExcludeInner {
+    /**
+     * 
+     * @type {string}
+     * @memberof FunnelQueryExcludeInner
+     */
+    'eventName'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof FunnelQueryExcludeInner
+     */
+    'eventId'?: number;
+    /**
+     * 
+     * @type {EventType}
+     * @memberof FunnelQueryExcludeInner
+     */
+    'eventType': EventType;
+    /**
+     * 
+     * @type {FunnelExcludeStepsSteps}
+     * @memberof FunnelQueryExcludeInner
+     */
+    'steps': FunnelExcludeStepsSteps;
+    /**
+     * array of event filters
+     * @type {Array<FunnelQueryExcludeInnerAllOfFiltersInner>}
+     * @memberof FunnelQueryExcludeInner
+     */
+    'filters'?: Array<FunnelQueryExcludeInnerAllOfFiltersInner>;
+}
+
+
+/**
+ * @type FunnelQueryExcludeInnerAllOfFiltersInner
+ * @export
+ */
+export type FunnelQueryExcludeInnerAllOfFiltersInner = EventFilterByProperty;
 
 /**
  * @type FunnelQueryFilter
@@ -4142,12 +4140,6 @@ export interface TimeBetween {
      * @memberof TimeBetween
      */
     'to': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof TimeBetween
-     */
-    'timezone': string;
 }
 
 export const TimeBetweenTypeEnum = {
@@ -4174,12 +4166,6 @@ export interface TimeFrom {
      * @memberof TimeFrom
      */
     'from': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof TimeFrom
-     */
-    'timezone': string;
 }
 
 export const TimeFromTypeEnum = {
