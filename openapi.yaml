@@ -3311,13 +3311,13 @@ components:
           format: int64
     EventFilterByGroup:
       type: object
-      required: [ 'type', 'groupId' ]
+      required: [ 'type', 'group' ]
       properties:
         type:
           type: string
           enum:
             - group
-        groupId:
+        group:
           type: integer
     EventFilterByProperty:
       type: object
