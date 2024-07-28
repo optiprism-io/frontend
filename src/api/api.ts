@@ -101,12 +101,6 @@ export interface Account {
      * @memberof Account
      */
     'status'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Account
-     */
-    'timezone'?: string;
 }
 /**
  * 
@@ -1380,7 +1374,7 @@ export interface EventFilterByGroup {
      * @type {number}
      * @memberof EventFilterByGroup
      */
-    'groupId': number;
+    'group': number;
 }
 
 export const EventFilterByGroupTypeEnum = {
@@ -3053,12 +3047,6 @@ export interface Profile {
      * @memberof Profile
      */
     'email': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Profile
-     */
-    'timezone': string;
     /**
      * 
      * @type {boolean}

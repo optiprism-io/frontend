@@ -33,7 +33,6 @@ export const useProfileStore = defineStore('profile', {
     profile: {
       name: '',
       email: '',
-      timezone: '',
       forceUpdatePassword: false,
       forceUpdateEmail: false
     },

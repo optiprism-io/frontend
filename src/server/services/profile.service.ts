@@ -34,7 +34,6 @@ function getProfile(schema: Schema) {
   return new Profile({
     name: profile.name,
     email: profile.email,
-    timezone: profile.timezone,
     forceUpdatePassword: !profile.password || profile.password === ADMIN_PASSWORD,
   })
 }
