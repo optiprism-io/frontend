@@ -3,6 +3,7 @@ import { Response } from 'miragejs'
 
 import { userId } from '@/mocks/profile'
 import {
+  ADMIN_EMAIL,
   ADMIN_PASSWORD,
   EMPTY_HEADER_RESPONSE,
   EMPTY_SUCCESS_RES,
@@ -25,6 +26,7 @@ export function profileRoutes(server: Server) {
   server.get('/profile', getProfile)
   server.put('/profile/name', putProfileName)
   server.put('/profile/email', putProfileEmail)
+  server.put('/profile/set-email', putProfileEmail)
   server.put('/profile/password', putProfilePassword)
   server.put('/profile/set-password', putSetProfilePassword)
 }
@@ -35,6 +37,7 @@ function getProfile(schema: Schema) {
     name: profile.name,
     email: profile.email,
     forceUpdatePassword: !profile.password || profile.password === ADMIN_PASSWORD,
+    forceUpdateEmail: !profile.email || profile.email === ADMIN_EMAIL,
   })
 }
 
