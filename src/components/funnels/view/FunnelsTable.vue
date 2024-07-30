@@ -46,14 +46,16 @@ const KEY_PREFIX = '__'
 const KEY_GROUPS: StepKey = 'groups'
 const KEY_TOTAL: StepKey = 'conversionRatio'
 const INDEX_FIRST_ARR_ELEMENT = 0
+const TOTAL_CONVERSION = 'TOTAL_CONVERSION'
 const UNIQ_KEY = 'id'
 
 const curCheckedRowKeys = useVModel(props, 'checkedRowKeys', emit)
 
 const data = computed(() => {
   const length = props.reportSteps.at(0)?.data.length ?? 0
+  const lastIndex = props.reportSteps.length - 1
 
-  const arr: Record<string, any> = Array.from({ length }, () => ({}))
+  const arr: Record<string, any>[] = Array.from({ length }, () => ({}))
 
   props.reportSteps.forEach((step, stepIndex) => {
     step.data.forEach((el, index) => {
@@ -67,6 +69,8 @@ const data = computed(() => {
       arr[index][UNIQ_KEY] = step.data[index].groups.join(DEFAULT_SEPARATOR)
     })
   })
+
+  arr.forEach(x => x[TOTAL_CONVERSION] = x[KEY_PREFIX + KEY_TOTAL + KEY_SPLITTER + lastIndex])
 
   return arr
 })
@@ -95,11 +99,9 @@ const groupsColumns = computed<TableColumn[]>(() => {
     ellipsis: true,
   }))
 
-  const lastIndex = props.reportSteps.length - 1
-
   cols.push({
     title: 'Conversion Ratio',
-    key: KEY_PREFIX + KEY_TOTAL + KEY_SPLITTER + lastIndex,
+    key: TOTAL_CONVERSION,
     resizable: true,
     ellipsis: true,
   })
