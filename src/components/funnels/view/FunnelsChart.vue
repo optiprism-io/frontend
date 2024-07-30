@@ -28,9 +28,7 @@
           :height="props.height"
           :lite-chart="props.liteChart"
         >
-          <div class="pf-u-text-align-center">
-            {{ item.step }}
-          </div>
+          {{ item.step }}
         </FunnelChartStacked>
       </div>
     </div>

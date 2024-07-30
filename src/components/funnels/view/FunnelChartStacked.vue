@@ -1,14 +1,11 @@
 <template>
-  <div class="pf-l-flex pf-m-column">
+  <div class="funnel-chart-stacked pf-l-flex pf-m-column pf-u-text-align-center">
     <div
       ref="container"
       class="pf-l-flex__item"
     />
     <div
       class="pf-u-font-weight-bold pf-l-flex__item pf-u-px-lg"
-      :class="{
-        'pf-u-font-size-lg': !liteChart,
-      }"
     >
       <slot />
     </div>
@@ -139,6 +136,9 @@ const update = () => {
       },
       showMarkers: false,
       domStyles: {
+        'g2-tooltip': {
+          textAlign: 'left',
+        },
         'g2-tooltip-title': {
           fontWeight: 'bold',
         },
@@ -254,3 +254,9 @@ watch(
   { immediate: true }
 )
 </script>
+
+<style lang="scss" scoped>
+.funnel-chart-stacked {
+  text-align: center;
+}
+</style>
