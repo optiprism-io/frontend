@@ -5,7 +5,7 @@
       class="pf-l-flex__item"
     />
     <div
-      class="pf-u-font-weight-bold pf-l-flex__item pf-u-px-lg"
+      class="pf-u-font-weight-bold pf-l-flex__item"
     >
       <slot />
     </div>

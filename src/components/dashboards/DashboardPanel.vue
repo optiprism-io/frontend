@@ -1,7 +1,13 @@
 <template>
-  <div class="dashboard-panel">
+  <div
+    ref="dashboardPanel"
+    class="dashboard-panel"
+  >
     <div class="dashboard-panel__name">
-      <RouterLink v-if="reportLink" :to="reportLink">
+      <RouterLink
+        v-if="reportLink"
+        :to="reportLink"
+      >
         {{ report?.name }}
       </RouterLink>
     </div>
@@ -16,6 +22,7 @@
     />
     <FunnelsChart
       v-else-if="reportSteps.length"
+      :key="updateKey"
       :report-steps="reportSteps"
       :height="props.heightChart || 240"
       :lite-chart="true"
@@ -26,6 +33,7 @@
 <script lang="ts" setup>
 import { computed, onMounted, ref, watch } from 'vue'
 
+import { useElementSize } from '@vueuse/core'
 import { RouterLink } from 'vue-router'
 
 import EventsViews from '@/components/events/EventsViews.vue'
@@ -51,8 +59,9 @@ import type {
   EventSegmentation as EventSegmentationType,
   FunnelQuery,
   FunnelResponseStepsInner,
-  Report} from '@/api';
-import type { ChartType} from '@/stores/eventSegmentation/events';
+  Report,
+} from '@/api'
+import type { ChartType } from '@/stores/eventSegmentation/events'
 import type { Step } from '@/types/steps'
 
 const reportsStore = useReportsStore()
@@ -65,6 +74,10 @@ const props = defineProps<{
   reportId?: number
   heightChart?: number
 }>()
+
+/* Made to redraw the chart when resizing, may need to add debounce */
+const dashboardPanel = ref()
+const { width: updateKey } = useElementSize(dashboardPanel)
 
 const loading = ref(false)
 const eventSegmentation = ref<DataTableResponse>()
@@ -216,7 +229,7 @@ eventsStore.$subscribe(mutation => {
 
 <style lang="scss" scoped>
 .dashboard-panel {
-  overflow: hidden;
+  overflow: hidden auto;
   height: 100%;
 }
 
