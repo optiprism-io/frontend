@@ -6,8 +6,7 @@
 </template>
 
 <script setup lang="ts">
-
-import { computed, onMounted } from 'vue'
+import { computed } from 'vue'
 
 import { useRoute, RouterView } from 'vue-router'
 
@@ -39,10 +38,6 @@ const items = computed(() => [
     active: route.name === pagesMap.usersProperties,
   },
 ])
-
-onMounted(() => {
-  lexiconStore.getEventProperties()
-})
 </script>
 
 <style scoped lang="scss"></style>

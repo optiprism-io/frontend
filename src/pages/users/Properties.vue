@@ -145,7 +145,9 @@ const userPropertyPopupCancel = () => {
   editProperty.value = null
 }
 
-onMounted(() => {
-  updateData()
+onMounted(async () => {
+  lexiconStore.getEventProperties()
+  await lexiconStore.getGroups()
+  lexiconStore.getGroupProperties()
 })
 </script>
