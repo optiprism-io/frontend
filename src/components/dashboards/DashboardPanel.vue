@@ -214,16 +214,17 @@ eventsStore.$subscribe(mutation => {
 })
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .dashboard-panel {
-  margin-top: -24px;
   overflow: hidden;
-  height: calc(100% + 24px);
-  &__name {
-    font-size: 16px;
-  }
-  .chart-wrapper__container {
-    height: 100%;
-  }
+  height: 100%;
+}
+
+.dashboard-panel__name {
+  font-size: 16px;
+}
+
+.chart-wrapper__container {
+  height: 100%;
 }
 </style>
