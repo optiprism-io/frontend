@@ -535,12 +535,6 @@ export interface CustomEventEvent {
     'eventName'?: string;
     /**
      * 
-     * @type {number}
-     * @memberof CustomEventEvent
-     */
-    'eventId'?: number;
-    /**
-     * 
      * @type {EventType}
      * @memberof CustomEventEvent
      */
@@ -1142,12 +1136,6 @@ export interface DidEventRelativeCount {
     'eventName'?: string;
     /**
      * 
-     * @type {number}
-     * @memberof DidEventRelativeCount
-     */
-    'eventId'?: number;
-    /**
-     * 
      * @type {EventType}
      * @memberof DidEventRelativeCount
      */
@@ -1380,7 +1368,7 @@ export interface EventFilterByGroup {
      * @type {number}
      * @memberof EventFilterByGroup
      */
-    'groupId': number;
+    'group': number;
 }
 
 export const EventFilterByGroupTypeEnum = {
@@ -1526,12 +1514,6 @@ export interface EventRecordRequestEvent {
     'eventName'?: string;
     /**
      * 
-     * @type {number}
-     * @memberof EventRecordRequestEvent
-     */
-    'eventId'?: number;
-    /**
-     * 
      * @type {EventType}
      * @memberof EventRecordRequestEvent
      */
@@ -1607,12 +1589,6 @@ export interface EventRef {
      * @memberof EventRef
      */
     'eventName'?: string;
-    /**
-     * 
-     * @type {number}
-     * @memberof EventRef
-     */
-    'eventId'?: number;
     /**
      * 
      * @type {EventType}
@@ -1737,12 +1713,6 @@ export interface EventSegmentationEvent {
      * @memberof EventSegmentationEvent
      */
     'eventName'?: string;
-    /**
-     * 
-     * @type {number}
-     * @memberof EventSegmentationEvent
-     */
-    'eventId'?: number;
     /**
      * 
      * @type {EventType}
@@ -1943,12 +1913,6 @@ export interface FunnelEvent {
      * @memberof FunnelEvent
      */
     'eventName'?: string;
-    /**
-     * 
-     * @type {number}
-     * @memberof FunnelEvent
-     */
-    'eventId'?: number;
     /**
      * 
      * @type {EventType}
@@ -2179,12 +2143,6 @@ export interface FunnelQueryExcludeInner {
      * @memberof FunnelQueryExcludeInner
      */
     'eventName'?: string;
-    /**
-     * 
-     * @type {number}
-     * @memberof FunnelQueryExcludeInner
-     */
-    'eventId'?: number;
     /**
      * 
      * @type {EventType}
@@ -2906,12 +2864,6 @@ export interface ListPropertyValuesRequest {
      * @memberof ListPropertyValuesRequest
      */
     'eventName'?: string;
-    /**
-     * 
-     * @type {number}
-     * @memberof ListPropertyValuesRequest
-     */
-    'eventId'?: number;
     /**
      * 
      * @type {EventType}
@@ -3797,12 +3749,6 @@ export interface SegmentConditionDidEvent {
      * @memberof SegmentConditionDidEvent
      */
     'eventName'?: string;
-    /**
-     * 
-     * @type {number}
-     * @memberof SegmentConditionDidEvent
-     */
-    'eventId'?: number;
     /**
      * 
      * @type {EventType}
