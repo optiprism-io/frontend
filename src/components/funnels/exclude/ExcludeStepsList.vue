@@ -46,13 +46,15 @@
         </div>
       </template>
 
-      <UiActionListItem @click="createFilterForEvent(index)">
-        <VTooltip popper-class="ui-hint">
-          <UiIcon icon="fas fa-filter" />
-          <template #popper>
-            {{ $t('common.addFilter') }}
-          </template>
-        </VTooltip>
+      <UiActionListItem>
+        <PropertySelect @select="(propRef) => createFilterForEvent(propRef, index)">
+          <VTooltip popper-class="ui-hint">
+            <UiIcon icon="fas fa-filter" />
+            <template #popper>
+              {{ $t('common.addFilter') }}
+            </template>
+          </VTooltip>
+        </PropertySelect>
       </UiActionListItem>
 
       <UiActionListItem @click="stepsStore.deleteExcludedEvent(index)">
@@ -88,6 +90,7 @@ import { Tooltip as VTooltip } from 'floating-vue'
 
 import EventSelector from '@/components/events/Events/EventSelector.vue';
 import Filter from '@/components/events/Filter.vue';
+import PropertySelect from '@/components/events/PropertySelect.vue'
 import UiActionList from '@/components/uikit/UiActionList/UiActionList.vue';
 import UiActionListItem from '@/components/uikit/UiActionList/UiActionListItem.vue';
 import UiButton from '@/components/uikit/UiButton.vue'
@@ -113,7 +116,7 @@ const UiSelect = UiSelectGeneric();
 
 const stepsStore = useStepsStore();
 const eventName = useEventName()
-const filterHelpers = useFilter()
+const { getValues } = useFilter();
 
 const { $t } = inject('i18n') as I18N;
 
@@ -164,15 +167,16 @@ const editEventSteps = (stepsString: string, index: number): void => {
     })
 }
 
-const createFilterForEvent = (index: number): void => {
+const createFilterForEvent = async (payload: PropertyRef, index: number) => {
     stepsStore.editExcludedEvent({
         index,
         excludedEvent: {
             filters: [
                 {
+                    propRef: payload,
                     opId: OperationId.Eq,
                     values: [],
-                    valuesList: [],
+                    valuesList: await getValues(payload),
                 }
             ]
         }
@@ -189,7 +193,7 @@ const changeFilterPropertyForEvent = async (index: number, filterIndex: number, 
         filterIndex,
         filter: {
             propRef: payload,
-            valuesList: await filterHelpers.getValues(payload)
+            valuesList: await getValues(payload)
         }
     })
 }
@@ -257,10 +261,6 @@ const excludeStepsToString = (steps: FunnelExcludeStepsSteps): string => {
 </script>
 
 <style lang="scss" scoped>
-.exclude-step-filter {
-  margin-left: 20px;
-}
-
 .row-gap {
   row-gap: 0.5rem;
 }

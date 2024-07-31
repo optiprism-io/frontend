@@ -109,6 +109,7 @@ import type {
   FunnelQueryStepsInner,
 } from '@/api'
 import type { ApplyPayload } from '@/components/uikit/UiCalendar/UiCalendar'
+import type { ExcludedEvent} from '@/stores/funnels/steps';
 import type { FilterGroup } from '@/stores/reports/filters'
 import type { DataTableRowKey } from 'naive-ui'
 
@@ -253,7 +254,8 @@ async function fetchReports(): Promise<void> {
   if (
     steps.length < MIN_COUNT_FOR_REQUEST ||
     hasEmptyFilterValuesInSteps(steps) ||
-    hasEmptyFilterValuesInFilters(filterGroupsStore.filterGroups)
+    hasEmptyFilterValuesInFilters(filterGroupsStore.filterGroups) ||
+    hasEmptyFilterValuesInExcludes(stepsStore.excludedEvents)
   )
     return
 
@@ -303,6 +305,10 @@ function hasEmptyFilterValuesInSteps(steps: FunnelQueryStepsInner[]): boolean {
 
 function hasEmptyFilterValuesInFilters(filters: FilterGroup[]): boolean {
   return filters.some(filter => filter.filters.some(filter => !filter.values.length))
+}
+
+function hasEmptyFilterValuesInExcludes(excludes: ExcludedEvent[]): boolean {
+  return excludes.some(exclude => exclude.filters.some(filter => !filter.values.length))
 }
 
 watch(() => [stepsStore, filterGroupsStore, breakdownsStore, timeRequest], getReports, {

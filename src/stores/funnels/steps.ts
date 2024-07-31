@@ -27,7 +27,7 @@ export type HoldingProperty = {
   group?: number
 }
 
-interface ExcludedEvent {
+export interface ExcludedEvent {
     event: EventRef;
     steps: FunnelExcludeStepsSteps;
     filters: EventFilter[];
@@ -150,12 +150,12 @@ export const useStepsStore = defineStore('steps', {
       const eventName = useEventName()
 
       const excluded: FunnelQueryExcludeInner[] = this.excludedEvents.map((item) => ({
-        eventId: item.event.id,
         eventName: eventName(item.event),
         eventType: item.event.type,
         filters: item.filters.map(filter => {
           if (!filter.propRef) throw new Error('Property reference is required')
           return {
+            propertyName: filter.propRef.name,
             propertyType: filter.propRef.type,
             type: EventFilterByPropertyTypeEnum.Property,
             operation: filter.opId,
