@@ -14,7 +14,7 @@ const rgb2hex = (r: number, g: number, b: number): string => {
   return '#' + componentToHex(r) + componentToHex(g) + componentToHex(b)
 }
 
-export const lighten = (hex: string, amount: number): string => {
+export const lighten = (hex: string, amount = 80): string => {
   const rgb = hex2rgb(hex)
   const [r, g, b] = rgb
   const [r2, g2, b2] = [r, g, b].map(c => Math.min(255, c + amount))

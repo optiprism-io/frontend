@@ -48,9 +48,10 @@
 
     <DataLoader v-if="loading" />
     <template v-else-if="reportSteps.length">
-      <FunnelsChart
+      <ChartStacked
         v-if="checkedRowKeys.length"
-        :report-steps="filteredReportSteps"
+        :data="normalizedReportSteps"
+        height="25rem"
       />
       <DataEmptyPlaceholder v-else>
         {{ $t('funnels.view.selectRowInTable') }}
@@ -77,9 +78,9 @@
 <script lang="ts" setup>
 import { computed, nextTick, ref, watch } from 'vue'
 
+import ChartStacked from '@/components/charts/ChartStacked.vue'
 import DataEmptyPlaceholder from '@/components/common/data/DataEmptyPlaceholder.vue'
 import DataLoader from '@/components/common/data/DataLoader.vue'
-import FunnelsChart from '@/components/funnels/view/FunnelsChart.vue'
 import FunnelsTable from '@/components/funnels/view/FunnelsTable.vue'
 import UiDatePicker from '@/components/uikit/UiDatePicker.vue'
 import type { UiDropdownItem } from '@/components/uikit/UiDropdown.vue'
@@ -108,8 +109,9 @@ import type {
   FunnelResponseStepsInner,
   FunnelQueryStepsInner,
 } from '@/api'
+import type { ChartStackedItem } from '@/components/charts/types'
 import type { ApplyPayload } from '@/components/uikit/UiCalendar/UiCalendar'
-import type { ExcludedEvent} from '@/stores/funnels/steps';
+import type { ExcludedEvent } from '@/stores/funnels/steps'
 import type { FilterGroup } from '@/stores/reports/filters'
 import type { DataTableRowKey } from 'naive-ui'
 
@@ -150,6 +152,29 @@ const filteredReportSteps = computed<FunnelResponseStepsInner[]>(() => {
     }
   })
 })
+
+const normalizedReportSteps = computed<ChartStackedItem[]>(() =>
+  filteredReportSteps.value.map(step => {
+    return {
+      groupName: step.step,
+      elements: step.data.map(item => ({
+        columnName: item.groups.join(DEFAULT_SEPARATOR),
+        primary: {
+          value: item.total,
+          percentage: item.conversionRatio,
+          label: 'Total',
+          percentageLabel: 'Conversion Ratio',
+        },
+        secondary: {
+          value: item.droppedOff,
+          percentage: item.dropOffRatio,
+          label: 'Dropped Off',
+          percentageLabel: 'Dropped Off Ratio',
+        },
+      })),
+    }
+  })
+)
 
 const controlsPeriod = ref<string | number>('30')
 const period = ref<Period>({

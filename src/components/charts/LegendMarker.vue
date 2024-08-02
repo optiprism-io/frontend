@@ -1,7 +1,7 @@
 <template>
-  <div class="pf-l-flex pf-l-flex__item pf-m-align-items-center">
+  <div class="legend-marker">
     <span
-      class="pf-l-flex__item legend-marker__point"
+      class="legend-marker__point"
       :style="{ background: color }"
     />
     <span class="legend-marker__name">{{ markerName }}</span>
@@ -18,6 +18,12 @@ withDefaults(defineProps<IProps>(), {})
 </script>
 
 <style lang="scss" scoped>
+.legend-marker {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
 .legend-marker__point {
   width: 1rem;
   height: 1rem;
@@ -26,5 +32,6 @@ withDefaults(defineProps<IProps>(), {})
 
 .legend-marker__name {
   font-size: var(--pf-global--FontSize--sm);
+  white-space: nowrap;
 }
 </style>
