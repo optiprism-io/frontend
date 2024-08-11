@@ -1,53 +1,61 @@
 <template>
   <div class="pf-l-bullseye">
     <ForceUpdateProfilePopup
-      :force-pass="profileStore.profile.forceUpdatePassword"
-      :force-email="profileStore.profile.forceUpdateEmail"
-      :loading="loading"
+      :force-pass="forcePass"
+      :force-email="forceEmail"
+      :force-project="forceProject"
       @changed-password="onChangedPassword"
       @changed-email="onChangedEmail"
+      @changed-project="onChangedProject"
       @submit-fields="submitFields"
     />
   </div>
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted } from 'vue'
+import { computed } from 'vue'
 
-import { useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 
 import ForceUpdateProfilePopup from '@/components/profile/ForceUpdateProfilePopup.vue'
 
 import { pagesMap } from '@/router'
 import { useProfileStore } from '@/stores/profile/profile'
+import { useProjectsStore } from '@/stores/projects/projects'
 
-import type { TokensResponse } from '@/api'
+import type { Project, TokensResponse } from '@/api'
 
 const router = useRouter()
+const route = useRoute()
+
+const forceEmail = computed(() => route.query.email === 'true')
+const forcePass = computed(() => route.query.password === 'true')
+const forceProject = computed(() => route.query.project === 'true')
+
+if (!forceEmail.value && !forcePass.value && !forceProject.value) {
+  router.push({ name: pagesMap.dashboards.name })
+}
+
 const profileStore = useProfileStore()
-const { setFirstPassword, setFirstEmail, getProfile } = profileStore
+const { setFirstPassword, setFirstEmail } = profileStore
 
-const loading = ref(false)
+const projectStore = useProjectsStore()
+const { addProjectToList, setProjectId } = projectStore
 
-async function onChangedPassword(tokens: TokensResponse) {
+function onChangedPassword(tokens: TokensResponse) {
   setFirstPassword(tokens)
 }
 
-async function onChangedEmail(tokens: TokensResponse) {
+function onChangedEmail(tokens: TokensResponse) {
   setFirstEmail(tokens)
+}
+
+function onChangedProject(project: Project) {
+  addProjectToList(project)
+  setProjectId(project.id)
 }
 
 const submitFields = () => {
   router.push({ name: pagesMap.dashboards.name })
 }
-
-onMounted(async () => {
-  loading.value = true;
-  await getProfile()
-
-  loading.value = false;
-  if (!profileStore.profile.forceUpdatePassword && !profileStore.profile.forceUpdateEmail) {
-    router.push({ name: pagesMap.dashboards.name })
-  }
-})
 </script>
