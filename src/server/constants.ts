@@ -3,6 +3,7 @@ const accessToken =
 const refreshToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6Im5pa28ga3VzaCIsImlhdCI6MTUxNjIzOTAyMn0.FzpmXmStgiYEO15ZbwwPafVRQSOCO_xidYjrjRvVIbQ'
 const csrfToken = 'CIwNZNlR4XbisJF39I8yWnWX9wX4WFoz'
 
+export const ADMIN_EMAIL = 'admin@admin.com'
 export const ADMIN_PASSWORD = 'admin'
 
 export const Tokens = {

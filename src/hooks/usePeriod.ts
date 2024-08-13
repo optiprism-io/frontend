@@ -1,6 +1,5 @@
 import { TimeBetweenTypeEnum, TimeFromTypeEnum } from '@/api'
 import { formatDateTime } from '@/helpers/getStringDates'
-import { useProfileStore } from '@/stores/profile/profile'
 
 import type { TimeBetween, TimeFrom } from '@/api';
 
@@ -21,8 +20,6 @@ const getDateLast = (controlsPeriod: string | number, count: number) => {
 }
 
 export const usePeriod = () => {
-  const profileStore = useProfileStore()
-
   const getRequestTime = (
     type: TimeTypeEnum,
     controlsPeriod: string | number,
@@ -36,13 +33,11 @@ export const usePeriod = () => {
           type: TimeBetweenTypeEnum.Between,
           from: formatDateTime(getDateLast(controlsPeriod, last || 0), 0, 0, 0, 0),
           to: formatDateTime(new Date(), 23, 59, 59, 999),
-          timezone: profileStore.profile.timezone,
         }
       case TimeTypeEnum.Since:
         return {
           type: TimeFromTypeEnum.From,
           from: from ? formatDateTime(from, 0, 0, 0) : '',
-          timezone: profileStore.profile.timezone,
         }
       case TimeTypeEnum.Between:
       default:
@@ -50,7 +45,6 @@ export const usePeriod = () => {
           type: TimeBetweenTypeEnum.Between,
           from: from ? formatDateTime(from, 0, 0, 0, 0) : '',
           to: to ? formatDateTime(to, 23, 59, 59, 999) : '',
-          timezone: profileStore.profile.timezone,
         }
     }
   }

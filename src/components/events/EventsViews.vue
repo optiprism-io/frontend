@@ -211,7 +211,7 @@ const columns = computed(() => {
 const data = computed(() => {
   const tableData: RowData[] = [];
 
-  (props.eventSegmentation?.columns || []).forEach((column, i, arr) => {
+  (props.eventSegmentation?.columns || []).forEach((column) => {
     if (column.data?.length) {
       column.data.forEach((item, indexData) => {
         if (!tableData[indexData]) {
@@ -219,7 +219,7 @@ const data = computed(() => {
             key: indexData,
           }
         }
-        let value: CellData = item || '';
+        let value: CellData = item || 0;
 
         if (column.dataType === DataType.Timestamp && item) {
           value = useDateFormat(+item, 'YYYY-MM-DD HH:mm')?.value

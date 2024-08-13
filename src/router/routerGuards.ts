@@ -7,10 +7,10 @@ import type { NavigationGuardWithThis } from 'vue-router'
 
 type NavigationGuard = NavigationGuardWithThis<undefined>
 
-export const checkChangedPass: NavigationGuard = async (_to, _from) => {
+export const checkChangedPassOrEmail: NavigationGuard = async (_to, _from) => {
   const profileStore = useProfileStore()
   await profileStore.getProfile()
-  if (profileStore.profile.forceUpdatePassword) return { name: pagesMap.forceUpdatePassword }
+  if (profileStore.profile.forceUpdatePassword || profileStore.profile.forceUpdateEmail) return { name: pagesMap.forceUpdateProfile }
   return true
 }
 

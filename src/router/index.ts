@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
 import { pagesMap } from '@/router/pagesMap'
-import { checkChangedPass, checkCreatedProject, isAuth } from '@/router/routerGuards'
+import { checkChangedPassOrEmail, checkCreatedProject, isAuth } from '@/router/routerGuards'
 
 import type { RouteRecordRaw } from 'vue-router';
 
@@ -20,16 +20,16 @@ const routes: RouteRecordRaw[] = [
     component: () => import('@/pages/auth/Login.vue'),
   },
 
-  /* pages are accessible only with a changed password */
+  /* pages are accessible only with a changed password or email */
   {
-    path: '/force_update_password',
+    path: '/force_update_profile',
     component: () => import('@/layout/EmptyLayout.vue'),
     beforeEnter: [isAuth],
     children: [
       {
         path: '',
-        name: pagesMap.forceUpdatePassword,
-        component: () => import('@/pages/ForceUpdatePassword.vue'),
+        name: pagesMap.forceUpdateProfile,
+        component: () => import('@/pages/ForceUpdateProfile.vue'),
       },
     ],
   },
@@ -38,7 +38,7 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/projects/create',
     component: () => import('@/layout/MainLayout.vue'),
-    beforeEnter: [isAuth, checkChangedPass],
+    beforeEnter: [isAuth, checkChangedPassOrEmail],
     children: [
       {
         path: '',
@@ -50,7 +50,7 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/profile',
     component: () => import('@/layout/MainLayout.vue'),
-    beforeEnter: [isAuth, checkChangedPass],
+    beforeEnter: [isAuth, checkChangedPassOrEmail],
     children: [
       {
         path: '',
@@ -64,7 +64,7 @@ const routes: RouteRecordRaw[] = [
   {
     path: '',
     component: () => import('@/layout/MainLayout.vue'),
-    beforeEnter: [isAuth, checkChangedPass, checkCreatedProject],
+    beforeEnter: [isAuth, checkChangedPassOrEmail, checkCreatedProject],
     children: [
       {
         path: '',
