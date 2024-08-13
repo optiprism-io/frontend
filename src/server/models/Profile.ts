@@ -11,7 +11,7 @@ export class Profile implements IProfile {
   constructor(profile: Partial<IProfile> = {}) {
     this.name = profile.name || faker.person.fullName()
     this.email = profile.email || faker.internet.email()
-    this.forceUpdatePassword = profile.forceUpdatePassword || true
-    this.forceUpdateEmail = true
+    this.forceUpdatePassword = profile.forceUpdatePassword ?? true
+    this.forceUpdateEmail = profile.forceUpdateEmail ?? true
   }
 }
