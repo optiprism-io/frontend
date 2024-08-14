@@ -1,4 +1,4 @@
 import { faker } from '@/server/faker'
 import { Project } from '@/server/models/Project'
 
-export default faker.helpers.multiple(() => new Project(), { count: { min: 2, max: 5 } })
+export default faker.helpers.multiple(() => new Project(), { count: { min: 0, max: 0 } })

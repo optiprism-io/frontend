@@ -1,17 +1,30 @@
 <template>
   <UiPopupWindow
-    :title="title"
+    :title="strings.setInitialParams"
     :apply-button="strings.save"
     :apply-disabled="applyDisabled"
     :closable="false"
-    :loading-content="loading"
-    :apply-loading="isLoading || isLoadingEmail"
+    :apply-loading="isLoading"
     @apply="setFields"
   >
     <UiFormGroup
+      v-if="forceProject"
+      :label="strings.projectName"
+      for="project-name"
+      :required="true"
+    >
+      <UiInput
+        v-model="projectName"
+        :required="true"
+        name="project-name"
+        :invalid="!!projectNameError"
+      />
+      <UiFormError :error="projectNameError" />
+    </UiFormGroup>
+
+    <UiFormGroup
       v-if="forceEmail"
       :label="strings.setEmailText"
-      :error="confirmErrorEmail"
       :for="'force-email'"
       :required="true"
     >
@@ -25,7 +38,6 @@
     <UiFormGroup
       v-if="forceEmail"
       :label="strings.confirmEmail"
-      :error="confirmErrorEmail"
       :for="'confirm-email'"
       :required="true"
     >
@@ -37,16 +49,15 @@
       />
       <UiFormError :error="confirmErrorEmail" />
     </UiFormGroup>
+
     <UiFormGroup
       v-if="forcePass"
       :label="strings.setPassText"
-      :error="confirmErrorPassword"
       :for="'force-password'"
       :required="true"
     >
       <InputPassword
         v-model="password"
-        :autofocus="true"
         :invalid="!!confirmErrorPassword"
         name="force-password"
         @update:model-value="clearError"
@@ -55,7 +66,6 @@
     <UiFormGroup
       v-if="forcePass"
       :label="strings.confirmPassword"
-      :error="confirmErrorPassword"
       :for="'confirm-password'"
       :required="true"
     >
@@ -84,24 +94,30 @@ import UiPopupWindow from '@/components/uikit/UiPopupWindow.vue'
 import { apiClient } from '@/api/apiClient'
 import usei18n from '@/hooks/useI18n'
 import { useMutation } from '@/hooks/useMutation'
-import { confirmPassword as confirmPasswordScheme } from '@/plugins/valibot'
-import { confirmEmail as confirmEmailScheme } from '@/plugins/valibot'
+import {
+  confirmEmail as confirmEmailScheme,
+  confirmPassword as confirmPasswordScheme,
+  notEmptyString,
+} from '@/plugins/valibot'
 
-import type { TokensResponse } from '@/api'
+import type { Project, TokensResponse } from '@/api'
 
-const { t } = usei18n()
+interface IProps {
+  forcePass: boolean
+  forceEmail: boolean
+  forceProject: boolean
+}
 
-const props = defineProps({
-  forcePass: Boolean,
-  forceEmail: Boolean,
-  loading: Boolean
-})
+const props = withDefaults(defineProps<IProps>(), {})
 
 const emit = defineEmits<{
   (e: 'submit-fields'): void
   (e: 'changed-password', tokens: TokensResponse): void
   (e: 'changed-email', tokens: TokensResponse): void
+  (e: 'changed-project', project: Project): void
 }>()
+
+const { t } = usei18n()
 
 const strings = computed(() => {
   return {
@@ -109,27 +125,10 @@ const strings = computed(() => {
     confirmEmail: t('profile.confirmEmail'),
     setPassText: t('profile.setPasswordText'),
     confirmPassword: t('profile.confirmPassword'),
-    setPassword: t('profile.setPassword'),
-    setEmail: t('profile.setEmail'),
-    setEmailAndPassword: t('profile.setEmailAndPassword'),
     save: t('common.save'),
+    projectName: t('project.name'),
+    setInitialParams: t('profile.setInitialParams'),
   }
-})
-
-const title = computed(() => {
-  if (props.forceEmail && props.forcePass) {
-    return strings.value.setEmailAndPassword
-  }
-
-  if (props.forceEmail) {
-    return strings.value.setEmail
-  }
-
-  if (props.forcePass) {
-    return strings.value.setPassword
-  }
-
-  return '';
 })
 
 const password = ref('')
@@ -140,8 +139,16 @@ const email = ref('')
 const confirmEmail = ref('')
 const confirmErrorEmail = ref<string | null>(null)
 
-const { mutate: setPassword, isLoading } = useMutation(changePassword)
+const projectName = ref('')
+const projectNameError = ref<string | null>(null)
+
+const { mutate: setPassword, isLoading: isLoadingPassword } = useMutation(changePassword)
 const { mutate: setEmail, isLoading: isLoadingEmail } = useMutation(changeEmail)
+const { mutate: setProjectName, isLoading: isLoadingProjectName } = useMutation(changeProjectName)
+
+const isLoading = computed(
+  () => isLoadingPassword.value || isLoadingEmail.value || isLoadingProjectName.value
+)
 
 async function changeEmail() {
   const check = safeParse(
@@ -185,26 +192,44 @@ async function changePassword() {
   emit('changed-password', data)
 }
 
+async function changeProjectName() {
+  const check = safeParse(notEmptyString, projectName.value, { abortEarly: true })
+  if (!check.success) {
+    projectNameError.value = check.issues[0].message
+    return
+  }
+
+  const { data } = await apiClient.projects.createProject({
+    name: projectName.value,
+  })
+
+  emit('changed-project', data)
+}
+
 function clearError() {
   confirmErrorPassword.value = null
   confirmErrorEmail.value = null
+  projectNameError.value = null
 }
 
 const passwordDisabled = computed(() => !password.value.trim() || !confirmPassword.value.trim())
 const emailDisabled = computed(() => !email.value.trim() || !confirmEmail.value.trim())
 const applyDisabled = computed(
-  () => (props.forceEmail && emailDisabled.value) || (props.forcePass && passwordDisabled.value)
+  () =>
+    (props.forceEmail && emailDisabled.value) ||
+    (props.forcePass && passwordDisabled.value) ||
+    (props.forceProject && !projectName.value.trim())
 )
 
-const setFields = () => {
-  if (props.forceEmail) {
-    setEmail()
-  }
-  if (props.forcePass) {
-    setPassword()
-  }
+async function setFields() {
+  const promises: Array<() => Promise<void | undefined>> = []
+  if (props.forceEmail) promises.push(setEmail)
+  if (props.forcePass) promises.push(setPassword)
+  if (props.forceProject) promises.push(setProjectName)
 
-  if (!confirmErrorPassword.value || !confirmErrorEmail.value) {
+  await Promise.all(promises.map(promise => promise()))
+
+  if (!confirmErrorPassword.value || !confirmErrorEmail.value || !projectNameError.value) {
     emit('submit-fields')
   }
 }
