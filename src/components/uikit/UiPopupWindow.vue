@@ -31,7 +31,6 @@
           />
         </button>
         <header
-          v-if="props.title"
           class="pf-c-modal-box__header pf-u-mb-md"
         >
           <h1 class="pf-c-modal-box__title">
@@ -45,6 +44,10 @@
           </div>
         </header>
         <div class="pf-c-modal-box__body pf-u-mb-md pf-u-pb-md">
+          <UiSpinner
+            v-if="loadingContent"
+            :size="'xl'"
+          />
           <div
             v-if="props.content"
             v-html="props.content"
@@ -98,6 +101,7 @@
 import { ref, onMounted, onUnmounted, computed } from 'vue';
 
 import UiButton from '@/components/uikit/UiButton.vue';
+import UiSpinner from '@/components/uikit/UiSpinner.vue'
 
 import getScrollbarWidth from '@/helpers/getScrollbarWidth';
 
@@ -118,6 +122,7 @@ export interface Props {
     actionButtonsRight?: boolean
     size?: 'pf-m-md' | 'pf-m-sm' | 'pf-m-lg' | null
     centered?: boolean
+    loadingContent?: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {

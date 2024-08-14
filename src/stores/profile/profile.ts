@@ -33,8 +33,8 @@ export const useProfileStore = defineStore('profile', {
     profile: {
       name: '',
       email: '',
-      timezone: '',
       forceUpdatePassword: false,
+      forceUpdateEmail: false
     },
     isLoading: false,
     errors: {
@@ -57,7 +57,6 @@ export const useProfileStore = defineStore('profile', {
       password: false,
     },
   }),
-
   actions: {
     async getProfile() {
       if (this.profile.name) return
@@ -246,6 +245,12 @@ export const useProfileStore = defineStore('profile', {
       const authStore = useAuthStore()
       authStore.setToken(tokens)
       this.profile.forceUpdatePassword = false
+    },
+
+    setFirstEmail(tokens: TokensResponse) {
+      const authStore = useAuthStore()
+      authStore.setToken(tokens)
+      this.profile.forceUpdateEmail = false
     },
   },
 })

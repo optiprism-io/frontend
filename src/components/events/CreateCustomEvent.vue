@@ -201,7 +201,7 @@ const resultEvent = computed(() => {
       const event = lexiconStore.findEventByName(item.ref.name)
 
       const eventProps: CustomEventEvent = {
-        eventName: event.name,
+        eventId: event.id,
         eventType: item.ref.type as EventType,
         filters: [],
       }

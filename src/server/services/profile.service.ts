@@ -3,6 +3,7 @@ import { Response } from 'miragejs'
 
 import { userId } from '@/mocks/profile'
 import {
+  ADMIN_EMAIL,
   ADMIN_PASSWORD,
   EMPTY_HEADER_RESPONSE,
   EMPTY_SUCCESS_RES,
@@ -14,6 +15,7 @@ import { MIN_PASSWORD_LENGTH } from '@/server/services/auth.service'
 import { getErrorResponse } from '@/server/utils/getErrorResponse'
 
 import type {
+  SetProfileEmailRequest,
   SetProfilePasswordRequest,
   UpdateProfileEmailRequest,
   UpdateProfileNameRequest,
@@ -26,6 +28,7 @@ export function profileRoutes(server: Server) {
   server.get('/profile', getProfile)
   server.put('/profile/name', putProfileName)
   server.put('/profile/email', putProfileEmail)
+  server.put('/profile/set-email', putProfileEmail)
   server.put('/profile/password', putProfilePassword)
   server.put('/profile/set-password', putSetProfilePassword)
 }
@@ -35,8 +38,8 @@ function getProfile(schema: Schema) {
   return new Profile({
     name: profile.name,
     email: profile.email,
-    timezone: profile.timezone,
     forceUpdatePassword: !profile.password || profile.password === ADMIN_PASSWORD,
+    forceUpdateEmail: !profile.email || profile.email === ADMIN_EMAIL,
   })
 }
 
@@ -63,24 +66,26 @@ function putProfileName(schema: Schema, request: Request) {
 }
 
 function putProfileEmail(schema: Schema, request: Request) {
-  const { email, password } = JSON.parse(request.requestBody) as UpdateProfileEmailRequest
+  const res = JSON.parse(request.requestBody) as (UpdateProfileEmailRequest | SetProfileEmailRequest)
 
-  if (password.toLowerCase() === Stub.TOAST)
-    return new Response(HttpStatusCode.BadRequest, EMPTY_HEADER_RESPONSE, {
-      error: {
-        status: HttpStatusCode.BadRequest,
-        message: Stub.ERROR,
-      },
-    })
+  if ('password' in res) {
+    if (res.password.toLowerCase() === Stub.TOAST)
+      return new Response(HttpStatusCode.BadRequest, EMPTY_HEADER_RESPONSE, {
+        error: {
+          status: HttpStatusCode.BadRequest,
+          message: Stub.ERROR,
+        },
+      })
 
-  if (password.toLowerCase() === Stub.ERROR)
-    return new Response(
-      HttpStatusCode.BadRequest,
-      EMPTY_HEADER_RESPONSE,
-      getErrorResponse([['password', 'Password is incorrect']])
-    )
+    if (res.password.toLowerCase() === Stub.ERROR)
+      return new Response(
+        HttpStatusCode.BadRequest,
+        EMPTY_HEADER_RESPONSE,
+        getErrorResponse([['password', 'Password is incorrect']])
+      )
+  }
 
-  schema.db.profile.update(userId, { email })
+  schema.db.profile.update(userId, { email: res.email })
   return Tokens
 }
 

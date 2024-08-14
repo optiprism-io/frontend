@@ -18,8 +18,6 @@ import { usePropertyValues } from '@/hooks/usePropertyValues'
 import { useLexiconStore } from '@/stores/lexicon'
 import { OperationId } from '@/types'
 
-import { useProfileStore } from '../profile/profile'
-
 import type {
   Event,
   Property,
@@ -65,14 +63,12 @@ type SegmentsStore = {
 
 const computedValueTime = (
   item: Condition,
-  timezone: string
 ): SegmentConditionHadPropertyValueTime => {
   if (item.period?.type === TimeBetweenTypeEnum.Between) {
     return {
       type: TimeBetweenTypeEnum.Between,
       from: String(item.period.from),
       to: String(item.period.to),
-      timezone,
     }
   }
 
@@ -94,9 +90,8 @@ const computedValueAggregate = (
   item: Condition
 ): DidEventCount | DidEventRelativeCount | DidEventAggregateProperty | DidEventHistoricalCount => {
   const lexiconStore = useLexiconStore()
-  const profileStore = useProfileStore()
 
-  const time = computedValueTime(item, profileStore.profile.timezone)
+  const time = computedValueTime(item)
   const operation = item.opId as PropertyFilterOperation
 
   if (item.aggregate?.id === DidEventAggregatePropertyTypeEnum.AggregateProperty && item.propRef) {
@@ -157,7 +152,6 @@ export const useSegmentsStore = defineStore('segments', {
   getters: {
     segmentationItems(): EventSegmentationSegment[] {
       const lexiconStore = useLexiconStore()
-      const profileStore = useProfileStore()
 
       return this.segments.reduce((acc: EventSegmentationSegment[], segment) => {
         const item = {
@@ -253,7 +247,7 @@ export const useSegmentsStore = defineStore('segments', {
                           propertyName: property.name,
                           operation: item.opId as PropertyFilterOperation,
                           value: item.values,
-                          time: computedValueTime(item, profileStore.profile.timezone),
+                          time: computedValueTime(item),
                         }
 
                         items.push(condition)

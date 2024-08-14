@@ -120,7 +120,7 @@
           </template>
         </ValueSelect>
       </div>
-      <div v-if="filter.values.length === 0" class="pf-c-action-list__item filter__control-item">
+      <div v-if="filter.values.length === 0 || isShowInputForValue" class="pf-c-action-list__item filter__control-item">
         <UiButton
           ref="elButtonMain"
           class="pf-m-plain"
