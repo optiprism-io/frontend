@@ -17,6 +17,7 @@ import { uncamelize } from '@/utils/uncamelize'
 import type { FunnelResponseStepsInner } from '@/api'
 import type { StepKey } from '@/components/funnels/view/funnelViews'
 import type {
+  RowData,
   TableBaseColumn,
   TableColumn,
   TableColumnGroup,
@@ -34,10 +35,10 @@ const KEY_PREFIX = '__'
 const KEY_GROUPS = 'groups'
 const INDEX_FIRST_ARR_ELEMENT = 0
 
-const data = computed(() => {
+const data = computed<RowData[]>(() => {
   const length = props.reportSteps.at(0)?.data.length ?? 0
 
-  const arr: Record<string, any> = Array.from({ length }, () => ({}))
+  const arr: RowData[] = Array.from({ length }, () => ({}))
 
   props.reportSteps.forEach((step, stepIndex) => {
     step.data.forEach((el, index) => {
