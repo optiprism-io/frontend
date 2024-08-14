@@ -66,7 +66,7 @@ function putProfileName(schema: Schema, request: Request) {
 }
 
 function putProfileEmail(schema: Schema, request: Request) {
-  const res = JSON.parse(request.requestBody) as (UpdateProfileEmailRequest | SetProfileEmailRequest)
+  const res = JSON.parse(request.requestBody) as UpdateProfileEmailRequest | SetProfileEmailRequest
 
   if ('password' in res) {
     if (res.password.toLowerCase() === Stub.TOAST)
@@ -84,6 +84,13 @@ function putProfileEmail(schema: Schema, request: Request) {
         getErrorResponse([['password', 'Password is incorrect']])
       )
   }
+
+  if (res.email.toLowerCase() === ADMIN_EMAIL)
+    return new Response(
+      HttpStatusCode.BadRequest,
+      EMPTY_HEADER_RESPONSE,
+      getErrorResponse([['email', 'You cannot set ADMIN email']])
+    )
 
   schema.db.profile.update(userId, { email: res.email })
   return Tokens

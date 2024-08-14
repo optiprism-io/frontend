@@ -99,6 +99,7 @@ import {
   confirmPassword as confirmPasswordScheme,
   notEmptyString,
 } from '@/plugins/valibot'
+import { isErrorResponseError } from '@/stores/profile/types'
 
 import type { Project, TokensResponse } from '@/api'
 
@@ -164,11 +165,26 @@ async function changeEmail() {
     return
   }
 
-  const { data } = await apiClient.profile.setProfileEmail({
-    email: email.value,
-  })
+  const res = await apiClient.profile
+    .setProfileEmail({
+      email: email.value,
+    })
+    .catch(error => {
+      if (isErrorResponseError(error)) {
+        const err = error.error
 
-  emit('changed-email', data)
+        if (err?.fields?.email) {
+          confirmErrorEmail.value = err.fields.email
+          return
+        }
+
+        if (err?.message) throw new Error(err.message)
+      }
+    })
+
+  if (!res) return
+
+  emit('changed-email', res.data)
 }
 
 async function changePassword() {
@@ -185,11 +201,26 @@ async function changePassword() {
     return
   }
 
-  const { data } = await apiClient.profile.setProfilePassword({
-    password: password.value,
-  })
+  const res = await apiClient.profile
+    .setProfilePassword({
+      password: password.value,
+    })
+    .catch(error => {
+      if (isErrorResponseError(error)) {
+        const err = error.error
 
-  emit('changed-password', data)
+        if (err?.fields?.password) {
+          confirmErrorPassword.value = err.fields.password
+          return
+        }
+
+        if (err?.message) throw new Error(err.message)
+      }
+    })
+
+  if (!res) return
+
+  emit('changed-password', res.data)
 }
 
 async function changeProjectName() {
@@ -199,11 +230,11 @@ async function changeProjectName() {
     return
   }
 
-  const { data } = await apiClient.projects.createProject({
+  const res = await apiClient.projects.createProject({
     name: projectName.value,
   })
 
-  emit('changed-project', data)
+  emit('changed-project', res.data)
 }
 
 function clearError() {
