@@ -78,7 +78,7 @@ interface IProps {
 }
 
 const props = withDefaults(defineProps<IProps>(), {
-  liteChart: false
+  liteChart: false,
 })
 
 function getHeight(value: number, total: number): number {
@@ -117,7 +117,7 @@ function getTooltipContent(groupName: string, el: ChartElement): string {
   height: 100%;
   position: relative;
   margin: auto;
-  width: 100%;
+  flex: 1 1 auto;
 }
 
 .chart-stacked__group-caption {
