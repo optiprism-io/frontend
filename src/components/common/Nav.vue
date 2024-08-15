@@ -63,7 +63,7 @@ const configNav = [
   {
     name: 'users.title',
     to: {
-      name: pagesMap.usersGroupRecords
+      name: pagesMap.usersProperties
     }
   },
 ]

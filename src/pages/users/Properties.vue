@@ -1,14 +1,15 @@
 <template>
   <ToolsLayout>
     <template #title>
-      {{ $t('users.properties') }}
+      {{ strings.users }}
     </template>
     <template #main>
       <UiCardContainer class="pf-u-h-100">
         <UiTable
           :items="items"
           :columns="columns"
-          :show-select-columns="true"
+          :show-select-columns="false"
+          :show-toolbar="false"
           @on-action="onAction"
         />
       </UiCardContainer>
@@ -17,7 +18,7 @@
   <UserPropertyPopup
     v-if="lexiconStore.userPropertyPopup"
     :property="editProperty"
-    @apply="userPropertyPopupApply"
+    :show-apply="false"
     @cancel="userPropertyPopupCancel"
   />
 </template>
@@ -25,28 +26,33 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue'
 
-import type { ApplyPayload } from '@/components/events/UserPropertyPopup.vue';
 import UserPropertyPopup from '@/components/events/UserPropertyPopup.vue'
 import UiCellTags from '@/components/uikit/cells/UiCellTags.vue'
-import UiCellToolMenu from '@/components/uikit/cells/UiCellToolMenu.vue'
 import UiCardContainer from '@/components/uikit/UiCard/UiCardContainer.vue'
 import UiTable from '@/components/uikit/UiTable/UiTable.vue'
 import UiTablePressedCell from '@/components/uikit/UiTable/UiTablePressedCell.vue'
 import ToolsLayout from '@/layout/ToolsLayout.vue'
 
-import usei18n from '@/hooks/useI18n'
+import useI18n from '@/hooks/useI18n'
 import { useCommonStore } from '@/stores/common'
 import { useLexiconStore } from '@/stores/lexicon'
 
 import type { Property } from '@/api'
 import type { Action, Row } from '@/components/uikit/UiTable/UiTable'
 
-const { t } = usei18n()
+const { t } = useI18n()
 const lexiconStore = useLexiconStore()
 const commonStore = useCommonStore()
 
+const strings = computed(() => {
+  return {
+    users: t('users.properties'),
+    editProperty: t('events.editProperty'),
+  }
+})
+
 const columns = computed(() => {
-  return ['name', 'displayName', 'description', 'tags', 'status', 'action'].map(key => {
+  return ['name', 'displayName', 'description', 'tags', 'status'].map(key => {
     const isAction = key === 'action'
 
     return {
@@ -67,8 +73,10 @@ const items = computed(() => {
         nowrap: true,
         component: UiTablePressedCell,
         action: {
-          type: Number(property.id),
-          name: 'edit',
+          group: property.groupId ?? 0,
+          type: 'edit',
+          name: property.name,
+          value: property.id,
         },
       },
       {
@@ -91,57 +99,32 @@ const items = computed(() => {
         key: 'status',
         title: property.status,
       },
-      {
-        title: 'action',
-        key: 'action',
-        value: Number(property.id),
-        component: UiCellToolMenu,
-        items: [
-          {
-            label: t('events.editProperty'),
-            value: 'edit',
-          },
-        ],
-        type: 'action',
-      },
     ]
   })
 })
 
 const editProperty = ref<Property | null>(null)
-const popupLoading = ref(false)
 
-const setStatePopup = (payload: boolean) => {
-  lexiconStore.userPropertyPopup = payload
+const showPropertyPopup = () => {
+  lexiconStore.userPropertyPopup = true
+}
+const hidePropertyPopup = () => {
+  lexiconStore.userPropertyPopup = false
 }
 
 const onAction = (payload: Action) => {
-  if (payload?.name === 'edit' && typeof payload.type === 'number') {
-    const property = lexiconStore.findGroupProperty(payload.type)
+  if (payload?.type === 'edit') {
+    const property = lexiconStore.findGroupProperty(payload.name)
     if (property) {
-      commonStore.editEventPropertyPopupId = Number(payload.type) || null
+      commonStore.editEventPropertyPopupId = Number(payload.value) || null
       editProperty.value = property
-      setStatePopup(true)
+      showPropertyPopup()
     }
   }
 }
 
-const updateData = () => {
-  lexiconStore.getGroupProperties()
-}
-
-const userPropertyPopupApply = async (payload: ApplyPayload) => {
-  popupLoading.value = true
-  await lexiconStore.updateUserProperty(payload)
-  popupLoading.value = false
-  commonStore.editEventPropertyPopupId = null
-  updateData()
-  setStatePopup(false)
-  editProperty.value = null
-}
-
 const userPropertyPopupCancel = () => {
-  setStatePopup(false)
+  hidePropertyPopup()
   editProperty.value = null
 }
 

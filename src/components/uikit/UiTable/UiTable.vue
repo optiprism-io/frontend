@@ -104,6 +104,7 @@
                   :title="cell.title"
                   :nowrap="cell.nowrap"
                   :items="cell.items"
+                  :type="cell.type"
                   @on-action="onAction"
                 />
               </UiTableCellWrapper>

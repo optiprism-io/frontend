@@ -42,7 +42,8 @@ yarn check:eslint && yarn check:vue-tsc
 
 ```
 $ docker run -p 8080:8080 docker.io/optiprismio/demo:v0.1.10
-
+```
+```
 $ VITE_API_BASE_PATH=http://localhost:8080/api yarn start:dev
 ```
 
@@ -64,7 +65,6 @@ VITE_API_BASE_PATH=http://localhost:8089/api yarn start:dev
 ### build:
 ```
 yarn build
-VITE_MOCK_API=true yarn build
 ```
 
 ### generate API client:

@@ -64,13 +64,13 @@ const routes: RouteRecordRaw[] = [
         children: [
           {
             path: '',
-            name: pagesMap.usersGroupRecords,
-            component: () => import('@/pages/users/GroupRecords.vue'),
-          },
-          {
-            path: 'properties',
             name: pagesMap.usersProperties,
             component: () => import('@/pages/users/Properties.vue'),
+          },
+          {
+            path: 'groups',
+            name: pagesMap.usersGroupRecords,
+            component: () => import('@/pages/users/GroupRecords.vue'),
           },
         ],
       },
