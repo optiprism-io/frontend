@@ -1,7 +1,7 @@
 <template>
   <ToolsLayout :col-lg="12">
     <template #title>
-      {{ $t('users.title') }}
+      {{ strings.usersTitle }}
     </template>
     <UiCard
       class="pf-c-card pf-m-compact pf-u-h-100"
@@ -72,6 +72,7 @@ import useDataTable from '@/hooks/useDataTable'
 import useI18n from '@/hooks/useI18n'
 import { useGroupStore } from '@/stores/group/group'
 import { useLexiconStore } from '@/stores/lexicon'
+import { useReportsStore } from '@/stores/reports/reports'
 import { useSegmentsStore } from '@/stores/reports/segments'
 
 import type { GroupRecord } from '@/api'
@@ -81,9 +82,11 @@ const { t } = useI18n()
 const groupStore = useGroupStore()
 const segmentsStore = useSegmentsStore()
 const lexiconStore = useLexiconStore()
+const reportsStore = useReportsStore()
 
 const strings = computed(() => {
   return {
+    usersTitle: t('users.title'),
     noDataText: t('events.noEventsFound'),
     dayShort: t('common.calendar.dayShort'),
     segment: t('events.segments.segment'),
@@ -148,8 +151,18 @@ const onSelectData = (payload: DataPickerPeriod, controlsPeriod: string) => {
   updateData()
 }
 
-onMounted(() => {
-  lexiconStore.getEventProperties()
+const initEventsAndProperties = async () => {
+  await Promise.all([
+    lexiconStore.getEvents(),
+    lexiconStore.getEventProperties(),
+    await lexiconStore.getGroups(),
+    lexiconStore.getGroupProperties(),
+  ])
+}
+
+onMounted(async () => {
+  await initEventsAndProperties();
+  reportsStore.getList()
   segmentsStore.$reset()
   segmentsStore.segments.push({
     name: '',

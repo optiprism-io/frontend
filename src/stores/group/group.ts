@@ -18,7 +18,8 @@ export type Group = {
     to: string
     last: number
     type: TimeTypeEnum
-  }
+  },
+  group: number
 }
 
 export const useGroupStore = defineStore('group', {
@@ -35,6 +36,7 @@ export const useGroupStore = defineStore('group', {
       last: 30,
     },
     propertyPopup: false,
+    group: 0,
   }),
   actions: {
     async getList(noLoading?: boolean) {
@@ -47,7 +49,7 @@ export const useGroupStore = defineStore('group', {
       try {
         const res = await apiClient.groupRecords.groupRecordsList(projectsStore.projectId, {
           time: this.timeRequest,
-          group: 0,
+          group: this.group,
         })
         this.columns = res?.data?.columns || []
       } catch (e) {

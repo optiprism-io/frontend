@@ -3,7 +3,29 @@
     <UiTabs
       class="pf-u-mb-md"
       :items="items"
-    />
+    >
+      <template
+        #after
+      >
+        <UiSelect
+          v-if="selectedGroup?.name"
+          class="pf-u-ml-lg"
+          :items="selectGroups"
+          :width-auto="true"
+          :selections="[selectedGroup.id]"
+          @on-select="onSelectGroup"
+        >
+          <template #action>
+            <UiButton
+              :is-link="true"
+              :after-icon="'fas fa-chevron-down'"
+            >
+              {{ selectedGroupByString }}
+            </UiButton>
+          </template>
+        </UiSelect>
+      </template>
+    </UiTabs>
     <RouterView />
   </section>
 </template>
@@ -13,10 +35,21 @@ import { computed } from 'vue'
 
 import { useRoute, RouterView } from 'vue-router'
 
+import UiButton from '@/components/uikit/UiButton.vue'
+import UiSelect from '@/components/uikit/UiSelect.vue'
 import UiTabs from '@/components/uikit/UiTabs.vue'
 
+import { useGroup } from '@/hooks/useGroup'
 import useI18n from '@/hooks/useI18n'
 import { pagesMap } from '@/router'
+import { useGroupStore } from '@/stores/group/group'
+import { useLexiconStore } from '@/stores/lexicon'
+
+const { t } = useI18n()
+const route = useRoute()
+const lexiconStore = useLexiconStore()
+const { selectGroups } = useGroup()
+const groupStore = useGroupStore()
 
 const strings = computed(() => {
   return {
@@ -25,8 +58,8 @@ const strings = computed(() => {
   }
 })
 
-const { t } = useI18n()
-const route = useRoute()
+const selectedGroup = computed(() => lexiconStore.groups.find(item => item.id === groupStore.group))
+const selectedGroupByString = computed(() => `${t('common.group', { name: selectedGroup.value?.name })}`)
 
 const items = computed(() => [
   {
@@ -46,6 +79,11 @@ const items = computed(() => [
     active: route.name === pagesMap.usersProperties,
   },
 ])
+
+const onSelectGroup = (value: number) => {
+  groupStore.group = value
+  groupStore.getList()
+}
 </script>
 
 <style scoped lang="scss"></style>
