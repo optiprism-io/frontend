@@ -2690,25 +2690,6 @@ export interface GroupRecord {
     'properties': Array<GroupPropertyAndValue>;
 }
 /**
- *
- * @export
- * @interface GroupRecordsList200Response
- */
-export interface GroupRecordsList200Response {
-    /**
-     *
-     * @type {Array<GroupRecord>}
-     * @memberof GroupRecordsList200Response
-     */
-    'data'?: Array<GroupRecord>;
-    /**
-     *
-     * @type {ListResponseMetadataMeta}
-     * @memberof GroupRecordsList200Response
-     */
-    'meta'?: ListResponseMetadataMeta;
-}
-/**
  * request group records sorted by time of creation
  * @export
  * @interface GroupRecordsListRequest
@@ -6827,7 +6808,7 @@ export const GroupRecordsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async groupRecordsList(projectId: number, groupRecordsListRequest: GroupRecordsListRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GroupRecordsList200Response>> {
+        async groupRecordsList(projectId: number, groupRecordsListRequest: GroupRecordsListRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<DataTableResponse>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.groupRecordsList(projectId, groupRecordsListRequest, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['GroupRecordsApi.groupRecordsList']?.[localVarOperationServerIndex]?.url;
@@ -6878,7 +6859,7 @@ export const GroupRecordsApiFactory = function (configuration?: Configuration, b
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        groupRecordsList(projectId: number, groupRecordsListRequest: GroupRecordsListRequest, options?: any): AxiosPromise<GroupRecordsList200Response> {
+        groupRecordsList(projectId: number, groupRecordsListRequest: GroupRecordsListRequest, options?: any): AxiosPromise<DataTableResponse> {
             return localVarFp.groupRecordsList(projectId, groupRecordsListRequest, options).then((request) => request(axios, basePath));
         },
         /**

@@ -1,6 +1,9 @@
 <template>
   <section>
-    <UiTabs class="pf-u-mb-md" :items="items" />
+    <UiTabs
+      class="pf-u-mb-md"
+      :items="items"
+    />
     <RouterView />
   </section>
 </template>
@@ -15,12 +18,27 @@ import UiTabs from '@/components/uikit/UiTabs.vue'
 import useI18n from '@/hooks/useI18n'
 import { pagesMap } from '@/router'
 
+const strings = computed(() => {
+  return {
+    usersTitle: t('users.users.title'),
+    usersProperties: t('users.users.properties'),
+  }
+})
+
 const { t } = useI18n()
 const route = useRoute()
 
 const items = computed(() => [
   {
-    name: t('users.properties'),
+    name: strings.value.usersTitle,
+    value: pagesMap.usersGroupRecords,
+    link: {
+      name: pagesMap.usersGroupRecords,
+    },
+    active: route.name === pagesMap.usersGroupRecords,
+  },
+  {
+    name: strings.value.usersProperties,
     value: pagesMap.usersProperties,
     link: {
       name: pagesMap.usersProperties,

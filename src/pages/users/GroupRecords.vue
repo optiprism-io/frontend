@@ -5,7 +5,7 @@
     </template>
     <UiCard
       class="pf-c-card pf-m-compact pf-u-h-100"
-      :title="$t('events.segments.segment')"
+      :title="strings.segment"
     >
       <Segments
         :is-one="true"
@@ -16,11 +16,13 @@
     <template #main>
       <UiCardContainer class="pf-u-h-100">
         <UiTable
-          :items="items"
-          :columns="columns"
-          :show-select-columns="true"
+          :items="tableData.tableData"
+          :columns="tableData.tableColumnsValues"
+          :no-data-text="strings.noDataText"
+          :allow-click-cell="true"
           :is-loading="groupStore.loading"
           @on-action="onAction"
+          @click-cell="clickCell"
         >
           <template #before>
             <UiToggleGroup
@@ -45,18 +47,17 @@
   </ToolsLayout>
   <PropertiesManagementPopup
     v-if="groupStore.propertyPopup"
-    :item="selectedItes"
-    :item-index="selectedItesIndex"
+    :item="selectedItems"
+    :item-index="selectedItemsIndex"
     @apply="onClosePropertyPopup"
   />
 </template>
 
 <script setup lang="ts">
-import { computed, inject, onMounted, onUnmounted, ref } from 'vue'
+import { computed, onMounted, onUnmounted, ref } from 'vue'
 
 import Segments from '@/components/events/Segments/Segments.vue'
 import PropertiesManagementPopup from '@/components/groups/PropertiesManagementPopup.vue'
-import UiCellToolMenu from '@/components/uikit/cells/UiCellToolMenu.vue'
 import UiCard from '@/components/uikit/UiCard/UiCard.vue'
 import UiCardContainer from '@/components/uikit/UiCard/UiCardContainer.vue'
 import type { DataPickerPeriod } from '@/components/uikit/UiDatePickerWrappet.vue'
@@ -67,91 +68,58 @@ import UiToggleGroup from '@/components/uikit/UiToggleGroup.vue'
 import ToolsLayout from '@/layout/ToolsLayout.vue'
 
 import { shortPeriodDays } from '@/components/uikit/UiCalendar/UiCalendar.config'
+import useDataTable from '@/hooks/useDataTable'
+import useI18n from '@/hooks/useI18n'
 import { useGroupStore } from '@/stores/group/group'
 import { useLexiconStore } from '@/stores/lexicon'
 import { useSegmentsStore } from '@/stores/reports/segments'
 
 import type { GroupRecord } from '@/api'
-import type { Row, Action } from '@/components/uikit/UiTable/UiTable'
-import type { I18N } from '@/utils/i18n'
+import type { Action, Cell } from '@/components/uikit/UiTable/UiTable'
 
-const i18n = inject('i18n') as I18N
+const { t } = useI18n()
 const groupStore = useGroupStore()
 const segmentsStore = useSegmentsStore()
 const lexiconStore = useLexiconStore()
-const selectedItes = ref<GroupRecord | null>(null)
-const selectedItesIndex = ref<number>()
+
+const strings = computed(() => {
+  return {
+    noDataText: t('events.noEventsFound'),
+    dayShort: t('common.calendar.dayShort'),
+    segment: t('events.segments.segment'),
+  }
+})
+
+const selectedItems = ref<GroupRecord | null>(null)
+const selectedItemsIndex = ref<number>()
 
 const itemsPeriod = computed(() => {
   return shortPeriodDays.map(
     (key): UiToggleGroupItem => ({
       key,
-      nameDisplay: key + i18n.$t('common.calendar.dayShort'),
+      nameDisplay: key + strings.value.dayShort,
       value: key,
       selected: groupStore.controlsPeriod === key,
     })
   )
 })
 
-const columnsPropertiesKeys = computed(() => {
-  const properties = groupStore.items.map(item => {
-    return Object.keys(item.properties)
-  })
-  return [...new Set(properties.flat())]
+const tableData = computed(() => {
+  return useDataTable({ columns: groupStore.columns }, true, {})
 })
 
-const columns = computed(() => {
-  return groupStore.items.length
-    ? ['id', ...columnsPropertiesKeys.value, 'action'].map(key => {
-        const isAction = key === 'action'
-        return {
-          value: key,
-          title: isAction ? '' : key === 'id' ? i18n.$t(`groups.columns.${key}`) : key,
-          default: isAction,
-          type: isAction ? 'action' : '',
-          fitContent: key === 'id',
-        }
-      })
-    : []
-})
-
-const items = computed(() => {
-  return groupStore.items.map((item: GroupRecord, i): Row => {
-    return [
-      ...columnsPropertiesKeys.value.map(key => {
-        const value =
-          item.properties.find(item => item.properties?.propertyName === key)?.properties?.value ??
-          ''
-        return {
-          key,
-          value,
-          title: value,
-          nowrap: true,
-        }
-      }),
-      {
-        title: 'action',
-        key: 'action',
-        value: i,
-        component: UiCellToolMenu,
-        items: [
-          {
-            label: i18n.$t('common.edit'),
-            value: 'edit',
-          },
-        ],
-        type: 'action',
-      },
-    ]
-  })
-})
+const clickCell = (call: Cell, rowIndex: number) => {
+  // TODO
+}
 
 const onAction = (payload: Action) => {
   const index = groupStore.items.findIndex((_, i) => i === payload.type)
+
   if (index >= 0) {
-    selectedItes.value = groupStore.items[index]
-    selectedItesIndex.value = index
+    selectedItems.value = groupStore.items[index]
+    selectedItemsIndex.value = index
   }
+
   groupStore.propertyPopup = true
 }
 
@@ -165,7 +133,7 @@ const onSelectPeriod = (payload: string) => {
 }
 
 const onClosePropertyPopup = () => {
-  selectedItes.value = null
+  selectedItems.value = null
 }
 
 const onSelectData = (payload: DataPickerPeriod, controlsPeriod: string) => {
@@ -198,5 +166,3 @@ onUnmounted(() => {
   segmentsStore.$reset()
 })
 </script>
-
-<style scoped lang="scss"></style>

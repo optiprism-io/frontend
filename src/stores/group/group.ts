@@ -4,14 +4,11 @@ import { apiClient } from '@/api/apiClient'
 import { TimeTypeEnum, usePeriod } from '@/hooks/usePeriod'
 import { useProjectsStore } from '@/stores/projects/projects'
 
-import type { EventRecordsListRequestTime, GroupRecord, Value } from '@/api'
-
-export type GroupMap = {
-  [key: number]: GroupRecord
-}
+import type { DataTableResponseColumnsInner, EventRecordsListRequestTime, GroupRecord, Value } from '@/api'
 
 export type Group = {
-  items: GroupRecord[]
+  items: Array<GroupRecord>
+  columns: Array<DataTableResponseColumnsInner>,
   loading: boolean
   loadingOne: boolean
   controlsPeriod: string | number
@@ -27,6 +24,7 @@ export type Group = {
 export const useGroupStore = defineStore('group', {
   state: (): Group => ({
     items: [],
+    columns: [],
     loading: false,
     loadingOne: false,
     controlsPeriod: '30',
@@ -40,19 +38,18 @@ export const useGroupStore = defineStore('group', {
   }),
   actions: {
     async getList(noLoading?: boolean) {
+      const projectsStore = useProjectsStore()
+
       if (!noLoading) {
         this.loading = true
       }
-      const projectsStore = useProjectsStore()
+
       try {
-         // TODO integrate Group Page
         const res = await apiClient.groupRecords.groupRecordsList(projectsStore.projectId, {
           time: this.timeRequest,
           group: 0,
         })
-        if (res?.data?.data) {
-          this.items = res.data.data
-        }
+        this.columns = res?.data?.columns || []
       } catch (e) {
         console.error('error update event property')
       }
