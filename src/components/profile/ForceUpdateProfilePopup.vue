@@ -7,76 +7,78 @@
     :apply-loading="isLoading"
     @apply="setFields"
   >
-    <UiFormGroup
-      v-if="forceProject"
-      :label="strings.projectName"
-      for="project-name"
-      :required="true"
-    >
-      <UiInput
-        v-model="projectName"
+    <UiForm @keyup.enter="setFields">
+      <UiFormGroup
+        v-if="forceProject"
+        :label="strings.projectName"
+        for="project-name"
         :required="true"
-        name="project-name"
-        :invalid="!!projectNameError"
-      />
-      <UiFormError :error="projectNameError" />
-    </UiFormGroup>
+      >
+        <UiInput
+          v-model="projectName"
+          :required="true"
+          name="project-name"
+          :invalid="!!projectNameError"
+        />
+        <UiFormError :error="projectNameError" />
+      </UiFormGroup>
 
-    <UiFormGroup
-      v-if="forceEmail"
-      :label="strings.setEmailText"
-      :for="'force-email'"
-      :required="true"
-    >
-      <UiInput
-        v-model="email"
-        name="force-email"
-        :invalid="!!confirmErrorEmail"
-        @update:model-value="clearError"
-      />
-    </UiFormGroup>
-    <UiFormGroup
-      v-if="forceEmail"
-      :label="strings.confirmEmail"
-      :for="'confirm-email'"
-      :required="true"
-    >
-      <UiInput
-        v-model="confirmEmail"
-        name="confirm-email"
-        :invalid="!!confirmErrorEmail"
-        @update:model-value="clearError"
-      />
-      <UiFormError :error="confirmErrorEmail" />
-    </UiFormGroup>
+      <UiFormGroup
+        v-if="forceEmail"
+        :label="strings.setEmailText"
+        :for="'force-email'"
+        :required="true"
+      >
+        <UiInput
+          v-model="email"
+          name="force-email"
+          :invalid="!!confirmErrorEmail"
+          @update:model-value="clearError"
+        />
+      </UiFormGroup>
+      <UiFormGroup
+        v-if="forceEmail"
+        :label="strings.confirmEmail"
+        :for="'confirm-email'"
+        :required="true"
+      >
+        <UiInput
+          v-model="confirmEmail"
+          name="confirm-email"
+          :invalid="!!confirmErrorEmail"
+          @update:model-value="clearError"
+        />
+        <UiFormError :error="confirmErrorEmail" />
+      </UiFormGroup>
 
-    <UiFormGroup
-      v-if="forcePass"
-      :label="strings.setPassText"
-      :for="'force-password'"
-      :required="true"
-    >
-      <InputPassword
-        v-model="password"
-        :invalid="!!confirmErrorPassword"
-        name="force-password"
-        @update:model-value="clearError"
-      />
-    </UiFormGroup>
-    <UiFormGroup
-      v-if="forcePass"
-      :label="strings.confirmPassword"
-      :for="'confirm-password'"
-      :required="true"
-    >
-      <InputPassword
-        v-model="confirmPassword"
-        :invalid="!!confirmErrorPassword"
-        name="confirm-password"
-        @update:model-value="clearError"
-      />
-      <UiFormError :error="confirmErrorPassword" />
-    </UiFormGroup>
+      <UiFormGroup
+        v-if="forcePass"
+        :label="strings.setPassText"
+        :for="'force-password'"
+        :required="true"
+      >
+        <InputPassword
+          v-model="password"
+          :invalid="!!confirmErrorPassword"
+          name="force-password"
+          @update:model-value="clearError"
+        />
+      </UiFormGroup>
+      <UiFormGroup
+        v-if="forcePass"
+        :label="strings.confirmPassword"
+        :for="'confirm-password'"
+        :required="true"
+      >
+        <InputPassword
+          v-model="confirmPassword"
+          :invalid="!!confirmErrorPassword"
+          name="confirm-password"
+          @update:model-value="clearError"
+        />
+        <UiFormError :error="confirmErrorPassword" />
+      </UiFormGroup>
+    </UiForm>
   </UiPopupWindow>
 </template>
 
@@ -86,6 +88,7 @@ import { computed, ref } from 'vue'
 import { safeParse } from 'valibot'
 
 import InputPassword from '@/components/login/InputPassword.vue'
+import UiForm from '@/components/uikit/UiForm.vue'
 import UiFormError from '@/components/uikit/UiFormError.vue'
 import UiFormGroup from '@/components/uikit/UiFormGroup.vue'
 import UiInput from '@/components/uikit/UiInput.vue'
@@ -253,6 +256,8 @@ const applyDisabled = computed(
 )
 
 async function setFields() {
+  if (applyDisabled.value) return
+
   const promises: Array<() => Promise<void | undefined>> = []
   if (props.forceEmail) promises.push(setEmail)
   if (props.forcePass) promises.push(setPassword)
