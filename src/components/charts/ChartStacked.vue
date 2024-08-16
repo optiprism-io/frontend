@@ -33,7 +33,9 @@
           class="chart-stacked__column-caption"
         >
           <div>{{ bar.primary.value }}</div>
-          <b class="chart-stacked__column-caption-b"> {{ bar.primary.percentage.toFixed(0) }} % </b>
+          <div class="chart-stacked__column-caption-b">
+            {{ bar.primary.percentage.toFixed(0) }} %
+          </div>
         </div>
         <div
           v-tooltip="{
@@ -88,7 +90,7 @@ function getHeight(value: number, total: number): number {
 function getTooltipContent(groupName: string, el: ChartElement): string {
   return `
     <div>
-      <b> ${groupName} </b>
+      <div> ${groupName} </div>
       <div>${el.label}: ${el.value}</div>
       <div>${el.percentageLabel}: ${el.percentage} %</div>
     </div>
@@ -107,6 +109,8 @@ function getTooltipContent(groupName: string, el: ChartElement): string {
   padding: 4rem 1rem;
   position: relative;
   overflow-x: auto;
+  font-size: var(--pf-global--FontSize--sm);
+  line-height: 1.5;
 }
 
 .chart-stacked__group {
@@ -122,8 +126,6 @@ function getTooltipContent(groupName: string, el: ChartElement): string {
 
 .chart-stacked__group-caption {
   text-align: center;
-  font-weight: bold;
-  line-height: 1;
   position: absolute;
   top: calc(100% + 0.5rem);
   left: 50%;
