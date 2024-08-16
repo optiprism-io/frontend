@@ -1,7 +1,7 @@
 import { computed } from 'vue'
 
 import { PropertyType } from '@/api'
-import usei18n from '@/hooks/useI18n'
+import useI18n from '@/hooks/useI18n'
 import { useLexiconStore } from '@/stores/lexicon'
 
 import type { Property } from '@/api'
@@ -43,16 +43,16 @@ const getProperties = (items: Property[], name: string, type: PropertyType, grou
 
 const userProperty = () => {
   const lexiconStore = useLexiconStore()
-  const { t } = usei18n()
+  const { t } = useI18n()
 
-  const noDataPropertyes = computed(() => {
+  const noDataProperties = computed(() => {
     return !lexiconStore.propertiesLength
   })
 
   const groupedProperties = computed(() => {
     const ret: Group<PropertyItem[]>[] = []
 
-    if (noDataPropertyes.value) {
+    if (noDataProperties.value) {
       return [
         {
           name: '',

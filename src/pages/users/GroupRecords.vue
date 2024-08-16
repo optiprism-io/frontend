@@ -3,16 +3,11 @@
     <template #title>
       {{ strings.usersTitle }}
     </template>
-    <UiCard
-      class="pf-c-card pf-m-compact pf-u-h-100"
-      :title="strings.segment"
-    >
-      <Segments
-        :is-one="true"
-        :hide-add-segment-button="true"
-        @get-event-segmentation="updateData"
-      />
-    </UiCard>
+    <GridContainer>
+      <UiCardContainer class="filter-event-segmentation__item">
+        <FilterReports @on-change="onChange" />
+      </UiCardContainer>
+    </GridContainer>
     <template #main>
       <UiCardContainer class="pf-u-h-100">
         <UiTable
@@ -56,9 +51,9 @@
 <script setup lang="ts">
 import { computed, onMounted, onUnmounted, ref } from 'vue'
 
-import Segments from '@/components/events/Segments/Segments.vue'
+import FilterReports from '@/components/events/FiltersReports.vue'
+import GridContainer from '@/components/grid/GridContainer.vue'
 import PropertiesManagementPopup from '@/components/groups/PropertiesManagementPopup.vue'
-import UiCard from '@/components/uikit/UiCard/UiCard.vue'
 import UiCardContainer from '@/components/uikit/UiCard/UiCardContainer.vue'
 import type { DataPickerPeriod } from '@/components/uikit/UiDatePickerWrappet.vue'
 import UiDatePickerWrappet from '@/components/uikit/UiDatePickerWrappet.vue'
@@ -86,6 +81,7 @@ const reportsStore = useReportsStore()
 
 const strings = computed(() => {
   return {
+    breakdowns: t('events.breakdowns'),
     usersTitle: t('users.title'),
     noDataText: t('events.noEventsFound'),
     dayShort: t('common.calendar.dayShort'),
@@ -110,6 +106,10 @@ const itemsPeriod = computed(() => {
 const tableData = computed(() => {
   return useDataTable({ columns: groupStore.columns }, true, {})
 })
+
+const onChange = () => {
+  updateData()
+}
 
 const clickCell = (call: Cell, rowIndex: number) => {
   // TODO

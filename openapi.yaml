@@ -248,6 +248,15 @@ paths:
         '503':
           $ref: '#/components/responses/ServiceUnavailable'
   /v1/profile/name:
+    get:
+      description: New endpoint
+      responses:
+        200:
+          description: New response
+          content:
+            application/json:
+              schema:
+                :
     put:
       summary: Update name
       operationId: updateProfileName

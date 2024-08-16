@@ -1,14 +1,18 @@
+import { ref, reactive, computed } from 'vue'
 import { defineStore } from 'pinia'
 
 import { apiClient } from '@/api/apiClient'
 import { TimeTypeEnum, usePeriod } from '@/hooks/usePeriod'
 import { useProjectsStore } from '@/stores/projects/projects'
 
-import type { DataTableResponseColumnsInner, EventRecordsListRequestTime, GroupRecord, Value } from '@/api'
+import type {
+  DataTableResponseColumnsInner,
+  EventRecordsListRequestTime,
+  GroupRecord,
+  Value,
+} from '@/api'
 
 export type Group = {
-  items: Array<GroupRecord>
-  columns: Array<DataTableResponseColumnsInner>,
   loading: boolean
   loadingOne: boolean
   controlsPeriod: string | number
@@ -18,87 +22,89 @@ export type Group = {
     to: string
     last: number
     type: TimeTypeEnum
-  },
+  }
   group: number
 }
 
-export const useGroupStore = defineStore('group', {
-  state: (): Group => ({
-    items: [],
-    columns: [],
-    loading: false,
-    loadingOne: false,
-    controlsPeriod: '30',
-    period: {
-      from: '',
-      to: '',
-      type: TimeTypeEnum.Last,
-      last: 30,
-    },
-    propertyPopup: false,
-    group: 0,
-  }),
-  actions: {
-    async getList(noLoading?: boolean) {
-      const projectsStore = useProjectsStore()
+export const useGroupStore = defineStore('group', () => {
+  const { getRequestTime } = usePeriod()
+  const projectsStore = useProjectsStore()
 
-      if (!noLoading) {
-        this.loading = true
-      }
+  const items = ref<Array<GroupRecord>>([])
+  const columns = ref<Array<DataTableResponseColumnsInner>>([])
+  const loading = ref(false)
+  const loadingOne = ref(false)
+  const controlsPeriod = ref<string | number>('30')
+  const propertyPopup = ref(false)
+  const group = ref(0)
 
-      try {
-        const res = await apiClient.groupRecords.groupRecordsList(projectsStore.projectId, {
-          time: this.timeRequest,
-          group: this.group,
-        })
-        this.columns = res?.data?.columns || []
-      } catch (e) {
-        console.error('error update event property')
-      }
+  const period = reactive({
+    from: '',
+    to: '',
+    type: TimeTypeEnum.Last,
+    last: 30,
+  })
+
+  const isPeriodActive = computed(
+    () => Boolean(period.from) && Boolean(period.to) && controlsPeriod.value === 'calendar'
+  )
+  const isNoData = computed(() => !items.value.length && !loading.value)
+
+  const timeRequest = computed<EventRecordsListRequestTime>(() => {
+    return getRequestTime(period.type, controlsPeriod.value, period.from, period.to, period.last)
+  })
+
+  const getList = async (noLoading?: boolean) => {
+    if (!noLoading) {
+      loading.value = true
+    }
+
+    try {
+      const res = await apiClient.groupRecords.groupRecordsList(projectsStore.projectId, {
+        time: timeRequest.value,
+        group: group.value,
+      })
+      columns.value = res?.data?.columns?.length ? res.data.columns : []
+    } catch (e) {
+      console.error('error update event property')
+    }
+    if (!noLoading) {
+      loading.value = false
+    }
+  }
+
+  const update = async (id: number, properties: { [key: string]: Value }, noLoading: boolean) => {
+    if (!noLoading) {
+      loading.value = true
+    }
+    try {
+      await apiClient.groupRecords.updateGroupRecord(projectsStore.projectId, id, {
+        properties: properties.value,
+      })
+      await getList(noLoading || true)
+    } catch (e) {
       if (!noLoading) {
-        this.loading = false
+        loading.value = false
       }
-    },
-    async update(payload: {
-      id: number
-      properties: { [key: string]: Value }
-      noLoading?: boolean
-    }) {
-      const projectsStore = useProjectsStore()
-      if (!payload.noLoading) {
-        this.loading = true
-      }
-      try {
-        await apiClient.groupRecords.updateGroupRecord(projectsStore.projectId, payload.id, {
-          properties: payload.properties,
-        })
-        await this.getList(payload.noLoading || true)
-      } catch (e) {
-        if (!payload.noLoading) {
-          this.loading = false
-        }
-        console.error('error update event property')
-      }
-    },
-  },
-  getters: {
-    isPeriodActive(): boolean {
-      return (
-        Boolean(this.period.from) && Boolean(this.period.to) && this.controlsPeriod === 'calendar'
-      )
-    },
-    timeRequest(): EventRecordsListRequestTime {
-      const { getRequestTime } = usePeriod()
-      return getRequestTime(
-        this.period.type,
-        this.controlsPeriod,
-        this.period.from,
-        this.period.to,
-        this.period.last
-      )
-    },
-    isNoData(): boolean {
-      return !this.items.length && !this.loading
-    },
-  },
+      console.error('error update event property')
+    }
+  }
+
+  return {
+    isPeriodActive,
+    items,
+    columns,
+    loading,
+    loadingOne,
+    controlsPeriod,
+    propertyPopup,
+    group,
+    period,
+    isPeriodActive,
+    isNoData,
+    timeRequest,
+
+    getList,
+    update,
+  }
 })
