@@ -1,3 +1,7 @@
+import { HttpStatusCode } from 'axios'
+import { Response } from 'miragejs'
+
+import { EMPTY_HEADER_RESPONSE, Stub } from '@/server/constants'
 import { Project } from '@/server/models/Project'
 
 import type { CreateProjectRequest, UpdateProjectRequest } from '@/api'
@@ -17,7 +21,16 @@ function getProjects(schema: Schema) {
 
 function postProject(schema: Schema, request: Request) {
   const { name, sessionDurationSeconds } = JSON.parse(request.requestBody) as CreateProjectRequest
-  const newProject = new Project({ name, sessionDurationSeconds : Number(sessionDurationSeconds)})
+
+  if (name.toLowerCase() === Stub.TOAST)
+    return new Response(HttpStatusCode.BadRequest, EMPTY_HEADER_RESPONSE, {
+      error: {
+        status: HttpStatusCode.BadRequest,
+        message: Stub.ERROR,
+      },
+    })
+
+  const newProject = new Project({ name, sessionDurationSeconds: Number(sessionDurationSeconds) })
   return schema.db.projects.insert(newProject)
 }
 

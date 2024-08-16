@@ -16,14 +16,14 @@
 <script lang="ts" setup>
 import UiAlert from './UiAlert.vue'
 
-import type { Alert } from '@/stores/alerts'
+import type { Alert } from '@/hooks/useAlert'
 
 const props = defineProps<{
-    items: Alert[]
+  items: Alert[]
 }>()
 
 const emit = defineEmits<{
-    (e: 'close', id: string): void
+  (e: 'close', id: string): void
 }>()
 
 const closeItem = (id: string) => emit('close', id)

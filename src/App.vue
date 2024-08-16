@@ -11,9 +11,9 @@
   </RouterView>
 
   <UiAlertGroup
-    v-if="alertsStore.items.length"
+    v-if="alerts.length"
     class="app-toast-alerts"
-    :items="alertsStore.items"
+    :items="alerts"
     @close="closeAlert"
   />
 </template>
@@ -22,35 +22,32 @@
 import { HttpStatusCode } from 'axios'
 import { RouterView } from 'vue-router'
 
-import UiAlertGroup from './components/uikit/UiAlertGroup.vue';
+import UiAlertGroup from './components/uikit/UiAlertGroup.vue'
 import AppPreloader from '@/components/common/AppPreloader.vue'
 
-import usei18n from '@/hooks/useI18n';
+import { AlertTypeEnum, useAlert } from '@/hooks/useAlert'
+import usei18n from '@/hooks/useI18n'
 import { axiosInstance } from '@/plugins/axios'
-import { useAlertsStore } from '@/stores/alerts';
-import { useAuthStore } from '@/stores/auth/auth';
+import { useAuthStore } from '@/stores/auth/auth'
 
-import type { ErrorResponse } from '@/api';
+import type { ErrorResponse } from '@/api'
 
-const { t } = usei18n();
-const authStore = useAuthStore();
-const alertsStore = useAlertsStore();
-
-const closeAlert = (id: string) => alertsStore.closeAlert(id);
+const { t } = usei18n()
+const authStore = useAuthStore()
+const { items: alerts, createAlert, closeAlert } = useAlert()
 
 const createErrorGeneral = (res: ErrorResponse, text?: string) => {
-    alertsStore.createAlert({
-        time: 7000,
-        type: 'danger',
-        text: text ?? res.error?.message ?? t('errors.internal'),
-    });
-};
+  createAlert({
+    type: AlertTypeEnum.Danger,
+    text: text ?? res.error?.message ?? t('errors.internal'),
+  })
+}
 
 /* TODO: think about where to move the interceptors to a more suitable place */
 axiosInstance.interceptors.response.use(
   res => res,
   async err => {
-    const status = err.response ? err.response.status : null
+    const status = err.response ? err.response.status : err.error ? err.error.status : null
     const error = `${err?.response?.status || err?.error?.status || ''} ${err?.code || ''} ${err?.message}`
 
     if (err.code === 'ERR_NETWORK') {
@@ -97,71 +94,71 @@ axiosInstance.interceptors.response.use(
 
 <style lang="scss">
 @mixin styled-scroll {
-    scrollbar-width: thin;
-    scrollbar-color: var(--pf-global--palette--black-150) transparent;
+  scrollbar-width: thin;
+  scrollbar-color: var(--pf-global--palette--black-150) transparent;
 
-    &::-webkit-scrollbar {
-        margin-top: 1rem;
-        display: block;
-        width: 0.6rem;
-        height: 0.6rem;
-    }
+  &::-webkit-scrollbar {
+    margin-top: 1rem;
+    display: block;
+    width: 0.6rem;
+    height: 0.6rem;
+  }
 
-    &::-webkit-scrollbar-track {
-        background-color: var(--pf-global--BackgroundColor--200);
-        border-radius: 0.4rem;
-    }
+  &::-webkit-scrollbar-track {
+    background-color: var(--pf-global--BackgroundColor--200);
+    border-radius: 0.4rem;
+  }
 
-    &::-webkit-scrollbar-thumb {
-        background-color: #979da3;
-        border-radius: 0.4rem;
-    }
+  &::-webkit-scrollbar-thumb {
+    background-color: #979da3;
+    border-radius: 0.4rem;
+  }
 }
 
 .pf-icon {
-    -moz-osx-font-smoothing: grayscale;
-    -webkit-font-smoothing: antialiased;
-    display: inline-block;
-    font-style: normal;
-    font-variant: normal;
-    text-rendering: auto;
-    line-height: 1;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  display: inline-block;
+  font-style: normal;
+  font-variant: normal;
+  text-rendering: auto;
+  line-height: 1;
 }
 
 #app {
-    min-height: 100vh;
+  min-height: 100vh;
 }
 
 .pf-c-page {
-    background-color: var(--op-base-background);
-    min-height: 100vh;
+  background-color: var(--op-base-background);
+  min-height: 100vh;
 
-    &__main-section {
-        padding: var(--pf-global--spacer--md);
-    }
+  &__main-section {
+    padding: var(--pf-global--spacer--md);
+  }
 
-    &__main {
-        z-index: initial
-    }
+  &__main {
+    z-index: initial;
+  }
 }
 
 .pf-c-menu.pf-m-scrollable {
-    .pf-c-menu__content {
-        @include styled-scroll();
-    }
+  .pf-c-menu__content {
+    @include styled-scroll();
+  }
 }
 
 .op-opacity-0 {
-    opacity: 0;
+  opacity: 0;
 }
 
 .app-toast-alerts {
-    position: fixed;
-    top: 30px;
-    right: 30px;
-    z-index: 1000;
-    max-width: 550px;
-    max-height: calc(100vh - 50px);
-    overflow: auto;
+  position: fixed;
+  top: 30px;
+  right: 30px;
+  z-index: 10000;
+  max-width: 550px;
+  max-height: calc(100vh - 50px);
+  overflow: auto;
 }
 </style>

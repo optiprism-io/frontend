@@ -1,11 +1,6 @@
-import {
-    DataType,
-    PropertyFilterOperation
-} from '@/api'
+import { DataType, PropertyFilterOperation } from '@/api'
 
-import type {
-    Value as ApiValue
-} from '@/api';
+import type { Value as ApiValue } from '@/api'
 
 export type Value = ApiValue
 
@@ -164,14 +159,6 @@ export enum Group {
     User = 'user',
     Country = 'country'
 }
-
-export const AlertTypeEnum = {
-    Default: 'default',
-    Info: 'info',
-    Success: 'success',
-    Warning: 'warning',
-    Danger: 'danger',
-} as const
 
 export type ApplyPayload = {
     [key: string]: string | string[] | boolean
