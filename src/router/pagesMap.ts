@@ -3,8 +3,7 @@ export const pagesMap = {
     path: '/login',
     name: 'login',
   },
-  createProject: 'createProject',
-  forceUpdatePassword: 'forceUpdatePassword',
+  forceUpdateProfile: 'forceUpdateProfile',
   eventsLiveStream: {
     path: '/events',
     name: 'eventsLiveStream',

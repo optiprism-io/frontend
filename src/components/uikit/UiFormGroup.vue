@@ -41,7 +41,7 @@
 
 <script setup lang="ts">
 interface Props {
-    error?: string
+    error?: string | null
     label?: string
     for?: string
     required?: boolean

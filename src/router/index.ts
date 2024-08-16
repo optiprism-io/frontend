@@ -1,9 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
 import { pagesMap } from '@/router/pagesMap'
-import { checkChangedPass, checkCreatedProject, isAuth } from '@/router/routerGuards'
+import { checkRequiredParams, isAuth } from '@/router/routerGuards'
 
-import type { RouteRecordRaw } from 'vue-router';
+import type { RouteRecordRaw } from 'vue-router'
 
 export enum SDKIntegration {
   javascript = 'javascript',
@@ -20,37 +20,25 @@ const routes: RouteRecordRaw[] = [
     component: () => import('@/pages/auth/Login.vue'),
   },
 
-  /* pages are accessible only with a changed password */
+  /* pages are accessible without required params (checkRequiredParams) */
   {
-    path: '/force_update_password',
+    path: '/force_update_profile',
     component: () => import('@/layout/EmptyLayout.vue'),
     beforeEnter: [isAuth],
     children: [
       {
         path: '',
-        name: pagesMap.forceUpdatePassword,
-        component: () => import('@/pages/ForceUpdatePassword.vue'),
+        name: pagesMap.forceUpdateProfile,
+        component: () => import('@/pages/ForceUpdateProfile.vue'),
       },
     ],
   },
 
-  /* pages are accessible without a created project */
-  {
-    path: '/projects/create',
-    component: () => import('@/layout/MainLayout.vue'),
-    beforeEnter: [isAuth, checkChangedPass],
-    children: [
-      {
-        path: '',
-        name: pagesMap.createProject,
-        component: () => import('@/pages/CreateProject.vue'),
-      },
-    ],
-  },
+  /* pages are accessible only with required params (checkRequiredParams) */
   {
     path: '/profile',
     component: () => import('@/layout/MainLayout.vue'),
-    beforeEnter: [isAuth, checkChangedPass],
+    beforeEnter: [isAuth, checkRequiredParams],
     children: [
       {
         path: '',
@@ -60,11 +48,10 @@ const routes: RouteRecordRaw[] = [
     ],
   },
 
-  /* pages are accessible only with a created project */
   {
     path: '',
     component: () => import('@/layout/MainLayout.vue'),
-    beforeEnter: [isAuth, checkChangedPass, checkCreatedProject],
+    beforeEnter: [isAuth, checkRequiredParams],
     children: [
       {
         path: '',

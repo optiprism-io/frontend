@@ -51,11 +51,11 @@ const UNIQ_KEY = 'id'
 
 const curCheckedRowKeys = useVModel(props, 'checkedRowKeys', emit)
 
-const data = computed(() => {
+const data = computed<RowData[]>(() => {
   const length = props.reportSteps.at(0)?.data.length ?? 0
   const lastIndex = props.reportSteps.length - 1
 
-  const arr: Record<string, any>[] = Array.from({ length }, () => ({}))
+  const arr: RowData[] = Array.from({ length }, () => ({}))
 
   props.reportSteps.forEach((step, stepIndex) => {
     step.data.forEach((el, index) => {

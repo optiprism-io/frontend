@@ -94,11 +94,7 @@ export const useFilterGroupsStore = defineStore('filter-groups', {
               (acc: EventGroupedFiltersGroupsInnerFiltersInner[], filter) => {
                 const item = {
                   type: 'property',
-                  /* TODO: fix typescript error */
-                  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                  // @ts-ignore: Unreachable code error
-                  cohortId: 0,
-                  groupId: 0,
+                  group: 0,
                   propertyName: filter.propRef?.name || '',
                   propertyType: filter.propRef?.type || 'event',
                   operation: filter.opId,
@@ -106,7 +102,7 @@ export const useFilterGroupsStore = defineStore('filter-groups', {
                 } satisfies EventGroupedFiltersGroupsInnerFiltersInner
 
                 if (filter.propRef?.group || filter.propRef?.group === 0) {
-                  item.groupId = filter.propRef.group
+                  item.group = filter.propRef.group
                 }
 
                 if (filter.opId === OperationId.Empty ||

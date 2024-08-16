@@ -2142,8 +2142,6 @@ components:
                 type: string
         status:
           type: string
-        timezone:
-          type: string
     Project:
       type: object
       required: [ 'id', 'createdAt', 'updatedAt', 'createdBy', 'creator','updatedBy', 'name', 'sessionDurationSeconds', 'sdkToken', 'eventsCount' ]
@@ -3937,13 +3935,11 @@ components:
     Profile:
       type: object
       description: User profile
-      required: [ 'id','name','email', 'timezone' ]
+      required: [ 'id','name','email' ]
       properties:
         name:
           type: string
         email:
-          type: string
-        timezone:
           type: string
         forceUpdatePassword:
           type: boolean

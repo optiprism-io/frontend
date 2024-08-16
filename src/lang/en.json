@@ -390,8 +390,10 @@
     "curPassword": "Current Password",
     "newPassword": "New Password",
     "confirmPassword": "Confirm Password",
-    "setPassword": "Set Password",
-    "setPasswordText": "Please set your password to continue"
+    "setPasswordText": "Please set your password to continue",
+    "setEmailText": "Please set your email to continue",
+    "confirmEmail": "Confirm Email",
+    "setInitialParams": "Set initial parameters"
   },
   "project": {
     "createProject": "Create project",

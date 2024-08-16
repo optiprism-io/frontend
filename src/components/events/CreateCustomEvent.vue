@@ -198,10 +198,7 @@ const resultEvent = computed(() => {
     status: CustomEventStatus.Enabled,
     isSystem: false,
     events: events.value.map((item): CustomEventEvent => {
-      const event = lexiconStore.findEventByName(item.ref.name)
-
       const eventProps: CustomEventEvent = {
-        eventName: event.name,
         eventType: item.ref.type as EventType,
         filters: [],
       }
