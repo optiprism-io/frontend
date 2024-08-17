@@ -22,6 +22,81 @@ externalDocs:
   description: Find out more about OptiPrism api
   url: https://dev.optiprism.io/api
 paths:
+  /v1/admin/backups:
+    get:
+      summary: Backups list
+      operationId: backupsList
+      security:
+        - bearerAuth: [ ]
+      tags:
+        - admin
+      responses:
+        '200':
+          $ref: '#/components/responses/ListBackupsResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/Internal'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+  /v1/admin/backups/backup:
+    post:
+      summary: Create a backup
+      operationId: backup
+      tags:
+        - admin
+      responses:
+        204:
+          description: backup initialized successfully
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/Internal'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+  /v1/admin/backups/{backupId}:
+    get:
+      summary: Get backup
+      operationId: getBackup
+      security:
+        - bearerAuth: [ ]
+      tags:
+        - admin
+      parameters:
+        - name: backupId
+          in: path
+          description: Backup ID
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: backup
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Backup'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/Internal'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+
   /v1/auth/login:
     post:
       summary: Basic login
@@ -1824,6 +1899,18 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
+    ListBackupsResponse:
+      description: backup list
+      content:
+        application/json:
+          schema:
+            type: object
+            allOf:
+              - properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Backup'
     ListDashboardsResponse:
       description: dashboard list
       content:
@@ -3367,7 +3454,7 @@ components:
     TimeBetween:
       type: object
       description: time range between fixed values
-      required: [ "type", "from", "to"]
+      required: [ "type", "from", "to" ]
       example: |
         {
           "time": {
@@ -4002,5 +4089,71 @@ components:
           oneOf:
             - $ref: '#/components/schemas/EventSegmentation'
             - $ref: '#/components/schemas/FunnelQuery'
+    BackupLocalProvider:
+      type: object
+      required: [ 'type','path' ]
+      properties:
+        type:
+          type: string
+          enum:
+            - local
+        path:
+          type: string
+    BackupProviderS3:
+      type: object
+      required: [ 'type','bucket','region' ]
+      properties:
+        type:
+          type: string
+          enum:
+            - s3
+        bucket:
+          type: string
+        path:
+          type: string
+        region:
+          type: string
+    BackupProviderGCS:
+      type: object
+      required: [ 'type','bucket','path' ]
+      properties:
+        type:
+          type: string
+          enum:
+            - gcs
+        bucket:
+          type: string
+        path:
+          type: string
+    Backup:
+      type: object
+      required: [ 'id','createdAt','provider','status' ]
+      properties:
+        id:
+          type: integer
+          format: int64
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        provider:
+          oneOf:
+            - $ref: '#/components/schemas/BackupLocalProvider'
+            - $ref: '#/components/schemas/BackupProviderS3'
+            - $ref: '#/components/schemas/BackupProviderGCS'
+        status:
+          type: string
+          enum:
+            - idle
+            - inProgress
+            - uploading
+            - failed
+            - completed
+        in_progress_progress:
+          type: integer
+        failed_error:
+          type: string
 
 
