@@ -45,6 +45,7 @@
     :item="selectedItems"
     :item-index="selectedItemsIndex"
     @apply="onClosePropertyPopup"
+    @close="onClosePropertyPopup"
   />
 </template>
 
@@ -120,9 +121,11 @@ const onAction = (payload: Action) => {
 
   if (index >= 0) {
     selectedItems.value = groupStore.items[index]
+    selectedItems.value = groupStore.items[index]
+    selectedItems.value = groupStore.items[index]
+    selectedItems.value = groupStore.items[index]
     selectedItemsIndex.value = index
   }
-
   groupStore.propertyPopup = true
 }
 
@@ -136,6 +139,7 @@ const onSelectPeriod = (payload: string) => {
 }
 
 const onClosePropertyPopup = () => {
+  groupStore.setStatePropertyPopup(false)
   selectedItems.value = null
 }
 
@@ -148,6 +152,7 @@ const onSelectData = (payload: DataPickerPeriod, controlsPeriod: string) => {
     type: payload.type,
     last: payload.last,
   }
+
   updateData()
 }
 
@@ -161,17 +166,9 @@ const initEventsAndProperties = async () => {
 }
 
 onMounted(async () => {
-  await initEventsAndProperties();
+  await initEventsAndProperties()
   reportsStore.getList()
   segmentsStore.$reset()
-  segmentsStore.segments.push({
-    name: '',
-    conditions: [
-      {
-        filters: [],
-      },
-    ],
-  })
   updateData()
 })
 

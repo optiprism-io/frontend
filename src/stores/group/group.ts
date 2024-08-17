@@ -1,4 +1,5 @@
 import { ref, reactive, computed } from 'vue'
+
 import { defineStore } from 'pinia'
 
 import { apiClient } from '@/api/apiClient'
@@ -11,34 +12,21 @@ import type {
   GroupRecord,
   Value,
 } from '@/api'
-
-export type Group = {
-  loading: boolean
-  loadingOne: boolean
-  controlsPeriod: string | number
-  propertyPopup: boolean
-  period: {
-    from: string
-    to: string
-    last: number
-    type: TimeTypeEnum
-  }
-  group: number
-}
+import type { Period } from '@/hooks/usePeriod'
 
 export const useGroupStore = defineStore('group', () => {
   const { getRequestTime } = usePeriod()
   const projectsStore = useProjectsStore()
 
   const items = ref<Array<GroupRecord>>([])
-  const columns = ref<Array<DataTableResponseColumnsInner>>([])
+  const columns = ref<DataTableResponseColumnsInner[]>([])
   const loading = ref(false)
   const loadingOne = ref(false)
   const controlsPeriod = ref<string | number>('30')
   const propertyPopup = ref(false)
   const group = ref(0)
 
-  const period = reactive({
+  const period = reactive<Period>({
     from: '',
     to: '',
     type: TimeTypeEnum.Last,
@@ -54,6 +42,8 @@ export const useGroupStore = defineStore('group', () => {
     return getRequestTime(period.type, controlsPeriod.value, period.from, period.to, period.last)
   })
 
+  const setStatePropertyPopup = (value: boolean) => propertyPopup.value = value
+
   const getList = async (noLoading?: boolean) => {
     if (!noLoading) {
       loading.value = true
@@ -64,7 +54,7 @@ export const useGroupStore = defineStore('group', () => {
         time: timeRequest.value,
         group: group.value,
       })
-      columns.value = res?.data?.columns?.length ? res.data.columns : []
+      columns.value = res?.data?.columns?.length ? res.data?.columns : []
     } catch (e) {
       console.error('error update event property')
     }
@@ -79,7 +69,7 @@ export const useGroupStore = defineStore('group', () => {
     }
     try {
       await apiClient.groupRecords.updateGroupRecord(projectsStore.projectId, id, {
-        properties: properties.value,
+        properties: properties,
       })
       await getList(noLoading || true)
     } catch (e) {
@@ -100,10 +90,10 @@ export const useGroupStore = defineStore('group', () => {
     propertyPopup,
     group,
     period,
-    isPeriodActive,
     isNoData,
     timeRequest,
 
+    setStatePropertyPopup,
     getList,
     update,
   }

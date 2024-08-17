@@ -10,6 +10,13 @@ export const TimeTypeEnum = {
   Each: 'each'
 } as const;
 
+export type Period = {
+  from: string
+  to: string
+  last: number
+  type: TimeTypeEnum
+}
+
 export type TimeTypeEnum = typeof TimeTypeEnum[keyof typeof TimeTypeEnum]
 
 const getDateLast = (controlsPeriod: string | number, count: number) => {

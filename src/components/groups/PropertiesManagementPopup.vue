@@ -7,7 +7,7 @@
     :cancel-button="strings.close"
     :apply-disabled="applyDisabled"
     @apply="apply"
-    @cancel="close"
+    @cancel="cancel"
   >
     <div class="properties-management-popup__content">
       <div
@@ -100,6 +100,7 @@ const props = defineProps<Props>()
 
 const emit = defineEmits<{
   (e: 'apply'): void
+  (e: 'cancel'): void
 }>()
 
 const activeTab = ref('userProperties')
@@ -139,23 +140,6 @@ const applyDisabled = computed(() => {
   return JSON.stringify(properties.value) === JSON.stringify(props.item?.properties)
 })
 
-onMounted(() => {
-  propertiesEdit.value = props.item?.properties
-    ? Object.keys(props.item.properties).map(key => {
-        return {
-          value:
-            props.item?.properties.find(item => item.properties?.propertyName === key)?.properties
-              ?.value || '',
-          key: key || '',
-        }
-      })
-    : []
-})
-
-onUnmounted(() => {
-  isLoadingSaveProperties.value = false
-})
-
 const onApplyChangeProperty = async (payload: ApplyPayload) => {
   if (props.itemIndex) {
     propertiesEdit.value[payload.index] = {
@@ -179,10 +163,6 @@ const onDeleteLine = async (index: number) => {
   }
 }
 
-const close = () => {
-  groupStore.propertyPopup = false
-}
-
 const checkError = () => {
   propertiesEdit.value = propertiesEdit.value.map(item => {
     return {
@@ -192,19 +172,24 @@ const checkError = () => {
   })
 }
 
+const cancel = () => {
+  emit('cancel')
+}
+
 const apply = async () => {
   if (props.itemIndex) {
     const error = propertiesEdit.value.findIndex(item => !item.key.trim())
+
     if (error === -1) {
       isLoadingSaveProperties.value = true
-      await groupStore.update({
-        id: props.itemIndex,
-        properties: propertiesEdit.value.reduce((acc: Properties, item) => {
+      await groupStore.update(
+        props.itemIndex,
+        propertiesEdit.value.reduce((acc: Properties, item) => {
           acc[item.key] = item.value
           return acc
         }, {}),
-        noLoading: true,
-      })
+        true
+      )
       emit('apply')
       groupStore.propertyPopup = false
     } else {
@@ -212,6 +197,23 @@ const apply = async () => {
     }
   }
 }
+
+onMounted(() => {
+  propertiesEdit.value = props.item?.properties
+    ? Object.keys(props.item.properties).map(key => {
+        return {
+          value:
+            props.item?.properties.find(item => item.properties?.propertyName === key)?.properties
+              ?.value || '',
+          key: key || '',
+        }
+      })
+    : []
+})
+
+onUnmounted(() => {
+  isLoadingSaveProperties.value = false
+})
 </script>
 
 <style lang="scss">
