@@ -16,7 +16,7 @@ import {
   PropertyValuesApi,
   QueryApi,
   ReportsApi,
-} from '@/api/index'
+} from '@/api/api'
 import { axiosInstance } from '@/plugins/axios'
 
 class ApiClient {

@@ -10,7 +10,10 @@
 
       <section class="pf-c-page__main-section pf-m-light pf-u-p-0">
         <div class="pf-c-page__main-body">
-          <RouterView class="pf-c-content" :organization="organization" />
+          <RouterView
+            class="pf-c-content"
+            :organization="organization"
+          />
         </div>
       </section>
     </main>
@@ -21,7 +24,7 @@
 import { computed } from 'vue'
 
 import { storeToRefs } from 'pinia'
-import { useRoute, RouterView } from 'vue-router'
+import { RouterView, useRoute } from 'vue-router'
 
 import UiBreadcrumbs from '@/components/uikit/UiBreadcrumbs.vue'
 import UiPageSidebar from '@/components/uikit/UiPageSidebar.vue'
@@ -46,7 +49,7 @@ const breadcrumbs = computed(() => {
     isActive: route.name !== pagesMap.organizations && index !== routesWithoutRoot.length - 1,
   }))
 
-  const modifiedBreadcrumbs = breadcrumbs.map(breadcrumb => {
+  return breadcrumbs.map(breadcrumb => {
     if (breadcrumb.to.name === pagesMap.organization) {
       return {
         ...breadcrumb,
@@ -65,8 +68,6 @@ const breadcrumbs = computed(() => {
 
     return breadcrumb
   })
-
-  return modifiedBreadcrumbs
 })
 
 const { data: organization } = await apiClient.organizations.organization(+route.params.id)

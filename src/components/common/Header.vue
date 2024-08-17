@@ -71,7 +71,7 @@ import { RouterLink } from 'vue-router'
 
 import Nav from '@/components/common/Nav.vue'
 import CreateProjectPopup from '@/components/projects/CreateProjectPopup.vue'
-import type { UiDropdownItem } from '@/components/uikit/UiDropdown.vue';
+import type { UiDropdownItem } from '@/components/uikit/UiDropdown.vue'
 import { GenericUiDropdown } from '@/components/uikit/UiDropdown.vue'
 import UiIcon from '@/components/uikit/UiIcon.vue'
 import UiSelect from '@/components/uikit/UiSelect.vue'
@@ -148,9 +148,7 @@ const projectItems = computed(() => {
     nameDisplay: i18n.$t('project.createProject') + '...',
   }
 
-  const projects = [...projectStore.projectList, createProjectItem]
-
-  return projects
+  return [...projectStore.projectList, createProjectItem]
 })
 
 const selectUserMenu = (item: UiDropdownItem<MenuValues>) => {

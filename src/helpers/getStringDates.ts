@@ -27,11 +27,7 @@ export function getStringDate(item: string | number, names: string[], includeDat
 }
 
 export function getShortStringDate(date: Date) {
-  if (date instanceof Date) {
-    return `${date.getFullYear()}-${date.getMonth() < 9 ? `0${date.getMonth() + 1}` : date.getMonth() + 1}-${date.getDate() < 10 ? `0${date.getDate()}` : date.getDate()}`
-  } else {
-    return ''
-  }
+  return `${date.getFullYear()}-${date.getMonth() < 9 ? `0${date.getMonth() + 1}` : date.getMonth() + 1}-${date.getDate() < 10 ? `0${date.getDate()}` : date.getDate()}`
 }
 
 export function getYYYYMMDD(date: Date) {

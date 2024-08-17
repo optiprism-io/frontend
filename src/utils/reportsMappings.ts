@@ -14,12 +14,10 @@ import {
   TimeAfterFirstUseTypeEnum,
   TimeBetweenTypeEnum,
   TimeLastTypeEnum,
-  TimeWindowEachTypeEnum
+  TimeWindowEachTypeEnum,
 } from '@/api'
 import { TimeTypeEnum } from '@/hooks/usePeriod'
-import {
-  useEventsStore,
-} from '@/stores/eventSegmentation/events'
+import { useEventsStore } from '@/stores/eventSegmentation/events'
 import { useStepsStore } from '@/stores/funnels/steps'
 import { useLexiconStore } from '@/stores/lexicon'
 import { useBreakdownsStore } from '@/stores/reports/breakdowns'
@@ -52,16 +50,17 @@ import type {
   TimeBetween,
   TimeLast,
   TimeWindowEach,
-  Value} from '@/api';
+} from '@/api'
 import type { Each } from '@/components/uikit/UiCalendar/UiCalendar'
 import type {
   ChartType,
   Event,
   EventBreakdown,
-  EventQuery} from '@/stores/eventSegmentation/events';
-import type { HoldingProperty} from '@/stores/funnels/steps';
-import type { FilterGroup} from '@/stores/reports/filters';
-import type { Segment} from '@/stores/reports/segments';
+  EventQuery,
+} from '@/stores/eventSegmentation/events'
+import type { HoldingProperty } from '@/stores/funnels/steps'
+import type { FilterGroup } from '@/stores/reports/filters'
+import type { Segment } from '@/stores/reports/segments'
 import type { Condition, EventQueryRef, EventRef } from '@/types/events'
 import type { Filter } from '@/types/filters'
 import type { Step } from '@/types/steps'
@@ -205,8 +204,6 @@ const mapReportToFilterGroups = async (
       condition: item.filtersCondition,
       filters: item.filters
         ? item.filters.map((filter): Filter => {
-            const valuesList: Value[] = []
-
             return {
               propRef: {
                 /* TODO: fix typescript error */
@@ -226,7 +223,7 @@ const mapReportToFilterGroups = async (
               // eslint-disable-next-line @typescript-eslint/ban-ts-comment
               // @ts-ignore: Unreachable code error
               values: filter.value || [],
-              valuesList: valuesList as string[] | boolean[] | number[],
+              valuesList: [] as string[] | boolean[] | number[],
             }
           })
         : [],

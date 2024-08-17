@@ -33,7 +33,7 @@
         </PropertySelect>
         <PropertySelect
           v-else
-          :is-open-mount="filter.propRef ? false : true"
+          :is-open-mount="!filter.propRef"
           :event-ref="eventRef"
           :update-open="updateOpen"
           :popper-container="props.popperContainer"

@@ -5,11 +5,14 @@ import { defineStore } from 'pinia'
 import { apiClient } from '@/api/apiClient'
 import { TimeTypeEnum, usePeriod } from '@/hooks/usePeriod'
 import { useProjectsStore } from '@/stores/projects/projects'
+import { useFilterGroupsStore } from '@/stores/reports/filters'
 
 import type {
   DataTableResponseColumnsInner,
+  EventGroupedFiltersGroupsInnerFiltersInner,
   EventRecordsListRequestTime,
   GroupRecord,
+  GroupRecordsListRequest,
   Value,
 } from '@/api'
 import type { Period } from '@/hooks/usePeriod'
@@ -17,6 +20,7 @@ import type { Period } from '@/hooks/usePeriod'
 export const useGroupStore = defineStore('group', () => {
   const { getRequestTime } = usePeriod()
   const projectsStore = useProjectsStore()
+  const filterGroupsStore = useFilterGroupsStore()
 
   const items = ref<Array<GroupRecord>>([])
   const columns = ref<DataTableResponseColumnsInner[]>([])
@@ -42,7 +46,7 @@ export const useGroupStore = defineStore('group', () => {
     return getRequestTime(period.type, controlsPeriod.value, period.from, period.to, period.last)
   })
 
-  const setStatePropertyPopup = (value: boolean) => propertyPopup.value = value
+  const setStatePropertyPopup = (value: boolean) => (propertyPopup.value = value)
 
   const getList = async (noLoading?: boolean) => {
     if (!noLoading) {
@@ -50,10 +54,37 @@ export const useGroupStore = defineStore('group', () => {
     }
 
     try {
-      const res = await apiClient.groupRecords.groupRecordsList(projectsStore.projectId, {
+      const props: GroupRecordsListRequest = {
         time: timeRequest.value,
         group: group.value,
-      })
+      }
+
+      if (filterGroupsStore.isSelectedAnyFilter) {
+        const filters = filterGroupsStore.filters.groups[0].filters.reduce(
+          (acc: EventGroupedFiltersGroupsInnerFiltersInner[], filter) => {
+            if ('value' in filter && filter.value?.length) {
+              acc.push(filter)
+            }
+
+            return acc
+          },
+          []
+        )
+
+        if (filters.length) {
+          props.filters = {
+            groupsCondition: 'and',
+            groups: [
+              {
+                filtersCondition: 'and',
+                filters,
+              },
+            ],
+          }
+        }
+      }
+
+      const res = await apiClient.groupRecords.groupRecordsList(projectsStore.projectId, props)
       columns.value = res?.data?.columns?.length ? res.data?.columns : []
     } catch (e) {
       console.error('error update event property')
