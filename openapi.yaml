@@ -1635,14 +1635,11 @@ paths:
               $ref: '#/components/schemas/GroupRecordsListRequest'
       responses:
         '200':
-          description: events list
+          description: List group records
           content:
             application/json:
               schema:
-                type: object
-                allOf:
-                  - $ref: '#/components/schemas/ListGroupRecordsResponse'
-                  - $ref: '#/components/schemas/ListResponseMetadata'
+                $ref: '#/components/schemas/DataTableResponse'
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
