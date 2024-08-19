@@ -1671,8 +1671,7 @@ paths:
           description: Group ID
           required: true
           schema:
-            type: integer
-            format: i64
+            type: string
         - name: id
           in: path
           description: Group Record ID
