@@ -323,9 +323,6 @@
       "clear": "Clear holding constant"
     },
     "view": {
-      "funnelSteps": "Funnel Steps",
-      "conversionOverTime": "Conversion over time",
-      "timeToConvert": "Time to convert",
       "conversionCount": "Conversion count",
       "conversionRatio": "Conversion ratio",
       "dropOffCount": "Drop off count",

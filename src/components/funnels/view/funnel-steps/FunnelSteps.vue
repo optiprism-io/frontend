@@ -1,78 +1,67 @@
 <template>
-  <div class="pf-c-card pf-u-p-md">
-    <div class="pf-c-toolbar">
-      <div class="pf-c-toolbar__content">
-        <div class="pf-c-toolbar__content-section pf-m-nowrap">
-          <div class="pf-c-toolbar__item">
-            <UiToggleGroup
-              :items="itemsPeriod"
-              @select="selectPeriod"
-            >
-              <template #after>
-                <UiDatePicker
-                  :value="calendarValue"
-                  :last-count="period.last"
-                  :active-tab-controls="period.type"
-                  @on-apply="applyPeriod"
-                >
-                  <template #action>
-                    <button
-                      class="pf-c-toggle-group__button"
-                      :class="{
-                        'pf-m-selected': calendarValueString,
-                      }"
-                      type="button"
-                    >
-                      <div class="pf-u-display-flex pf-u-align-items-center">
-                        <UiIcon :icon="'far fa-calendar-alt'" />
-                        &nbsp;
-                        {{ calendarValueString }}
-                      </div>
-                    </button>
-                  </template>
-                </UiDatePicker>
-              </template>
-            </UiToggleGroup>
-          </div>
-
-          <div class="pf-c-toolbar__item pf-u-ml-auto">
-            <UiDropdown
-              :items="FUNNEL_VIEWS"
-              :text-button="itemText"
-              @select-value="selectItem"
-            />
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <DataLoader v-if="loading" />
-    <template v-else-if="reportSteps.length">
-      <ChartStacked
-        v-if="checkedRowKeys.length"
-        :data="normalizedReportSteps"
-        height="25rem"
-      />
+  <FunnelContentGrid
+    :funnel-view="funnelView"
+    @change-view="emit('change-view', $event)"
+  >
+    <template #toolbar>
+      <UiToggleGroup
+        :items="itemsPeriod"
+        @select="selectPeriod"
+      >
+        <template #after>
+          <UiDatePicker
+            :value="calendarValue"
+            :last-count="period.last"
+            :active-tab-controls="period.type"
+            @on-apply="applyPeriod"
+          >
+            <template #action>
+              <button
+                class="pf-c-toggle-group__button"
+                :class="{
+                  'pf-m-selected': calendarValueString,
+                }"
+                type="button"
+              >
+                <div class="pf-u-display-flex pf-u-align-items-center">
+                  <UiIcon :icon="'far fa-calendar-alt'" />
+                  &nbsp;
+                  {{ calendarValueString }}
+                </div>
+              </button>
+            </template>
+          </UiDatePicker>
+        </template>
+      </UiToggleGroup>
+    </template>
+    <template #chart>
+      <DataLoader v-if="loading" />
+      <template v-else-if="reportSteps.length">
+        <ChartStacked
+          v-if="checkedRowKeys.length"
+          :data="normalizedReportSteps"
+          height="25rem"
+        />
+        <DataEmptyPlaceholder v-else>
+          {{ $t('funnels.view.selectRowInTable') }}
+        </DataEmptyPlaceholder>
+      </template>
       <DataEmptyPlaceholder v-else>
-        {{ $t('funnels.view.selectRowInTable') }}
+        {{ $t('funnels.view.selectToStart') }}
       </DataEmptyPlaceholder>
     </template>
-    <DataEmptyPlaceholder v-else>
-      {{ $t('funnels.view.selectToStart') }}
-    </DataEmptyPlaceholder>
-  </div>
-
-  <div
-    v-if="reportSteps.length"
-    class="pf-c-card pf-u-mt-md"
-  >
-    <FunnelsTable
-      v-model:checked-row-keys="checkedRowKeys"
-      :report-steps="reportSteps"
-      :groups="groups"
-      :max-checked-rows="MAX_CHECKED_ROWS"
-    />
-  </div>
+    <template
+      v-if="reportSteps.length"
+      #table
+    >
+      <FunnelsTable
+        v-model:checked-row-keys="checkedRowKeys"
+        :report-steps="reportSteps"
+        :groups="groups"
+        :max-checked-rows="MAX_CHECKED_ROWS"
+      />
+    </template>
+  </FunnelContentGrid>
 </template>
 
 <script lang="ts" setup>
@@ -82,9 +71,8 @@ import ChartStacked from '@/components/charts/ChartStacked.vue'
 import DataEmptyPlaceholder from '@/components/common/data/DataEmptyPlaceholder.vue'
 import DataLoader from '@/components/common/data/DataLoader.vue'
 import FunnelsTable from '@/components/funnels/view/funnel-steps/FunnelStepsTable.vue'
+import FunnelContentGrid from '@/components/funnels/view/FunnelContentGrid.vue'
 import UiDatePicker from '@/components/uikit/UiDatePicker.vue'
-import type { UiDropdownItem } from '@/components/uikit/UiDropdown.vue'
-import UiDropdown from '@/components/uikit/UiDropdown.vue'
 import UiIcon from '@/components/uikit/UiIcon.vue'
 import type { UiToggleGroupItem } from '@/components/uikit/UiToggleGroup.vue'
 import UiToggleGroup from '@/components/uikit/UiToggleGroup.vue'
@@ -102,8 +90,6 @@ import { useProjectsStore } from '@/stores/projects/projects'
 import { useBreakdownsStore } from '@/stores/reports/breakdowns'
 import { useFilterGroupsStore } from '@/stores/reports/filters'
 
-import { FUNNEL_VIEWS } from './funnelSteps'
-
 import type {
   EventRecordsListRequestTime,
   FunnelQueryStepsInner,
@@ -111,9 +97,20 @@ import type {
 } from '@/api'
 import type { ChartStackedItem } from '@/components/charts/types'
 import type { ApplyPayload } from '@/components/uikit/UiCalendar/UiCalendar'
+import type { FunnelChartType } from '@/pages/reports/funnelViews'
 import type { ExcludedEvent } from '@/stores/funnels/steps'
 import type { FilterGroup } from '@/stores/reports/filters'
 import type { DataTableRowKey } from 'naive-ui'
+
+interface IProps {
+  funnelView: FunnelChartType
+}
+
+withDefaults(defineProps<IProps>(), {})
+
+const emit = defineEmits<{
+  (e: 'change-view', payload: FunnelChartType): void
+}>()
 
 const MIN_COUNT_FOR_REQUEST = 2
 const MAX_CHECKED_ROWS = 12
@@ -129,13 +126,6 @@ interface Period {
   to: string
   last: number
   type: TimeTypeEnum
-}
-
-const item = ref<string | number>(0)
-const itemText = computed(() => FUNNEL_VIEWS.find(c => c.key === item.value)?.nameDisplay ?? '')
-
-const selectItem = (value: UiDropdownItem<string>) => {
-  item.value = value.key
 }
 
 const reportSteps = ref<FunnelResponseStepsInner[]>([])
@@ -338,6 +328,7 @@ function hasEmptyFilterValuesInExcludes(excludes: ExcludedEvent[]): boolean {
 
 watch(() => [stepsStore, filterGroupsStore, breakdownsStore, timeRequest], getReports, {
   deep: true,
+  immediate: true,
 })
 
 watch(

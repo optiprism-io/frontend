@@ -21,7 +21,7 @@ import { DEFAULT_SEPARATOR } from '@/constants'
 import { uncamelize } from '@/utils/uncamelize'
 
 import type { FunnelResponseStepsInner } from '@/api'
-import type { StepKey } from '@/components/funnels/view/funnel-steps/funnelSteps'
+import type { StepKey } from '@/components/funnels/view/funnel-steps/types'
 import type { DataTableBaseColumn, DataTableRowKey } from 'naive-ui'
 import type {
   RowData,

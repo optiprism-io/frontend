@@ -57,13 +57,22 @@
       class="overflow-auto pf-u-pb-md"
       :col-lg="9"
     >
-      <FunnelSteps />
+      <FunnelSteps
+        v-if="funnelViewId === FunnelStepsChartTypeTypeEnum.Steps"
+        :funnel-view="funnelViewId"
+        @change-view="onChangeView"
+      />
+      <ConversionOverTime
+        v-else-if="funnelViewId === FunnelConversionOverTimeChartTypeTypeEnum.ConversionOverTime"
+        :funnel-view="funnelViewId"
+        @change-view="onChangeView"
+      />
     </GridItem>
   </GridContainer>
 </template>
 
 <script setup lang="ts">
-import { computed, onUnmounted } from 'vue'
+import { computed, onUnmounted, ref } from 'vue'
 
 import Breakdowns from '@/components/events/Breakdowns.vue'
 import FilterReports from '@/components/events/FiltersReports.vue'
@@ -73,6 +82,7 @@ import HoldingConstantList from '@/components/funnels/holding/HoldingConstantLis
 import HoldingConstantSelect from '@/components/funnels/holding/HoldingConstantSelect.vue'
 import StepsList from '@/components/funnels/steps/StepsList.vue'
 import TimeWindow from '@/components/funnels/time-window/TimeWindow.vue'
+import ConversionOverTime from '@/components/funnels/view/conversion-over-time/ConversionOverTime.vue'
 import FunnelSteps from '@/components/funnels/view/funnel-steps/FunnelSteps.vue'
 import GridContainer from '@/components/grid/GridContainer.vue'
 import GridItem from '@/components/grid/GridItem.vue'
@@ -83,6 +93,7 @@ import UiCardContainer from '@/components/uikit/UiCard/UiCardContainer.vue'
 import UiCardTitle from '@/components/uikit/UiCard/UiCardTitle.vue'
 import UiSelect from '@/components/uikit/UiSelect.vue'
 
+import { FunnelConversionOverTimeChartTypeTypeEnum, FunnelStepsChartTypeTypeEnum } from '@/api'
 import { useGroup } from '@/hooks/useGroup'
 import usei18n from '@/hooks/useI18n'
 import { useCommonStore } from '@/stores/common'
@@ -92,6 +103,13 @@ import { useLexiconStore } from '@/stores/lexicon'
 import { useFilterGroupsStore } from '@/stores/reports/filters'
 import { useSegmentsStore } from '@/stores/reports/segments'
 import { funnelsToEvents } from '@/utils/reportsMappings'
+
+import type { FunnelChartType } from '@/pages/reports/funnelViews'
+
+const funnelViewId = ref<FunnelChartType>(FunnelStepsChartTypeTypeEnum.Steps)
+function onChangeView(view: FunnelChartType) {
+  funnelViewId.value = view
+}
 
 const { t } = usei18n()
 const eventsStore = useEventsStore()

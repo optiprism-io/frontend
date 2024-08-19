@@ -21,7 +21,7 @@ import { humanReadable } from '@/utils/humanReadable'
 import { toFixedFormat } from '@/utils/toFixedFormat'
 import { uncamelize } from '@/utils/uncamelize'
 
-import type { StepKey } from '@/components/funnels/view/funnel-steps/funnelSteps'
+import type { StepKey } from '@/components/funnels/view/funnel-steps/types'
 
 const G = getEngine('canvas')
 const container = ref<HTMLDivElement | null>(null)
