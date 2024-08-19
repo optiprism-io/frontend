@@ -81,7 +81,7 @@ import { computed, nextTick, ref, watch } from 'vue'
 import ChartStacked from '@/components/charts/ChartStacked.vue'
 import DataEmptyPlaceholder from '@/components/common/data/DataEmptyPlaceholder.vue'
 import DataLoader from '@/components/common/data/DataLoader.vue'
-import FunnelsTable from '@/components/funnels/view/FunnelsTable.vue'
+import FunnelsTable from '@/components/funnels/view/funnel-steps/FunnelStepsTable.vue'
 import UiDatePicker from '@/components/uikit/UiDatePicker.vue'
 import type { UiDropdownItem } from '@/components/uikit/UiDropdown.vue'
 import UiDropdown from '@/components/uikit/UiDropdown.vue'
@@ -102,12 +102,12 @@ import { useProjectsStore } from '@/stores/projects/projects'
 import { useBreakdownsStore } from '@/stores/reports/breakdowns'
 import { useFilterGroupsStore } from '@/stores/reports/filters'
 
-import { FUNNEL_VIEWS } from './funnelViews'
+import { FUNNEL_VIEWS } from './funnelSteps'
 
 import type {
   EventRecordsListRequestTime,
-  FunnelResponseStepsInner,
   FunnelQueryStepsInner,
+  FunnelResponseStepsInner,
 } from '@/api'
 import type { ChartStackedItem } from '@/components/charts/types'
 import type { ApplyPayload } from '@/components/uikit/UiCalendar/UiCalendar'

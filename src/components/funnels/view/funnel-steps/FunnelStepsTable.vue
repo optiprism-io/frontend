@@ -21,7 +21,7 @@ import { DEFAULT_SEPARATOR } from '@/constants'
 import { uncamelize } from '@/utils/uncamelize'
 
 import type { FunnelResponseStepsInner } from '@/api'
-import type { StepKey } from '@/components/funnels/view/funnelViews'
+import type { StepKey } from '@/components/funnels/view/funnel-steps/funnelSteps'
 import type { DataTableBaseColumn, DataTableRowKey } from 'naive-ui'
 import type {
   RowData,
@@ -70,7 +70,7 @@ const data = computed<RowData[]>(() => {
     })
   })
 
-  arr.forEach(x => x[TOTAL_CONVERSION] = x[KEY_PREFIX + KEY_TOTAL + KEY_SPLITTER + lastIndex])
+  arr.forEach(x => (x[TOTAL_CONVERSION] = x[KEY_PREFIX + KEY_TOTAL + KEY_SPLITTER + lastIndex]))
 
   return arr
 })

@@ -4,9 +4,7 @@
       ref="container"
       class="pf-l-flex__item"
     />
-    <div
-      class="pf-u-font-weight-bold pf-l-flex__item"
-    >
+    <div class="pf-u-font-weight-bold pf-l-flex__item">
       <slot />
     </div>
   </div>
@@ -23,7 +21,7 @@ import { humanReadable } from '@/utils/humanReadable'
 import { toFixedFormat } from '@/utils/toFixedFormat'
 import { uncamelize } from '@/utils/uncamelize'
 
-import type { StepKey } from '@/components/funnels/view/funnelViews'
+import type { StepKey } from '@/components/funnels/view/funnel-steps/funnelSteps'
 
 const G = getEngine('canvas')
 const container = ref<HTMLDivElement | null>(null)

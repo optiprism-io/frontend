@@ -57,13 +57,13 @@
       class="overflow-auto pf-u-pb-md"
       :col-lg="9"
     >
-      <FunnelsViews />
+      <FunnelSteps />
     </GridItem>
   </GridContainer>
 </template>
 
 <script setup lang="ts">
-import { onUnmounted, computed } from 'vue'
+import { computed, onUnmounted } from 'vue'
 
 import Breakdowns from '@/components/events/Breakdowns.vue'
 import FilterReports from '@/components/events/FiltersReports.vue'
@@ -73,7 +73,7 @@ import HoldingConstantList from '@/components/funnels/holding/HoldingConstantLis
 import HoldingConstantSelect from '@/components/funnels/holding/HoldingConstantSelect.vue'
 import StepsList from '@/components/funnels/steps/StepsList.vue'
 import TimeWindow from '@/components/funnels/time-window/TimeWindow.vue'
-import FunnelsViews from '@/components/funnels/view/FunnelsViews.vue'
+import FunnelSteps from '@/components/funnels/view/funnel-steps/FunnelSteps.vue'
 import GridContainer from '@/components/grid/GridContainer.vue'
 import GridItem from '@/components/grid/GridItem.vue'
 import UiButton from '@/components/uikit/UiButton.vue'
@@ -84,7 +84,7 @@ import UiCardTitle from '@/components/uikit/UiCard/UiCardTitle.vue'
 import UiSelect from '@/components/uikit/UiSelect.vue'
 
 import { useGroup } from '@/hooks/useGroup'
-import usei18n from '@/hooks/useI18n';
+import usei18n from '@/hooks/useI18n'
 import { useCommonStore } from '@/stores/common'
 import { useEventsStore } from '@/stores/eventSegmentation/events'
 import { useStepsStore } from '@/stores/funnels/steps'
@@ -103,7 +103,9 @@ const { selectGroups } = useGroup()
 const stepsStore = useStepsStore()
 
 const selectedGroup = computed(() => lexiconStore.groups.find(item => item.id === stepsStore.group))
-const selectedGroupByString = computed(() => `${t('common.group', { name: selectedGroup.value?.name })}`)
+const selectedGroupByString = computed(
+  () => `${t('common.group', { name: selectedGroup.value?.name })}`
+)
 
 const onSelectGroup = (id: number) => {
   stepsStore.group = id
