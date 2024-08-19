@@ -5,7 +5,10 @@
       'pf-c-card': !props.onlyView,
     }"
   >
-    <div v-if="!props.onlyView" class="pf-c-toolbar">
+    <div
+      v-if="!props.onlyView"
+      class="pf-c-toolbar"
+    >
       <div class="pf-c-toolbar__content">
         <div class="pf-c-toolbar__content-section pf-m-nowrap">
           <div class="pf-c-toolbar__item">
@@ -17,7 +20,10 @@
             />
           </div>
           <div class="pf-c-toolbar__item">
-            <UiToggleGroup :items="itemsPeriod" @select="onSelectPerion">
+            <UiToggleGroup
+              :items="itemsPeriod"
+              @select="onSelectPerion"
+            >
               <template #after>
                 <UiDatePicker
                   :value="calendarValue"
@@ -36,7 +42,10 @@
                       <span class="pf-c-toggle-group__icon pf-c-toggle-group__text">
                         <UiIcon :icon="'far fa-calendar-alt'" />
                       </span>
-                      <span v-if="calendarValueString" class="pf-c-toggle-group__text">
+                      <span
+                        v-if="calendarValueString"
+                        class="pf-c-toggle-group__text"
+                      >
                         {{ calendarValueString }}
                       </span>
                     </button>
@@ -45,28 +54,23 @@
               </template>
             </UiToggleGroup>
           </div>
-          <div v-if="showCompareTo" class="pf-c-toolbar__item">
-            <UiSelect
-              :items="compareToItems"
-              :text-button="textSelectCompareTo"
-              :selections="[eventsStore.compareTo]"
-              :clearable="true"
-              :full-text="true"
-              @on-clear="onSelectCompareTo('')"
-              @on-select="onSelectCompareTo"
-            />
-          </div>
           <div class="pf-c-toolbar__item pf-u-ml-auto">
             <UiLabelGroup :label="chartTypeLabel">
               <template #content>
-                <UiToggleGroup :items="chartTypeItems" @select="onSelectChartType" />
+                <UiToggleGroup
+                  :items="chartTypeItems"
+                  @select="onSelectChartType"
+                />
               </template>
             </UiLabelGroup>
           </div>
         </div>
       </div>
     </div>
-    <DataEmptyPlaceholder v-if="isNoData" :content="$t('common.noData')" />
+    <DataEmptyPlaceholder
+      v-if="isNoData"
+      :content="$t('common.noData')"
+    />
     <div
       v-else
       :class="{
@@ -106,7 +110,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref } from 'vue'
+import { computed } from 'vue'
 
 import { useDateFormat } from '@vueuse/core'
 
@@ -119,12 +123,10 @@ import UiDatePicker from '@/components/uikit/UiDatePicker.vue'
 import UiIcon from '@/components/uikit/UiIcon.vue'
 import UiLabelGroup from '@/components/uikit/UiLabelGroup.vue'
 import UiSelect from '@/components/uikit/UiSelect.vue'
-import type { UiToggleGroupItem } from '@/components/uikit/UiToggleGroup.vue';
+import type { UiToggleGroupItem } from '@/components/uikit/UiToggleGroup.vue'
 import UiToggleGroup from '@/components/uikit/UiToggleGroup.vue'
 
-import {
-  DataType,
-} from '@/api'
+import { DataType } from '@/api'
 import { groupByMap, periodMap } from '@/configs/events/controls'
 import { getStringDateByFormat } from '@/helpers/getStringDates'
 import { getQueryFormattedValue } from '@/helpers/reportTableHelper'
@@ -132,16 +134,11 @@ import useDataTable from '@/hooks/useDataTable'
 import usei18n from '@/hooks/useI18n'
 import { useEventsStore } from '@/stores/eventSegmentation/events'
 
-import type {
-  Report,
-  DataTableResponse,
-  TimeUnit,
-  DataTableResponseColumnsInner} from '@/api';
+import type { DataTableResponse, DataTableResponseColumnsInner, Report, TimeUnit } from '@/api'
 import type { ApplyPayload } from '@/components/uikit/UiCalendar/UiCalendar'
-import type { ChartType } from '@/stores/eventSegmentation/events';
+import type { ChartType } from '@/stores/eventSegmentation/events'
 import type { TableColumn, TableColumns } from 'naive-ui/es/data-table/src/interface'
 
-const compareToMap = ['day', 'week', 'month', 'year']
 const chartTypeMap = [
   {
     value: 'line',
@@ -178,8 +175,6 @@ const props = withDefaults(defineProps<Props>(), {
   report: null,
 })
 
-const showCompareTo = ref(false)
-
 type CellData = number | string | boolean
 
 type RowData = {
@@ -187,31 +182,33 @@ type RowData = {
 }
 
 const columns = computed(() => {
-  return props.eventSegmentation?.columns?.reduce((acc: TableColumns, item) => {
-    const column: TableColumn = {
-      key: item.name,
-      title: item.name
-    }
+  return (
+    props.eventSegmentation?.columns?.reduce((acc: TableColumns, item) => {
+      const column: TableColumn = {
+        key: item.name,
+        title: item.name,
+      }
 
-    if (item.type === 'dimension') {
-      column.fixed = 'left'
-      column.width = 150
-    } else {
-      column.ellipsis = true
-      column.width = 200
-    }
+      if (item.type === 'dimension') {
+        column.fixed = 'left'
+        column.width = 150
+      } else {
+        column.ellipsis = true
+        column.width = 200
+      }
 
-    if (item.name !== 'Segment') {
-      acc.push(column)
-    }
-    return acc
-  }, []) || []
+      if (item.name !== 'Segment') {
+        acc.push(column)
+      }
+      return acc
+    }, []) || []
+  )
 })
 
 const data = computed(() => {
-  const tableData: RowData[] = [];
+  const tableData: RowData[] = []
 
-  (props.eventSegmentation?.columns || []).forEach((column) => {
+  ;(props.eventSegmentation?.columns || []).forEach(column => {
     if (column.data?.length) {
       column.data.forEach((item, indexData) => {
         if (!tableData[indexData]) {
@@ -219,7 +216,7 @@ const data = computed(() => {
             key: indexData,
           }
         }
-        let value: CellData = item || 0;
+        let value: CellData = item || 0
 
         if (column.dataType === DataType.Timestamp && item) {
           value = useDateFormat(+item, 'YYYY-MM-DD HH:mm')?.value
@@ -331,20 +328,6 @@ const chartEventsOptions = computed(() => {
   }
 })
 
-const compareToItems = computed(() => {
-  return compareToMap.map(item => {
-    return {
-      key: item,
-      nameDisplay: `Previous ${item}`,
-      value: item,
-    }
-  })
-})
-
-const textSelectCompareTo = computed(() => {
-  return eventsStore.compareTo ? `Compare to previous ${eventsStore.compareTo}` : 'Compare to Past'
-})
-
 const chartTypeItems = computed(() => {
   return chartTypeMap.map((item, i) => {
     return {
@@ -452,10 +435,6 @@ const onApplyPeriod = (payload: ApplyPayload): void => {
     last: payload.last,
   }
   updateEventSegmentationData()
-}
-
-const onSelectCompareTo = (payload: string): void => {
-  eventsStore.compareTo = payload
 }
 
 const onSelectChartType = (payload: string): void => {
