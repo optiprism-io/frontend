@@ -20,8 +20,8 @@ type ColumnMap = {
 
 export type ResponseUseDataTable = {
   hasData: boolean
-  tableColumns: ColumnMap
-  tableData: Row[]
+  columns: ColumnMap
+  rows: Row[]
   tableColumnsValues: Column[]
   lineChart: any[]
   pieChart: any[]
@@ -33,16 +33,16 @@ export default function useDataTable(
   fixedColumn?: { [key: string]: string }
 ): ResponseUseDataTable {
 
-  const columns = (Array.isArray(payload?.columns) ? payload.columns : [])
+  const payloadColumns = (Array.isArray(payload?.columns) ? payload.columns : [])
   const fixedColumnsTypes = fixedColumn || FIXED_COLUMNS_TYPES_DEFAULT
   const dimensionColumns: DataTableResponseColumnsInner[] = []
   const totalColumnData: number[] = []
-  const tableColumns: { [key: string]: Column } = {}
-  const tableData: Row[] = []
+  const columns: { [key: string]: Column } = {}
+  const rows: Row[] = []
   const lineChart: any[] = []
   let pieChart = [];
 
-  columns.forEach((column, i, arr) => {
+  payloadColumns.forEach((column, i, arr) => {
     const fixed = Boolean(fixedColumnsTypes[column.type]);
     const lastFixed = !fixedColumnsTypes[arr[i + 1]?.type];
 
@@ -50,7 +50,7 @@ export default function useDataTable(
       dimensionColumns.push(column)
     }
 
-    tableColumns[column.name] = {
+    columns[column.name] = {
       value: column.name,
       title: fixed ? getStringDateByFormat(column.name, '%d %b, %Y') : column.name,
       truncate: true,
@@ -81,8 +81,8 @@ export default function useDataTable(
           }
         }
 
-        if (!tableData[indexData]) {
-          tableData[indexData] = []
+        if (!rows[indexData]) {
+          rows[indexData] = []
         }
 
         let value: number | string | boolean = item || '';
@@ -91,7 +91,7 @@ export default function useDataTable(
           value = useDateFormat(+item, 'YYYY-MM-DD HH:mm')?.value
         }
 
-        tableData[indexData][i] = {
+        rows[indexData][i] = {
           key: column.name,
           value: item,
           title: value || '-',
@@ -117,9 +117,9 @@ export default function useDataTable(
 
   return {
     hasData: !!totalColumnData.length,
-    tableColumns,
-    tableData,
-    tableColumnsValues: Object.values(tableColumns),
+    columns,
+    rows,
+    tableColumnsValues: Object.values(columns),
     lineChart,
     pieChart,
   }

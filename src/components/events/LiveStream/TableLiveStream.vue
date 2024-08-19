@@ -5,7 +5,7 @@
   >
     <UiTable
       :is-loading="liveStreamStore.loading"
-      :items="tableData.tableData"
+      :items="tableData.rows"
       :columns="tableData.tableColumnsValues"
       :no-data-text="strings.noDataText"
       :show-select-columns="false"
@@ -240,7 +240,7 @@ const onApplyPeriod = (payload: ApplyPayload): void => {
 }
 
 const clickCell = async (cell: Cell, rowIndex: number) => {
-  const row = tableData.value?.tableData[rowIndex]
+  const row = tableData.value?.rows[rowIndex]
 
   if (row) {
     const eventIdCell = row.find(item => item.key === 'Event ID' || item.key === 'event_id')

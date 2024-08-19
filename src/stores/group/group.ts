@@ -46,8 +46,6 @@ export const useGroupStore = defineStore('group', () => {
     return getRequestTime(period.type, controlsPeriod.value, period.from, period.to, period.last)
   })
 
-  const setStatePropertyPopup = (value: boolean) => (propertyPopup.value = value)
-
   const getList = async (noLoading?: boolean) => {
     if (!noLoading) {
       loading.value = true
@@ -124,7 +122,6 @@ export const useGroupStore = defineStore('group', () => {
     isNoData,
     timeRequest,
 
-    setStatePropertyPopup,
     getList,
     update,
   }

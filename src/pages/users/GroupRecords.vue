@@ -3,20 +3,14 @@
     <template #title>
       {{ strings.usersTitle }}
     </template>
-    <GridContainer>
-      <UiCardContainer class="filter-event-segmentation__item">
-        <FilterReports @on-change="onChange" />
-      </UiCardContainer>
-    </GridContainer>
     <template #main>
       <UiCardContainer class="pf-u-h-100">
         <UiTable
-          :items="tableData.tableData"
+          :items="tableData.rows"
           :columns="tableData.tableColumnsValues"
           :no-data-text="strings.noDataText"
           :allow-click-cell="true"
           :is-loading="groupStore.loading"
-          @on-action="onAction"
           @click-cell="clickCell"
         >
           <template #before>
@@ -71,8 +65,7 @@ import { useLexiconStore } from '@/stores/lexicon'
 import { useReportsStore } from '@/stores/reports/reports'
 import { useSegmentsStore } from '@/stores/reports/segments'
 
-import type { GroupRecord } from '@/api'
-import type { Action, Cell } from '@/components/uikit/UiTable/UiTable'
+import type { Cell } from '@/components/uikit/UiTable/UiTable'
 
 const { t } = useI18n()
 const groupStore = useGroupStore()
@@ -90,8 +83,15 @@ const strings = computed(() => {
   }
 })
 
-const selectedItems = ref<GroupRecord | null>(null)
-const selectedItemsIndex = ref<number>()
+const recordPopupName = ref('')
+const recordPopupId = ref<number | string>(0)
+const recordPopup = ref(false)
+
+const closeRecordPopup = () => {
+  recordPopup.value = false
+  recordPopupId.value = 0
+  recordPopupName.value = ''
+}
 
 const itemsPeriod = computed(() => {
   return shortPeriodDays.map(
@@ -108,39 +108,21 @@ const tableData = computed(() => {
   return useDataTable({ columns: groupStore.columns }, true, {})
 })
 
-const onChange = () => {
-  updateData()
-}
-
-const clickCell = (call: Cell, rowIndex: number) => {
-  // TODO
-}
-
-const onAction = (payload: Action) => {
-  const index = groupStore.items.findIndex((_, i) => i === payload.type)
-
-  if (index >= 0) {
-    selectedItems.value = groupStore.items[index]
-    selectedItems.value = groupStore.items[index]
-    selectedItems.value = groupStore.items[index]
-    selectedItems.value = groupStore.items[index]
-    selectedItemsIndex.value = index
-  }
-  groupStore.propertyPopup = true
-}
-
 const updateData = () => {
   groupStore.getList()
+}
+
+const clickCell = (cell: Cell, rowIndex: number) => {
+  const rowCell = tableData.value?.rows[rowIndex]?.find((cell) => cell.key === 'ID');
+  const cellValue = String(rowCell?.value) || '';
+
+  recordPopupId.value = String(cellValue)
+  recordPopupName.value = cellValue
 }
 
 const onSelectPeriod = (payload: string) => {
   groupStore.controlsPeriod = payload
   updateData()
-}
-
-const onClosePropertyPopup = () => {
-  groupStore.setStatePropertyPopup(false)
-  selectedItems.value = null
 }
 
 const onSelectData = (payload: DataPickerPeriod, controlsPeriod: string) => {

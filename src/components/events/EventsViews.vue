@@ -209,13 +209,13 @@ const columns = computed(() => {
 })
 
 const data = computed(() => {
-  const tableData: RowData[] = [];
+  const rows: RowData[] = [];
 
   (props.eventSegmentation?.columns || []).forEach((column) => {
     if (column.data?.length) {
       column.data.forEach((item, indexData) => {
-        if (!tableData[indexData]) {
-          tableData[indexData] = {
+        if (!rows[indexData]) {
+          rows[indexData] = {
             key: indexData,
           }
         }
@@ -225,12 +225,12 @@ const data = computed(() => {
           value = useDateFormat(+item, 'YYYY-MM-DD HH:mm')?.value
         }
 
-        tableData[indexData][column.name] = value
+        rows[indexData][column.name] = value
       })
     }
   })
 
-  return tableData
+  return rows
 })
 
 const dataTable = computed(() => {
@@ -259,7 +259,7 @@ const dataTable = computed(() => {
 
   const table = useDataTable(columns ? { columns } : {}, true)
 
-  table.tableData = table.tableData.map(row => {
+  table.rows = table.rows.map(row => {
     return row.map(cell => {
       if (cell.key === 'agg_name' && typeof cell.value === 'string' && props.report) {
         cell.title = getQueryFormattedValue(cell.value, props.report) || cell.value
