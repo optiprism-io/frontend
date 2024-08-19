@@ -34,21 +34,19 @@
       </UiCardContainer>
     </template>
   </ToolsLayout>
-  <PropertiesManagementPopup
-    v-if="groupStore.propertyPopup"
-    :item="selectedItems"
-    :item-index="selectedItemsIndex"
-    @apply="onClosePropertyPopup"
-    @close="onClosePropertyPopup"
+  <GroupRecordPopup
+    v-if="recordPopup"
+    :id="recordPopupId"
+    :name="recordPopupName"
+    :group="groupStore.group"
+    @cancel="closeRecordPopup"
   />
 </template>
 
 <script setup lang="ts">
 import { computed, onMounted, onUnmounted, ref } from 'vue'
 
-import FilterReports from '@/components/events/FiltersReports.vue'
-import GridContainer from '@/components/grid/GridContainer.vue'
-import PropertiesManagementPopup from '@/components/groups/PropertiesManagementPopup.vue'
+import GroupRecordPopup from '@/components/groups/GroupRecordPopup.vue'
 import UiCardContainer from '@/components/uikit/UiCard/UiCardContainer.vue'
 import type { DataPickerPeriod } from '@/components/uikit/UiDatePickerWrapper.vue'
 import UiDatePickerWrapper from '@/components/uikit/UiDatePickerWrapper.vue'
@@ -113,8 +111,8 @@ const updateData = () => {
 }
 
 const clickCell = (cell: Cell, rowIndex: number) => {
-  const rowCell = tableData.value?.rows[rowIndex]?.find((cell) => cell.key === 'ID');
-  const cellValue = String(rowCell?.value) || '';
+  const rowCell = tableData.value?.rows[rowIndex]?.find(cell => cell.key === 'ID')
+  const cellValue = String(rowCell?.value) || ''
 
   recordPopupId.value = String(cellValue)
   recordPopupName.value = cellValue
