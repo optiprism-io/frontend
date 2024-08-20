@@ -23,7 +23,8 @@ import { computed } from 'vue'
 
 import UiAlert from '@/components/uikit/UiAlert.vue'
 
-import { AlertTypeEnum } from '@/types'
+import { AlertTypeEnum } from '@/hooks/useAlert'
+import { generateUUID } from '@/utils/generateUuid'
 
 interface Props {
     errorMain?: string
@@ -39,7 +40,7 @@ const props = withDefaults(defineProps<Props>(), {
 
 const errorMainItem = computed(() => {
     return {
-        id: '0',
+        id: generateUUID(),
         type: AlertTypeEnum.Danger,
         text: props.errorMain,
         noClose: true,

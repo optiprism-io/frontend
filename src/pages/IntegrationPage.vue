@@ -47,9 +47,9 @@ import UiSpinner from '@/components/uikit/UiSpinner.vue'
 import UiTabs from '@/components/uikit/UiTabs.vue'
 import ToolsLayout from '@/layout/ToolsLayout.vue'
 
+import { AlertTypeEnum } from '@/hooks/useAlert'
 import { pagesMap, SDKIntegration } from '@/router'
 import { useProjectsStore } from '@/stores/projects/projects'
-import { AlertTypeEnum } from '@/types'
 import { generateUUID } from '@/utils/generateUuid'
 
 const route = useRoute()

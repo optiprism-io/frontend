@@ -8,7 +8,7 @@ import type { TokensResponse } from '@/api'
 import type { Server } from 'miragejs';
 
 const MIN_EMAIL_LENGTH = 8
-const MIN_PASSWORD_LENGTH = 5
+export const MIN_PASSWORD_LENGTH = 5
 
 export function authRoutes(server: Server) {
   server.post('/auth/login', (_, request) => {

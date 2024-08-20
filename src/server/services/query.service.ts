@@ -1,17 +1,13 @@
-import {
-  FunnelConversionOverTimeChartTypeTypeEnum,
-  FunnelStepsChartTypeTypeEnum,
-} from '@/api'
+import { FunnelConversionOverTimeChartTypeTypeEnum, FunnelStepsChartTypeTypeEnum } from '@/api'
 import eventSegmentationsMocks from '@/mocks/eventSegmentations/eventSegmentations.json'
 import conversionOverTimeMocks from '@/mocks/reports/funnels/conversionOverTime'
 import conversionStepsMocks from '@/mocks/reports/funnels/conversionSteps'
 import { CustomError } from '@/server/models/CustomError'
 
-import type {
-  FunnelQuery} from '@/api';
+import type { FunnelQuery } from '@/api'
 import type { Server } from 'miragejs'
 
-export function queriesRoutes(server: Server) {
+export function queryRoutes(server: Server) {
   server.post('/projects/:project_id/queries/event-segmentation', (_, request) => {
     const body = JSON.parse(request.requestBody)
 
@@ -29,10 +25,9 @@ export function queriesRoutes(server: Server) {
     const graphType = body.chartType.type
 
     if (graphType === FunnelStepsChartTypeTypeEnum.Steps) {
-
       return {
         groups: conversionStepsMocks.groups,
-        steps: conversionStepsMocks.steps.slice(0, body.steps.length)
+        steps: conversionStepsMocks.steps.slice(0, body.steps.length),
       }
     }
     if (graphType === FunnelConversionOverTimeChartTypeTypeEnum.ConversionOverTime)
