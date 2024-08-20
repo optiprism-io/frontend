@@ -66,7 +66,7 @@
         class="pf-l-flex__item pf-u-flex-1 pf-u-w-100 pf-u-min-height"
         style="--pf-u-min-height--MinHeight: 0"
       >
-        <RouterView />
+        <RouterView :key="key" />
       </div>
     </div>
   </section>
@@ -109,6 +109,7 @@ const { confirm } = useConfirm()
 const editableNameReport = ref(false)
 const reportName = ref('')
 const showSyncReports = ref(false)
+const key = ref(0)
 
 const { isChangedReport: isShowSaveReport } = storeToRefs(reportsStore)
 
@@ -220,6 +221,7 @@ const onSelectTab = (value: string) => {
   if (value === pagesMap.reportsEventSegmentation.name) {
     reportsStore.emptyReport()
   }
+  key.value++
 }
 
 const updateReport = async (id: number) => {

@@ -125,7 +125,7 @@
               </UiDropdown>
             </template>
             <DashboardPanel
-              :height-chart="item.h * ROW_HEIGHT - 20"
+              :height-chart="item.h * ROW_HEIGHT - 60"
               :report-id="Number(item.reportId)"
             />
           </UiCard>
@@ -519,6 +519,7 @@ onUnmounted(() => {
   .vue-grid-item {
     .pf-c-card__body {
       height: calc(100% - 36px);
+      width: 100%;
     }
   }
   &__add-report,

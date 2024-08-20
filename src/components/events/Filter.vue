@@ -1,6 +1,6 @@
 <template>
   <div class="filter pf-l-flex pf-m-nowrap" :class="orientationClass">
-    <div v-if="!hidePrefix" class="pf-c-action-list__item pf-u-mb-0 pf-u-mt-xs">
+    <div v-if="!hidePrefix" class="icon pf-c-action-list__item pf-u-mb-0 pf-u-mt-xs">
       <slot name="prefix">
         <UiIcon icon="fas fa-filter" />
       </slot>
@@ -341,7 +341,9 @@ const removeValueButton = (value: Value) => {
 <style lang="scss">
 .filter {
   .pf-c-action-list {
-    flex-wrap: wrap;
+    position: relative;
+    flex-wrap: nowrap;
+    align-items: flex-start;
     gap: 0.5rem;
 
     & > * + * {
@@ -387,10 +389,9 @@ const removeValueButton = (value: Value) => {
   > .pf-c-action-list {
     position: relative;
   }
-  .pf-c-action-list {
-    position: relative;
-    flex-wrap: wrap;
-    align-items: flex-start;
+
+  .icon {
+    color: var(--op-base-color);
   }
 }
 </style>

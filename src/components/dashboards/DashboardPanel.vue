@@ -1,7 +1,10 @@
 <template>
   <div class="dashboard-panel">
     <div class="dashboard-panel__name">
-      <RouterLink v-if="reportLink" :to="reportLink">
+      <RouterLink
+        v-if="reportLink"
+        :to="reportLink"
+      >
         {{ report?.name }}
       </RouterLink>
     </div>
@@ -14,10 +17,10 @@
       :lite-chart="true"
       :height-chart="props.heightChart || 240"
     />
-    <FunnelsChart
+    <ChartStacked
       v-else-if="reportSteps.length"
-      :report-steps="reportSteps"
-      :height="props.heightChart || 240"
+      :data="normalizedReportSteps"
+      :height="(props.heightChart || 240) + 'px'"
       :lite-chart="true"
     />
   </div>
@@ -28,14 +31,17 @@ import { computed, onMounted, ref, watch } from 'vue'
 
 import { RouterLink } from 'vue-router'
 
+import ChartStacked from '@/components/charts/ChartStacked.vue'
 import EventsViews from '@/components/events/EventsViews.vue'
-import FunnelsChart from '@/components/funnels/view/FunnelsChart.vue'
 
 import {
+  EventGroupedFiltersGroupsConditionEnum,
   EventSegmentationQueryFormatEnum,
   ReportType,
 } from '@/api'
 import { apiClient } from '@/api/apiClient'
+import { type ChartStackedItem } from '@/components/charts/types'
+import { DEFAULT_SEPARATOR } from '@/constants'
 import { pagesMap } from '@/router'
 import { useEventsStore } from '@/stores/eventSegmentation/events'
 import { useProjectsStore } from '@/stores/projects/projects'
@@ -50,8 +56,9 @@ import type {
   EventSegmentation as EventSegmentationType,
   FunnelQuery,
   FunnelResponseStepsInner,
-  Report} from '@/api';
-import type { ChartType} from '@/stores/eventSegmentation/events';
+  Report,
+} from '@/api'
+import type { ChartType } from '@/stores/eventSegmentation/events'
 import type { Step } from '@/types/steps'
 
 const reportsStore = useReportsStore()
@@ -78,6 +85,28 @@ const query = computed(() => report.value?.query)
 const reportChartType = computed(() => (report.value?.query?.chartType as ChartType) ?? 'line')
 const reportType = computed(() => report.value?.type ?? ReportType.EventSegmentation)
 const isEventsViews = computed(() => reportType.value === ReportType.EventSegmentation)
+
+const normalizedReportSteps = computed<ChartStackedItem[]>(() =>
+  reportSteps.value.map(step => {
+    return {
+      groupName: step.step,
+      elements: step.data.map(item => ({
+        columnName: item.groups.join(DEFAULT_SEPARATOR),
+        primary: {
+          value: item.total,
+          percentage: item.conversionRatio,
+          label: 'Total',
+          percentageLabel: 'Conversion Ratio',
+        },
+        secondary: {
+          value: item.droppedOff,
+          percentage: item.dropOffRatio,
+          label: 'Dropped Off',
+          percentageLabel: 'Dropped Off Ratio',
+        },
+      })),
+    }
+  }))
 
 const reportLink = computed(() => {
   if (report.value) {
@@ -118,10 +147,10 @@ const getEventSegmentation = async () => {
 
         if (filters.length) {
           query.filters = {
-            groupsCondition: 'and',
+            groupsCondition: EventGroupedFiltersGroupsConditionEnum.And,
             groups: [
               {
-                filtersCondition: 'and',
+                filtersCondition: EventGroupedFiltersGroupsConditionEnum.And,
                 filters,
               },
             ],
@@ -213,16 +242,15 @@ eventsStore.$subscribe(mutation => {
 })
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .dashboard-panel {
-  margin-top: -24px;
-  overflow: hidden;
-  height: calc(100% + 24px);
-  &__name {
-    font-size: 16px;
-  }
-  .chart-wrapper__container {
-    height: 100%;
-  }
+  display: flex;
+  flex-direction: column;
+  overflow: hidden auto;
+  height: 100%;
+}
+
+.dashboard-panel__name {
+  font-size: 16px;
 }
 </style>

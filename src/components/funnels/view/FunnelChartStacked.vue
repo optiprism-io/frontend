@@ -1,11 +1,11 @@
 <template>
-  <div class="pf-l-flex pf-m-column">
-    <div ref="container" class="pf-l-flex__item" />
+  <div class="funnel-chart-stacked pf-l-flex pf-m-column pf-u-text-align-center">
     <div
-      class="pf-u-font-weight-bold pf-l-flex__item pf-u-px-lg"
-      :class="{
-        'pf-u-font-size-lg': !liteChart,
-      }"
+      ref="container"
+      class="pf-l-flex__item"
+    />
+    <div
+      class="pf-u-font-weight-bold pf-l-flex__item"
     >
       <slot />
     </div>
@@ -17,9 +17,11 @@ import { computed, ref, watch } from 'vue'
 
 import { Chart, getEngine } from '@antv/g2'
 
-import { getRandomColor, lighten } from '@/helpers/colorHelper'
+import { DEFAULT_SEPARATOR } from '@/constants'
+import { getPseudoRandomColor, lighten } from '@/utils/colorHelper'
 import { humanReadable } from '@/utils/humanReadable'
 import { toFixedFormat } from '@/utils/toFixedFormat'
+import { uncamelize } from '@/utils/uncamelize'
 
 import type { StepKey } from '@/components/funnels/view/funnelViews'
 
@@ -56,7 +58,9 @@ const dataView = computed(() => {
         const primaryKey = primaryKeys[iterator]
         const secondaryKey = secondaryKeys[iterator]
 
-        const color = props.colors[i] ? lighten(props.colors[i], iterator * 80) : getRandomColor()
+        const color = props.colors[i]
+          ? lighten(props.colors[i], iterator * 80)
+          : getPseudoRandomColor(i)
 
         let primaryValue = item[primaryKey]
         let secondaryValue = item[secondaryKey]
@@ -69,7 +73,7 @@ const dataView = computed(() => {
 
         return {
           index: i,
-          [xKey]: item.groups.join('/'),
+          [xKey]: item.groups.join(DEFAULT_SEPARATOR),
           primaryKey,
           secondaryKey,
           primaryValue,
@@ -95,7 +99,7 @@ const update = () => {
     height: props.height,
     width: props.width,
     autoFit: true,
-    padding: props.liteChart ? [50, 5, 0, 5] : [80, 50, 30, 50],
+    padding: [50, 30, 0, 30],
     renderer: 'canvas',
   })
 
@@ -115,8 +119,8 @@ const update = () => {
             ? [
                 {
                   ...item,
-                  name: secondaryKey,
-                  value: secondaryValue,
+                  name: uncamelize(secondaryKey),
+                  value: secondaryValue + '%',
                 },
               ]
             : []
@@ -124,13 +128,21 @@ const update = () => {
         return [
           {
             ...item,
-            name: primaryKey,
+            name: uncamelize(primaryKey),
             value: primaryValue,
           },
           ...secondaryBlock,
         ]
       },
       showMarkers: false,
+      domStyles: {
+        'g2-tooltip': {
+          textAlign: 'left',
+        },
+        'g2-tooltip-title': {
+          fontWeight: 'bold',
+        },
+      },
     })
     .data(dataView.value)
     .axis(xKey, false)
@@ -149,7 +161,7 @@ const update = () => {
           const commonProps = {
             textAlign: 'left',
             fontSize: size,
-            fontFamily: 'sans-serif',
+            fontFamily: 'RedHatText',
             textBaseline: 'top',
           }
 
@@ -242,3 +254,9 @@ watch(
   { immediate: true }
 )
 </script>
+
+<style lang="scss" scoped>
+.funnel-chart-stacked {
+  text-align: center;
+}
+</style>

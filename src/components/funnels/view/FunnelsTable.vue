@@ -1,21 +1,28 @@
 <template>
   <NDataTable
+    :checked-row-keys="checkedRowKeys"
     :columns="columns"
     :data="data"
     :scroll-x="scrollX"
     :single-line="false"
+    :render-cell="renderCell"
+    :row-key="rowKey"
+    @update:checked-row-keys="handleCheck"
   />
 </template>
 
 <script lang="ts" setup>
 import { computed } from 'vue'
 
+import { useVModel } from '@vueuse/core'
 import { NDataTable } from 'naive-ui'
 
+import { DEFAULT_SEPARATOR } from '@/constants'
 import { uncamelize } from '@/utils/uncamelize'
 
 import type { FunnelResponseStepsInner } from '@/api'
 import type { StepKey } from '@/components/funnels/view/funnelViews'
+import type { DataTableBaseColumn, DataTableRowKey } from 'naive-ui'
 import type {
   RowData,
   TableBaseColumn,
@@ -26,17 +33,27 @@ import type {
 interface IProps {
   reportSteps: FunnelResponseStepsInner[]
   groups: string[]
+  checkedRowKeys: DataTableRowKey[]
+  maxCheckedRows: number
 }
 
 const props = withDefaults(defineProps<IProps>(), {})
 
+const emit = defineEmits(['update:checkedRowKeys'])
+
 const KEY_SPLITTER = '_'
 const KEY_PREFIX = '__'
-const KEY_GROUPS = 'groups'
+const KEY_GROUPS: StepKey = 'groups'
+const KEY_TOTAL: StepKey = 'conversionRatio'
 const INDEX_FIRST_ARR_ELEMENT = 0
+const TOTAL_CONVERSION = 'TOTAL_CONVERSION'
+const UNIQ_KEY = 'id'
+
+const curCheckedRowKeys = useVModel(props, 'checkedRowKeys', emit)
 
 const data = computed<RowData[]>(() => {
   const length = props.reportSteps.at(0)?.data.length ?? 0
+  const lastIndex = props.reportSteps.length - 1
 
   const arr: RowData[] = Array.from({ length }, () => ({}))
 
@@ -48,18 +65,49 @@ const data = computed<RowData[]>(() => {
         const newKey = KEY_PREFIX + key + KEY_SPLITTER + stepIndex
         arr[index][newKey] = el[key]
       })
+
+      arr[index][UNIQ_KEY] = step.data[index].groups.join(DEFAULT_SEPARATOR)
     })
   })
+
+  arr.forEach(x => x[TOTAL_CONVERSION] = x[KEY_PREFIX + KEY_TOTAL + KEY_SPLITTER + lastIndex])
 
   return arr
 })
 
-const groupsColumns = computed<TableColumn[]>(() =>
-  props.groups.map((x, index) => ({
+const rowKey = (row: RowData) => row[UNIQ_KEY]
+
+function handleCheck(rowKeys: DataTableRowKey[]) {
+  curCheckedRowKeys.value = rowKeys.slice(0, props.maxCheckedRows)
+}
+
+const selectionColumn = computed<TableColumn>(() => ({
+  type: 'selection',
+  disabled(row: RowData) {
+    return (
+      props.checkedRowKeys.length === props.maxCheckedRows &&
+      !props.checkedRowKeys.includes(rowKey(row))
+    )
+  },
+}))
+
+const groupsColumns = computed<TableColumn[]>(() => {
+  const cols = props.groups.map((x, index) => ({
     title: x,
     key: KEY_PREFIX + KEY_GROUPS + KEY_SPLITTER + INDEX_FIRST_ARR_ELEMENT + `[${index}]`,
+    resizable: true,
+    ellipsis: true,
   }))
-)
+
+  cols.push({
+    title: 'Conversion Ratio',
+    key: TOTAL_CONVERSION,
+    resizable: true,
+    ellipsis: true,
+  })
+
+  return cols
+})
 
 const dimensionsColumns = computed(() => {
   const VISIBLE_KEY: StepKey[] = ['total', 'droppedOff', 'conversionRatio', 'dropOffRatio'] as const
@@ -79,6 +127,7 @@ const dimensionsColumns = computed(() => {
         title: uncamelize(key),
         key: newKey,
         resizable: true,
+        ellipsis: true,
       }
       parentEl.children.push(childrenEl)
     })
@@ -89,10 +138,19 @@ const dimensionsColumns = computed(() => {
   return arr
 })
 
-const columns = computed(() => [...groupsColumns.value, ...dimensionsColumns.value])
+const columns = computed(() => [
+  selectionColumn.value,
+  ...groupsColumns.value,
+  ...dimensionsColumns.value,
+])
+
+function renderCell(value: any, rowData: object, column: DataTableBaseColumn) {
+  if (typeof column.title !== 'string') throw new Error('Column title must be a string')
+  return column.title.includes('Ratio') ? `${value}%` : value
+}
 
 const scrollX = computed(() => {
-  const WIDTH_ONE_COLUMN = 500 // value calculated experimentally
+  const WIDTH_ONE_COLUMN = 250 // value calculated experimentally
   return columns.value.length * WIDTH_ONE_COLUMN
 })
 </script>

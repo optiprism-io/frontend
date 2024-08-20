@@ -1,5 +1,5 @@
 <template>
-  <div class="pf-l-flex">
+  <div class="time-window">
     <span class="pf-l-flex__item">within</span>
 
     <UiSelectSize
@@ -43,18 +43,17 @@ import { computed, inject, ref } from 'vue'
 
 import UiButton from '@/components/uikit/UiButton.vue'
 
-import { TimeUnit } from '@/api'
+import { FunnelQueryStepsInnerOrderOneOfTypeEnum, TimeUnit } from '@/api'
 import { UiSelectGeneric } from '@/components/uikit/UiSelect/UiSelectGeneric'
-import { stepOrders, useStepsStore } from '@/stores/funnels/steps'
+import { useStepsStore } from '@/stores/funnels/steps'
 
 import type { TimeUnitWithSession } from '@/api';
 import type { UiSelectItemInterface } from '@/components/uikit/UiSelect/types'
-import type { StepOrder} from '@/stores/funnels/steps';
 import type { I18N } from '@/utils/i18n'
 
 const UiSelectSize = UiSelectGeneric<number>()
 const UiSelectUnit = UiSelectGeneric<TimeUnitWithSession>()
-const UiSelectOrder = UiSelectGeneric<StepOrder>()
+const UiSelectOrder = UiSelectGeneric<FunnelQueryStepsInnerOrderOneOfTypeEnum>()
 
 const stepsStore = useStepsStore()
 const i18n = inject<I18N>('i18n')
@@ -98,8 +97,8 @@ const unitItems = computed<UiSelectItemInterface<TimeUnit>[]>(() => {
   }))
 })
 
-const orderItems = computed<UiSelectItemInterface<StepOrder>[]>(() => {
-  return stepOrders.map(item => ({
+const orderItems = computed<UiSelectItemInterface<FunnelQueryStepsInnerOrderOneOfTypeEnum>[]>(() => {
+  return Object.values(FunnelQueryStepsInnerOrderOneOfTypeEnum).map(item => ({
     __type: 'item',
     id: item,
     label: i18n?.$t(`criteria.orderType.${item}`) ?? item,
@@ -126,10 +125,10 @@ const unit = computed({
 })
 
 const order = computed({
-  get(): StepOrder {
+  get(): FunnelQueryStepsInnerOrderOneOfTypeEnum {
     return stepsStore.order
   },
-  set(value: StepOrder) {
+  set(value: FunnelQueryStepsInnerOrderOneOfTypeEnum) {
     stepsStore.setOrder(value)
   },
 })
@@ -149,3 +148,12 @@ const handleSizeSearch = (value: string) => {
   dynamicSize.value = parsedSize
 }
 </script>
+
+<style lang="scss" scoped>
+.time-window {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  text-wrap: nowrap;
+}
+</style>

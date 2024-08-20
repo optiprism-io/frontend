@@ -1,33 +1,24 @@
 import { defineStore } from 'pinia'
 
-import { FunnelQueryStepsInnerOrderOneOfTypeEnum } from '@/api'
+import {
+  FunnelQueryStepsInnerOrderOneOfTypeEnum,
+  EventFilterByPropertyTypeEnum
+} from '@/api'
 import { useEventName } from '@/helpers/useEventName'
 import { useLexiconStore } from '@/stores/lexicon'
 
 import type {
   EventFilterByProperty,
-  EventFilterByPropertyTypeEnum,
   FunnelEvent,
   FunnelQueryStepsInner,
   PropertyRef,
   TimeUnit,
+  FunnelQueryExcludeInner,
+  FunnelExcludeStepsSteps
 } from '@/api'
 import type { EventFilter } from '@/stores/eventSegmentation/events'
 import type { EventRef } from '@/types/events'
 import type { Step } from '@/types/steps'
-
-export const stepOrders = ['exact', 'any'] as const
-export type StepOrder = (typeof stepOrders)[number]
-
-export type ExcludedEventSteps =
-  | {
-      type: 'all'
-    }
-  | {
-      type: 'between'
-      from: number
-      to: number
-    }
 
 export type HoldingProperty = {
   id?: number
@@ -36,10 +27,10 @@ export type HoldingProperty = {
   group?: number
 }
 
-interface ExcludedEvent {
-  event: EventRef
-  steps: ExcludedEventSteps
-  filters: EventFilter[]
+export interface ExcludedEvent {
+    event: EventRef;
+    steps: FunnelExcludeStepsSteps;
+    filters: EventFilter[];
 }
 
 type AddExcludedEventPayload = Omit<ExcludedEvent, 'filters'>
@@ -92,14 +83,14 @@ type EditFilterForStepEventPayload = {
 }
 
 interface StepsStore {
-  steps: Step[]
-  size: number
-  unit: TimeUnit
-  order: StepOrder
-  excludedEvents: ExcludedEvent[]
-  holdingProperties: HoldingProperty[]
-  propsAvailableToHold: HoldingProperty[]
-  group: number
+    steps: Step[];
+    size: number;
+    unit: TimeUnit;
+    order: FunnelQueryStepsInnerOrderOneOfTypeEnum;
+    excludedEvents: ExcludedEvent[];
+    holdingProperties: HoldingProperty[];
+    propsAvailableToHold: HoldingProperty[];
+    group: number
 }
 
 export const useStepsStore = defineStore('steps', {
@@ -107,7 +98,7 @@ export const useStepsStore = defineStore('steps', {
     steps: [],
     size: 10,
     unit: 'hour',
-    order: 'any',
+    order: FunnelQueryStepsInnerOrderOneOfTypeEnum.Exact,
     excludedEvents: [],
     holdingProperties: [],
     propsAvailableToHold: [],
@@ -154,6 +145,29 @@ export const useStepsStore = defineStore('steps', {
         }
       })
     },
+
+    getExcluded(): FunnelQueryExcludeInner[] {
+      const eventName = useEventName()
+
+      const excluded: FunnelQueryExcludeInner[] = this.excludedEvents.map((item) => ({
+        eventName: eventName(item.event),
+        eventType: item.event.type,
+        filters: item.filters.map(filter => {
+          if (!filter.propRef) throw new Error('Property reference is required')
+          return {
+            propertyName: filter.propRef.name,
+            propertyType: filter.propRef.type,
+            type: EventFilterByPropertyTypeEnum.Property,
+            operation: filter.opId,
+            value: filter.values
+          }
+        }),
+        steps: item.steps
+      }) satisfies FunnelQueryExcludeInner )
+
+      return excluded
+    },
+
     getHoldingProperties(): PropertyRef[] {
       return this.holdingProperties.map(item => {
         const property: PropertyRef = {
@@ -182,7 +196,7 @@ export const useStepsStore = defineStore('steps', {
     setUnit(unit: TimeUnit): void {
       this.unit = unit
     },
-    setOrder(order: StepOrder): void {
+    setOrder(order: FunnelQueryStepsInnerOrderOneOfTypeEnum): void {
       this.order = order
     },
     addExcludedEvent({ event, steps }: AddExcludedEventPayload): void {

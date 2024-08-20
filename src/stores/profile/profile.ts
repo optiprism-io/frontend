@@ -19,7 +19,8 @@ import type {
 import type {
   ProfileEdit,
   ProfileErrors,
-  UpdateProfilePasswordRequestExt} from '@/stores/profile/types';
+  UpdateProfilePasswordRequestExt
+} from '@/stores/profile/types';
 
 interface ProfileState {
   profile: Profile

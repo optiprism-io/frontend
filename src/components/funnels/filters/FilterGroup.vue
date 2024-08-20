@@ -80,7 +80,7 @@ import UiActionListItem from '@/components/uikit/UiActionList/UiActionListItem.v
 import UiButton from '@/components/uikit/UiButton.vue'
 import UiIcon from '@/components/uikit/UiIcon.vue'
 
-import { DataType } from '@/api'
+import { DataType, EventGroupedFiltersGroupsConditionEnum } from '@/api'
 import { UiSelectGeneric } from '@/components/uikit/UiSelect/UiSelectGeneric'
 import { useFilter } from '@/hooks/useFilter'
 import { useStepsStore } from '@/stores/funnels/steps'
@@ -92,14 +92,12 @@ import { operationById } from '@/types'
 import { OperationId } from '@/types'
 
 import type { UiSelectItemInterface } from '@/components/uikit/UiSelect/types'
-import type {
-  FilterCondition,
-  FilterGroup} from '@/stores/reports/filters';
+import type { FilterGroup } from '@/stores/reports/filters';
 import type { Value } from '@/types';
 import type { PropertyRef } from '@/types/events'
 import type { I18N } from '@/utils/i18n'
 
-const UiSelectMatch = UiSelectGeneric<FilterCondition>()
+const UiSelectMatch = UiSelectGeneric<EventGroupedFiltersGroupsConditionEnum>()
 
 const filterGroupsStore = useFilterGroupsStore()
 const stepsStore = useStepsStore()
@@ -133,11 +131,11 @@ const filterGroup = computed<FilterGroup | null>(() => {
   return filterGroupsStore.filterGroups[props.index] ?? null
 })
 
-const conditionsItems = computed<UiSelectItemInterface<FilterCondition>[]>(() => {
+const conditionsItems = computed<UiSelectItemInterface<EventGroupedFiltersGroupsConditionEnum>[]>(() => {
   const conditions =
     (filterGroup.value?.filters.length ?? 0) > 1
       ? filterConditions
-      : filterConditions.filter(item => item === 'and')
+      : filterConditions.filter(item => item === EventGroupedFiltersGroupsConditionEnum.And)
 
   return conditions.map(item => ({
     __type: 'item',
@@ -151,7 +149,7 @@ const removeFilterGroup = (): void => {
   filterGroupsStore.removeFilterGroup(props.index)
 }
 
-const changeFilterGroupCondition = (condition: FilterCondition): void => {
+const changeFilterGroupCondition = (condition: EventGroupedFiltersGroupsConditionEnum): void => {
   filterGroupsStore.changeFilterGroupCondition({
     index: props.index,
     condition,

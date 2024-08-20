@@ -1,28 +1,27 @@
 <template>
-  <div class="pf-l-flex">
-    <CommonIdentifier
-      class="pf-l-flex__item"
-      type="numeric"
-      :index="index"
-    />
-    <div class="pf-l-flex pf-m-column">
-      <div
-        v-for="(event, i) in step.events"
-        :key="event.event.id"
-        class="pf-l-flex pf-m-column"
-      >
+  <div class="pf-l-flex pf-m-column">
+    <template
+      v-for="(event, i) in step.events"
+      :key="event.event.id"
+    >
+      <div class="pf-l-flex pf-u-align-items-center pf-m-nowrap">
+        <CommonIdentifier
+          class="pf-l-flex__item"
+          type="numeric"
+          :index="index"
+        />
         <UiActionList>
           <template #main>
-            <EventSelector @select="(value) => editStepEvent(i, value)">
+            <EventSelector @select="value => editStepEvent(i, value)">
               <UiButton class="pf-m-secondary">
                 {{ eventName(event.event) }}
               </UiButton>
             </EventSelector>
           </template>
 
-          <UiActionListItem>
+          <UiActionListItem v-if="false">
             <VTooltip class="ui-hint">
-              <EventSelector @select="(value) => addStepToEvent(index, value)">
+              <EventSelector @select="value => addStepToEvent(index, value)">
                 <UiIcon icon="fas fa-plus" />
               </EventSelector>
               <template #popper>
@@ -31,18 +30,15 @@
             </VTooltip>
           </UiActionListItem>
 
-          <UiActionListItem
-            v-if="isShowAddFilter"
-          >
-            <VTooltip class="ui-hint">
-              <UiIcon
-                icon="fas fa-filter"
-                @click="addFilterToStep(i)"
-              />
-              <template #popper>
-                {{ $t('funnels.steps.addFilter') }}
-              </template>
-            </VTooltip>
+          <UiActionListItem v-if="isShowAddFilter">
+            <PropertySelect @select="(propRef) => addProperty(propRef, i)">
+              <VTooltip class="ui-hint">
+                <UiIcon icon="fas fa-filter" />
+                <template #popper>
+                  {{ $t('funnels.steps.addFilter') }}
+                </template>
+              </VTooltip>
+            </PropertySelect>
           </UiActionListItem>
 
           <UiActionListItem>
@@ -57,20 +53,20 @@
             </VTooltip>
           </UiActionListItem>
         </UiActionList>
-        <Filter
-          v-for="(filter, idx) in event.filters"
-          :key="idx"
-          :filter="filter"
-          :event-ref="event.event"
-          :index="idx"
-          @remove-filter="removeFilterForStepEvent(i, idx)"
-          @change-filter-property="(...args) => changeFilterPropertyForStepEvent(i, ...args)"
-          @change-filter-operation="(...args) => changeFilterOperationForEvent(i, ...args)"
-          @add-filter-value="(...args) => addFilterValueForStepEvent(i, ...args)"
-          @remove-filter-value="(...args) => removeFilterValueForStepEvent(i, ...args)"
-        />
       </div>
-    </div>
+      <Filter
+        v-for="(filter, idx) in event.filters"
+        :key="idx"
+        :filter="filter"
+        :event-ref="event.event"
+        :index="idx"
+        @remove-filter="removeFilterForStepEvent(i, idx)"
+        @change-filter-property="(...args) => changeFilterPropertyForStepEvent(i, ...args)"
+        @change-filter-operation="(...args) => changeFilterOperationForEvent(i, ...args)"
+        @add-filter-value="(...args) => addFilterValueForStepEvent(i, ...args)"
+        @remove-filter-value="(...args) => removeFilterValueForStepEvent(i, ...args)"
+      />
+    </template>
   </div>
 </template>
 
@@ -83,16 +79,17 @@ import { Tooltip as VTooltip } from 'floating-vue'
 import CommonIdentifier from '@/components/common/identifier/CommonIdentifier.vue';
 import EventSelector from '@/components/events/Events/EventSelector.vue';
 import Filter from '@/components/events/Filter.vue';
+import PropertySelect from '@/components/events/PropertySelect.vue';
 import UiActionList from '@/components/uikit/UiActionList/UiActionList.vue';
 import UiActionListItem from '@/components/uikit/UiActionList/UiActionListItem.vue';
 import UiButton from '@/components/uikit/UiButton.vue'
 import UiIcon from '@/components/uikit/UiIcon.vue'
 
-import {useEventName} from '@/helpers/useEventName';
-import {useFilter} from '@/hooks/useFilter';
+import { useEventName } from '@/helpers/useEventName';
+import { useFilter } from '@/hooks/useFilter';
 import { useStepsStore } from '@/stores/funnels/steps';
 import { useLexiconStore } from '@/stores/lexicon';
-import {OperationId} from '@/types';
+import { OperationId } from '@/types';
 
 import type { Value} from '@/types';
 import type {EventRef, PropertyRef} from '@/types/events';
@@ -137,16 +134,17 @@ const deleteEventFromStep = (eventIndex: number): void => {
     });
 }
 
-const addFilterToStep = (eventIndex: number): void => {
-    stepsStore.addFilterToStep({
-        index: props.index,
-        eventIndex,
-        filter: {
-            opId: OperationId.Eq,
-            values: [],
-            valuesList: []
-        }
-    });
+const addProperty = async (payload: PropertyRef, eventIndex: number) => {
+  stepsStore.addFilterToStep({
+    index: props.index,
+    eventIndex,
+    filter: {
+      propRef: payload,
+      opId: OperationId.Eq,
+      values: [],
+      valuesList: await getValues(payload),
+    },
+  })
 }
 
 const removeFilterForStepEvent = (eventIndex: number, filterIndex: number): void => {

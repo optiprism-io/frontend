@@ -1,10 +1,13 @@
 <template>
-  <div class="pf-c-card pf-u-mb-md">
+  <div class="pf-c-card pf-u-p-md">
     <div class="pf-c-toolbar">
       <div class="pf-c-toolbar__content">
         <div class="pf-c-toolbar__content-section pf-m-nowrap">
           <div class="pf-c-toolbar__item">
-            <UiToggleGroup :items="itemsPeriod" @select="selectPeriod">
+            <UiToggleGroup
+              :items="itemsPeriod"
+              @select="selectPeriod"
+            >
               <template #after>
                 <UiDatePicker
                   :value="calendarValue"
@@ -45,51 +48,81 @@
 
     <DataLoader v-if="loading" />
     <template v-else-if="reportSteps.length">
-      <FunnelsChart :report-steps="reportSteps" />
-      <FunnelsTable :report-steps="reportSteps" :groups="groups" />
+      <ChartStacked
+        v-if="checkedRowKeys.length"
+        :data="normalizedReportSteps"
+        height="25rem"
+      />
+      <DataEmptyPlaceholder v-else>
+        {{ $t('funnels.view.selectRowInTable') }}
+      </DataEmptyPlaceholder>
     </template>
     <DataEmptyPlaceholder v-else>
       {{ $t('funnels.view.selectToStart') }}
     </DataEmptyPlaceholder>
   </div>
+
+  <div
+    v-if="reportSteps.length"
+    class="pf-c-card pf-u-mt-md"
+  >
+    <FunnelsTable
+      v-model:checked-row-keys="checkedRowKeys"
+      :report-steps="reportSteps"
+      :groups="groups"
+      :max-checked-rows="MAX_CHECKED_ROWS"
+    />
+  </div>
 </template>
 
 <script lang="ts" setup>
-import { computed, ref, watch } from 'vue'
+import { computed, nextTick, ref, watch } from 'vue'
 
-import { storeToRefs } from 'pinia'
-
+import ChartStacked from '@/components/charts/ChartStacked.vue'
 import DataEmptyPlaceholder from '@/components/common/data/DataEmptyPlaceholder.vue'
 import DataLoader from '@/components/common/data/DataLoader.vue'
-import FunnelsChart from '@/components/funnels/view/FunnelsChart.vue'
 import FunnelsTable from '@/components/funnels/view/FunnelsTable.vue'
 import UiDatePicker from '@/components/uikit/UiDatePicker.vue'
-import type { UiDropdownItem } from '@/components/uikit/UiDropdown.vue';
+import type { UiDropdownItem } from '@/components/uikit/UiDropdown.vue'
 import UiDropdown from '@/components/uikit/UiDropdown.vue'
 import UiIcon from '@/components/uikit/UiIcon.vue'
-import type { UiToggleGroupItem } from '@/components/uikit/UiToggleGroup.vue';
+import type { UiToggleGroupItem } from '@/components/uikit/UiToggleGroup.vue'
 import UiToggleGroup from '@/components/uikit/UiToggleGroup.vue'
 
-import {
-  FunnelQueryCountEnum,
-  FunnelStepsChartTypeTypeEnum
-} from '@/api'
+import { FunnelQueryCountEnum, FunnelStepsChartTypeTypeEnum } from '@/api'
 import { apiClient } from '@/api/apiClient'
 import { periodMap } from '@/configs/events/controls'
+import { DEFAULT_SEPARATOR } from '@/constants'
 import { getLastNDaysRange } from '@/helpers/calendarHelper'
 import { getStringDateByFormat, getYYYYMMDD } from '@/helpers/getStringDates'
 import { useMutation } from '@/hooks/useMutation'
 import { TimeTypeEnum, usePeriod } from '@/hooks/usePeriod'
 import { useStepsStore } from '@/stores/funnels/steps'
 import { useProjectsStore } from '@/stores/projects/projects'
+import { useBreakdownsStore } from '@/stores/reports/breakdowns'
+import { useFilterGroupsStore } from '@/stores/reports/filters'
 
 import { FUNNEL_VIEWS } from './funnelViews'
 
 import type {
   EventRecordsListRequestTime,
   FunnelResponseStepsInner,
-  TimeUnitWithSession} from '@/api';
+  FunnelQueryStepsInner,
+} from '@/api'
+import type { ChartStackedItem } from '@/components/charts/types'
 import type { ApplyPayload } from '@/components/uikit/UiCalendar/UiCalendar'
+import type { ExcludedEvent } from '@/stores/funnels/steps'
+import type { FilterGroup } from '@/stores/reports/filters'
+import type { DataTableRowKey } from 'naive-ui'
+
+const MIN_COUNT_FOR_REQUEST = 2
+const MAX_CHECKED_ROWS = 12
+const DEFAULT_CHECKED_ROWS = 5
+
+const stepsStore = useStepsStore()
+const projectsStore = useProjectsStore()
+const filterGroupsStore = useFilterGroupsStore()
+const breakdownsStore = useBreakdownsStore()
 
 interface Period {
   from: string
@@ -105,11 +138,43 @@ const selectItem = (value: UiDropdownItem<string>) => {
   item.value = value.key
 }
 
-const stepsStore = useStepsStore()
-const { size, unit } = storeToRefs(stepsStore)
-
 const reportSteps = ref<FunnelResponseStepsInner[]>([])
 const groups = ref<string[]>([])
+const checkedRowKeys = ref<DataTableRowKey[]>([])
+
+const filteredReportSteps = computed<FunnelResponseStepsInner[]>(() => {
+  return reportSteps.value.map(step => {
+    return {
+      ...step,
+      data: step.data.filter(item =>
+        checkedRowKeys.value.includes(item.groups.join(DEFAULT_SEPARATOR))
+      ),
+    }
+  })
+})
+
+const normalizedReportSteps = computed<ChartStackedItem[]>(() =>
+  filteredReportSteps.value.map(step => {
+    return {
+      groupName: step.step,
+      elements: step.data.map(item => ({
+        columnName: item.groups.join(DEFAULT_SEPARATOR),
+        primary: {
+          value: item.total,
+          percentage: item.conversionRatio,
+          label: 'Total',
+          percentageLabel: 'Conversion Ratio',
+        },
+        secondary: {
+          value: item.droppedOff,
+          percentage: item.dropOffRatio,
+          label: 'Dropped Off',
+          percentageLabel: 'Dropped Off Ratio',
+        },
+      })),
+    }
+  })
+)
 
 const controlsPeriod = ref<string | number>('30')
 const period = ref<Period>({
@@ -207,18 +272,27 @@ const applyPeriod = (payload: ApplyPayload): void => {
   })
 }
 
-/* TODO: refactor this */
 async function fetchReports(): Promise<void> {
-  const projectsStore = useProjectsStore()
+  /* need nextTick for update stepsStore.getSteps */
+  await nextTick()
+  const steps = stepsStore.getSteps
+  if (
+    steps.length < MIN_COUNT_FOR_REQUEST ||
+    hasEmptyFilterValuesInSteps(steps) ||
+    hasEmptyFilterValuesInFilters(filterGroupsStore.filterGroups) ||
+    hasEmptyFilterValuesInExcludes(stepsStore.excludedEvents)
+  )
+    return
 
   const res = await apiClient.query.funnelQuery(projectsStore.projectId, {
+    steps,
     time: timeRequest.value,
     group: stepsStore.group,
-    steps: stepsStore.getSteps,
+    breakdowns: breakdownsStore.breakdownsItems,
+    filters: filterGroupsStore.filters,
     timeWindow: {
-      n: size.value,
-      /* TODO: fix type and remove "as TimeUnitWithSession" */
-      unit: unit.value as TimeUnitWithSession,
+      n: stepsStore.size,
+      unit: stepsStore.unit,
     },
     chartType: {
       type: FunnelStepsChartTypeTypeEnum.Steps,
@@ -227,14 +301,49 @@ async function fetchReports(): Promise<void> {
     touch: {
       type: 'first',
     },
+    exclude: stepsStore.getExcluded,
+    holdingConstants: stepsStore.getHoldingProperties,
   })
 
   if (res?.data) {
     reportSteps.value = res.data.steps
     groups.value = res.data.groups
+
+    /* select first N rows */
+    checkedRowKeys.value =
+      res.data.steps[0]?.data
+        .map(item => item.groups.join(DEFAULT_SEPARATOR))
+        .slice(0, DEFAULT_CHECKED_ROWS) ?? []
   }
 }
 
-watch(() => stepsStore.group, getReports)
-watch(() => stepsStore.steps.length, getReports)
+function resetFunnelViews(): void {
+  reportSteps.value = []
+  groups.value = []
+}
+
+function hasEmptyFilterValuesInSteps(steps: FunnelQueryStepsInner[]): boolean {
+  return steps.some(step =>
+    step.events.some(event => event.filters.some(filter => !filter.value?.length))
+  )
+}
+
+function hasEmptyFilterValuesInFilters(filters: FilterGroup[]): boolean {
+  return filters.some(filter => filter.filters.some(filter => !filter.values.length))
+}
+
+function hasEmptyFilterValuesInExcludes(excludes: ExcludedEvent[]): boolean {
+  return excludes.some(exclude => exclude.filters.some(filter => !filter.values.length))
+}
+
+watch(() => [stepsStore, filterGroupsStore, breakdownsStore, timeRequest], getReports, {
+  deep: true,
+})
+
+watch(
+  () => stepsStore.getSteps.length,
+  (value, oldValue) => {
+    if (value < MIN_COUNT_FOR_REQUEST && oldValue > value) resetFunnelViews()
+  }
+)
 </script>

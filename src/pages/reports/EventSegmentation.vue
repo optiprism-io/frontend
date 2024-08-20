@@ -24,13 +24,13 @@
           </UiSelect>
         </UiCard>
         <UiCard class="filter-event-segmentation__item" :title="$t('events.events')">
-          <Events @on-change="onChange" />
+          <Events @on-change="getEventSegmentation" />
         </UiCard>
         <UiCardContainer class="filter-event-segmentation__item">
-          <FilterReports @on-change="onChange" />
+          <FilterReports @on-change="getEventSegmentation" />
         </UiCardContainer>
         <UiCard class="filter-event-segmentation__item" :title="$t('events.breakdowns')">
-          <Breakdowns @on-change="onChange" />
+          <Breakdowns @on-change="getEventSegmentation" />
         </UiCard>
       </GridContainer>
     </GridItem>
@@ -42,7 +42,7 @@
         :event-segmentation="eventSegmentation"
         :loading="eventSegmentationLoading"
         :report="activeReport"
-        @on-change="onChange"
+        @on-change="getEventSegmentation"
       />
     </GridItem>
   </GridContainer>
@@ -92,10 +92,6 @@ const selectedGroupByString = computed(() => `${t('common.group', { name: select
 const eventSegmentationLoading = ref(false)
 const eventSegmentation = ref<DataTableResponse | null>()
 
-const emit = defineEmits<{
-  (e: 'on-change'): void
-}>()
-
 const activeReport = computed(() => reportsStore.activeReport)
 
 onUnmounted(() => {
@@ -128,11 +124,6 @@ const getEventSegmentation = async () => {
     eventSegmentation.value = null
   }
   eventSegmentationLoading.value = false
-}
-
-const onChange = () => {
-  getEventSegmentation()
-  emit('on-change')
 }
 
 const onSelectGroup = (value: number) => {

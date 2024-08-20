@@ -335,7 +335,8 @@
       "avgTimeFromFirstStep": "Avg time from first step",
       "conversionRatioFromFirstStep": "Conv. ratio from first step",
       "totalConversionRatio": "Total conv.",
-      "selectToStart": "Set the funnel condition to start"
+      "selectToStart": "Set the funnel condition to start",
+      "selectRowInTable": "Select a row in the table to view the funnel"
     }
   },
   "criteria": {
