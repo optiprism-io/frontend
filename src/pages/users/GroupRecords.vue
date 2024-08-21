@@ -116,6 +116,7 @@ const clickCell = (cell: Cell, rowIndex: number) => {
 
   recordPopupId.value = String(cellValue)
   recordPopupName.value = cellValue
+  recordPopup.value = true
 }
 
 const onSelectPeriod = (payload: string) => {
