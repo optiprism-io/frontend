@@ -62,24 +62,24 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed } from 'vue'
 
-import UiDatePicker from '@/components/uikit/UiDatePicker.vue';
+import UiDatePicker from '@/components/uikit/UiDatePicker.vue'
 import UiIcon from '@/components/uikit/UiIcon.vue'
-import UiSelect from '@/components/uikit/UiSelect.vue';
-import type { UiToggleGroupItem } from '@/components/uikit/UiToggleGroup.vue';
-import UiToggleGroup from '@/components/uikit/UiToggleGroup.vue';
+import UiSelect from '@/components/uikit/UiSelect.vue'
+import UiToggleGroup from '@/components/uikit/UiToggleGroup/UiToggleGroup.vue'
 
-import { groupByMap, periodMap } from '@/configs/events/controls';
-import { getStringDateByFormat } from '@/helpers/getStringDates';
-import usei18n from '@/hooks/useI18n';
-import { useEventsStore } from '@/stores/eventSegmentation/events';
+import { groupByMap, periodMap } from '@/configs/events/controls'
+import { getStringDateByFormat } from '@/helpers/getStringDates'
+import usei18n from '@/hooks/useI18n'
+import { useEventsStore } from '@/stores/eventSegmentation/events'
 
-import type { TimeUnit } from '@/api';
-import type { ApplyPayload } from '@/components/uikit/UiCalendar/UiCalendar';
+import type { TimeUnit } from '@/api'
+import type { ApplyPayload } from '@/components/uikit/UiCalendar/UiCalendar'
+import type { UiToggleGroupItem } from '@/components/uikit/UiToggleGroup/types'
 
-const eventsStore = useEventsStore();
-const { t } = usei18n();
+const eventsStore = useEventsStore()
+const { t } = usei18n()
 
 const emit = defineEmits<{
     (e: 'on-change'): void
@@ -103,17 +103,19 @@ const itemsPeriod = computed(() => {
     const activeKey: string = eventsStore.controlsGroupBy;
     const config = periodMap.find(item => item.type === activeKey);
 
-    if (config) {
-        return config.items.map((key, i): UiToggleGroupItem => ({
-            key,
-            nameDisplay: key + config.text,
-            value: key,
-            selected: eventsStore.controlsGroupBy ? key === eventsStore.controlsPeriod : i === 0,
-        }));
-    } else {
-        return [];
-    }
-});
+  if (config) {
+    return config.items.map(
+      (key, i): UiToggleGroupItem<string> => ({
+        key,
+        nameDisplay: key + config.text,
+        value: key,
+        selected: eventsStore.controlsGroupBy ? key === eventsStore.controlsPeriod : i === 0,
+      })
+    )
+  } else {
+    return []
+  }
+})
 
 const period = computed(() => {
     return eventsStore.period;

@@ -123,8 +123,7 @@ import UiDatePicker from '@/components/uikit/UiDatePicker.vue'
 import UiIcon from '@/components/uikit/UiIcon.vue'
 import UiLabelGroup from '@/components/uikit/UiLabelGroup.vue'
 import UiSelect from '@/components/uikit/UiSelect.vue'
-import type { UiToggleGroupItem } from '@/components/uikit/UiToggleGroup.vue'
-import UiToggleGroup from '@/components/uikit/UiToggleGroup.vue'
+import UiToggleGroup from '@/components/uikit/UiToggleGroup/UiToggleGroup.vue'
 
 import { DataType } from '@/api'
 import { groupByMap, periodMap } from '@/configs/events/controls'
@@ -136,10 +135,16 @@ import { useEventsStore } from '@/stores/eventSegmentation/events'
 
 import type { DataTableResponse, DataTableResponseColumnsInner, Report, TimeUnit } from '@/api'
 import type { ApplyPayload } from '@/components/uikit/UiCalendar/UiCalendar'
+import type { UiToggleGroupItem } from '@/components/uikit/UiToggleGroup/types'
 import type { ChartType } from '@/stores/eventSegmentation/events'
 import type { TableColumn, TableColumns } from 'naive-ui/es/data-table/src/interface'
 
-const chartTypeMap = [
+interface ChartDropdownMap {
+  value: ChartType
+  icon: string
+}
+
+const chartTypeMap: ChartDropdownMap[] = [
   {
     value: 'line',
     icon: 'fas fa-chart-line',
@@ -392,7 +397,7 @@ const itemsPeriod = computed(() => {
 
   if (config) {
     return config.items.map(
-      (key, i): UiToggleGroupItem => ({
+      (key, i): UiToggleGroupItem<string> => ({
         key,
         nameDisplay: key + config.text,
         value: key,
@@ -437,7 +442,7 @@ const onApplyPeriod = (payload: ApplyPayload): void => {
   updateEventSegmentationData()
 }
 
-const onSelectChartType = (payload: string): void => {
+const onSelectChartType = (payload: ChartType): void => {
   eventsStore.chartType = payload
 }
 

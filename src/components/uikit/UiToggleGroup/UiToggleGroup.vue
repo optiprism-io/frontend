@@ -54,41 +54,31 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script lang="ts" setup generic="T extends UiToggleGroupItem<string>">
 import UiIcon from '@/components/uikit/UiIcon.vue'
 
-export interface UiToggleGroupItem {
-    key: string | number;
-    nameDisplay: string;
-    value: string;
-    selected?: boolean;
-    disabled?: boolean;
-    iconBefore?: string;
-    iconAfter?: string;
-}
+import type { UiToggleGroupItem } from '@/components/uikit/UiToggleGroup/types'
 
-export interface Props {
-    items: UiToggleGroupItem[];
-    isCompact?: boolean,
+interface Props {
+  items: T[]
+  isCompact?: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {
-    isCompact: false,
-});
+  isCompact: false,
+})
 
 const emit = defineEmits<{
-    (e: 'select', item: string): void;
-}>();
+  (e: 'select', item: T['value']): void
+}>()
 
-const select = (item: UiToggleGroupItem) => {
-    emit('select', item.value);
+const select = (item: T) => {
+  emit('select', item.value)
 }
 </script>
 
 <style lang="scss" scoped>
-.multi-select-list-item {
-    &__input {
-        pointer-events: none;
-    }
+.multi-select-list-item__input {
+  pointer-events: none;
 }
 </style>

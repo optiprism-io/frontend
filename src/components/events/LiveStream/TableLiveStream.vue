@@ -80,8 +80,7 @@ import UiButton from '@/components/uikit/UiButton.vue'
 import UiDatePicker from '@/components/uikit/UiDatePicker.vue'
 import UiIcon from '@/components/uikit/UiIcon.vue'
 import UiTable from '@/components/uikit/UiTable/UiTable.vue'
-import type { UiToggleGroupItem } from '@/components/uikit/UiToggleGroup.vue'
-import UiToggleGroup from '@/components/uikit/UiToggleGroup.vue'
+import UiToggleGroup from '@/components/uikit/UiToggleGroup/UiToggleGroup.vue'
 
 import { shortPeriodDays } from '@/components/uikit/UiCalendar/UiCalendar.config'
 import { getStringDateByFormat } from '@/helpers/getStringDates'
@@ -91,10 +90,11 @@ import useProperty from '@/hooks/useProperty'
 import { useCommonStore } from '@/stores/common'
 import { useEventsStore } from '@/stores/eventSegmentation/events'
 import { useLexiconStore } from '@/stores/lexicon'
-import { useLiveStreamStore, defaultColumns } from '@/stores/reports/liveStream'
+import { defaultColumns, useLiveStreamStore } from '@/stores/reports/liveStream'
 
 import type { ApplyPayload } from '@/components/uikit/UiCalendar/UiCalendar'
-import type { Cell, Action } from '@/components/uikit/UiTable/UiTable'
+import type { Action, Cell } from '@/components/uikit/UiTable/UiTable'
+import type { UiToggleGroupItem } from '@/components/uikit/UiToggleGroup/types'
 import type { PropertyRef } from '@/types/events'
 
 const { t } = usei18n()
@@ -117,7 +117,7 @@ const strings = {
 
 const itemsPeriod = computed(() => {
   return shortPeriodDays.map(
-    (key): UiToggleGroupItem => ({
+    (key): UiToggleGroupItem<string> => ({
       key,
       nameDisplay: key + t('common.calendar.dayShort'),
       value: key,

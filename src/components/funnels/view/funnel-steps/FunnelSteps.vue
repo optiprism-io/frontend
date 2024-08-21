@@ -74,8 +74,7 @@ import FunnelsTable from '@/components/funnels/view/funnel-steps/FunnelStepsTabl
 import FunnelContentGrid from '@/components/funnels/view/FunnelContentGrid.vue'
 import UiDatePicker from '@/components/uikit/UiDatePicker.vue'
 import UiIcon from '@/components/uikit/UiIcon.vue'
-import type { UiToggleGroupItem } from '@/components/uikit/UiToggleGroup.vue'
-import UiToggleGroup from '@/components/uikit/UiToggleGroup.vue'
+import UiToggleGroup from '@/components/uikit/UiToggleGroup/UiToggleGroup.vue'
 
 import { FunnelQueryCountEnum, FunnelStepsChartTypeTypeEnum } from '@/api'
 import { apiClient } from '@/api/apiClient'
@@ -97,6 +96,7 @@ import type {
 } from '@/api'
 import type { ChartStackedItem } from '@/components/charts/types'
 import type { ApplyPayload } from '@/components/uikit/UiCalendar/UiCalendar'
+import type { UiToggleGroupItem } from '@/components/uikit/UiToggleGroup/types'
 import type { FunnelChartType } from '@/pages/reports/funnelViews'
 import type { ExcludedEvent } from '@/stores/funnels/steps'
 import type { FilterGroup } from '@/stores/reports/filters'
@@ -210,7 +210,7 @@ const itemsPeriod = computed(() => {
 
   return (
     config?.items.map(
-      (key): UiToggleGroupItem => ({
+      (key): UiToggleGroupItem<string> => ({
         key,
         nameDisplay: key + config.text,
         value: key,
