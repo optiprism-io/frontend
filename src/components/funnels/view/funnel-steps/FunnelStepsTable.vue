@@ -1,5 +1,5 @@
 <template>
-  <NDataTable
+  <UiDataTable
     :checked-row-keys="checkedRowKeys"
     :columns="columns"
     :data="data"
@@ -15,7 +15,8 @@
 import { computed } from 'vue'
 
 import { useVModel } from '@vueuse/core'
-import { NDataTable } from 'naive-ui'
+
+import UiDataTable from '@/components/uikit/UiDataTable.vue'
 
 import { DEFAULT_SEPARATOR } from '@/constants'
 import { uncamelize } from '@/utils/uncamelize'
