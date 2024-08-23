@@ -30,6 +30,22 @@
               </template>
             </UiToggleGroup>
           </template>
+          <template #after>
+            <Select
+              grouped
+              :items="itemsProperties"
+              :width-auto="true"
+              :multiple="true"
+              @select="selectColumn"
+            >
+              <UiButton
+                class="pf-m-control"
+                :after-icon="'fas fa-caret-down'"
+              >
+                {{ columnsButtonText }}
+              </UiButton>
+            </Select>
+          </template>
         </UiTable>
       </UiCardContainer>
     </template>
@@ -47,6 +63,8 @@
 import { computed, onMounted, onUnmounted, ref } from 'vue'
 
 import GroupRecordPopup from '@/components/groups/GroupRecordPopup.vue'
+import Select from '@/components/Select/Select.vue'
+import UiButton from '@/components/uikit/UiButton.vue'
 import UiCardContainer from '@/components/uikit/UiCard/UiCardContainer.vue'
 import type { DataPickerPeriod } from '@/components/uikit/UiDatePickerWrapper.vue'
 import UiDatePickerWrapper from '@/components/uikit/UiDatePickerWrapper.vue'
@@ -58,18 +76,21 @@ import ToolsLayout from '@/layout/ToolsLayout.vue'
 import { shortPeriodDays } from '@/components/uikit/UiCalendar/UiCalendar.config'
 import useDataTable from '@/hooks/useDataTable'
 import useI18n from '@/hooks/useI18n'
-import { useGroupStore } from '@/stores/group/group'
+import useProperty from '@/hooks/useProperty'
+import { useGroupStore, defaultColumns } from '@/stores/group/group'
 import { useLexiconStore } from '@/stores/lexicon'
 import { useReportsStore } from '@/stores/reports/reports'
 import { useSegmentsStore } from '@/stores/reports/segments'
 
 import type { Cell } from '@/components/uikit/UiTable/UiTable'
+import type { PropertyRef } from '@/types/events'
 
 const { t } = useI18n()
 const groupStore = useGroupStore()
 const segmentsStore = useSegmentsStore()
 const lexiconStore = useLexiconStore()
 const reportsStore = useReportsStore()
+const { groupedProperties } = useProperty()
 
 const strings = computed(() => {
   return {
@@ -105,6 +126,49 @@ const itemsPeriod = computed(() => {
 const tableData = computed(() => {
   return useDataTable({ columns: groupStore.columns }, true, {})
 })
+
+const columnsButtonText = computed(
+  () => `${groupStore.activeColumns.length} ${t('common.columns')}`
+)
+
+const itemsProperties = computed(() => {
+  return groupedProperties.value.map(group => {
+    return {
+      name: group.name,
+      items: group.items.map(groupItem => {
+        const activeProperty = groupStore.activeColumns.find(
+          columnProperty =>
+            columnProperty.group === groupItem.item.id &&
+            columnProperty.id === groupItem.item.id &&
+            columnProperty.name === groupItem.item.name
+        )
+
+        return {
+          ...groupItem,
+          selected: Boolean(activeProperty),
+        }
+      }),
+    }
+  })
+})
+
+const selectColumn = (payload: PropertyRef) => {
+  if (defaultColumns.includes(payload.name)) {
+    return
+  }
+  const propertyIndex = groupStore.activeColumns.findIndex(
+    prop => prop.group === payload.group && prop.id === payload.id && prop.name === payload.name
+  )
+  const items = [...groupStore.activeColumns]
+
+  if (propertyIndex === -1) {
+    items.push(payload)
+  } else {
+    items.splice(propertyIndex, 1)
+  }
+  groupStore.toggleColumns(items)
+  updateData()
+}
 
 const updateData = () => {
   groupStore.getList()

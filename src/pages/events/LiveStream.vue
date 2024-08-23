@@ -27,13 +27,13 @@ import UiCardContainer from '@/components/uikit/UiCard/UiCardContainer.vue'
 import ToolsLayout from '@/layout/ToolsLayout.vue'
 
 import { PropertyType } from '@/api'
-import usei18n from '@/hooks/useI18n'
+import useI18n from '@/hooks/useI18n'
 import { useLexiconStore } from '@/stores/lexicon'
 import { useLiveStreamStore } from '@/stores/reports/liveStream'
 
 import type { PropertyRef } from '@/types/events'
 
-const { t } = usei18n()
+const { t } = useI18n()
 const liveStreamStore = useLiveStreamStore()
 const lexiconStore = useLexiconStore()
 

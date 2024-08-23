@@ -13,9 +13,13 @@ import type {
   EventRecordsListRequestTime,
   GroupRecord,
   GroupRecordsListRequest,
+  PropertyRef as PropertyRefApi,
   Value,
 } from '@/api'
 import type { Period } from '@/hooks/usePeriod'
+import type { PropertyRef } from '@/types/events'
+
+export const defaultColumns = ['user_id', 'created_at', 'event']
 
 export const useGroupStore = defineStore('group', () => {
   const { getRequestTime } = usePeriod()
@@ -23,6 +27,7 @@ export const useGroupStore = defineStore('group', () => {
   const filterGroupsStore = useFilterGroupsStore()
 
   const items = ref<Array<GroupRecord>>([])
+  const activeColumns = ref<PropertyRef[]>([])
   const columns = ref<DataTableResponseColumnsInner[]>([])
   const loading = ref(false)
   const loadingOne = ref(false)
@@ -51,10 +56,24 @@ export const useGroupStore = defineStore('group', () => {
       loading.value = true
     }
 
+    const properties = activeColumns.value.map(item => {
+      const property: PropertyRefApi = {
+        propertyName: item?.name || '',
+        propertyType: item?.type || '',
+      }
+
+      if (item.group || item.group === 0) {
+        property.group = item.group
+      }
+
+      return property
+    })
+
     try {
       const props: GroupRecordsListRequest = {
         time: timeRequest.value,
         group: group.value,
+        properties: properties,
       }
 
       if (filterGroupsStore.isSelectedAnyFilter) {
@@ -92,6 +111,10 @@ export const useGroupStore = defineStore('group', () => {
     }
   }
 
+  const toggleColumns = (payload: PropertyRef[]) => {
+    activeColumns.value = payload
+  }
+
   const update = async (id: number, properties: { [key: string]: Value }, noLoading: boolean) => {
     if (!noLoading) {
       loading.value = true
@@ -121,6 +144,8 @@ export const useGroupStore = defineStore('group', () => {
     period,
     isNoData,
     timeRequest,
+    activeColumns,
+    toggleColumns,
 
     getList,
     update,
