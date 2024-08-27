@@ -96,15 +96,11 @@ const groupsColumns = computed<TableColumn[]>(() => {
   const cols = props.groups.map((x, index) => ({
     title: x,
     key: KEY_PREFIX + KEY_GROUPS + KEY_SPLITTER + INDEX_FIRST_ARR_ELEMENT + `[${index}]`,
-    resizable: true,
-    ellipsis: true,
   }))
 
   cols.push({
     title: 'Conversion Ratio',
     key: TOTAL_CONVERSION,
-    resizable: true,
-    ellipsis: true,
   })
 
   return cols
@@ -127,8 +123,6 @@ const dimensionsColumns = computed(() => {
       const childrenEl: TableBaseColumn = {
         title: uncamelize(key),
         key: newKey,
-        resizable: true,
-        ellipsis: true,
       }
       parentEl.children.push(childrenEl)
     })

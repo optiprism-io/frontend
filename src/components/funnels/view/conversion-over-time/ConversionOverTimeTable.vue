@@ -69,7 +69,6 @@ const columns = computed(() => {
       columns.push({
         key: ts,
         title: getYYYYMMDD(new Date(ts)),
-        resizable: true,
         render: (rowData: RowData) => {
           const value = rowData[ts] || 0
           return value + '%'
@@ -80,7 +79,6 @@ const columns = computed(() => {
   columns.unshift({
     key: 'name',
     title: 'Groups',
-    resizable: true,
   })
 
   return columns
