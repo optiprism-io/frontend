@@ -4,7 +4,16 @@
     @change-view="emit('change-view', $event)"
   >
     <template #chart>
-      <pre> {{ reportConversion }} </pre>
+      <DataLoader v-if="loading" />
+      <ChartLine
+        v-else-if="reportConversion"
+        :options="chartOptions"
+        :loading="loading"
+      />
+      <DataEmptyPlaceholder
+        v-else
+        :content="$t('funnels.view.selectToStart')"
+      />
     </template>
 
     <template #table>
@@ -19,6 +28,9 @@
 <script setup lang="ts">
 import { computed, nextTick, ref, watch } from 'vue'
 
+import ChartLine from '@/components/charts/ChartLine.vue'
+import DataEmptyPlaceholder from '@/components/common/data/DataEmptyPlaceholder.vue'
+import DataLoader from '@/components/common/data/DataLoader.vue'
 import ConversionOverTimeTable from '@/components/funnels/view/conversion-over-time/ConversionOverTimeTable.vue'
 import FunnelContentGrid from '@/components/funnels/view/FunnelContentGrid.vue'
 
@@ -30,6 +42,7 @@ import {
   hasEmptyFilterValuesInSteps,
   MIN_COUNT_FOR_REQUEST,
 } from '@/components/funnels/view/shared'
+import { DEFAULT_SEPARATOR } from '@/constants'
 import { useMutation } from '@/hooks/useMutation'
 import { TimeTypeEnum, usePeriod } from '@/hooks/usePeriod'
 import { useStepsStore } from '@/stores/funnels/steps'
@@ -64,7 +77,7 @@ const projectsStore = useProjectsStore()
 const filterGroupsStore = useFilterGroupsStore()
 const breakdownsStore = useBreakdownsStore()
 
-const { mutate: getReports } = useMutation(fetchReports)
+const { mutate: getReports, isLoading: loading } = useMutation(fetchReports)
 
 const controlsPeriod = ref<string | number>('30')
 const period = ref<Period>({
@@ -83,6 +96,30 @@ const timeRequest = computed<EventRecordsListRequestTime>(() => {
     period.value.to,
     period.value.last
   )
+})
+
+const normalizedData = computed(() => {
+  return reportConversion.value?.data
+    .toSorted((a, b) => a.ts - b.ts)
+    .map(item => ({
+      date: new Date(item.ts),
+      value: item.conversionRatio,
+      category: item.groups.join(DEFAULT_SEPARATOR),
+    }))
+})
+
+const chartOptions = computed(() => {
+  return {
+    data: normalizedData.value,
+    height: 350,
+    component: 'ChartLine',
+    xField: 'date',
+    yField: 'value',
+    seriesField: 'category',
+    xAxis: {
+      type: 'time',
+    },
+  }
 })
 
 async function fetchReports(): Promise<void> {
@@ -129,10 +166,3 @@ watch(() => [stepsStore, filterGroupsStore, breakdownsStore, timeRequest], getRe
   immediate: true,
 })
 </script>
-
-<style lang="scss" scoped>
-pre {
-  height: 40rem;
-  overflow: auto;
-}
-</style>
