@@ -73,7 +73,10 @@ export const useGroupStore = defineStore('group', () => {
       const props: GroupRecordsListRequest = {
         time: timeRequest.value,
         group: group.value,
-        properties: properties,
+      }
+
+      if (properties.length) {
+        props.properties = properties
       }
 
       if (filterGroupsStore.isSelectedAnyFilter) {
