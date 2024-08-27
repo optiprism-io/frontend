@@ -18,6 +18,7 @@ import { useVModel } from '@vueuse/core'
 
 import UiDataTable from '@/components/uikit/UiDataTable.vue'
 
+import { useScrollX } from '@/components/funnels/view/useScrollX'
 import { DEFAULT_SEPARATOR } from '@/constants'
 import { uncamelize } from '@/utils/uncamelize'
 
@@ -144,8 +145,5 @@ function renderCell(value: any, rowData: object, column: DataTableBaseColumn) {
   return column.title.includes('Ratio') ? `${value}%` : value
 }
 
-const scrollX = computed(() => {
-  const WIDTH_ONE_COLUMN = 250 // value calculated experimentally
-  return columns.value.length * WIDTH_ONE_COLUMN
-})
+const { scrollX } = useScrollX(columns)
 </script>

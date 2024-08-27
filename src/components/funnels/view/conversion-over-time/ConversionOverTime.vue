@@ -24,6 +24,12 @@ import FunnelContentGrid from '@/components/funnels/view/FunnelContentGrid.vue'
 
 import { FunnelConversionOverTimeChartTypeTypeEnum, FunnelQueryCountEnum } from '@/api'
 import { apiClient } from '@/api/apiClient'
+import {
+  hasEmptyFilterValuesInExcludes,
+  hasEmptyFilterValuesInFilters,
+  hasEmptyFilterValuesInSteps,
+  MIN_COUNT_FOR_REQUEST,
+} from '@/components/funnels/view/shared'
 import { useMutation } from '@/hooks/useMutation'
 import { TimeTypeEnum, usePeriod } from '@/hooks/usePeriod'
 import { useStepsStore } from '@/stores/funnels/steps'
@@ -83,6 +89,13 @@ async function fetchReports(): Promise<void> {
   /* need nextTick for update stepsStore.getSteps */
   await nextTick()
   const steps = stepsStore.getSteps
+  if (
+    steps.length < MIN_COUNT_FOR_REQUEST ||
+    hasEmptyFilterValuesInSteps(steps) ||
+    hasEmptyFilterValuesInFilters(filterGroupsStore.filterGroups) ||
+    hasEmptyFilterValuesInExcludes(stepsStore.excludedEvents)
+  )
+    return
 
   const res = await apiClient.query.funnelQuery(projectsStore.projectId, {
     steps,

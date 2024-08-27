@@ -42,13 +42,15 @@
           :data="normalizedReportSteps"
           height="25rem"
         />
-        <DataEmptyPlaceholder v-else>
-          {{ $t('funnels.view.selectRowInTable') }}
-        </DataEmptyPlaceholder>
+        <DataEmptyPlaceholder
+          v-else
+          :content="$t('funnels.view.selectRowInTable')"
+        />
       </template>
-      <DataEmptyPlaceholder v-else>
-        {{ $t('funnels.view.selectToStart') }}
-      </DataEmptyPlaceholder>
+      <DataEmptyPlaceholder
+        v-else
+        :content="$t('funnels.view.selectToStart')"
+      />
     </template>
     <template
       v-if="reportSteps.length"
@@ -78,6 +80,12 @@ import UiToggleGroup from '@/components/uikit/UiToggleGroup/UiToggleGroup.vue'
 
 import { FunnelQueryCountEnum, FunnelStepsChartTypeTypeEnum } from '@/api'
 import { apiClient } from '@/api/apiClient'
+import {
+  hasEmptyFilterValuesInExcludes,
+  hasEmptyFilterValuesInFilters,
+  hasEmptyFilterValuesInSteps,
+  MIN_COUNT_FOR_REQUEST,
+} from '@/components/funnels/view/shared'
 import { periodMap } from '@/configs/events/controls'
 import { DEFAULT_SEPARATOR } from '@/constants'
 import { getLastNDaysRange } from '@/helpers/calendarHelper'
@@ -89,17 +97,11 @@ import { useProjectsStore } from '@/stores/projects/projects'
 import { useBreakdownsStore } from '@/stores/reports/breakdowns'
 import { useFilterGroupsStore } from '@/stores/reports/filters'
 
-import type {
-  EventRecordsListRequestTime,
-  FunnelQueryStepsInner,
-  FunnelResponseStepsInner,
-} from '@/api'
+import type { EventRecordsListRequestTime, FunnelResponseStepsInner } from '@/api'
 import type { ChartStackedItem } from '@/components/charts/types'
 import type { ApplyPayload } from '@/components/uikit/UiCalendar/UiCalendar'
 import type { UiToggleGroupItem } from '@/components/uikit/UiToggleGroup/types'
 import type { FunnelChartType } from '@/pages/reports/funnelViews'
-import type { ExcludedEvent } from '@/stores/funnels/steps'
-import type { FilterGroup } from '@/stores/reports/filters'
 import type { DataTableRowKey } from 'naive-ui'
 
 interface IProps {
@@ -112,7 +114,6 @@ const emit = defineEmits<{
   (e: 'change-view', payload: FunnelChartType): void
 }>()
 
-const MIN_COUNT_FOR_REQUEST = 2
 const MAX_CHECKED_ROWS = 12
 const DEFAULT_CHECKED_ROWS = 5
 
@@ -310,20 +311,6 @@ async function fetchReports(): Promise<void> {
 function resetFunnelViews(): void {
   reportSteps.value = []
   groups.value = []
-}
-
-function hasEmptyFilterValuesInSteps(steps: FunnelQueryStepsInner[]): boolean {
-  return steps.some(step =>
-    step.events.some(event => event.filters.some(filter => !filter.value?.length))
-  )
-}
-
-function hasEmptyFilterValuesInFilters(filters: FilterGroup[]): boolean {
-  return filters.some(filter => filter.filters.some(filter => !filter.values.length))
-}
-
-function hasEmptyFilterValuesInExcludes(excludes: ExcludedEvent[]): boolean {
-  return excludes.some(exclude => exclude.filters.some(filter => !filter.values.length))
 }
 
 watch(() => [stepsStore, filterGroupsStore, breakdownsStore, timeRequest], getReports, {

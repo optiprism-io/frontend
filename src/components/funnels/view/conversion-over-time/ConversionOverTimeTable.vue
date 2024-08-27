@@ -11,6 +11,7 @@ import { computed } from 'vue'
 
 import UiDataTable from '@/components/uikit/UiDataTable.vue'
 
+import { useScrollX } from '@/components/funnels/view/useScrollX'
 import { DEFAULT_SEPARATOR } from '@/constants'
 import { getYYYYMMDD } from '@/helpers/getStringDates'
 
@@ -55,7 +56,12 @@ const data = computed<RowData[]>(() => {
   return res
 })
 
-const columns = computed(() => {
+const PREDEFINED_COLUMNS: TableColumn = {
+  key: 'name',
+  title: 'Groups',
+}
+
+const timestampsColumns = computed(() => {
   const columns: TableColumn[] = []
   const timestamps: Set<number> = new Set()
 
@@ -76,16 +82,12 @@ const columns = computed(() => {
       })
     })
 
-  columns.unshift({
-    key: 'name',
-    title: 'Groups',
-  })
-
   return columns
 })
 
-const scrollX = computed(() => {
-  const WIDTH_ONE_COLUMN = 250 // value calculated experimentally
-  return columns.value.length * WIDTH_ONE_COLUMN
+const columns = computed<TableColumn[]>(() => {
+  return [PREDEFINED_COLUMNS, ...timestampsColumns.value]
 })
+
+const { scrollX } = useScrollX(timestampsColumns)
 </script>
