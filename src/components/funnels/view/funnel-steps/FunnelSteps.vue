@@ -90,8 +90,8 @@ import { periodMap } from '@/configs/events/controls'
 import { DEFAULT_SEPARATOR } from '@/constants'
 import { getLastNDaysRange } from '@/helpers/calendarHelper'
 import { getStringDateByFormat, getYYYYMMDD } from '@/helpers/getStringDates'
+import { getRequestTime, TimeTypeEnum } from '@/helpers/periodHelper'
 import { useMutation } from '@/hooks/useMutation'
-import { TimeTypeEnum, usePeriod } from '@/hooks/usePeriod'
 import { useStepsStore } from '@/stores/funnels/steps'
 import { useProjectsStore } from '@/stores/projects/projects'
 import { useBreakdownsStore } from '@/stores/reports/breakdowns'
@@ -178,7 +178,6 @@ const period = ref<Period>({
 const { mutate: getReports, isLoading: loading } = useMutation(fetchReports)
 
 const timeRequest = computed<EventRecordsListRequestTime>(() => {
-  const { getRequestTime } = usePeriod()
   return getRequestTime(
     period.value.type,
     controlsPeriod.value,

@@ -14,12 +14,10 @@ import {
   TimeAfterFirstUseTypeEnum,
   TimeBetweenTypeEnum,
   TimeLastTypeEnum,
-  TimeWindowEachTypeEnum
+  TimeWindowEachTypeEnum,
 } from '@/api'
-import { TimeTypeEnum } from '@/hooks/usePeriod'
-import {
-  useEventsStore,
-} from '@/stores/eventSegmentation/events'
+import { TimeTypeEnum } from '@/helpers/periodHelper'
+import { useEventsStore } from '@/stores/eventSegmentation/events'
 import { useStepsStore } from '@/stores/funnels/steps'
 import { useLexiconStore } from '@/stores/lexicon'
 import { useBreakdownsStore } from '@/stores/reports/breakdowns'
@@ -52,16 +50,18 @@ import type {
   TimeBetween,
   TimeLast,
   TimeWindowEach,
-  Value} from '@/api';
+  Value,
+} from '@/api'
 import type { Each } from '@/components/uikit/UiCalendar/UiCalendar'
 import type {
   ChartType,
   Event,
   EventBreakdown,
-  EventQuery} from '@/stores/eventSegmentation/events';
-import type { HoldingProperty} from '@/stores/funnels/steps';
-import type { FilterGroup} from '@/stores/reports/filters';
-import type { Segment} from '@/stores/reports/segments';
+  EventQuery,
+} from '@/stores/eventSegmentation/events'
+import type { HoldingProperty } from '@/stores/funnels/steps'
+import type { FilterGroup } from '@/stores/reports/filters'
+import type { Segment } from '@/stores/reports/segments'
 import type { Condition, EventQueryRef, EventRef } from '@/types/events'
 import type { Filter } from '@/types/filters'
 import type { Step } from '@/types/steps'

@@ -32,7 +32,7 @@ import UiDatePicker from '@/components/uikit/UiDatePicker.vue'
 import UiIcon from '@/components/uikit/UiIcon.vue'
 
 import { getStringDateByFormat } from '@/helpers/getStringDates'
-import { TimeTypeEnum } from '@/hooks/usePeriod'
+import { TimeTypeEnum } from '@/helpers/periodHelper'
 
 import type { ApplyPayload } from '@/components/uikit/UiCalendar/UiCalendar'
 import type { I18N } from '@/utils/i18n'

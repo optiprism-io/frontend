@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 
 import { apiClient } from '@/api/apiClient'
-import { TimeTypeEnum, usePeriod } from '@/hooks/usePeriod'
+import { getRequestTime, TimeTypeEnum } from '@/helpers/periodHelper'
 import { useProjectsStore } from '@/stores/projects/projects'
 
 import type {
@@ -108,8 +108,6 @@ export const useLiveStreamStore = defineStore('liveStream', {
       )
     },
     timeRequest(): EventRecordsListRequestTime {
-      const { getRequestTime } = usePeriod()
-
       return getRequestTime(
         this.period.type,
         this.controlsPeriod,

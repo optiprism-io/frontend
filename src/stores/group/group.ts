@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 
 import { apiClient } from '@/api/apiClient'
-import { TimeTypeEnum, usePeriod } from '@/hooks/usePeriod'
+import { getRequestTime, TimeTypeEnum } from '@/helpers/periodHelper'
 import { useProjectsStore } from '@/stores/projects/projects'
 
 import type { EventRecordsListRequestTime, GroupRecord, Value } from '@/api'
@@ -45,7 +45,7 @@ export const useGroupStore = defineStore('group', {
       }
       const projectsStore = useProjectsStore()
       try {
-         // TODO integrate Group Page
+        // TODO integrate Group Page
         const res = await apiClient.groupRecords.groupRecordsList(projectsStore.projectId, {
           time: this.timeRequest,
           group: 0,
@@ -89,7 +89,6 @@ export const useGroupStore = defineStore('group', {
       )
     },
     timeRequest(): EventRecordsListRequestTime {
-      const { getRequestTime } = usePeriod()
       return getRequestTime(
         this.period.type,
         this.controlsPeriod,

@@ -1,23 +1,24 @@
 import {
-  EventType,
-  QuerySimpleTypeEnum,
   DidEventAggregatePropertyTypeEnum,
-  QueryAggregatePropertyPerGroupTypeEnum
+  EventType,
+  QueryAggregatePropertyPerGroupTypeEnum,
+  QuerySimpleTypeEnum,
 } from '@/api'
 
 import type {
+  CustomEvent,
   DataType,
   Event,
+  EventGroupedFiltersGroupsConditionEnum,
   PropertyType,
-  CustomEvent,
-  Value,
+  QueryAggregate,
+  QueryAggregatePerGroup,
   QueryCountPerGroupTypeEnum,
   QueryFormulaTypeEnum,
-  QueryAggregatePerGroup,
-  QueryAggregate,
-  EventGroupedFiltersGroupsConditionEnum} from '@/api';
+  Value,
+} from '@/api'
 import type { Each } from '@/components/uikit/UiCalendar/UiCalendar'
-import type { TimeTypeEnum } from '@/hooks/usePeriod'
+import type { TimeTypeEnum } from '@/helpers/periodHelper'
 import type { OperationId } from '@/types'
 
 type EventGroupedFiltersGroupsConditionEnumType = EventGroupedFiltersGroupsConditionEnum

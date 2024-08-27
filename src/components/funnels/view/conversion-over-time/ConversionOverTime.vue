@@ -43,8 +43,8 @@ import {
   MIN_COUNT_FOR_REQUEST,
 } from '@/components/funnels/view/shared'
 import { DEFAULT_SEPARATOR } from '@/constants'
+import { getRequestTime, TimeTypeEnum } from '@/helpers/periodHelper'
 import { useMutation } from '@/hooks/useMutation'
-import { TimeTypeEnum, usePeriod } from '@/hooks/usePeriod'
 import { useStepsStore } from '@/stores/funnels/steps'
 import { useProjectsStore } from '@/stores/projects/projects'
 import { useBreakdownsStore } from '@/stores/reports/breakdowns'
@@ -88,7 +88,6 @@ const period = ref<Period>({
 })
 
 const timeRequest = computed<EventRecordsListRequestTime>(() => {
-  const { getRequestTime } = usePeriod()
   return getRequestTime(
     period.value.type,
     controlsPeriod.value,
