@@ -34,6 +34,7 @@
         :report-steps="reportSteps"
         :groups="groups"
         :max-checked-rows="MAX_CHECKED_ROWS"
+        :loading="loading"
       />
     </template>
   </FunnelContentGrid>

@@ -7,6 +7,7 @@
     :single-line="false"
     :render-cell="renderCell"
     :row-key="rowKey"
+    :loading="loading"
     @update:checked-row-keys="handleCheck"
   />
 </template>
@@ -37,9 +38,12 @@ interface IProps {
   groups: string[]
   checkedRowKeys: DataTableRowKey[]
   maxCheckedRows: number
+  loading?: boolean
 }
 
-const props = withDefaults(defineProps<IProps>(), {})
+const props = withDefaults(defineProps<IProps>(), {
+  loading: false,
+})
 
 const emit = defineEmits(['update:checkedRowKeys'])
 

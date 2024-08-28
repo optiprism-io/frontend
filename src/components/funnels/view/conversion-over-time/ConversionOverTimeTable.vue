@@ -3,6 +3,7 @@
     :columns="columns"
     :data="data"
     :scroll-x="scrollX"
+    :loading="loading"
   />
 </template>
 
@@ -20,6 +21,7 @@ import type { RowData, TableColumn } from 'naive-ui/es/data-table/src/interface'
 
 interface IProps {
   reportConversion: FunnelResponseStepsInner | undefined
+  loading?: boolean
 }
 
 interface PreparedData {

@@ -12,6 +12,7 @@
     :scroll-x="scrollX"
     :render-cell="renderCell"
     :row-key="rowKey"
+    :loading="loading"
     @update:checked-row-keys="emit('update:checked-row-keys', $event)"
   />
 </template>
@@ -46,6 +47,7 @@ type DataTableProps = {
   singleColumn?: boolean
   maxHeight?: string | number
   scrollX?: string | number
+  loading?: boolean
 
   // Custom props
   ellipsis?: EllipsisProps | boolean
@@ -59,6 +61,7 @@ const props = withDefaults(defineProps<DataTableProps>(), {
   renderCell: undefined,
   rowKey: undefined,
   scrollX: undefined,
+  loading: false,
 
   // Custom props
   // eslint-disable-next-line vue/require-valid-default-prop

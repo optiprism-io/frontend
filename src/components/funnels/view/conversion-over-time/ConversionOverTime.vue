@@ -24,6 +24,7 @@
       <ConversionOverTimeTable
         v-if="reportConversion"
         :report-conversion="reportConversion"
+        :loading="loading"
       />
     </template>
   </FunnelContentGrid>
