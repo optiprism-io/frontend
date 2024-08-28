@@ -1,39 +1,12 @@
 <template>
   <FunnelContentGrid
     :funnel-view="funnelView"
+    :period="period"
+    :controls-period="controlsPeriod"
     @change-view="emit('change-view', $event)"
+    @change-period="emit('change-period', $event)"
+    @change-controls-period="emit('change-controls-period', $event)"
   >
-    <template #toolbar>
-      <UiToggleGroup
-        :items="itemsPeriod"
-        @select="selectPeriod"
-      >
-        <template #after>
-          <UiDatePicker
-            :value="calendarValue"
-            :last-count="period.last"
-            :active-tab-controls="period.type"
-            @on-apply="applyPeriod"
-          >
-            <template #action>
-              <button
-                class="pf-c-toggle-group__button"
-                :class="{
-                  'pf-m-selected': calendarValueString,
-                }"
-                type="button"
-              >
-                <div class="pf-u-display-flex pf-u-align-items-center">
-                  <UiIcon :icon="'far fa-calendar-alt'" />
-                  &nbsp;
-                  {{ calendarValueString }}
-                </div>
-              </button>
-            </template>
-          </UiDatePicker>
-        </template>
-      </UiToggleGroup>
-    </template>
     <template #chart>
       <DataLoader v-if="loading" />
       <template v-else-if="reportSteps.length">
@@ -74,11 +47,13 @@ import DataEmptyPlaceholder from '@/components/common/data/DataEmptyPlaceholder.
 import DataLoader from '@/components/common/data/DataLoader.vue'
 import FunnelsTable from '@/components/funnels/view/funnel-steps/FunnelStepsTable.vue'
 import FunnelContentGrid from '@/components/funnels/view/FunnelContentGrid.vue'
-import UiDatePicker from '@/components/uikit/UiDatePicker.vue'
-import UiIcon from '@/components/uikit/UiIcon.vue'
-import UiToggleGroup from '@/components/uikit/UiToggleGroup/UiToggleGroup.vue'
+import type { DataPickerPeriod } from '@/components/uikit/UiDatePickerWrappet.vue'
 
-import { FunnelQueryCountEnum, FunnelStepsChartTypeTypeEnum } from '@/api'
+import {
+  type EventRecordsListRequestTime,
+  FunnelQueryCountEnum,
+  FunnelStepsChartTypeTypeEnum,
+} from '@/api'
 import { apiClient } from '@/api/apiClient'
 import {
   hasEmptyFilterValuesInExcludes,
@@ -86,32 +61,32 @@ import {
   hasEmptyFilterValuesInSteps,
   MIN_COUNT_FOR_REQUEST,
 } from '@/components/funnels/view/shared'
-import { periodMap } from '@/configs/events/controls'
 import { DEFAULT_SEPARATOR } from '@/constants'
-import { getLastNDaysRange } from '@/helpers/calendarHelper'
-import { getStringDateByFormat, getYYYYMMDD } from '@/helpers/getStringDates'
-import { getRequestTime, TimeTypeEnum } from '@/helpers/periodHelper'
 import { useMutation } from '@/hooks/useMutation'
 import { useStepsStore } from '@/stores/funnels/steps'
 import { useProjectsStore } from '@/stores/projects/projects'
 import { useBreakdownsStore } from '@/stores/reports/breakdowns'
 import { useFilterGroupsStore } from '@/stores/reports/filters'
 
-import type { EventRecordsListRequestTime, FunnelResponseStepsInner } from '@/api'
+import type { FunnelResponseStepsInner } from '@/api'
 import type { ChartStackedItem } from '@/components/charts/types'
-import type { ApplyPayload } from '@/components/uikit/UiCalendar/UiCalendar'
-import type { UiToggleGroupItem } from '@/components/uikit/UiToggleGroup/types'
+import type { ControlsPeriod } from '@/components/funnels/view/useCalendarTime'
 import type { FunnelChartType } from '@/pages/reports/funnelViews'
 import type { DataTableRowKey } from 'naive-ui'
 
 interface IProps {
   funnelView: FunnelChartType
+  period: DataPickerPeriod
+  controlsPeriod: ControlsPeriod
+  time: EventRecordsListRequestTime
 }
 
-withDefaults(defineProps<IProps>(), {})
+const props = withDefaults(defineProps<IProps>(), {})
 
 const emit = defineEmits<{
   (e: 'change-view', payload: FunnelChartType): void
+  (e: 'change-period', payload: DataPickerPeriod): void
+  (e: 'change-controls-period', payload: ControlsPeriod): void
 }>()
 
 const MAX_CHECKED_ROWS = 12
@@ -121,13 +96,6 @@ const stepsStore = useStepsStore()
 const projectsStore = useProjectsStore()
 const filterGroupsStore = useFilterGroupsStore()
 const breakdownsStore = useBreakdownsStore()
-
-interface Period {
-  from: string
-  to: string
-  last: number
-  type: TimeTypeEnum
-}
 
 const reportSteps = ref<FunnelResponseStepsInner[]>([])
 const groups = ref<string[]>([])
@@ -167,100 +135,7 @@ const normalizedReportSteps = computed<ChartStackedItem[]>(() =>
   })
 )
 
-const controlsPeriod = ref<string | number>('30')
-const period = ref<Period>({
-  from: '',
-  to: '',
-  type: TimeTypeEnum.Last,
-  last: 30,
-})
-
 const { mutate: getReports, isLoading: loading } = useMutation(fetchReports)
-
-const timeRequest = computed<EventRecordsListRequestTime>(() => {
-  return getRequestTime(
-    period.value.type,
-    controlsPeriod.value,
-    period.value.from,
-    period.value.to,
-    period.value.last
-  )
-})
-
-function setControlsPeriod(payload: string) {
-  controlsPeriod.value = payload
-}
-
-function setPeriod(payload: Period) {
-  period.value = payload
-}
-
-function initPeriod(): void {
-  const lastNDateRange = getLastNDaysRange(20)
-  period.value = {
-    from: getYYYYMMDD(lastNDateRange.from),
-    to: getYYYYMMDD(new Date()),
-    type: 'last',
-    last: 20,
-  }
-}
-
-const itemsPeriod = computed(() => {
-  const config = periodMap.find(item => item.type === 'day')
-
-  return (
-    config?.items.map(
-      (key): UiToggleGroupItem<string> => ({
-        key,
-        nameDisplay: key + config.text,
-        value: key,
-        selected: key === controlsPeriod.value,
-      })
-    ) ?? []
-  )
-})
-
-const calendarValue = computed(() => {
-  return {
-    from: period.value.from,
-    to: period.value.to,
-    multiple: false,
-    dates: [],
-  }
-})
-
-const calendarValueString = computed(() => {
-  if (period.value.from && period.value.to && controlsPeriod.value === 'calendar') {
-    switch (period.value.type) {
-      case 'last':
-        return `Last ${period.value.last} ${period.value.last === 1 ? 'day' : 'days'}`
-      case 'since':
-        return `Since ${getStringDateByFormat(period.value.from, '%d %b, %Y')}`
-      case 'between':
-        return `${getStringDateByFormat(period.value.from, '%d %b, %Y')} - ${getStringDateByFormat(period.value.to, '%d %b, %Y')}`
-      default:
-        return ''
-    }
-  } else {
-    return ''
-  }
-})
-
-const selectPeriod = (payload: string): void => {
-  setControlsPeriod(payload)
-  initPeriod()
-}
-
-const applyPeriod = (payload: ApplyPayload): void => {
-  setControlsPeriod('calendar')
-  setPeriod({
-    ...period.value,
-    from: payload.value.from || '',
-    to: payload.value.to || '',
-    type: payload.type,
-    last: payload.last,
-  })
-}
 
 async function fetchReports(): Promise<void> {
   /* need nextTick for update stepsStore.getSteps */
@@ -276,7 +151,7 @@ async function fetchReports(): Promise<void> {
 
   const res = await apiClient.query.funnelQuery(projectsStore.projectId, {
     steps,
-    time: timeRequest.value,
+    time: props.time,
     group: stepsStore.group,
     breakdowns: breakdownsStore.breakdownsItems,
     filters: filterGroupsStore.filters,
@@ -312,7 +187,7 @@ function resetFunnelViews(): void {
   groups.value = []
 }
 
-watch(() => [stepsStore, filterGroupsStore, breakdownsStore, timeRequest], getReports, {
+watch(() => [stepsStore, filterGroupsStore, breakdownsStore, props.time], getReports, {
   deep: true,
   immediate: true,
 })

@@ -60,12 +60,22 @@
       <FunnelSteps
         v-if="funnelViewId === FunnelStepsChartTypeTypeEnum.Steps"
         :funnel-view="funnelViewId"
+        :period="period"
+        :controls-period="controlsPeriod"
+        :time="time"
         @change-view="onChangeView"
+        @change-period="setPeriod"
+        @change-controls-period="setControlsPeriod"
       />
       <ConversionOverTime
         v-else-if="funnelViewId === FunnelConversionOverTimeChartTypeTypeEnum.ConversionOverTime"
         :funnel-view="funnelViewId"
+        :period="period"
+        :controls-period="controlsPeriod"
+        :time="time"
         @change-view="onChangeView"
+        @change-period="setPeriod"
+        @change-controls-period="setControlsPeriod"
       />
     </GridItem>
   </GridContainer>
@@ -94,6 +104,7 @@ import UiCardTitle from '@/components/uikit/UiCard/UiCardTitle.vue'
 import UiSelect from '@/components/uikit/UiSelect.vue'
 
 import { FunnelConversionOverTimeChartTypeTypeEnum, FunnelStepsChartTypeTypeEnum } from '@/api'
+import { useCalendarTime } from '@/components/funnels/view/useCalendarTime'
 import { useGroup } from '@/hooks/useGroup'
 import usei18n from '@/hooks/useI18n'
 import { useCommonStore } from '@/stores/common'
@@ -119,6 +130,8 @@ const commonStore = useCommonStore()
 const lexiconStore = useLexiconStore()
 const { selectGroups } = useGroup()
 const stepsStore = useStepsStore()
+
+const { period, controlsPeriod, time, setPeriod, setControlsPeriod } = useCalendarTime()
 
 const selectedGroup = computed(() => lexiconStore.groups.find(item => item.id === stepsStore.group))
 const selectedGroupByString = computed(

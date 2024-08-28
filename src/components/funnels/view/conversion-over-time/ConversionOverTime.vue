@@ -1,7 +1,11 @@
 <template>
   <FunnelContentGrid
     :funnel-view="funnelView"
+    :period="period"
+    :controls-period="controlsPeriod"
     @change-view="emit('change-view', $event)"
+    @change-period="emit('change-period', $event)"
+    @change-controls-period="emit('change-controls-period', $event)"
   >
     <template #chart>
       <DataLoader v-if="loading" />
@@ -33,8 +37,13 @@ import DataEmptyPlaceholder from '@/components/common/data/DataEmptyPlaceholder.
 import DataLoader from '@/components/common/data/DataLoader.vue'
 import ConversionOverTimeTable from '@/components/funnels/view/conversion-over-time/ConversionOverTimeTable.vue'
 import FunnelContentGrid from '@/components/funnels/view/FunnelContentGrid.vue'
+import type { DataPickerPeriod } from '@/components/uikit/UiDatePickerWrappet.vue'
 
-import { FunnelConversionOverTimeChartTypeTypeEnum, FunnelQueryCountEnum } from '@/api'
+import {
+  type EventRecordsListRequestTime,
+  FunnelConversionOverTimeChartTypeTypeEnum,
+  FunnelQueryCountEnum,
+} from '@/api'
 import { apiClient } from '@/api/apiClient'
 import {
   hasEmptyFilterValuesInExcludes,
@@ -42,33 +51,31 @@ import {
   hasEmptyFilterValuesInSteps,
   MIN_COUNT_FOR_REQUEST,
 } from '@/components/funnels/view/shared'
+import { type ControlsPeriod } from '@/components/funnels/view/useCalendarTime'
 import { DEFAULT_SEPARATOR } from '@/constants'
-import { getRequestTime, TimeTypeEnum } from '@/helpers/periodHelper'
 import { useMutation } from '@/hooks/useMutation'
 import { useStepsStore } from '@/stores/funnels/steps'
 import { useProjectsStore } from '@/stores/projects/projects'
 import { useBreakdownsStore } from '@/stores/reports/breakdowns'
 import { useFilterGroupsStore } from '@/stores/reports/filters'
 
-import type { EventRecordsListRequestTime, FunnelResponseStepsInner } from '@/api'
+import type { FunnelResponseStepsInner } from '@/api'
 import type { FunnelChartType } from '@/pages/reports/funnelViews'
 
 interface IProps {
   funnelView: FunnelChartType
+  period: DataPickerPeriod
+  controlsPeriod: ControlsPeriod
+  time: EventRecordsListRequestTime
 }
 
-withDefaults(defineProps<IProps>(), {})
+const props = withDefaults(defineProps<IProps>(), {})
 
 const emit = defineEmits<{
   (e: 'change-view', payload: FunnelChartType): void
+  (e: 'change-period', payload: DataPickerPeriod): void
+  (e: 'change-controls-period', payload: ControlsPeriod): void
 }>()
-
-interface Period {
-  from: string
-  to: string
-  last: number
-  type: TimeTypeEnum
-}
 
 const reportConversion = ref<FunnelResponseStepsInner | undefined>()
 
@@ -78,24 +85,6 @@ const filterGroupsStore = useFilterGroupsStore()
 const breakdownsStore = useBreakdownsStore()
 
 const { mutate: getReports, isLoading: loading } = useMutation(fetchReports)
-
-const controlsPeriod = ref<string | number>('30')
-const period = ref<Period>({
-  from: '',
-  to: '',
-  type: TimeTypeEnum.Last,
-  last: 30,
-})
-
-const timeRequest = computed<EventRecordsListRequestTime>(() => {
-  return getRequestTime(
-    period.value.type,
-    controlsPeriod.value,
-    period.value.from,
-    period.value.to,
-    period.value.last
-  )
-})
 
 const normalizedData = computed(() => {
   return reportConversion.value?.data
@@ -135,7 +124,7 @@ async function fetchReports(): Promise<void> {
 
   const res = await apiClient.query.funnelQuery(projectsStore.projectId, {
     steps,
-    time: timeRequest.value,
+    time: props.time,
     group: stepsStore.group,
     breakdowns: breakdownsStore.breakdownsItems,
     filters: filterGroupsStore.filters,
@@ -160,7 +149,7 @@ async function fetchReports(): Promise<void> {
   }
 }
 
-watch(() => [stepsStore, filterGroupsStore, breakdownsStore, timeRequest], getReports, {
+watch(() => [stepsStore, filterGroupsStore, breakdownsStore, props.time], getReports, {
   deep: true,
   immediate: true,
 })
