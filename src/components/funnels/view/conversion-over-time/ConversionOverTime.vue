@@ -32,8 +32,11 @@
     <template #table>
       <ConversionOverTimeTable
         v-if="reportConversion"
+        :checked-row-keys="checkedRowKeys"
         :report-conversion="reportConversion"
         :loading="loading"
+        :max-checked-rows="MAX_CHECKED_ROWS"
+        @update:checked-row-keys="setCheckedRowKeys"
       />
     </template>
   </FunnelContentGrid>
@@ -63,6 +66,11 @@ import {
   MIN_COUNT_FOR_REQUEST,
 } from '@/components/funnels/view/shared'
 import { type ControlsPeriod } from '@/components/funnels/view/useCalendarTime'
+import {
+  DEFAULT_CHECKED_ROWS,
+  MAX_CHECKED_ROWS,
+  useCheckedRows,
+} from '@/components/funnels/view/useCheckedRows'
 import { useTimeInterval } from '@/components/funnels/view/useTimeInterval'
 import { DEFAULT_SEPARATOR } from '@/constants'
 import { useMutation } from '@/hooks/useMutation'
@@ -99,9 +107,23 @@ const breakdownsStore = useBreakdownsStore()
 const { mutate: getReports, isLoading: loading } = useMutation(fetchReports)
 
 const { timeInterval, timeIntervalValues, timeIntervalText, selectTimeInterval } = useTimeInterval()
+const { checkedRowKeys, setCheckedRowKeys } = useCheckedRows()
+
+const filteredData = computed<FunnelResponseStepsInner | undefined>(() => {
+  if (!reportConversion.value) return
+
+  return {
+    ...reportConversion.value,
+    data: reportConversion.value.data.filter(item =>
+      checkedRowKeys.value.includes(item.groups.join(DEFAULT_SEPARATOR))
+    ),
+  }
+})
 
 const normalizedData = computed(() => {
-  return reportConversion.value?.data
+  if (!filteredData.value) return
+
+  return filteredData.value.data
     .toSorted((a, b) => a.ts - b.ts)
     .map(item => ({
       date: new Date(item.ts),
@@ -160,6 +182,11 @@ async function fetchReports(): Promise<void> {
 
   if (res?.data) {
     reportConversion.value = res.data.steps.at(-1)
+    /* select first N rows */
+    const availableKeys =
+      res.data.steps.at(-1)?.data.map(item => item.groups.join(DEFAULT_SEPARATOR)) || []
+    const checkedRows = Array.from(new Set(availableKeys)).slice(0, DEFAULT_CHECKED_ROWS)
+    setCheckedRowKeys(checkedRows)
   }
 }
 

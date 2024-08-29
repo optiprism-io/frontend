@@ -30,11 +30,12 @@
       #table
     >
       <FunnelsTable
-        v-model:checked-row-keys="checkedRowKeys"
+        :checked-row-keys="checkedRowKeys"
         :report-steps="reportSteps"
         :groups="groups"
         :max-checked-rows="MAX_CHECKED_ROWS"
         :loading="loading"
+        @update:checked-row-keys="setCheckedRowKeys"
       />
     </template>
   </FunnelContentGrid>
@@ -62,6 +63,11 @@ import {
   hasEmptyFilterValuesInSteps,
   MIN_COUNT_FOR_REQUEST,
 } from '@/components/funnels/view/shared'
+import {
+  DEFAULT_CHECKED_ROWS,
+  MAX_CHECKED_ROWS,
+  useCheckedRows,
+} from '@/components/funnels/view/useCheckedRows'
 import { DEFAULT_SEPARATOR } from '@/constants'
 import { useMutation } from '@/hooks/useMutation'
 import { useStepsStore } from '@/stores/funnels/steps'
@@ -73,7 +79,6 @@ import type { FunnelResponseStepsInner } from '@/api'
 import type { ChartStackedItem } from '@/components/charts/types'
 import type { ControlsPeriod } from '@/components/funnels/view/useCalendarTime'
 import type { FunnelChartType } from '@/pages/reports/funnelViews'
-import type { DataTableRowKey } from 'naive-ui'
 
 interface IProps {
   funnelView: FunnelChartType
@@ -90,9 +95,6 @@ const emit = defineEmits<{
   (e: 'change-controls-period', payload: ControlsPeriod): void
 }>()
 
-const MAX_CHECKED_ROWS = 12
-const DEFAULT_CHECKED_ROWS = 5
-
 const stepsStore = useStepsStore()
 const projectsStore = useProjectsStore()
 const filterGroupsStore = useFilterGroupsStore()
@@ -100,7 +102,8 @@ const breakdownsStore = useBreakdownsStore()
 
 const reportSteps = ref<FunnelResponseStepsInner[]>([])
 const groups = ref<string[]>([])
-const checkedRowKeys = ref<DataTableRowKey[]>([])
+
+const { checkedRowKeys, setCheckedRowKeys } = useCheckedRows()
 
 const filteredReportSteps = computed<FunnelResponseStepsInner[]>(() => {
   return reportSteps.value.map(step => {
@@ -176,10 +179,11 @@ async function fetchReports(): Promise<void> {
     groups.value = res.data.groups
 
     /* select first N rows */
-    checkedRowKeys.value =
+    const checkedRows =
       res.data.steps[0]?.data
         .map(item => item.groups.join(DEFAULT_SEPARATOR))
         .slice(0, DEFAULT_CHECKED_ROWS) ?? []
+    setCheckedRowKeys(checkedRows)
   }
 }
 

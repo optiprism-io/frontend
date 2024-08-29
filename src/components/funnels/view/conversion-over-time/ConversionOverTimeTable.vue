@@ -1,14 +1,19 @@
 <template>
   <UiDataTable
+    :checked-row-keys="checkedRowKeys"
     :columns="columns"
     :data="data"
     :scroll-x="scrollX"
     :loading="loading"
+    :row-key="rowKey"
+    @update:checked-row-keys="handleCheck"
   />
 </template>
 
 <script setup lang="ts">
 import { computed } from 'vue'
+
+import { useVModel } from '@vueuse/core'
 
 import UiDataTable from '@/components/uikit/UiDataTable.vue'
 
@@ -17,10 +22,13 @@ import { DEFAULT_SEPARATOR } from '@/constants'
 import { getYYYYMMDD } from '@/helpers/getStringDates'
 
 import type { FunnelResponseStepsInner, FunnelResponseStepsInnerDataInner } from '@/api'
+import type { DataTableRowKey } from 'naive-ui'
 import type { RowData, TableColumn } from 'naive-ui/es/data-table/src/interface'
 
 interface IProps {
   reportConversion: FunnelResponseStepsInner | undefined
+  checkedRowKeys: DataTableRowKey[]
+  maxCheckedRows: number
   loading?: boolean
 }
 
@@ -31,6 +39,18 @@ interface PreparedData {
 }
 
 const props = withDefaults(defineProps<IProps>(), {})
+
+const emit = defineEmits(['update:checkedRowKeys'])
+
+const curCheckedRowKeys = useVModel(props, 'checkedRowKeys', emit)
+
+const UNIQ_KEY = 'name'
+
+function handleCheck(rowKeys: DataTableRowKey[]) {
+  curCheckedRowKeys.value = rowKeys.slice(0, props.maxCheckedRows)
+}
+
+const rowKey = (row: RowData) => row[UNIQ_KEY]
 
 const preparedData = computed(() => {
   const res: PreparedData = {}
@@ -57,6 +77,16 @@ const data = computed<RowData[]>(() => {
 
   return res
 })
+
+const selectionColumn = computed<TableColumn>(() => ({
+  type: 'selection',
+  disabled(row: RowData) {
+    return (
+      props.checkedRowKeys.length === props.maxCheckedRows &&
+      !props.checkedRowKeys.includes(rowKey(row))
+    )
+  },
+}))
 
 const PREDEFINED_COLUMNS: TableColumn = {
   key: 'name',
@@ -88,7 +118,7 @@ const timestampsColumns = computed(() => {
 })
 
 const columns = computed<TableColumn[]>(() => {
-  return [PREDEFINED_COLUMNS, ...timestampsColumns.value]
+  return [selectionColumn.value, PREDEFINED_COLUMNS, ...timestampsColumns.value]
 })
 
 const { scrollX } = useScrollX(timestampsColumns)
