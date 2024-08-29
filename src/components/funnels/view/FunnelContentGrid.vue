@@ -2,7 +2,9 @@
   <div class="pf-c-card pf-u-p-md">
     <div class="pf-c-toolbar">
       <div class="pf-c-toolbar__content">
-        <div class="pf-c-toolbar__content-section pf-m-nowrap">
+        <div class="pf-l-flex pf-c-toolbar__content-section pf-m-nowrap">
+          <slot name="toolbar" />
+
           <UiToggleGroup
             :items="itemsPeriod"
             @select="selectPeriod"

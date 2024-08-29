@@ -7,6 +7,15 @@
     @change-period="emit('change-period', $event)"
     @change-controls-period="emit('change-controls-period', $event)"
   >
+    <template #toolbar>
+      <UiSelect
+        class="pf-u-w-initial"
+        :items="timeIntervalValues"
+        :text-button="timeIntervalText"
+        :selections="[timeInterval]"
+        @on-select="selectTimeInterval"
+      />
+    </template>
     <template #chart>
       <DataLoader v-if="loading" />
       <ChartLine
@@ -39,6 +48,7 @@ import DataLoader from '@/components/common/data/DataLoader.vue'
 import ConversionOverTimeTable from '@/components/funnels/view/conversion-over-time/ConversionOverTimeTable.vue'
 import FunnelContentGrid from '@/components/funnels/view/FunnelContentGrid.vue'
 import type { DataPickerPeriod } from '@/components/uikit/UiDatePickerWrappet.vue'
+import UiSelect from '@/components/uikit/UiSelect.vue'
 
 import {
   type EventRecordsListRequestTime,
@@ -53,6 +63,7 @@ import {
   MIN_COUNT_FOR_REQUEST,
 } from '@/components/funnels/view/shared'
 import { type ControlsPeriod } from '@/components/funnels/view/useCalendarTime'
+import { useTimeInterval } from '@/components/funnels/view/useTimeInterval'
 import { DEFAULT_SEPARATOR } from '@/constants'
 import { useMutation } from '@/hooks/useMutation'
 import { useStepsStore } from '@/stores/funnels/steps'
@@ -86,6 +97,8 @@ const filterGroupsStore = useFilterGroupsStore()
 const breakdownsStore = useBreakdownsStore()
 
 const { mutate: getReports, isLoading: loading } = useMutation(fetchReports)
+
+const { timeInterval, timeIntervalValues, timeIntervalText, selectTimeInterval } = useTimeInterval()
 
 const normalizedData = computed(() => {
   return reportConversion.value?.data
@@ -135,7 +148,7 @@ async function fetchReports(): Promise<void> {
     },
     chartType: {
       type: FunnelConversionOverTimeChartTypeTypeEnum.ConversionOverTime,
-      intervalUnit: 'day',
+      intervalUnit: timeInterval.value,
     },
     count: FunnelQueryCountEnum.NonUnique,
     touch: {
@@ -150,8 +163,12 @@ async function fetchReports(): Promise<void> {
   }
 }
 
-watch(() => [stepsStore, filterGroupsStore, breakdownsStore, props.time], getReports, {
-  deep: true,
-  immediate: true,
-})
+watch(
+  () => [stepsStore, filterGroupsStore, breakdownsStore, props.time, timeInterval.value],
+  getReports,
+  {
+    deep: true,
+    immediate: true,
+  }
+)
 </script>
