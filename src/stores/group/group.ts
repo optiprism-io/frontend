@@ -19,7 +19,7 @@ import type {
 import type { Period } from '@/hooks/usePeriod'
 import type { PropertyRef } from '@/types/events'
 
-export const defaultColumns = ['user_id', 'created_at', 'event']
+export const defaultColumns = ['']
 
 export const useGroupStore = defineStore('group', () => {
   const { getRequestTime } = usePeriod()
@@ -148,8 +148,8 @@ export const useGroupStore = defineStore('group', () => {
     isNoData,
     timeRequest,
     activeColumns,
-    toggleColumns,
 
+    toggleColumns,
     getList,
     update,
   }

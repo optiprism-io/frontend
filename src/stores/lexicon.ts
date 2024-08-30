@@ -48,6 +48,7 @@ type Lexicon = {
 
   groups: Group[]
   groupProperties: Property[][]
+  groupPropertiesMap: { [key: string]: Property[] }
 
   userPropertyPopup: boolean
   userCustomProperties: UserCustomProperty[]
@@ -81,6 +82,7 @@ export const useLexiconStore = defineStore('lexicon', {
 
     groups: [],
     groupProperties: [],
+    groupPropertiesMap: {},
 
     userPropertyPopup: false,
     userPropertiesLoading: false,
@@ -225,7 +227,10 @@ export const useLexiconStore = defineStore('lexicon', {
               projectsStore.projectId,
               `${group.id}`
             )
-            return res?.data?.data || []
+            const data = res?.data?.data || [];
+            this.groupPropertiesMap[group.name] = data
+
+            return data;
           })
         )
       } catch (error) {

@@ -101,8 +101,25 @@ const userProperty = () => {
     return ret
   })
 
+  const usersProperties = computed<Group<PropertyItem[]> | null>(() => {
+    const groupIndex = lexiconStore.groups.findIndex(item => item.name === 'user')
+    const group = lexiconStore.groups[groupIndex]
+
+    if (group && lexiconStore.groupProperties.length) {
+      return getProperties(
+        lexiconStore.groupProperties[groupIndex],
+        group.name,
+        PropertyType.Group,
+        group.id
+      )
+    }
+
+    return null
+  })
+
   return {
     groupedProperties,
+    usersProperties,
   }
 }
 

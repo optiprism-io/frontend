@@ -41,7 +41,7 @@ const { t } = useI18n()
 
 const props = defineProps<{
   group: number
-  id: number | string
+  id: string
   name: string
 }>()
 
@@ -69,14 +69,14 @@ const items = computed<Row[]>(() => {
     return [
       {
         key: 'name',
-        title: item.properties?.propertyName || '',
+        title: item?.propertyName || '',
       },
       {
         key: 'value',
         title:
-          item.properties?.value && item.properties?.propertyName === 'created_at'
-            ? useDateFormat(+item.properties?.value, 'YYYY-MM-DD HH:mm').value
-            : item.properties?.value || '',
+          item?.value && item?.propertyName === 'created_at'
+            ? useDateFormat(+item?.value, 'YYYY-MM-DD HH:mm').value
+            : item?.value || '',
       },
     ]
   })
@@ -101,7 +101,7 @@ const getData = async () => {
     const res = await apiClient.groupRecords.getGroupRecord(
       projectsStore.projectId,
       props.group,
-      +props.id
+      props.id
     )
     if (res.data) {
       record.value = res.data

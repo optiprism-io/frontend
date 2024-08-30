@@ -202,9 +202,7 @@ onMounted(() => {
   propertiesEdit.value = props.item?.properties
     ? Object.keys(props.item.properties).map(key => {
         return {
-          value:
-            props.item?.properties.find(item => item.properties?.propertyName === key)?.properties
-              ?.value || '',
+          value: props.item?.properties.find(item => item?.propertyName === key)?.value || '',
           key: key || '',
         }
       })

@@ -4,7 +4,7 @@
       {{ strings.usersTitle }}
     </template>
     <template #main>
-      <UiCardContainer class="pf-u-h-100">
+      <UiCardContainer>
         <UiTable
           :items="tableData.rows"
           :columns="tableData.tableColumnsValues"
@@ -79,7 +79,6 @@ import useI18n from '@/hooks/useI18n'
 import useProperty from '@/hooks/useProperty'
 import { useGroupStore, defaultColumns } from '@/stores/group/group'
 import { useLexiconStore } from '@/stores/lexicon'
-import { useReportsStore } from '@/stores/reports/reports'
 import { useSegmentsStore } from '@/stores/reports/segments'
 
 import type { Cell } from '@/components/uikit/UiTable/UiTable'
@@ -89,8 +88,7 @@ const { t } = useI18n()
 const groupStore = useGroupStore()
 const segmentsStore = useSegmentsStore()
 const lexiconStore = useLexiconStore()
-const reportsStore = useReportsStore()
-const { groupedProperties } = useProperty()
+const { usersProperties } = useProperty()
 
 const strings = computed(() => {
   return {
@@ -99,16 +97,17 @@ const strings = computed(() => {
     noDataText: t('events.noEventsFound'),
     dayShort: t('common.calendar.dayShort'),
     segment: t('events.segments.segment'),
+    columns: t('common.columns'),
   }
 })
 
 const recordPopupName = ref('')
-const recordPopupId = ref<number | string>(0)
+const recordPopupId = ref<string>('')
 const recordPopup = ref(false)
 
 const closeRecordPopup = () => {
   recordPopup.value = false
-  recordPopupId.value = 0
+  recordPopupId.value = ''
   recordPopupName.value = ''
 }
 
@@ -128,36 +127,38 @@ const tableData = computed(() => {
 })
 
 const columnsButtonText = computed(
-  () => `${groupStore.activeColumns.length} ${t('common.columns')}`
+  () => `${groupStore.activeColumns.length} ${strings.value.columns}`
 )
 
 const itemsProperties = computed(() => {
-  return groupedProperties.value.map(group => {
-    return {
-      name: group.name,
-      items: group.items.map(groupItem => {
-        const activeProperty = groupStore.activeColumns.find(
-          columnProperty =>
-            columnProperty.group === groupItem.item.id &&
-            columnProperty.id === groupItem.item.id &&
-            columnProperty.name === groupItem.item.name
-        )
+  return usersProperties.value
+    ? [
+        {
+          name: usersProperties.value.name,
+          type: usersProperties.value.type,
+          items: usersProperties.value.items.map(groupItem => {
+            const activeProperty = groupStore.activeColumns.find(
+              col =>
+              col.name === groupItem.item.name
+            )
 
-        return {
-          ...groupItem,
-          selected: Boolean(activeProperty),
-        }
-      }),
-    }
-  })
+            return {
+              ...groupItem,
+              selected: Boolean(activeProperty),
+            }
+          }),
+        },
+      ]
+    : []
 })
 
 const selectColumn = (payload: PropertyRef) => {
   if (defaultColumns.includes(payload.name)) {
     return
   }
+
   const propertyIndex = groupStore.activeColumns.findIndex(
-    prop => prop.group === payload.group && prop.id === payload.id && prop.name === payload.name
+    prop => prop.name === payload.name
   )
   const items = [...groupStore.activeColumns]
 
@@ -174,7 +175,7 @@ const updateData = () => {
   groupStore.getList()
 }
 
-const clickCell = (cell: Cell, rowIndex: number) => {
+const clickCell = (_: Cell, rowIndex: number) => {
   const rowCell = tableData.value?.rows[rowIndex]?.find(cell => cell.key === 'ID')
   const cellValue = String(rowCell?.value) || ''
 
@@ -212,7 +213,26 @@ const initEventsAndProperties = async () => {
 
 onMounted(async () => {
   await initEventsAndProperties()
-  reportsStore.getList()
+  // groupStore.activeColumns = [
+  //   'project_id',
+  //   'id',
+  //   'version',
+  //   'created_at',
+  //   'First Name',
+  //   'Last Name',
+  // ].map(name => {
+  //   const userProperties = lexiconStore.groupPropertiesMap['user']
+  //   const userProperty = userProperties.find(item => item.name === name)
+
+  //   const property: PropertyRef = {
+  //     name: name,
+  //     type: PropertyType.Group,
+  //     group: userProperty?.groupId,
+  //   }
+
+  //   return property
+  // })
+
   segmentsStore.$reset()
   updateData()
 })

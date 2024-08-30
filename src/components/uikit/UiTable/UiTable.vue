@@ -5,11 +5,7 @@
       'ui-table_clickable': allowClickCell
     }"
   >
-    <DataEmptyPlaceholder
-      v-if="showPlaceholder"
-      :content="props?.noDataText || $t('common.noData')"
-    />
-    <div v-else-if="props.showToolbar" class="pf-c-toolbar ui-table-toolbar">
+    <div v-if="props.showToolbar" class="pf-c-toolbar ui-table-toolbar">
       <div class="pf-c-toolbar__content">
         <div class="pf-c-toolbar__content-section pf-m-nowrap">
           <div class="pf-c-toolbar__item">
@@ -37,6 +33,10 @@
         </div>
       </div>
     </div>
+    <DataEmptyPlaceholder
+      v-if="showPlaceholder"
+      :content="props?.noDataText || $t('common.noData')"
+    />
     <div v-if="props.items?.length" class="pf-c-scroll-outer-wrapper">
       <div class="pf-c-scroll-inner-wrapper">
         <table

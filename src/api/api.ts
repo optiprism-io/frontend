@@ -2954,27 +2954,14 @@ export interface GroupPropertiesList200Response {
 export interface GroupPropertyAndValue {
     /**
      * 
-     * @type {GroupPropertyAndValueProperties}
-     * @memberof GroupPropertyAndValue
-     */
-    'properties'?: GroupPropertyAndValueProperties;
-}
-/**
- * 
- * @export
- * @interface GroupPropertyAndValueProperties
- */
-export interface GroupPropertyAndValueProperties {
-    /**
-     * 
      * @type {string}
-     * @memberof GroupPropertyAndValueProperties
+     * @memberof GroupPropertyAndValue
      */
     'propertyName'?: string;
     /**
      * 
      * @type {Value}
-     * @memberof GroupPropertyAndValueProperties
+     * @memberof GroupPropertyAndValue
      */
     'value'?: Value;
 }
@@ -7320,12 +7307,12 @@ export const GroupRecordsApiAxiosParamCreator = function (configuration?: Config
          * 
          * @summary Get group record
          * @param {number} projectId 
-         * @param {string} group Group ID
-         * @param {number} id Group Record ID
+         * @param {number} group Group ID
+         * @param {string} id Group Record ID
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getGroupRecord: async (projectId: number, group: string, id: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        getGroupRecord: async (projectId: number, group: number, id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'projectId' is not null or undefined
             assertParamExists('getGroupRecord', 'projectId', projectId)
             // verify required parameter 'group' is not null or undefined
@@ -7468,12 +7455,12 @@ export const GroupRecordsApiFp = function(configuration?: Configuration) {
          * 
          * @summary Get group record
          * @param {number} projectId 
-         * @param {string} group Group ID
-         * @param {number} id Group Record ID
+         * @param {number} group Group ID
+         * @param {string} id Group Record ID
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getGroupRecord(projectId: number, group: string, id: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GroupRecord>> {
+        async getGroupRecord(projectId: number, group: number, id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GroupRecord>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getGroupRecord(projectId, group, id, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['GroupRecordsApi.getGroupRecord']?.[localVarOperationServerIndex]?.url;
@@ -7522,12 +7509,12 @@ export const GroupRecordsApiFactory = function (configuration?: Configuration, b
          * 
          * @summary Get group record
          * @param {number} projectId 
-         * @param {string} group Group ID
-         * @param {number} id Group Record ID
+         * @param {number} group Group ID
+         * @param {string} id Group Record ID
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getGroupRecord(projectId: number, group: string, id: number, options?: any): AxiosPromise<GroupRecord> {
+        getGroupRecord(projectId: number, group: number, id: string, options?: any): AxiosPromise<GroupRecord> {
             return localVarFp.getGroupRecord(projectId, group, id, options).then((request) => request(axios, basePath));
         },
         /**
@@ -7567,13 +7554,13 @@ export class GroupRecordsApi extends BaseAPI {
      * 
      * @summary Get group record
      * @param {number} projectId 
-     * @param {string} group Group ID
-     * @param {number} id Group Record ID
+     * @param {number} group Group ID
+     * @param {string} id Group Record ID
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof GroupRecordsApi
      */
-    public getGroupRecord(projectId: number, group: string, id: number, options?: RawAxiosRequestConfig) {
+    public getGroupRecord(projectId: number, group: number, id: string, options?: RawAxiosRequestConfig) {
         return GroupRecordsApiFp(this.configuration).getGroupRecord(projectId, group, id, options).then((request) => request(this.axios, this.basePath));
     }
 
