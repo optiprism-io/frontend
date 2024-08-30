@@ -11,23 +11,20 @@
 </template>
 
 <script setup lang="ts">
-import { Column } from '@antv/g2plot';
+import { Column } from '@antv/g2plot'
 
-import ChartWrapper from '@/components/charts/ChartWrapper.vue';
+import ChartWrapper from '@/components/charts/ChartWrapper.vue'
 
-import defaultOptions from '@/configs/chartOptions';
+import { chartOptions as defaultOptions } from '@/components/charts/chartOptions'
 
 const props = withDefaults(
-    defineProps<{
-        options: any;
-        loading: boolean,
-    }>(),
-    {
-        options: {},
-        loading: false,
-    }
-);
-
+  defineProps<{
+    options: any
+    loading: boolean
+  }>(),
+  {
+    options: {},
+    loading: false,
+  }
+)
 </script>
-
-<style lang="scss"></style>
