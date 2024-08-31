@@ -2,10 +2,13 @@
   <div
     class="ui-table"
     :class="{
-      'ui-table_clickable': allowClickCell
+      'ui-table_clickable': allowClickCell,
     }"
   >
-    <div v-if="props.showToolbar" class="pf-c-toolbar ui-table-toolbar">
+    <div
+      v-if="props.showToolbar"
+      class="pf-c-toolbar ui-table-toolbar"
+    >
       <div class="pf-c-toolbar__content">
         <div class="pf-c-toolbar__content-section pf-m-nowrap">
           <div class="pf-c-toolbar__item">
@@ -18,10 +21,16 @@
               />
             </div>
           </div>
-          <div v-if="slots.after" class="pf-c-toolbar__item pf-u-ml-auto">
+          <div
+            v-if="slots.after"
+            class="pf-c-toolbar__item pf-u-ml-auto"
+          >
             <slot name="after" />
           </div>
-          <div v-if="props.showSelectColumns" class="pf-c-toolbar__item pf-u-ml-auto">
+          <div
+            v-if="props.showSelectColumns"
+            class="pf-c-toolbar__item pf-u-ml-auto"
+          >
             <UiSelect
               :items="columnsSelect"
               :variant="'multiple'"
@@ -37,7 +46,10 @@
       v-if="showPlaceholder"
       :content="props?.noDataText || $t('common.noData')"
     />
-    <div v-if="props.items?.length" class="pf-c-scroll-outer-wrapper">
+    <div
+      v-if="props.items?.length"
+      class="pf-c-scroll-outer-wrapper"
+    >
       <div class="pf-c-scroll-inner-wrapper">
         <table
           class="pf-c-table"
@@ -47,8 +59,14 @@
           role="grid"
         >
           <thead>
-            <tr v-if="groups.length > 0" role="row">
-              <template v-for="group in groups" :key="group.value">
+            <tr
+              v-if="groups.length > 0"
+              role="row"
+            >
+              <template
+                v-for="group in groups"
+                :key="group.value"
+              >
                 <UiTableCellWrapper
                   :fixed="group.fixed"
                   :last-fixed="group.lastFixed"
@@ -56,12 +74,18 @@
                   :no-wrap="group.nowrap"
                   :is-head-cell="true"
                 >
-                  <UiTableHeadCell :value="group.value" :title="group.title" />
+                  <UiTableHeadCell
+                    :value="group.value"
+                    :title="group.title"
+                  />
                 </UiTableCellWrapper>
               </template>
             </tr>
             <tr role="row">
-              <template v-for="column in columns" :key="column.value">
+              <template
+                v-for="column in columns"
+                :key="column.value"
+              >
                 <UiTableCellWrapper
                   :fixed="column.fixed"
                   :sorted="column.sorted"
@@ -120,7 +144,7 @@
 import { computed, inject, useSlots, ref, onBeforeMount } from 'vue'
 
 import DataEmptyPlaceholder from '@/components/common/data/DataEmptyPlaceholder.vue'
-import type { UiSelectItem } from '@/components/uikit/UiSelect.vue';
+import type { UiSelectItem } from '@/components/uikit/UiSelect.vue'
 import UiSelect from '@/components/uikit/UiSelect.vue'
 import UiSpinner from '@/components/uikit/UiSpinner.vue'
 import UiTableCell from '@/components/uikit/UiTable/UiTableCell.vue'
@@ -174,28 +198,32 @@ const showPlaceholder = computed(
 )
 
 const columnsSelect = computed(() => {
-  return props.showSelectColumns ? (props.filterColumns || []).reduce((acc: UiSelectItem<string>[], column) => {
-    if (!column.default) {
-      acc.push({
-        key: column.value,
-        nameDisplay: column.title,
-        value: column.value,
-      })
-    }
-    return acc
-  }, []) : []
+  return props.showSelectColumns
+    ? (props.filterColumns || []).reduce((acc: UiSelectItem<string>[], column) => {
+        if (!column.default) {
+          acc.push({
+            key: column.value,
+            nameDisplay: column.title,
+            value: column.value,
+          })
+        }
+        return acc
+      }, [])
+    : []
 })
 
-const columnsButtonText = computed(() => `${activeColumns.value.length} ${i18n.$t('common.columns')}`)
+const columnsButtonText = computed(
+  () => `${activeColumns.value.length} ${i18n.$t('common.columns')}`
+)
 
 const onAction = (payload: Action) => {
   emit('on-action', payload)
 }
 
 const toggleColumns = (payload: string) => {
-  activeColumns.value = activeColumns.value.includes(payload) ?
-    activeColumns.value.filter(item => item !== payload) :
-    [...activeColumns.value, payload]
+  activeColumns.value = activeColumns.value.includes(payload)
+    ? activeColumns.value.filter(item => item !== payload)
+    : [...activeColumns.value, payload]
 
   emit('select-columns', activeColumns.value)
 }
@@ -205,7 +233,7 @@ onBeforeMount(() => {
 })
 
 const clickCell = (cell: Cell, rowIndex: number) => {
-  emit('click-cell', cell, rowIndex);
+  emit('click-cell', cell, rowIndex)
 }
 </script>
 
