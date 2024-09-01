@@ -1,25 +1,25 @@
 @import 'helpers';
 
 :root {
-  --pf-global--spacer--md: 0.7rem;
-  --pf-global--FontSize--md: 0.9rem;
-  --pf-c-page__main-section--PaddingTop: 1rem;
-  --pf-global--gutter: 0.7rem;
+  --pf-v5-global--spacer--md: 0.7rem;
+  --pf-v5-global--FontSize--md: 0.9rem;
+  --pf-v5-c-page__main-section--PaddingTop: 1rem;
+  --pf-v5-global--gutter: 0.7rem;
 
   --op-base-color: #3d4a58;
   --op-base-color-text: #5c6f7f;
   --op-base-light: #bdcbd5;
   --op-base-background: #fafafa;
 
-  --pf-global--main-color--100: #1e83c0;
-  --pf-global--main-color--200: #0f5683;
-  --pf-global--main-color--light-100: #60b0e2;
-  --pf-global--main-color--dark-100: #007dca;
+  --pf-v5-global--main-color--100: #1e83c0;
+  --pf-v5-global--main-color--200: #0f5683;
+  --pf-v5-global--main-color--light-100: #60b0e2;
+  --pf-v5-global--main-color--dark-100: #007dca;
 
-  --pf-global--base-light-color--100: #d0d5d9;
-  --pf-global--base-light-color--200: #99a1a9;
-  --pf-global--base-light-color--light-100: #495664;
-  --pf-global--base-light-color--dark-100: #475261;
+  --pf-v5-global--base-light-color--100: #d0d5d9;
+  --pf-v5-global--base-light-color--200: #99a1a9;
+  --pf-v5-global--base-light-color--light-100: #495664;
+  --pf-v5-global--base-light-color--dark-100: #475261;
 }
 
 .min-w-100 {
@@ -40,18 +40,18 @@
       .v-popper__inner {
         position: relative;
         max-width: 18.75rem;
-        background-color: var(--pf-global--BackgroundColor--dark-100);
-        box-shadow: var(--pf-global--BoxShadow--md);
-        padding: var(--pf-global--spacer--sm);
-        font-size: var(--pf-global--FontSize--sm);
+        background-color: var(--pf-v5-global--BackgroundColor--dark-100);
+        box-shadow: var(--pf-v5-global--BoxShadow--md);
+        padding: var(--pf-v5-global--spacer--sm);
+        font-size: var(--pf-v5-global--FontSize--sm);
         line-height: 1.5;
         text-align: center;
         word-break: break-word;
-        color: var(--pf-global--Color--light-100);
+        color: var(--pf-v5-global--Color--light-100);
         border-radius: 0;
       }
       .v-popper__arrow-inner {
-        color: var(--pf-global--BackgroundColor--dark-100);
+        color: var(--pf-v5-global--BackgroundColor--dark-100);
       }
     }
   }

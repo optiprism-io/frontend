@@ -1,5 +1,5 @@
 <template>
-  <form class="pf-u-w-50 pf-c-form pf-u-mb-auto">
+  <form class="pf-v5-u-w-50 pf-v5-c-form pf-v5-u-mb-auto">
     <UiLabelAndSlot :label="t('project.name')">
       <UiInlineEditSlot
         :is-editable="curIsEdit.name"
@@ -30,10 +30,10 @@
         @save="saveSessionDurationHandler"
       >
         <UiLabelAndSlot :label="t('project.sessionDuration')">
-          <div class="pf-l-flex">
+          <div class="pf-v5-l-flex">
             <UiInput
               v-model.number="sessionTimeout"
-              class="pf-u-w-initial"
+              class="pf-v5-u-w-initial"
               type="number"
               :min="1"
               :invalid="!!errors.updateProject.sessionDurationSeconds?.message"
@@ -41,7 +41,7 @@
               @keyup.enter="saveSessionDurationHandler"
             />
             <UiSelect
-              class="pf-u-w-initial"
+              class="pf-v5-u-w-initial"
               :items="sessionPeriodOptions"
               :text-button="sessionPeriod"
               @on-select="selectPeriod"

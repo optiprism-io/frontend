@@ -109,7 +109,7 @@ function getTooltipContent(groupName: string, el: ChartElement): string {
   padding: 4rem 1rem;
   position: relative;
   overflow-x: auto;
-  font-size: var(--pf-global--FontSize--sm);
+  font-size: var(--pf-v5-global--FontSize--sm);
   line-height: 1.5;
 }
 

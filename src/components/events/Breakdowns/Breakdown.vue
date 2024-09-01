@@ -1,15 +1,15 @@
 <template>
   <div
-    class="pf-l-flex"
+    class="pf-v5-l-flex"
     @mouseenter="showControls = true"
     @mouseleave="showControls = false"
   >
     <CommonIdentifier
-      class="pf-l-flex__item"
+      class="pf-v5-l-flex__item"
       :index="index"
     />
-    <div class="pf-c-action-list">
-      <div class="pf-c-action-list__item">
+    <div class="pf-v5-c-action-list">
+      <div class="pf-v5-c-action-list__item">
         <template v-if="isBreakdownCohort(breakdown)">
           <CohortSelect
             :selected="breakdownCohort.cohortId"
@@ -17,17 +17,17 @@
           >
             <button
               v-if="breakdownCohort.cohortId"
-              class="pf-c-button pf-m-secondary"
+              class="pf-v5-c-button pf-v5-m-secondary"
               type="button"
             >
               {{ breakdownName() }}
             </button>
             <button
               v-else
-              class="pf-c-button pf-m-primary"
+              class="pf-v5-c-button pf-v5-m-primary"
               type="button"
             >
-              <span class="pf-c-button__icon pf-m-start">
+              <span class="pf-v5-c-button__icon pf-v5-m-start">
                 <i
                   class="fas fa-plus-circle"
                   aria-hidden="true"
@@ -43,7 +43,7 @@
             @select="changeBreakdown"
           >
             <button
-              class="pf-c-button pf-m-secondary"
+              class="pf-v5-c-button pf-v5-m-secondary"
               type="button"
             >
               {{ breakdownName() }}
@@ -51,15 +51,15 @@
           </BreakdownSelect>
         </template>
       </div>
-      <div class="pf-c-action-list__item">
+      <div class="pf-v5-c-action-list__item">
         {{ breakdownCaption() }}
       </div>
       <div
         v-show="showControls"
-        class="pf-c-action-list__item"
+        class="pf-v5-c-action-list__item"
       >
         <button
-          class="pf-c-button pf-m-plain"
+          class="pf-v5-c-button pf-v5-m-plain"
           type="button"
           aria-label="Remove"
           @click="removeBreakdown"

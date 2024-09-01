@@ -1,7 +1,7 @@
 <template>
   <input
     :id="props.name"
-    class="pf-c-form-control"
+    class="pf-v5-c-form-control"
     :value="modelValue || value"
     :placeholder="placeholder"
     :min="min"

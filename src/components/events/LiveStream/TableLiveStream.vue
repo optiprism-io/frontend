@@ -1,7 +1,7 @@
 <template>
   <div
-    class="table-live-steam pf-u-min-height"
-    style="--pf-u-min-height--MinHeight: 24ch"
+    class="table-live-steam pf-v5-u-min-height"
+    style="--pf-v5-u-min-height--MinHeight: 24ch"
   >
     <UiTable
       :is-loading="liveStreamStore.loading"
@@ -27,13 +27,13 @@
             >
               <template #action>
                 <button
-                  class="pf-c-toggle-group__button"
+                  class="pf-v5-c-toggle-group__button"
                   :class="{
-                    'pf-m-selected': liveStreamStore.isPeriodActive,
+                    'pf-v5-m-selected': liveStreamStore.isPeriodActive,
                   }"
                   type="button"
                 >
-                  <div class="pf-u-display-flex pf-u-align-items-center">
+                  <div class="pf-v5-u-display-flex pf-v5-u-align-items-center">
                     <UiIcon :icon="'far fa-calendar-alt'" />
                     &nbsp;
                     {{ calendarValueString }}
@@ -53,7 +53,7 @@
           @select="selectColumn"
         >
           <UiButton
-            class="pf-m-control"
+            class="pf-v5-m-control"
             :after-icon="'fas fa-caret-down'"
           >
             {{ columnsButtonText }}
@@ -280,7 +280,7 @@ const onAction = (payload: Action) => {
 .table-live-steam {
   --table-live-steam-cell-width: 200px;
 
-  .pf-c-table__sticky-column {
+  .pf-v5-c-table__sticky-column {
     &:nth-child(1) {
       min-width: var(--table-live-steam-cell-width);
       max-width: var(--table-live-steam-cell-width);
@@ -299,7 +299,7 @@ const onAction = (payload: Action) => {
     }
   }
 
-  .pf-u-text-nowrap {
+  .pf-v5-u-text-nowrap {
     min-width: 140px;
     max-width: 350px;
   }

@@ -1,7 +1,7 @@
 <template>
   <UiSpinner
     v-if="isLoading"
-    class="pf-u-display-flex pf-u-m-auto"
+    class="pf-v5-u-display-flex pf-v5-u-m-auto"
     size="lg"
   />
   <ProjectsForm

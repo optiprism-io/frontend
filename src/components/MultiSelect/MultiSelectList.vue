@@ -1,18 +1,18 @@
 <template>
-  <div class="pf-c-menu pf-m-plain pf-m-scrollable">
-    <div class="pf-c-menu__search">
-      <div class="pf-c-menu__search-input">
+  <div class="pf-v5-c-menu pf-v5-m-plain pf-v5-m-scrollable">
+    <div class="pf-v5-c-menu__search">
+      <div class="pf-v5-c-menu__search-input">
         <input
           v-model="searchRef"
-          class="pf-c-form-control pf-m-search"
+          class="pf-v5-c-form-control pf-v5-m-search"
           type="search"
           aria-label="Search"
           @input="search"
         >
       </div>
     </div>
-    <div class="pf-c-menu__content">
-      <ul class="pf-c-menu__list">
+    <div class="pf-v5-c-menu__content">
+      <ul class="pf-v5-c-menu__list">
         <MultiSelectListItem
           v-for="item in items"
           :key="String(item.name)"

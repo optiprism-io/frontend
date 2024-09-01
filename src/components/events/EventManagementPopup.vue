@@ -10,7 +10,7 @@
     @cancel="cancel"
   >
     <UiTabs
-      class="pf-u-mb-md"
+      class="pf-v5-u-mb-md"
       :items="itemsTabs"
       @on-select="onSelectTab"
     />

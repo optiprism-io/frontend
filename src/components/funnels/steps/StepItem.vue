@@ -1,19 +1,19 @@
 <template>
-  <div class="pf-l-flex pf-m-column">
+  <div class="pf-v5-l-flex pf-v5-m-column">
     <template
       v-for="(event, i) in step.events"
       :key="event.event.id"
     >
-      <div class="pf-l-flex pf-u-align-items-center pf-m-nowrap">
+      <div class="pf-v5-l-flex pf-v5-u-align-items-center pf-v5-m-nowrap">
         <CommonIdentifier
-          class="pf-l-flex__item"
+          class="pf-v5-l-flex__item"
           type="numeric"
           :index="index"
         />
         <UiActionList>
           <template #main>
             <EventSelector @select="value => editStepEvent(i, value)">
-              <UiButton class="pf-m-secondary">
+              <UiButton class="pf-v5-m-secondary">
                 {{ eventName(event.event) }}
               </UiButton>
             </EventSelector>

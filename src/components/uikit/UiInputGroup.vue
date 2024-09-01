@@ -1,5 +1,5 @@
 <template>
-  <div class="pf-c-input-group">
+  <div class="pf-v5-c-input-group">
     <slot />
   </div>
 </template>

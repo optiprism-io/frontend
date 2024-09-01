@@ -1,5 +1,5 @@
 <template>
-  <div class="pf-c-dropdown pf-m-expanded">
+  <div class="pf-v5-c-dropdown pf-v5-m-expanded">
     <VDropdown
       :placement="placementMenu"
       :triggers="[]"
@@ -13,11 +13,11 @@
       </template>
       <button
         v-else
-        class="pf-c-dropdown__toggle"
+        class="pf-v5-c-dropdown__toggle"
         :class="{
-          'pf-m-action': isOpen,
-          'pf-m-transparent': transparent && !isOpen,
-          'pf-m-transparent_expanded': transparent && isOpen,
+          'pf-v5-m-action': isOpen,
+          'pf-v5-m-transparent': transparent && !isOpen,
+          'pf-v5-m-transparent_expanded': transparent && isOpen,
         }"
         aria-expanded="true"
         type="button"
@@ -25,23 +25,23 @@
       >
         <span
           v-if="textValue"
-          class="pf-c-dropdown__toggle-text"
+          class="pf-v5-c-dropdown__toggle-text"
           :class="{
-            'pf-u-color-400': !textValue,
+            'pf-v5-u-color-400': !textValue,
           }"
         >
           {{ textValue }}
         </span>
-        <span v-if="buttonIconClass" class="pf-c-dropdown__icon">
+        <span v-if="buttonIconClass" class="pf-v5-c-dropdown__icon">
           <i :class="buttonIconClass" aria-hidden="true" />
         </span>
-        <span v-if="hasIconArrowButton" class="pf-c-dropdown__toggle-icon">
+        <span v-if="hasIconArrowButton" class="pf-v5-c-dropdown__toggle-icon">
           <i class="fas fa-caret-down" aria-hidden="true" />
         </span>
       </button>
       <template #popper>
-        <div class="pf-c-dropdown">
-          <ul class="pf-c-dropdown__menu" aria-labelledby="dropdown-expanded-button">
+        <div class="pf-v5-c-dropdown">
+          <ul class="pf-v5-c-dropdown__menu" aria-labelledby="dropdown-expanded-button">
             <li
               v-for="item in items"
               :key="item.key"
@@ -51,22 +51,22 @@
               <RouterLink
                 v-if="item.to"
                 :to="item.to"
-                class="pf-c-dropdown__menu-item"
+                class="pf-v5-c-dropdown__menu-item"
               >
                 {{ item.nameDisplay }}
               </RouterLink>
               <a
                 v-else-if="item.href"
-                class="pf-c-dropdown__menu-item"
+                class="pf-v5-c-dropdown__menu-item"
                 href="#"
               >
                 {{ item.nameDisplay }}
               </a>
               <button
                 v-else
-                class="pf-c-dropdown__menu-item"
+                class="pf-v5-c-dropdown__menu-item"
                 :class="{
-                  'pf-u-background-color-200': item.selected,
+                  'pf-v5-u-background-color-200': item.selected,
                 }"
                 type="button"
               >
@@ -206,7 +206,7 @@ export default main
   }
 }
 
-.pf-c-dropdown {
+.pf-v5-c-dropdown {
   &__toggle {
     min-width: var(--min-width);
   }
@@ -216,8 +216,8 @@ export default main
     min-width: var(--min-width);
   }
 
-  .pf-m-transparent {
-    color: var(--pf-global--Color--light-100);
+  .pf-v5-m-transparent {
+    color: var(--pf-v5-global--Color--light-100);
 
     &::before {
       content: none;
@@ -228,7 +228,7 @@ export default main
     }
 
     &_expanded {
-      color: var(--pf-global--Color--light-100);
+      color: var(--pf-v5-global--Color--light-100);
 
       &::before {
         border-left: none;

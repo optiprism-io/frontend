@@ -1,12 +1,12 @@
 <template>
-  <div class="dashboards pf-u-p-md pf-u-pb-3xl">
+  <div class="dashboards pf-v5-u-p-md pf-v5-u-pb-3xl">
     <div
       v-if="!isNoDate"
-      class="dashboards__nav pf-u-px-sm pf-u-mb-sm pf-u-display-flex pf-u-justify-content-space-between pf-u-align-items-center"
+      class="dashboards__nav pf-v5-u-px-sm pf-v5-u-mb-sm pf-v5-u-display-flex pf-v5-u-justify-content-space-between pf-v5-u-align-items-center"
     >
       <UiSelect
         v-if="isShowSelectDashboard"
-        class="dashboards__select pf-u-mr-md"
+        class="dashboards__select pf-v5-u-mr-md"
         :items="dashboardsList"
         :text-button="dashboardSelectText"
         :is-text-select="true"
@@ -24,7 +24,7 @@
       </UiSelect>
       <UiInlineEdit
         v-if="dashboards.length"
-        class="dashboards__name pf-u-mr-md"
+        class="dashboards__name pf-v5-u-mr-md"
         :value="dashboardName"
         :hide-text="true"
         @on-input="updateName"
@@ -32,7 +32,7 @@
       />
       <UiButton
         v-if="isShowDashboardContentAndControls"
-        class="pf-m-link dashboards__nav-item dashboards__nav-item_new"
+        class="pf-v5-m-link dashboards__nav-item dashboards__nav-item_new"
         :before-icon="'fas fa-plus'"
         @click="setNew"
       >
@@ -40,16 +40,16 @@
       </UiButton>
       <UiButton
         v-if="isShowDashboardContentAndControls"
-        class="pf-m-link pf-m-danger"
+        class="pf-v5-m-link pf-v5-m-danger"
         :before-icon="'fas fa-times'"
         @click="onDeleteDashboard"
       >
         {{ $t('dashboards.delete') }}
       </UiButton>
-      <div class="pf-u-ml-auto">
+      <div class="pf-v5-u-ml-auto">
         <UiSelect
           v-if="isShowDashboardContentAndControls && selectReportsList.length"
-          class="pf-u-mr-md dashboards__add-report"
+          class="pf-v5-u-mr-md dashboards__add-report"
           :items="selectReportsList"
           :text-button="t('dashboards.addReport')"
           :placement="'bottom-end'"
@@ -66,7 +66,7 @@
     >
       {{ t('dashboards.noDashboards') }}
       <UiButton
-        class="pf-m-primary pf-u-ml-md"
+        class="pf-v5-m-primary pf-v5-u-ml-md"
         :before-icon="'fas fa-plus'"
         @click="setNew"
       >
@@ -100,7 +100,7 @@
           <UiCard>
             <template #rightTitle>
               <UiDropdown
-                class="pf-u-mr-md"
+                class="pf-v5-u-mr-md"
                 :items="menuCardReport"
                 :has-icon-arrow-button="false"
                 :transparent="true"
@@ -111,7 +111,7 @@
               >
                 <template #button>
                   <button
-                    class="pf-c-dropdown__toggle pf-m-plain"
+                    class="pf-v5-c-dropdown__toggle pf-v5-m-plain"
                     aria-expanded="true"
                     type="button"
                     aria-label="Actions"
@@ -139,7 +139,7 @@
     >
       {{ t('dashboards.noReportsInDashboard') }}
       <UiSelect
-        class="pf-u-ml-auto pf-u-ml-md dashboards__add-report"
+        class="pf-v5-u-ml-auto pf-v5-u-ml-md dashboards__add-report"
         :items="selectReportsList"
         :text-button="t('dashboards.addReport')"
         :placement="'bottom-end'"
@@ -157,7 +157,7 @@
         :to="pagesMap.reports"
         aria-current="page"
       >
-        <UiButton class="pf-m-primary pf-u-ml-md">
+        <UiButton class="pf-v5-m-primary pf-v5-u-ml-md">
           {{ $t('dashboards.createReport') }}
         </UiButton>
       </RouterLink>
@@ -390,7 +390,7 @@ const onDeleteDashboard = async () => {
         applyButton: t('common.apply'),
         cancelButton: t('common.cancel'),
         title: t('dashboards.delete'),
-        applyButtonClass: 'pf-m-danger',
+        applyButtonClass: 'pf-v5-m-danger',
       }
     )
 
@@ -517,13 +517,13 @@ onUnmounted(() => {
 <style lang="scss">
 .dashboards {
   .vue-grid-item {
-    .pf-c-card__body {
+    .pf-v5-c-card__body {
       height: calc(100% - 36px);
       width: 100%;
     }
   }
   &__add-report,
-  .pf-c-inline-edit__input,
+  .pf-v5-c-inline-edit__input,
   &__select {
     width: 220px;
   }
@@ -542,16 +542,16 @@ onUnmounted(() => {
     min-height: 250px;
     height: 100%;
     cursor: pointer;
-    background-color: var(--pf-global--palette--green-50);
+    background-color: var(--pf-v5-global--palette--green-50);
     &_small {
       min-height: 50px;
     }
   }
   &__new-item-icon {
-    color: var(--pf-global--Color--300);
+    color: var(--pf-v5-global--Color--300);
   }
   &__name {
-    .pf-c-inline-edit__value {
+    .pf-v5-c-inline-edit__value {
       font-size: 20px;
     }
   }

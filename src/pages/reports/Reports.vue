@@ -1,11 +1,11 @@
 <template>
-  <section class="reports pf-u-py-0">
-    <div class="pf-l-flex pf-m-column pf-u-pt-md pf-u-w-100 pf-u-h-100">
-      <div class="pf-l-flex__item">
-        <div class="pf-u-display-flex pf-u-align-items-center">
+  <section class="reports pf-v5-u-py-0">
+    <div class="pf-v5-l-flex pf-v5-m-column pf-v5-u-pt-md pf-v5-u-w-100 pf-v5-u-h-100">
+      <div class="pf-v5-l-flex__item">
+        <div class="pf-v5-u-display-flex pf-v5-u-align-items-center">
           <UiSelect
             v-if="!editableNameReport && itemsReports.length"
-            class="reports__select pf-u-mr-md"
+            class="reports__select pf-v5-u-mr-md"
             :items="itemsReports"
             :text-button="reportSelectText"
             :is-text-select="true"
@@ -23,7 +23,7 @@
           </UiSelect>
           <UiInlineEdit
             v-if="reportsStore.reportId"
-            class="reports__name pf-u-mr-md"
+            class="reports__name pf-v5-u-mr-md"
             :value="reportName"
             :hide-text="true"
             :hide-control-edit="!itemsReports.length"
@@ -32,7 +32,7 @@
           />
           <UiButton
             v-if="isShowSaveReport"
-            class="pf-m-link reports__nav-item reports__nav-item_new"
+            class="pf-v5-m-link reports__nav-item reports__nav-item_new"
             :before-icon="'fas fa-floppy-disk'"
             @click="onSaveReport"
           >
@@ -40,7 +40,7 @@
           </UiButton>
           <UiButton
             v-if="itemsReports.length && reportsStore.reportId"
-            class="pf-m-link pf-m-danger"
+            class="pf-v5-m-link pf-v5-m-danger"
             :before-icon="'fas fa-times'"
             @click="onDeleteReport"
           >
@@ -48,23 +48,23 @@
           </UiButton>
           <UiSwitch
             v-if="showSyncReports"
-            class="pf-u-ml-auto pf-u-mr-md"
+            class="pf-v5-u-ml-auto pf-v5-u-mr-md"
             :value="commonStore.syncReports"
             :label="$t('reports.sync')"
             @input="(value: boolean) => (commonStore.syncReports = value)"
           />
         </div>
       </div>
-      <div class="pf-l-flex__item">
+      <div class="pf-v5-l-flex__item">
         <UiTabs
-          class="pf-u-w-100"
+          class="pf-v5-u-w-100"
           :items="items"
           @on-select="onSelectTab"
         />
       </div>
       <div
-        class="pf-l-flex__item pf-u-flex-1 pf-u-w-100 pf-u-min-height"
-        style="--pf-u-min-height--MinHeight: 0"
+        class="pf-v5-l-flex__item pf-v5-u-flex-1 pf-v5-u-w-100 pf-v5-u-min-height"
+        style="--pf-v5-u-min-height--MinHeight: 0"
       >
         <RouterView :key="key" />
       </div>
@@ -165,7 +165,7 @@ const onDeleteReport = async () => {
         applyButton: t('common.apply'),
         cancelButton: t('common.cancel'),
         title: t('reports.delete'),
-        applyButtonClass: 'pf-m-danger',
+        applyButtonClass: 'pf-v5-m-danger',
       }
     )
 
@@ -265,7 +265,7 @@ onMounted(async () => {
 </script>
 
 <style lang="scss">
-.pf-c-page {
+.pf-v5-c-page {
   height: 100vh;
   &__main {
     overflow-y: hidden;
@@ -282,7 +282,7 @@ onMounted(async () => {
   }
 
   &__name {
-    .pf-c-inline-edit__value {
+    .pf-v5-c-inline-edit__value {
       font-size: 20px;
     }
   }

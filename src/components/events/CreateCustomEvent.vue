@@ -9,7 +9,7 @@
     @cancel="cancel"
   >
     <UiFormLabel
-      class="pf-u-mb-lg"
+      class="pf-v5-u-mb-lg"
       :text="$t('events.event_management.columns.name')"
       :required="true"
       :for="'eventName'"
@@ -22,7 +22,7 @@
       />
     </UiFormLabel>
     <UiFormLabel
-      class="pf-u-mb-lg"
+      class="pf-v5-u-mb-lg"
       :text="$t('events.event_management.columns.description')"
       :for="'eventDescription'"
     >
@@ -33,9 +33,9 @@
         @input="inputTextarea"
       />
     </UiFormLabel>
-    <UiFormLabel class="pf-u-mb-md" :text="$t('events.events')">
+    <UiFormLabel class="pf-v5-u-mb-md" :text="$t('events.events')">
       <template #after>
-        <div class="pf-l-flex pf-m-column">
+        <div class="pf-v5-l-flex pf-v5-m-column">
           <SelectedEvent
             v-for="(event, index) in events"
             :key="index"
@@ -66,12 +66,12 @@
         </Select>
       </template>
     </UiFormLabel>
-    <UiFormLabel class="pf-u-mb-md" :text="$t('events.event_management.columns.tags')">
+    <UiFormLabel class="pf-v5-u-mb-md" :text="$t('events.event_management.columns.tags')">
       <UiInputTags :value="eventTags" @input="inputTags" />
     </UiFormLabel>
     <UiFormLabel
       v-if="isEdit"
-      class="pf-u-mb-md"
+      class="pf-v5-u-mb-md"
       :text="$t('events.event_management.columns.status')"
     >
       <UiSwitch :value="eventStatus" @input="inputStatus" />

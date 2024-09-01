@@ -2,7 +2,7 @@
   <div
     class="ui-table-cell"
     :class="{
-      'pf-u-text-nowrap': props.nowrap,
+      'pf-v5-u-text-nowrap': props.nowrap,
     }"
     :title="isHasTooltip ? tableCellVal : ''"
   >
@@ -36,7 +36,7 @@ const isHasTooltip = computed(() => tableCellVal.value.length > MaxLengthCell)
 
 <style lang="scss">
 .ui-table-cell {
-  &.pf-u-text-nowrap {
+  &.pf-v5-u-text-nowrap {
     overflow: hidden;
     text-overflow: ellipsis;
   }

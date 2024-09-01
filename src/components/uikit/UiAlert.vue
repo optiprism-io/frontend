@@ -1,25 +1,25 @@
 <template>
   <div
-    class="pf-c-alert pf-m-inline"
+    class="pf-v5-c-alert pf-v5-m-inline"
     :class="typeClass"
   >
-    <div class="pf-c-alert__icon">
+    <div class="pf-v5-c-alert__icon">
       <i
         class="fas fa-fw"
         :class="config[props.item.type]"
         aria-hidden="true"
       />
     </div>
-    <p class="pf-c-alert__title">
+    <p class="pf-v5-c-alert__title">
       {{ props.item.text }}
     </p>
     <div
       v-if="!props.item.noClose"
-      class="pf-c-alert__action"
+      class="pf-v5-c-alert__action"
       @click="closeItem(props.item.id)"
     >
       <button
-        class="pf-c-button pf-m-plain"
+        class="pf-v5-c-button pf-v5-m-plain"
         type="button"
       >
         <i

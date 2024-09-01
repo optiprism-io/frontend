@@ -4,13 +4,13 @@
       {{ strings.title }}
     </template>
     <UiCard
-      class="pf-c-card pf-m-compact pf-u-h-100"
+      class="pf-v5-c-card pf-v5-m-compact pf-v5-u-h-100"
       :title="strings.events"
     >
       <InputsEventsLiveStream />
     </UiCard>
     <template #main>
-      <UiCardContainer class="pf-u-h-100">
+      <UiCardContainer class="pf-v5-u-h-100">
         <TableLiveStream />
       </UiCardContainer>
     </template>

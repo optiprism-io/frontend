@@ -1,8 +1,8 @@
 <template>
-  <div class="login pf-c-background-image">
+  <div class="login pf-v5-c-background-image">
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      class="pf-c-background-image__filter"
+      class="pf-v5-c-background-image__filter"
       width="0"
       height="0"
     >
@@ -17,22 +17,22 @@
       </filter>
     </svg>
   </div>
-  <div class="pf-c-login">
-    <div class="pf-c-login__container">
-      <header class="pf-c-login__header">
+  <div class="pf-v5-c-login">
+    <div class="pf-v5-c-login__container">
+      <header class="pf-v5-c-login__header">
         <img
-          class="pf-c-brand"
+          class="pf-v5-c-brand"
           src="@/assets/img/logo-black.svg"
           alt="OptiPrism"
         >
       </header>
-      <main class="pf-c-login__main">
-        <header class="pf-c-login__main-header">
-          <h1 class="pf-c-title pf-m-3xl">
+      <main class="pf-v5-c-login__main">
+        <header class="pf-v5-c-login__main-header">
+          <h1 class="pf-v5-c-title pf-v5-m-3xl">
             {{ $t('login.text') }}
           </h1>
         </header>
-        <div class="pf-c-login__main-body">
+        <div class="pf-v5-c-login__main-body">
           <UiForm
             class="login-form"
             :error-main="errorMain"
@@ -67,18 +67,18 @@
               <UiCheckbox
                 v-model="keepLogged"
                 :label="$t('login.keep')"
-                class="pf-u-mb-md"
+                class="pf-v5-u-mb-md"
               />
             </UiFormGroup>
             <UiFormGroup :action="true">
-              <button class="pf-c-button pf-m-primary pf-m-block" type="submit">
+              <button class="pf-v5-c-button pf-v5-m-primary pf-v5-m-block" type="submit">
                 {{ $t('login.logIn') }}
               </button>
             </UiFormGroup>
           </UiForm>
         </div>
       </main>
-      <footer class="pf-c-login__footer" />
+      <footer class="pf-v5-c-login__footer" />
     </div>
   </div>
 </template>
@@ -174,8 +174,8 @@ const actionForm = () => {
 </script>
 
 <style lang="scss">
-.pf-c-login {
-  img.pf-c-brand {
+.pf-v5-c-login {
+  img.pf-v5-c-brand {
     @media screen and (min-width: 1200px) {
       max-width: 400px;
     }

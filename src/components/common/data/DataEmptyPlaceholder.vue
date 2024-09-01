@@ -1,18 +1,18 @@
 <template>
   <div
-    class="pf-u-display-flex pf-u-justify-content-center pf-u-align-items-center"
+    class="pf-v5-u-display-flex pf-v5-u-justify-content-center pf-v5-u-align-items-center"
     :class="{
-      'pf-u-h-100': props.h100,
-      'pf-u-my-4xl': !props.h100,
+      'pf-v5-u-h-100': props.h100,
+      'pf-v5-u-my-4xl': !props.h100,
     }"
   >
     <div>
       <div
         v-if="!props.hideIcon"
-        class="pf-u-m-auto pf-u-color-400 pf-u-text-align-center"
+        class="pf-v5-u-m-auto pf-v5-u-color-400 pf-v5-u-text-align-center"
       >
         <UiIcon
-          class="pf-u-font-size-4xl"
+          class="pf-v5-u-font-size-4xl"
           :icon="'fas fa-search'"
         />
       </div>
@@ -40,5 +40,5 @@ const props = defineProps<{
     content?: string;
 }>();
 
-const titleClass = 'pf-u-font-weight-bold pf-u-text-align-center pf-u-font-size-lg pf-u-color-400 pf-u-mt-xl';
+const titleClass = 'pf-v5-u-font-weight-bold pf-v5-u-text-align-center pf-v5-u-font-size-lg pf-v5-u-color-400 pf-v5-u-mt-xl';
 </script>

@@ -3,20 +3,20 @@
     :is="cellComponent"
     ref="cell"
     :class="{
-      'pf-c-table__sticky-column': props.fixed,
-      'pf-m-truncate': props.truncate,
-      'pf-m-border-right': props.lastFixed,
-      'pf-c-table__sort': props.sorted,
-      'pf-c-table__action': props.type === 'action',
-      'pf-u-text-nowrap': props.noWrap,
-      'pf-m-nowrap': props.noWrap,
-      'pf-m-fit-content': props.fitContent,
+      'pf-v5-c-table__sticky-column': props.fixed,
+      'pf-v5-m-truncate': props.truncate,
+      'pf-v5-m-border-right': props.lastFixed,
+      'pf-v5-c-table__sort': props.sorted,
+      'pf-v5-c-table__action': props.type === 'action',
+      'pf-v5-u-text-nowrap': props.noWrap,
+      'pf-v5-m-nowrap': props.noWrap,
+      'pf-v5-m-fit-content': props.fitContent,
     }"
     :role="props.isHeadCell ? 'columnheader' : ''"
     :colspan="colspan"
     :style="{
-      '--pf-c-table__sticky-column--MinWidth': minWidth,
-      '--pf-c-table__sticky-column--Left': left,
+      '--pf-v5-c-table__sticky-column--MinWidth': minWidth,
+      '--pf-v5-c-table__sticky-column--Left': left,
     }"
   >
     <slot />

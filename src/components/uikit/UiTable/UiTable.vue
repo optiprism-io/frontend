@@ -7,29 +7,29 @@
   >
     <div
       v-if="props.showToolbar"
-      class="pf-c-toolbar ui-table-toolbar"
+      class="pf-v5-c-toolbar ui-table-toolbar"
     >
-      <div class="pf-c-toolbar__content">
-        <div class="pf-c-toolbar__content-section pf-m-nowrap">
-          <div class="pf-c-toolbar__item">
-            <div class="pf-l-flex pf-u-align-items-center">
+      <div class="pf-v5-c-toolbar__content">
+        <div class="pf-v5-c-toolbar__content-section pf-v5-m-nowrap">
+          <div class="pf-v5-c-toolbar__item">
+            <div class="pf-v5-l-flex pf-v5-u-align-items-center">
               <slot name="before" />
               <UiSpinner
                 v-show="props.isLoading"
-                class="pf-u-ml-md"
+                class="pf-v5-u-ml-md"
                 :size="'md'"
               />
             </div>
           </div>
           <div
             v-if="slots.after"
-            class="pf-c-toolbar__item pf-u-ml-auto"
+            class="pf-v5-c-toolbar__item pf-v5-u-ml-auto"
           >
             <slot name="after" />
           </div>
           <div
             v-if="props.showSelectColumns"
-            class="pf-c-toolbar__item pf-u-ml-auto"
+            class="pf-v5-c-toolbar__item pf-v5-u-ml-auto"
           >
             <UiSelect
               :items="columnsSelect"
@@ -48,13 +48,13 @@
     />
     <div
       v-if="props.items?.length"
-      class="pf-c-scroll-outer-wrapper"
+      class="pf-v5-c-scroll-outer-wrapper"
     >
-      <div class="pf-c-scroll-inner-wrapper">
+      <div class="pf-v5-c-scroll-inner-wrapper">
         <table
-          class="pf-c-table"
+          class="pf-v5-c-table"
           :class="{
-            'pf-m-compact': props.compact,
+            'pf-v5-m-compact': props.compact,
           }"
           role="grid"
         >
@@ -239,13 +239,13 @@ const clickCell = (cell: Cell, rowIndex: number) => {
 
 <style lang="scss">
 .ui-table {
-  .pf-c-toolbar__content {
+  .pf-v5-c-toolbar__content {
     min-height: 34px;
   }
-  .pf-c-table {
-    --pf-c-table__sticky-column--cell-min-width--base: 4rem;
+  .pf-v5-c-table {
+    --pf-v5-c-table__sticky-column--cell-min-width--base: 4rem;
   }
-  .pf-c-scroll-outer-wrapper {
+  .pf-v5-c-scroll-outer-wrapper {
     min-height: auto;
   }
 

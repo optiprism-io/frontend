@@ -31,7 +31,7 @@ withDefaults(defineProps<IProps>(), {})
 }
 
 .legend-marker__name {
-  font-size: var(--pf-global--FontSize--sm);
+  font-size: var(--pf-v5-global--FontSize--sm);
   white-space: nowrap;
 }
 </style>

@@ -17,7 +17,7 @@
         <UiSpinner :size="'xl'" />
       </div>
       <UiTabs
-        class="pf-u-mb-md"
+        class="pf-v5-u-mb-md"
         :items="itemsTabs"
       />
       <PropertiesManagementLine
@@ -31,7 +31,7 @@
       <PropertiesManagementLine
         v-for="(property, i) in itemsProperties"
         :key="i"
-        class="properties-management-popup__line pf-u-mb-md"
+        class="properties-management-popup__line pf-v5-u-mb-md"
         :hide-controls="false"
         :index="i"
         :value="property.value"
@@ -41,7 +41,7 @@
         @delete="onDeleteLine"
       />
       <UiButton
-        class="pf-m-primary pf-u-mt-md"
+        class="pf-v5-m-primary pf-v5-u-mt-md"
         @click="onAddProperty"
       >
         {{ strings.addProperty }}
@@ -216,7 +216,7 @@ onUnmounted(() => {
 
 <style lang="scss">
 .properties-management-popup {
-  .pf-c-table {
+  .pf-v5-c-table {
     margin-right: 80px;
   }
   &__content {

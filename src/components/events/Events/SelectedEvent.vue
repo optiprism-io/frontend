@@ -1,19 +1,19 @@
 <template>
   <div
-    class="selected-event pf-l-flex pf-m-column pf-u-mb-md"
+    class="selected-event pf-v5-l-flex pf-v5-m-column pf-v5-u-mb-md"
     :class="{
       'selected-event_preview': props.forPreview,
       'selected-event_active': dropdownStatesControl,
     }"
   >
-    <div class="pf-l-flex">
+    <div class="pf-v5-l-flex">
       <CommonIdentifier
-        class="pf-l-flex__item"
+        class="pf-v5-l-flex__item"
         :index="index"
         :type="props.identifier"
       />
-      <div class="pf-c-action-list">
-        <div class="pf-c-action-list__item">
+      <div class="pf-v5-c-action-list">
+        <div class="pf-v5-c-action-list__item">
           <Select
             grouped
             :items="eventItems"
@@ -26,7 +26,7 @@
             @edit="emit('edit', $event)"
           >
             <UiButton
-              :class="[props.forPreview ? 'pf-m-control pf-m-small' : 'pf-m-secondary']"
+              :class="[props.forPreview ? 'pf-v5-m-control pf-v5-m-small' : 'pf-v5-m-secondary']"
               :disabled="props.forPreview"
             >
               {{ getEventName(eventRef) }}
@@ -48,7 +48,7 @@
         </div>
         <Select
           v-if="props.showQuery"
-          class="pf-c-action-list__item"
+          class="pf-v5-c-action-list__item"
           :items="lexiconStore.eventsQueries"
           @select="addQuery"
           @show="show"
@@ -65,7 +65,7 @@
         </Select>
         <PropertySelect
           v-if="isShowAddFilter"
-          class="pf-c-action-list__item"
+          class="pf-v5-c-action-list__item"
           :is-open-mount="false"
           :event-ref="eventRef"
           :update-open="false"
@@ -85,7 +85,7 @@
         </PropertySelect>
         <PropertySelect
           v-if="props.showBreakdowns"
-          class="pf-c-action-list__item"
+          class="pf-v5-c-action-list__item"
           :event-ref="eventRef"
           :disabled-items="breakdowns"
           @select="addBreakdown"
@@ -101,7 +101,7 @@
             </VTooltip>
           </div>
         </PropertySelect>
-        <div class="pf-c-action-list__item selected-event__control" @click="removeEvent">
+        <div class="pf-v5-c-action-list__item selected-event__control" @click="removeEvent">
           <VTooltip popper-class="ui-hint">
             <UiIcon icon="fas fa-times" />
             <template #popper>
@@ -111,7 +111,7 @@
         </div>
       </div>
     </div>
-    <div v-if="showRows" class="selected-event__rows pf-l-flex pf-m-column">
+    <div v-if="showRows" class="selected-event__rows pf-v5-l-flex pf-v5-m-column">
       <Filter
         v-for="(filter, i) in filters"
         :key="i"
@@ -414,7 +414,7 @@ const changeQuery = (idx: number, ref: EventQueryRef) => {
     cursor: pointer;
 
     &:hover {
-      color: var(--pf-global--palette--black-800);
+      color: var(--pf-v5-global--palette--black-800);
     }
   }
 

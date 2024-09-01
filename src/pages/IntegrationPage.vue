@@ -1,19 +1,19 @@
 <template>
-  <div class="pf-u-p-md pf-u-pb-3xl">
+  <div class="pf-v5-u-p-md pf-v5-u-pb-3xl">
     <ToolsLayout>
       <template #title>
         {{ $t('integration.title') }}
       </template>
       <template #main>
-        <UiCard class="pf-c-card pf-m-compact pf-u-h-100">
+        <UiCard class="pf-v5-c-card pf-v5-m-compact pf-v5-u-h-100">
           <UiSpinner
             v-if="isLoading"
-            class="pf-u-display-flex pf-u-m-auto"
+            class="pf-v5-u-display-flex pf-v5-u-m-auto"
             size="lg"
           />
-          <div v-else class="pf-l-flex pf-u-align-items-center pf-m-nowrap">
+          <div v-else class="pf-v5-l-flex pf-v5-u-align-items-center pf-v5-m-nowrap">
             <UiTabs
-              class="pf-u-mb-md"
+              class="pf-v5-u-mb-md"
               :items="tabs"
               :is-vertical="true"
               @on-select="onSelectTab"

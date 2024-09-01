@@ -1,20 +1,20 @@
 <template>
   <div
-    class="segment pf-l-flex pf-m-column"
+    class="segment pf-v5-l-flex pf-v5-m-column"
     :class="{
       'segment_active': dropdownStatesControl,
     }"
   >
     <div
       v-if="!props.isOneSegment"
-      class="pf-l-flex"
+      class="pf-v5-l-flex"
     >
       <CommonIdentifier
-        class="pf-l-flex__item"
+        class="pf-v5-l-flex__item"
         :index="props.index"
       />
-      <div class="pf-c-action-list">
-        <div class="pf-c-action-list__item">
+      <div class="pf-v5-c-action-list">
+        <div class="pf-v5-c-action-list__item">
           <UiEditableText
             :value="name"
             @on-save="onRename"
@@ -23,7 +23,7 @@
           </UiEditableText>
         </div>
         <Select
-          class="pf-c-action-list__item"
+          class="pf-v5-c-action-list__item"
           :items="conditionItems"
           :is-open-mount="false"
           @select="addCondition"
@@ -42,7 +42,7 @@
           </div>
         </Select>
         <div
-          class="pf-c-action-list__item segment__control"
+          class="pf-v5-c-action-list__item segment__control"
           @click="onRemove"
         >
           <VTooltip popper-class="ui-hint">
@@ -57,7 +57,7 @@
     <div
       class="segment__condition-list"
       :class="{
-        'pf-u-pl-xl': !props.isOneSegment,
+        'pf-v5-u-pl-xl': !props.isOneSegment,
       }"
     >
       <Condition
@@ -186,7 +186,7 @@ const onRemove = (): void => emit('on-remove', props.index)
         color: var(--op-base-color-text);
 
         &:hover {
-            color: var(--pf-global--palette--black-800);
+            color: var(--pf-v5-global--palette--black-800);
         }
     }
     &_active,

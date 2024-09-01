@@ -1,18 +1,18 @@
 <template>
   <div class="ui-table-event-cell">
-    <div class="pf-u-display-flex pf-u-flex-direction-row pf-u-align-items-center">
-      <div class="pf-l-flex__item">
-        <div class="pf-u-display-flex pf-u-flex-direction-row pf-u-align-items-center">
+    <div class="pf-v5-u-display-flex pf-v5-u-flex-direction-row pf-v5-u-align-items-center">
+      <div class="pf-v5-l-flex__item">
+        <div class="pf-v5-u-display-flex pf-v5-u-flex-direction-row pf-v5-u-align-items-center">
           <div
             v-if="props.customEvents && props.customEvents.length"
-            class="pf-u-display-flex"
+            class="pf-v5-u-display-flex"
           >
             <div
               v-for="event in props.customEvents"
               :key="event.value"
-              class="pf-u-mr-md ui-table-event-cell__custom-event"
+              class="pf-v5-u-mr-md ui-table-event-cell__custom-event"
               :class="{
-                'pf-u-mb-md': customEventsMargin,
+                'pf-v5-u-mb-md': customEventsMargin,
               }"
               @click="onAction({
                 name: String(event.value),
@@ -20,7 +20,7 @@
                 type: 'event'
               })"
             >
-              <UiButton class="pf-m-secondary">
+              <UiButton class="pf-v5-m-secondary">
                 {{ event.name }}
               </UiButton>
             </div>
@@ -29,16 +29,16 @@
       </div>
       <div
         v-if="hasAction"
-        class="pf-l-flex__item pf-u-ml-auto"
+        class="pf-v5-l-flex__item pf-v5-u-ml-auto"
       >
-        <div class="pf-c-action-list ui-table-event-cell__action-list">
+        <div class="pf-v5-c-action-list ui-table-event-cell__action-list">
           <div
             v-for="action in props.actions"
             :key="action.name"
-            class="pf-c-action-list__item"
+            class="pf-v5-c-action-list__item"
           >
             <UiButton
-              class="pf-m-link"
+              class="pf-v5-m-link"
               :after-icon="action.icon"
               @click="onAction(action)"
             >
@@ -105,7 +105,7 @@ const onAction = (payload: Action) => {
     }
 }
 
-.pf-c-table {
+.pf-v5-c-table {
     tr:hover {
         .ui-table-event-cell__action-list {
             opacity: 1;

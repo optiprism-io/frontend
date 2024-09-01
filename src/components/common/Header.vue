@@ -1,25 +1,25 @@
 <template>
   <header class="app-header">
-    <div class="pf-l-flex pf-u-align-items-center">
-      <div class="pf-l-flex__item pf-u-ml-md pf-l-flex pf-u-align-items-center">
+    <div class="pf-v5-l-flex pf-v5-u-align-items-center">
+      <div class="pf-v5-l-flex__item pf-v5-u-ml-md pf-v5-l-flex pf-v5-u-align-items-center">
         <RouterLink
           class="app-header__logo"
           to="/dashboards"
           aria-current="page"
         >
           <img
-            class="pf-c-brand"
+            class="pf-v5-c-brand"
             src="@/assets/img/logo-black.svg"
             alt="OptiPrism"
           >
         </RouterLink>
       </div>
-      <div class="pf-l-flex__item">
+      <div class="pf-v5-l-flex__item">
         <Nav @on-click-item="onClickItemNav" />
       </div>
       <RouterLink
         v-if="!projectStore.project?.eventsCount"
-        class="pf-c-button pf-m-small pf-m-warning"
+        class="pf-v5-c-button pf-v5-m-small pf-v5-m-warning"
         :to="{
           name: pagesMap.integration,
           params: { integration: SDKIntegration.javascript },
@@ -29,10 +29,10 @@
         {{ $t('integration.clickIntegrate') }}
       </RouterLink>
       <div class="app-header__tools">
-        <div class="pf-c-page__header-tools-group">
-          <div class="pf-c-page__header-tools-item">
+        <div class="pf-v5-c-page__header-tools-group">
+          <div class="pf-v5-c-page__header-tools-item">
             <UiSelect
-              class="pf-u-mr-md app-header__project-select"
+              class="pf-v5-u-mr-md app-header__project-select"
               :items="projectItems"
               :text-button="activeProjectName"
               :placement="'bottom-end'"
@@ -41,7 +41,7 @@
               @on-select="selectProject"
             />
           </div>
-          <div class="pf-c-page__header-tools-item pf-u-ml-md pf-u-mr-lg">
+          <div class="pf-v5-c-page__header-tools-item pf-v5-u-ml-md pf-v5-u-mr-lg">
             <UiDropdown
               :items="userMenu"
               :text-button="''"
@@ -198,7 +198,7 @@ const onClickItemNav = (event: PointerEvent, name: string) => {
 .app-header {
   position: sticky;
   top: 0;
-  z-index: var(--pf-global--ZIndex--2xl);
+  z-index: var(--pf-v5-global--ZIndex--2xl);
   grid-area: header;
   background-color: var(--op-base-color);
   &__tools {

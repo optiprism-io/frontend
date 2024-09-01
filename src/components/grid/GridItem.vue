@@ -1,6 +1,6 @@
 <template>
   <div
-    class="pf-l-grid__item"
+    class="pf-v5-l-grid__item"
     :class="[`pf-m-${col}-col`, `pf-m-${colLg}-col-on-lg`]"
   >
     <slot />

@@ -1,20 +1,20 @@
 <template>
-  <div v-if="filterGroup" class="pf-l-flex pf-m-column">
+  <div v-if="filterGroup" class="pf-v5-l-flex pf-v5-m-column">
     <UiActionList v-if="showMatch">
       <template #main>
-        <div class="pf-l-flex">
-          <span class="pf-l-flex__item">match</span>
+        <div class="pf-v5-l-flex">
+          <span class="pf-v5-l-flex__item">match</span>
           <UiSelectMatch
             :items="conditionsItems"
             :show-search="false"
             :value="filterGroup.condition"
             @update:model-value="changeFilterGroupCondition"
           >
-            <UiButton class="pf-m-secondary pf-l-flex__item" :is-link="true">
+            <UiButton class="pf-v5-m-secondary pf-v5-l-flex__item" :is-link="true">
               {{ $t(`filters.conditions.${filterGroup.condition}`) }}
             </UiButton>
           </UiSelectMatch>
-          <span class="pf-l-flex__item">in group</span>
+          <span class="pf-v5-l-flex__item">in group</span>
         </div>
       </template>
       <UiActionListItem @click="removeFilterGroup">
@@ -26,7 +26,7 @@
         </VTooltip>
       </UiActionListItem>
     </UiActionList>
-    <div class="pf-l-flex pf-m-column">
+    <div class="pf-v5-l-flex pf-v5-m-column">
       <Filter
         v-for="(filter, i) in filterGroup.filters"
         :key="i"
@@ -46,7 +46,7 @@
           {{ filterGroup.condition }}
         </template>
       </Filter>
-      <div class="pf-l-flex">
+      <div class="pf-v5-l-flex">
         <PropertySelect :is-open-mount="false" @select="addFilterToGroup">
           <UiButton :is-link="true" :before-icon="'fas fa-plus'">
             {{ $t('common.addFilter') }}

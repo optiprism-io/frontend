@@ -2,7 +2,7 @@
   <div class="filter-toolbar">
     <div class="filter-toolbar__content">
       <div class="filter-toolbar__left">
-        <div class="filter-toolbar__item pf-u-mr-md pf-u-mb-md">
+        <div class="filter-toolbar__item pf-v5-u-mr-md pf-v5-u-mb-md">
           <UiSelect
             :items="itemsGroupBy"
             :text-button="selectedGroupByString"
@@ -10,7 +10,7 @@
             @on-select="onSelectGroupBy"
           />
         </div>
-        <div class="filter-toolbar__item pf-u-mr-md pf-u-mb-md">
+        <div class="filter-toolbar__item pf-v5-u-mr-md pf-v5-u-mb-md">
           <UiToggleGroup
             :items="itemsPeriod"
             @select="onSelectPerion"
@@ -24,20 +24,20 @@
               >
                 <template #action>
                   <button
-                    class="pf-c-toggle-group__button"
+                    class="pf-v5-c-toggle-group__button"
                     :class="{
-                      'pf-m-selected': calendarValueString,
+                      'pf-v5-m-selected': calendarValueString,
                     }"
                     type="button"
                   >
                     <span
-                      class="pf-c-toggle-group__icon pf-c-toggle-group__text"
+                      class="pf-v5-c-toggle-group__icon pf-v5-c-toggle-group__text"
                     >
                       <UiIcon :icon="'far fa-calendar-alt'" />
                     </span>
                     <span
                       v-if="calendarValueString"
-                      class="pf-c-toggle-group__text"
+                      class="pf-v5-c-toggle-group__text"
                     >
                       {{ calendarValueString }}
                     </span>
@@ -51,7 +51,7 @@
       </div>
       <div
         v-if="$slots.right"
-        class="filter-toolbar__right pf-u-ml-auto"
+        class="filter-toolbar__right pf-v5-u-ml-auto"
       >
         <div class="filter-toolbar__item">
           <slot name="right" />

@@ -1,10 +1,10 @@
 <template>
   <li
-    class="select-list-item pf-c-menu__list-item"
+    class="select-list-item pf-v5-c-menu__list-item"
     :class="{
-      'pf-c-menu__list-item--selected': isSelected,
-      'pf-c-menu__list-item--disabled': isDisabled,
-      'pf-c-menu__list-item--noSelected': noSelected,
+      'pf-v5-c-menu__list-item--selected': isSelected,
+      'pf-v5-c-menu__list-item--disabled': isDisabled,
+      'pf-v5-c-menu__list-item--noSelected': noSelected,
     }"
   >
     <template v-if="items">
@@ -15,9 +15,9 @@
         :offset="[0, 0]"
         class="select-list-item__sub-menu"
       >
-        <div class="pf-c-menu__item">
+        <div class="pf-v5-c-menu__item">
           <div class="select-list-item__content">
-            <span class="pf-c-menu__item-text">{{ text }}</span>
+            <span class="pf-v5-c-menu__item-text">{{ text }}</span>
             <UiIcon
               class="select-list-item__icon"
               icon="fas fa-chevron-right"
@@ -25,17 +25,17 @@
           </div>
         </div>
         <template #popper="{hide}">
-          <div class="pf-c-card pf-m-display-lg pf-u-min-width">
-            <div class="pf-c-menu pf-m-plain pf-m-scrollable">
-              <ul class="pf-c-menu__list">
+          <div class="pf-v5-c-card pf-v5-m-display-lg pf-v5-u-min-width">
+            <div class="pf-v5-c-menu pf-v5-m-plain pf-v5-m-scrollable">
+              <ul class="pf-v5-c-menu__list">
                 <li
                   v-for="itemInner in items"
                   :key="itemInner.item.id"
-                  class="pf-c-menu__item"
+                  class="pf-v5-c-menu__item"
                   @click="() => {hide(); clickList(itemInner.item);}"
                 >
-                  <div class="pf-c-menu__item-main">
-                    <span class="pf-c-menu__item-text">{{ itemInner.name }}</span>
+                  <div class="pf-v5-c-menu__item-main">
+                    <span class="pf-v5-c-menu__item-text">{{ itemInner.name }}</span>
                   </div>
                 </li>
               </ul>
@@ -46,17 +46,17 @@
     </template>
     <div
       v-else
-      class="pf-c-menu__item"
+      class="pf-v5-c-menu__item"
       :class="{
-        'pf-m-selected': isActive,
+        'pf-v5-m-selected': isActive,
       }"
       @click="onClick"
     >
       <span class="select-list-item__content">
-        <span class="pf-c-menu__item-text">{{ text }}</span>
+        <span class="pf-v5-c-menu__item-text">{{ text }}</span>
         <span
           v-if="isActive"
-          class="pf-c-select__menu-item-icon"
+          class="pf-v5-c-select__menu-item-icon"
         >
           <UiIcon :icon="'fas fa-check'" />
         </span>
@@ -135,25 +135,25 @@ const edit = (e: Event) => {
 </script>
 
 <style lang="scss">
-.pf-c-menu__item:hover,
-.pf-c-menu__list-item--selected {
-    background-color: var(--pf-c-menu__list-item--hover--BackgroundColor);
+.pf-v5-c-menu__item:hover,
+.pf-v5-c-menu__list-item--selected {
+    background-color: var(--pf-v5-c-menu__list-item--hover--BackgroundColor);
     cursor: pointer;
 }
-.pf-c-menu__list-item--disabled {
-    background-color: var(--pf-c-menu__list-item--hover--BackgroundColor);
+.pf-v5-c-menu__list-item--disabled {
+    background-color: var(--pf-v5-c-menu__list-item--hover--BackgroundColor);
     opacity: .5;
     pointer-events: none;
     cursor: initial;
 }
-.pf-c-menu__list-item.pf-c-menu__list-item--noSelected {
+.pf-v5-c-menu__list-item.pf-v5-c-menu__list-item--noSelected {
     cursor: initial;
-    .pf-c-menu__item {
+    .pf-v5-c-menu__item {
         cursor: initial;
     }
 }
 
-.pf-c-menu {
+.pf-v5-c-menu {
     &__list-item {
         cursor: pointer;
     }
@@ -167,7 +167,7 @@ const edit = (e: Event) => {
 
     &__icon {
         display: inline-block;
-        color: var(--pf-c-menu__item--Color);
+        color: var(--pf-v5-c-menu__item--Color);
         font-size: .6rem;
         margin-left: 1rem;
     }

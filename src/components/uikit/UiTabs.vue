@@ -1,32 +1,32 @@
 <template>
   <div
-    class="pf-c-tabs pf-u-w-initial"
+    class="pf-v5-c-tabs pf-v5-u-w-initial"
     :class="{
-      'pf-m-box': props.box,
-      'pf-m-vertical': props.isVertical,
-      'pf-u-flex-direction-row': props.isVertical,
+      'pf-v5-m-box': props.box,
+      'pf-v5-m-vertical': props.isVertical,
+      'pf-v5-u-flex-direction-row': props.isVertical,
     }"
   >
-    <ul class="pf-c-tabs__list pf-u-visible-on-sm">
+    <ul class="pf-v5-c-tabs__list pf-v5-u-visible-on-sm">
       <li
         v-for="item in props.items"
         :key="item.name"
         v-tooltip="item.tooltip"
-        class="pf-c-tabs__item"
+        class="pf-v5-c-tabs__item"
         :class="{
-          'pf-m-current': item.active,
+          'pf-v5-m-current': item.active,
         }"
       >
         <component
           :is="item.link ? 'router-link' : 'button'"
-          class="pf-c-tabs__link"
+          class="pf-v5-c-tabs__link"
           :to="item.link"
           :disabled="item.disabled"
           @click="onSelect(item.value)"
         >
           <span
             v-if="item.icon"
-            class="pf-c-tabs__item-icon"
+            class="pf-v5-c-tabs__item-icon"
             aria-hidden="true"
           >
             <UiIcon
@@ -34,7 +34,7 @@
               :icon="item.icon"
             />
           </span>
-          <span class="pf-c-tabs__item-text">
+          <span class="pf-v5-c-tabs__item-text">
             {{ item.name }}
           </span>
         </component>

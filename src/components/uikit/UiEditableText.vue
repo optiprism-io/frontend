@@ -14,7 +14,7 @@
           v-model="tempValue"
           :type="'string'"
           :mount-focus="true"
-          class="pf-u-p-0 pf-u-h-0"
+          class="pf-v5-u-p-0 pf-v5-u-h-0"
           @blur="onBlur"
         />
         <span
@@ -27,12 +27,12 @@
       <template #popper="{ hide }">
         <UiButton
           icon="fas fa-check"
-          class="pf-m-primary pf-m-small"
+          class="pf-v5-m-primary pf-v5-m-small"
           @click="onSave"
         />
         <UiButton
           icon="fas fa-times"
-          class="pf-m-primary pf-m-small pf-u-ml-xs"
+          class="pf-v5-m-primary pf-v5-m-small pf-v5-u-ml-xs"
           @click="($event: any) => {hide(); onHide()}"
         />
       </template>

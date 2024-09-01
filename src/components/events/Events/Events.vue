@@ -1,5 +1,5 @@
 <template>
-  <div class="pf-l-flex pf-m-column">
+  <div class="pf-v5-l-flex pf-v5-m-column">
     <SelectedEvent
       v-for="(event, index) in events"
       :key="index"
@@ -24,7 +24,7 @@
       @change-query="changeQuery"
       @on-change="onChange"
     />
-    <div class="pf-l-flex">
+    <div class="pf-v5-l-flex">
       <EventSelector @select="addEvent">
         <slot name="new" />
       </EventSelector>

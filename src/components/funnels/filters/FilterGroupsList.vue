@@ -1,5 +1,5 @@
 <template>
-  <div class="pf-l-flex pf-m-column">
+  <div class="pf-v5-l-flex pf-v5-m-column">
     <FilterGroup
       v-for="(_, index) in groups"
       :key="index"
@@ -9,7 +9,7 @@
     />
     <div
       v-if="filterGroupsStore.isFiltersAdvanced && groups.length === 0"
-      class="pf-l-flex"
+      class="pf-v5-l-flex"
     >
       <UiButton
         :is-link="true"

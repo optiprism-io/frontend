@@ -1,5 +1,5 @@
 <template>
-  <section class="pf-c-page__main-section">
+  <section class="pf-v5-c-page__main-section">
     <RouterView />
   </section>
 </template>

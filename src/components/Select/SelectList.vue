@@ -1,13 +1,13 @@
 <template>
-  <div class="pf-c-menu pf-m-plain pf-m-scrollable">
+  <div class="pf-v5-c-menu pf-v5-m-plain pf-v5-m-scrollable">
     <div
       v-if="showSearch"
-      class="pf-c-menu__search"
+      class="pf-v5-c-menu__search"
     >
-      <div class="pf-c-menu__search-input">
+      <div class="pf-v5-c-menu__search-input">
         <input
           v-model="search"
-          class="pf-c-form-control pf-m-search"
+          class="pf-v5-c-form-control pf-v5-m-search"
           type="search"
           name="search-input"
           aria-label="Search"
@@ -16,9 +16,9 @@
       </div>
     </div>
     <div
-      class="pf-c-menu__content"
+      class="pf-v5-c-menu__content"
       :class="{
-        'pf-c-select': props.multiple
+        'pf-v5-c-select': props.multiple
       }"
     >
       <template v-if="grouped">
@@ -27,23 +27,23 @@
           :key="group.name"
         >
           <template v-if="group.name">
-            <section class="pf-c-menu__group">
+            <section class="pf-v5-c-menu__group">
               <hr
                 v-if="index > 0"
-                class="pf-c-divider"
+                class="pf-v5-c-divider"
               >
-              <div class="pf-c-action-list">
-                <div class="pf-c-action-list__item">
-                  <div class="pf-c-menu__group-title">
+              <div class="pf-v5-c-action-list">
+                <div class="pf-v5-c-action-list__item">
+                  <div class="pf-v5-c-menu__group-title">
                     {{ group.name }}
                   </div>
                 </div>
                 <div
                   v-if="group.action"
-                  class="pf-c-action-list__item pf-u-pt-md"
+                  class="pf-v5-c-action-list__item pf-v5-u-pt-md"
                 >
                   <UiButton
-                    class="pf-m-link"
+                    class="pf-v5-m-link"
                     :before-icon="group.action.icon"
                     @click="onAction(group.action ? group.action.type : '')"
                   >
@@ -52,7 +52,7 @@
                 </div>
               </div>
 
-              <ul class="pf-c-menu__list">
+              <ul class="pf-v5-c-menu__list">
                 <SelectListItem
                   v-for="(item, i) in group.items"
                   :key="i"
@@ -72,7 +72,7 @@
           </template>
           <ul
             v-else
-            class="pf-c-menu__list"
+            class="pf-v5-c-menu__list"
           >
             <SelectListItem
               v-for="item in group.items"
@@ -90,7 +90,7 @@
         </template>
       </template>
       <template v-else>
-        <ul class="pf-c-menu__list">
+        <ul class="pf-v5-c-menu__list">
           <SelectListItem
             v-for="item in itemItems"
             :key="item.item.id"

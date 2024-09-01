@@ -74,16 +74,16 @@ export function UiSelectGeneric<T>() {
                     {{
                         default: () => <div class="relative">{ slots.default?.() }</div>,
                         popper: ({ hide }: { hide: () => void }) => (
-                            <div class="pf-c-card pf-m-display-lg pf-u-min-width">
+                            <div class="pf-v5-c-card pf-v5-m-display-lg pf-v5-u-min-width">
                                 <div class="ui-select__content">
                                     <div class="ui-select__box">
-                                        <div class="pf-c-menu pf-m-plain pf-m-scrollable">
+                                        <div class="pf-v5-c-menu pf-v5-m-plain pf-v5-m-scrollable">
                                             {
                                                 props.showSearch && (
-                                                    <div class="pf-c-menu__search">
-                                                        <div class="pf-c-menu__search-input">
+                                                    <div class="pf-v5-c-menu__search">
+                                                        <div class="pf-v5-c-menu__search-input">
                                                             <input
-                                                                class="pf-c-form-control pf-m-search"
+                                                                class="pf-v5-c-form-control pf-v5-m-search"
                                                                 type="search"
                                                                 name="search-input"
                                                                 aria-label="Search"
@@ -96,8 +96,8 @@ export function UiSelectGeneric<T>() {
                                             }
                                             {
                                                 filteredItems.value.length > 0 && (
-                                                    <div class="pf-c-menu__content">
-                                                        <ul class="pf-c-menu__list">
+                                                    <div class="pf-v5-c-menu__content">
+                                                        <ul class="pf-v5-c-menu__list">
                                                             {
                                                                 filteredItems.value.map(item => {
                                                                     if (item.__type === 'item') {
@@ -133,12 +133,12 @@ export function UiSelectGeneric<T>() {
                                     {
                                         slots.description && hovered.value && (
                                             <div class="ui-select__description">
-                                                <div class="pf-c-card__body pf-u-pt-lg pf-u-p-sm pf-u-color-200">
-                                                    <div class="pf-l-flex">
-                                                        <div class="select__description-icon pf-l-flex__item">
+                                                <div class="pf-v5-c-card__body pf-v5-u-pt-lg pf-v5-u-p-sm pf-v5-u-color-200">
+                                                    <div class="pf-v5-l-flex">
+                                                        <div class="select__description-icon pf-v5-l-flex__item">
                                                             <UiIcon icon="fas fa-info-circle"/>
                                                         </div>
-                                                        <div class="select__description-text pf-l-flex__item">
+                                                        <div class="select__description-text pf-v5-l-flex__item">
                                                             {slots.description?.({item: hovered})}
                                                         </div>
                                                     </div>

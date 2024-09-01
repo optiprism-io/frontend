@@ -1,5 +1,5 @@
 <template>
-  <div class="pf-l-flex pf-m-column">
+  <div class="pf-v5-l-flex pf-v5-m-column">
     <Breakdown
       v-for="(breakdown, i) in breakdowns"
       :key="i"
@@ -11,7 +11,7 @@
       @remove-breakdown="removeBreakdown"
       @change-breakdown-property="changeBreakdownProperty"
     />
-    <div class="pf-l-flex">
+    <div class="pf-v5-l-flex">
       <PropertySelect
         :event-refs="eventRefs"
         :disabled-items="breakdowns"

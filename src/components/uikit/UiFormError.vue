@@ -1,12 +1,12 @@
 <template>
   <div
     v-if="error"
-    class="pf-c-form__helper-text"
+    class="pf-v5-c-form__helper-text"
     aria-live="polite"
   >
-    <div class="pf-c-helper-text">
-      <div class="pf-c-helper-text__item pf-m-error">
-        <span class="pf-c-helper-text__item-text"> {{ error }} </span>
+    <div class="pf-v5-c-helper-text">
+      <div class="pf-v5-c-helper-text__item pf-v5-m-error">
+        <span class="pf-v5-c-helper-text__item-text"> {{ error }} </span>
       </div>
     </div>
   </div>

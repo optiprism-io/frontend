@@ -6,7 +6,7 @@
       @mousedown="onClickOutside"
     >
       <div
-        class="pf-c-modal-box ui-popup-window__box"
+        class="pf-v5-c-modal-box ui-popup-window__box"
         :class="[
           props.size,
           {
@@ -20,7 +20,7 @@
       >
         <button
           v-if="closable"
-          class="pf-c-button pf-m-plain"
+          class="pf-v5-c-button pf-v5-m-plain"
           type="button"
           aria-label="Close"
           @click="cancel('close-btn')"
@@ -31,19 +31,19 @@
           />
         </button>
         <header
-          class="pf-c-modal-box__header pf-u-mb-md"
+          class="pf-v5-c-modal-box__header pf-v5-u-mb-md"
         >
-          <h1 class="pf-c-modal-box__title">
+          <h1 class="pf-v5-c-modal-box__title">
             {{ props.title }}
           </h1>
           <div
             v-if="props.description"
-            class="pf-c-modal-box__description"
+            class="pf-v5-c-modal-box__description"
           >
             {{ props.description }}
           </div>
         </header>
-        <div class="pf-c-modal-box__body pf-u-mb-md pf-u-pb-md">
+        <div class="pf-v5-c-modal-box__body pf-v5-u-mb-md pf-v5-u-pb-md">
           <UiSpinner
             v-if="loadingContent"
             :size="'xl'"
@@ -56,20 +56,20 @@
         </div>
         <footer
           v-if="props.applyButton || props.cancelButton"
-          class="pf-c-modal-box__footer"
+          class="pf-v5-c-modal-box__footer"
         >
           <div
-            class="pf-c-action-list"
+            class="pf-v5-c-action-list"
             :class="{
-              'pf-u-justify-content-flex-end': props.actionButtonsRight
+              'pf-v5-u-justify-content-flex-end': props.actionButtonsRight
             }"
           >
             <div
               v-if="props.applyButton"
-              class="pf-c-action-list__item"
+              class="pf-v5-c-action-list__item"
             >
               <UiButton
-                :class="props.applyButtonClass || 'pf-m-primary'"
+                :class="props.applyButtonClass || 'pf-v5-m-primary'"
                 type="button"
                 :disabled="props.applyLoading || props.applyDisabled"
                 :progress="props.applyLoading"
@@ -80,7 +80,7 @@
             </div>
             <div
               v-if="props.cancelButton"
-              class="pf-c-action-list__item"
+              class="pf-v5-c-action-list__item"
             >
               <UiButton
                 class=""
@@ -120,7 +120,7 @@ export interface Props {
     fullWidth?: boolean
     closableOverlay?: boolean
     actionButtonsRight?: boolean
-    size?: 'pf-m-md' | 'pf-m-sm' | 'pf-m-lg' | null
+    size?: 'pf-v5-m-md' | 'pf-v5-m-sm' | 'pf-v5-m-lg' | null
     centered?: boolean
     loadingContent?: boolean
 }
@@ -134,7 +134,7 @@ const props = withDefaults(defineProps<Props>(), {
     cancelButton: undefined,
     content: undefined,
     actionButtonsRight: false,
-    size: 'pf-m-sm',
+    size: 'pf-v5-m-sm',
     closable: true,
     fullWidth: true,
     centered: false,

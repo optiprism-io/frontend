@@ -1,17 +1,17 @@
 <template>
   <div
-    class="pf-c-inline-edit pf-u-w-100"
+    class="pf-v5-c-inline-edit pf-v5-u-w-100"
     :class="{
-      'pf-m-inline-editable': isEditable,
+      'pf-v5-m-inline-editable': isEditable,
     }"
   >
-    <div class="pf-c-inline-edit__group">
-      <div class="pf-c-inline-edit__value" @click="curIsEditable = true">
+    <div class="pf-v5-c-inline-edit__group">
+      <div class="pf-v5-c-inline-edit__value" @click="curIsEditable = true">
         {{ placeholder }}
       </div>
-      <div class="pf-c-inline-edit__action pf-m-enable-editable pf-u-ml-auto">
+      <div class="pf-v5-c-inline-edit__action pf-v5-m-enable-editable pf-v5-u-ml-auto">
         <button
-          class="pf-c-button pf-m-plain"
+          class="pf-v5-c-button pf-v5-m-plain"
           type="button"
           aria-label="Edit"
           @click="curIsEditable = true"
@@ -20,14 +20,14 @@
         </button>
       </div>
     </div>
-    <div class="pf-c-inline-edit__group">
-      <div class="pf-c-inline-edit__input">
+    <div class="pf-v5-c-inline-edit__group">
+      <div class="pf-v5-c-inline-edit__input">
         <slot />
       </div>
-      <div class="pf-c-inline-edit__group pf-m-action-group pf-m-icon-group pf-u-mt-auto">
-        <div class="pf-c-inline-edit__action pf-m-valid">
+      <div class="pf-v5-c-inline-edit__group pf-v5-m-action-group pf-v5-m-icon-group pf-v5-u-mt-auto">
+        <div class="pf-v5-c-inline-edit__action pf-v5-m-valid">
           <button
-            class="pf-c-button pf-m-plain"
+            class="pf-v5-c-button pf-v5-m-plain"
             type="button"
             aria-label="Save edits"
             @click="emit('save')"
@@ -35,9 +35,9 @@
             <i class="fas fa-check" aria-hidden="true" />
           </button>
         </div>
-        <div class="pf-c-inline-edit__action">
+        <div class="pf-v5-c-inline-edit__action">
           <button
-            class="pf-c-button pf-m-plain"
+            class="pf-v5-c-button pf-v5-m-plain"
             type="button"
             aria-label="Cancel edits"
             @click="emit('cancel')"

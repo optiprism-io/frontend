@@ -21,7 +21,7 @@ export default defineComponent({
         const renderGridItem = (child: VNode) => h(GridItem, { colLg: props.colLg }, () => child);
 
         return () => [
-            h('div', { class: 'pf-u-font-size-2xl pf-u-mb-md' }, slots.title?.() ?? ''),
+            h('div', { class: 'pf-v5-u-font-size-2xl pf-v5-u-mb-md' }, slots.title?.() ?? ''),
             h(GridContainer, {}, () => [
                 ...children.map(renderGridItem),
                 h(GridItem, { col: 12, colLg: 12 }, slots.main)

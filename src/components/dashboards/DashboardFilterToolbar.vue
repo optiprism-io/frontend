@@ -1,11 +1,11 @@
 <template>
-  <FilterToolbar class="dashboard-filter-toolbar pf-u-px-sm">
+  <FilterToolbar class="dashboard-filter-toolbar pf-v5-u-px-sm">
     <template #content>
       <template v-if="filterGroup">
         <Filter
           v-for="(filter, i) in filterGroup.filters"
           :key="i"
-          class="filter-toolbar__item pf-u-mb-md"
+          class="filter-toolbar__item pf-v5-u-mb-md"
           :index="i"
           :filter="filter"
           :hide-prefix="i === 0"
@@ -24,7 +24,7 @@
         </Filter>
       </template>
       <PropertySelect
-        class="filter-toolbar__item pf-u-mb-md"
+        class="filter-toolbar__item pf-v5-u-mb-md"
         :is-open-mount="false"
         @select="addFilterToGroup"
       >
@@ -154,10 +154,10 @@ onUnmounted(() => {
 
 <style lang="scss">
 .dashboard-filter-toolbar {
-    .pf-c-action-list__item.filter__control-item {
+    .pf-v5-c-action-list__item.filter__control-item {
         margin-left: 0 !important;
     }
-    .filter_horizontal .pf-c-action-list__item {
+    .filter_horizontal .pf-v5-c-action-list__item {
         margin-left: 0;
     }
 }

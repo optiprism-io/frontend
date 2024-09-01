@@ -1,23 +1,23 @@
 <template>
-  <nav class="pf-c-breadcrumb" aria-label="breadcrumb">
-    <ol class="pf-c-breadcrumb__list">
+  <nav class="pf-v5-c-breadcrumb" aria-label="breadcrumb">
+    <ol class="pf-v5-c-breadcrumb__list">
       <li
         v-for="(item, idx) in items"
         :key="idx"
-        class="pf-c-breadcrumb__item"
+        class="pf-v5-c-breadcrumb__item"
       >
-        <span v-if="idx !== 0" class="pf-c-breadcrumb__item-divider">
+        <span v-if="idx !== 0" class="pf-v5-c-breadcrumb__item-divider">
           <i class="fas fa-angle-right" aria-hidden="true" />
         </span>
         <RouterLink
           :to="item.to"
           :custom="!item.isActive"
-          exact-active-class="pf-m-current"
+          exact-active-class="pf-v5-m-current"
         >
           <span
             :class="{
-              'pf-c-breadcrumb__link': !item.isActive,
-              'pf-m-current': !item.isActive,
+              'pf-v5-c-breadcrumb__link': !item.isActive,
+              'pf-v5-m-current': !item.isActive,
             }"
           >
             {{ capitalize(item.title) || 'Breadcrumb' }}

@@ -1,17 +1,17 @@
 <template>
-  <div class="pf-c-page pf-u-p-0">
+  <div class="pf-v5-c-page pf-v5-u-p-0">
     <UiPageSidebar :items="items" />
 
-    <main class="pf-c-page__main">
+    <main class="pf-v5-c-page__main">
       <UiBreadcrumbs
-        class="pf-c-page__main-breadcrumb pf-u-pb-sm pf-u-pt-lg"
+        class="pf-v5-c-page__main-breadcrumb pf-v5-u-pb-sm pf-v5-u-pt-lg"
         :items="breadcrumbs"
       />
 
-      <section class="pf-c-page__main-section pf-m-light pf-u-p-0">
-        <div class="pf-c-page__main-body">
+      <section class="pf-v5-c-page__main-section pf-v5-m-light pf-v5-u-p-0">
+        <div class="pf-v5-c-page__main-body">
           <RouterView
-            class="pf-c-content"
+            class="pf-v5-c-content"
             :organization="organization"
           />
         </div>
@@ -75,7 +75,7 @@ const { projects } = storeToRefs(useProjectsStore())
 </script>
 
 <style scoped lang="scss">
-.pf-c-page {
+.pf-v5-c-page {
   min-height: inherit;
 }
 </style>

@@ -3,11 +3,11 @@
     class="condition"
     :class="{
       'condition_is-one': props.isOne,
-      'pf-m-column': !props.isOne,
+      'pf-v5-m-column': !props.isOne,
     }"
   >
-    <div class="pf-c-action-list">
-      <div class="pf-c-action-list__item">
+    <div class="pf-v5-c-action-list">
+      <div class="pf-v5-c-action-list__item">
         <Select
           :items="allowAndOr ? conditionItemsAll : conditionItems"
           :width-auto="true"
@@ -17,8 +17,8 @@
         >
           <UiButton
             :class="{
-              'pf-m-secondary': isSelectedAction,
-              'pf-m-link': !isSelectedAction,
+              'pf-v5-m-secondary': isSelectedAction,
+              'pf-v5-m-link': !isSelectedAction,
             }"
             :before-icon="!isSelectedAction ? 'fas fa-plus-circle': ''"
           >
@@ -39,15 +39,15 @@
       <template v-else>
         <div
           v-if="isShowSelectProp"
-          class="pf-c-action-list__item"
+          class="pf-v5-c-action-list__item"
         >
           <PropertySelect
             @select="changeProperty"
           >
             <UiButton
               :class="{
-                'pf-m-secondary': isSelectedProp,
-                'pf-m-link': !isSelectedProp,
+                'pf-v5-m-secondary': isSelectedProp,
+                'pf-v5-m-link': !isSelectedProp,
               }"
               type="button"
               :before-icon="!isSelectedProp ? 'fas fa-plus-circle' : ''"
@@ -58,21 +58,21 @@
         </div>
         <div
           v-if="props.condition.propRef && props.condition.opId"
-          class="pf-c-action-list__item"
+          class="pf-v5-c-action-list__item"
         >
           <OperationSelect
             :property-ref="props.condition.propRef"
             :selected="props.condition.opId"
             @select="changeOperation"
           >
-            <UiButton class="pf-m-secondary">
+            <UiButton class="pf-v5-m-secondary">
               {{ operationButtonText }}
             </UiButton>
           </OperationSelect>
         </div>
         <div
           v-if="props.condition.propRef && props.condition.values"
-          class="pf-c-action-list__item"
+          class="pf-v5-c-action-list__item"
         >
           <ValueSelect
             :property-ref="props.condition.propRef"
@@ -82,15 +82,15 @@
             @deselect="removeValue"
           >
             <template v-if="props.condition.values.length > 0">
-              <div class="pf-c-action-list">
+              <div class="pf-v5-c-action-list">
                 <div
                   v-for="(value, i) in props.condition.values"
                   :key="i"
-                  class="pf-c-action-list__item"
+                  class="pf-v5-c-action-list__item"
                 >
-                  <UiButton class="pf-m-secondary">
+                  <UiButton class="pf-v5-m-secondary">
                     {{ value }}
-                    <span class="pf-c-button__icon pf-m-end">
+                    <span class="pf-v5-c-button__icon pf-v5-m-end">
                       <UiIcon
                         icon="fas fa-times"
                         @click.stop="removeValue(value)"
@@ -102,7 +102,7 @@
             </template>
             <template v-else>
               <UiButton
-                class="pf-m-link"
+                class="pf-v5-m-link"
                 :before-icon="'fas fa-plus-circle'"
                 @click="onClickValue"
               >
@@ -114,7 +114,7 @@
       </template>
       <div
         v-if="isShowSelectDate"
-        class="pf-c-action-list__item"
+        class="pf-v5-c-action-list__item"
       >
         <UiDatePicker
           :value="calendarValue"
@@ -128,7 +128,7 @@
             <UiButton
               :before-icon="props.condition.each ? '' : 'fas fa-calendar-alt'"
               :class="{
-                'pf-m-secondary': isSelectedCalendar,
+                'pf-v5-m-secondary': isSelectedCalendar,
               }"
             >
               {{ calendarValueString }}
@@ -138,7 +138,7 @@
       </div>
       <PropertySelect
         v-if="isHasFilter"
-        class="pf-c-action-list__item"
+        class="pf-v5-c-action-list__item"
         :is-open-mount="false"
         :update-open="false"
         @select="addFilter"
@@ -154,7 +154,7 @@
       </PropertySelect>
       <div
         v-if="props.showRemove"
-        class="pf-c-action-list__item condition__control"
+        class="pf-v5-c-action-list__item condition__control"
         @click="onRemove"
       >
         <VTooltip popper-class="ui-hint">
@@ -167,7 +167,7 @@
     </div>
     <div
       v-if="filters.length"
-      class="pf-l-flex pf-m-column pf-u-pl-xl"
+      class="pf-v5-l-flex pf-v5-m-column pf-v5-u-pl-xl"
     >
       <Filter
         v-for="(filter, i) in filters"
@@ -549,7 +549,7 @@ const onHideConditionBetweenAll = () => {
 <style lang="scss">
 .condition {
     position: relative;
-    .pf-c-action-list {
+    .pf-v5-c-action-list {
         position: relative;
         flex-wrap: wrap;
         align-items: flex-start;
@@ -557,7 +557,7 @@ const onHideConditionBetweenAll = () => {
             margin-bottom: 11px;
         }
         .multi-select__action {
-            .pf-c-action-list {
+            .pf-v5-c-action-list {
                 margin-bottom: -11px;
             }
         }
@@ -569,7 +569,7 @@ const onHideConditionBetweenAll = () => {
         color: var(--op-base-color-text);
 
         &:hover {
-            color: var(--pf-global--palette--black-800);
+            color: var(--pf-v5-global--palette--black-800);
         }
     }
 
@@ -591,7 +591,7 @@ const onHideConditionBetweenAll = () => {
         bottom: -6px;
         height: 1px;
         width: calc(100% - 50px);
-        background-color: var(--pf-global--main-color--100);
+        background-color: var(--pf-v5-global--main-color--100);
         opacity: 0;
     }
 
@@ -600,10 +600,10 @@ const onHideConditionBetweenAll = () => {
         bottom: -23px;
         left: 0;
         opacity: 0;
-        .pf-c-button {
+        .pf-v5-c-button {
             padding-top: 28px;
             &__icon {
-                color: var(--pf-global--main-color--100);
+                color: var(--pf-v5-global--main-color--100);
             }
         }
         &:hover {

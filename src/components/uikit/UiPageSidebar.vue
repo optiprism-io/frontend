@@ -1,18 +1,18 @@
 <template>
-  <div class="pf-c-page__sidebar">
-    <div class="pf-c-page__sidebar-body">
-      <nav class="pf-c-nav">
-        <ul class="pf-c-nav__list">
+  <div class="pf-v5-c-page__sidebar">
+    <div class="pf-v5-c-page__sidebar-body">
+      <nav class="pf-v5-c-nav">
+        <ul class="pf-v5-c-nav__list">
           <li
             v-for="(item, idx) in items"
             :key="idx"
-            class="pf-c-nav__item"
+            class="pf-v5-c-nav__item"
           >
             <RouterLink
               :to="item.to"
-              class="pf-c-nav__link"
-              active-class="pf-m-current"
-              :class="{ 'pf-m-current': item.isActive }"
+              class="pf-v5-c-nav__link"
+              active-class="pf-v5-m-current"
+              :class="{ 'pf-v5-m-current': item.isActive }"
             >
               {{ item.title }}
             </RouterLink>

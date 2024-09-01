@@ -4,7 +4,7 @@
       {{ $t('events.event_properties') }}
     </template>
     <template #main>
-      <UiCardContainer class="pf-u-h-100">
+      <UiCardContainer class="pf-v5-u-h-100">
         <UiTable
           :items="items"
           :columns="columns"

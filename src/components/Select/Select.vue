@@ -11,7 +11,7 @@
   >
     <slot />
     <template #popper="{ hide }">
-      <div class="pf-c-card pf-m-display-lg pf-u-min-width">
+      <div class="pf-v5-c-card pf-v5-m-display-lg pf-v5-u-min-width">
         <div v-if="loading" class="select__loader-wrap">
           <UiSpinner class="select__loader" />
         </div>
@@ -49,11 +49,11 @@
               @edit="emit('edit', $event)"
             />
           </div>
-          <div v-if="$slots.description" class="select__description pf-u-pt-lg pf-u-p-sm">
+          <div v-if="$slots.description" class="select__description pf-v5-u-pt-lg pf-v5-u-p-sm">
             <slot name="description" />
           </div>
           <div v-else-if="selectedDescription" class="select__description">
-            <div class="pf-c-card__body pf-u-pt-lg pf-u-p-sm pf-u-color-200">
+            <div class="pf-v5-c-card__body pf-v5-u-pt-lg pf-v5-u-p-sm pf-v5-u-color-200">
               <div class="select__description-icon">
                 <UiIcon icon="fas fa-info-circle" />
               </div>
@@ -265,7 +265,7 @@ onBeforeMount(() => {
 
   &__description {
     min-width: 200px;
-    border-left: 1px solid var(--pf-global--BackgroundColor--200);
+    border-left: 1px solid var(--pf-v5-global--BackgroundColor--200);
   }
 
   &__description-icon {

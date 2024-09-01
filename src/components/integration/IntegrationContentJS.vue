@@ -1,5 +1,5 @@
 <template>
-  <h2 class="pf-u-font-size-xl pf-u-font-family-heading-sans-serif">
+  <h2 class="pf-v5-u-font-size-xl pf-v5-u-font-family-heading-sans-serif">
     Lorem ipsum dolor sit amet, consectetur adipisicing elit.
   </h2>
 

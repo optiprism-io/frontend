@@ -39,7 +39,7 @@
               @select="selectColumn"
             >
               <UiButton
-                class="pf-m-control"
+                class="pf-v5-m-control"
                 :after-icon="'fas fa-caret-down'"
               >
                 {{ columnsButtonText }}

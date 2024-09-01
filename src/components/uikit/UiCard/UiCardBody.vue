@@ -1,5 +1,5 @@
 <template>
-  <div class="pf-c-card__body">
+  <div class="pf-v5-c-card__body">
     <slot />
   </div>
 </template>
