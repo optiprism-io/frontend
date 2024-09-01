@@ -74,6 +74,7 @@ import {
 import { useTimeInterval } from '@/components/funnels/view/useTimeInterval'
 import { DEFAULT_SEPARATOR } from '@/constants'
 import { useMutation } from '@/hooks/useMutation'
+import { dayjs } from '@/plugins/dayjs'
 import { useStepsStore } from '@/stores/funnels/steps'
 import { useProjectsStore } from '@/stores/projects/projects'
 import { useBreakdownsStore } from '@/stores/reports/breakdowns'
@@ -142,6 +143,17 @@ const chartOptions = computed(() => {
     seriesField: 'category',
     xAxis: {
       type: 'time',
+      label: {
+        formatter: (n: number): string => {
+          const format =
+            timeInterval.value === 'hour'
+              ? 'HH:mm MMM-DD'
+              : timeInterval.value === 'day' || timeInterval.value === 'week'
+                ? 'DD MMM'
+                : 'YYYY-MM-DD'
+          return dayjs(n).format(format)
+        },
+      },
     },
     yAxis: {
       label: {
