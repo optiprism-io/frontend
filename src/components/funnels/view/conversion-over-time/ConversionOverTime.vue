@@ -143,6 +143,19 @@ const chartOptions = computed(() => {
     xAxis: {
       type: 'time',
     },
+    yAxis: {
+      label: {
+        formatter: (n: number): string => n + '%',
+      },
+    },
+    tooltip: {
+      formatter: (datum: any) => {
+        return {
+          name: datum.category,
+          value: datum.value + '%',
+        }
+      },
+    },
   }
 })
 
