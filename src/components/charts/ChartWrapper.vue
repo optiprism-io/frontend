@@ -14,52 +14,48 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, watch } from 'vue';
+import { ref, onMounted, watch, unref } from 'vue';
 
 import merge from 'lodash/merge';
 
 import UiSpinner from '../uikit/UiSpinner.vue';
 
 const props = withDefaults(
-    defineProps<{
-        options: any
-        loading?: boolean
-        defaultOptions?: any
-        chartConstructor: any
-        height?: string
-    }>(),
-    {
-        options: {},
-        defaultOptions: {},
-        loading: false,
-        height: '350px',
-    }
+  defineProps<{
+    options: any
+    loading?: boolean
+    defaultOptions?: any
+    chartConstructor: any
+    height?: string
+  }>(),
+  {
+    options: {},
+    defaultOptions: {},
+    loading: false,
+    height: '350px',
+  }
 );
 
 const chart = ref<HTMLInputElement | null>(null)
 const chartLib = ref()
 
-const deleteReactivity = (data: any) => {
-    return JSON.parse(JSON.stringify(data));
-};
-
 const updateOptions = () => {
-    const lineChartContainer: any = chart.value;
-    const options = merge(deleteReactivity(props.defaultOptions), deleteReactivity(props.options));
+  const lineChartContainer: any = chart.value;
+  const options = merge(unref(props.defaultOptions), unref(props.options));
 
-    if (chartLib.value) {
-        chartLib.value.update(options);
-    } else {
-        chartLib.value = new props.chartConstructor(lineChartContainer, options);
-        chartLib.value.render();
-    }
+  if (chartLib.value) {
+    chartLib.value.update(options);
+  } else {
+    chartLib.value = new props.chartConstructor(lineChartContainer, options);
+    chartLib.value.render();
+  }
 };
 
 watch(
-    () => props.options,
-    () => {
+  () => props.options,
+  () => {
         setTimeout(updateOptions);
-    }
+  }
 );
 
 onMounted(() => {
@@ -69,21 +65,21 @@ onMounted(() => {
 
 <style lang="scss">
 .chart-wrapper {
-    position: relative;
-    box-sizing: border-box;
-    height: v-bind('props.height');
+  position: relative;
+  box-sizing: border-box;
+  height: v-bind('props.height');
 
-    &__spinner {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+  &__spinner {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
         background-color: rgba(#fff, .8);
-        z-index: 2;
-    }
+    z-index: 2;
+  }
 }
 </style>
