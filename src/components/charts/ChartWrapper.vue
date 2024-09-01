@@ -14,11 +14,11 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, watch, unref } from 'vue';
+import { onMounted, ref, unref, watch } from 'vue'
 
-import { merge } from 'lodash-es';
+import { merge } from 'lodash-es'
 
-import UiSpinner from '../uikit/UiSpinner.vue';
+import UiSpinner from '../uikit/UiSpinner.vue'
 
 const props = withDefaults(
   defineProps<{
@@ -34,33 +34,33 @@ const props = withDefaults(
     loading: false,
     height: '350px',
   }
-);
+)
 
 const chart = ref<HTMLInputElement | null>(null)
 const chartLib = ref()
 
 const updateOptions = () => {
-  const lineChartContainer: any = chart.value;
-  const options = merge(unref(props.defaultOptions), unref(props.options));
+  const lineChartContainer: any = chart.value
+  const options = merge(unref(props.defaultOptions), unref(props.options))
 
   if (chartLib.value) {
-    chartLib.value.update(options);
+    chartLib.value.update(options)
   } else {
-    chartLib.value = new props.chartConstructor(lineChartContainer, options);
-    chartLib.value.render();
+    chartLib.value = new props.chartConstructor(lineChartContainer, options)
+    chartLib.value.render()
   }
-};
+}
 
 watch(
   () => props.options,
   () => {
-        setTimeout(updateOptions);
+    setTimeout(updateOptions)
   }
-);
+)
 
 onMounted(() => {
-    updateOptions();
-});
+  updateOptions()
+})
 </script>
 
 <style lang="scss">
@@ -78,7 +78,7 @@ onMounted(() => {
     display: flex;
     align-items: center;
     justify-content: center;
-        background-color: rgba(#fff, .8);
+    background-color: rgba(#fff, 0.8);
     z-index: 2;
   }
 }
