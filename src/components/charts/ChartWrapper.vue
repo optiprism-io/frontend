@@ -16,7 +16,7 @@
 <script setup lang="ts">
 import { ref, onMounted, watch, unref } from 'vue';
 
-import merge from 'lodash/merge';
+import { merge } from 'lodash-es';
 
 import UiSpinner from '../uikit/UiSpinner.vue';
 
