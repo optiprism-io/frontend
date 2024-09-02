@@ -13,6 +13,7 @@
     >{{ label }}</span>
   </label>
 </template>
+
 <script setup lang="ts">
 interface Props {
     modelValue?: boolean

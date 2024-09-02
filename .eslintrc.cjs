@@ -53,6 +53,7 @@ module.exports = {
     'vue/no-v-html': 'off',
     'vue/multi-word-component-names': 'off',
     'vue/component-tags-order': ['error', { order: ['template', 'script', 'style'] }],
+    'vue/padding-line-between-blocks': ['error', 'always'],
 
     // * ## import sorting rules:
     // * https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/order.md
