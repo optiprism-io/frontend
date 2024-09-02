@@ -17,19 +17,6 @@ import type {
 import type { Event } from '@/stores/eventSegmentation/events'
 import type { PropertyRef } from '@/types/events'
 
-export interface Report {
-  name: string
-  properties: {
-    [key: string]: string | number
-  }
-  userProperties: {
-    [key: string]: string | number
-  }
-  matchedCustomEvents: {
-    id: number | string
-  }[]
-}
-
 const getParamsEventsForRequest = (events: Event[]): EventRecordRequestEvent[] => {
   return events.reduce((items: EventRecordRequestEvent[], event) => {
     const item: EventRecordRequestEvent = {

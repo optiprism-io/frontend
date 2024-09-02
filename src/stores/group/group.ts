@@ -6,10 +6,6 @@ import { useProjectsStore } from '@/stores/projects/projects'
 
 import type { EventRecordsListRequestTime, GroupRecord, Value } from '@/api'
 
-export type GroupMap = {
-  [key: number]: GroupRecord
-}
-
 export type Group = {
   items: GroupRecord[]
   loading: boolean

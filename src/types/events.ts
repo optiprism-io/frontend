@@ -58,30 +58,6 @@ export function customEventRef(e: CustomEvent): EventRef {
   return <EventRef>{ type: EventType.Custom, id: e.id, name: e.name }
 }
 
-export interface EventProperty {
-  id: number
-  createdAt: Date
-  updatedAt?: Date
-  createdBy: number
-  updatedBy: number
-  projectId: number
-  events: number[]
-  isSystem: boolean
-  isGlobal: boolean
-  tags: string[]
-  name: string
-  displayName: string
-  description: string
-  status: EventStatus
-  type: DataType
-  db_col: any
-  isRequired: boolean
-  nullable: boolean
-  isArray: boolean
-  isDictionary: boolean
-  dictionaryType?: DataType
-}
-
 export interface EventCustomProperty {
   id: number
   createdAt: Date
