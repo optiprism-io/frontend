@@ -1,6 +1,6 @@
 <template>
   <Select
-    grouped
+    :grouped="true"
     :items="lexiconStore.eventsList"
     :width-auto="true"
     :auto-hide="!commonStore.showCreateCustomEvent"

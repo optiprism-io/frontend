@@ -53,7 +53,7 @@
           />
         </div>
         <Select
-          grouped
+          :grouped="true"
           :items="eventItems"
           :auto-hide="!commonStore.showCreateCustomEvent"
           popper-class="popup-floating-popper"

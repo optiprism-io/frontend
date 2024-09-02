@@ -1,6 +1,6 @@
 <template>
   <Select
-    grouped
+    :grouped="true"
     :is-open-mount="isOpenMount"
     :items="items"
     :selected="selected"

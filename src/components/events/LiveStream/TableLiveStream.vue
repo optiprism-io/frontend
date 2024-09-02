@@ -46,7 +46,7 @@
       </template>
       <template #after>
         <Select
-          grouped
+          :grouped="true"
           :items="itemsProperties"
           :width-auto="true"
           :multiple="true"

@@ -15,7 +15,7 @@
       <div class="pf-c-action-list">
         <div class="pf-c-action-list__item">
           <Select
-            grouped
+            :grouped="true"
             :items="eventItems"
             :selected="eventRef"
             :popper-container="props.popperContainer"

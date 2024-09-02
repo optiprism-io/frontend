@@ -1,7 +1,7 @@
 <template>
   <div class="pf-c-action-list__item">
     <Select
-      grouped
+      :grouped="true"
       :items="lexiconStore.eventsList"
       :width-auto="true"
       :auto-hide="autoHideEvent"
@@ -94,7 +94,7 @@
     class="pf-c-action-list__item"
   >
     <Select
-      grouped
+      :grouped="true"
       :items="compareEventItems"
       :width-auto="true"
       @select="changeCompareEvent"

@@ -71,6 +71,7 @@ module.exports = {
     'vue/no-unused-refs': 'error',
     'vue/no-useless-v-bind': 'error',
     'vue/prefer-separate-static-class': 'error',
+    'vue/prefer-true-attribute-shorthand': ['error', 'never'],
 
     // * ## import sorting rules:
     // * https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/order.md

@@ -1,7 +1,7 @@
 <template>
   <Select
     :items="items"
-    grouped
+    :grouped="true"
     :selected="selectedItem"
     @select="select"
   >

@@ -19,7 +19,7 @@
     />
   </div>
   <Select
-    grouped
+    :grouped="true"
     :items="lexiconStore.eventsList"
     :auto-hide="!commonStore.showCreateCustomEvent"
     @select="addEvent"

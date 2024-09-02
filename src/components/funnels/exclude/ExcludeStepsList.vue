@@ -17,7 +17,7 @@
           >
             <UiButton
               class="pf-m-secondary"
-              is-link
+              :is-link="true"
             >
               {{ eventName(item.event) }}
             </UiButton>
