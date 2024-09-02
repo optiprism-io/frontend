@@ -28,7 +28,7 @@
               @select="onSelectPeriod"
             >
               <template #after>
-                <UiDatePickerWrappet
+                <UiDatePickerWrapper
                   :is-period-active="groupStore.isPeriodActive"
                   :from="groupStore.period.from"
                   :to="groupStore.period.to"
@@ -59,8 +59,8 @@ import PropertiesManagementPopup from '@/components/groups/PropertiesManagementP
 import UiCellToolMenu from '@/components/uikit/cells/UiCellToolMenu.vue'
 import UiCard from '@/components/uikit/UiCard/UiCard.vue'
 import UiCardContainer from '@/components/uikit/UiCard/UiCardContainer.vue'
-import type { DataPickerPeriod } from '@/components/uikit/UiDatePickerWrappet.vue'
-import UiDatePickerWrappet from '@/components/uikit/UiDatePickerWrappet.vue'
+import type { DataPickerPeriod } from '@/components/uikit/UiDatePickerWrapper.vue'
+import UiDatePickerWrapper from '@/components/uikit/UiDatePickerWrapper.vue'
 import UiTable from '@/components/uikit/UiTable/UiTable.vue'
 import UiToggleGroup from '@/components/uikit/UiToggleGroup/UiToggleGroup.vue'
 import ToolsLayout from '@/layout/ToolsLayout.vue'

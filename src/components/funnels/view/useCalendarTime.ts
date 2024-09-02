@@ -1,6 +1,6 @@
 import { computed, ref } from 'vue'
 
-import type { DataPickerPeriod } from '@/components/uikit/UiDatePickerWrappet.vue'
+import type { DataPickerPeriod } from '@/components/uikit/UiDatePickerWrapper.vue'
 
 import { getRequestTime, TimeTypeEnum } from '@/helpers/periodHelper'
 

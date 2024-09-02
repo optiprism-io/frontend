@@ -49,7 +49,7 @@ import DataEmptyPlaceholder from '@/components/common/data/DataEmptyPlaceholder.
 import DataLoader from '@/components/common/data/DataLoader.vue'
 import FunnelsTable from '@/components/funnels/view/funnel-steps/FunnelStepsTable.vue'
 import FunnelContentGrid from '@/components/funnels/view/FunnelContentGrid.vue'
-import type { DataPickerPeriod } from '@/components/uikit/UiDatePickerWrappet.vue'
+import type { DataPickerPeriod } from '@/components/uikit/UiDatePickerWrapper.vue'
 
 import {
   type EventRecordsListRequestTime,

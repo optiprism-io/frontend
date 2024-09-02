@@ -50,7 +50,7 @@ import DataEmptyPlaceholder from '@/components/common/data/DataEmptyPlaceholder.
 import DataLoader from '@/components/common/data/DataLoader.vue'
 import ConversionOverTimeTable from '@/components/funnels/view/conversion-over-time/ConversionOverTimeTable.vue'
 import FunnelContentGrid from '@/components/funnels/view/FunnelContentGrid.vue'
-import type { DataPickerPeriod } from '@/components/uikit/UiDatePickerWrappet.vue'
+import type { DataPickerPeriod } from '@/components/uikit/UiDatePickerWrapper.vue'
 import UiSelect from '@/components/uikit/UiSelect.vue'
 
 import {

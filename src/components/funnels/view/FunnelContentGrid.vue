@@ -57,7 +57,7 @@
 import { computed } from 'vue'
 
 import UiDatePicker from '@/components/uikit/UiDatePicker.vue'
-import type { DataPickerPeriod } from '@/components/uikit/UiDatePickerWrappet.vue'
+import type { DataPickerPeriod } from '@/components/uikit/UiDatePickerWrapper.vue'
 import type { UiDropdownItem } from '@/components/uikit/UiDropdown.vue'
 import UiDropdown from '@/components/uikit/UiDropdown.vue'
 import UiIcon from '@/components/uikit/UiIcon.vue'
