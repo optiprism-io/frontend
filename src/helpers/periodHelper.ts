@@ -1,3 +1,5 @@
+import dayjs from 'dayjs'
+
 import { TimeBetweenTypeEnum, TimeFromTypeEnum } from '@/api'
 
 import type { TimeBetween, TimeFrom } from '@/api'
@@ -63,7 +65,5 @@ export const getRequestTime = (
 
 function getDateLast(controlsPeriod: string | number, count: number) {
   const lastCount = controlsPeriod === 'calendar' ? count : Number(controlsPeriod)
-  const result = new Date()
-  result.setDate(result.getDate() - (lastCount - 1))
-  return result
+  return dayjs().subtract(lastCount - 1, 'day').toDate()
 }
