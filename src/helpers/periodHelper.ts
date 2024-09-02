@@ -1,5 +1,4 @@
 import { TimeBetweenTypeEnum, TimeFromTypeEnum } from '@/api'
-import { formatDateTime } from '@/helpers/getStringDates'
 
 import type { TimeBetween, TimeFrom } from '@/api'
 
@@ -11,6 +10,27 @@ export const TimeTypeEnum = {
 } as const
 
 export type TimeTypeEnum = (typeof TimeTypeEnum)[keyof typeof TimeTypeEnum]
+
+export function formatDateTime(
+  startDate: string | Date,
+  hours?: number,
+  minutes?: number,
+  second?: number,
+  ms?: number
+) {
+  const initialDate = new Date(startDate)
+  return new Date(
+    Date.UTC(
+      initialDate.getFullYear(),
+      initialDate.getMonth(),
+      initialDate.getDate(),
+      hours,
+      minutes,
+      second,
+      ms
+    )
+  ).toJSON()
+}
 
 export const getRequestTime = (
   type: TimeTypeEnum,
