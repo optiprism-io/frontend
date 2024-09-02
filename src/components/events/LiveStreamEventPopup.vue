@@ -173,7 +173,7 @@ onMounted(async () => {
 })
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .live-stream-event-popup {
   .pf-c-modal-box__body {
     min-height: 316px;

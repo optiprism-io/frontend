@@ -49,6 +49,7 @@ module.exports = {
     'vue/component-tags-order': ['error', { order: ['template', 'script', 'style'] }],
     'vue/padding-line-between-blocks': ['error', 'always'],
     'vue/block-lang': ['error', { script: { lang: 'ts' }, style: { lang: 'scss' } }],
+    'vue/enforce-style-attribute': ['error', { allow: ['scoped'] }],
     'vue/no-v-html': 'off',
     'vue/custom-event-name-casing': ['error', 'kebab-case'],
     'vue/define-macros-order': 'error',

@@ -134,7 +134,7 @@ const edit = (e: Event) => {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .pf-c-menu__item:hover,
 .pf-c-menu__list-item--selected {
     background-color: var(--pf-c-menu__list-item--hover--BackgroundColor);

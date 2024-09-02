@@ -57,5 +57,3 @@ const onSelectTab = (value: TimeTypeEnum) => {
   emit('on-select-tab', value)
 }
 </script>
-
-<style lang="scss"></style>

@@ -24,5 +24,3 @@ const props = withDefaults(defineProps<Props>(), {
 
 const classSize = computed(() => `pf-m-${props.size}`)
 </script>
-
-<style lang="scss"></style>

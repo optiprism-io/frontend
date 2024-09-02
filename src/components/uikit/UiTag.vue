@@ -86,7 +86,7 @@ const blur = () => {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .ui-tag {
     min-height: 29px;
     min-width: 20px;

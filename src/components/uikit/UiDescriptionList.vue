@@ -66,7 +66,7 @@ const onInput = (payload: Event | string | boolean, key: string) => {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .ui-description-list {
     .pf-c-description-list {
         &__group {

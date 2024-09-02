@@ -72,7 +72,7 @@ const search = (payload: string) => {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .multi-select {
     &__content {
         max-width: 240px;

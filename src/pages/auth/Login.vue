@@ -173,7 +173,7 @@ const actionForm = () => {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .pf-c-login {
   img.pf-c-brand {
     @media screen and (min-width: 1200px) {

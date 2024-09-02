@@ -94,7 +94,7 @@ const onBlur = () => {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .ui-editable-text-popup {
     &.v-popper--theme-dropdown {
         .v-popper__inner {

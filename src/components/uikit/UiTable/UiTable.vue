@@ -207,7 +207,7 @@ const clickCell = (cell: Cell, rowIndex: number) => {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .ui-table {
   .pf-c-toolbar__content {
     min-height: 34px;

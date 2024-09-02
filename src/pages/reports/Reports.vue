@@ -264,7 +264,7 @@ onMounted(async () => {
 })
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .pf-c-page {
   height: 100vh;
   &__main {

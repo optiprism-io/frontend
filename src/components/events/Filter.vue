@@ -338,7 +338,7 @@ const removeValueButton = (value: Value) => {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .filter {
   .pf-c-action-list {
     position: relative;

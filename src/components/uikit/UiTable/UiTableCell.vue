@@ -34,7 +34,7 @@ const tableCellVal = computed(() =>
 const isHasTooltip = computed(() => tableCellVal.value.length > MaxLengthCell)
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .ui-table-cell {
   &.pf-u-text-nowrap {
     overflow: hidden;

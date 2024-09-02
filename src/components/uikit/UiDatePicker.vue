@@ -302,7 +302,7 @@ watch(
 )
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .ui-date-picker {
   &__content {
     display: flex;

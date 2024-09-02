@@ -453,7 +453,7 @@ const updateEventSegmentationData = async () => {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .content-info {
   height: 320px;
   display: flex;

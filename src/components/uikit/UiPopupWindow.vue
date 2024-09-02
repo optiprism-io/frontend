@@ -212,7 +212,7 @@ onUnmounted(() => {
 });
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 $text-color: #171B24;
 $text-color-title: #171717;
 

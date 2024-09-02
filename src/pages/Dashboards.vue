@@ -514,9 +514,9 @@ onUnmounted(() => {
 })
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .dashboards {
-  .vue-grid-item {
+  ::v-deep(.vue-grid-item) {
     .pf-c-card__body {
       height: calc(100% - 36px);
       width: 100%;

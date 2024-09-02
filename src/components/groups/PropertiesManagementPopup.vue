@@ -199,7 +199,7 @@ const apply = async () => {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .properties-panagement-popup {
     .pf-c-table {
         margin-right: 80px;

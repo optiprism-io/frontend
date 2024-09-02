@@ -176,7 +176,7 @@ const hide = () => {
 const onRemove = (): void => emit('on-remove', props.index)
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .segment {
     &__control {
         padding: 5px;

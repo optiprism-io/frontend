@@ -44,7 +44,7 @@ const onAction = (payload: Action) => {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .pf-c-table {
     tr:hover {
         .ui-table-event-cell__action-list {

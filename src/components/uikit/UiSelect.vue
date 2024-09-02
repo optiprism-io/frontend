@@ -199,7 +199,7 @@ export default defineComponent({
 })
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .pf-c-select {
   --min-width: 10rem;
 

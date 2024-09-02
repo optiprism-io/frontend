@@ -190,7 +190,7 @@ export function GenericUiDropdown<T>() {
 export default main
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .v-popper {
   &--theme-dropdown {
     .v-popper__arrow-container {

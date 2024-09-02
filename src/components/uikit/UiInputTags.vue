@@ -75,7 +75,7 @@ onBeforeUnmount(() => {
 });
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .ui-input-tags {
     cursor: pointer;
     min-height: 37px;

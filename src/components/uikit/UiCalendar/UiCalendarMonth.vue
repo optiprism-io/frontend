@@ -212,7 +212,7 @@ const mouseleaveItem = (date: string) => {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .ui-calendar-month {
     display: flex;
     position: relative;

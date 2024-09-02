@@ -87,5 +87,3 @@ const onActionReport = (payload: Action) => {
   emit('on-select-report', Number(payload.type))
 }
 </script>
-
-<style lang="scss"></style>

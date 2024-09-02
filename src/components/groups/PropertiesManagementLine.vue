@@ -164,7 +164,7 @@ onBeforeMount(() => {
 });
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .properties-management-line {
     &:hover {
         cursor: pointer;

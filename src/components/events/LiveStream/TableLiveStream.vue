@@ -276,7 +276,7 @@ const onAction = (payload: Action) => {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .table-live-steam {
   --table-live-steam-cell-width: 200px;
 

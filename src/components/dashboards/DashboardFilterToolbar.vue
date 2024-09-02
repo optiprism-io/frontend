@@ -152,7 +152,7 @@ onUnmounted(() => {
 });
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .dashboard-filter-toolbar {
     .pf-c-action-list__item.filter__control-item {
         margin-left: 0 !important;

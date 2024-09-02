@@ -63,7 +63,7 @@ onMounted(() => {
 })
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .chart-wrapper {
   position: relative;
   box-sizing: border-box;

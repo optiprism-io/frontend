@@ -546,7 +546,7 @@ const onHideConditionBetweenAll = () => {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .condition {
     position: relative;
     .pf-c-action-list {

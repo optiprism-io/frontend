@@ -67,5 +67,3 @@ onMounted(async () => {
   liveStreamStore.getReportLiveStream()
 })
 </script>
-
-<style lang="scss"></style>

@@ -148,7 +148,7 @@ const onSelectBetween = (value: string, type: 'from' | 'to') => {
 const onSelectEach = (payload: Each) => emit('on-change-each', payload)
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .ui-calendar-inputs {
     border-bottom: 1px solid #eee;
 }

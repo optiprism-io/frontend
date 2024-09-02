@@ -182,7 +182,7 @@ const onApplyPeriod = (payload: ApplyPayload): void => {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .filter-toolbar {
     &__left {
         display: flex;

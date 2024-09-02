@@ -122,7 +122,7 @@ const onInput = () => {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .pf-c-inline-edit {
     &__value {
         cursor: pointer;
