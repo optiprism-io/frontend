@@ -1,3 +1,5 @@
+import { dayjs } from '@/plugins/dayjs'
+
 export function formatDateTime(
   startDate: string | Date,
   hours?: number,
@@ -19,10 +21,8 @@ export function formatDateTime(
   ).toJSON()
 }
 
-export function getYYYYMMDD(date: Date) {
-  const mm = date.getMonth() + 1
-  const dd = date.getDate()
-  return [date.getFullYear(), (mm > 9 ? '' : '0') + mm, (dd > 9 ? '' : '0') + dd].join('-')
+export function getYYYYMMDD(date: Date): string {
+  return dayjs(date).format('YYYY-MM-DD')
 }
 
 export function getStringDateByFormat(
