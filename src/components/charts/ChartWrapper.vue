@@ -22,7 +22,7 @@ import UiSpinner from '../uikit/UiSpinner.vue'
 
 const props = withDefaults(
   defineProps<{
-    options: any
+    options?: any
     loading?: boolean
     defaultOptions?: any
     chartConstructor: any

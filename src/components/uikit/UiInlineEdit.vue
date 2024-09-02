@@ -77,17 +77,17 @@
 import { ref } from 'vue'
 
 interface Props {
-    value: number | string
-    placeholderValue?: string
-    hideText?: boolean
-    hideControlEdit?: boolean
+  value?: number | string
+  placeholderValue?: string
+  hideText?: boolean
+  hideControlEdit?: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {
-    value: '',
-    placeholderValue: '',
-    hideText: false,
-    hideControlEdit: false
+  value: '',
+  placeholderValue: '',
+  hideText: false,
+  hideControlEdit: false
 })
 
 const emit = defineEmits<{

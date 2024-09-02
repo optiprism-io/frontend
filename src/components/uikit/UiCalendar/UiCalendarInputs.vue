@@ -94,7 +94,7 @@ import type { Each } from './UiCalendar'
 interface Props {
   lastCount?: number
   activeTab: string
-  since: string
+  since?: string
   warning?: boolean
   from?: string
   to?: string

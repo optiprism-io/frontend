@@ -38,10 +38,10 @@ import { VTooltip } from 'floating-vue'
 import UiIcon from '@/components/uikit/UiIcon.vue'
 
 interface IProps {
-  label: string
-  selected: boolean
-  disabled: boolean
-  editable: boolean
+  label?: string
+  selected?: boolean
+  disabled?: boolean
+  editable?: boolean
 }
 
 withDefaults(defineProps<IProps>(), {

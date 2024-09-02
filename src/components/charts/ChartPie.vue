@@ -19,8 +19,8 @@ import { chartOptions as defaultOptions } from '@/components/charts/chartOptions
 
 const props = withDefaults(
   defineProps<{
-    options: any
-    loading: boolean
+    options?: any
+    loading?: boolean
   }>(),
   {
     options: {},

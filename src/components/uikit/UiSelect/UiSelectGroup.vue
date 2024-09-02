@@ -33,7 +33,7 @@ import { Menu as VMenu } from 'floating-vue'
 import UiIcon from '@/components/uikit/UiIcon.vue'
 
 interface IProps {
-  label: string
+  label?: string
 }
 
 withDefaults(defineProps<IProps>(), {

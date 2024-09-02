@@ -146,7 +146,7 @@ interface ChartDropdownMap {
 
 type Props = {
   eventSegmentation?: DataTableResponse | null
-  loading: boolean
+  loading?: boolean
   onlyView?: boolean
   chartType?: ChartType
   heightChart?: number

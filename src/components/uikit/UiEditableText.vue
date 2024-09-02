@@ -49,13 +49,13 @@ import UiButton from '@/components/uikit/UiButton.vue'
 import UiInput from '@/components/uikit/UiInput.vue'
 
 interface Props {
-    value: string
-    disabledButton?: boolean
+  value?: string
+  disabledButton?: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {
-    value: '',
-    disabledButton: true,
+  value: '',
+  disabledButton: true,
 })
 
 const emit = defineEmits<{

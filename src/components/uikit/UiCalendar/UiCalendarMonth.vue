@@ -87,7 +87,7 @@ interface Props {
     years: Year[];
     showSelectYears: boolean;
     allowFuture: boolean;
-    firstDayOfWeek: number;
+    firstDayOfWeek?: number;
     fromSelectOnly?: boolean,
 }
 
