@@ -46,7 +46,11 @@ const props = withDefaults(defineProps<Props>(), {
   autofocus: false,
 })
 
-const emit = defineEmits(['update:modelValue', 'blur', 'input'])
+const emit = defineEmits<{
+  (e: 'input', value: string): void
+  (e: 'blur', value: any): void
+  (e: 'update:modelValue', value: typeof props['modelValue']): void
+}>()
 
 const updateValue = (e: Event) => {
   const target = e.target as HTMLInputElement

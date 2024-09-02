@@ -26,7 +26,9 @@ const props = withDefaults(defineProps<Props>(), {
     rows: 3
 });
 
-const emit = defineEmits(['input', 'blur']);
+const emit = defineEmits<{
+  (e: 'input', value: string): void
+}>()
 
 const textarea = ref<HTMLCanvasElement | null>(null)
 

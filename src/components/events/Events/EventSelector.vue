@@ -48,7 +48,9 @@ import { useCommonStore } from '@/stores/common';
 import { useEventsStore } from '@/stores/eventSegmentation/events';
 import { useLexiconStore } from '@/stores/lexicon';
 
-const emit = defineEmits(['select']);
+const emit = defineEmits<{
+  (e: 'select', value: any): void
+}>()
 
 const lexiconStore = useLexiconStore();
 const commonStore = useCommonStore();

@@ -6,8 +6,8 @@
       'pf-c-menu__list-item--disabled': disabled,
     }"
     @click="emit('click')"
-    @mouseover="emit('mouseOver')"
-    @mouseout="emit('mouseOut')"
+    @mouseover="emit('mouse-over')"
+    @mouseout="emit('mouse-out')"
   >
     <div
       class="pf-c-menu__item"
@@ -51,7 +51,11 @@ withDefaults(defineProps<IProps>(), {
   editable: false,
 })
 
-const emit = defineEmits(['click', 'mouseOver', 'mouseOut'])
+const emit = defineEmits<{
+  (e: 'click'): void
+  (e: 'mouse-over'): void
+  (e: 'mouse-out'): void
+}>()
 </script>
 
 <style lang="scss">

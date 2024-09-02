@@ -90,10 +90,10 @@ const props = withDefaults(defineProps<Props>(), {
     hideControlEdit: false
 })
 
-const emit = defineEmits([
-    'on-input',
-    'on-edit',
-])
+const emit = defineEmits<{
+  (e: 'on-input', value: string): void
+  (e: 'on-edit', value: boolean): void
+}>()
 
 const valueEdit = ref<string | number>('')
 const isEditable = ref(false)
@@ -117,7 +117,7 @@ const setEditable = (payload: boolean) => {
 }
 
 const onInput = () => {
-    emit('on-input', valueEdit.value)
+    emit('on-input', valueEdit.value.toString())
     setEditable(false)
 }
 </script>

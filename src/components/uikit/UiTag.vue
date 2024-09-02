@@ -26,21 +26,24 @@
 <script lang="ts" setup>
 import { ref, onMounted } from 'vue'
 
+interface Props {
+  editable?: boolean
+  value: string
+  index?: number
+  mountFocus?: boolean
+}
+
 const props = defineProps<Props>()
-const emit = defineEmits(['input'])
+
+const emit = defineEmits<{
+  (e: 'input', value: string, index: number | undefined): void
+}>()
 
 const input = ref<HTMLCanvasElement | null>(null)
 const text = ref<HTMLCanvasElement | null>(null)
 const editing = ref(false)
 const editingValue = ref('')
 const editingInputWidth = ref(0)
-
-interface Props {
-    editable?: boolean
-    value: string
-    index?: number
-    mountFocus?: boolean
-}
 
 onMounted(() => {
     if (props.mountFocus) {

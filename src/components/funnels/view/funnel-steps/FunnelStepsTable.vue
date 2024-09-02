@@ -45,7 +45,9 @@ const props = withDefaults(defineProps<IProps>(), {
   loading: false,
 })
 
-const emit = defineEmits(['update:checkedRowKeys'])
+const emit = defineEmits<{
+  (e: 'update:checkedRowKeys', value: typeof props['checkedRowKeys']): void
+}>()
 
 const KEY_SPLITTER = '_'
 const KEY_PREFIX = '__'

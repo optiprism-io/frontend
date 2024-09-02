@@ -31,7 +31,9 @@ interface Props {
 
 const props = defineProps<Props>()
 
-const emit = defineEmits(['input'])
+const emit = defineEmits<{
+  (e: 'input', value: typeof props['value']): void
+}>()
 
 const inputValue = ref('')
 const edit = ref(false)

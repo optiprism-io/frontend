@@ -40,7 +40,9 @@ interface PreparedData {
 
 const props = withDefaults(defineProps<IProps>(), {})
 
-const emit = defineEmits(['update:checkedRowKeys'])
+const emit = defineEmits<{
+  (e: 'update:checkedRowKeys', value: typeof props['checkedRowKeys']): void
+}>()
 
 const curCheckedRowKeys = useVModel(props, 'checkedRowKeys', emit)
 
