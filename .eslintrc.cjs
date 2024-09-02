@@ -52,6 +52,7 @@ module.exports = {
     '@typescript-eslint/no-unused-vars': ['off', { argsIgnorePattern: '^_' }],
     'vue/no-v-html': 'off',
     'vue/multi-word-component-names': 'off',
+    'vue/component-tags-order': ['error', { order: ['template', 'script', 'style'] }],
 
     // * ## import sorting rules:
     // * https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/order.md
