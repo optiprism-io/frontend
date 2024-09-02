@@ -18,7 +18,7 @@
     <div v-if="!props.hideAddSegmentButton" class="pf-l-flex">
       <UiButton
         :is-link="true"
-        :before-icon="'fas fa-plus'"
+        before-icon="fas fa-plus"
         @click="addSegment"
       >
         {{ $t('events.segments.add') }}

@@ -8,7 +8,7 @@
       <UiButton
         class="pf-c-dropdown__toggle pf-m-plain pf-u-p-md"
       >
-        <UiIcon :icon="'fas fa-ellipsis-v'" />
+        <UiIcon icon="fas fa-ellipsis-v" />
       </UiButton>
     </UiSelect>
   </div>

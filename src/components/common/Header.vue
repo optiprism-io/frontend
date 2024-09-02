@@ -35,7 +35,7 @@
               class="pf-u-mr-md app-header__project-select"
               :items="projectItems"
               :text-button="activeProjectName"
-              :placement="'bottom-end'"
+              placement="bottom-end"
               :is-text-select="true"
               :selections="projectListSelected"
               @on-select="selectProject"
@@ -44,11 +44,11 @@
           <div class="pf-c-page__header-tools-item pf-u-ml-md pf-u-mr-lg">
             <UiDropdown
               :items="userMenu"
-              :text-button="''"
+              text-button=""
               :transparent="true"
               :has-icon-arrow-button="false"
-              :button-icon="'gear'"
-              :placement-menu="'bottom-end'"
+              button-icon="gear"
+              placement-menu="bottom-end"
               @select-value="selectUserMenu"
             />
           </div>

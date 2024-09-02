@@ -39,9 +39,9 @@
             @submit="actionForm"
           >
             <UiFormGroup
-              :label="'Email'"
+              label="Email"
               :error="errorFields?.email"
-              :for="'login-email'"
+              for="login-email"
               :required="true"
             >
               <UiInput
@@ -54,7 +54,7 @@
             <UiFormGroup
               :label="$t('login.password')"
               :error="errorFields?.password"
-              :for="'login-password'"
+              for="login-password"
               :required="true"
             >
               <InputPassword

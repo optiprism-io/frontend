@@ -33,7 +33,7 @@
           <UiButton
             v-if="isShowSaveReport"
             class="pf-m-link reports__nav-item reports__nav-item_new"
-            :before-icon="'fas fa-floppy-disk'"
+            before-icon="fas fa-floppy-disk"
             @click="onSaveReport"
           >
             {{ $t('reports.save') }}
@@ -41,7 +41,7 @@
           <UiButton
             v-if="itemsReports.length && reportsStore.reportId"
             class="pf-m-link pf-m-danger"
-            :before-icon="'fas fa-times'"
+            before-icon="fas fa-times"
             @click="onDeleteReport"
           >
             {{ $t('reports.delete') }}

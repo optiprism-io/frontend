@@ -12,7 +12,7 @@
         <UiInput
           v-if="isOpen"
           v-model="tempValue"
-          :type="'string'"
+          type="string"
           :mount-focus="true"
           class="pf-u-p-0 pf-u-h-0"
           @blur="onBlur"

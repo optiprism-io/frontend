@@ -9,7 +9,7 @@
     <EventSelector @select="addStep">
       <UiButton
         :is-link="true"
-        :before-icon="'fas fa-plus'"
+        before-icon="fas fa-plus"
       >
         {{ $t('common.add_step') }}
       </UiButton>

@@ -16,7 +16,7 @@
             <template #action>
               <UiButton
                 :is-link="true"
-                :after-icon="'fas fa-chevron-down'"
+                after-icon="fas fa-chevron-down"
               >
                 {{ selectedGroupByString }}
               </UiButton>

@@ -46,7 +46,7 @@
         <div class="pf-c-modal-box__body pf-u-mb-md pf-u-pb-md">
           <UiSpinner
             v-if="loadingContent"
-            :size="'xl'"
+            size="xl"
           />
           <div
             v-if="props.content"

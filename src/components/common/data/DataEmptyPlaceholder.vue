@@ -13,7 +13,7 @@
       >
         <UiIcon
           class="pf-u-font-size-4xl"
-          :icon="'fas fa-search'"
+          icon="fas fa-search"
         />
       </div>
       <div

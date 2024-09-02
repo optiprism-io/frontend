@@ -103,7 +103,7 @@
             <template v-else>
               <UiButton
                 class="pf-m-link"
-                :before-icon="'fas fa-plus-circle'"
+                before-icon="fas fa-plus-circle"
                 @click="onClickValue"
               >
                 {{ $t('events.select_value') }}
@@ -200,7 +200,7 @@
         @select="changeBetweenAdd"
       >
         <UiButton
-          :before-icon="'fas fa-arrow-right-to-bracket'"
+          before-icon="fas fa-arrow-right-to-bracket"
           @click="betweenAdd"
         />
       </Select>

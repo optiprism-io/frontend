@@ -25,7 +25,7 @@
     :title="confirmPopupDeleteInfo.title"
     :content="confirmPopupDeleteInfo.content"
     :apply-button="$t('common.delete')"
-    :apply-button-class="'pf-m-danger'"
+    apply-button-class="pf-m-danger"
     @apply="applyDelete"
     @cancel="cancelDelete"
   />

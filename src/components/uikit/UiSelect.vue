@@ -38,7 +38,7 @@
           class="pf-c-select__menu-item-icon"
           @click="removeSelect"
         >
-          <UiIcon :icon="'fas fa-times'" />
+          <UiIcon icon="fas fa-times" />
         </span>
         <span
           v-else
@@ -76,7 +76,7 @@
                   v-if="item.selected"
                   class="pf-c-select__menu-item-icon"
                 >
-                  <UiIcon :icon="'fas fa-check'" />
+                  <UiIcon icon="fas fa-check" />
                 </span>
               </button>
             </li>

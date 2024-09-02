@@ -48,7 +48,7 @@
       </Filter>
       <div class="pf-l-flex">
         <PropertySelect :is-open-mount="false" @select="addFilterToGroup">
-          <UiButton :is-link="true" :before-icon="'fas fa-plus'">
+          <UiButton :is-link="true" before-icon="fas fa-plus">
             {{ $t('common.addFilter') }}
           </UiButton>
         </PropertySelect>
@@ -58,7 +58,7 @@
               filterGroupsStore.isFiltersAdvanced
           "
           :is-link="true"
-          :before-icon="'fas fa-plus'"
+          before-icon="fas fa-plus"
           @click="filterGroupsStore.addFilterGroup"
         >
           {{ $t('filters.addGroup') }}

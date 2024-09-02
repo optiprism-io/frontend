@@ -13,7 +13,7 @@
     >
       <UiButton
         :is-link="true"
-        :before-icon="'fas fa-plus'"
+        before-icon="fas fa-plus"
         @click="filterGroupsStore.addFilterGroup"
       >
         {{ $t('filters.addGroup') }}

@@ -33,7 +33,7 @@
       <UiButton
         v-if="isShowDashboardContentAndControls"
         class="pf-m-link dashboards__nav-item dashboards__nav-item_new"
-        :before-icon="'fas fa-plus'"
+        before-icon="fas fa-plus"
         @click="setNew"
       >
         {{ $t('dashboards.createDashboard') }}
@@ -41,7 +41,7 @@
       <UiButton
         v-if="isShowDashboardContentAndControls"
         class="pf-m-link pf-m-danger"
-        :before-icon="'fas fa-times'"
+        before-icon="fas fa-times"
         @click="onDeleteDashboard"
       >
         {{ $t('dashboards.delete') }}
@@ -52,7 +52,7 @@
           class="pf-u-mr-md dashboards__add-report"
           :items="selectReportsList"
           :text-button="t('dashboards.addReport')"
-          :placement="'bottom-end'"
+          placement="bottom-end"
           :is-text-select="true"
           @on-select="addReport"
         />
@@ -67,7 +67,7 @@
       {{ t('dashboards.noDashboards') }}
       <UiButton
         class="pf-m-primary pf-u-ml-md"
-        :before-icon="'fas fa-plus'"
+        before-icon="fas fa-plus"
         @click="setNew"
       >
         {{ $t('dashboards.createDashboard') }}
@@ -104,7 +104,7 @@
                 :items="menuCardReport"
                 :has-icon-arrow-button="false"
                 :transparent="true"
-                :placement-menu="'bottom-end'"
+                placement-menu="bottom-end"
                 @select-value="
                   (paylaod: UiDropdownItem<string>) => selectReportDropdown(paylaod, item.i)
                 "
@@ -142,7 +142,7 @@
         class="pf-u-ml-auto pf-u-ml-md dashboards__add-report"
         :items="selectReportsList"
         :text-button="t('dashboards.addReport')"
-        :placement="'bottom-end'"
+        placement="bottom-end"
         :is-text-select="true"
         @on-select="addReport"
       />

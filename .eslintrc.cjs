@@ -68,6 +68,7 @@ module.exports = {
     'vue/define-emits-declaration': 'error',
     'vue/no-required-prop-with-default': 'error',
     'vue/no-unused-refs': 'error',
+    'vue/no-useless-v-bind': 'error',
 
     // * ## import sorting rules:
     // * https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/order.md

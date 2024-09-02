@@ -33,7 +33,7 @@
                     <span
                       class="pf-c-toggle-group__icon pf-c-toggle-group__text"
                     >
-                      <UiIcon :icon="'far fa-calendar-alt'" />
+                      <UiIcon icon="far fa-calendar-alt" />
                     </span>
                     <span
                       v-if="calendarValueString"

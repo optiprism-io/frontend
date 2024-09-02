@@ -58,7 +58,7 @@
           v-if="isActive"
           class="pf-c-select__menu-item-icon"
         >
-          <UiIcon :icon="'fas fa-check'" />
+          <UiIcon icon="fas fa-check" />
         </span>
         <div
           v-if="editable"

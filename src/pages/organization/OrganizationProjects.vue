@@ -5,7 +5,7 @@
       <h2>Projects</h2>
       <UiButton
         class="pf-m-primary"
-        :before-icon="'fas fa-plus'"
+        before-icon="fas fa-plus"
         @click="setShowCreatePopup(true)"
       >
         {{ $t('project.createProject') }}

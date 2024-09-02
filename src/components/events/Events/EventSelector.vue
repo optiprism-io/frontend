@@ -12,7 +12,7 @@
     <slot>
       <UiButton
         :is-link="true"
-        :before-icon="'fas fa-plus'"
+        before-icon="fas fa-plus"
       >
         {{ $t('common.addEvent') }}
       </UiButton>

@@ -25,7 +25,7 @@
                     type="button"
                   >
                     <div class="pf-u-display-flex pf-u-align-items-center">
-                      <UiIcon :icon="'far fa-calendar-alt'" />
+                      <UiIcon icon="far fa-calendar-alt" />
                       &nbsp;
                       {{ calendarValueString }}
                     </div>

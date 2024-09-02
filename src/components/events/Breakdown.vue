@@ -24,7 +24,7 @@
           @select="changeProperty"
         >
           <UiButton
-            :before-icon="'fas fa-plus-circle'"
+            before-icon="fas fa-plus-circle"
             class="pf-m-primary"
             type="button"
             @click="handleSelectProperty"

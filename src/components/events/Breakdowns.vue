@@ -17,7 +17,7 @@
         :disabled-items="breakdowns"
         @select="addBreakdown"
       >
-        <UiButton :is-link="true" :before-icon="'fas fa-plus'">
+        <UiButton :is-link="true" before-icon="fas fa-plus">
           {{ $t('events.addBreakdown') }}
         </UiButton>
       </PropertySelect>

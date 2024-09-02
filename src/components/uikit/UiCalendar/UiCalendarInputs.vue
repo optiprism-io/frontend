@@ -11,7 +11,7 @@
           :value="props.lastCount"
           type="number"
           :min="1"
-          :placeholder="'Enter a value'"
+          placeholder="Enter a value"
           @input="onSelectLastCount"
         />
         <span class="ws-example-flex-item">{{ textLastCount }}</span>

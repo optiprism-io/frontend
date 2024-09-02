@@ -4,7 +4,7 @@
       v-if="loading"
       class="chart-wrapper__spinner"
     >
-      <UiSpinner :size="'xl'" />
+      <UiSpinner size="xl" />
     </div>
     <div
       ref="chart"

@@ -18,7 +18,7 @@
               <UiSpinner
                 v-show="props.isLoading"
                 class="pf-u-ml-md"
-                :size="'md'"
+                size="md"
               />
             </div>
           </div>
@@ -28,7 +28,7 @@
           <div v-if="props.showSelectColumns" class="pf-c-toolbar__item pf-u-ml-auto">
             <UiSelect
               :items="columnsSelect"
-              :variant="'multiple'"
+              variant="multiple"
               :text-button="columnsButtonText"
               :selections="activeColumns"
               @on-select="toggleColumns"

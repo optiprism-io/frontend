@@ -26,7 +26,7 @@
       <UiFormGroup
         v-if="forceEmail"
         :label="strings.setEmailText"
-        :for="'force-email'"
+        for="force-email"
         :required="true"
       >
         <UiInput
@@ -39,7 +39,7 @@
       <UiFormGroup
         v-if="forceEmail"
         :label="strings.confirmEmail"
-        :for="'confirm-email'"
+        for="confirm-email"
         :required="true"
       >
         <UiInput
@@ -54,7 +54,7 @@
       <UiFormGroup
         v-if="forcePass"
         :label="strings.setPassText"
-        :for="'force-password'"
+        for="force-password"
         :required="true"
       >
         <InputPassword
@@ -67,7 +67,7 @@
       <UiFormGroup
         v-if="forcePass"
         :label="strings.confirmPassword"
-        :for="'confirm-password'"
+        for="confirm-password"
         :required="true"
       >
         <InputPassword

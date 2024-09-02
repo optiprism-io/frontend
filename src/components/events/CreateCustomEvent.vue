@@ -12,23 +12,23 @@
       class="pf-u-mb-lg"
       :text="$t('events.event_management.columns.name')"
       :required="true"
-      :for="'eventName'"
+      for="eventName"
     >
       <UiInput
         v-model="eventName"
         :required="true"
-        :name="'eventName'"
+        name="eventName"
         :label="$t('events.custom_event_name')"
       />
     </UiFormLabel>
     <UiFormLabel
       class="pf-u-mb-lg"
       :text="$t('events.event_management.columns.description')"
-      :for="'eventDescription'"
+      for="eventDescription"
     >
       <UiTextarea
         :value="eventDescription"
-        :name="'eventDescription'"
+        name="eventDescription"
         :label="$t('events.event_management.columns.description')"
         @input="inputTextarea"
       />
@@ -46,8 +46,8 @@
             :event-items="eventItems"
             :show-breakdowns="false"
             :show-query="false"
-            :popper-class="'popup-floating-popper'"
-            :popper-container="'.ui-popup-window__box'"
+            popper-class="popup-floating-popper"
+            popper-container=".ui-popup-window__box"
             @set-event="setEvent"
             @remove-event="removeEvent"
           />
@@ -56,11 +56,11 @@
           grouped
           :items="eventItems"
           :auto-hide="!commonStore.showCreateCustomEvent"
-          :popper-class="'popup-floating-popper'"
-          :popper-container="'.ui-popup-window__box'"
+          popper-class="popup-floating-popper"
+          popper-container=".ui-popup-window__box"
           @select="addEvent"
         >
-          <UiButton :is-link="true" :before-icon="'fas fa-plus'">
+          <UiButton :is-link="true" before-icon="fas fa-plus">
             {{ $t('common.addEvent') }}
           </UiButton>
         </Select>

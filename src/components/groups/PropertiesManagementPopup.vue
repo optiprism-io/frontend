@@ -14,7 +14,7 @@
         v-show="isLodingSavePropetries"
         class="properties-panagement-popup__loading"
       >
-        <UiSpinner :size="'xl'" />
+        <UiSpinner size="xl" />
       </div>
       <UiTabs
         class="pf-u-mb-md"
