@@ -195,13 +195,13 @@ const isAnyButtonHovered = computed(() => {
 })
 
 const emit = defineEmits<{
-  (e: 'changeFilterProperty', filterIdx: number, propRef: PropertyRef): void
-  (e: 'removeFilter', index: number): void
-  (e: 'changeFilterOperation', filterIdx: number, opId: OperationId): void
-  (e: 'addFilterValue', filterIdx: number, value: Value): void
-  (e: 'removeFilterValue', filterIdx: number, value: Value): void
-  (e: 'handleSelectProperty'): void
-  (e: 'changeAllValues', filterIdx: number, values: Value[]): void
+  (e: 'change-filter-property', filterIdx: number, propRef: PropertyRef): void
+  (e: 'remove-filter', index: number): void
+  (e: 'change-filter-operation', filterIdx: number, opId: OperationId): void
+  (e: 'add-filter-value', filterIdx: number, value: Value): void
+  (e: 'remove-filter-value', filterIdx: number, value: Value): void
+  (e: 'handle-select-property'): void
+  (e: 'change-all-values', filterIdx: number, values: Value[]): void
   (e: 'on-click-value', filterIdx: number): void
 }>()
 
@@ -288,19 +288,19 @@ const filterItemValues = computed(() => {
 })
 
 const removeFilter = (): void => {
-  emit('removeFilter', props.index)
+  emit('remove-filter', props.index)
 }
 
 const changeProperty = (propRef: PropertyRef): void => {
-  emit('changeFilterProperty', props.index, propRef)
+  emit('change-filter-property', props.index, propRef)
 }
 
 const handleSelectProperty = (): void => {
-  emit('handleSelectProperty')
+  emit('handle-select-property')
 }
 
 const changeOperation = (opId: OperationId): void => {
-  emit('changeFilterOperation', props.index, opId)
+  emit('change-filter-operation', props.index, opId)
 }
 
 const ocClickValue = () => {
@@ -310,31 +310,31 @@ const ocClickValue = () => {
 const addValue = (value: Value): void => {
   if (value === null) {
     changeOperation(OperationId.Empty)
-    emit('changeAllValues', props.index, [])
+    emit('change-all-values', props.index, [])
     return
   }
 
   if (value === false) {
     changeOperation(OperationId.False)
-    emit('changeAllValues', props.index, [])
+    emit('change-all-values', props.index, [])
     return
   }
 
   if (value === true) {
     changeOperation(OperationId.True)
-    emit('changeAllValues', props.index, [])
+    emit('change-all-values', props.index, [])
     return
   }
 
-  emit('addFilterValue', props.index, value)
+  emit('add-filter-value', props.index, value)
 }
 
 const removeValue = (value: Value) => {
-  emit('removeFilterValue', props.index, value)
+  emit('remove-filter-value', props.index, value)
 }
 
 const removeValueButton = (value: Value) => {
-  emit('removeFilterValue', props.index, value)
+  emit('remove-filter-value', props.index, value)
 }
 </script>
 

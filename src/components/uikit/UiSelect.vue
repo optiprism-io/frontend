@@ -136,7 +136,7 @@ export default defineComponent({
     isToggle: { type: Boolean, default: true },
     w100: Boolean,
   },
-  emits: ['onSelect', 'onClear'],
+  emits: ['on-select', 'on-clear'],
   setup(props, { emit }) {
     const isOpen = ref(false)
 
@@ -176,12 +176,12 @@ export default defineComponent({
     }
 
     const onSelect = (item: UiSelectItem<Value>) => {
-      emit('onSelect', item.value)
+      emit('on-select', item.value)
     }
 
     const removeSelect = (e: Event) => {
       e.stopPropagation()
-      emit('onClear')
+      emit('on-clear')
     }
 
     return {

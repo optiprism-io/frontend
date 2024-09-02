@@ -79,8 +79,8 @@ import type { Group, Item } from '@/components/Select/SelectTypes'
 
 const emit = defineEmits<{
   (e: 'select', item: any): void
-  (e: 'onSearch', payload: string): void
-  (e: 'onHover', item: any): void
+  (e: 'on-search', payload: string): void
+  (e: 'on-hover', item: any): void
   (e: 'action', payload: string): void
   (e: 'edit', payload: number): void
   (e: 'hide'): void
@@ -205,14 +205,14 @@ const hover = (item: Item<any, any>): void => {
   if (item) {
     description.value = item?.description || ''
     selectedItemLocal.value = item.item
-    emit('onHover', item.item)
+    emit('on-hover', item.item)
   }
 }
 
 const onSearch = (payload: string) => {
   search.value = payload.toLowerCase()
   description.value = ''
-  emit('onSearch', payload)
+  emit('on-search', payload)
 }
 
 const onHide = () => {

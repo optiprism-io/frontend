@@ -143,8 +143,8 @@ class UiDropdownFactory<T = any> {
         },
       },
       emits: {
-        deselectValue: (payload: UiDropdownItem<T>) => payload,
-        selectValue: (payload: UiDropdownItem<T>) => payload,
+        'deselect-value': (payload: UiDropdownItem<T>) => payload,
+        'select-value': (payload: UiDropdownItem<T>) => payload,
       },
       setup(props, { emit }) {
         const isOpen = ref(false)
@@ -157,7 +157,7 @@ class UiDropdownFactory<T = any> {
         })
 
         const onClick = (item: UiDropdownItem<T>) => {
-          emit('selectValue', item)
+          emit('select-value', item)
         }
 
         const onToggle = () => {

@@ -145,8 +145,8 @@ const props = defineProps<{
 }>()
 
 const emit = defineEmits<{
-  (e: 'removeQuery', index: number): void
-  (e: 'changeQuery', queryIdx: number, queryRef: EventQueryRef): void
+  (e: 'remove-query', index: number): void
+  (e: 'change-query', queryIdx: number, queryRef: EventQueryRef): void
 }>()
 
 const queryInfo = computed((): EventsQuery | undefined => {
@@ -242,7 +242,7 @@ const aggregateString = computed((): string => {
 
 const changeQueryAggregate = (payload: AggregateRef) => {
   if (props.item.queryRef) {
-    emit('changeQuery', props.index, {
+    emit('change-query', props.index, {
       ...props.item.queryRef,
       ...payload,
     })
@@ -251,7 +251,7 @@ const changeQueryAggregate = (payload: AggregateRef) => {
 
 const changeQueryGroupAggregate = (payload: AggregateRef) => {
   if (props.item.queryRef) {
-    emit('changeQuery', props.index, {
+    emit('change-query', props.index, {
       ...props.item.queryRef,
       typeGroupAggregate: payload.typeAggregate,
     })
@@ -259,16 +259,16 @@ const changeQueryGroupAggregate = (payload: AggregateRef) => {
 }
 
 const changeQuery = (payload: EventQueryRef) => {
-  emit('changeQuery', props.index, payload)
+  emit('change-query', props.index, payload)
 }
 
 const removeQuery = () => {
-  emit('removeQuery', props.index)
+  emit('remove-query', props.index)
 }
 
 const changeProperty = (payload: PropertyRef) => {
   if (props.item.queryRef) {
-    emit('changeQuery', props.index, {
+    emit('change-query', props.index, {
       ...props.item.queryRef,
       propRef: payload,
     })
@@ -277,7 +277,7 @@ const changeProperty = (payload: PropertyRef) => {
 
 const changeFormula = (value: string) => {
   if (props.item.queryRef) {
-    emit('changeQuery', props.index, {
+    emit('change-query', props.index, {
       ...props.item.queryRef,
       value,
     })

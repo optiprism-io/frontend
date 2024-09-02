@@ -50,7 +50,7 @@ type Props = {
 }
 
 const emit = defineEmits<{
-    (e: 'onInput', payload: ActionPayload): void
+    (e: 'on-input', payload: ActionPayload): void
 }>()
 
 const props = withDefaults(defineProps<Props>(), {
@@ -59,7 +59,7 @@ const props = withDefaults(defineProps<Props>(), {
 })
 
 const onInput = (payload: Event | string | boolean, key: string) => {
-    emit('onInput', {
+    emit('on-input', {
         key,
         value: typeof payload === 'object' && !Array.isArray(payload) ? String(payload) : payload,
     })
