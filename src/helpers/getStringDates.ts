@@ -19,21 +19,6 @@ export function formatDateTime(
   ).toJSON()
 }
 
-export function getStringDate(item: string | number, names: string[], includeDate = true) {
-  if (isNaN(new Date(item).getTime())) {
-    return item
-  }
-  return `${includeDate ? new Date(item).getUTCDate() : ''} ${names[new Date(item).getUTCMonth()]} ${new Date(item).getUTCFullYear()}`
-}
-
-export function getShortStringDate(date: Date) {
-  if (date instanceof Date) {
-    return `${date.getFullYear()}-${date.getMonth() < 9 ? `0${date.getMonth() + 1}` : date.getMonth() + 1}-${date.getDate() < 10 ? `0${date.getDate()}` : date.getDate()}`
-  } else {
-    return ''
-  }
-}
-
 export function getYYYYMMDD(date: Date) {
   const mm = date.getMonth() + 1
   const dd = date.getDate()
