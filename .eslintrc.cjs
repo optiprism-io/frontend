@@ -29,9 +29,12 @@ module.exports = {
     },
   },
   rules: {
+    /* JAVASCRIPT */
     'no-multiple-empty-lines': ['error', { max: 1, maxBOF: 0, maxEOF: 0 }],
-    'no-console': ['warn', { allow: ['error'] }],
+    'no-console': ['error', { allow: ['error'] }],
     'no-debugger': 'error',
+
+    /* TYPESCRIPT */
     '@typescript-eslint/explicit-function-return-type': 'off',
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
@@ -43,7 +46,7 @@ module.exports = {
     'vue/multi-word-component-names': 'off',
     'vue/component-name-in-template-casing': 'error',
     'vue/max-attributes-per-line': [
-      'warn',
+      'error',
       {
         singleline: {
           max: 2,
@@ -76,6 +79,8 @@ module.exports = {
     'vue/no-useless-v-bind': 'error',
     'vue/prefer-separate-static-class': 'error',
     'vue/prefer-true-attribute-shorthand': ['error', 'never'],
+
+    /* SORT IMPORTS */
 
     // * ## import sorting rules:
     // * https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/order.md
