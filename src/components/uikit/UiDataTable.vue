@@ -71,11 +71,12 @@ const props = withDefaults(defineProps<DataTableProps>(), {
   resizable: true,
 })
 
+const emit = defineEmits<{
+  (e: 'update:checked-row-keys', keys: Array<string | number>): void
+}>()
+
 const tableColumns = computed(() =>
   props.columns.map(column => ({ ellipsis: props.ellipsis, resizable: props.resizable, ...column }))
 )
 
-const emit = defineEmits<{
-  (e: 'update:checked-row-keys', keys: Array<string | number>): void
-}>()
 </script>

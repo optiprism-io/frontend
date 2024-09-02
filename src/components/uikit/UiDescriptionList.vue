@@ -49,14 +49,14 @@ type Props = {
     items: Item[]
 }
 
-const emit = defineEmits<{
-    (e: 'on-input', payload: ActionPayload): void
-}>()
-
 const props = withDefaults(defineProps<Props>(), {
     horizontal: undefined,
     compact: true
 })
+
+const emit = defineEmits<{
+    (e: 'on-input', payload: ActionPayload): void
+}>()
 
 const onInput = (payload: Event | string | boolean, key: string) => {
     emit('on-input', {

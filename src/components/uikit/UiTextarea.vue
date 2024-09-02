@@ -12,13 +12,11 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
 
-const emit = defineEmits(['input', 'blur']);
-
 interface Props {
-    value: string | number | undefined
-    placeholder?: string
-    mountFocus?: boolean
-    rows?: number
+  value: string | number | undefined
+  placeholder?: string
+  mountFocus?: boolean
+  rows?: number
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -27,6 +25,8 @@ const props = withDefaults(defineProps<Props>(), {
     placeholder: '',
     rows: 3
 });
+
+const emit = defineEmits(['input', 'blur']);
 
 const textarea = ref<HTMLCanvasElement | null>(null)
 

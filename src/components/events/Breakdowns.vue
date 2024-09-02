@@ -37,12 +37,12 @@ import { useBreakdownsStore } from '@/stores/reports/breakdowns'
 
 import type { PropertyRef } from '@/types/events'
 
-const eventsStore = useEventsStore()
-const breakdownsStore = useBreakdownsStore()
-
 const emit = defineEmits<{
   (e: 'on-change'): void
 }>()
+
+const eventsStore = useEventsStore()
+const breakdownsStore = useBreakdownsStore()
 
 const eventRefs = computed(() => eventsStore.events.map(item => item.ref))
 const breakdowns = computed(() => breakdownsStore.breakdowns)

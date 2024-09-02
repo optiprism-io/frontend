@@ -144,24 +144,6 @@ interface ChartDropdownMap {
   icon: string
 }
 
-const chartTypeMap: ChartDropdownMap[] = [
-  {
-    value: 'line',
-    icon: 'fas fa-chart-line',
-  },
-  {
-    value: 'column',
-    icon: 'fas fa-chart-bar',
-  },
-  {
-    value: 'pie',
-    icon: 'fas fa-chart-pie',
-  },
-]
-
-const eventsStore = useEventsStore()
-const { t } = usei18n()
-
 type Props = {
   eventSegmentation?: DataTableResponse | null
   loading: boolean
@@ -179,6 +161,28 @@ const props = withDefaults(defineProps<Props>(), {
   heightChart: undefined,
   report: null,
 })
+
+const emit = defineEmits<{
+  (e: 'on-change'): void
+}>()
+
+const chartTypeMap: ChartDropdownMap[] = [
+  {
+    value: 'line',
+    icon: 'fas fa-chart-line',
+  },
+  {
+    value: 'column',
+    icon: 'fas fa-chart-bar',
+  },
+  {
+    value: 'pie',
+    icon: 'fas fa-chart-pie',
+  },
+]
+
+const eventsStore = useEventsStore()
+const { t } = usei18n()
 
 type CellData = number | string | boolean
 
@@ -273,10 +277,6 @@ const dataTable = computed(() => {
 
   return table
 })
-
-const emit = defineEmits<{
-  (e: 'on-change'): void
-}>()
 
 const isNoData = computed(() => !props.loading && !props.eventSegmentation?.columns?.length)
 const chartTypeActive = computed(() => props.chartType ?? eventsStore.chartType)

@@ -80,8 +80,6 @@ import type {
   Period} from '@/components/projects/helpers';
 import type { ProjectEdit, ProjectErrors } from '@/stores/projects/types'
 
-const { t } = usei18n()
-
 interface IProps {
   name?: string
   sessionDurationSeconds?: number
@@ -103,6 +101,8 @@ const emit = defineEmits<{
   (e: 'input-duration'): void
   (e: 'update:isEdit', value: (typeof props)['isEdit']): void
 }>()
+
+const { t } = usei18n()
 
 const curIsEdit = useVModel(props, 'isEdit', emit)
 

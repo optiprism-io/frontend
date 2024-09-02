@@ -156,13 +156,6 @@ import type { Value } from '@/types';
 import type { EventRef, PropertyRef, UserCustomProperty } from '@/types/events'
 import type { OrientationEnum} from '@/types/filters';
 
-const NotAllowedOperationIds = {
-  Exists: 'exists',
-  Empty: 'empty',
-  True: 'true',
-  False: 'false',
-} as const
-
 type Props = {
   eventRef?: EventRef
   eventRefs?: EventRef[]
@@ -176,22 +169,11 @@ type Props = {
   orientation?: OrientationEnum
 }
 
-const lexiconStore = useLexiconStore()
-
 const props = withDefaults(defineProps<Props>(), {
   eventRef: undefined,
   eventRefs: undefined,
   popperContainer: undefined,
   orientation: OrientationTypeEnum.VERTICAL,
-})
-
-const elButtonMain = ref(null)
-const elButtonValues = ref(null)
-const isHoveredButtonMain = useElementHover(elButtonMain)
-const isHoveredButtonValues = useElementHover(elButtonValues)
-
-const isAnyButtonHovered = computed(() => {
-  return isHoveredButtonMain.value || isHoveredButtonValues.value
 })
 
 const emit = defineEmits<{
@@ -204,6 +186,24 @@ const emit = defineEmits<{
   (e: 'change-all-values', filterIdx: number, values: Value[]): void
   (e: 'on-click-value', filterIdx: number): void
 }>()
+
+const NotAllowedOperationIds = {
+  Exists: 'exists',
+  Empty: 'empty',
+  True: 'true',
+  False: 'false',
+} as const
+
+const lexiconStore = useLexiconStore()
+
+const elButtonMain = ref(null)
+const elButtonValues = ref(null)
+const isHoveredButtonMain = useElementHover(elButtonMain)
+const isHoveredButtonValues = useElementHover(elButtonValues)
+
+const isAnyButtonHovered = computed(() => {
+  return isHoveredButtonMain.value || isHoveredButtonValues.value
+})
 
 const valueInput = ref('')
 

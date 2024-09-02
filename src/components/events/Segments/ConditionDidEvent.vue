@@ -158,17 +158,14 @@ import type { Item } from '@/components/Select/SelectTypes';
 import type { OperationId } from '@/types';
 import type { PropertyRef, Condition as ConditionType, EventRef } from '@/types/events'
 
-const lexiconStore = useLexiconStore()
-const { hoveredCustomEventDescription, hoveredCustomEventId, onHoverEvent } = useCustomEvent()
-const i18n = inject<any>('i18n')
-
 interface Props {
-    index: number
-    indexParent: number
-    condition: ConditionType
-    updateOpen?: boolean
-    autoHideEvent?: boolean
+  index: number
+  indexParent: number
+  condition: ConditionType
+  updateOpen?: boolean
+  autoHideEvent?: boolean
 }
+
 const props = withDefaults(defineProps<Props>(), {
     autoHideEvent: true
 })
@@ -177,6 +174,10 @@ const emit = defineEmits<{
     (e: 'change-property', propRef: PropertyRef): void
     (e: 'change-operation', opId: OperationId): void
 }>()
+
+const lexiconStore = useLexiconStore()
+const { hoveredCustomEventDescription, hoveredCustomEventId, onHoverEvent } = useCustomEvent()
+const i18n = inject<any>('i18n')
 
 const conditionItems = inject<[]>('conditionItems')
 const conditionAggregateItems = inject<[]>('conditionAggregateItems')

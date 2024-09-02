@@ -132,10 +132,6 @@ import type { Events } from '@/stores/eventSegmentation/events';
 import type { AggregateRef } from '@/types/aggregate'
 import type { EventRef, EventQueryRef, EventsQuery, PropertyRef } from '@/types/events'
 
-const eventsStore: Events = useEventsStore()
-const lexiconStore = useLexiconStore()
-const { t } = usei18n()
-
 const props = defineProps<{
   eventRef: EventRef
   item: EventQuery
@@ -148,6 +144,10 @@ const emit = defineEmits<{
   (e: 'remove-query', index: number): void
   (e: 'change-query', queryIdx: number, queryRef: EventQueryRef): void
 }>()
+
+const eventsStore: Events = useEventsStore()
+const lexiconStore = useLexiconStore()
+const { t } = usei18n()
 
 const queryInfo = computed((): EventsQuery | undefined => {
   return lexiconStore.findQuery(props.item.queryRef)

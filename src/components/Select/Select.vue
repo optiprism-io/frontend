@@ -77,16 +77,6 @@ import UiSpinner from '@/components/uikit/UiSpinner.vue'
 
 import type { Group, Item } from '@/components/Select/SelectTypes'
 
-const emit = defineEmits<{
-  (e: 'select', item: any): void
-  (e: 'on-search', payload: string): void
-  (e: 'on-hover', item: any): void
-  (e: 'action', payload: string): void
-  (e: 'edit', payload: number): void
-  (e: 'hide'): void
-  (e: 'show'): void
-}>()
-
 const props = withDefaults(
   defineProps<{
     items: any
@@ -119,6 +109,16 @@ const props = withDefaults(
     placement: 'bottom-start',
   }
 )
+
+const emit = defineEmits<{
+  (e: 'select', item: any): void
+  (e: 'on-search', payload: string): void
+  (e: 'on-hover', item: any): void
+  (e: 'action', payload: string): void
+  (e: 'edit', payload: number): void
+  (e: 'hide'): void
+  (e: 'show'): void
+}>()
 
 const key = ref(0)
 const isOpen = ref(false)

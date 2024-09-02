@@ -97,23 +97,22 @@ import type { Value } from '@/types';
 import type { PropertyRef } from '@/types/events'
 import type { I18N } from '@/utils/i18n'
 
+interface IProps {
+  index: number
+}
+
+const props = defineProps<IProps>()
+
+const emit = defineEmits<{
+  (e: 'input'): void
+}>()
+
 const UiSelectMatch = UiSelectGeneric<EventGroupedFiltersGroupsConditionEnum>()
 
 const filterGroupsStore = useFilterGroupsStore()
 const stepsStore = useStepsStore()
 const filterHelpers = useFilter()
 const { $t } = inject('i18n') as I18N
-
-const props = defineProps({
-  index: {
-    type: Number,
-    required: true,
-  },
-})
-
-const emit = defineEmits<{
-  (e: 'input'): void
-}>()
 
 const showMatch = computed(() => filterGroupsStore.isFiltersAdvanced)
 

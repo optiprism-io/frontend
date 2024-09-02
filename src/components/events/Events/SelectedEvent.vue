@@ -195,9 +195,6 @@ import type {
 import type { Value } from '@/types';
 import type { EventRef, PropertyRef, EventQueryRef } from '@/types/events'
 
-const eventsStore = useEventsStore()
-const { getValues } = usePropertyValues()
-
 type Props = {
   eventRef: EventRef
   event: Event
@@ -243,6 +240,8 @@ const emit = defineEmits<{
   (e: 'edit', payload: number): void
   (e: 'on-change'): void
 }>()
+const eventsStore = useEventsStore()
+const { getValues } = usePropertyValues()
 
 const { hoveredCustomEventDescription, hoveredCustomEventId, onHoverEvent } = useCustomEvent()
 const lexiconStore = useLexiconStore()

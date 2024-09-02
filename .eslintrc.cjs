@@ -63,6 +63,8 @@ module.exports = {
       },
     ],
     'vue/custom-event-name-casing': ['error', 'kebab-case'],
+    'vue/define-macros-order': 'error',
+    'vue/define-props-declaration': 'error',
 
     // * ## import sorting rules:
     // * https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/order.md

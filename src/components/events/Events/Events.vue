@@ -34,7 +34,6 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import type { PropType } from 'vue';
 
 import EventSelector from '@/components/events/Events/EventSelector.vue'
 import SelectedEvent from '@/components/events/Events/SelectedEvent.vue'
@@ -53,24 +52,23 @@ import { useLexiconStore } from '@/stores/lexicon'
 import type { EventPayload} from '@/stores/eventSegmentation/events';
 import type { EventQueryRef, EventRef, PropertyRef } from '@/types/events'
 
-const props = defineProps({
-  identifier: {
-    type: String as PropType<'numeric' | 'alphabet'>,
-    default: 'alphabet',
-  },
-  createWithQuery: {
-    type: Boolean,
-    default: true,
-  },
-})
+interface IProps {
+  identifier?: 'numeric' | 'alphabet'
+  createWithQuery?: boolean
+}
 
-const lexiconStore = useLexiconStore()
-const eventsStore = useEventsStore()
-const commonStore = useCommonStore()
+const props = withDefaults(defineProps<IProps>(), {
+  identifier: 'alphabet',
+  createWithQuery: true,
+})
 
 const emit = defineEmits<{
   (e: 'on-change'): void
 }>()
+
+const lexiconStore = useLexiconStore()
+const eventsStore = useEventsStore()
+const commonStore = useCommonStore()
 
 const events = computed(() => eventsStore.events)
 

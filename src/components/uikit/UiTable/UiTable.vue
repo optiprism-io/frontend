@@ -128,25 +128,6 @@ import UiTableHeadCell from '@/components/uikit/UiTable/UiTableHeadCell.vue'
 
 import type { Row, Cell, Column, Action, ColumnGroup } from '@/components/uikit/UiTable/UiTable'
 
-const i18n = inject<any>('i18n')
-const slots = useSlots()
-
-type Props = {
-  showSelectColumns?: boolean
-  compact?: boolean
-  items?: Row[]
-  columns: Column[]
-  filterColumns?: Column[]
-  groups?: ColumnGroup[]
-  isLoading?: boolean
-  showToolbar?: boolean
-  noDataTitle?: string
-  noDataText?: string
-  enablePlaceholder?: boolean
-  defaultColumns?: string[]
-  allowClickCell?: boolean
-}
-
 const props = withDefaults(defineProps<Props>(), {
   items: () => [],
   filterColumns: () => [],
@@ -165,6 +146,24 @@ const emit = defineEmits<{
   (e: 'on-action', payload: Action): void
   (e: 'select-columns', payload: string[]): void
 }>()
+const i18n = inject<any>('i18n')
+const slots = useSlots()
+
+type Props = {
+  showSelectColumns?: boolean
+  compact?: boolean
+  items?: Row[]
+  columns: Column[]
+  filterColumns?: Column[]
+  groups?: ColumnGroup[]
+  isLoading?: boolean
+  showToolbar?: boolean
+  noDataTitle?: string
+  noDataText?: string
+  enablePlaceholder?: boolean
+  defaultColumns?: string[]
+  allowClickCell?: boolean
+}
 
 const activeColumns = ref<string[]>([])
 

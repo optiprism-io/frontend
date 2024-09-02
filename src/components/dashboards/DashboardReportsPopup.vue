@@ -30,19 +30,19 @@ import usei18n from '@/hooks/useI18n'
 import type { Report } from '@/api'
 import type { Action, Row } from '@/components/uikit/UiTable/UiTable'
 
-const { t } = usei18n()
-
 type Props = {
   reports: Report[]
   loading: boolean
 }
+
+const props = defineProps<Props>()
 
 const emit = defineEmits<{
   (e: 'cancel'): void
   (e: 'on-select-report', id: number): void
 }>()
 
-const props = defineProps<Props>()
+const { t } = usei18n()
 
 const itemsReport = computed(() => {
   if (props.reports.length) {

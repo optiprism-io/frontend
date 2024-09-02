@@ -32,10 +32,11 @@ import { Menu as VMenu } from 'floating-vue'
 
 import UiIcon from '@/components/uikit/UiIcon.vue'
 
-defineProps({
-    label: {
-        type: String,
-        default: '',
-    },
+interface IProps {
+  label: string
+}
+
+withDefaults(defineProps<IProps>(), {
+  label: '',
 })
 </script>

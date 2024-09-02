@@ -56,22 +56,21 @@ import type {
 import type { OperationId, Value } from '@/types'
 import type { PropertyRef } from '@/types/events'
 
-const i18n = inject<any>('i18n')
-const segmentsStore = useSegmentsStore()
-const eventsStore = useEventsStore()
-const lexiconStore = useLexiconStore()
-const commonStore = useCommonStore()
-
-const emit = defineEmits<{
-  (e: 'on-change'): void
-}>()
-
 type Props = {
   isOne?: boolean
   hideAddSegmentButton?: boolean
 }
 
 const props = defineProps<Props>()
+const emit = defineEmits<{
+  (e: 'on-change'): void
+}>()
+
+const i18n = inject<any>('i18n')
+const segmentsStore = useSegmentsStore()
+const eventsStore = useEventsStore()
+const lexiconStore = useLexiconStore()
+const commonStore = useCommonStore()
 
 const conditionAggregateItems = computed(() => {
   return aggregates.map(item => {

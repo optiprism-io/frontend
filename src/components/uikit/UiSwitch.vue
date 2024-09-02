@@ -36,14 +36,14 @@ interface Props {
     reverse?: boolean
 }
 
-const emit = defineEmits(['update:modelValue', 'input']);
-
 const props = withDefaults(defineProps<Props>(), {
     modelValue: false,
     label: '',
     beforeLabel: '',
     reverse: false,
 });
+
+const emit = defineEmits(['update:modelValue', 'input']);
 
 const updateValue = (e: Event) => {
     const target = e.target as HTMLInputElement

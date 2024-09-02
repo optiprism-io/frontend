@@ -75,21 +75,20 @@ type PropertiesEdit = {
     error?: boolean,
 };
 
+type Props = {
+  item: GroupRecord | null
+  itemIndex?: number
+  loading?: boolean
+}
+
+const props = defineProps<Props>()
+const emit = defineEmits<{
+    (e: 'apply'): void
+}>()
+
 const i18n = inject('i18n') as I18N;
 const groupStore = useGroupStore();
 const mapTabs = ['userProperties'];
-
-type Props = {
-    item: GroupRecord | null
-    itemIndex?: number
-    loading?: boolean
-};
-
-const props = defineProps<Props>();
-
-const emit = defineEmits<{
-    (e: 'apply'): void
-}>();
 
 const activeTab = ref('userProperties');
 const isLodingSavePropetries = ref(false);

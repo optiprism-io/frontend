@@ -113,6 +113,11 @@ import type {
 import type { Event, EventPayload } from '@/stores/eventSegmentation/events';
 import type { EventRef } from '@/types/events'
 
+const emit = defineEmits<{
+  (e: 'cancel'): void
+  (e: 'apply'): void
+}>()
+
 const i18n = inject<any>('i18n')
 
 const lexiconStore = useLexiconStore()
@@ -120,11 +125,6 @@ const eventsStore = useEventsStore()
 const projectsStore = useProjectsStore()
 const commonStore = useCommonStore()
 const { getValues } = usePropertyValues()
-
-const emit = defineEmits<{
-  (e: 'cancel'): void
-  (e: 'apply'): void
-}>()
 
 const loading = ref(false)
 const eventName = ref('')

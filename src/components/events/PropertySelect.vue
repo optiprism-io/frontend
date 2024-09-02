@@ -31,15 +31,6 @@ import type { Property} from '@/api';
 import type { PropertyItem } from '@/hooks/useProperty';
 import type { EventRef, PropertyRef } from '@/types/events'
 
-const { groupedProperties } = useProperty()
-const lexiconStore = useLexiconStore()
-
-const emit = defineEmits<{
-  (e: 'select', ref: PropertyRef): void
-  (e: 'hide'): void
-  (e: 'show'): void
-}>()
-
 const props = defineProps<{
   dataType?: string
   eventRef?: EventRef
@@ -53,6 +44,15 @@ const props = defineProps<{
   popperContainer?: string
   popperClass?: string
 }>()
+
+const emit = defineEmits<{
+  (e: 'select', ref: PropertyRef): void
+  (e: 'hide'): void
+  (e: 'show'): void
+}>()
+
+const { groupedProperties } = useProperty()
+const lexiconStore = useLexiconStore()
 
 const checkDisable = (propRef: PropertyRef): boolean => {
   return props.disabledItems

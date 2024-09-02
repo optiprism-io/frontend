@@ -54,16 +54,11 @@ export type EventObject = {
 }
 export type ApplyPayload = EventObject;
 
-const commonStore = useCommonStore()
-const mapTabs = ['property', 'events']
-
-const i18n = inject<any>('i18n')
-
 type Props = {
-    name?: string
-    loading?: boolean
-    events?: Event[] | null
-    property: Property | null
+  name?: string
+  loading?: boolean
+  events?: Event[] | null
+  property: Property | null
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -71,12 +66,16 @@ const props = withDefaults(defineProps<Props>(), {
     loading: false,
     events: null,
 })
-
 const emit = defineEmits<{
     (e: 'cancel'): void
     (e: 'apply', payload: ApplyPayload): void
     (e: 'on-action-event', payload: Action): void
 }>()
+
+const commonStore = useCommonStore()
+const mapTabs = ['property', 'events']
+
+const i18n = inject<any>('i18n')
 
 const activeTab = ref('property')
 

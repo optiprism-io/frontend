@@ -78,12 +78,12 @@ import type { TimeUnit } from '@/api'
 import type { ApplyPayload } from '@/components/uikit/UiCalendar/UiCalendar'
 import type { UiToggleGroupItem } from '@/components/uikit/UiToggleGroup/types'
 
-const eventsStore = useEventsStore()
-const { t } = usei18n()
-
 const emit = defineEmits<{
     (e: 'on-change'): void
 }>()
+
+const eventsStore = useEventsStore()
+const { t } = usei18n()
 
 const itemsGroupBy = computed(() => {
     return groupByMap.map((key) => ({

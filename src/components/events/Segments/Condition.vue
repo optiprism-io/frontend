@@ -246,6 +246,14 @@ import type { Each, ApplyPayload } from '@/components/uikit/UiCalendar/UiCalenda
 import type { OperationId, Value } from '@/types';
 import type { PropertyRef, Condition as ConditionType } from '@/types/events';
 
+const props = withDefaults(defineProps<Props>(), {
+    showRemove: true,
+})
+
+const emit = defineEmits<{
+    (e: 'on-click-value', idx: number, indexParent: number): void;
+}>()
+
 const ConditionDidEvent = defineAsyncComponent(() => import('./ConditionDidEvent.vue'));
 const i18n = usei18n();
 
@@ -272,14 +280,6 @@ interface ItemConditionType {
     name: string,
     description: string,
 }
-
-const emit = defineEmits<{
-    (e: 'on-click-value', idx: number, indexParent: number): void;
-}>();
-
-const props = withDefaults(defineProps<Props>(), {
-    showRemove: true,
-});
 
 const getConditionItem = (key: string): ItemConditionType => {
     const name = i18n.t(`events.condition.${key}`) as string;

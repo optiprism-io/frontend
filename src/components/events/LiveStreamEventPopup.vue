@@ -43,9 +43,6 @@ import { useProjectsStore } from '@/stores/projects/projects'
 import type { EventRecord, PropertyAndValue, Group } from '@/api'
 import type { Row } from '@/components/uikit/UiTable/UiTable'
 
-const projectsStore = useProjectsStore()
-const { t } = usei18n()
-
 const props = defineProps<{
   id: number
   name: string
@@ -56,6 +53,9 @@ const emit = defineEmits<{
   (e: 'cancel'): void
   (e: 'apply'): void
 }>()
+
+const projectsStore = useProjectsStore()
+const { t } = usei18n()
 
 const strings = {
   eventNoProperties: t('common.eventNoProperties'),

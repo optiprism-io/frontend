@@ -103,12 +103,12 @@ const props = defineProps<{
     index: number;
 }>();
 
-const showControls = ref(false);
-
 const emit = defineEmits<{
     (e: 'remove-breakdown', index: number): void;
     (e: 'change-breakdown', index: number, breakdown: Breakdown): void;
 }>();
+
+const showControls = ref(false);
 
 const lexiconStore = useLexiconStore();
 

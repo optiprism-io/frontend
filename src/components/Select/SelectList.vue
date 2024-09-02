@@ -117,21 +117,21 @@ import UiButton from '@/components/uikit/UiButton.vue'
 
 import type { Group, Item } from '@/components/Select/SelectTypes';
 
-const emit = defineEmits<{
-    (e: 'select', item: any): void;
-    (e: 'hover', item: any): void;
-    (e: 'on-search', value: string): void;
-    (e: 'action', payload: string): void
-    (e: 'edit', payload: number): void
-}>();
-
 const props = defineProps<{
     items: Item<any, any>[] | Group<any>[];
     grouped: boolean;
     selected?: any;
     showSearch?: boolean;
     multiple?: boolean
-}>();
+}>()
+
+const emit = defineEmits<{
+    (e: 'select', item: any): void;
+    (e: 'hover', item: any): void;
+    (e: 'on-search', value: string): void;
+    (e: 'action', payload: string): void
+    (e: 'edit', payload: number): void
+}>()
 
 const search = ref('');
 

@@ -91,24 +91,15 @@ import { eachMap } from './UiCalendar.config'
 
 import type { Each } from './UiCalendar'
 
-const i18n = inject<any>('i18n')
-
-const emit = defineEmits<{
-    (e: 'on-select-last-count', payload: number): void;
-    (e: 'on-change-since', payload: string): void;
-    (e: 'on-change-between', payload: {type: 'from' | 'to', value: string}): void;
-    (e: 'on-change-each', payload: Each): void;
-}>()
-
 interface Props {
-    lastCount?: number
-    activeTab: string
-    since: string
-    warning?: boolean
-    from?: string
-    to?: string
-    warningText?: string
-    each?: Each
+  lastCount?: number
+  activeTab: string
+  since: string
+  warning?: boolean
+  from?: string
+  to?: string
+  warningText?: string
+  each?: Each
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -120,6 +111,15 @@ const props = withDefaults(defineProps<Props>(), {
     to: '',
     each: undefined,
 })
+
+const emit = defineEmits<{
+    (e: 'on-select-last-count', payload: number): void;
+    (e: 'on-change-since', payload: string): void;
+    (e: 'on-change-between', payload: {type: 'from' | 'to', value: string}): void;
+    (e: 'on-change-each', payload: Each): void;
+}>()
+
+const i18n = inject<any>('i18n')
 
 const textLastCount = computed(() => props.lastCount === 1 ? 'day' : 'days')
 

@@ -117,16 +117,15 @@ interface ItemConditionType {
     description: string,
 }
 
-const { t, keyExists } = usei18n();
-const props = defineProps<Props>();
-
+const props = defineProps<Props>()
 const emit = defineEmits<{
     (e: 'on-remove', inx: number): void
     (e: 'on-rename', name: string, idx: number): void
     (e: 'add-condition', idx: number, ref: { id: string, name: string }): void
     (e: 'on-click-value', idx: number, indexParent: number): void;
-}>();
+}>()
 
+const { t, keyExists } = usei18n();
 const updateOpenCondition = ref(false)
 const dropdownStatesControl = ref(false);
 

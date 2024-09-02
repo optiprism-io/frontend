@@ -123,8 +123,6 @@ import usei18n from '@/hooks/useI18n'
 import type { UpdateProfileEmailRequest, UpdateProfileNameRequest } from '@/api'
 import type { ProfileEdit, ProfileErrors, UpdateProfilePasswordRequestExt } from '@/stores/profile/types'
 
-const { t } = usei18n()
-
 interface IProps {
   name?: string
   email?: string
@@ -148,6 +146,8 @@ const emit = defineEmits<{
   (e: 'input-pass-confirm'): void
   (e: 'update:isEdit', value: (typeof props)['isEdit']): void
 }>()
+
+const { t } = usei18n()
 
 const curIsEdit = useVModel(props, 'isEdit', emit)
 

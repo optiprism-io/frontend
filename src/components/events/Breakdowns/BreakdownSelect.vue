@@ -34,12 +34,12 @@ import type {
 } from '@/stores/reports/breakdowns';
 import type { UserCustomProperty } from '@/types/events'
 
-const emit = defineEmits<{
-    (e: 'select', type: Breakdown): void;
-}>();
-
 const props = defineProps<{
     selected?: Breakdown;
+}>();
+
+const emit = defineEmits<{
+    (e: 'select', type: Breakdown): void;
 }>();
 
 const lexiconStore = useLexiconStore();

@@ -61,16 +61,16 @@ import type {
 import type { ChartType } from '@/stores/eventSegmentation/events'
 import type { Step } from '@/types/steps'
 
-const reportsStore = useReportsStore()
-const filterGroupsStore = useFilterGroupsStore()
-const eventsStore = useEventsStore()
-const projectsStore = useProjectsStore()
-
 const props = defineProps<{
   report?: Report
   reportId?: number
   heightChart?: number
 }>()
+
+const reportsStore = useReportsStore()
+const filterGroupsStore = useFilterGroupsStore()
+const eventsStore = useEventsStore()
+const projectsStore = useProjectsStore()
 
 const loading = ref(false)
 const eventSegmentation = ref<DataTableResponse>()

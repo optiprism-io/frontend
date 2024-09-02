@@ -115,21 +115,20 @@ type Props = {
     errorKey?: boolean
 };
 
-const VALUE = 'value';
-const KEY = 'key';
-
 const props = withDefaults(defineProps<Props>(), {
     boldText: false,
     hideControls: false,
     startEdit: false,
     index: -1,
-});
-
+})
 const emit = defineEmits<{
     (e: 'apply', payload: ApplyPayload): void
     (e: 'delete', index: number): void
     (e: 'close-new-line'): void
-}>();
+}>()
+
+const VALUE = 'value';
+const KEY = 'key';
 
 const editKey = ref('');
 const editValue = ref('');

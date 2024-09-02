@@ -24,14 +24,13 @@ import UiCardBody from '@/components/uikit/UiCard/UiCardBody.vue'
 import UiCardContainer from '@/components/uikit/UiCard/UiCardContainer.vue'
 import UiCardTitle from '@/components/uikit/UiCard/UiCardTitle.vue'
 
-defineProps({
-  title: {
-    type: String,
-    default: '',
-  },
-  link: {
-    type: [Object, String],
-    default: undefined,
-  },
+interface IProps {
+  title?: string
+  link?: string | Record<string, unknown>
+}
+
+withDefaults(defineProps<IProps>(), {
+  title: '',
+  link: undefined,
 })
 </script>

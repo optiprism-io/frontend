@@ -37,23 +37,18 @@ import { VTooltip } from 'floating-vue'
 
 import UiIcon from '@/components/uikit/UiIcon.vue'
 
-defineProps({
-    label: {
-        type: String,
-        default: '',
-    },
-    selected: {
-        type: Boolean,
-        default: false,
-    },
-    disabled: {
-        type: Boolean,
-        default: false,
-    },
-    editable: {
-        type: Boolean,
-        default: false,
-    },
+interface IProps {
+  label: string
+  selected: boolean
+  disabled: boolean
+  editable: boolean
+}
+
+withDefaults(defineProps<IProps>(), {
+  label: '',
+  selected: false,
+  disabled: false,
+  editable: false,
 })
 
 const emit = defineEmits(['click', 'mouseOver', 'mouseOut'])

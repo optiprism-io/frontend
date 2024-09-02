@@ -29,11 +29,11 @@ import { RouterLink } from 'vue-router'
 import usei18n from '@/hooks/useI18n'
 import { pagesMap } from '@/router'
 
-const { t } = usei18n()
-
 const emit = defineEmits<{
   (e: 'on-click-item', event: PointerEvent, name: string): void
 }>()
+
+const { t } = usei18n()
 
 const configNav = [
   {

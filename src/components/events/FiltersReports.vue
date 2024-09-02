@@ -34,15 +34,15 @@ export interface Props {
   isAllowAdvanced?: boolean
 }
 
-const filterGroupsStore = useFilterGroupsStore()
-const { t } = usei18n()
-const { confirm } = useConfirm()
+defineProps<Props>()
 
 const emit = defineEmits<{
   (e: 'on-change'): void
 }>()
 
-defineProps<Props>()
+const filterGroupsStore = useFilterGroupsStore()
+const { t } = usei18n()
+const { confirm } = useConfirm()
 
 const isFiltersAdvanced = computed(() => filterGroupsStore.isFiltersAdvanced)
 

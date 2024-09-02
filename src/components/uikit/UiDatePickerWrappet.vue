@@ -48,8 +48,6 @@ interface Props extends DataPickerPeriod {
   isPeriodActive: boolean
 }
 
-const i18n = inject('i18n') as I18N
-
 const props = withDefaults(defineProps<Props>(), {
   from: '',
   to: '',
@@ -60,6 +58,8 @@ const props = withDefaults(defineProps<Props>(), {
 const emit = defineEmits<{
   (e: 'on-apply', period: DataPickerPeriod, controlsPeriod: string): void
 }>()
+
+const i18n = inject('i18n') as I18N
 
 const calendarValue = computed(() => {
   return {

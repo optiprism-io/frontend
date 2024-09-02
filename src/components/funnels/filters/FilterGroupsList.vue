@@ -30,11 +30,11 @@ import UiButton from '@/components/uikit/UiButton.vue'
 
 import { useFilterGroupsStore } from '@/stores/reports/filters'
 
-const filterGroupsStore = useFilterGroupsStore()
-
 defineEmits<{
   (e: 'input'): void
 }>()
+
+const filterGroupsStore = useFilterGroupsStore()
 
 const groups = computed(() => filterGroupsStore.filterGroups)
 </script>

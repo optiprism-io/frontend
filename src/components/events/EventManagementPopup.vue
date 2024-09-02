@@ -73,21 +73,12 @@ export type EventObject = {
 }
 export type ApplyPayload = EventObject
 
-const i18n = inject<any>('i18n')
-
 type Props = {
   name?: string
   loading?: boolean
   event: Event | null
   properties: Property[]
 }
-
-const tabs = {
-  event: 'event',
-  properties: 'properties',
-}
-
-const { t } = usei18n()
 
 const props = withDefaults(defineProps<Props>(), {
   name: '',
@@ -99,6 +90,15 @@ const emit = defineEmits<{
   (e: 'on-action-property', payload: Action): void
   // (e: 'on-action-user-property', payload: ApplyPayload): void
 }>()
+
+const i18n = inject<any>('i18n')
+
+const tabs = {
+  event: 'event',
+  properties: 'properties',
+}
+
+const { t } = usei18n()
 
 const activeTab = ref('event')
 

@@ -23,9 +23,9 @@ type Props = {
   nowrap?: boolean
 }
 
-const MaxLengthCell = 46
-
 const props = defineProps<Props>()
+
+const MaxLengthCell = 46
 
 const tableCellVal = computed(() =>
   isNumber(props.title) ? humanReadable(props.title) : props.title
