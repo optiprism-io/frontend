@@ -69,7 +69,7 @@ module.exports = {
     'vue/define-emits-declaration': 'error',
     'vue/no-required-prop-with-default': 'error',
     'vue/no-undef-components': 'error',
-    // 'vue/no-undef-properties': 'error',
+    'vue/no-undef-properties': 'error',
     'vue/no-unsupported-features': 'error',
     'vue/no-unused-refs': 'error',
     'vue/no-useless-v-bind': 'error',

@@ -32,9 +32,9 @@ import UiDatePicker from '@/components/uikit/UiDatePicker.vue'
 import UiIcon from '@/components/uikit/UiIcon.vue'
 
 import { getStringDateByFormat } from '@/helpers/getStringDates'
-import { TimeTypeEnum } from '@/helpers/periodHelper'
 
 import type { ApplyPayload } from '@/components/uikit/UiCalendar/UiCalendar'
+import type { TimeTypeEnum } from '@/helpers/periodHelper'
 import type { I18N } from '@/utils/i18n'
 
 export interface DataPickerPeriod {
@@ -44,16 +44,11 @@ export interface DataPickerPeriod {
   type: TimeTypeEnum
 }
 
-interface Props extends DataPickerPeriod {
+type Props = DataPickerPeriod & {
   isPeriodActive: boolean
 }
 
-const props = withDefaults(defineProps<Props>(), {
-  from: '',
-  to: '',
-  type: TimeTypeEnum.Last,
-  last: 30,
-})
+const props = withDefaults(defineProps<Props>(), {})
 
 const emit = defineEmits<{
   (e: 'on-apply', period: DataPickerPeriod, controlsPeriod: string): void
