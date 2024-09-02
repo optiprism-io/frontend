@@ -258,7 +258,7 @@ const applyDisabled = computed(
 async function setFields() {
   if (applyDisabled.value) return
 
-  const promises: Array<() => Promise<void | undefined>> = []
+  const promises: (() => Promise<void | undefined>)[] = []
   if (props.forceEmail) promises.push(setEmail)
   if (props.forcePass) promises.push(setPassword)
   if (props.forceProject) promises.push(setProjectName)

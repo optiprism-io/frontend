@@ -25,9 +25,9 @@ export interface Report {
   userProperties: {
     [key: string]: string | number
   }
-  matchedCustomEvents: Array<{
+  matchedCustomEvents: {
     id: number | string
-  }>
+  }[]
 }
 
 const getParamsEventsForRequest = (events: Event[]): EventRecordRequestEvent[] => {
@@ -78,7 +78,7 @@ type LiveStreamStore = {
     last: number
     type: TimeTypeEnum
   }
-  columns: Array<DataTableResponseColumnsInner>
+  columns: DataTableResponseColumnsInner[]
   activeColumns: PropertyRef[]
   loading: boolean
   eventPopup: boolean

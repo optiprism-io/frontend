@@ -70,7 +70,7 @@ const event = ref<EventRecord | null>(null)
 const properties = computed(() => event.value?.properties || [])
 
 type PropertiesMap = {
-  [key in PropertiesMapKey]?: Array<PropertyAndValue>
+  [key in PropertiesMapKey]?: PropertyAndValue[]
 }
 const propertiesMap = computed<PropertiesMap>(() => {
   const items: PropertiesMap = {}

@@ -72,7 +72,7 @@ const props = withDefaults(defineProps<DataTableProps>(), {
 })
 
 const emit = defineEmits<{
-  (e: 'update:checked-row-keys', keys: Array<string | number>): void
+  (e: 'update:checked-row-keys', keys: (string | number)[]): void
 }>()
 
 const tableColumns = computed(() =>

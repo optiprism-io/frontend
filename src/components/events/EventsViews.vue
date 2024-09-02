@@ -240,7 +240,7 @@ const data = computed(() => {
 })
 
 const dataTable = computed(() => {
-  const columns: Array<DataTableResponseColumnsInner> = Object.values(
+  const columns: DataTableResponseColumnsInner[] = Object.values(
     (props.eventSegmentation?.columns || []).reduce(
       (acc: { [key: string]: DataTableResponseColumnsInner }, item) => {
         if (item.name === 'segment' && !props.report?.query?.segments?.length) {
