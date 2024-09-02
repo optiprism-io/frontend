@@ -55,7 +55,7 @@ const updateValue = (e: Event) => {
 }
 </script>
 
-<style>
+<style lang="scss">
 .pf-c-switch.pf-c-switch-white {
     --pf-c-switch__input--checked__label--Color: var(--pf-global--Color--light-100);
 }

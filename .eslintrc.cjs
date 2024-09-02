@@ -45,27 +45,10 @@ module.exports = {
     /* VUE */
     'vue/multi-word-component-names': 'off',
     'vue/component-name-in-template-casing': 'error',
-    'vue/max-attributes-per-line': [
-      'error',
-      {
-        singleline: {
-          max: 2,
-        },
-        multiline: {
-          max: 1,
-        },
-      },
-    ],
+    'vue/max-attributes-per-line': ['error', { singleline: { max: 2 }, multiline: { max: 1 } }],
     'vue/component-tags-order': ['error', { order: ['template', 'script', 'style'] }],
     'vue/padding-line-between-blocks': ['error', 'always'],
-    'vue/block-lang': [
-      'error',
-      {
-        script: {
-          lang: 'ts',
-        },
-      },
-    ],
+    'vue/block-lang': ['error', { script: { lang: 'ts' }, style: { lang: 'scss' } }],
     'vue/no-v-html': 'off',
     'vue/custom-event-name-casing': ['error', 'kebab-case'],
     'vue/define-macros-order': 'error',

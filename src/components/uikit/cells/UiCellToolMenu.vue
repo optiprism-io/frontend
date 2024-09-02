@@ -56,7 +56,7 @@ const onSelectMenu = (payload: string) => {
 }
 </script>
 
-<style>
+<style lang="scss">
 .ui-cell-tool-menu {
     max-width: 40px;
 }

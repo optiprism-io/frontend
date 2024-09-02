@@ -28,7 +28,7 @@ type Props = {
 defineProps<Props>()
 </script>
 
-<style>
+<style lang="scss">
 .ui-table-th {
   --pf-u-max-width--MaxWidth: 400px;
 }
