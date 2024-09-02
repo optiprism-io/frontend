@@ -42,7 +42,7 @@
             v-if="itemsReports.length && reportsStore.reportId"
             class="pf-m-link pf-m-danger"
             before-icon="fas fa-times"
-            @click="onDeleteReport"
+            @click="togglePopup(true)"
           >
             {{ $t('reports.delete') }}
           </UiButton>
@@ -69,24 +69,37 @@
         <RouterView :key="key" />
       </div>
     </div>
+
+    <UiPopupWindow
+      v-if="visiblePopup"
+      :title="$t('reports.delete')"
+      :apply-button="$t('common.apply')"
+      :cancel-button="$t('common.cancel')"
+      apply-button-class="pf-m-danger"
+      @cancel="togglePopup(false)"
+      @apply="onDeleteReport"
+    >
+      {{ t('reports.deleteConfirm') }}: <b> {{ reportsStore.activeReport?.name }} </b>?
+    </UiPopupWindow>
   </section>
 </template>
 
 <script lang="ts" setup>
 import { computed, onMounted, ref } from 'vue'
 
+import { useToggle } from '@vueuse/core'
 import { storeToRefs } from 'pinia'
 import { useRoute, useRouter, RouterView } from 'vue-router'
 
 import UiButton from '@/components/uikit/UiButton.vue'
 import UiInlineEdit from '@/components/uikit/UiInlineEdit.vue'
+import UiPopupWindow from '@/components/uikit/UiPopupWindow.vue'
 import UiSelect from '@/components/uikit/UiSelect.vue'
 import UiSpinner from '@/components/uikit/UiSpinner.vue'
 import UiSwitch from '@/components/uikit/UiSwitch.vue'
 import UiTabs from '@/components/uikit/UiTabs.vue'
 
 import { ReportType } from '@/api'
-import useConfirm from '@/hooks/useConfirm'
 import usei18n from '@/hooks/useI18n'
 import { pagesMap } from '@/router'
 import { useCommonStore } from '@/stores/common'
@@ -104,12 +117,13 @@ const eventsStore = useEventsStore()
 const reportsStore = useReportsStore()
 const commonStore = useCommonStore()
 const lexiconStore = useLexiconStore()
-const { confirm } = useConfirm()
 
 const editableNameReport = ref(false)
 const reportName = ref('')
 const showSyncReports = ref(false)
 const key = ref(0)
+
+const [visiblePopup, togglePopup] = useToggle()
 
 const { isChangedReport: isShowSaveReport } = storeToRefs(reportsStore)
 
@@ -157,28 +171,15 @@ const onEditNameReport = (payload: boolean) => {
   editableNameReport.value = payload
 }
 
-const onDeleteReport = async () => {
-  try {
-    confirm(
-      t('reports.deleteConfirm', { name: `<b>${reportsStore?.activeReport?.name}</b>` || '' }),
-      {
-        applyButton: t('common.apply'),
-        cancelButton: t('common.cancel'),
-        title: t('reports.delete'),
-        applyButtonClass: 'pf-m-danger',
-      }
-    )
+async function onDeleteReport() {
+  if (!reportsStore.reportId) throw new Error('Report ID is not defined')
 
-    if (reportsStore.reportId !== null) {
-      await reportsStore.deleteReport(reportsStore.reportId)
-      reportsStore.reportId = null
-    }
+  await reportsStore.deleteReport(reportsStore.reportId)
+  reportsStore.reportId = null
 
-    await reportsStore.getList()
-    reportsStore.emptyReport()
-  } catch (error) {
-    reportsStore.loading = false
-  }
+  await reportsStore.getList()
+  reportsStore.emptyReport()
+  togglePopup(false)
 }
 
 const onEditReport = async () => {
