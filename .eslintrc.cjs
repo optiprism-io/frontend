@@ -67,6 +67,7 @@ module.exports = {
     'vue/define-props-declaration': 'error',
     'vue/define-emits-declaration': 'error',
     'vue/no-required-prop-with-default': 'error',
+    'vue/no-unsupported-features': 'error',
     'vue/no-unused-refs': 'error',
     'vue/no-useless-v-bind': 'error',
 
