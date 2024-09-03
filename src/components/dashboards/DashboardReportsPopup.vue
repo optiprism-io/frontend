@@ -20,12 +20,12 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 
+import { useI18n } from 'vue-i18n'
+
 import UiPopupWindow from '@/components/uikit/UiPopupWindow.vue'
 import UiSpinner from '@/components/uikit/UiSpinner.vue'
 import UiTable from '@/components/uikit/UiTable/UiTable.vue'
 import UiTablePressedCell from '@/components/uikit/UiTable/UiTablePressedCell.vue'
-
-import usei18n from '@/hooks/useI18n'
 
 import type { Report } from '@/api'
 import type { Action, Row } from '@/components/uikit/UiTable/UiTable'
@@ -42,7 +42,7 @@ const emit = defineEmits<{
   (e: 'on-select-report', id: number): void
 }>()
 
-const { t } = usei18n()
+const { t } = useI18n()
 
 const itemsReport = computed(() => {
   if (props.reports.length) {

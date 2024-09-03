@@ -51,7 +51,9 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, inject, ref, onMounted, onUnmounted } from 'vue';
+import { computed, ref, onMounted, onUnmounted } from 'vue';
+
+import { useI18n } from 'vue-i18n'
 
 import type { ApplyPayload } from './PropertiesManagementLine.vue';
 import PropertiesManagementLine from './PropertiesManagementLine.vue';
@@ -63,7 +65,6 @@ import UiTabs from '@/components/uikit/UiTabs.vue'
 import { useGroupStore } from '@/stores/group/group';
 
 import type { Value, GroupRecord } from '@/api';
-import type { I18N } from '@/utils/i18n';
 
 export type Properties = {
     [key: string]: Value,
@@ -86,7 +87,7 @@ const emit = defineEmits<{
     (e: 'apply'): void
 }>()
 
-const i18n = inject('i18n') as I18N;
+const i18n = useI18n()
 const groupStore = useGroupStore();
 const mapTabs = ['userProperties'];
 
@@ -94,11 +95,11 @@ const activeTab = ref('userProperties');
 const isLodingSavePropetries = ref(false);
 const propertiesEdit = ref<PropertiesEdit[]>([]);
 
-const title = computed(() => `${i18n.$t('users.user')}: ${props.itemIndex}`);
+const title = computed(() => `${i18n.t('users.user')}: ${props.itemIndex}`);
 const itemsTabs = computed(() => {
     return mapTabs.map(key => {
         return {
-            name: i18n.$t(`events.event_management.popup.tabs.${key}`),
+            name: i18n.t(`events.event_management.popup.tabs.${key}`),
             active: activeTab.value === key,
             value: key,
         }

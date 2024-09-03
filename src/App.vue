@@ -20,19 +20,19 @@
 
 <script lang="ts" setup>
 import { HttpStatusCode } from 'axios'
+import { useI18n } from 'vue-i18n'
 import { RouterView } from 'vue-router'
 
 import UiAlertGroup from './components/uikit/UiAlertGroup.vue'
 import AppPreloader from '@/components/common/AppPreloader.vue'
 
 import { AlertTypeEnum, useAlert } from '@/hooks/useAlert'
-import usei18n from '@/hooks/useI18n'
 import { axiosInstance } from '@/plugins/axios'
 import { useAuthStore } from '@/stores/auth/auth'
 
 import type { ErrorResponse } from '@/api'
 
-const { t } = usei18n()
+const { t } = useI18n()
 const authStore = useAuthStore()
 const { items: alerts, createAlert, closeAlert } = useAlert()
 

@@ -51,6 +51,8 @@
 <script setup lang="ts">
 import { computed, onUnmounted, ref, watch } from 'vue'
 
+import { useI18n } from 'vue-i18n'
+
 import Breakdowns from '@/components/events/Breakdowns.vue'
 import Events from '@/components/events/Events/Events.vue'
 import EventsViews from '@/components/events/EventsViews.vue'
@@ -65,7 +67,6 @@ import UiSelect from '@/components/uikit/UiSelect.vue'
 import { EventSegmentationQueryFormatEnum } from '@/api'
 import { apiClient } from '@/api/apiClient'
 import { useGroup } from '@/hooks/useGroup'
-import usei18n from '@/hooks/useI18n'
 import { useCommonStore } from '@/stores/common'
 import { useEventsStore } from '@/stores/eventSegmentation/events'
 import { useLexiconStore } from '@/stores/lexicon'
@@ -77,7 +78,7 @@ import { eventsToFunnels } from '@/utils/reportsMappings'
 
 import type { DataTableResponse} from '@/api';
 
-const { t } = usei18n()
+const { t } = useI18n()
 const projectsStore = useProjectsStore()
 const eventsStore = useEventsStore()
 const filterGroupsStore = useFilterGroupsStore()

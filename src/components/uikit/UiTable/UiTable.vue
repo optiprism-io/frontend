@@ -116,7 +116,9 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, inject, useSlots, ref, onBeforeMount } from 'vue'
+import { computed, useSlots, ref, onBeforeMount } from 'vue'
+
+import { useI18n } from 'vue-i18n'
 
 import DataEmptyPlaceholder from '@/components/common/data/DataEmptyPlaceholder.vue'
 import type { UiSelectItem } from '@/components/uikit/UiSelect.vue';
@@ -146,7 +148,7 @@ const emit = defineEmits<{
   (e: 'on-action', payload: Action): void
   (e: 'select-columns', payload: string[]): void
 }>()
-const i18n = inject<any>('i18n')
+const i18n = useI18n()
 const slots = useSlots()
 
 type Props = {
@@ -184,7 +186,7 @@ const columnsSelect = computed(() => {
   }, []) : []
 })
 
-const columnsButtonText = computed(() => `${activeColumns.value.length} ${i18n.$t('common.columns')}`)
+const columnsButtonText = computed(() => `${activeColumns.value.length} ${i18n.t('common.columns')}`)
 
 const onAction = (payload: Action) => {
   emit('on-action', payload)

@@ -29,6 +29,7 @@
 import { computed, ref, onMounted } from 'vue'
 
 import { useDateFormat } from '@vueuse/core'
+import { useI18n } from 'vue-i18n'
 
 import UiPopupWindow from '@/components/uikit/UiPopupWindow.vue'
 import UiSpinner from '@/components/uikit/UiSpinner.vue'
@@ -37,7 +38,6 @@ import UiTabs from '@/components/uikit/UiTabs.vue'
 
 import { PropertyType } from '@/api'
 import { apiClient } from '@/api/apiClient'
-import usei18n from '@/hooks/useI18n'
 import { useProjectsStore } from '@/stores/projects/projects'
 
 import type { EventRecord, PropertyAndValue, Group } from '@/api'
@@ -55,7 +55,7 @@ const emit = defineEmits<{
 }>()
 
 const projectsStore = useProjectsStore()
-const { t } = usei18n()
+const { t } = useI18n()
 
 const strings = {
   eventNoProperties: t('common.eventNoProperties'),

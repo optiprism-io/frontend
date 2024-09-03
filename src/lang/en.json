@@ -20,7 +20,7 @@
     "logout": "Log Out"
   },
   "common": {
-    "group":"Count uniques by :name",
+    "group":"Count uniques by {name}",
     "and": "And",
     "or": "Or",
     "addPropery": "Add property",
@@ -47,7 +47,7 @@
     "edit": "Edit",
     "save": "Save",
     "custom": "Custom",
-    "list_of": "List of :types",
+    "list_of": "List of {types}",
     "columns": "columns",
     "noData": "No data",
     "fillField": "Please fill in this field",
@@ -192,7 +192,7 @@
         "customEvents": "Custom events"
       },
       "popup": {
-        "title": "Event: :name",
+        "title": "Event: {name}",
         "tabs": {
           "event": "Event Properties",
           "custom": "Custom Properties",
@@ -204,7 +204,7 @@
     "customEvents": {
       "title": "Custom events",
       "deleteTitle": "Delete Custom Event",
-      "deleteContent": "Do you sure you want to delete :name?"
+      "deleteContent": "Do you sure you want to delete {name}?"
     },
     "add_custom_event": "Add custom event",
     "event_properties": "Event properties",
@@ -222,7 +222,7 @@
     "editProperty": "Edit property",
     "selectAggregate": "Select aggregate",
     "selectQuery": "Select Query",
-    "perGroupAggregateBy": "per :group, aggregate by",
+    "perGroupAggregateBy": "per {group}, aggregate by",
     "per": "per",
     "segments": {
       "segment": "Segment",

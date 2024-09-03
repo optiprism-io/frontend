@@ -64,6 +64,8 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 
+import { useI18n } from 'vue-i18n'
+
 import UiDatePicker from '@/components/uikit/UiDatePicker.vue'
 import UiIcon from '@/components/uikit/UiIcon.vue'
 import UiSelect from '@/components/uikit/UiSelect.vue'
@@ -71,7 +73,6 @@ import UiToggleGroup from '@/components/uikit/UiToggleGroup/UiToggleGroup.vue'
 
 import { groupByMap, periodMap } from '@/configs/events/controls'
 import { getStringDateByFormat } from '@/helpers/getStringDates'
-import usei18n from '@/hooks/useI18n'
 import { useEventsStore } from '@/stores/eventSegmentation/events'
 
 import type { TimeUnit } from '@/api'
@@ -83,7 +84,7 @@ const emit = defineEmits<{
 }>()
 
 const eventsStore = useEventsStore()
-const { t } = usei18n()
+const { t } = useI18n()
 
 const itemsGroupBy = computed(() => {
     return groupByMap.map((key) => ({

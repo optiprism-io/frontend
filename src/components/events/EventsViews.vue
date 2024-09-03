@@ -113,6 +113,7 @@
 import { computed } from 'vue'
 
 import { useDateFormat } from '@vueuse/core'
+import { useI18n } from 'vue-i18n'
 
 import ChartColumn from '@/components/charts/ChartColumn.vue'
 import ChartLine from '@/components/charts/ChartLine.vue'
@@ -130,7 +131,6 @@ import { groupByMap, periodMap } from '@/configs/events/controls'
 import { getStringDateByFormat } from '@/helpers/getStringDates'
 import { getQueryFormattedValue } from '@/helpers/reportTableHelper'
 import useDataTable from '@/hooks/useDataTable'
-import usei18n from '@/hooks/useI18n'
 import { useEventsStore } from '@/stores/eventSegmentation/events'
 
 import type { DataTableResponse, DataTableResponseColumnsInner, Report, TimeUnit } from '@/api'
@@ -182,7 +182,7 @@ const chartTypeMap: ChartDropdownMap[] = [
 ]
 
 const eventsStore = useEventsStore()
-const { t } = usei18n()
+const { t } = useI18n()
 
 type CellData = number | string | boolean
 

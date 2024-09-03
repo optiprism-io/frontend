@@ -216,6 +216,7 @@
 import { inject, computed, ref, defineAsyncComponent } from 'vue';
 
 import { Tooltip as VTooltip } from 'floating-vue'
+import { useI18n } from 'vue-i18n'
 
 import Filter from '@/components/events/Filter.vue';
 import OperationSelect from '@/components/events/OperationSelect.vue';
@@ -230,7 +231,6 @@ import { DidEventRelativeCountTypeEnum } from '@/api';
 import { conditions } from '@/configs/events/segmentCondition';
 import { conditions as conditionsMap, conditionsBetween } from '@/configs/events/segmentCondition';
 import { getStringDateByFormat } from '@/helpers/getStringDates';
-import usei18n from '@/hooks/useI18n';
 import { operationById } from '@/types';
 
 import type {
@@ -255,7 +255,7 @@ const emit = defineEmits<{
 }>()
 
 const ConditionDidEvent = defineAsyncComponent(() => import('./ConditionDidEvent.vue'));
-const i18n = usei18n();
+const i18n = useI18n()
 
 type Item = {
     id: string,
@@ -291,7 +291,7 @@ const getConditionItem = (key: string): ItemConditionType => {
             name,
         },
         name,
-        description: i18n.keyExists(hintKey) ? i18n.t(hintKey) : '',
+        description: i18n.t(hintKey),
     }
 }
 

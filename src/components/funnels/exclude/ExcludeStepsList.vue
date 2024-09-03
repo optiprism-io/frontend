@@ -84,9 +84,10 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, inject } from 'vue';
+import { computed } from 'vue';
 
 import { Tooltip as VTooltip } from 'floating-vue'
+import { useI18n } from 'vue-i18n'
 
 import EventSelector from '@/components/events/Events/EventSelector.vue';
 import Filter from '@/components/events/Filter.vue';
@@ -110,7 +111,6 @@ import type { FunnelExcludeStepsSteps } from '@/api';
 import type { UiSelectItemInterface } from '@/components/uikit/UiSelect/types';
 import type { Value } from '@/types';
 import type { EventRef, PropertyRef } from '@/types/events';
-import type { I18N } from '@/utils/i18n';
 
 const UiSelect = UiSelectGeneric();
 
@@ -118,7 +118,7 @@ const stepsStore = useStepsStore();
 const eventName = useEventName()
 const { getValues } = useFilter();
 
-const { $t } = inject('i18n') as I18N;
+const { t } = useI18n()
 
 const excludedEvents = computed(() => stepsStore.excludedEvents)
 
@@ -131,7 +131,7 @@ const excludeSteps = computed<UiSelectItemInterface<string>[]>(() => {
                   return {
                       __type: 'item',
                       id: `${index}`,
-                      label: `${idx - 1} ${$t('funnels.excludeSteps.and')} ${idx}`,
+                      label: `${idx - 1} ${t('funnels.excludeSteps.and')} ${idx}`,
                       value: `${idx - 1}-${idx}`
                   }
               })
@@ -142,7 +142,7 @@ const excludeSteps = computed<UiSelectItemInterface<string>[]>(() => {
         {
             __type: 'item',
             id: 'all',
-            label: $t('funnels.excludeSteps.all'),
+            label: t('funnels.excludeSteps.all'),
             value: 'all',
         },
     ]
@@ -251,9 +251,9 @@ const excludeStepsFromString = (stepsString: string): FunnelExcludeStepsSteps =>
 
 const excludeStepsToString = (steps: FunnelExcludeStepsSteps): string => {
     if (steps.type === FunnelExcludeStepsStepsOneOfTypeEnum.All) {
-        return $t('funnels.excludeSteps.all');
+        return t('funnels.excludeSteps.all');
     } else if (steps.type === FunnelExcludeStepsStepsOneOf1TypeEnum.Between) {
-        return `${steps.from} ${$t('funnels.excludeSteps.and')} ${steps.to}`
+        return `${steps.from} ${t('funnels.excludeSteps.and')} ${steps.to}`
     } else {
       return ''
     }

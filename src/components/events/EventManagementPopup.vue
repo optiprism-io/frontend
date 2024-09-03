@@ -45,7 +45,9 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, inject, ref } from 'vue'
+import { computed, ref } from 'vue'
+
+import { useI18n } from 'vue-i18n'
 
 import DataEmptyPlaceholder from '@/components/common/data/DataEmptyPlaceholder.vue'
 import type { Item, ActionPayload } from '@/components/uikit/UiDescriptionList.vue';
@@ -60,7 +62,6 @@ import {
   EventValuesConfigKeysEnum,
 } from '@/configs/events/eventValues'
 import propertiesColumnsConfig from '@/configs/events/propertiesTable.json'
-import usei18n from '@/hooks/useI18n'
 
 import type { Property, Event } from '@/api'
 import type { Action, Row } from '@/components/uikit/UiTable/UiTable'
@@ -91,14 +92,12 @@ const emit = defineEmits<{
   // (e: 'on-action-user-property', payload: ApplyPayload): void
 }>()
 
-const i18n = inject<any>('i18n')
+const i18n = useI18n()
 
 const tabs = {
   event: 'event',
   properties: 'properties',
 }
-
-const { t } = usei18n()
 
 const activeTab = ref('event')
 
@@ -107,7 +106,7 @@ const applyDisabled = computed(() => !editEvent.value)
 
 const noDataText = computed(() => {
   if (activeTab.value === tabs.properties) {
-    return itemsProperties.value?.length ? '' : t('common.eventNoProperties')
+    return itemsProperties.value?.length ? '' : i18n.t('common.eventNoProperties')
   }
   return ''
 })
@@ -168,7 +167,7 @@ const getValueEventItems = (key: EventValuesConfigKeysEnum) => {
 const itemsTabs = computed(() => {
   return Object.values(tabs).map(key => {
     return {
-      name: i18n.$t(`events.event_management.popup.tabs.${key}`),
+      name: i18n.t(`events.event_management.popup.tabs.${key}`),
       active: activeTab.value === key,
       value: key,
     }
@@ -185,7 +184,7 @@ const eventItems = computed<Item[]>(() => {
       const config: EventValuesConfig = eventValuesConfig[key]
       if (key in event) {
         const item: Item = {
-          label: i18n.$t(config.string),
+          label: i18n.t(config.string),
           key,
           value: getValueEventItems(key),
           component: config.component || 'p',
@@ -198,14 +197,14 @@ const eventItems = computed<Item[]>(() => {
 })
 
 const title = computed(() =>
-  props.event ? `${i18n.$t('events.event_management.event')}: ${props.event.name}` : ''
+  props.event ? `${i18n.t('events.event_management.event')}: ${props.event.name}` : ''
 )
 
 const columnsProperties = computed(() => {
   return propertiesColumnsConfig.map(item => {
     return {
       value: item.key,
-      title: i18n.$t(item.string),
+      title: i18n.t(item.string),
     }
   })
 })

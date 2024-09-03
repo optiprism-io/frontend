@@ -83,7 +83,9 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, inject } from 'vue'
+import { computed } from 'vue'
+
+import { useI18n } from 'vue-i18n'
 
 import UiInput from '@/components/uikit/UiInput.vue'
 
@@ -119,7 +121,7 @@ const emit = defineEmits<{
     (e: 'on-change-each', payload: Each): void;
 }>()
 
-const i18n = inject<any>('i18n')
+const i18n = useI18n()
 
 const textLastCount = computed(() => props.lastCount === 1 ? 'day' : 'days')
 
@@ -127,7 +129,7 @@ const itemsEach = computed(() => {
     return eachMap.map((key: Each): {value: Each, name: string, active: boolean } => {
         return {
             value: key,
-            name: i18n.$t(`common.calendar.each_select.${ key}`),
+            name: i18n.t(`common.calendar.each_select.${ key}`),
             active: key === props.each,
         }
     })

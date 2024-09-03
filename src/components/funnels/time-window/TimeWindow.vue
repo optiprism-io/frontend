@@ -39,7 +39,9 @@
 </template>
 
 <script setup lang="ts">
-import { computed, inject, ref } from 'vue'
+import { computed, ref } from 'vue'
+
+import { useI18n } from 'vue-i18n'
 
 import UiButton from '@/components/uikit/UiButton.vue'
 
@@ -49,14 +51,13 @@ import { useStepsStore } from '@/stores/funnels/steps'
 
 import type { TimeUnitWithSession } from '@/api';
 import type { UiSelectItemInterface } from '@/components/uikit/UiSelect/types'
-import type { I18N } from '@/utils/i18n'
 
 const UiSelectSize = UiSelectGeneric<number>()
 const UiSelectUnit = UiSelectGeneric<TimeUnitWithSession>()
 const UiSelectOrder = UiSelectGeneric<FunnelQueryStepsInnerOrderOneOfTypeEnum>()
 
 const stepsStore = useStepsStore()
-const i18n = inject<I18N>('i18n')
+const i18n = useI18n()
 
 const dynamicSize = ref<number | null>(null)
 
@@ -92,7 +93,7 @@ const unitItems = computed<UiSelectItemInterface<TimeUnit>[]>(() => {
   return Object.values(TimeUnit).map(item => ({
     __type: 'item',
     id: item,
-    label: i18n?.$t(`common.timeUnits.${item}`) ?? item,
+    label: i18n.t(`common.timeUnits.${item}`) ?? item,
     value: item,
   }))
 })
@@ -101,7 +102,7 @@ const orderItems = computed<UiSelectItemInterface<FunnelQueryStepsInnerOrderOneO
   return Object.values(FunnelQueryStepsInnerOrderOneOfTypeEnum).map(item => ({
     __type: 'item',
     id: item,
-    label: i18n?.$t(`criteria.orderType.${item}`) ?? item,
+    label: i18n.t(`criteria.orderType.${item}`) ?? item,
     value: item,
   }))
 })

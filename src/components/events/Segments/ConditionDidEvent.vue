@@ -137,6 +137,8 @@
 <script lang="ts" setup>
 import { inject, computed } from 'vue'
 
+import { useI18n } from 'vue-i18n'
+
 import SelectedEvent from '@/components/events/Events/SelectedEvent.vue'
 import OperationSelect from '@/components/events/OperationSelect.vue'
 import PropertySelect from '@/components/events/PropertySelect.vue'
@@ -177,7 +179,7 @@ const emit = defineEmits<{
 
 const lexiconStore = useLexiconStore()
 const { hoveredCustomEventDescription, hoveredCustomEventId, onHoverEvent } = useCustomEvent()
-const i18n = inject<any>('i18n')
+const i18n = useI18n()
 
 const conditionItems = inject<[]>('conditionItems')
 const conditionAggregateItems = inject<[]>('conditionAggregateItems')
@@ -266,9 +268,9 @@ const isSelectedAggregate = computed(() => Boolean(props.condition.aggregate))
 
 const displayNameAggregate = computed(() => {
     if (props.condition?.aggregate?.name) {
-        return props.condition?.aggregate?.typeAggregate ? i18n.$t(`events.aggregateProperty.${props.condition.aggregate.typeAggregate}`) : props.condition?.aggregate?.name
+        return props.condition?.aggregate?.typeAggregate ? i18n.t(`events.aggregateProperty.${props.condition.aggregate.typeAggregate}`) : props.condition?.aggregate?.name
     } else {
-        return i18n.$t('common.select_aggregate')
+        return i18n.t('common.select_aggregate')
     }
 })
 
@@ -293,7 +295,7 @@ const isShowSelectProp = computed(() => {
         return false
     }
 })
-const displayNameProp = computed(() => props.condition.propRef?.name || i18n.$t('events.selectProperty'))
+const displayNameProp = computed(() => props.condition.propRef?.name || i18n.t('events.selectProperty'))
 const isSelectedProp = computed(() =>  Boolean(props.condition.propRef))
 const changeProperty = (propRef: PropertyRef) => emit('change-property', propRef)
 

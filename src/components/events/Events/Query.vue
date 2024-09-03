@@ -112,6 +112,7 @@
 import { computed } from 'vue'
 
 import { Tooltip as VTooltip } from 'floating-vue'
+import { useI18n } from 'vue-i18n'
 
 import PropertySelect from '@/components/events/PropertySelect.vue'
 import Select from '@/components/Select/Select.vue'
@@ -122,7 +123,6 @@ import UiInput from '@/components/uikit/UiInput.vue'
 import {
   DataType,
 } from '@/api'
-import usei18n from '@/hooks/useI18n'
 import { useEventsStore } from '@/stores/eventSegmentation/events'
 import { useLexiconStore } from '@/stores/lexicon'
 
@@ -147,7 +147,7 @@ const emit = defineEmits<{
 
 const eventsStore: Events = useEventsStore()
 const lexiconStore = useLexiconStore()
-const { t } = usei18n()
+const { t } = useI18n()
 
 const queryInfo = computed((): EventsQuery | undefined => {
   return lexiconStore.findQuery(props.item.queryRef)

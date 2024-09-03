@@ -86,6 +86,7 @@
 import { computed, ref } from 'vue'
 
 import { safeParse } from 'valibot'
+import { useI18n } from 'vue-i18n'
 
 import InputPassword from '@/components/login/InputPassword.vue'
 import UiForm from '@/components/uikit/UiForm.vue'
@@ -95,7 +96,6 @@ import UiInput from '@/components/uikit/UiInput.vue'
 import UiPopupWindow from '@/components/uikit/UiPopupWindow.vue'
 
 import { apiClient } from '@/api/apiClient'
-import usei18n from '@/hooks/useI18n'
 import { useMutation } from '@/hooks/useMutation'
 import {
   confirmEmail as confirmEmailScheme,
@@ -121,7 +121,7 @@ const emit = defineEmits<{
   (e: 'changed-project', project: Project): void
 }>()
 
-const { t } = usei18n()
+const { t } = useI18n()
 
 const strings = computed(() => {
   return {

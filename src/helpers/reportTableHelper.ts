@@ -1,3 +1,5 @@
+import { useI18n } from 'vue-i18n'
+
 import {
   ReportType,
   QuerySimpleTypeEnum,
@@ -6,7 +8,6 @@ import {
   QueryCountPerGroupTypeEnum,
   QueryFormulaTypeEnum,
 } from '@/api'
-import useI18n from '@/hooks/useI18n'
 import { useEventsStore } from '@/stores/eventSegmentation/events'
 import { useLexiconStore } from '@/stores/lexicon'
 

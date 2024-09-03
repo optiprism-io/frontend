@@ -80,7 +80,9 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed, onBeforeMount, inject } from 'vue'
+import { ref, computed, onBeforeMount } from 'vue'
+
+import { useI18n } from 'vue-i18n'
 
 import UiFormLabel from '@/components//uikit/UiFormLabel.vue'
 import SelectedEvent from '@/components/events/Events/SelectedEvent.vue'
@@ -118,7 +120,7 @@ const emit = defineEmits<{
   (e: 'apply'): void
 }>()
 
-const i18n = inject<any>('i18n')
+const i18n = useI18n()
 
 const lexiconStore = useLexiconStore()
 const eventsStore = useEventsStore()
@@ -150,7 +152,7 @@ const editedEvent = computed(() => {
 })
 
 const title = computed(() => {
-  return isEdit.value ? i18n.$t('events.edit_custom') : i18n.$t('events.create_custom')
+  return isEdit.value ? i18n.t('events.edit_custom') : i18n.t('events.create_custom')
 })
 
 const eventItems = computed(() => {

@@ -82,6 +82,7 @@
 import { ref, computed } from 'vue';
 
 import { Tooltip as VTooltip } from 'floating-vue'
+import { useI18n } from 'vue-i18n'
 
 import CommonIdentifier from '@/components/common/identifier/CommonIdentifier.vue';
 import Condition from '@/components/events/Segments/Condition.vue';
@@ -90,7 +91,6 @@ import UiEditableText from '@/components/uikit/UiEditableText.vue';
 import UiIcon from '@/components/uikit/UiIcon.vue'
 
 import { conditions as conditionsMap } from '@/configs/events/segmentCondition';
-import usei18n from '@/hooks/useI18n';
 
 import type { Condition as ConditionType } from '@/types/events';
 
@@ -125,7 +125,7 @@ const emit = defineEmits<{
     (e: 'on-click-value', idx: number, indexParent: number): void;
 }>()
 
-const { t, keyExists } = usei18n();
+const { t } = useI18n()
 const updateOpenCondition = ref(false)
 const dropdownStatesControl = ref(false);
 
@@ -147,7 +147,7 @@ const getConditionItem = (key: string): ItemConditionType => {
             name,
         },
         name,
-        description: keyExists(hintKey) ? t(hintKey) : '',
+        description: t(hintKey),
     };
 };
 

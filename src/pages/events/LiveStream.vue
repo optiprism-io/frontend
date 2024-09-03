@@ -20,6 +20,8 @@
 <script lang="ts" setup>
 import { ref, onMounted } from 'vue'
 
+import { useI18n } from 'vue-i18n'
+
 import InputsEventsLiveStream from '@/components/events/LiveStream/InputsEventsLiveStream.vue'
 import TableLiveStream from '@/components/events/LiveStream/TableLiveStream.vue'
 import UiCard from '@/components/uikit/UiCard/UiCard.vue'
@@ -27,13 +29,12 @@ import UiCardContainer from '@/components/uikit/UiCard/UiCardContainer.vue'
 import ToolsLayout from '@/layout/ToolsLayout.vue'
 
 import { PropertyType } from '@/api'
-import usei18n from '@/hooks/useI18n'
 import { useLexiconStore } from '@/stores/lexicon'
 import { useLiveStreamStore } from '@/stores/reports/liveStream'
 
 import type { PropertyRef } from '@/types/events'
 
-const { t } = usei18n()
+const { t } = useI18n()
 const liveStreamStore = useLiveStreamStore()
 const lexiconStore = useLexiconStore()
 

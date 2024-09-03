@@ -28,8 +28,9 @@
 </template>
 
 <script setup lang="ts">
-import { computed, inject, ref } from 'vue'
+import { computed, ref } from 'vue'
 
+import { useI18n } from 'vue-i18n'
 import { RouterView } from 'vue-router'
 import { useRoute } from 'vue-router'
 
@@ -50,7 +51,7 @@ import { useLiveStreamStore } from '@/stores/reports/liveStream'
 import type { Property } from '@/api'
 import type { Action } from '@/components/uikit/UiTable/UiTable'
 
-const i18n = inject<any>('i18n')
+const i18n = useI18n()
 const route = useRoute()
 const lexiconStore = useLexiconStore()
 const liveStreamStore = useLiveStreamStore()
@@ -63,7 +64,7 @@ const items = computed(() => {
   return navPagesConfig.map(item => {
     return {
       ...item,
-      name: i18n.$t(item.name),
+      name: i18n.t(item.name),
       active: route.name === item.value,
     }
   })

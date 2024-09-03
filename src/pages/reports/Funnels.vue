@@ -84,6 +84,7 @@
 <script setup lang="ts">
 import { computed, onUnmounted, ref } from 'vue'
 
+import { useI18n } from 'vue-i18n'
 import { useRoute, useRouter } from 'vue-router'
 
 import Breakdowns from '@/components/events/Breakdowns.vue'
@@ -108,7 +109,6 @@ import UiSelect from '@/components/uikit/UiSelect.vue'
 import { FunnelConversionOverTimeChartTypeTypeEnum, FunnelStepsChartTypeTypeEnum } from '@/api'
 import { useCalendarTime } from '@/components/funnels/view/useCalendarTime'
 import { useGroup } from '@/hooks/useGroup'
-import usei18n from '@/hooks/useI18n'
 import { useCommonStore } from '@/stores/common'
 import { useEventsStore } from '@/stores/eventSegmentation/events'
 import { useStepsStore } from '@/stores/funnels/steps'
@@ -144,7 +144,7 @@ function validateRouteQuery(
   return null
 }
 
-const { t } = usei18n()
+const { t } = useI18n()
 const eventsStore = useEventsStore()
 const filterGroupsStore = useFilterGroupsStore()
 const segmentsStore = useSegmentsStore()

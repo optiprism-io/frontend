@@ -64,9 +64,10 @@
 </template>
 
 <script setup lang="ts">
-import { computed, inject } from 'vue'
+import { computed } from 'vue'
 
 import { useToggle } from '@vueuse/core'
+import { useI18n } from 'vue-i18n'
 import { RouterLink } from 'vue-router'
 
 import Nav from '@/components/common/Nav.vue'
@@ -87,7 +88,7 @@ const authStore = useAuthStore()
 const projectStore = useProjectsStore()
 const reportsStore = useReportsStore()
 
-const i18n = inject<any>('i18n')
+const i18n = useI18n()
 const UiDropdown = GenericUiDropdown<MenuValues>()
 
 const [showCreatePopup, setShowCreatePopup] = useToggle(false)
@@ -108,12 +109,12 @@ const userMenu = computed<UiDropdownItem<MenuValues>[]>(() => {
       key: 1,
       value: userMenuMap.PROFILE,
       to: { name: pagesMap.profile },
-      nameDisplay: i18n.$t('userMenu.personalSettings'),
+      nameDisplay: i18n.t('userMenu.personalSettings'),
     },
     {
       key: 2,
       value: userMenuMap.ORGANIZATION,
-      nameDisplay: i18n.$t('userMenu.organizationSettings'),
+      nameDisplay: i18n.t('userMenu.organizationSettings'),
       to: {
         name: pagesMap.organizationOverview,
         params: { id: authStore.decodedAccessToken?.organizationId },
@@ -122,19 +123,19 @@ const userMenu = computed<UiDropdownItem<MenuValues>[]>(() => {
     {
       key: 3,
       value: userMenuMap.PROJECT,
-      nameDisplay: i18n.$t('userMenu.projectSettings'),
+      nameDisplay: i18n.t('userMenu.projectSettings'),
       to: { name: pagesMap.projectsSettings, params: { id: projectStore.projectId } },
     },
     {
       key: 4,
       value: userMenuMap.INTEGRATION,
-      nameDisplay: i18n.$t('userMenu.integrateOptiPrism'),
+      nameDisplay: i18n.t('userMenu.integrateOptiPrism'),
       to: { name: pagesMap.integration, params: { integration: SDKIntegration.javascript } },
     },
     {
       key: 5,
       value: userMenuMap.LOGOUT,
-      nameDisplay: i18n.$t('userMenu.logout'),
+      nameDisplay: i18n.t('userMenu.logout'),
     },
   ]
 })
@@ -145,7 +146,7 @@ const projectItems = computed(() => {
   const createProjectItem = {
     key: CREATE_PROJECT_ID,
     value: CREATE_PROJECT_ID,
-    nameDisplay: i18n.$t('project.createProject') + '...',
+    nameDisplay: i18n.t('project.createProject') + '...',
   }
 
   const projects = [...projectStore.projectList, createProjectItem]
@@ -180,7 +181,7 @@ const projectListSelected = computed(() => {
 const activeProjectName = computed(() => {
   return projectStore.selectedProject
     ? projectStore.selectedProject.name
-    : i18n.$t('project.selectProject')
+    : i18n.t('project.selectProject')
 })
 
 function onCreatedProject(project: Project) {

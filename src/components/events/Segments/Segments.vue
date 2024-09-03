@@ -28,7 +28,9 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, inject, provide } from 'vue'
+import { computed, provide } from 'vue'
+
+import { useI18n } from 'vue-i18n'
 
 import Segment from '@/components/events/Segments/Segment.vue'
 import UiButton from '@/components/uikit/UiButton.vue'
@@ -66,7 +68,7 @@ const emit = defineEmits<{
   (e: 'on-change'): void
 }>()
 
-const i18n = inject<any>('i18n')
+const i18n = useI18n()
 const segmentsStore = useSegmentsStore()
 const eventsStore = useEventsStore()
 const lexiconStore = useLexiconStore()
@@ -74,7 +76,7 @@ const commonStore = useCommonStore()
 
 const conditionAggregateItems = computed(() => {
   return aggregates.map(item => {
-    const name = i18n.$t(`events.aggregates.${item.key}`)
+    const name = i18n.t(`events.aggregates.${item.key}`)
 
     return {
       item: {
@@ -89,7 +91,7 @@ const conditionAggregateItems = computed(() => {
 
 const conditionItems = computed(() => {
   return conditions.map(item => {
-    const name = i18n.$t(`events.condition.${item.key}`)
+    const name = i18n.t(`events.condition.${item.key}`)
 
     return {
       item: {
@@ -97,14 +99,14 @@ const conditionItems = computed(() => {
         name,
       },
       name,
-      description: i18n.$t(`events.condition.${item.key}_hint`),
+      description: i18n.t(`events.condition.${item.key}_hint`),
     }
   })
 })
 
 const addSegment = () => {
   segmentsStore.addSegment(
-    `${i18n.$t('events.segments.segment')} ${segmentsStore.segments.length + 1}`
+    `${i18n.t('events.segments.segment')} ${segmentsStore.segments.length + 1}`
   )
 }
 const deleteSegment = (idx: number) => segmentsStore.deleteSegment(idx)
@@ -199,7 +201,7 @@ provide('changeEventCondition', (payload: ChangeEventCondition) => {
     idxParent: payload.idxParent,
     value: {
       id: DidEventCountTypeEnum.Count,
-      name: i18n.$t('events.aggregates.count'),
+      name: i18n.t('events.aggregates.count'),
     },
   })
 })

@@ -23,8 +23,9 @@
 <script lang="ts" setup>
 import { computed } from 'vue'
 
+import { useI18n } from 'vue-i18n'
+
 import { TimeTypeEnum } from '@/helpers/periodHelper'
-import usei18n from '@/hooks/useI18n'
 
 interface Props {
   activeTab: string
@@ -37,7 +38,7 @@ const emit = defineEmits<{
   (e: 'on-select-tab', payload: TimeTypeEnum): void
 }>()
 
-const { t } = usei18n()
+const { t } = useI18n()
 
 const tabsMap = Object.values(TimeTypeEnum)
 

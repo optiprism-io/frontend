@@ -52,7 +52,9 @@
 </template>
 
 <script setup lang="ts">
-import { computed, inject, onMounted, onUnmounted, ref } from 'vue'
+import { computed, onMounted, onUnmounted, ref } from 'vue'
+
+import { useI18n } from 'vue-i18n'
 
 import Segments from '@/components/events/Segments/Segments.vue'
 import PropertiesManagementPopup from '@/components/groups/PropertiesManagementPopup.vue'
@@ -72,9 +74,8 @@ import { useSegmentsStore } from '@/stores/reports/segments'
 import type { GroupRecord } from '@/api'
 import type { Action, Row } from '@/components/uikit/UiTable/UiTable'
 import type { UiToggleGroupItem } from '@/components/uikit/UiToggleGroup/types'
-import type { I18N } from '@/utils/i18n'
 
-const i18n = inject('i18n') as I18N
+const i18n = useI18n()
 const groupStore = useGroupStore()
 const segmentsStore = useSegmentsStore()
 const selectedItes = ref<GroupRecord | null>(null)
@@ -84,7 +85,7 @@ const itemsPeriod = computed(() => {
   return shortPeriodDays.map(
     (key): UiToggleGroupItem<string> => ({
       key,
-      nameDisplay: key + i18n.$t('common.calendar.dayShort'),
+      nameDisplay: key + i18n.t('common.calendar.dayShort'),
       value: key,
       selected: groupStore.controlsPeriod === key,
     })
@@ -103,7 +104,7 @@ const columns = computed(() => {
         const isAction = key === 'action';
         return {
             value: key,
-            title: isAction ? '' : key === 'id' ? i18n.$t(`groups.columns.${key}`) : key,
+            title: isAction ? '' : key === 'id' ? i18n.t(`groups.columns.${key}`) : key,
             default: isAction,
             type: isAction? 'action' : '',
             fitContent: key === 'id',
@@ -130,7 +131,7 @@ const items = computed(() => {
                 component: UiCellToolMenu,
                 items: [
                     {
-                        label: i18n.$t('common.edit'),
+                        label: i18n.t('common.edit'),
                         value: 'edit',
                     },
                 ],

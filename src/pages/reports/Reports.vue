@@ -89,6 +89,7 @@ import { computed, onMounted, ref } from 'vue'
 
 import { useToggle } from '@vueuse/core'
 import { storeToRefs } from 'pinia'
+import { useI18n } from 'vue-i18n'
 import { useRoute, useRouter, RouterView } from 'vue-router'
 
 import UiButton from '@/components/uikit/UiButton.vue'
@@ -100,7 +101,6 @@ import UiSwitch from '@/components/uikit/UiSwitch.vue'
 import UiTabs from '@/components/uikit/UiTabs.vue'
 
 import { ReportType } from '@/api'
-import usei18n from '@/hooks/useI18n'
 import { pagesMap } from '@/router'
 import { useCommonStore } from '@/stores/common'
 import { useEventsStore } from '@/stores/eventSegmentation/events'
@@ -110,7 +110,7 @@ import { reportToStores } from '@/utils/reportsMappings'
 
 import { REPORT_TABS } from './tabs'
 
-const { t } = usei18n()
+const { t } = useI18n()
 const route = useRoute()
 const router = useRouter()
 const eventsStore = useEventsStore()

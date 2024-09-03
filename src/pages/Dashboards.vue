@@ -188,6 +188,7 @@
 import { ref, computed, onMounted, onUnmounted } from 'vue'
 
 import { useToggle } from '@vueuse/core'
+import { useI18n } from 'vue-i18n'
 import { useRoute, useRouter, RouterLink } from 'vue-router'
 import { GridLayout, GridItem } from 'vue3-drr-grid-layout'
 
@@ -206,7 +207,6 @@ import UiSpinner from '@/components/uikit/UiSpinner.vue'
 
 import { DashboardPanelTypeEnum } from '@/api'
 import { apiClient } from '@/api/apiClient'
-import usei18n from '@/hooks/useI18n'
 import { pagesMap } from '@/router'
 import { useDashboardsStore } from '@/stores/dashboards'
 import { useEventsStore } from '@/stores/eventSegmentation/events'
@@ -217,7 +217,7 @@ import { useReportsStore } from '@/stores/reports/reports'
 
 import type { DashboardPanel as DashboardPanelType } from '@/api'
 
-const { t } = usei18n()
+const { t } = useI18n()
 const route = useRoute()
 const router = useRouter()
 const dashboardsStore = useDashboardsStore()
