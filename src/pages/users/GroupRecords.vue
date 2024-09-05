@@ -73,6 +73,7 @@ import type { UiToggleGroupItem } from '@/components/uikit/UiToggleGroup.vue'
 import UiToggleGroup from '@/components/uikit/UiToggleGroup.vue'
 import ToolsLayout from '@/layout/ToolsLayout.vue'
 
+import { PropertyType } from '@/api'
 import { shortPeriodDays } from '@/components/uikit/UiCalendar/UiCalendar.config'
 import useDataTable from '@/hooks/useDataTable'
 import useI18n from '@/hooks/useI18n'
@@ -213,25 +214,20 @@ const initEventsAndProperties = async () => {
 
 onMounted(async () => {
   await initEventsAndProperties()
-  // groupStore.activeColumns = [
-  //   'project_id',
-  //   'id',
-  //   'version',
-  //   'created_at',
-  //   'First Name',
-  //   'Last Name',
-  // ].map(name => {
-  //   const userProperties = lexiconStore.groupPropertiesMap['user']
-  //   const userProperty = userProperties.find(item => item.name === name)
+  groupStore.activeColumns = [
+    'id',
+  ].map(name => {
+    const userProperties = lexiconStore.groupPropertiesMap['user']
+    const userProperty = userProperties.find(item => item.name === name)
 
-  //   const property: PropertyRef = {
-  //     name: name,
-  //     type: PropertyType.Group,
-  //     group: userProperty?.groupId,
-  //   }
+    const property: PropertyRef = {
+      name: name,
+      type: PropertyType.Group,
+      group: userProperty?.groupId,
+    }
 
-  //   return property
-  // })
+    return property
+  })
 
   segmentsStore.$reset()
   updateData()
