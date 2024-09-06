@@ -58,22 +58,22 @@
       :col-lg="9"
     >
       <FunnelSteps
-        v-if="funnelViewId === FunnelStepsChartTypeTypeEnum.Steps"
-        :funnel-view="funnelViewId"
+        v-if="funnelView === FunnelStepsChartTypeTypeEnum.Steps"
+        :funnel-view="funnelView"
         :period="period"
         :controls-period="controlsPeriod"
         :time="time"
-        @change-view="onChangeView"
+        @change-view="emit('change-view', $event)"
         @change-period="setPeriod"
         @change-controls-period="setControlsPeriod"
       />
       <ConversionOverTime
-        v-else-if="funnelViewId === FunnelConversionOverTimeChartTypeTypeEnum.ConversionOverTime"
-        :funnel-view="funnelViewId"
+        v-else-if="funnelView === FunnelConversionOverTimeChartTypeTypeEnum.ConversionOverTime"
+        :funnel-view="funnelView"
         :period="period"
         :controls-period="controlsPeriod"
         :time="time"
-        @change-view="onChangeView"
+        @change-view="emit('change-view', $event)"
         @change-period="setPeriod"
         @change-controls-period="setControlsPeriod"
       />
@@ -82,10 +82,9 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onUnmounted, ref } from 'vue'
+import { computed, onUnmounted } from 'vue'
 
 import { useI18n } from 'vue-i18n'
-import { useRoute, useRouter } from 'vue-router'
 
 import Breakdowns from '@/components/events/Breakdowns.vue'
 import FilterReports from '@/components/events/FiltersReports.vue'
@@ -118,31 +117,14 @@ import { useSegmentsStore } from '@/stores/reports/segments'
 import { funnelsToEvents } from '@/utils/reportsMappings'
 
 import type { FunnelChartType } from '@/pages/reports/funnelViews'
-import type { LocationQueryValue } from 'vue-router'
 
-const route = useRoute()
-const router = useRouter()
+defineProps<{
+  funnelView: FunnelChartType
+}>()
 
-const funnelViewId = ref<FunnelChartType>(
-  validateRouteQuery(route.query.view) || FunnelStepsChartTypeTypeEnum.Steps
-)
-function onChangeView(view: FunnelChartType) {
-  funnelViewId.value = view
-  router.push({ query: { view } })
-}
-
-function validateRouteQuery(
-  view: LocationQueryValue | LocationQueryValue[]
-): FunnelChartType | null {
-  if (
-    view === FunnelStepsChartTypeTypeEnum.Steps ||
-    view === FunnelConversionOverTimeChartTypeTypeEnum.ConversionOverTime
-  ) {
-    return view
-  }
-
-  return null
-}
+const emit = defineEmits<{
+  (e: 'change-view', payload: FunnelChartType): void
+}>()
 
 const { t } = useI18n()
 const eventsStore = useEventsStore()

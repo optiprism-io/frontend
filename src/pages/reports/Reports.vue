@@ -65,7 +65,10 @@
         class="pf-l-flex__item pf-u-flex-1 pf-u-w-100 pf-u-min-height"
         style="--pf-u-min-height--MinHeight: 0"
       >
-        <RouterView />
+        <RouterView
+          :funnel-view="funnelViewId"
+          @change-view="onChangeView"
+        />
       </div>
     </div>
 
@@ -108,6 +111,7 @@ import {
   type ReportQuery,
   ReportType,
 } from '@/api'
+import { useFunnelView } from '@/pages/reports/useFunnelView'
 import { pagesMap } from '@/router'
 import { useCommonStore } from '@/stores/common'
 import { useEventsStore } from '@/stores/eventSegmentation/events'
@@ -138,6 +142,7 @@ const reportName = ref('')
 const showSyncReports = ref(false)
 
 const [visiblePopup, togglePopup] = useToggle()
+const { funnelViewId, onChangeView } = useFunnelView()
 
 const items = computed(() =>
   REPORT_TABS.map(item => ({
