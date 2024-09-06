@@ -68,7 +68,6 @@
         <RouterView
           :funnel-view="funnelViewId"
           :time-interval="timeInterval"
-          :time-interval-text="timeIntervalText"
           @change-view="onChangeView"
           @select-time-interval="selectTimeInterval"
         />
@@ -148,7 +147,7 @@ const showSyncReports = ref(false)
 
 const [visiblePopup, togglePopup] = useToggle()
 const { funnelViewId, onChangeView } = useFunnelView()
-const { timeInterval, timeIntervalText, selectTimeInterval } = useTimeInterval()
+const { timeInterval, selectTimeInterval } = useTimeInterval()
 
 const items = computed(() =>
   REPORT_TABS.map(item => ({

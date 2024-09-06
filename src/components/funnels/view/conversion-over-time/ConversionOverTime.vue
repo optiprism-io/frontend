@@ -45,7 +45,9 @@
 </template>
 
 <script setup lang="ts">
-import { nextTick, ref, watch } from 'vue'
+import { computed, nextTick, ref, watch } from 'vue'
+
+import { useI18n } from 'vue-i18n'
 
 import DataEmptyPlaceholder from '@/components/common/data/DataEmptyPlaceholder.vue'
 import DataLoader from '@/components/common/data/DataLoader.vue'
@@ -90,7 +92,6 @@ interface IProps {
   controlsPeriod: ControlsPeriod
   time: EventRecordsListRequestTime
   timeInterval: TimeUnit
-  timeIntervalText: string
 }
 
 const props = withDefaults(defineProps<IProps>(), {})
@@ -110,8 +111,10 @@ const filterGroupsStore = useFilterGroupsStore()
 const breakdownsStore = useBreakdownsStore()
 
 const { mutate: getReports, isLoading: loading } = useMutation(fetchReports)
-
 const { checkedRowKeys, setCheckedRowKeys } = useCheckedRows()
+const { t } = useI18n()
+
+const timeIntervalText = computed(() => t('common.groupBy') + ' ' + props.timeInterval)
 
 async function fetchReports(): Promise<void> {
   /* need nextTick for update stepsStore.getSteps */

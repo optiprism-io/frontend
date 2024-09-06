@@ -1,6 +1,4 @@
-import { computed, ref } from 'vue'
-
-import { useI18n } from 'vue-i18n'
+import { ref } from 'vue'
 
 import type { UiSelectItem } from '@/components/uikit/UiSelect.vue'
 
@@ -13,13 +11,7 @@ export const TIME_INTERVAL_VALUES: UiSelectItem<TimeUnit>[] = Object.values(Time
 }))
 
 export function useTimeInterval() {
-  const { t } = useI18n()
-
   const timeInterval = ref<TimeUnit>('day')
-
-  const timeIntervalText = computed(() => {
-    return t('common.groupBy') + ' ' + timeInterval.value
-  })
 
   const selectTimeInterval = (payload: TimeUnit) => {
     timeInterval.value = payload
@@ -27,7 +19,6 @@ export function useTimeInterval() {
 
   return {
     timeInterval,
-    timeIntervalText,
     selectTimeInterval,
   }
 }

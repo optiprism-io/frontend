@@ -74,7 +74,6 @@
         :controls-period="controlsPeriod"
         :time="time"
         :time-interval="timeInterval"
-        :time-interval-text="timeIntervalText"
         @change-view="emit('change-view', $event)"
         @change-period="setPeriod"
         @change-controls-period="setControlsPeriod"
@@ -128,7 +127,6 @@ import type { FunnelChartType } from '@/pages/reports/funnelViews'
 defineProps<{
   funnelView: FunnelChartType
   timeInterval: TimeUnit
-  timeIntervalText: string
 }>()
 
 const emit = defineEmits<{
