@@ -10,10 +10,10 @@
     <template #chart>
       <DataLoader v-if="loading" />
       <template v-else-if="reportSteps.length">
-        <ChartStacked
+        <FunnelStepsChart
           v-if="checkedRowKeys.length"
-          :data="normalizedReportSteps"
-          height="25rem"
+          :report-steps="reportSteps"
+          :checked-row-keys="checkedRowKeys"
         />
         <DataEmptyPlaceholder
           v-else
@@ -42,11 +42,11 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, nextTick, ref, watch } from 'vue'
+import { nextTick, ref, watch } from 'vue'
 
-import ChartStacked from '@/components/charts/ChartStacked.vue'
 import DataEmptyPlaceholder from '@/components/common/data/DataEmptyPlaceholder.vue'
 import DataLoader from '@/components/common/data/DataLoader.vue'
+import FunnelStepsChart from '@/components/funnels/view/funnel-steps/FunnelStepsChart.vue'
 import FunnelsTable from '@/components/funnels/view/funnel-steps/FunnelStepsTable.vue'
 import FunnelContentGrid from '@/components/funnels/view/FunnelContentGrid.vue'
 import type { DataPickerPeriod } from '@/components/uikit/UiDatePickerWrapper.vue'
@@ -76,7 +76,6 @@ import { useBreakdownsStore } from '@/stores/reports/breakdowns'
 import { useFilterGroupsStore } from '@/stores/reports/filters'
 
 import type { FunnelResponseStepsInner } from '@/api'
-import type { ChartStackedItem } from '@/components/charts/types'
 import type { ControlsPeriod } from '@/components/funnels/view/useCalendarTime'
 import type { FunnelChartType } from '@/pages/reports/funnelViews'
 
@@ -104,40 +103,6 @@ const reportSteps = ref<FunnelResponseStepsInner[]>([])
 const groups = ref<string[]>([])
 
 const { checkedRowKeys, setCheckedRowKeys } = useCheckedRows()
-
-const filteredReportSteps = computed<FunnelResponseStepsInner[]>(() => {
-  return reportSteps.value.map(step => {
-    return {
-      ...step,
-      data: step.data.filter(item =>
-        checkedRowKeys.value.includes(item.groups.join(DEFAULT_SEPARATOR))
-      ),
-    }
-  })
-})
-
-const normalizedReportSteps = computed<ChartStackedItem[]>(() =>
-  filteredReportSteps.value.map(step => {
-    return {
-      groupName: step.step,
-      elements: step.data.map(item => ({
-        columnName: item.groups.join(DEFAULT_SEPARATOR),
-        primary: {
-          value: item.total,
-          percentage: item.conversionRatio,
-          label: 'Total',
-          percentageLabel: 'Conversion Ratio',
-        },
-        secondary: {
-          value: item.droppedOff,
-          percentage: item.dropOffRatio,
-          label: 'Dropped Off',
-          percentageLabel: 'Dropped Off Ratio',
-        },
-      })),
-    }
-  })
-)
 
 const { mutate: getReports, isLoading: loading } = useMutation(fetchReports)
 

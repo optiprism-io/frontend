@@ -17,9 +17,9 @@
       :lite-chart="true"
       :height-chart="props.heightChart || 240"
     />
-    <ChartStacked
+    <FunnelStepsChart
       v-else-if="reportSteps.length"
-      :data="normalizedReportSteps"
+      :report-steps="reportSteps"
       :height="(props.heightChart || 240) + 'px'"
       :lite-chart="true"
     />
@@ -31,8 +31,8 @@ import { computed, onMounted, ref, watch } from 'vue'
 
 import { RouterLink } from 'vue-router'
 
-import ChartStacked from '@/components/charts/ChartStacked.vue'
 import EventsViews from '@/components/events/EventsViews.vue'
+import FunnelStepsChart from '@/components/funnels/view/funnel-steps/FunnelStepsChart.vue'
 
 import {
   EventGroupedFiltersGroupsConditionEnum,
@@ -40,8 +40,6 @@ import {
   ReportType,
 } from '@/api'
 import { apiClient } from '@/api/apiClient'
-import { type ChartStackedItem } from '@/components/charts/types'
-import { DEFAULT_SEPARATOR } from '@/constants'
 import { pagesMap } from '@/router'
 import { useEventsStore } from '@/stores/eventSegmentation/events'
 import { useProjectsStore } from '@/stores/projects/projects'
@@ -85,28 +83,6 @@ const query = computed(() => report.value?.query)
 const reportChartType = computed(() => (report.value?.query?.chartType as ChartType) ?? 'line')
 const reportType = computed(() => report.value?.type ?? ReportType.EventSegmentation)
 const isEventsViews = computed(() => reportType.value === ReportType.EventSegmentation)
-
-const normalizedReportSteps = computed<ChartStackedItem[]>(() =>
-  reportSteps.value.map(step => {
-    return {
-      groupName: step.step,
-      elements: step.data.map(item => ({
-        columnName: item.groups.join(DEFAULT_SEPARATOR),
-        primary: {
-          value: item.total,
-          percentage: item.conversionRatio,
-          label: 'Total',
-          percentageLabel: 'Conversion Ratio',
-        },
-        secondary: {
-          value: item.droppedOff,
-          percentage: item.dropOffRatio,
-          label: 'Dropped Off',
-          percentageLabel: 'Dropped Off Ratio',
-        },
-      })),
-    }
-  }))
 
 const reportLink = computed(() => {
   if (report.value) {

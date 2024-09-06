@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 
-import { FunnelQueryCountEnum, FunnelStepsChartTypeTypeEnum, ReportType, TimeUnit } from '@/api'
+import { FunnelQueryCountEnum, FunnelStepsChartTypeTypeEnum, ReportType } from '@/api'
 import { apiClient } from '@/api/apiClient'
 import { useEventsStore } from '@/stores/eventSegmentation/events'
 import { useStepsStore } from '@/stores/funnels/steps'
@@ -9,7 +9,13 @@ import { useBreakdownsStore } from '@/stores/reports/breakdowns'
 import { useFilterGroupsStore } from '@/stores/reports/filters'
 import { useSegmentsStore } from '@/stores/reports/segments'
 
-import type { EventChartType, Report, EventSegmentation, FunnelQuery, ReportQuery ,
+import type {
+  EventChartType,
+  EventSegmentation,
+  FunnelQuery,
+  FunnelQueryChartType,
+  Report,
+  ReportQuery,
 } from '@/api'
 
 type Reports = {
@@ -54,9 +60,8 @@ const getReport = (type: ReportType): ReportQuery => {
       segments,
     } as EventSegmentation
   } else {
-    const chartType = {
+    const chartType: FunnelQueryChartType = {
       type: FunnelStepsChartTypeTypeEnum.Steps,
-      intervalUnit: TimeUnit.Day,
     }
 
     /* TODO: fix "as FunnelQuery" -> "satisfies FunnelQuery" */
@@ -77,8 +82,8 @@ const getReport = (type: ReportType): ReportQuery => {
       breakdowns,
       segments,
       touch: {
-        type: 'first'
-      }
+        type: 'first',
+      },
     } as FunnelQuery
   }
 }
