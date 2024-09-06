@@ -18,9 +18,11 @@
     </template>
     <template #chart>
       <DataLoader v-if="loading" />
-      <ChartLine
+      <ConversionOverTimeChart
         v-else-if="reportConversion"
-        :options="chartOptions"
+        :time-interval="timeInterval"
+        :report-conversion="reportConversion"
+        :checked-row-keys="checkedRowKeys"
         :loading="loading"
       />
       <DataEmptyPlaceholder
@@ -43,11 +45,11 @@
 </template>
 
 <script setup lang="ts">
-import { computed, nextTick, ref, watch } from 'vue'
+import { nextTick, ref, watch } from 'vue'
 
-import ChartLine from '@/components/charts/ChartLine.vue'
 import DataEmptyPlaceholder from '@/components/common/data/DataEmptyPlaceholder.vue'
 import DataLoader from '@/components/common/data/DataLoader.vue'
+import ConversionOverTimeChart from '@/components/funnels/view/conversion-over-time/ConversionOverTimeChart.vue'
 import ConversionOverTimeTable from '@/components/funnels/view/conversion-over-time/ConversionOverTimeTable.vue'
 import FunnelContentGrid from '@/components/funnels/view/FunnelContentGrid.vue'
 import type { DataPickerPeriod } from '@/components/uikit/UiDatePickerWrapper.vue'
@@ -74,7 +76,6 @@ import {
 import { TIME_INTERVAL_VALUES, useTimeInterval } from '@/components/funnels/view/useTimeInterval'
 import { DEFAULT_SEPARATOR } from '@/constants'
 import { useMutation } from '@/hooks/useMutation'
-import { dayjs } from '@/plugins/dayjs'
 import { useStepsStore } from '@/stores/funnels/steps'
 import { useProjectsStore } from '@/stores/projects/projects'
 import { useBreakdownsStore } from '@/stores/reports/breakdowns'
@@ -109,67 +110,6 @@ const { mutate: getReports, isLoading: loading } = useMutation(fetchReports)
 
 const { timeInterval, timeIntervalText, selectTimeInterval } = useTimeInterval()
 const { checkedRowKeys, setCheckedRowKeys } = useCheckedRows()
-
-const filteredData = computed<FunnelResponseStepsInner | undefined>(() => {
-  if (!reportConversion.value) return
-
-  return {
-    ...reportConversion.value,
-    data: reportConversion.value.data.filter(item =>
-      checkedRowKeys.value.includes(item.groups.join(DEFAULT_SEPARATOR))
-    ),
-  }
-})
-
-const normalizedData = computed(() => {
-  if (!filteredData.value) return
-
-  return filteredData.value.data
-    .toSorted((a, b) => a.ts - b.ts)
-    .map(item => ({
-      date: new Date(item.ts),
-      value: item.conversionRatio,
-      category: item.groups.join(DEFAULT_SEPARATOR),
-    }))
-})
-
-const chartOptions = computed(() => {
-  return {
-    data: normalizedData.value,
-    height: 350,
-    component: 'ChartLine',
-    xField: 'date',
-    yField: 'value',
-    seriesField: 'category',
-    xAxis: {
-      type: 'time',
-      label: {
-        formatter: (n: number): string => {
-          const format =
-            timeInterval.value === 'hour'
-              ? 'HH:mm MMM-DD'
-              : timeInterval.value === 'day' || timeInterval.value === 'week'
-                ? 'DD MMM'
-                : 'YYYY-MM-DD'
-          return dayjs(n).format(format)
-        },
-      },
-    },
-    yAxis: {
-      label: {
-        formatter: (n: number): string => n + '%',
-      },
-    },
-    tooltip: {
-      formatter: (datum: any) => {
-        return {
-          name: datum.category,
-          value: datum.value + '%',
-        }
-      },
-    },
-  }
-})
 
 async function fetchReports(): Promise<void> {
   /* need nextTick for update stepsStore.getSteps */
