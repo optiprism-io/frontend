@@ -31,7 +31,6 @@
             @on-edit="onEditNameReport"
           />
           <UiButton
-            v-if="isShowSaveReport"
             class="pf-m-link reports__nav-item reports__nav-item_new"
             before-icon="fas fa-floppy-disk"
             @click="onSaveReport"
@@ -66,7 +65,7 @@
         class="pf-l-flex__item pf-u-flex-1 pf-u-w-100 pf-u-min-height"
         style="--pf-u-min-height--MinHeight: 0"
       >
-        <RouterView :key="key" />
+        <RouterView />
       </div>
     </div>
 
@@ -88,9 +87,8 @@
 import { computed, onMounted, ref } from 'vue'
 
 import { useToggle } from '@vueuse/core'
-import { storeToRefs } from 'pinia'
 import { useI18n } from 'vue-i18n'
-import { useRoute, useRouter, RouterView } from 'vue-router'
+import { RouterView, useRoute, useRouter } from 'vue-router'
 
 import UiButton from '@/components/uikit/UiButton.vue'
 import UiInlineEdit from '@/components/uikit/UiInlineEdit.vue'
@@ -100,12 +98,25 @@ import UiSpinner from '@/components/uikit/UiSpinner.vue'
 import UiSwitch from '@/components/uikit/UiSwitch.vue'
 import UiTabs from '@/components/uikit/UiTabs.vue'
 
-import { ReportType } from '@/api'
+import {
+  type EventChartType,
+  type EventSegmentation,
+  type FunnelQuery,
+  type FunnelQueryChartType,
+  FunnelQueryCountEnum,
+  FunnelStepsChartTypeTypeEnum,
+  type ReportQuery,
+  ReportType,
+} from '@/api'
 import { pagesMap } from '@/router'
 import { useCommonStore } from '@/stores/common'
 import { useEventsStore } from '@/stores/eventSegmentation/events'
+import { useStepsStore } from '@/stores/funnels/steps'
 import { useLexiconStore } from '@/stores/lexicon'
+import { useBreakdownsStore } from '@/stores/reports/breakdowns'
+import { useFilterGroupsStore } from '@/stores/reports/filters'
 import { useReportsStore } from '@/stores/reports/reports'
+import { useSegmentsStore } from '@/stores/reports/segments'
 import { reportToStores } from '@/utils/reportsMappings'
 
 import { REPORT_TABS } from './tabs'
@@ -117,15 +128,16 @@ const eventsStore = useEventsStore()
 const reportsStore = useReportsStore()
 const commonStore = useCommonStore()
 const lexiconStore = useLexiconStore()
+const breakdownsStore = useBreakdownsStore()
+const filterGroupsStore = useFilterGroupsStore()
+const segmentsStore = useSegmentsStore()
+const stepsStore = useStepsStore()
 
 const editableNameReport = ref(false)
 const reportName = ref('')
 const showSyncReports = ref(false)
-const key = ref(0)
 
 const [visiblePopup, togglePopup] = useToggle()
-
-const { isChangedReport: isShowSaveReport } = storeToRefs(reportsStore)
 
 const items = computed(() =>
   REPORT_TABS.map(item => ({
@@ -145,7 +157,13 @@ const reportType = computed(() =>
 )
 
 const itemsReports = computed(() => {
-  return reportsStore.list.map(item => {
+  const CREATE_NEW_REPORT_ITEM = {
+    value: 0,
+    key: 0,
+    nameDisplay: 'Create New Report',
+  }
+
+  const existReports = reportsStore.list.map(item => {
     const id = Number(item.id)
     return {
       value: id,
@@ -153,19 +171,22 @@ const itemsReports = computed(() => {
       nameDisplay: item.name || '',
     }
   })
+
+  return [CREATE_NEW_REPORT_ITEM, ...existReports]
 })
 
-const untitledReportsList = computed(() => {
-  return reportsStore.list.filter(
-    item =>
-      `${item.name.split(' ')[0]}` + ' ' + `${item.name.split(' ')[1]}` ===
-      t('reports.untitledReport')
-  )
-})
+const untitledReportName = computed(() => {
+  let resName = t('reports.untitledReport')
+  let n = 0
 
-const untitledReportName = computed(
-  () => `${t('reports.untitledReport')} #${untitledReportsList.value.length + 1}`
-)
+  while (reportsStore.list.find(nw => nw.name === resName)) {
+    n = n + 1
+    const suffix = ' #' + n
+    resName = t('reports.untitledReport') + suffix
+  }
+
+  return resName
+})
 
 const onEditNameReport = (payload: boolean) => {
   editableNameReport.value = payload
@@ -183,11 +204,17 @@ async function onDeleteReport() {
 }
 
 const onEditReport = async () => {
-  await reportsStore.editReport(reportName.value || untitledReportName.value, reportType.value)
+  const query = getReportQuery(reportType.value)
+  await reportsStore.editReport(
+    reportName.value || untitledReportName.value,
+    reportType.value,
+    query
+  )
 }
 
 const onCreateReport = async () => {
-  await reportsStore.createReport(untitledReportName.value, reportType.value)
+  const query = getReportQuery(reportType.value)
+  await reportsStore.createReport(untitledReportName.value, reportType.value, query)
 
   await router.push({
     params: {
@@ -209,7 +236,6 @@ const onSaveReport = async () => {
   reportsStore.loading = true
   await onUpdateReport()
   await reportsStore.getList()
-  reportsStore.updateDump(reportType.value)
   reportsStore.loading = false
 }
 
@@ -222,14 +248,12 @@ const onSelectTab = (value: string) => {
   if (value === pagesMap.reportsEventSegmentation.name) {
     reportsStore.emptyReport()
   }
-  key.value++
 }
 
 const updateReport = async (id: number) => {
   reportsStore.loading = true
   await reportToStores(Number(id))
   reportName.value = reportsStore.activeReport?.name ?? t('reports.untitledReport')
-  reportsStore.updateDump(reportType.value)
   reportsStore.loading = false
 }
 
@@ -250,6 +274,59 @@ const initEventsAndProperties = async () => {
     await lexiconStore.getGroups(),
     lexiconStore.getGroupProperties(),
   ])
+}
+
+const getReportQuery = (type: ReportType): ReportQuery => {
+  const filters = filterGroupsStore.isSelectedAnyFilter ? filterGroupsStore.filters : undefined
+  const breakdowns = breakdownsStore.isSelectedAnyBreakdown
+    ? breakdownsStore.breakdownsItems
+    : undefined
+  const segments = segmentsStore.isSelectedAnySegments ? segmentsStore.segmentationItems : undefined
+
+  if (type === ReportType.EventSegmentation) {
+    const events = eventsStore?.propsForEventSegmentationResult?.events || []
+    const chartType = eventsStore.chartType as EventChartType
+
+    /* TODO: fix "as EventSegmentation" -> "satisfies EventSegmentation" */
+    return {
+      type,
+      time: eventsStore.timeRequest,
+      group: eventsStore.group,
+      intervalUnit: eventsStore.controlsGroupBy,
+      chartType,
+      analysis: { type: 'linear' },
+      events,
+      filters,
+      breakdowns,
+      segments,
+    } as EventSegmentation
+  } else {
+    const chartType: FunnelQueryChartType = {
+      type: FunnelStepsChartTypeTypeEnum.Steps,
+    }
+
+    /* TODO: fix "as FunnelQuery" -> "satisfies FunnelQuery" */
+    return {
+      type,
+      time: eventsStore.timeRequest,
+      group: eventsStore.group,
+      steps: stepsStore.getSteps,
+      timeWindow: {
+        n: stepsStore.size,
+        unit: stepsStore.unit,
+      },
+      chartType,
+      count: FunnelQueryCountEnum.NonUnique,
+      holdingConstants: stepsStore.getHoldingProperties,
+      exclude: stepsStore.getExcluded,
+      filters,
+      breakdowns,
+      segments,
+      touch: {
+        type: 'first',
+      },
+    } as FunnelQuery
+  }
 }
 
 onMounted(async () => {
