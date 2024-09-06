@@ -1,13 +1,9 @@
 import { useDateFormat } from '@vueuse/core'
 
-import {
-  DataType,
-} from '@/api'
+import { DataType } from '@/api'
 import { getStringDateByFormat } from '@/helpers/getStringDates'
 
-import type {
-  DataTableResponse,
-  DataTableResponseColumnsInner} from '@/api';
+import type { DataTableResponse, DataTableResponseColumnsInner } from '@/api'
 import type { Column, Row } from '@/components/uikit/UiTable/UiTable'
 
 const FIXED_COLUMNS_TYPES_DEFAULT: { [key: string]: string } = {
@@ -32,19 +28,18 @@ export default function useDataTable(
   noWrapContent = false,
   fixedColumn?: { [key: string]: string }
 ): ResponseUseDataTable {
-
-  const payloadColumns = (Array.isArray(payload?.columns) ? payload.columns : [])
+  const payloadColumns = Array.isArray(payload?.columns) ? payload.columns : []
   const fixedColumnsTypes = fixedColumn || FIXED_COLUMNS_TYPES_DEFAULT
   const dimensionColumns: DataTableResponseColumnsInner[] = []
   const totalColumnData: number[] = []
   const columns: { [key: string]: Column } = {}
   const rows: Row[] = []
   const lineChart: any[] = []
-  let pieChart = [];
+  let pieChart = []
 
   payloadColumns.forEach((column, i, arr) => {
-    const fixed = Boolean(fixedColumnsTypes[column.type]);
-    const lastFixed = !fixedColumnsTypes[arr[i + 1]?.type];
+    const fixed = Boolean(fixedColumnsTypes[column.type])
+    const lastFixed = !fixedColumnsTypes[arr[i + 1]?.type]
 
     if (column.type === 'dimension') {
       dimensionColumns.push(column)
@@ -63,21 +58,24 @@ export default function useDataTable(
     if (column.data?.length) {
       column.data.forEach((item, indexData) => {
         if (column.type !== 'dimension') {
-
           lineChart.push({
             date: column.name ? new Date(column.name) : '',
             value: item ?? 0,
+            category: dimensionColumns.reduce(
+              (categoryName, dimensionColumn: DataTableResponseColumnsInner, i) => {
+                if (dimensionColumn.name !== 'Average') {
+                  const value = (dimensionColumn.data || [])[indexData] || ''
+                  return categoryName + (dimensionColumns[i + 1] ? `, ${value}` : '')
+                }
 
-            category: dimensionColumns
-              .map((columnInner: DataTableResponseColumnsInner) => {
-                return (columnInner.data || [])[indexData] || ''
-              })
-              .filter(item => Boolean(item))
-              .join(', '),
+                return categoryName
+              },
+              ''
+            ),
           })
 
           if (column.dataType === DataType.Decimal) {
-            totalColumnData.push(Number(totalColumnData[indexData] || 0) + Number(item))
+            totalColumnData[indexData] = Number(totalColumnData[indexData] || 0) + Number(item)
           }
         }
 
@@ -85,7 +83,7 @@ export default function useDataTable(
           rows[indexData] = []
         }
 
-        let value: number | string | boolean = item || '';
+        let value: number | string | boolean = item || ''
 
         if (column.dataType === DataType.Timestamp && item) {
           value = useDateFormat(+item, 'YYYY-MM-DD HH:mm')?.value
@@ -99,9 +97,9 @@ export default function useDataTable(
           fixed: fixed,
           nowrap: noWrapContent,
         }
-      });
+      })
     }
-  });
+  })
 
   pieChart = totalColumnData.map((item, index: number) => {
     return {
