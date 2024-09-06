@@ -67,7 +67,10 @@
       >
         <RouterView
           :funnel-view="funnelViewId"
+          :time-interval="timeInterval"
+          :time-interval-text="timeIntervalText"
           @change-view="onChangeView"
+          @select-time-interval="selectTimeInterval"
         />
       </div>
     </div>
@@ -102,16 +105,14 @@ import UiSwitch from '@/components/uikit/UiSwitch.vue'
 import UiTabs from '@/components/uikit/UiTabs.vue'
 
 import {
-  type EventChartType,
   type EventSegmentation,
   type FunnelQuery,
-  type FunnelQueryChartType,
   FunnelQueryCountEnum,
-  FunnelStepsChartTypeTypeEnum,
   type ReportQuery,
   ReportType,
 } from '@/api'
 import { useFunnelView } from '@/pages/reports/useFunnelView'
+import { useTimeInterval } from '@/pages/reports/useTimeInterval'
 import { pagesMap } from '@/router'
 import { useCommonStore } from '@/stores/common'
 import { useEventsStore } from '@/stores/eventSegmentation/events'
@@ -124,6 +125,8 @@ import { useSegmentsStore } from '@/stores/reports/segments'
 import { reportToStores } from '@/utils/reportsMappings'
 
 import { REPORT_TABS } from './tabs'
+
+// import type { FunnelConversionOverTimeChartType } from '@/api'
 
 const { t } = useI18n()
 const route = useRoute()
@@ -143,6 +146,7 @@ const showSyncReports = ref(false)
 
 const [visiblePopup, togglePopup] = useToggle()
 const { funnelViewId, onChangeView } = useFunnelView()
+const { timeInterval, timeIntervalText, selectTimeInterval } = useTimeInterval()
 
 const items = computed(() =>
   REPORT_TABS.map(item => ({

@@ -73,9 +73,12 @@
         :period="period"
         :controls-period="controlsPeriod"
         :time="time"
+        :time-interval="timeInterval"
+        :time-interval-text="timeIntervalText"
         @change-view="emit('change-view', $event)"
         @change-period="setPeriod"
         @change-controls-period="setControlsPeriod"
+        @select-time-interval="emit('select-time-interval', $event)"
       />
     </GridItem>
   </GridContainer>
@@ -105,7 +108,11 @@ import UiCardContainer from '@/components/uikit/UiCard/UiCardContainer.vue'
 import UiCardTitle from '@/components/uikit/UiCard/UiCardTitle.vue'
 import UiSelect from '@/components/uikit/UiSelect.vue'
 
-import { FunnelConversionOverTimeChartTypeTypeEnum, FunnelStepsChartTypeTypeEnum } from '@/api'
+import {
+  FunnelConversionOverTimeChartTypeTypeEnum,
+  FunnelStepsChartTypeTypeEnum,
+  type TimeUnit,
+} from '@/api'
 import { useCalendarTime } from '@/components/funnels/view/useCalendarTime'
 import { useGroup } from '@/hooks/useGroup'
 import { useCommonStore } from '@/stores/common'
@@ -120,10 +127,13 @@ import type { FunnelChartType } from '@/pages/reports/funnelViews'
 
 defineProps<{
   funnelView: FunnelChartType
+  timeInterval: TimeUnit
+  timeIntervalText: string
 }>()
 
 const emit = defineEmits<{
   (e: 'change-view', payload: FunnelChartType): void
+  (e: 'select-time-interval', payload: TimeUnit): void
 }>()
 
 const { t } = useI18n()

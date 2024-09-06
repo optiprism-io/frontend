@@ -13,7 +13,7 @@
         :items="TIME_INTERVAL_VALUES"
         :text-button="timeIntervalText"
         :selections="[timeInterval]"
-        @on-select="selectTimeInterval"
+        @on-select="emit('select-time-interval', $event)"
       />
     </template>
     <template #chart>
@@ -73,15 +73,15 @@ import {
   MAX_CHECKED_ROWS,
   useCheckedRows,
 } from '@/components/funnels/view/useCheckedRows'
-import { TIME_INTERVAL_VALUES, useTimeInterval } from '@/components/funnels/view/useTimeInterval'
 import { DEFAULT_SEPARATOR } from '@/constants'
 import { useMutation } from '@/hooks/useMutation'
+import { TIME_INTERVAL_VALUES } from '@/pages/reports/useTimeInterval'
 import { useStepsStore } from '@/stores/funnels/steps'
 import { useProjectsStore } from '@/stores/projects/projects'
 import { useBreakdownsStore } from '@/stores/reports/breakdowns'
 import { useFilterGroupsStore } from '@/stores/reports/filters'
 
-import type { FunnelResponseStepsInner } from '@/api'
+import type { FunnelResponseStepsInner, TimeUnit } from '@/api'
 import type { FunnelChartType } from '@/pages/reports/funnelViews'
 
 interface IProps {
@@ -89,6 +89,8 @@ interface IProps {
   period: DataPickerPeriod
   controlsPeriod: ControlsPeriod
   time: EventRecordsListRequestTime
+  timeInterval: TimeUnit
+  timeIntervalText: string
 }
 
 const props = withDefaults(defineProps<IProps>(), {})
@@ -97,6 +99,7 @@ const emit = defineEmits<{
   (e: 'change-view', payload: FunnelChartType): void
   (e: 'change-period', payload: DataPickerPeriod): void
   (e: 'change-controls-period', payload: ControlsPeriod): void
+  (e: 'select-time-interval', payload: TimeUnit): void
 }>()
 
 const reportConversion = ref<FunnelResponseStepsInner | undefined>()
@@ -108,7 +111,6 @@ const breakdownsStore = useBreakdownsStore()
 
 const { mutate: getReports, isLoading: loading } = useMutation(fetchReports)
 
-const { timeInterval, timeIntervalText, selectTimeInterval } = useTimeInterval()
 const { checkedRowKeys, setCheckedRowKeys } = useCheckedRows()
 
 async function fetchReports(): Promise<void> {
@@ -135,7 +137,7 @@ async function fetchReports(): Promise<void> {
     },
     chartType: {
       type: FunnelConversionOverTimeChartTypeTypeEnum.ConversionOverTime,
-      intervalUnit: timeInterval.value,
+      intervalUnit: props.timeInterval,
     },
     count: FunnelQueryCountEnum.NonUnique,
     touch: {
@@ -156,7 +158,7 @@ async function fetchReports(): Promise<void> {
 }
 
 watch(
-  () => [stepsStore, filterGroupsStore, breakdownsStore, props.time, timeInterval.value],
+  () => [stepsStore, filterGroupsStore, breakdownsStore, props.time, props.timeInterval],
   getReports,
   {
     deep: true,
