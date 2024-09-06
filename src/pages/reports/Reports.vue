@@ -106,8 +106,10 @@ import UiTabs from '@/components/uikit/UiTabs.vue'
 
 import {
   type EventSegmentation,
+  FunnelConversionOverTimeChartTypeTypeEnum,
   type FunnelQuery,
   FunnelQueryCountEnum,
+  FunnelStepsChartTypeTypeEnum,
   type ReportQuery,
   ReportType,
 } from '@/api'
@@ -126,7 +128,7 @@ import { reportToStores } from '@/utils/reportsMappings'
 
 import { REPORT_TABS } from './tabs'
 
-// import type { FunnelConversionOverTimeChartType } from '@/api'
+import type { EventChartType, FunnelConversionOverTimeChartType, FunnelQueryChartType } from '@/api'
 
 const { t } = useI18n()
 const route = useRoute()
@@ -285,6 +287,29 @@ const initEventsAndProperties = async () => {
   ])
 }
 
+const chartTypeComputed = computed<FunnelQueryChartType | EventChartType>(() => {
+  if (reportType.value === ReportType.EventSegmentation) {
+    return eventsStore.chartType as EventChartType
+  }
+
+  if (reportType.value === ReportType.Funnel) {
+    if (funnelViewId.value === FunnelStepsChartTypeTypeEnum.Steps) {
+      return {
+        type: FunnelStepsChartTypeTypeEnum.Steps,
+      } satisfies FunnelQueryChartType
+    }
+    if (funnelViewId.value === FunnelConversionOverTimeChartTypeTypeEnum.ConversionOverTime) {
+      return {
+        type: FunnelConversionOverTimeChartTypeTypeEnum.ConversionOverTime,
+        intervalUnit: timeInterval.value,
+      } satisfies FunnelConversionOverTimeChartType
+    }
+    throw new Error('Unknown funnel view')
+  }
+
+  throw new Error('Unknown report type')
+})
+
 const getReportQuery = (type: ReportType): ReportQuery => {
   const filters = filterGroupsStore.isSelectedAnyFilter ? filterGroupsStore.filters : undefined
   const breakdowns = breakdownsStore.isSelectedAnyBreakdown
@@ -294,7 +319,6 @@ const getReportQuery = (type: ReportType): ReportQuery => {
 
   if (type === ReportType.EventSegmentation) {
     const events = eventsStore?.propsForEventSegmentationResult?.events || []
-    const chartType = eventsStore.chartType as EventChartType
 
     /* TODO: fix "as EventSegmentation" -> "satisfies EventSegmentation" */
     return {
@@ -302,7 +326,7 @@ const getReportQuery = (type: ReportType): ReportQuery => {
       time: eventsStore.timeRequest,
       group: eventsStore.group,
       intervalUnit: eventsStore.controlsGroupBy,
-      chartType,
+      chartType: chartTypeComputed.value,
       analysis: { type: 'linear' },
       events,
       filters,
@@ -310,10 +334,6 @@ const getReportQuery = (type: ReportType): ReportQuery => {
       segments,
     } as EventSegmentation
   } else {
-    const chartType: FunnelQueryChartType = {
-      type: FunnelStepsChartTypeTypeEnum.Steps,
-    }
-
     /* TODO: fix "as FunnelQuery" -> "satisfies FunnelQuery" */
     return {
       type,
@@ -324,7 +344,7 @@ const getReportQuery = (type: ReportType): ReportQuery => {
         n: stepsStore.size,
         unit: stepsStore.unit,
       },
-      chartType,
+      chartType: chartTypeComputed.value,
       count: FunnelQueryCountEnum.NonUnique,
       holdingConstants: stepsStore.getHoldingProperties,
       exclude: stepsStore.getExcluded,
