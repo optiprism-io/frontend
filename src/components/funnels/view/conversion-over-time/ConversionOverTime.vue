@@ -10,7 +10,7 @@
     <template #toolbar>
       <UiSelect
         class="pf-u-w-initial"
-        :items="timeIntervalValues"
+        :items="TIME_INTERVAL_VALUES"
         :text-button="timeIntervalText"
         :selections="[timeInterval]"
         @on-select="selectTimeInterval"
@@ -71,7 +71,7 @@ import {
   MAX_CHECKED_ROWS,
   useCheckedRows,
 } from '@/components/funnels/view/useCheckedRows'
-import { useTimeInterval } from '@/components/funnels/view/useTimeInterval'
+import { TIME_INTERVAL_VALUES, useTimeInterval } from '@/components/funnels/view/useTimeInterval'
 import { DEFAULT_SEPARATOR } from '@/constants'
 import { useMutation } from '@/hooks/useMutation'
 import { dayjs } from '@/plugins/dayjs'
@@ -107,7 +107,7 @@ const breakdownsStore = useBreakdownsStore()
 
 const { mutate: getReports, isLoading: loading } = useMutation(fetchReports)
 
-const { timeInterval, timeIntervalValues, timeIntervalText, selectTimeInterval } = useTimeInterval()
+const { timeInterval, timeIntervalText, selectTimeInterval } = useTimeInterval()
 const { checkedRowKeys, setCheckedRowKeys } = useCheckedRows()
 
 const filteredData = computed<FunnelResponseStepsInner | undefined>(() => {

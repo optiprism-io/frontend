@@ -6,16 +6,16 @@ import type { UiSelectItem } from '@/components/uikit/UiSelect.vue'
 
 import { TimeUnit } from '@/api'
 
+export const TIME_INTERVAL_VALUES: UiSelectItem<TimeUnit>[] = Object.values(TimeUnit).map(key => ({
+  key,
+  nameDisplay: key,
+  value: key,
+}))
+
 export function useTimeInterval() {
   const { t } = useI18n()
 
   const timeInterval = ref<TimeUnit>('day')
-
-  const timeIntervalValues: UiSelectItem<TimeUnit>[] = Object.values(TimeUnit).map(key => ({
-    key,
-    nameDisplay: key,
-    value: key,
-  }))
 
   const timeIntervalText = computed(() => {
     return t('common.groupBy') + ' ' + timeInterval.value
@@ -27,7 +27,6 @@ export function useTimeInterval() {
 
   return {
     timeInterval,
-    timeIntervalValues,
     timeIntervalText,
     selectTimeInterval,
   }
