@@ -133,7 +133,14 @@ import { getQueryFormattedValue } from '@/helpers/reportTableHelper'
 import useDataTable from '@/hooks/useDataTable'
 import { useEventsStore } from '@/stores/eventSegmentation/events'
 
-import type { DataTableResponse, DataTableResponseColumnsInner, Report, TimeUnit } from '@/api'
+import type {
+  DataTableResponse,
+  DataTableResponseColumnsInner,
+  EventChartType,
+  FunnelQueryChartType,
+  Report,
+  TimeUnit,
+} from '@/api'
 import type { ApplyPayload } from '@/components/uikit/UiCalendar/UiCalendar'
 import type { UiToggleGroupItem } from '@/components/uikit/UiToggleGroup/types'
 import type { ChartType } from '@/stores/eventSegmentation/events'
@@ -148,7 +155,7 @@ type Props = {
   eventSegmentation?: DataTableResponse | null
   loading?: boolean
   onlyView?: boolean
-  chartType?: ChartType
+  chartType?: EventChartType | FunnelQueryChartType | undefined
   heightChart?: number
   liteChart?: boolean
   report?: Report | null

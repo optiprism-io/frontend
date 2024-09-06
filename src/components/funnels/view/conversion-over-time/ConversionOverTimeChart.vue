@@ -16,12 +16,19 @@ import { dayjs } from '@/plugins/dayjs'
 import type { FunnelResponseStepsInner } from '@/api'
 import type { RowKey } from 'naive-ui/es/data-table/src/interface'
 
-const props = defineProps<{
+interface IProps {
   reportConversion: FunnelResponseStepsInner | undefined
   timeInterval: string
-  loading: boolean
   checkedRowKeys?: RowKey[]
-}>()
+  loading?: boolean
+  height?: number
+}
+
+const props = withDefaults(defineProps<IProps>(), {
+  checkedRowKeys: undefined,
+  loading: false,
+  height: 350,
+})
 
 const filteredData = computed<FunnelResponseStepsInner | undefined>(() => {
   if (!props.reportConversion) return
@@ -49,7 +56,7 @@ const normalizedData = computed(() => {
 const chartOptions = computed(() => {
   return {
     data: normalizedData.value,
-    height: 350,
+    height: props.height,
     component: 'ChartLine',
     xField: 'date',
     yField: 'value',

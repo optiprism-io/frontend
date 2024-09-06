@@ -17,11 +17,10 @@
       :lite-chart="true"
       :height-chart="props.heightChart || 240"
     />
-    <FunnelStepsChart
-      v-else-if="reportSteps.length"
+    <DashboardFunnelChart
+      v-else
       :report-steps="reportSteps"
-      :height="(props.heightChart || 240) + 'px'"
-      :lite-chart="true"
+      :report="report"
     />
   </div>
 </template>
@@ -32,7 +31,7 @@ import { computed, onMounted, ref, watch } from 'vue'
 import { RouterLink } from 'vue-router'
 
 import EventsViews from '@/components/events/EventsViews.vue'
-import FunnelStepsChart from '@/components/funnels/view/funnel-steps/FunnelStepsChart.vue'
+import DashboardFunnelChart from '@/components/funnels/view/DashboardFunnelChart.vue'
 
 import {
   EventGroupedFiltersGroupsConditionEnum,
@@ -55,8 +54,8 @@ import type {
   FunnelQuery,
   FunnelResponseStepsInner,
   Report,
+  ReportQuery,
 } from '@/api'
-import type { ChartType } from '@/stores/eventSegmentation/events'
 import type { Step } from '@/types/steps'
 
 const props = defineProps<{
@@ -78,9 +77,9 @@ const filterTimeInitState = ref<EventRecordsListRequestTime | null>(null)
 
 const filterTime = computed(() => eventsStore.timeRequest)
 const activeReport = computed(() => reportsStore.list.find(item => item.id === props.reportId))
-const report = computed(() => props.report || activeReport.value)
-const query = computed(() => report.value?.query)
-const reportChartType = computed(() => (report.value?.query?.chartType as ChartType) ?? 'line')
+const report = computed<Report | undefined>(() => props.report || activeReport.value)
+const query = computed<ReportQuery | undefined>(() => report.value?.query)
+const reportChartType = computed(() => report.value?.query?.chartType)
 const reportType = computed(() => report.value?.type ?? ReportType.EventSegmentation)
 const isEventsViews = computed(() => reportType.value === ReportType.EventSegmentation)
 
