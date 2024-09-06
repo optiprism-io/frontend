@@ -28,6 +28,7 @@
 <script lang="ts" setup>
 import { computed, onMounted, ref, watch } from 'vue'
 
+import { isString } from 'lodash-es'
 import { RouterLink } from 'vue-router'
 
 import EventsViews from '@/components/events/EventsViews.vue'
@@ -93,9 +94,17 @@ const reportLink = computed(() => {
       params: {
         id: report.value?.id,
       },
+      query: queryParams.value,
     }
   }
   return null
+})
+
+const queryParams = computed(() => {
+  if (!report.value || isString(report.value.query.chartType)) return null
+  return {
+    view: report.value.query.chartType.type,
+  }
 })
 
 const ifChangeAnyInFilterTime = computed(() => {
