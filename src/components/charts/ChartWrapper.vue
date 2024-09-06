@@ -14,9 +14,9 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, unref, watch } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 
-import { merge } from 'lodash-es'
+import { cloneDeep, merge } from 'lodash-es'
 
 import UiSpinner from '../uikit/UiSpinner.vue'
 
@@ -41,7 +41,7 @@ const chartLib = ref()
 
 const updateOptions = () => {
   const lineChartContainer: any = chart.value
-  const options = merge(unref(props.defaultOptions), unref(props.options))
+  const options = merge(cloneDeep(props.defaultOptions), cloneDeep(props.options))
 
   if (chartLib.value) {
     chartLib.value.update(options)
