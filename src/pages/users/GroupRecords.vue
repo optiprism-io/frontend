@@ -32,7 +32,7 @@
           </template>
           <template #after>
             <Select
-              grouped
+              :grouped="true"
               :items="itemsProperties"
               :width-auto="true"
               :multiple="true"
@@ -40,7 +40,7 @@
             >
               <UiButton
                 class="pf-m-control"
-                :after-icon="'fas fa-caret-down'"
+                after-icon="fas fa-caret-down"
               >
                 {{ columnsButtonText }}
               </UiButton>
@@ -62,6 +62,8 @@
 <script setup lang="ts">
 import { computed, onMounted, onUnmounted, ref } from 'vue'
 
+import { useI18n } from 'vue-i18n'
+
 import GroupRecordPopup from '@/components/groups/GroupRecordPopup.vue'
 import Select from '@/components/Select/Select.vue'
 import UiButton from '@/components/uikit/UiButton.vue'
@@ -69,20 +71,19 @@ import UiCardContainer from '@/components/uikit/UiCard/UiCardContainer.vue'
 import type { DataPickerPeriod } from '@/components/uikit/UiDatePickerWrapper.vue'
 import UiDatePickerWrapper from '@/components/uikit/UiDatePickerWrapper.vue'
 import UiTable from '@/components/uikit/UiTable/UiTable.vue'
-import type { UiToggleGroupItem } from '@/components/uikit/UiToggleGroup.vue'
-import UiToggleGroup from '@/components/uikit/UiToggleGroup.vue'
+import UiToggleGroup from '@/components/uikit/UiToggleGroup/UiToggleGroup.vue'
 import ToolsLayout from '@/layout/ToolsLayout.vue'
 
 import { PropertyType } from '@/api'
 import { shortPeriodDays } from '@/components/uikit/UiCalendar/UiCalendar.config'
 import useDataTable from '@/hooks/useDataTable'
-import useI18n from '@/hooks/useI18n'
 import useProperty from '@/hooks/useProperty'
 import { useGroupStore, defaultColumns } from '@/stores/group/group'
 import { useLexiconStore } from '@/stores/lexicon'
 import { useSegmentsStore } from '@/stores/reports/segments'
 
 import type { Cell } from '@/components/uikit/UiTable/UiTable'
+import type { UiToggleGroupItem } from '@/components/uikit/UiToggleGroup/types'
 import type { PropertyRef } from '@/types/events'
 
 const { t } = useI18n()
@@ -114,7 +115,7 @@ const closeRecordPopup = () => {
 
 const itemsPeriod = computed(() => {
   return shortPeriodDays.map(
-    (key): UiToggleGroupItem => ({
+    (key): UiToggleGroupItem<string> => ({
       key,
       nameDisplay: key + strings.value.dayShort,
       value: key,
@@ -139,8 +140,7 @@ const itemsProperties = computed(() => {
           type: usersProperties.value.type,
           items: usersProperties.value.items.map(groupItem => {
             const activeProperty = groupStore.activeColumns.find(
-              col =>
-              col.name === groupItem.item.name
+              col => col.name === groupItem.item.name
             )
 
             return {
@@ -158,9 +158,7 @@ const selectColumn = (payload: PropertyRef) => {
     return
   }
 
-  const propertyIndex = groupStore.activeColumns.findIndex(
-    prop => prop.name === payload.name
-  )
+  const propertyIndex = groupStore.activeColumns.findIndex(prop => prop.name === payload.name)
   const items = [...groupStore.activeColumns]
 
   if (propertyIndex === -1) {
@@ -214,9 +212,7 @@ const initEventsAndProperties = async () => {
 
 onMounted(async () => {
   await initEventsAndProperties()
-  groupStore.activeColumns = [
-    'id',
-  ].map(name => {
+  groupStore.activeColumns = ['id'].map(name => {
     const userProperties = lexiconStore.groupPropertiesMap['user']
     const userProperty = userProperties.find(item => item.name === name)
 

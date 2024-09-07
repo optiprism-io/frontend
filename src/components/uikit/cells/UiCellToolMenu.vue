@@ -23,19 +23,19 @@ import { UiSelectGeneric } from '@/components/uikit/UiSelect/UiSelectGeneric'
 import type { UiSelectItemInterface } from '@/components/uikit/UiSelect/types'
 import type { Action, ToolMenuItem } from '@/components/uikit/UiTable/UiTable'
 
-const UiSelect = UiSelectGeneric<string | number>()
+const props = defineProps<Props>()
 
 const emit = defineEmits<{
   (e: 'on-action', payload: Action): void
 }>()
+
+const UiSelect = UiSelectGeneric<string | number>()
 
 interface Props {
   value: string | number
   items: ToolMenuItem[]
   type?: string
 }
-
-const props = defineProps<Props>()
 
 const selectItems = computed<UiSelectItemInterface<string | number>[]>(() => {
   return (props.items || []).map(item => ({

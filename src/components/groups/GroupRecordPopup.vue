@@ -24,31 +24,30 @@
 import { computed, ref, onMounted } from 'vue'
 
 import { useDateFormat } from '@vueuse/core'
+import { useI18n } from 'vue-i18n'
 
 import UiPopupWindow from '@/components/uikit/UiPopupWindow.vue'
 import UiSpinner from '@/components/uikit/UiSpinner.vue'
 import UiTable from '@/components/uikit/UiTable/UiTable.vue'
 
 import { apiClient } from '@/api/apiClient'
-import useI18n from '@/hooks/useI18n'
 import { useProjectsStore } from '@/stores/projects/projects'
 
 import type { GroupRecord } from '@/api'
 import type { Row } from '@/components/uikit/UiTable/UiTable'
-
-const projectsStore = useProjectsStore()
-const { t } = useI18n()
 
 const props = defineProps<{
   group: number
   id: string
   name: string
 }>()
-
 const emit = defineEmits<{
   (e: 'cancel'): void
   (e: 'apply'): void
 }>()
+
+const { t } = useI18n()
+const projectsStore = useProjectsStore()
 
 const strings = {
   eventNoProperties: t('common.eventNoProperties'),
@@ -121,11 +120,8 @@ onMounted(async () => {
 })
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .group-record-popup {
-  .pf-c-modal-box__body {
-    min-height: 316px;
-  }
   &__table {
     th {
       width: 50%;

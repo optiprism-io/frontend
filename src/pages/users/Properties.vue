@@ -28,7 +28,6 @@ import { computed, onMounted, ref } from 'vue'
 
 import { useI18n } from 'vue-i18n'
 
-import type { ApplyPayload } from '@/components/events/UserPropertyPopup.vue';
 import UserPropertyPopup from '@/components/events/UserPropertyPopup.vue'
 import UiCellTags from '@/components/uikit/cells/UiCellTags.vue'
 import UiCardContainer from '@/components/uikit/UiCard/UiCardContainer.vue'

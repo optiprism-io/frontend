@@ -51,7 +51,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref, onMounted, onUnmounted } from 'vue';
+import { computed, ref, onMounted, onUnmounted } from 'vue'
 
 import { useI18n } from 'vue-i18n'
 
@@ -76,6 +76,11 @@ type PropertiesEdit = {
   error?: boolean
 }
 
+const props = defineProps<Props>()
+const emit = defineEmits<{
+  (e: 'apply'): void
+  (e: 'cancel'): void
+}>()
 const { t } = useI18n()
 const groupStore = useGroupStore()
 const mapTabs = ['userProperties']
@@ -96,16 +101,6 @@ const strings = computed(() => {
     close: t('common.close'),
   }
 })
-
-const props = defineProps<Props>()
-
-const emit = defineEmits<{
-    (e: 'apply'): void
-    (e: 'cancel'): void
-}>()
-
-const groupStore = useGroupStore();
-const mapTabs = ['userProperties'];
 
 const activeTab = ref('userProperties')
 const isLoadingSaveProperties = ref(false)
@@ -220,23 +215,23 @@ onUnmounted(() => {
 
 <style lang="scss" scoped>
 .properties-management-popup {
-    .pf-c-table {
-        margin-right: 80px;
-    }
-    &__content {
-        position: relative;
-    }
-    &__loading {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background-color: rgba(#fff, .6);
-        z-index: 2;
-    }
+  .pf-c-table {
+    margin-right: 80px;
+  }
+  &__content {
+    position: relative;
+  }
+  &__loading {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(#fff, 0.6);
+    z-index: 2;
+  }
 }
 </style>

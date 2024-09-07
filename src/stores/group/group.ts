@@ -16,7 +16,6 @@ import type {
   PropertyRef as PropertyRefApi,
   Value,
 } from '@/api'
-
 import type { PropertyRef } from '@/types/events'
 
 type PeriodState = {

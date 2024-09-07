@@ -214,7 +214,7 @@ const columnsSelect = computed(() => {
 })
 
 const columnsButtonText = computed(
-  () => `${activeColumns.value.length} ${i18n.$t('common.columns')}`
+  () => `${activeColumns.value.length} ${i18n.t('common.columns')}`
 )
 
 const onAction = (payload: Action) => {
