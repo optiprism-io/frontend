@@ -4,7 +4,7 @@
       {{ $t('events.customEvents.title') }}
     </template>
     <template #main>
-      <UiCardContainer class="pf-u-h-100">
+      <UiCardContainer class="pf-v5-u-h-100">
         <UiTable
           :items="items"
           :columns="columns"
@@ -12,7 +12,7 @@
           @on-action="onAction"
         >
           <template #before>
-            <UiButton class="pf-m-primary" @click="addCustomEvent">
+            <UiButton class="pf-v5-m-primary" @click="addCustomEvent">
               {{ $t('events.add_custom_event') }}
             </UiButton>
           </template>
@@ -25,7 +25,7 @@
     :title="confirmPopupDeleteInfo.title"
     :content="confirmPopupDeleteInfo.content"
     :apply-button="$t('common.delete')"
-    :apply-button-class="'pf-m-danger'"
+    :apply-button-class="'pf-v5-m-danger'"
     @apply="applyDelete"
     @cancel="cancelDelete"
   />

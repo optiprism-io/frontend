@@ -1,9 +1,9 @@
 <template>
-  <div class="pf-u-display-flex pf-u-flex-direction-row pf-u-align-items-center">
-    <div class="pf-l-flex__item">
-      <div class="pf-u-display-flex pf-u-flex-direction-row pf-u-align-items-center">
+  <div class="pf-v5-u-display-flex pf-v5-u-flex-direction-row pf-v5-u-align-items-center">
+    <div class="pf-v5-l-flex__item">
+      <div class="pf-v5-u-display-flex pf-v5-u-flex-direction-row pf-v5-u-align-items-center">
         <UiButton
-          class="pf-u-text-nowrap pf-m-link pf-m-inline"
+          class="pf-v5-u-text-nowrap pf-v5-m-link pf-v5-m-inline"
           @click="props.action && onAction(props.action)"
         >
           {{ title }}
@@ -45,7 +45,7 @@ const onAction = (payload: Action) => {
 </script>
 
 <style lang="scss">
-.pf-c-table {
+.pf-v5-c-table {
     tr:hover {
         .ui-table-event-cell__action-list {
             opacity: 1;

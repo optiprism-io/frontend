@@ -5,7 +5,7 @@
       :items="selectItems"
       @update:model-value="onSelectMenu"
     >
-      <UiButton class="pf-c-dropdown__toggle pf-m-plain pf-u-p-md">
+      <UiButton class="pf-v5-c-dropdown__toggle pf-v5-m-plain pf-v5-u-p-md">
         <UiIcon :icon="'fas fa-ellipsis-v'" />
       </UiButton>
     </UiSelect>

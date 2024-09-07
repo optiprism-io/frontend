@@ -1,18 +1,18 @@
 <template>
-  <div class="filter pf-l-flex pf-m-nowrap" :class="orientationClass">
-    <div v-if="!hidePrefix" class="icon pf-c-action-list__item pf-u-mb-0 pf-u-mt-xs">
+  <div class="filter pf-v5-l-flex pf-v5-m-nowrap" :class="orientationClass">
+    <div v-if="!hidePrefix" class="icon pf-v5-c-action-list__item pf-v5-u-mb-0 pf-v5-u-mt-xs">
       <slot name="prefix">
         <UiIcon icon="fas fa-filter" />
       </slot>
     </div>
     <div
-      class="filter__items pf-c-action-list"
+      class="filter__items pf-v5-c-action-list"
       :class="{
         filter__items_hover: isAnyButtonHovered,
       }"
     >
       <CommonIdentifier v-if="showIdentifier" :index="index" />
-      <div class="pf-c-action-list__item">
+      <div class="pf-v5-c-action-list__item">
         <PropertySelect
           v-if="filter.propRef"
           :event-ref="eventRef"
@@ -23,8 +23,8 @@
         >
           <UiButton
             :class="{
-              'pf-m-control pf-m-small': props.forPreview,
-              'pf-m-secondary': !props.forPreview,
+              'pf-v5-m-control pf-v5-m-small': props.forPreview,
+              'pf-v5-m-secondary': !props.forPreview,
             }"
             :disabled="props.forPreview"
           >
@@ -41,7 +41,7 @@
         >
           <UiButton
             :before-icon="'fas fa-plus-circle'"
-            class="pf-m-primary"
+            class="pf-v5-m-primary"
             type="button"
             @click="handleSelectProperty"
           >
@@ -49,7 +49,7 @@
           </UiButton>
         </PropertySelect>
       </div>
-      <div v-if="isShowOperation && filter.propRef" class="pf-c-action-list__item">
+      <div v-if="isShowOperation && filter.propRef" class="pf-v5-c-action-list__item">
         <OperationSelect
           :property-ref="filter.propRef"
           :selected="filter.opId"
@@ -57,18 +57,18 @@
           @select="changeOperation"
         >
           <UiButton
-            :class="[props.forPreview ? 'pf-m-control pf-m-small' : 'pf-m-secondary']"
+            :class="[props.forPreview ? 'pf-v5-m-control pf-v5-m-small' : 'pf-v5-m-secondary']"
             :disabled="props.forPreview"
           >
             {{ operationButtonText }}
           </UiButton>
         </OperationSelect>
       </div>
-      <div v-if="isShowValues && filter.propRef" class="pf-c-action-list__item">
+      <div v-if="isShowValues && filter.propRef" class="pf-v5-c-action-list__item">
         <div v-if="isShowInputForValue">
           <UiInput
             v-model="valueInput"
-            class="pf-u-px-lg pf-u-py-md"
+            class="pf-v5-u-px-lg pf-v5-u-py-md"
             @blur="onBlurInput"
           />
         </div>
@@ -82,27 +82,27 @@
           @deselect="removeValue"
         >
           <template v-if="filter.values.length > 0">
-            <div class="pf-c-action-list">
+            <div class="pf-v5-c-action-list">
               <div
                 v-for="(item, i) in filterValuesList"
                 :key="i"
-                class="pf-c-action-list__item"
+                class="pf-v5-c-action-list__item"
               >
                 <UiButton
-                  :class="[props.forPreview ? 'pf-m-control pf-m-small' : 'pf-m-secondary']"
+                  :class="[props.forPreview ? 'pf-v5-m-control pf-v5-m-small' : 'pf-v5-m-secondary']"
                   :disabled="props.forPreview"
                   @click="ocClickValue"
                 >
                   {{ item.name }}
-                  <span v-if="!props.forPreview" class="pf-c-button__icon pf-m-end">
+                  <span v-if="!props.forPreview" class="pf-v5-c-button__icon pf-v5-m-end">
                     <UiIcon icon="fas fa-times" @click.stop="removeValueButton(item.value)" />
                   </span>
                 </UiButton>
               </div>
-              <div class="pf-c-action-list__item filter__control-item">
+              <div class="pf-v5-c-action-list__item filter__control-item">
                 <UiButton
                   ref="elButtonValues"
-                  class="pf-m-plain"
+                  class="pf-v5-m-plain"
                   icon="fas fa-times"
                   @click="removeFilter"
                 />
@@ -112,7 +112,7 @@
           <template v-else>
             <UiButton
               :before-icon="'fas fa-plus-circle'"
-              class="pf-m-link"
+              class="pf-v5-m-link"
               @click="ocClickValue"
             >
               {{ $t('events.select_value') }}
@@ -120,10 +120,10 @@
           </template>
         </ValueSelect>
       </div>
-      <div v-if="filter.values.length === 0 || isShowInputForValue" class="pf-c-action-list__item filter__control-item">
+      <div v-if="filter.values.length === 0 || isShowInputForValue" class="pf-v5-c-action-list__item filter__control-item">
         <UiButton
           ref="elButtonMain"
-          class="pf-m-plain"
+          class="pf-v5-m-plain"
           icon="fas fa-times"
           @click="removeFilter"
         />
@@ -340,7 +340,7 @@ const removeValueButton = (value: Value) => {
 
 <style lang="scss">
 .filter {
-  .pf-c-action-list {
+  .pf-v5-c-action-list {
     position: relative;
     flex-wrap: nowrap;
     align-items: flex-start;
@@ -361,32 +361,32 @@ const removeValueButton = (value: Value) => {
   }
   &__items {
     &_hover {
-      .pf-c-button {
-        --pf-c-button--after--BorderWidth: var(--pf-c-button--hover--after--BorderWidth);
+      .pf-v5-c-button {
+        --pf-v5-c-button--after--BorderWidth: var(--pf-v5-c-button--hover--after--BorderWidth);
         text-decoration: none;
-        &.pf-m-secondary {
-          --pf-c-button--m-secondary--Color: var(--pf-c-button--m-secondary--hover--Color);
-          --pf-c-button--m-secondary--BackgroundColor: #fff;
-          --pf-c-button--after--BorderColor: var(
-            --pf-c-button--m-secondary--hover--after--BorderColor
+        &.pf-v5-m-secondary {
+          --pf-v5-c-button--m-secondary--Color: var(--pf-v5-c-button--m-secondary--hover--Color);
+          --pf-v5-c-button--m-secondary--BackgroundColor: #fff;
+          --pf-v5-c-button--after--BorderColor: var(
+            --pf-v5-c-button--m-secondary--hover--after--BorderColor
           );
         }
       }
     }
   }
   &_horizontal {
-    .pf-c-action-list {
+    .pf-v5-c-action-list {
       &__item {
         margin-bottom: 0;
         margin-left: 1rem;
       }
     }
-    > .pf-c-action-list {
+    > .pf-v5-c-action-list {
       padding-right: 0;
     }
   }
 
-  > .pf-c-action-list {
+  > .pf-v5-c-action-list {
     position: relative;
   }
 

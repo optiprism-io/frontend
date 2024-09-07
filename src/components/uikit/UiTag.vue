@@ -1,9 +1,9 @@
 <template>
   <span
-    class="ui-tag pf-c-label pf-m-blue"
+    class="ui-tag pf-v5-c-label pf-v5-m-blue"
     @click="props.editable ? setEditing() : null"
   >
-    <span class="pf-c-label__content">
+    <span class="pf-v5-c-label__content">
       <input
         v-show="editing"
         ref="input"

@@ -1,20 +1,20 @@
 <template>
   <dl
-    class="ui-description-list pf-c-description-list"
+    class="ui-description-list pf-v5-c-description-list"
     :class="{
-      'pf-m-horizontal': props.horizontal,
-      'pf-m-compact': props.compact,
+      'pf-v5-m-horizontal': props.horizontal,
+      'pf-v5-m-compact': props.compact,
     }"
   >
     <div
       v-for="item in props.items"
       :key="item.label"
-      class="pf-c-description-list__group"
+      class="pf-v5-c-description-list__group"
     >
-      <dt class="pf-c-description-list__term pf-u-pt-xs">
-        <span class="pf-c-description-list__text">{{ item.label }}</span>
+      <dt class="pf-v5-c-description-list__term pf-v5-u-pt-xs">
+        <span class="pf-v5-c-description-list__text">{{ item.label }}</span>
       </dt>
-      <dd class="pf-c-description-list__description">
+      <dd class="pf-v5-c-description-list__description">
         <component
           :is="item.component"
           :value="item.value"
@@ -68,7 +68,7 @@ const onInput = (payload: Event | string | boolean, key: string) => {
 
 <style lang="scss">
 .ui-description-list {
-    .pf-c-description-list {
+    .pf-v5-c-description-list {
         &__group {
             align-items: start;
         }

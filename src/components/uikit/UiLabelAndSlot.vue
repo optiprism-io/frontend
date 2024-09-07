@@ -1,9 +1,9 @@
 <template>
-  <div class="pf-l-flex pf-m-column pf-m-space-items-none">
+  <div class="pf-v5-l-flex pf-v5-m-column pf-v5-m-space-items-none">
     <span
       v-if="!hideLabel"
       id="label-group-category-label"
-      class="pf-c-label-group__label pf-u-font-weight-bold"
+      class="pf-v5-c-label-group__label pf-v5-u-font-weight-bold"
     >
       {{ label }}
     </span>

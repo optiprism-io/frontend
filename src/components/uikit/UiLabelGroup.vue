@@ -1,14 +1,14 @@
 <template>
   <div
-    class="pf-c-label-group"
+    class="pf-v5-c-label-group"
     :class="{
-      'pf-m-category': isCategory,
+      'pf-v5-m-category': isCategory,
     }"
   >
-    <div class="pf-c-label-group__main">
+    <div class="pf-v5-c-label-group__main">
       <span
         id="label-group-category-label"
-        class="pf-c-label-group__label"
+        class="pf-v5-c-label-group__label"
         aria-hidden="true"
       >{{ props.label }}</span>
       <template v-if="$slots.content">

@@ -1,27 +1,27 @@
 <template>
   <div
-    class="properties-management-line pf-u-display-flex pf-m-align-self-baseline pf-u-w-100"
+    class="properties-management-line pf-v5-u-display-flex pf-v5-m-align-self-baseline pf-v5-u-w-100"
     :class="{
       'properties-management-line_no-edit': props.noEdit,
     }"
   >
     <div
       v-if="noEdit"
-      class="properties-management-line__values pf-u-display-flex pf-u-w-100"
+      class="properties-management-line__values pf-v5-u-display-flex pf-v5-u-w-100"
     >
       <div
-        class="properties-management-line__item pf-u-align-items-center pf-u-display-flex pf-u-w-100 pf-u-px-lg"
+        class="properties-management-line__item pf-v5-u-align-items-center pf-v5-u-display-flex pf-v5-u-w-100 pf-v5-u-px-lg"
         :class="{
-          'pf-u-font-weight-bold': props.boldText,
+          'pf-v5-u-font-weight-bold': props.boldText,
         }"
         @click="openEditInputs(KEY)"
       >
         {{ props.valueKey }}
       </div>
       <div
-        class="properties-management-line__item pf-u-align-items-center pf-u-display-flex pf-u-w-100 pf-u-px-lg"
+        class="properties-management-line__item pf-v5-u-align-items-center pf-v5-u-display-flex pf-v5-u-w-100 pf-v5-u-px-lg"
         :class="{
-          'pf-u-font-weight-bold': props.boldText,
+          'pf-v5-u-font-weight-bold': props.boldText,
         }"
         @click="openEditInputs(VALUE)"
       >
@@ -30,10 +30,10 @@
     </div>
     <div
       v-else
-      class="properties-management-line__inputs pf-u-display-flex pf-u-w-100"
+      class="properties-management-line__inputs pf-v5-u-display-flex pf-v5-u-w-100"
     >
       <div
-        class="properties-management-line__input pf-u-w-100 pf-u-mr-md"
+        class="properties-management-line__input pf-v5-u-w-100 pf-v5-u-mr-md"
         @click="onClickInput"
       >
         <UiForm>
@@ -44,7 +44,7 @@
           >
             <UiInput
               v-model="editKey"
-              class="pf-u-px-lg pf-u-py-md"
+              class="pf-v5-u-px-lg pf-v5-u-py-md"
               :required="true"
               :name="KEY"
               :invalid="props.errorKey"
@@ -56,12 +56,12 @@
         </UiForm>
       </div>
       <div
-        class="properties-management-line__input pf-u-w-100 pf-u-mr-md"
+        class="properties-management-line__input pf-v5-u-w-100 pf-v5-u-mr-md"
         @click="onClickInput"
       >
         <UiInput
           v-model="editValue"
-          class="pf-u-px-lg pf-u-py-md"
+          class="pf-v5-u-px-lg pf-v5-u-py-md"
           :required="true"
           :name="VALUE"
           :mount-focus="editClickInputType === VALUE"
@@ -78,7 +78,7 @@
       }"
     >
       <button
-        class="pf-c-button pf-m-control"
+        class="pf-v5-c-button pf-v5-m-control"
         type="button"
         @click="onDelete"
       >

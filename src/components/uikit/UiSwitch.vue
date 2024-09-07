@@ -1,26 +1,26 @@
 <template>
   <label
-    class="pf-c-switch"
+    class="pf-v5-c-switch"
     :class="{
-      'pf-m-reverse': props.reverse,
+      'pf-v5-m-reverse': props.reverse,
     }"
   >
     <span
       v-if="props.beforeLabel"
-      class="pf-c-switch__label pf-c-switch__before-label"
+      class="pf-v5-c-switch__label pf-v5-c-switch__before-label"
     >
       {{ props.beforeLabel }}
     </span>
     <input
-      class="pf-c-switch__input"
+      class="pf-v5-c-switch__input"
       type="checkbox"
       :checked="props.value"
       @input="updateValue"
     >
-    <span class="pf-c-switch__toggle" />
+    <span class="pf-v5-c-switch__toggle" />
     <span
       v-if="props.label"
-      class="pf-c-switch__label"
+      class="pf-v5-c-switch__label"
     >
       {{ props.label }}
     </span>
@@ -53,7 +53,7 @@ const updateValue = (e: Event) => {
 </script>
 
 <style>
-.pf-c-switch.pf-c-switch-white {
-    --pf-c-switch__input--checked__label--Color: var(--pf-global--Color--light-100);
+.pf-v5-c-switch.pf-v5-c-switch-white {
+    --pf-v5-c-switch__input--checked__label--Color: var(--pf-v5-global--Color--light-100);
 }
 </style>

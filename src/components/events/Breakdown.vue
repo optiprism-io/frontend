@@ -1,9 +1,9 @@
 <template>
-  <div class="breakdown pf-l-flex">
+  <div class="breakdown pf-v5-l-flex">
     <UiIcon v-if="hasIcon" icon="fas fa-layer-group" />
-    <div class="pf-c-action-list">
+    <div class="pf-v5-c-action-list">
       <CommonIdentifier v-if="showIdentifier" :index="index" />
-      <div class="pf-c-action-list__item">
+      <div class="pf-v5-c-action-list__item">
         <PropertySelect
           v-if="breakdown.propRef"
           :event-ref="eventRef"
@@ -11,7 +11,7 @@
           :disabled-items="selectedItems"
           @select="changeProperty"
         >
-          <UiButton class="pf-m-secondary">
+          <UiButton class="pf-v5-m-secondary">
             {{ breakdown.propRef.name }}
           </UiButton>
         </PropertySelect>
@@ -25,7 +25,7 @@
         >
           <UiButton
             :before-icon="'fas fa-plus-circle'"
-            class="pf-m-primary"
+            class="pf-v5-m-primary"
             type="button"
             @click="handleSelectProperty"
           >
@@ -33,17 +33,17 @@
           </UiButton>
         </PropertySelect>
       </div>
-      <div v-if="breakdown.error" class="pf-c-action-list__item">
+      <div v-if="breakdown.error" class="pf-v5-c-action-list__item">
         <VTooltip popper-class="ui-hint">
-          <UiIcon class="pf-u-warning-color-100" icon="fas fa-exclamation-triangle" />
+          <UiIcon class="pf-v5-u-warning-color-100" icon="fas fa-exclamation-triangle" />
           <template #popper>
             {{ $t('events.errorBreakdown') }}
           </template>
         </VTooltip>
       </div>
-      <div class="pf-c-action-list__item breakdown__control-item">
+      <div class="pf-v5-c-action-list__item breakdown__control-item">
         <UiButton
-          class="pf-m-plain"
+          class="pf-v5-m-plain"
           icon="fas fa-times"
           @click="removeBreakdown"
         />

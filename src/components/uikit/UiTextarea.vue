@@ -2,7 +2,7 @@
   <textarea
     ref="textarea"
     :value="props.value"
-    class="ui-textarea pf-c-form-control"
+    class="ui-textarea pf-v5-c-form-control"
     :placeholder="props.placeholder"
     :rows="props.rows"
     @input="handleInput"

@@ -1,9 +1,9 @@
 <template>
-  <div class="pf-c-card pf-u-p-md">
-    <div class="pf-c-toolbar">
-      <div class="pf-c-toolbar__content">
-        <div class="pf-c-toolbar__content-section pf-m-nowrap">
-          <div class="pf-c-toolbar__item">
+  <div class="pf-v5-c-card pf-v5-u-p-md">
+    <div class="pf-v5-c-toolbar">
+      <div class="pf-v5-c-toolbar__content">
+        <div class="pf-v5-c-toolbar__content-section pf-v5-m-nowrap">
+          <div class="pf-v5-c-toolbar__item">
             <UiToggleGroup
               :items="itemsPeriod"
               @select="selectPeriod"
@@ -17,13 +17,13 @@
                 >
                   <template #action>
                     <button
-                      class="pf-c-toggle-group__button"
+                      class="pf-v5-c-toggle-group__button"
                       :class="{
-                        'pf-m-selected': calendarValueString,
+                        'pf-v5-m-selected': calendarValueString,
                       }"
                       type="button"
                     >
-                      <div class="pf-u-display-flex pf-u-align-items-center">
+                      <div class="pf-v5-u-display-flex pf-v5-u-align-items-center">
                         <UiIcon :icon="'far fa-calendar-alt'" />
                         &nbsp;
                         {{ calendarValueString }}
@@ -35,7 +35,7 @@
             </UiToggleGroup>
           </div>
 
-          <div class="pf-c-toolbar__item pf-u-ml-auto">
+          <div class="pf-v5-c-toolbar__item pf-v5-u-ml-auto">
             <UiDropdown
               :items="FUNNEL_VIEWS"
               :text-button="itemText"
@@ -64,7 +64,7 @@
 
   <div
     v-if="reportSteps.length"
-    class="pf-c-card pf-u-mt-md"
+    class="pf-v5-c-card pf-v5-u-mt-md"
   >
     <FunnelsTable
       v-model:checked-row-keys="checkedRowKeys"

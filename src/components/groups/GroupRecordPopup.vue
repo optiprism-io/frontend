@@ -123,7 +123,7 @@ onMounted(async () => {
 
 <style lang="scss">
 .group-record-popup {
-  .pf-c-modal-box__body {
+  .pf-v5-c-modal-box__body {
     min-height: 316px;
   }
   &__table {

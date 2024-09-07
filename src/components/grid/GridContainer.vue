@@ -1,5 +1,5 @@
 <template>
-  <div class="pf-l-grid pf-m-gutter">
+  <div class="pf-v5-l-grid pf-v5-m-gutter">
     <slot />
   </div>
 </template>

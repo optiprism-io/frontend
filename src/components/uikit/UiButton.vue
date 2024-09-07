@@ -1,23 +1,23 @@
 <template>
   <button
-    class="ui-button pf-c-button"
+    class="ui-button pf-v5-c-button"
     :class="{
-      'pf-m-in-progress': props.progress,
-      'pf-m-link': props.isLink,
+      'pf-v5-m-in-progress': props.progress,
+      'pf-v5-m-link': props.isLink,
     }"
     :disabled="disabled"
     :type="type"
     :aria-label="ariaLabel"
   >
-    <span v-if="beforeIcon" class="pf-c-button__icon pf-u-mr-md">
+    <span v-if="beforeIcon" class="pf-v5-c-button__icon pf-v5-u-mr-md">
       <UiIcon :icon="beforeIcon" />
     </span>
-    <span v-if="progress" class="pf-c-button__progress">
-      <UiSpinner class="pf-m-md" />
+    <span v-if="progress" class="pf-v5-c-button__progress">
+      <UiSpinner class="pf-v5-m-md" />
     </span>
     <UiIcon v-if="icon" :icon="icon" />
     <slot />
-    <span v-if="afterIcon" class="pf-c-button__icon pf-u-ml-sm">
+    <span v-if="afterIcon" class="pf-v5-c-button__icon pf-v5-u-ml-sm">
       <UiIcon :icon="afterIcon" />
     </span>
   </button>
@@ -49,7 +49,7 @@ const props = withDefaults(defineProps<Props>(), {
 </script>
 
 <style lang="scss">
-.ui-button.pf-c-button.pf-m-secondary {
-  --pf-c-button--m-secondary--BackgroundColor: #fff;
+.ui-button.pf-v5-c-button.pf-v5-m-secondary {
+  --pf-v5-c-button--m-secondary--BackgroundColor: #fff;
 }
 </style>

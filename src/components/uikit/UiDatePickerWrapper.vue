@@ -8,13 +8,13 @@
     >
       <template #action>
         <button
-          class="pf-c-toggle-group__button"
+          class="pf-v5-c-toggle-group__button"
           :class="{
-            'pf-m-selected': props.isPeriodActive,
+            'pf-v5-m-selected': props.isPeriodActive,
           }"
           type="button"
         >
-          <div class="pf-u-display-flex pf-u-align-items-center">
+          <div class="pf-v5-u-display-flex pf-v5-u-align-items-center">
             <UiIcon :icon="'far fa-calendar-alt'" />
             &nbsp;
             {{ valueString }}

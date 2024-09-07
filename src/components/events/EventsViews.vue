@@ -2,13 +2,13 @@
   <div
     class="events-views"
     :class="{
-      'pf-c-card': !props.onlyView,
+      'pf-v5-c-card': !props.onlyView,
     }"
   >
-    <div v-if="!props.onlyView" class="pf-c-toolbar">
-      <div class="pf-c-toolbar__content">
-        <div class="pf-c-toolbar__content-section pf-m-nowrap">
-          <div class="pf-c-toolbar__item">
+    <div v-if="!props.onlyView" class="pf-v5-c-toolbar">
+      <div class="pf-v5-c-toolbar__content">
+        <div class="pf-v5-c-toolbar__content-section pf-v5-m-nowrap">
+          <div class="pf-v5-c-toolbar__item">
             <UiSelect
               :items="itemsGroupBy"
               :text-button="selectedGroupByString"
@@ -16,7 +16,7 @@
               @on-select="onSelectGroupBy"
             />
           </div>
-          <div class="pf-c-toolbar__item">
+          <div class="pf-v5-c-toolbar__item">
             <UiToggleGroup :items="itemsPeriod" @select="onSelectPerion">
               <template #after>
                 <UiDatePicker
@@ -27,16 +27,16 @@
                 >
                   <template #action>
                     <button
-                      class="pf-c-toggle-group__button"
+                      class="pf-v5-c-toggle-group__button"
                       :class="{
-                        'pf-m-selected': calendarValueString,
+                        'pf-v5-m-selected': calendarValueString,
                       }"
                       type="button"
                     >
-                      <span class="pf-c-toggle-group__icon pf-c-toggle-group__text">
+                      <span class="pf-v5-c-toggle-group__icon pf-v5-c-toggle-group__text">
                         <UiIcon :icon="'far fa-calendar-alt'" />
                       </span>
-                      <span v-if="calendarValueString" class="pf-c-toggle-group__text">
+                      <span v-if="calendarValueString" class="pf-v5-c-toggle-group__text">
                         {{ calendarValueString }}
                       </span>
                     </button>
@@ -45,7 +45,7 @@
               </template>
             </UiToggleGroup>
           </div>
-          <div v-if="showCompareTo" class="pf-c-toolbar__item">
+          <div v-if="showCompareTo" class="pf-v5-c-toolbar__item">
             <UiSelect
               :items="compareToItems"
               :text-button="textSelectCompareTo"
@@ -56,7 +56,7 @@
               @on-select="onSelectCompareTo"
             />
           </div>
-          <div class="pf-c-toolbar__item pf-u-ml-auto">
+          <div class="pf-v5-c-toolbar__item pf-v5-u-ml-auto">
             <UiLabelGroup :label="chartTypeLabel">
               <template #content>
                 <UiToggleGroup :items="chartTypeItems" @select="onSelectChartType" />
@@ -70,7 +70,7 @@
     <div
       v-else
       :class="{
-        'pf-u-p-md': !props.onlyView,
+        'pf-v5-u-p-md': !props.onlyView,
       }"
     >
       <ChartPie
@@ -92,7 +92,7 @@
   </div>
   <div
     v-if="isShowTable"
-    class="events-views__table pf-c-card pf-u-mt-md"
+    class="events-views__table pf-v5-c-card pf-v5-u-mt-md"
   >
     <UiDataTable
       :columns="columns"
@@ -493,7 +493,7 @@ const updateEventSegmentationData = async () => {
       min-width: 100px;
     }
   }
-  .pf-c-toggle-group__button {
+  .pf-v5-c-toggle-group__button {
     min-width: 38px;
   }
 }

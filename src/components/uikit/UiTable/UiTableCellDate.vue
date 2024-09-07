@@ -2,7 +2,7 @@
   <div
     class="ui-table-cell-date"
     :class="{
-      'pf-u-text-nowrap': props.nowrap,
+      'pf-v5-u-text-nowrap': props.nowrap,
     }"
   >
     {{ formattedDate }}

@@ -1,10 +1,10 @@
 <template>
-  <div class="pf-c-page">
-    <main class="pf-c-page__main">
+  <div class="pf-v5-c-page">
+    <main class="pf-v5-c-page__main">
       <Suspense>
-        <RouterView class="pf-c-page__main-section" />
+        <RouterView class="pf-v5-c-page__main-section" />
         <template #fallback>
-          <UiSpinner class="pf-u-m-auto" size="xl" />
+          <UiSpinner class="pf-v5-u-m-auto" size="xl" />
         </template>
       </Suspense>
     </main>

@@ -5,7 +5,7 @@
     @cancel="cancel"
   >
     <UiTabs
-      class="pf-u-mb-md"
+      class="pf-v5-u-mb-md"
       :items="tabs"
       @on-select="selectTab"
     />
@@ -175,7 +175,7 @@ onMounted(async () => {
 
 <style lang="scss">
 .live-stream-event-popup {
-  .pf-c-modal-box__body {
+  .pf-v5-c-modal-box__body {
     min-height: 316px;
   }
   &__table {

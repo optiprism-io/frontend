@@ -1,9 +1,9 @@
 <template>
-  <ul class="pf-c-alert-group">
+  <ul class="pf-v5-c-alert-group">
     <li
       v-for="item in props.items"
       :key="item.id"
-      class="pf-c-alert-group__item"
+      class="pf-v5-c-alert-group__item"
     >
       <UiAlert
         :item="item"

@@ -1,5 +1,5 @@
 <template>
-  <div class="pf-c-action-list__item">
+  <div class="pf-v5-c-action-list__item">
     <Select
       grouped
       :items="lexiconStore.eventsList"
@@ -12,8 +12,8 @@
     >
       <UiButton
         :class="{
-          'pf-m-secondary': props.condition.event,
-          'pf-m-link': !props.condition?.event?.name,
+          'pf-v5-m-secondary': props.condition.event,
+          'pf-v5-m-link': !props.condition?.event?.name,
         }"
         type="button"
         :before-icon="!props.condition.event ? 'fas fa-plus-circle' : ''"
@@ -40,7 +40,7 @@
   </div>
   <div
     v-if="allowSelectAggregate"
-    class="pf-c-action-list__item"
+    class="pf-v5-c-action-list__item"
   >
     <Select
       :items="conditionAggregateItems"
@@ -51,7 +51,7 @@
     >
       <UiButton
         :class="{
-          'pf-m-secondary': isSelectedAggregate,
+          'pf-v5-m-secondary': isSelectedAggregate,
         }"
         :before-icon="!isSelectedAggregate ? 'fas fa-plus-circle': ''"
       >
@@ -61,12 +61,12 @@
   </div>
   <div
     v-if="isShowSelectProp"
-    class="pf-c-action-list__item"
+    class="pf-v5-c-action-list__item"
   >
     <PropertySelect @select="changeProperty">
       <UiButton
         :class="{
-          'pf-m-secondary': isSelectedProp,
+          'pf-v5-m-secondary': isSelectedProp,
         }"
         type="button"
         :before-icon="!isSelectedProp ? 'fas fa-plus-circle' : ''"
@@ -77,21 +77,21 @@
   </div>
   <div
     v-if="isShowSelectOpt && props.condition.opId"
-    class="pf-c-action-list__item"
+    class="pf-v5-c-action-list__item"
   >
     <OperationSelect
       :selected="props.condition.opId"
       :op-items="opItems"
       @select="changeOperation"
     >
-      <UiButton class="pf-m-secondary">
+      <UiButton class="pf-v5-m-secondary">
         {{ operationButtonText }}
       </UiButton>
     </OperationSelect>
   </div>
   <div
     v-if="isShowNextEventSelect"
-    class="pf-c-action-list__item"
+    class="pf-v5-c-action-list__item"
   >
     <Select
       grouped
@@ -101,8 +101,8 @@
     >
       <UiButton
         :class="{
-          'pf-m-secondary': props.condition.compareEvent,
-          'pf-m-link': !props.condition?.compareEvent?.name,
+          'pf-v5-m-secondary': props.condition.compareEvent,
+          'pf-v5-m-link': !props.condition?.compareEvent?.name,
         }"
         type="button"
         :before-icon="!props.condition.compareEvent ? 'fas fa-plus-circle' : ''"
@@ -113,7 +113,7 @@
   </div>
   <div
     v-if="isHasValue"
-    class="pf-c-action-list__item"
+    class="pf-v5-c-action-list__item"
   >
     <Select
       :items="valueList"
@@ -123,7 +123,7 @@
     >
       <UiButton
         :class="{
-          'pf-m-secondary': props.condition.event,
+          'pf-v5-m-secondary': props.condition.event,
         }"
         type="button"
         :before-icon="!props.condition.valueItem ? 'fas fa-plus-circle' : ''"

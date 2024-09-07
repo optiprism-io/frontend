@@ -1,5 +1,5 @@
 <template>
-  <div class="pf-c-action-list parent">
+  <div class="pf-v5-c-action-list parent">
     <template
       v-if="$slots.main"
     >

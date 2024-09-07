@@ -1,5 +1,5 @@
 <template>
-  <div class="pf-l-flex pf-m-column">
+  <div class="pf-v5-l-flex pf-v5-m-column">
     <SelectedEvent
       v-for="(event, index) in events"
       :key="index"

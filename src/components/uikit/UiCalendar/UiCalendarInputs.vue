@@ -2,12 +2,12 @@
   <div class="ui-calendar-inputs">
     <div
       v-if="props.activeTab === 'last'"
-      class="pf-u-p-md"
+      class="pf-v5-u-p-md"
     >
-      <div class="pf-u-display-flex pf-u-align-items-center">
+      <div class="pf-v5-u-display-flex pf-v5-u-align-items-center">
         <span class="ws-example-flex-item">Last</span>
         <UiInput
-          class="pf-u-w-50 pf-u-mx-md"
+          class="pf-v5-u-w-50 pf-v5-u-mx-md"
           :value="props.lastCount"
           type="number"
           :min="1"
@@ -19,12 +19,12 @@
     </div>
     <div
       v-if="props.activeTab === 'since'"
-      class="pf-u-p-md pf-u-display-flex pf-u-align-items-center pf-u-justify-content-center"
+      class="pf-v5-u-p-md pf-v5-u-display-flex pf-v5-u-align-items-center pf-v5-u-justify-content-center"
     >
       <UiInput
-        class="pf-u-w-50 pf-u-mx-md"
+        class="pf-v5-u-w-50 pf-v5-u-mx-md"
         :class="{
-          'pf-m-warning': props.warning
+          'pf-v5-m-warning': props.warning
         }"
         :value="props.since"
         type="text"
@@ -34,10 +34,10 @@
     </div>
     <div
       v-if="props.activeTab === 'between'"
-      class="pf-u-p-md pf-u-display-flex pf-u-align-items-center pf-u-justify-content-center"
+      class="pf-v5-u-p-md pf-v5-u-display-flex pf-v5-u-align-items-center pf-v5-u-justify-content-center"
     >
       <UiInput
-        class="pf-u-w-50 pf-u-mx-md"
+        class="pf-v5-u-w-50 pf-v5-u-mx-md"
         :value="props.from"
         type="text"
         placeholder="From"
@@ -45,7 +45,7 @@
       />
       <span>-</span>
       <UiInput
-        class="pf-u-w-50 pf-u-mx-md"
+        class="pf-v5-u-w-50 pf-v5-u-mx-md"
         :value="props.to"
         type="text"
         placeholder="To"
@@ -55,19 +55,19 @@
     <div
       v-if="props.activeTab === 'each'"
     >
-      <div class="pf-c-menu pf-m-plain pf-m-scrollable">
-        <ul class="pf-c-menu__list">
+      <div class="pf-v5-c-menu pf-v5-m-plain pf-v5-m-scrollable">
+        <ul class="pf-v5-c-menu__list">
           <li
             v-for="item in itemsEach"
             :key="item.value"
-            class="pf-c-menu__item"
+            class="pf-v5-c-menu__item"
             :class="{
-              'pf-c-menu__list-item--selected': item.active,
+              'pf-v5-c-menu__list-item--selected': item.active,
             }"
             @click="onSelectEach(item.value)"
           >
-            <div class="pf-c-menu__item-main">
-              <span class="pf-c-menu__item-text">{{ item.name }}</span>
+            <div class="pf-v5-c-menu__item-main">
+              <span class="pf-v5-c-menu__item-text">{{ item.name }}</span>
             </div>
           </li>
         </ul>
@@ -75,7 +75,7 @@
     </div>
     <span
       v-if="props.warning"
-      class="pf-u-warning-color-100 pf-u-p-sm pf-u-display-block"
+      class="pf-v5-u-warning-color-100 pf-v5-u-p-sm pf-v5-u-display-block"
     >
       {{ props.warningText }}
     </span>

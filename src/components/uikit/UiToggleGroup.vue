@@ -1,25 +1,25 @@
 <template>
   <div
-    class="pf-c-toggle-group"
+    class="pf-v5-c-toggle-group"
     :class="{
-      'pf-m-compact': isCompact,
+      'pf-v5-m-compact': isCompact,
     }"
   >
     <div
       v-if="$slots.before"
-      class="pf-c-toggle-group__item"
+      class="pf-v5-c-toggle-group__item"
     >
       <slot name="before" />
     </div>
     <div
       v-for="item in props.items"
       :key="item.key"
-      class="pf-c-toggle-group__item"
+      class="pf-v5-c-toggle-group__item"
     >
       <button
-        class="pf-c-toggle-group__button"
+        class="pf-v5-c-toggle-group__button"
         :class="{
-          'pf-m-selected': item.selected,
+          'pf-v5-m-selected': item.selected,
         }"
         type="button"
         :disabled="item.disabled"
@@ -27,19 +27,19 @@
       >
         <span
           v-if="item.iconBefore"
-          class="pf-c-toggle-group__icon"
+          class="pf-v5-c-toggle-group__icon"
         >
           <UiIcon :icon="item.iconBefore" />
         </span>
         <span
           v-if="item.nameDisplay"
-          class="pf-c-toggle-group__text"
+          class="pf-v5-c-toggle-group__text"
         >
           {{ item.nameDisplay }}
         </span>
         <span
           v-if="item.iconAfter"
-          class="pf-c-toggle-group__icon"
+          class="pf-v5-c-toggle-group__icon"
         >
           <UiIcon :icon="item.iconAfter" />
         </span>
@@ -47,7 +47,7 @@
     </div>
     <div
       v-if="$slots.after"
-      class="pf-c-toggle-group__item"
+      class="pf-v5-c-toggle-group__item"
     >
       <slot name="after" />
     </div>

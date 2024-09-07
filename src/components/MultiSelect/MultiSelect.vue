@@ -8,7 +8,7 @@
       <slot />
     </span>
     <template #popper>
-      <div class="multi-select__content pf-c-card pf-m-compact pf-u-min-width">
+      <div class="multi-select__content pf-v5-c-card pf-v5-m-compact pf-v5-u-min-width">
         <MultiSelectList
           :items="itemsSelect"
           :selected="selected"

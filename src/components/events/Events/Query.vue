@@ -1,8 +1,8 @@
 <template>
-  <div class="queries pf-l-flex pf-m-nowrap">
+  <div class="queries pf-v5-l-flex pf-v5-m-nowrap">
     <UiIcon icon="fas fa-search" />
-    <div class="pf-c-action-list">
-      <div class="pf-c-action-list__item">
+    <div class="pf-v5-c-action-list">
+      <div class="pf-v5-c-action-list__item">
         <Select
           v-if="item.queryRef"
           :items="lexiconStore.eventsQueries"
@@ -10,7 +10,7 @@
           :width-auto="true"
           @select="changeQuery"
         >
-          <UiButton class="pf-m-secondary">
+          <UiButton class="pf-v5-m-secondary">
             {{ querySelectorName }}
           </UiButton>
         </Select>
@@ -22,7 +22,7 @@
         >
           <UiButton
             :before-icon="'fas fa-plus-circle'"
-            class="pf-m-primary"
+            class="pf-v5-m-primary"
             type="button"
           >
             {{ $t('events.selectQuery') }}
@@ -41,17 +41,17 @@
         <UiButton
           :before-icon="!propRef ? 'fas fa-plus-circle' : ''"
           :class="{
-            'pf-m-secondary': propRef,
-            'pf-m-primary': !propRef,
+            'pf-v5-m-secondary': propRef,
+            'pf-v5-m-primary': !propRef,
           }"
         >
           {{ propertySelectButtonText }}
         </UiButton>
       </PropertySelect>
-      <div v-if="showAggregateText" class="pf-c-action-list__item pf-u-text-align-right">
+      <div v-if="showAggregateText" class="pf-v5-c-action-list__item pf-v5-u-text-align-right">
         {{ aggregateString }}
       </div>
-      <div v-if="showOnlyAggregate" class="pf-c-action-list__item">
+      <div v-if="showOnlyAggregate" class="pf-v5-c-action-list__item">
         <Select
           :items="lexiconStore.eventsQueryAggregates"
           :selected="selectedAggregateRef"
@@ -62,15 +62,15 @@
           <UiButton
             :before-icon="!selectedAggregateRef ? 'fas fa-plus-circle' : ''"
             :class="{
-              'pf-m-secondary': selectedAggregateRef,
-              'pf-m-primary': !selectedAggregateRef,
+              'pf-v5-m-secondary': selectedAggregateRef,
+              'pf-v5-m-primary': !selectedAggregateRef,
             }"
           >
             {{ selectAggregateName }}
           </UiButton>
         </Select>
       </div>
-      <div v-if="showGroupAggregate" class="pf-c-action-list__item">
+      <div v-if="showGroupAggregate" class="pf-v5-c-action-list__item">
         <Select
           :items="lexiconStore.eventsQueryAggregates"
           :selected="selectedGroupAggregateRef"
@@ -81,20 +81,20 @@
           <UiButton
             :before-icon="!selectedGroupAggregateRef ? 'fas fa-plus-circle' : ''"
             :class="{
-              'pf-m-secondary': selectedGroupAggregateRef,
-              'pf-m-primary': !selectedGroupAggregateRef,
+              'pf-v5-m-secondary': selectedGroupAggregateRef,
+              'pf-v5-m-primary': !selectedGroupAggregateRef,
             }"
           >
             {{ selectedGroupAggregateName }}
           </UiButton>
         </Select>
       </div>
-      <div v-if="queryInfo?.hasValue" class="pf-c-action-list__item">
+      <div v-if="queryInfo?.hasValue" class="pf-v5-c-action-list__item">
         <UiInput :value="queryValue" @input="changeFormula" />
       </div>
       <div
         v-if="!noDelete"
-        class="pf-c-action-list__item queries__control-item"
+        class="pf-v5-c-action-list__item queries__control-item"
         @click="removeQuery"
       >
         <VTooltip popper-class="ui-hint">
@@ -287,7 +287,7 @@ const changeFormula = (value: string) => {
 
 <style scoped lang="scss">
 .queries {
-  .pf-c-action-list {
+  .pf-v5-c-action-list {
     flex-wrap: wrap;
     gap: 0.5rem;
 

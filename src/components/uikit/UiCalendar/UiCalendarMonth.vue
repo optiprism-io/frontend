@@ -6,33 +6,33 @@
       </div>
     </div>
     <div class="ui-calendar-month__calendar">
-      <table class="pf-c-calendar-month__calendar">
-        <tbody class="pf-c-calendar-month__dates">
+      <table class="pf-v5-c-calendar-month__calendar">
+        <tbody class="pf-v5-c-calendar-month__dates">
           <tr
             v-for="(row, index) in rows"
             :key="index"
-            class="pf-c-calendar-month__dates-row"
+            class="pf-v5-c-calendar-month__dates-row"
           >
             <td
               v-for="(cell, indexRow) in row"
               :key="indexRow + '_' + cell.date"
-              class="pf-c-calendar-month__dates-cell"
+              class="pf-v5-c-calendar-month__dates-cell"
               :class="{
-                'pf-m-in-range': cell.ranged,
-                'pf-m-start-range': cell.from,
-                'pf-m-disabled': cell.disabled || cell.future,
-                'pf-m-end-range pf-m-selected': cell.to,
-                'pf-m-selected': cell.selected,
-                'pf-m-current': cell.now,
+                'pf-v5-m-in-range': cell.ranged,
+                'pf-v5-m-start-range': cell.from,
+                'pf-v5-m-disabled': cell.disabled || cell.future,
+                'pf-v5-m-end-range pf-v5-m-selected': cell.to,
+                'pf-v5-m-selected': cell.selected,
+                'pf-v5-m-current': cell.now,
               }"
             >
               <button
                 v-if="cell.date > 0"
-                class="pf-c-calendar-month__date"
+                class="pf-v5-c-calendar-month__date"
                 type="button"
                 :disabled="cell.future || cell.disabled"
                 :class="{
-                  'pf-m-focus': cell.from,
+                  'pf-v5-m-focus': cell.from,
                 }"
                 @click="clickItem(cell)"
                 @mouseover="mouseoverItem(cell.string)"
@@ -231,7 +231,7 @@ const mouseleaveItem = (date: string) => {
     }
 }
 
-.pf-c-calendar-month {
+.pf-v5-c-calendar-month {
     &__date {
         width: 30px;
         height: 30px;

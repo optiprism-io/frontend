@@ -1,7 +1,7 @@
 <template>
-  <GridContainer class="pf-u-h-100">
+  <GridContainer class="pf-v5-u-h-100">
     <GridItem
-      class="overflow-auto pf-u-pb-md"
+      class="overflow-auto pf-v5-u-pb-md"
       :col-lg="3"
     >
       <GridContainer>
@@ -35,12 +35,12 @@
           <UiCardTitle>
             {{ $t('criteria.label') }}
           </UiCardTitle>
-          <UiCardBody class="pf-l-flex pf-m-column">
+          <UiCardBody class="pf-v5-l-flex pf-v5-m-column">
             <TimeWindow />
             <HoldingConstantList />
             <ExcludeStepsList />
           </UiCardBody>
-          <UiCardBody class="pf-l-flex">
+          <UiCardBody class="pf-v5-l-flex">
             <ExcludeStepSelect />
             <HoldingConstantSelect />
           </UiCardBody>
@@ -54,7 +54,7 @@
       </GridContainer>
     </GridItem>
     <GridItem
-      class="overflow-auto pf-u-pb-md"
+      class="overflow-auto pf-v5-u-pb-md"
       :col-lg="9"
     >
       <FunnelsViews />

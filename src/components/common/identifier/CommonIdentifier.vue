@@ -30,6 +30,6 @@ withDefaults(defineProps<Props>(), {
     width: 14px;
     text-transform: uppercase;
     text-align: center;
-    color: var(--pf-global--main-color--100, black);
+    color: var(--pf-v5-global--main-color--100, black);
 }
 </style>

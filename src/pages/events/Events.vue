@@ -1,7 +1,7 @@
 <template>
   <section>
     <UiTabs
-      class="pf-u-mb-md"
+      class="pf-v5-u-mb-md"
       :items="items"
       @on-select="onSelectPage"
     />

@@ -1,26 +1,26 @@
 <template>
   <div
-    class="pf-c-inline-edit"
+    class="pf-v5-c-inline-edit"
     :class="{
-      'pf-m-inline-editable': isEditable,
+      'pf-v5-m-inline-editable': isEditable,
     }"
   >
     <div
-      class="pf-c-inline-edit__group"
+      class="pf-v5-c-inline-edit__group"
       @click="setEditable(true)"
     >
       <div
         v-if="!props.hideText"
-        class="pf-c-inline-edit__value"
+        class="pf-v5-c-inline-edit__value"
       >
         {{ value || props.placeholderValue }}
       </div>
       <div
         v-if="!props.hideControlEdit"
-        class="pf-c-inline-edit__action pf-m-enable-editable"
+        class="pf-v5-c-inline-edit__action pf-v5-m-enable-editable"
       >
         <button
-          class="pf-c-button pf-m-plain"
+          class="pf-v5-c-button pf-v5-m-plain"
           type="button"
           aria-label="Edit"
         >
@@ -31,20 +31,20 @@
         </button>
       </div>
     </div>
-    <div class="pf-c-inline-edit__group">
-      <div class="pf-c-inline-edit__input">
+    <div class="pf-v5-c-inline-edit__group">
+      <div class="pf-v5-c-inline-edit__input">
         <input
           ref="input"
-          class="pf-c-form-control"
+          class="pf-v5-c-form-control"
           type="text"
           :value="valueEdit"
           @input="updateValue"
         >
       </div>
-      <div class="pf-c-inline-edit__group pf-m-action-group pf-m-icon-group">
-        <div class="pf-c-inline-edit__action pf-m-valid">
+      <div class="pf-v5-c-inline-edit__group pf-v5-m-action-group pf-v5-m-icon-group">
+        <div class="pf-v5-c-inline-edit__action pf-v5-m-valid">
           <button
-            class="pf-c-button pf-m-plain"
+            class="pf-v5-c-button pf-v5-m-plain"
             type="button"
             aria-label="Save edits"
             @click="onInput"
@@ -55,9 +55,9 @@
             />
           </button>
         </div>
-        <div class="pf-c-inline-edit__action">
+        <div class="pf-v5-c-inline-edit__action">
           <button
-            class="pf-c-button pf-m-plain"
+            class="pf-v5-c-button pf-v5-m-plain"
             type="button"
             aria-label="Cancel edits"
             @click="setEditable(false)"
@@ -123,7 +123,7 @@ const onInput = () => {
 </script>
 
 <style lang="scss">
-.pf-c-inline-edit {
+.pf-v5-c-inline-edit {
     &__value {
         cursor: pointer;
     }

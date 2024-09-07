@@ -1,10 +1,10 @@
 <template>
   <RouterView v-if="route.name === pagesMap.organizationProject" />
   <div v-else>
-    <div class="pf-l-flex pf-m-justify-content-space-between">
+    <div class="pf-v5-l-flex pf-v5-m-justify-content-space-between">
       <h2>Projects</h2>
       <UiButton
-        class="pf-m-primary"
+        class="pf-v5-m-primary"
         :before-icon="'fas fa-plus'"
         @click="setShowCreatePopup(true)"
       >

@@ -1,17 +1,17 @@
 <template>
   <div class="ui-calendar">
     <div class="ui-calendar__wrapper">
-      <div class="pf-c-calendar-month">
-        <table class="pf-c-calendar-month__calendar">
+      <div class="pf-v5-c-calendar-month">
+        <table class="pf-v5-c-calendar-month__calendar">
           <thead
-            class="pf-c-calendar-month__days"
+            class="pf-v5-c-calendar-month__days"
             scope="col"
           >
-            <tr class="pf-c-calendar-month__days-row">
+            <tr class="pf-v5-c-calendar-month__days-row">
               <td
                 v-for="(day, index) in weekDays"
                 :key="day + index"
-                class="pf-c-calendar-month__day"
+                class="pf-v5-c-calendar-month__day"
               >
                 <span
                   class="ui-calendar__day"
@@ -32,7 +32,7 @@
           class="ui-calendar__list"
         >
           <template #cell="slotProps">
-            <div class="ui-calendar__list-item pf-u-pb-md">
+            <div class="ui-calendar__list-item pf-v5-u-pb-md">
               <UiCalendarMonth
                 :month="slotProps.node.month"
                 :months-names="monthsNames"
@@ -55,14 +55,14 @@
             </div>
           </template>
         </VirtualisedList>
-        <div class="ui-calendar__footer pf-u-p-md">
+        <div class="ui-calendar__footer pf-v5-u-p-md">
           <div
             v-if="props.showBottomControls"
-            class="pf-u-display-flex pf-u-align-items-center"
+            class="pf-v5-u-display-flex pf-v5-u-align-items-center"
           >
             <slot name="footer-right" />
             <UiButton
-              class="pf-m-primary pf-u-ml-auto"
+              class="pf-v5-m-primary pf-v5-u-ml-auto"
               :disabled="props.disableApply"
               @click="apply"
             >
@@ -442,10 +442,10 @@ watch(() => props.value, (value) => {
     }
 
     &__footer {
-        border-top: 1px solid var(--pf-global--BackgroundColor--200);
+        border-top: 1px solid var(--pf-v5-global--BackgroundColor--200);
     }
 
-    .pf-c-calendar-month {
+    .pf-v5-c-calendar-month {
         padding: 6px 0 0;
 
         &__calendar {

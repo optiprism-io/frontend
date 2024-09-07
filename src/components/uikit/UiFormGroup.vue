@@ -1,22 +1,22 @@
 <template>
   <div
-    class="ui-form-group pf-c-form__group"
+    class="ui-form-group pf-v5-c-form__group"
     :class="{
-      'pf-m-action': props.action,
-      'pf-u-mb-md': props.indent,
+      'pf-v5-m-action': props.action,
+      'pf-v5-u-mb-md': props.indent,
     }"
   >
     <label
       v-if="props.label"
-      class="pf-c-form__label"
+      class="pf-v5-c-form__label"
       :for="props.for"
     >
-      <span class="pf-c-form__label-text">
+      <span class="pf-v5-c-form__label-text">
         {{ props.label }}
       </span>
       <span
         v-if="props.required"
-        class="pf-c-form__label-required"
+        class="pf-v5-c-form__label-required"
         aria-hidden="true"
       >
         &#42;
@@ -25,10 +25,10 @@
     <slot />
     <p
       v-if="props.error"
-      class="pf-c-form__helper-text pf-m-error"
+      class="pf-v5-c-form__helper-text pf-v5-m-error"
       aria-live="polite"
     >
-      <span class="pf-c-form__helper-text-icon">
+      <span class="pf-v5-c-form__helper-text-icon">
         <i
           class="fas fa-exclamation-circle"
           aria-hidden="true"

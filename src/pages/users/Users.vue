@@ -1,7 +1,7 @@
 <template>
   <section>
     <UiTabs
-      class="pf-u-mb-md"
+      class="pf-v5-u-mb-md"
       :items="items"
     >
       <template
@@ -9,7 +9,7 @@
       >
         <UiSelect
           v-if="selectedGroup?.name"
-          class="pf-u-ml-lg"
+          class="pf-v5-u-ml-lg"
           :items="selectGroups"
           :width-auto="true"
           :selections="[selectedGroup.id]"

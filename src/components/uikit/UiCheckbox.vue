@@ -1,7 +1,7 @@
 <template>
-  <label class="ui-checkbox pf-c-check">
+  <label class="ui-checkbox pf-v5-c-check">
     <input
-      class="pf-c-check__input"
+      class="pf-v5-c-check__input"
       type="checkbox"
       :checked="props.modelValue || props.value"
       @input="updateValue"
@@ -9,7 +9,7 @@
 
     <span
       v-if="label"
-      class="pf-c-check__label"
+      class="pf-v5-c-check__label"
     >{{ label }}</span>
   </label>
 </template>

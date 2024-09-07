@@ -1,11 +1,11 @@
 <template>
-  <div class="funnel-chart-stacked pf-l-flex pf-m-column pf-u-text-align-center">
+  <div class="funnel-chart-stacked pf-v5-l-flex pf-v5-m-column pf-v5-u-text-align-center">
     <div
       ref="container"
-      class="pf-l-flex__item"
+      class="pf-v5-l-flex__item"
     />
     <div
-      class="pf-u-font-weight-bold pf-l-flex__item"
+      class="pf-v5-u-font-weight-bold pf-v5-l-flex__item"
     >
       <slot />
     </div>

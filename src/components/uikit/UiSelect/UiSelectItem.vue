@@ -1,19 +1,19 @@
 <template>
   <li
-    class="ui-select-item pf-c-menu__list-item"
+    class="ui-select-item pf-v5-c-menu__list-item"
     :class="{
-      'pf-c-menu__list-item--selected': selected,
-      'pf-c-menu__list-item--disabled': disabled,
+      'pf-v5-c-menu__list-item--selected': selected,
+      'pf-v5-c-menu__list-item--disabled': disabled,
     }"
     @click="emit('click')"
     @mouseover="emit('mouseOver')"
     @mouseout="emit('mouseOut')"
   >
     <div
-      class="pf-c-menu__item"
+      class="pf-v5-c-menu__item"
     >
       <span class="ui-select-item__content">
-        <span class="pf-c-menu__item-text">{{ label }}</span>
+        <span class="pf-v5-c-menu__item-text">{{ label }}</span>
         <span
           v-if="editable"
           class="ui-select-item__content-edit"
@@ -60,20 +60,20 @@ const emit = defineEmits(['click', 'mouseOver', 'mouseOut'])
 </script>
 
 <style lang="scss">
-.pf-c-menu__item:hover,
-.pf-c-menu__list-item--selected {
-  background-color: var(--pf-c-menu__list-item--hover--BackgroundColor);
+.pf-v5-c-menu__item:hover,
+.pf-v5-c-menu__list-item--selected {
+  background-color: var(--pf-v5-c-menu__list-item--hover--BackgroundColor);
   cursor: pointer;
 }
 
-.pf-c-menu__list-item--disabled {
-  background-color: var(--pf-c-menu__list-item--hover--BackgroundColor);
+.pf-v5-c-menu__list-item--disabled {
+  background-color: var(--pf-v5-c-menu__list-item--hover--BackgroundColor);
   opacity: .5;
   pointer-events: none;
   cursor: initial;
 }
 
-.pf-c-menu {
+.pf-v5-c-menu {
   &__list-item {
     cursor: pointer;
   }
@@ -87,7 +87,7 @@ const emit = defineEmits(['click', 'mouseOver', 'mouseOut'])
 
   &__icon {
     display: inline-block;
-    color: var(--pf-c-menu__item--Color);
+    color: var(--pf-v5-c-menu__item--Color);
     font-size: .6rem;
     margin-left: 1rem;
   }

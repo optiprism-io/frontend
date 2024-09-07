@@ -3,12 +3,12 @@
     <span
       v-for="(item, i) in props.value"
       :key="item"
-      class="ui-tags__item pf-u-mr-sm pf-u-mb-sm"
+      class="ui-tags__item pf-v5-u-mr-sm pf-v5-u-mb-sm"
     >
       <UiTag
         :value="item"
         :index="i"
-        class="pf-m-blue"
+        class="pf-v5-m-blue"
       />
     </span>
   </div>

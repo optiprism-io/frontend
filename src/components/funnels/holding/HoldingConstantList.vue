@@ -1,18 +1,18 @@
 <template>
-  <div v-if="holdingProperties.length > 0" class="pf-l-flex">
-    <span class="pf-l-flex__item">
+  <div v-if="holdingProperties.length > 0" class="pf-v5-l-flex">
+    <span class="pf-v5-l-flex__item">
       {{ $t('funnels.holdingConstant.holding') }}
     </span>
     <PropertySelect
       v-for="(props, index) in holdingProperties"
       :key="index"
-      class="pf-l-flex__item"
+      class="pf-v5-l-flex__item"
       :force-props="lexiconStore.eventProperties"
       @select="editHoldingProperty(index, $event)"
     >
-      <UiButton class="pf-m-secondary">
+      <UiButton class="pf-v5-m-secondary">
         {{ props.name }}
-        <span class="pf-c-button__icon pf-m-end">
+        <span class="pf-v5-c-button__icon pf-v5-m-end">
           <UiIcon icon="fas fa-times" @click.stop="deleteHoldingProperty(index)" />
         </span>
       </UiButton>

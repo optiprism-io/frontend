@@ -1,20 +1,20 @@
 <template>
   <nav
-    class="pf-c-nav pf-m-horizontal-subnav"
+    class="pf-v5-c-nav pf-v5-m-horizontal-subnav"
     aria-label="Local"
   >
-    <ul class="pf-c-nav__list">
+    <ul class="pf-v5-c-nav__list">
       <li
         v-for="item in items"
         :key="item.name"
-        class="pf-c-nav__item"
+        class="pf-v5-c-nav__item"
       >
         <RouterLink
           v-if="item.to"
           :to="item.to"
-          class="pf-c-nav__link"
+          class="pf-v5-c-nav__link"
           aria-current="page"
-          active-class="pf-m-current"
+          active-class="pf-v5-m-current"
           @click="onClick($event, item.to.name)"
         >
           {{ item.name }}

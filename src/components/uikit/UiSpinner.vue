@@ -1,13 +1,13 @@
 <template>
   <span
-    class="pf-c-spinner"
+    class="pf-v5-c-spinner"
     :class="classSize"
     role="progressbar"
     aria-label="Loading..."
   >
-    <span class="pf-c-spinner__clipper" />
-    <span class="pf-c-spinner__lead-ball" />
-    <span class="pf-c-spinner__tail-ball" />
+    <span class="pf-v5-c-spinner__clipper" />
+    <span class="pf-v5-c-spinner__lead-ball" />
+    <span class="pf-v5-c-spinner__tail-ball" />
   </span>
 </template>
 

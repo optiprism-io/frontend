@@ -1,8 +1,8 @@
 <template>
-  <GridContainer class="pf-u-h-100">
+  <GridContainer class="pf-v5-u-h-100">
     <GridItem
       :col-lg="3"
-      class="overflow-auto pf-u-pb-md"
+      class="overflow-auto pf-v5-u-pb-md"
     >
       <GridContainer>
         <UiCard class="filter-event-segmentation__item">
@@ -36,7 +36,7 @@
     </GridItem>
     <GridItem
       :col-lg="9"
-      class="overflow-auto pf-u-pb-md"
+      class="overflow-auto pf-v5-u-pb-md"
     >
       <EventsViews
         :event-segmentation="eventSegmentation"

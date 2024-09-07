@@ -1,6 +1,6 @@
 <template>
   <form
-    class="ui-form pf-c-form"
+    class="ui-form pf-v5-c-form"
     @submit.prevent="handleSubmit"
   >
     <div
@@ -8,7 +8,7 @@
       class="ui-form__error"
     >
       <UiAlert
-        class="ui-form__error pf-c-form__helper-text pf-m-error"
+        class="ui-form__error pf-v5-c-form__helper-text pf-v5-m-error"
         :item="errorMainItem"
       />
     </div>

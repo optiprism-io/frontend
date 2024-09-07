@@ -1,8 +1,8 @@
 <template>
-  <UiCardTitle class="pf-u-pr-md">
+  <UiCardTitle class="pf-v5-u-pr-md">
     {{ $t('funnels.filters') }}
     <template v-if="isAllowAdvanced" #extra>
-      <div class="pf-u-ml-lg" @mousedown="onBeforeChangeFiltersType">
+      <div class="pf-v5-u-ml-lg" @mousedown="onBeforeChangeFiltersType">
         <UiSwitch
           :reverse="true"
           :value="isFiltersAdvanced"
@@ -55,7 +55,7 @@ const onBeforeChangeFiltersType = async (e: Event) => {
         applyButton: t('common.apply'),
         cancelButton: t('common.cancel'),
         title: '',
-        applyButtonClass: 'pf-m-danger',
+        applyButtonClass: 'pf-v5-m-danger',
       })
 
       filterGroupsStore.isFiltersAdvanced = false

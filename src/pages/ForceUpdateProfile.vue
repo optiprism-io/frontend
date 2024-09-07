@@ -1,5 +1,5 @@
 <template>
-  <div class="pf-l-bullseye">
+  <div class="pf-v5-l-bullseye">
     <ForceUpdateProfilePopup
       :force-pass="forcePass"
       :force-email="forceEmail"

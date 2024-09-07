@@ -95,7 +95,7 @@ axiosInstance.interceptors.response.use(
 <style lang="scss">
 @mixin styled-scroll {
   scrollbar-width: thin;
-  scrollbar-color: var(--pf-global--palette--black-150) transparent;
+  scrollbar-color: var(--pf-v5-global--palette--black-150) transparent;
 
   &::-webkit-scrollbar {
     margin-top: 1rem;
@@ -105,7 +105,7 @@ axiosInstance.interceptors.response.use(
   }
 
   &::-webkit-scrollbar-track {
-    background-color: var(--pf-global--BackgroundColor--200);
+    background-color: var(--pf-v5-global--BackgroundColor--200);
     border-radius: 0.4rem;
   }
 
@@ -115,7 +115,7 @@ axiosInstance.interceptors.response.use(
   }
 }
 
-.pf-icon {
+.pf-v5-icon {
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   display: inline-block;
@@ -129,12 +129,12 @@ axiosInstance.interceptors.response.use(
   min-height: 100vh;
 }
 
-.pf-c-page {
+.pf-v5-c-page {
   background-color: var(--op-base-background);
   min-height: 100vh;
 
   &__main-section {
-    padding: var(--pf-global--spacer--md);
+    padding: var(--pf-v5-global--spacer--md);
   }
 
   &__main {
@@ -142,8 +142,8 @@ axiosInstance.interceptors.response.use(
   }
 }
 
-.pf-c-menu.pf-m-scrollable {
-  .pf-c-menu__content {
+.pf-v5-c-menu.pf-v5-m-scrollable {
+  .pf-v5-c-menu__content {
     @include styled-scroll();
   }
 }

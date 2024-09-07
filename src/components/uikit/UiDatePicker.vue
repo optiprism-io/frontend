@@ -297,10 +297,10 @@ watch(() => props.lastCount, (value) => {
 
     &__action {
         width: 280px;
-        border-left: 1px solid var(--pf-global--BackgroundColor--200);
+        border-left: 1px solid var(--pf-v5-global--BackgroundColor--200);
     }
 
-    .pf-c-menu.pf-m-plain {
+    .pf-v5-c-menu.pf-v5-m-plain {
         box-shadow: none;
     }
 }

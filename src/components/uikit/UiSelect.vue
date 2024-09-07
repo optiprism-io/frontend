@@ -1,5 +1,5 @@
 <template>
-  <div class="pf-c-select">
+  <div class="pf-v5-c-select">
     <VDropdown
       :placement="props.placement"
       :triggers="[]"
@@ -15,9 +15,9 @@
       <button
         v-else
         :class="{
-          'pf-u-w-100': props.w100,
-          'pf-c-select__toggle': props.isToggle,
-          'pf-c-dropdown__toggle pf-m-plain pf-m-text': props.isTextSelect,
+          'pf-v5-u-w-100': props.w100,
+          'pf-v5-c-select__toggle': props.isToggle,
+          'pf-v5-c-dropdown__toggle pf-v5-m-plain pf-v5-m-text': props.isTextSelect,
         }"
         type="button"
         aria-haspopup="true"
@@ -26,23 +26,23 @@
         @click="onToggle"
       >
         <div
-          class="pf-c-select__toggle-wrapper"
+          class="pf-v5-c-select__toggle-wrapper"
           :class="{
-            'pf-c-select__toggle-wrapper_full': props.fullText,
+            'pf-v5-c-select__toggle-wrapper_full': props.fullText,
           }"
         >
-          <span class="pf-c-select__toggle-text">{{ textValue }}</span>
+          <span class="pf-v5-c-select__toggle-text">{{ textValue }}</span>
         </div>
         <span
           v-if="selectedSingleOption && clearable"
-          class="pf-c-select__menu-item-icon"
+          class="pf-v5-c-select__menu-item-icon"
           @click="removeSelect"
         >
           <UiIcon :icon="'fas fa-times'" />
         </span>
         <span
           v-else
-          class="pf-c-select__toggle-arrow"
+          class="pf-v5-c-select__toggle-arrow"
         >
           <i
             class="fas fa-caret-down"
@@ -51,9 +51,9 @@
         </span>
       </button>
       <template #popper>
-        <div class="pf-c-select">
+        <div class="pf-v5-c-select">
           <ul
-            class="pf-c-select__menu"
+            class="pf-v5-c-select__menu"
             role="listbox"
             aria-labelledby="select-single-label"
           >
@@ -65,16 +65,16 @@
               @click="onSelect(item)"
             >
               <button
-                class="pf-c-select__menu-item"
+                class="pf-v5-c-select__menu-item"
                 role="option"
                 :class="{
-                  'pf-m-selected': item.selected,
+                  'pf-v5-m-selected': item.selected,
                 }"
               >
                 {{ item.nameDisplay }}
                 <span
                   v-if="item.selected"
-                  class="pf-c-select__menu-item-icon"
+                  class="pf-v5-c-select__menu-item-icon"
                 >
                   <UiIcon :icon="'fas fa-check'" />
                 </span>
@@ -200,7 +200,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
-.pf-c-select {
+.pf-v5-c-select {
   --min-width: 10rem;
 
   &__toggle {

@@ -1,5 +1,5 @@
 <template>
-  <form class="pf-u-w-50 pf-c-form pf-u-mb-auto">
+  <form class="pf-v5-u-w-50 pf-v5-c-form pf-v5-u-mb-auto">
     <UiLabelAndSlot label="Name">
       <UiInlineEditSlot
         :is-editable="curIsEdit.name"
@@ -26,8 +26,8 @@
         @cancel="cancelEmailHandler"
         @save="saveEmailHandler"
       >
-        <div class="pf-l-flex">
-          <div class="pf-m-flex-1">
+        <div class="pf-v5-l-flex">
+          <div class="pf-v5-m-flex-1">
             <UiLabelAndSlot :label="t('profile.email')">
               <UiInput
                 v-model="email"
@@ -40,7 +40,7 @@
             <UiFormError :error="errors.updateEmail.email" />
           </div>
 
-          <div class="pf-m-flex-1">
+          <div class="pf-v5-m-flex-1">
             <UiLabelAndSlot :label="t('profile.curPassword')">
               <UiInput
                 v-model="curPasswordForEmail"
@@ -64,8 +64,8 @@
         @cancel="cancelPasswordHandler"
         @save="savePassHandler"
       >
-        <div class="pf-l-flex">
-          <div class="pf-m-flex-1">
+        <div class="pf-v5-l-flex">
+          <div class="pf-v5-m-flex-1">
             <UiLabelAndSlot :label="t('profile.curPassword')">
               <UiInput
                 v-model="curPassword"
@@ -77,7 +77,7 @@
             </UiLabelAndSlot>
             <UiFormError :error="errors.updatePassword.password" />
           </div>
-          <div class="pf-m-flex-1">
+          <div class="pf-v5-m-flex-1">
             <UiLabelAndSlot :label="t('profile.newPassword')">
               <UiInput
                 v-model="newPassword"
@@ -89,7 +89,7 @@
             </UiLabelAndSlot>
             <UiFormError :error="errors.updatePassword.newPassword" />
           </div>
-          <div class="pf-m-flex-1">
+          <div class="pf-v5-m-flex-1">
             <UiLabelAndSlot :label="t('profile.confirmPassword')">
               <UiInput
                 v-model="confirmPassword"

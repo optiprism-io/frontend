@@ -1,13 +1,13 @@
 <template>
   <div class="time-window">
-    <span class="pf-l-flex__item">within</span>
+    <span class="pf-v5-l-flex__item">within</span>
 
     <UiSelectSize
       v-model="size"
       :items="sizeItems"
       @search="handleSizeSearch"
     >
-      <UiButton class="pf-m-secondary pf-l-flex__item" :is-link="true">
+      <UiButton class="pf-v5-m-secondary pf-v5-l-flex__item" :is-link="true">
         {{ stepsStore.size }}
       </UiButton>
     </UiSelectSize>
@@ -17,24 +17,24 @@
       :items="unitItems"
       :show-search="false"
     >
-      <UiButton class="pf-m-secondary pf-l-flex__item" :is-link="true">
+      <UiButton class="pf-v5-m-secondary pf-v5-l-flex__item" :is-link="true">
         {{ $t(`common.timeUnits.${stepsStore.unit}`) }}
       </UiButton>
     </UiSelectUnit>
 
-    <span class="pf-l-flex__item"> {{ $t('criteria.timeWindow') }} {{ $t('criteria.in') }} </span>
+    <span class="pf-v5-l-flex__item"> {{ $t('criteria.timeWindow') }} {{ $t('criteria.in') }} </span>
 
     <UiSelectOrder
       v-model="order"
       :items="orderItems"
       :show-search="false"
     >
-      <UiButton class="pf-m-secondary pf-l-flex__item" :is-link="true">
+      <UiButton class="pf-v5-m-secondary pf-v5-l-flex__item" :is-link="true">
         {{ $t(`criteria.orderType.${stepsStore.order}`) }}
       </UiButton>
     </UiSelectOrder>
 
-    <span class="pf-l-flex__item">order</span>
+    <span class="pf-v5-l-flex__item">order</span>
   </div>
 </template>
 

@@ -8,7 +8,7 @@
       :autofocus="autofocus"
       @input="emit('input', $event)"
     />
-    <UiButton class="pf-m-control" @click="showPassword = !showPassword">
+    <UiButton class="pf-v5-m-control" @click="showPassword = !showPassword">
       <UiIcon :icon="['fas', showPassword ? 'fa-eye-slash' : 'fa-eye']" />
     </UiButton>
   </UiInputGroup>

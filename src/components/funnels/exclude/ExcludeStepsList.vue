@@ -2,28 +2,28 @@
   <div
     v-for="(item, index) in excludedEvents"
     :key="index"
-    class="pf-l-flex pf-m-column"
+    class="pf-v5-l-flex pf-v5-m-column"
   >
     <UiActionList>
       <template #main>
-        <div class="pf-l-flex pf-m-nowrap row-gap">
-          <span class="pf-l-flex__item">
+        <div class="pf-v5-l-flex pf-v5-m-nowrap row-gap">
+          <span class="pf-v5-l-flex__item">
             {{ $t('funnels.excludeSteps.exclude') }}
           </span>
 
           <EventSelector
-            class="pf-l-flex__item"
+            class="pf-v5-l-flex__item"
             @select="editEvent($event, index)"
           >
             <UiButton
-              class="pf-m-secondary"
+              class="pf-v5-m-secondary"
               is-link
             >
               {{ eventName(item.event) }}
             </UiButton>
           </EventSelector>
 
-          <span class="pf-l-flex__item">
+          <span class="pf-v5-l-flex__item">
             {{ $t('funnels.excludeSteps.between') }}
           </span>
 
@@ -33,14 +33,14 @@
             @update:model-value="editEventSteps($event, index)"
           >
             <UiButton
-              class="pf-m-secondary pf-l-flex__item"
+              class="pf-v5-m-secondary pf-v5-l-flex__item"
               :is-link="true"
             >
               {{ excludeStepsToString(item.steps) }}
             </UiButton>
           </UiSelect>
 
-          <span class="pf-l-flex__item">
+          <span class="pf-v5-l-flex__item">
             {{ $t('funnels.excludeSteps.steps') }}
           </span>
         </div>
