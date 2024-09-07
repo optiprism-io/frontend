@@ -45,27 +45,11 @@ export type EventObject = {
 }
 export type ApplyPayload = EventObject
 
-const commonStore = useCommonStore()
-
-
 type Props = {
   name?: string
   loading?: boolean
   property: Property | null
   showApply: boolean
-}
-
-const strings = computed(() => {
-  return {
-    property: t('events.event_management.popup.tabs.property'),
-    columnsName: t('events.event_management.columns.name'),
-    save: t('common.save'),
-    close: t('common.close'),
-  }
-})
-  name?: string,
-  loading?: boolean,
-  property: Property | null,
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -78,9 +62,18 @@ const emit = defineEmits<{
   (e: 'on-action-event', payload: Action): void
 }>()
 
+const strings = computed(() => {
+  return {
+    property: t('events.event_management.popup.tabs.property'),
+    columnsName: t('events.event_management.columns.name'),
+    save: t('common.save'),
+    close: t('common.close'),
+  }
+})
+
 const commonStore = useCommonStore();
 
-const i18n = useI18n()
+const { t } = useI18n()
 
 const activeTab = ref('property')
 

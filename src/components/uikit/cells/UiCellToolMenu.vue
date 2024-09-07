@@ -5,9 +5,7 @@
       :items="selectItems"
       @update:model-value="onSelectMenu"
     >
-      <UiButton
-        class="pf-c-dropdown__toggle pf-m-plain pf-u-p-md"
-      >
+      <UiButton class="pf-c-dropdown__toggle pf-m-plain pf-u-p-md">
         <UiIcon icon="fas fa-ellipsis-v" />
       </UiButton>
     </UiSelect>
@@ -38,12 +36,6 @@ interface Props {
 }
 
 const props = defineProps<Props>()
-
-const emit = defineEmits<{
-    (e: 'on-action', payload: Action): void
-}>()
-
-const UiSelect = UiSelectGeneric<string | number>()
 
 const selectItems = computed<UiSelectItemInterface<string | number>[]>(() => {
   return (props.items || []).map(item => ({

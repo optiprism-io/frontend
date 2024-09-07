@@ -3,7 +3,7 @@ import { ref, reactive, computed } from 'vue'
 import { defineStore } from 'pinia'
 
 import { apiClient } from '@/api/apiClient'
-import { TimeTypeEnum, usePeriod } from '@/hooks/usePeriod'
+import { getRequestTime, TimeTypeEnum } from '@/helpers/periodHelper'
 import { useProjectsStore } from '@/stores/projects/projects'
 import { useFilterGroupsStore } from '@/stores/reports/filters'
 
@@ -16,17 +16,23 @@ import type {
   PropertyRef as PropertyRefApi,
   Value,
 } from '@/api'
-import type { Period } from '@/hooks/usePeriod'
+
 import type { PropertyRef } from '@/types/events'
+
+type PeriodState = {
+  from: string
+  to: string
+  last: number
+  type: TimeTypeEnum
+}
 
 export const defaultColumns = ['']
 
 export const useGroupStore = defineStore('group', () => {
-  const { getRequestTime } = usePeriod()
   const projectsStore = useProjectsStore()
   const filterGroupsStore = useFilterGroupsStore()
 
-  const items = ref<Array<GroupRecord>>([])
+  const items = ref<GroupRecord[]>([])
   const activeColumns = ref<PropertyRef[]>([])
   const columns = ref<DataTableResponseColumnsInner[]>([])
   const loading = ref(false)
@@ -35,7 +41,7 @@ export const useGroupStore = defineStore('group', () => {
   const propertyPopup = ref(false)
   const group = ref(0)
 
-  const period = reactive<Period>({
+  const period = reactive<PeriodState>({
     from: '',
     to: '',
     type: TimeTypeEnum.Last,
