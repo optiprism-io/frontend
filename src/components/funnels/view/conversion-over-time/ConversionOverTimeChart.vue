@@ -10,6 +10,7 @@ import { computed } from 'vue'
 
 import ChartLine from '@/components/charts/ChartLine.vue'
 
+import { TimeUnit } from '@/api'
 import { DEFAULT_SEPARATOR } from '@/constants'
 import { dayjs } from '@/plugins/dayjs'
 
@@ -66,9 +67,9 @@ const chartOptions = computed(() => {
       label: {
         formatter: (n: number): string => {
           const format =
-            props.timeInterval === 'hour'
+            props.timeInterval === TimeUnit.Hour
               ? 'HH:mm MMM-DD'
-              : props.timeInterval === 'day' || props.timeInterval === 'week'
+              : props.timeInterval === TimeUnit.Day || props.timeInterval === TimeUnit.Week
                 ? 'DD MMM'
                 : 'YYYY-MM-DD'
           return dayjs(n).format(format)
