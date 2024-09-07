@@ -8,7 +8,7 @@
       <UiButton
         class="pf-c-dropdown__toggle pf-m-plain pf-u-p-md"
       >
-        <UiIcon :icon="'fas fa-ellipsis-v'" />
+        <UiIcon icon="fas fa-ellipsis-v" />
       </UiButton>
     </UiSelect>
   </div>
@@ -25,19 +25,19 @@ import { UiSelectGeneric } from '@/components/uikit/UiSelect/UiSelectGeneric'
 import type { UiSelectItemInterface } from '@/components/uikit/UiSelect/types'
 import type { Action, ToolMenuItem } from '@/components/uikit/UiTable/UiTable'
 
-const UiSelect = UiSelectGeneric<string | number>()
+interface Props {
+  value: string | number
+  items: ToolMenuItem[]
+  type?: string
+}
+
+const props = defineProps<Props>()
 
 const emit = defineEmits<{
     (e: 'on-action', payload: Action): void
 }>()
 
-interface Props {
-    value: string | number
-    items: ToolMenuItem[]
-    type?: string
-}
-
-const props = defineProps<Props>()
+const UiSelect = UiSelectGeneric<string | number>()
 
 const selectItems = computed<UiSelectItemInterface<string | number>[]>(() => {
     return (props.items || []).map(item => ({
@@ -56,7 +56,7 @@ const onSelectMenu = (payload: string) => {
 }
 </script>
 
-<style>
+<style lang="scss" scoped>
 .ui-cell-tool-menu {
     max-width: 40px;
 }

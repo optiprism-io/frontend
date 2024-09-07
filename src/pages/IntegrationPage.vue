@@ -34,9 +34,10 @@
 </template>
 
 <script setup lang="ts">
-import { computed, inject } from 'vue'
+import { computed } from 'vue'
 
 import { storeToRefs } from 'pinia'
+import { useI18n } from 'vue-i18n'
 import { useRoute, useRouter } from 'vue-router'
 
 import IntegrationContent from '@/components/integration/IntegrationContent.vue'
@@ -54,7 +55,7 @@ import { generateUUID } from '@/utils/generateUuid'
 
 const route = useRoute()
 const router = useRouter()
-const i18n = inject<any>('i18n')
+const i18n = useI18n()
 
 const projectsStore = useProjectsStore()
 const { project, isLoading } = storeToRefs(projectsStore)
@@ -63,32 +64,32 @@ const activeTab = computed(() => route.params.integration)
 
 const tabs = computed(() => [
   {
-    name: i18n.$t('integration.javascript'),
+    name: i18n.t('integration.javascript'),
     value: SDKIntegration.javascript,
     active: activeTab.value === SDKIntegration.javascript,
     disabled: false,
     tooltip: '',
   },
   {
-    name: i18n.$t('integration.android'),
+    name: i18n.t('integration.android'),
     value: SDKIntegration.android,
     active: activeTab.value === SDKIntegration.android,
     disabled: true,
-    tooltip: i18n.$t('common.comingSoon'),
+    tooltip: i18n.t('common.comingSoon'),
   },
   {
-    name: i18n.$t('integration.ios'),
+    name: i18n.t('integration.ios'),
     value: SDKIntegration.ios,
     active: activeTab.value === SDKIntegration.ios,
     disabled: true,
-    tooltip: i18n.$t('common.comingSoon'),
+    tooltip: i18n.t('common.comingSoon'),
   },
 ])
 
 const alert = {
   id: generateUUID(),
   type: AlertTypeEnum.Info,
-  text: i18n.$t('integration.noEventsText'),
+  text: i18n.t('integration.noEventsText'),
   noClose: true,
 }
 

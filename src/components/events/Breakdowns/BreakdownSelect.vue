@@ -1,7 +1,7 @@
 <template>
   <Select
     :items="items"
-    grouped
+    :grouped="true"
     :selected="selectedItem"
     @select="select"
   >
@@ -34,12 +34,12 @@ import type {
 } from '@/stores/reports/breakdowns';
 import type { UserCustomProperty } from '@/types/events'
 
-const emit = defineEmits<{
-    (e: 'select', type: Breakdown): void;
-}>();
-
 const props = defineProps<{
     selected?: Breakdown;
+}>();
+
+const emit = defineEmits<{
+    (e: 'select', type: Breakdown): void;
 }>();
 
 const lexiconStore = useLexiconStore();

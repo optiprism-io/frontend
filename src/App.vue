@@ -20,19 +20,19 @@
 
 <script lang="ts" setup>
 import { HttpStatusCode } from 'axios'
+import { useI18n } from 'vue-i18n'
 import { RouterView } from 'vue-router'
 
 import UiAlertGroup from './components/uikit/UiAlertGroup.vue'
 import AppPreloader from '@/components/common/AppPreloader.vue'
 
 import { AlertTypeEnum, useAlert } from '@/hooks/useAlert'
-import usei18n from '@/hooks/useI18n'
 import { axiosInstance } from '@/plugins/axios'
 import { useAuthStore } from '@/stores/auth/auth'
 
 import type { ErrorResponse } from '@/api'
 
-const { t } = usei18n()
+const { t } = useI18n()
 const authStore = useAuthStore()
 const { items: alerts, createAlert, closeAlert } = useAlert()
 
@@ -91,74 +91,3 @@ axiosInstance.interceptors.response.use(
   }
 )
 </script>
-
-<style lang="scss">
-@mixin styled-scroll {
-  scrollbar-width: thin;
-  scrollbar-color: var(--pf-global--palette--black-150) transparent;
-
-  &::-webkit-scrollbar {
-    margin-top: 1rem;
-    display: block;
-    width: 0.6rem;
-    height: 0.6rem;
-  }
-
-  &::-webkit-scrollbar-track {
-    background-color: var(--pf-global--BackgroundColor--200);
-    border-radius: 0.4rem;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background-color: #979da3;
-    border-radius: 0.4rem;
-  }
-}
-
-.pf-icon {
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-font-smoothing: antialiased;
-  display: inline-block;
-  font-style: normal;
-  font-variant: normal;
-  text-rendering: auto;
-  line-height: 1;
-}
-
-#app {
-  min-height: 100vh;
-}
-
-.pf-c-page {
-  background-color: var(--op-base-background);
-  min-height: 100vh;
-
-  &__main-section {
-    padding: var(--pf-global--spacer--md);
-  }
-
-  &__main {
-    z-index: initial;
-  }
-}
-
-.pf-c-menu.pf-m-scrollable {
-  .pf-c-menu__content {
-    @include styled-scroll();
-  }
-}
-
-.op-opacity-0 {
-  opacity: 0;
-}
-
-.app-toast-alerts {
-  position: fixed;
-  top: 30px;
-  right: 30px;
-  z-index: 10000;
-  max-width: 550px;
-  max-height: calc(100vh - 50px);
-  overflow: auto;
-}
-</style>

@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 
 import { apiClient } from '@/api/apiClient'
-import { TimeTypeEnum, usePeriod } from '@/hooks/usePeriod'
+import { getRequestTime, TimeTypeEnum } from '@/helpers/periodHelper'
 import { useProjectsStore } from '@/stores/projects/projects'
 
 import type {
@@ -16,19 +16,6 @@ import type {
 } from '@/api'
 import type { Event } from '@/stores/eventSegmentation/events'
 import type { PropertyRef } from '@/types/events'
-
-export interface Report {
-  name: string
-  properties: {
-    [key: string]: string | number
-  }
-  userProperties: {
-    [key: string]: string | number
-  }
-  matchedCustomEvents: Array<{
-    id: number | string
-  }>
-}
 
 const getParamsEventsForRequest = (events: Event[]): EventRecordRequestEvent[] => {
   return events.reduce((items: EventRecordRequestEvent[], event) => {
@@ -78,7 +65,7 @@ type LiveStreamStore = {
     last: number
     type: TimeTypeEnum
   }
-  columns: Array<DataTableResponseColumnsInner>
+  columns: DataTableResponseColumnsInner[]
   activeColumns: PropertyRef[]
   loading: boolean
   eventPopup: boolean
@@ -108,8 +95,6 @@ export const useLiveStreamStore = defineStore('liveStream', {
       )
     },
     timeRequest(): EventRecordsListRequestTime {
-      const { getRequestTime } = usePeriod()
-
       return getRequestTime(
         this.period.type,
         this.controlsPeriod,

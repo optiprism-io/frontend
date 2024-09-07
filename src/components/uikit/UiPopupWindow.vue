@@ -46,7 +46,7 @@
         <div class="pf-c-modal-box__body pf-u-mb-md pf-u-pb-md">
           <UiSpinner
             v-if="loadingContent"
-            :size="'xl'"
+            size="xl"
           />
           <div
             v-if="props.content"
@@ -211,7 +211,8 @@ onUnmounted(() => {
     }
 });
 </script>
-<style lang="scss">
+
+<style lang="scss" scoped>
 $text-color: #171B24;
 $text-color-title: #171717;
 

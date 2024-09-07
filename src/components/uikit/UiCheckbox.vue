@@ -13,6 +13,7 @@
     >{{ label }}</span>
   </label>
 </template>
+
 <script setup lang="ts">
 interface Props {
     modelValue?: boolean
@@ -22,7 +23,10 @@ interface Props {
 
 const props = defineProps<Props>()
 
-const emit = defineEmits(['update:modelValue', 'input']);
+const emit = defineEmits<{
+  (e: 'input', value: boolean): void
+  (e: 'update:modelValue', value: typeof props['modelValue']): void
+}>()
 
 const updateValue = (e: Event) => {
     const target = e.target as HTMLInputElement

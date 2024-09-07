@@ -33,7 +33,9 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, inject, ref } from 'vue'
+import { computed, ref } from 'vue'
+
+import { useI18n } from 'vue-i18n'
 
 import type { Item, ActionPayload } from '@/components/uikit/UiDescriptionList.vue';
 import UiDescriptionList from '@/components/uikit/UiDescriptionList.vue'
@@ -54,16 +56,11 @@ export type EventObject = {
 }
 export type ApplyPayload = EventObject;
 
-const commonStore = useCommonStore()
-const mapTabs = ['property', 'events']
-
-const i18n = inject<any>('i18n')
-
 type Props = {
-    name?: string
-    loading?: boolean
-    events?: Event[] | null
-    property: Property | null
+  name?: string
+  loading?: boolean
+  events?: Event[] | null
+  property: Property | null
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -71,12 +68,16 @@ const props = withDefaults(defineProps<Props>(), {
     loading: false,
     events: null,
 })
-
 const emit = defineEmits<{
     (e: 'cancel'): void
     (e: 'apply', payload: ApplyPayload): void
     (e: 'on-action-event', payload: Action): void
 }>()
+
+const commonStore = useCommonStore()
+const mapTabs = ['property', 'events']
+
+const i18n = useI18n()
 
 const activeTab = ref('property')
 
@@ -86,14 +87,14 @@ const applyDisabled = computed(() => !editProperty.value)
 const itemsTabs = computed(() => {
     return mapTabs.map(key => {
         return {
-            name: i18n.$t(`events.event_management.popup.tabs.${key}`),
+            name: i18n.t(`events.event_management.popup.tabs.${key}`),
             active: activeTab.value === key,
             value: key,
         }
     })
 })
 
-const title = computed(() => props.property ? `${i18n.$t('events.event_management.popup.tabs.property')}: ${props.property.name}` : '')
+const title = computed(() => props.property ? `${i18n.t('events.event_management.popup.tabs.property')}: ${props.property.name}` : '')
 
 const propertyItems = computed<Item[]>(() => {
     const items: Item[] = [];
@@ -104,12 +105,12 @@ const propertyItems = computed<Item[]>(() => {
         keys.forEach(key => {
             const config: PropertyValueConfig = propertyValuesConfig[key];
             let value = editProperty.value && key in editProperty.value ? editProperty.value[key] : property[key] ||property[key];
-            let label: string = i18n.$t(config.string)
+            let label: string = i18n.t(config.string)
             let name: string = key
 
             if (commonStore.editEventPropertyPopupType === PropertyTypeEnum.UserProperty && key === DisplayName) {
                 value = property.name
-                label = i18n.$t('events.event_management.columns.name')
+                label = i18n.t('events.event_management.columns.name')
                 name = 'name'
             }
 
@@ -118,7 +119,7 @@ const propertyItems = computed<Item[]>(() => {
             }
 
             if (key === 'type') {
-                value = property.isArray ? i18n.$t('common.list_of', { type: i18n.$t(`common.types.${property.dataType}`) }) : i18n.$t(`common.types.${property.dataType}`)
+                value = property.isArray ? i18n.t('common.list_of', { type: i18n.t(`common.types.${property.dataType}`) }) : i18n.t(`common.types.${property.dataType}`)
             }
 
             const item: Item = {
@@ -139,7 +140,7 @@ const itemsEventsColumns = computed(() => {
     return ['name', 'displayName', 'isSystem'].map(key => {
         return {
             value: key,
-            title: i18n.$t(`events.event_management.columns.${key}`),
+            title: i18n.t(`events.event_management.columns.${key}`),
         }
     })
 })

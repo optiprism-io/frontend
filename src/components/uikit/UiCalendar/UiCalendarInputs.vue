@@ -11,7 +11,7 @@
           :value="props.lastCount"
           type="number"
           :min="1"
-          :placeholder="'Enter a value'"
+          placeholder="Enter a value"
           @input="onSelectLastCount"
         />
         <span class="ws-example-flex-item">{{ textLastCount }}</span>
@@ -83,7 +83,9 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, inject } from 'vue'
+import { computed } from 'vue'
+
+import { useI18n } from 'vue-i18n'
 
 import UiInput from '@/components/uikit/UiInput.vue'
 
@@ -91,24 +93,15 @@ import { eachMap } from './UiCalendar.config'
 
 import type { Each } from './UiCalendar'
 
-const i18n = inject<any>('i18n')
-
-const emit = defineEmits<{
-    (e: 'on-select-last-count', payload: number): void;
-    (e: 'on-change-since', payload: string): void;
-    (e: 'on-change-between', payload: {type: 'from' | 'to', value: string}): void;
-    (e: 'on-change-each', payload: Each): void;
-}>()
-
 interface Props {
-    lastCount?: number
-    activeTab: string
-    since: string
-    warning?: boolean
-    from?: string
-    to?: string
-    warningText?: string
-    each?: Each
+  lastCount?: number
+  activeTab: string
+  since?: string
+  warning?: boolean
+  from?: string
+  to?: string
+  warningText?: string
+  each?: Each
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -121,13 +114,22 @@ const props = withDefaults(defineProps<Props>(), {
     each: undefined,
 })
 
+const emit = defineEmits<{
+    (e: 'on-select-last-count', payload: number): void;
+    (e: 'on-change-since', payload: string): void;
+    (e: 'on-change-between', payload: {type: 'from' | 'to', value: string}): void;
+    (e: 'on-change-each', payload: Each): void;
+}>()
+
+const i18n = useI18n()
+
 const textLastCount = computed(() => props.lastCount === 1 ? 'day' : 'days')
 
 const itemsEach = computed(() => {
     return eachMap.map((key: Each): {value: Each, name: string, active: boolean } => {
         return {
             value: key,
-            name: i18n.$t(`common.calendar.each_select.${ key}`),
+            name: i18n.t(`common.calendar.each_select.${ key}`),
             active: key === props.each,
         }
     })
@@ -148,7 +150,7 @@ const onSelectBetween = (value: string, type: 'from' | 'to') => {
 const onSelectEach = (payload: Each) => emit('on-change-each', payload)
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .ui-calendar-inputs {
     border-bottom: 1px solid #eee;
 }

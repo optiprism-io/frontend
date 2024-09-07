@@ -1,6 +1,6 @@
 <template>
   <Select
-    grouped
+    :grouped="true"
     :items="lexiconStore.eventsList"
     :width-auto="true"
     :auto-hide="!commonStore.showCreateCustomEvent"
@@ -12,7 +12,7 @@
     <slot>
       <UiButton
         :is-link="true"
-        :before-icon="'fas fa-plus'"
+        before-icon="fas fa-plus"
       >
         {{ $t('common.addEvent') }}
       </UiButton>
@@ -48,11 +48,13 @@ import { useCommonStore } from '@/stores/common';
 import { useEventsStore } from '@/stores/eventSegmentation/events';
 import { useLexiconStore } from '@/stores/lexicon';
 
+const emit = defineEmits<{
+  (e: 'select', value: any): void
+}>()
+
 const lexiconStore = useLexiconStore();
 const commonStore = useCommonStore();
 const eventsStore = useEventsStore();
-
-const emit = defineEmits(['select']);
 
 const {
     hoveredCustomEventDescription,

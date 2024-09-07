@@ -1,5 +1,5 @@
 <template>
-  <NDataTable
+  <UiDataTable
     :checked-row-keys="checkedRowKeys"
     :columns="columns"
     :data="data"
@@ -7,6 +7,7 @@
     :single-line="false"
     :render-cell="renderCell"
     :row-key="rowKey"
+    :loading="loading"
     @update:checked-row-keys="handleCheck"
   />
 </template>
@@ -15,13 +16,15 @@
 import { computed } from 'vue'
 
 import { useVModel } from '@vueuse/core'
-import { NDataTable } from 'naive-ui'
 
+import UiDataTable from '@/components/uikit/UiDataTable.vue'
+
+import { useScrollX } from '@/components/funnels/view/useScrollX'
 import { DEFAULT_SEPARATOR } from '@/constants'
 import { uncamelize } from '@/utils/uncamelize'
 
 import type { FunnelResponseStepsInner } from '@/api'
-import type { StepKey } from '@/components/funnels/view/funnelViews'
+import type { StepKey } from '@/components/funnels/view/funnel-steps/types'
 import type { DataTableBaseColumn, DataTableRowKey } from 'naive-ui'
 import type {
   RowData,
@@ -35,11 +38,16 @@ interface IProps {
   groups: string[]
   checkedRowKeys: DataTableRowKey[]
   maxCheckedRows: number
+  loading?: boolean
 }
 
-const props = withDefaults(defineProps<IProps>(), {})
+const props = withDefaults(defineProps<IProps>(), {
+  loading: false,
+})
 
-const emit = defineEmits(['update:checkedRowKeys'])
+const emit = defineEmits<{
+  (e: 'update:checkedRowKeys', value: typeof props['checkedRowKeys']): void
+}>()
 
 const KEY_SPLITTER = '_'
 const KEY_PREFIX = '__'
@@ -70,7 +78,7 @@ const data = computed<RowData[]>(() => {
     })
   })
 
-  arr.forEach(x => x[TOTAL_CONVERSION] = x[KEY_PREFIX + KEY_TOTAL + KEY_SPLITTER + lastIndex])
+  arr.forEach(x => (x[TOTAL_CONVERSION] = x[KEY_PREFIX + KEY_TOTAL + KEY_SPLITTER + lastIndex]))
 
   return arr
 })
@@ -95,15 +103,11 @@ const groupsColumns = computed<TableColumn[]>(() => {
   const cols = props.groups.map((x, index) => ({
     title: x,
     key: KEY_PREFIX + KEY_GROUPS + KEY_SPLITTER + INDEX_FIRST_ARR_ELEMENT + `[${index}]`,
-    resizable: true,
-    ellipsis: true,
   }))
 
   cols.push({
     title: 'Conversion Ratio',
     key: TOTAL_CONVERSION,
-    resizable: true,
-    ellipsis: true,
   })
 
   return cols
@@ -126,8 +130,6 @@ const dimensionsColumns = computed(() => {
       const childrenEl: TableBaseColumn = {
         title: uncamelize(key),
         key: newKey,
-        resizable: true,
-        ellipsis: true,
       }
       parentEl.children.push(childrenEl)
     })
@@ -149,8 +151,5 @@ function renderCell(value: any, rowData: object, column: DataTableBaseColumn) {
   return column.title.includes('Ratio') ? `${value}%` : value
 }
 
-const scrollX = computed(() => {
-  const WIDTH_ONE_COLUMN = 250 // value calculated experimentally
-  return columns.value.length * WIDTH_ONE_COLUMN
-})
+const { scrollX } = useScrollX(columns)
 </script>

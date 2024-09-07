@@ -1,7 +1,8 @@
 import { computed } from 'vue'
 
+import { useI18n } from 'vue-i18n'
+
 import { PropertyType } from '@/api'
-import usei18n from '@/hooks/useI18n'
 import { useLexiconStore } from '@/stores/lexicon'
 
 import type { Property } from '@/api'
@@ -43,7 +44,7 @@ const getProperties = (items: Property[], name: string, type: PropertyType, grou
 
 const userProperty = () => {
   const lexiconStore = useLexiconStore()
-  const { t } = usei18n()
+  const { t } = useI18n()
 
   const noDataPropertyes = computed(() => {
     return !lexiconStore.propertiesLength

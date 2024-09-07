@@ -25,13 +25,16 @@ import { ref, onMounted, onBeforeUnmount } from 'vue'
 import UiInput from './UiInput.vue'
 import UiTags from './UiTags.vue'
 
-const emit = defineEmits(['input'])
-
 interface Props {
-    value: string[]
+  value: string[]
 }
 
 const props = defineProps<Props>()
+
+const emit = defineEmits<{
+  (e: 'input', value: typeof props['value']): void
+}>()
+
 const inputValue = ref('')
 const edit = ref(false)
 const inputTags = ref<HTMLElement>();
@@ -72,7 +75,7 @@ onBeforeUnmount(() => {
 });
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .ui-input-tags {
     cursor: pointer;
     min-height: 37px;

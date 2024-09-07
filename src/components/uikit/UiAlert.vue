@@ -56,6 +56,3 @@ const typeClass = computed(() => `pf-m-${props.item.type}`)
 
 const closeItem = (id: string) => emit('close', id)
 </script>
-
-<style lang="scss">
-</style>

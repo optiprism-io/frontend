@@ -11,7 +11,7 @@
         <slot name="action" />
       </div>
     </template>
-    <template #popper="{hide}">
+    <template #popper="{ hide }">
       <div class="ui-date-picker__content">
         <div class="ui-date-picker__tabs">
           <UiCalendarControls
@@ -46,7 +46,12 @@
             :disable-apply="warning"
             :button-text="$t('common.apply')"
             @on-change="onChange"
-            @on-apply="($event: any) => {hide(); apply($event)}"
+            @on-apply="
+              ($event: any) => {
+                hide()
+                apply($event)
+              }
+            "
           />
         </div>
       </div>
@@ -55,253 +60,266 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed, onMounted, watch } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 
 import { Dropdown as VDropdown } from 'floating-vue'
 
 import UiCalendarInputs from './UiCalendar/UiCalendarInputs.vue'
-import UiCalendar from '@/components/uikit/UiCalendar/UiCalendar.vue';
-import UiCalendarControls from '@/components/uikit/UiCalendar/UiCalendarControls.vue';
+import UiCalendar from '@/components/uikit/UiCalendar/UiCalendar.vue'
+import UiCalendarControls from '@/components/uikit/UiCalendar/UiCalendarControls.vue'
 
-import { getLastNDaysRange, dateDiff, isDate } from '@/helpers/calendarHelper';
-import { getYYYYMMDD } from '@/helpers/getStringDates';
-import { TimeTypeEnum } from '@/hooks/usePeriod'
+import { dateDiff, getLastNDaysRange, isDate } from '@/helpers/calendarHelper'
+import { getYYYYMMDD } from '@/helpers/getStringDates'
+import { TimeTypeEnum } from '@/helpers/periodHelper'
 
-import type { Each, ApplyPayload, CurrentValue, Value } from '@/components/uikit/UiCalendar/UiCalendar'
+import type {
+  ApplyPayload,
+  CurrentValue,
+  Each,
+  Value,
+} from '@/components/uikit/UiCalendar/UiCalendar'
 
 interface Props {
-    showControls?: boolean
-    value: Value
-    lastCount?: number
-    activeTabControls?: TimeTypeEnum
-    offsetMonth?: number
-    monthLength?: number
-    showEach?: boolean
+  showControls?: boolean
+  value: Value
+  lastCount?: number
+  activeTabControls?: TimeTypeEnum
+  offsetMonth?: number
+  monthLength?: number
+  showEach?: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {
-    showControls: true,
-    activeTabControls: TimeTypeEnum.Last,
-    lastCount: 7,
-    offsetMonth: -24,
-    monthLength: 25,
-});
+  showControls: true,
+  activeTabControls: TimeTypeEnum.Last,
+  lastCount: 7,
+  offsetMonth: -24,
+  monthLength: 25,
+})
 
 const emit = defineEmits<{
-    (e: 'on-select', payload: string): void;
-    (e: 'on-apply', payload: ApplyPayload): void;
-    (e: 'on-change-each', payload: Each): void;
-}>();
+  (e: 'on-select', payload: string): void
+  (e: 'on-apply', payload: ApplyPayload): void
+  (e: 'on-change-each', payload: Each): void
+}>()
 
-const activeTab = ref<TimeTypeEnum>(TimeTypeEnum.Last);
-const since = ref('');
-const isOpen = ref(false);
-const lastCountLocal = ref(7);
+const activeTab = ref<TimeTypeEnum>(TimeTypeEnum.Last)
+const since = ref('')
+const isOpen = ref(false)
+const lastCountLocal = ref(7)
 const valueLocal = ref({
-    from: '',
-    to: '',
-    multiple: false,
+  from: '',
+  to: '',
+  multiple: false,
 })
 const betweenValue = ref({
-    from: '',
-    to: '',
+  from: '',
+  to: '',
 })
-const warning = ref(false);
-const warningText = ref('');
+const warning = ref(false)
+const warningText = ref('')
 
 const fromSelectOnly = computed(() => {
-    const isOneDateSelectTabs = [...Object.values(TimeTypeEnum)];
+  const isOneDateSelectTabs = [...Object.values(TimeTypeEnum)]
 
-    return props.showControls && isOneDateSelectTabs.includes(activeTab.value);
-});
+  return props.showControls && isOneDateSelectTabs.includes(activeTab.value)
+})
 
 const firsDateCalendar = computed((): Date => {
-    const firsDateCalendar = new Date();
-    firsDateCalendar.setMonth(firsDateCalendar.getMonth() - props.monthLength);
+  const firsDateCalendar = new Date()
+  firsDateCalendar.setMonth(firsDateCalendar.getMonth() - props.monthLength)
 
-    return firsDateCalendar;
-});
+  return firsDateCalendar
+})
 
 const showCalendar = computed(() => activeTab.value !== TimeTypeEnum.Each)
 
 const onToggle = () => {
-    isOpen.value = !isOpen.value;
-};
+  isOpen.value = !isOpen.value
+}
 
 const onHide = () => {
-    isOpen.value = false
+  isOpen.value = false
 }
 
 const onSelectTab = (type: TimeTypeEnum) => {
-    if (type === 'last') {
-        lastCountLocal.value = dateDiff(valueLocal.value.from, getYYYYMMDD(new Date())) + 1;
-    }
-    activeTab.value = type;
-    since.value = '';
-    warning.value = false;
-    warningText.value = '';
-    if (lastCountLocal.value < 1) {
-        lastCountLocal.value = 1;
-    }
-    updateValue();
+  if (type === 'last') {
+    lastCountLocal.value = dateDiff(valueLocal.value.from, getYYYYMMDD(new Date())) + 1
+  }
+  activeTab.value = type
+  since.value = ''
+  warning.value = false
+  warningText.value = ''
+  if (lastCountLocal.value < 1) {
+    lastCountLocal.value = 1
+  }
+  updateValue()
 }
 
 const resetBetween = () => {
-    const lastNDateRange = getLastNDaysRange(lastCountLocal.value);
-    return {
-        from: getYYYYMMDD(lastCountLocal.value === 0 ? new Date() : lastNDateRange.from),
-        to: getYYYYMMDD(new Date()),
-    };
+  const lastNDateRange = getLastNDaysRange(lastCountLocal.value)
+  return {
+    from: getYYYYMMDD(lastCountLocal.value === 0 ? new Date() : lastNDateRange.from),
+    to: getYYYYMMDD(new Date()),
+  }
 }
 
 const onSelectLastCount = (payload: number) => {
-    lastCountLocal.value = payload;
-    warning.value = payload === 0;
+  lastCountLocal.value = payload
+  warning.value = payload === 0
 
-    valueLocal.value = {
-        ...valueLocal.value,
-        ...resetBetween(),
-    }
+  valueLocal.value = {
+    ...valueLocal.value,
+    ...resetBetween(),
+  }
 }
 
 const onChangeSince = (payload: string) => {
-    since.value = payload;
-    warning.value = false;
-    warningText.value = '';
+  since.value = payload
+  warning.value = false
+  warningText.value = ''
 
-    if (isDate(payload)) {
-        const newDate = new Date(payload);
-        const newDateTimestamp = newDate.getTime();
+  if (isDate(payload)) {
+    const newDate = new Date(payload)
+    const newDateTimestamp = newDate.getTime()
 
-        if (firsDateCalendar.value.getTime() < newDateTimestamp && new Date().getTime() > newDateTimestamp) {
-            valueLocal.value = {
-                ...valueLocal.value,
-                from: getYYYYMMDD(newDate),
-            }
-            lastCountLocal.value = dateDiff(valueLocal.value.from, getYYYYMMDD(new Date())) + 1;
-
-        } else {
-            warning.value = true;
-            warningText.value = 'The selected date is greater or less than the allowed dates';
-        }
+    if (
+      firsDateCalendar.value.getTime() < newDateTimestamp &&
+      new Date().getTime() > newDateTimestamp
+    ) {
+      valueLocal.value = {
+        ...valueLocal.value,
+        from: getYYYYMMDD(newDate),
+      }
+      lastCountLocal.value = dateDiff(valueLocal.value.from, getYYYYMMDD(new Date())) + 1
     } else {
-        valueLocal.value = {
-            ...valueLocal.value,
-            ...resetBetween(),
-        }
+      warning.value = true
+      warningText.value = 'The selected date is greater or less than the allowed dates'
     }
+  } else {
+    valueLocal.value = {
+      ...valueLocal.value,
+      ...resetBetween(),
+    }
+  }
 }
 
-const onChangeBetween = (payload: {type: 'from' | 'to', value: string}) => {
-    betweenValue.value = {
-        ...betweenValue.value,
-        [payload.type]: payload.value,
-    }
-    warning.value = false;
-    warningText.value = '';
+const onChangeBetween = (payload: { type: 'from' | 'to'; value: string }) => {
+  betweenValue.value = {
+    ...betweenValue.value,
+    [payload.type]: payload.value,
+  }
+  warning.value = false
+  warningText.value = ''
 
-    if (isDate(payload.value)) {
-        const newDate = new Date(payload.value);
-        const newDateTimestamp = newDate.getTime();
+  if (isDate(payload.value)) {
+    const newDate = new Date(payload.value)
+    const newDateTimestamp = newDate.getTime()
 
-        if (firsDateCalendar.value.getTime() < newDateTimestamp && new Date().getTime() > newDateTimestamp) {
-            valueLocal.value = {
-                ...valueLocal.value,
-                [payload.type]: getYYYYMMDD(newDate),
-            }
+    if (
+      firsDateCalendar.value.getTime() < newDateTimestamp &&
+      new Date().getTime() > newDateTimestamp
+    ) {
+      valueLocal.value = {
+        ...valueLocal.value,
+        [payload.type]: getYYYYMMDD(newDate),
+      }
 
-            if (new Date(valueLocal.value.from).getTime() > new Date(valueLocal.value.to).getTime()) {
-                warning.value = true;
-            }
-        } else {
-            warning.value = true;
-            warningText.value = 'The selected date is greater or less than the allowed dates';
-        }
+      if (new Date(valueLocal.value.from).getTime() > new Date(valueLocal.value.to).getTime()) {
+        warning.value = true
+      }
     } else {
-        valueLocal.value = {
-            ...valueLocal.value,
-            ...resetBetween(),
-        }
+      warning.value = true
+      warningText.value = 'The selected date is greater or less than the allowed dates'
     }
+  } else {
+    valueLocal.value = {
+      ...valueLocal.value,
+      ...resetBetween(),
+    }
+  }
 }
 
 const onChangeEach = (payload: Each) => {
-    isOpen.value = false
-    emit('on-change-each', payload)
+  isOpen.value = false
+  emit('on-change-each', payload)
 }
 
 const updateValue = () => {
-    const value = {...props.value};
+  const value = { ...props.value }
 
-    if (!value.from && !value.to) {
-        const reset = resetBetween();
-        value.from = reset.from;
-        value.to = reset.to;
-    }
+  if (!value.from && !value.to) {
+    const reset = resetBetween()
+    value.from = reset.from
+    value.to = reset.to
+  }
 
-    since.value = value.from;
-    betweenValue.value = {
-        from: value.from,
-        to: value.to,
-    };
-    valueLocal.value = value;
+  since.value = value.from
+  betweenValue.value = {
+    from: value.from,
+    to: value.to,
+  }
+  valueLocal.value = value
 }
 
 const onChange = (payload: CurrentValue): void => {
-    const value = {
-        from: payload.from || '',
-        to: payload.to || '',
-    };
+  const value = {
+    from: payload.from || '',
+    to: payload.to || '',
+  }
 
-    since.value = value.from;
-    betweenValue.value = value;
-    lastCountLocal.value = dateDiff(value.from, getYYYYMMDD(new Date())) + 1;
+  since.value = value.from
+  betweenValue.value = value
+  lastCountLocal.value = dateDiff(value.from, getYYYYMMDD(new Date())) + 1
 }
 
 const apply = (payload: CurrentValue): void => {
-    emit('on-apply', {
-        value: payload,
-        type: activeTab.value,
-        last: Number(lastCountLocal.value),
-    });
+  emit('on-apply', {
+    value: payload,
+    type: activeTab.value,
+    last: Number(lastCountLocal.value),
+  })
 }
 
 onMounted(() => {
-    if (props.activeTabControls) {
-        activeTab.value = props.activeTabControls;
-    }
+  if (props.activeTabControls) {
+    activeTab.value = props.activeTabControls
+  }
 
-    if (props.lastCount) {
-        lastCountLocal.value = props.lastCount;
-    }
+  if (props.lastCount) {
+    lastCountLocal.value = props.lastCount
+  }
 
-    updateValue();
-});
-
-watch(() => props.lastCount, (value) => {
-    lastCountLocal.value = value;
-    updateValue();
+  updateValue()
 })
+
+watch(
+  () => props.lastCount,
+  value => {
+    lastCountLocal.value = value
+    updateValue()
+  }
+)
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .ui-date-picker {
-    &__content {
-        display: flex;
-        overflow: hidden;
-    }
+  &__content {
+    display: flex;
+    overflow: hidden;
+  }
 
-    &__tabs {
-        width: 200px;
-    }
+  &__tabs {
+    width: 200px;
+  }
 
-    &__action {
-        width: 280px;
-        border-left: 1px solid var(--pf-global--BackgroundColor--200);
-    }
+  &__action {
+    width: 280px;
+    border-left: 1px solid var(--pf-global--BackgroundColor--200);
+  }
 
-    .pf-c-menu.pf-m-plain {
-        box-shadow: none;
-    }
+  .pf-c-menu.pf-m-plain {
+    box-shadow: none;
+  }
 }
 </style>

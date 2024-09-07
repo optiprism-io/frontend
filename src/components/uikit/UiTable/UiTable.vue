@@ -18,7 +18,7 @@
               <UiSpinner
                 v-show="props.isLoading"
                 class="pf-u-ml-md"
-                :size="'md'"
+                size="md"
               />
             </div>
           </div>
@@ -28,7 +28,7 @@
           <div v-if="props.showSelectColumns" class="pf-c-toolbar__item pf-u-ml-auto">
             <UiSelect
               :items="columnsSelect"
-              :variant="'multiple'"
+              variant="multiple"
               :text-button="columnsButtonText"
               :selections="activeColumns"
               @on-select="toggleColumns"
@@ -116,7 +116,9 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, inject, useSlots, ref, onBeforeMount } from 'vue'
+import { computed, useSlots, ref, onBeforeMount } from 'vue'
+
+import { useI18n } from 'vue-i18n'
 
 import DataEmptyPlaceholder from '@/components/common/data/DataEmptyPlaceholder.vue'
 import type { UiSelectItem } from '@/components/uikit/UiSelect.vue';
@@ -127,25 +129,6 @@ import UiTableCellWrapper from '@/components/uikit/UiTable/UiTableCellWrapper.vu
 import UiTableHeadCell from '@/components/uikit/UiTable/UiTableHeadCell.vue'
 
 import type { Row, Cell, Column, Action, ColumnGroup } from '@/components/uikit/UiTable/UiTable'
-
-const i18n = inject<any>('i18n')
-const slots = useSlots()
-
-type Props = {
-  showSelectColumns?: boolean
-  compact?: boolean
-  items?: Row[]
-  columns: Column[]
-  filterColumns?: Column[]
-  groups?: ColumnGroup[]
-  isLoading?: boolean
-  showToolbar?: boolean
-  noDataTitle?: string
-  noDataText?: string
-  enablePlaceholder?: boolean
-  defaultColumns?: string[]
-  allowClickCell?: boolean
-}
 
 const props = withDefaults(defineProps<Props>(), {
   items: () => [],
@@ -165,6 +148,24 @@ const emit = defineEmits<{
   (e: 'on-action', payload: Action): void
   (e: 'select-columns', payload: string[]): void
 }>()
+const i18n = useI18n()
+const slots = useSlots()
+
+type Props = {
+  showSelectColumns?: boolean
+  compact?: boolean
+  items?: Row[]
+  columns: Column[]
+  filterColumns?: Column[]
+  groups?: ColumnGroup[]
+  isLoading?: boolean
+  showToolbar?: boolean
+  noDataTitle?: string
+  noDataText?: string
+  enablePlaceholder?: boolean
+  defaultColumns?: string[]
+  allowClickCell?: boolean
+}
 
 const activeColumns = ref<string[]>([])
 
@@ -185,7 +186,7 @@ const columnsSelect = computed(() => {
   }, []) : []
 })
 
-const columnsButtonText = computed(() => `${activeColumns.value.length} ${i18n.$t('common.columns')}`)
+const columnsButtonText = computed(() => `${activeColumns.value.length} ${i18n.t('common.columns')}`)
 
 const onAction = (payload: Action) => {
   emit('on-action', payload)
@@ -208,7 +209,7 @@ const clickCell = (cell: Cell, rowIndex: number) => {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .ui-table {
   .pf-c-toolbar__content {
     min-height: 34px;

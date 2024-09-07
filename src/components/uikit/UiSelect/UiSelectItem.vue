@@ -6,8 +6,8 @@
       'pf-c-menu__list-item--disabled': disabled,
     }"
     @click="emit('click')"
-    @mouseover="emit('mouseOver')"
-    @mouseout="emit('mouseOut')"
+    @mouseover="emit('mouse-over')"
+    @mouseout="emit('mouse-out')"
   >
     <div
       class="pf-c-menu__item"
@@ -37,29 +37,28 @@ import { VTooltip } from 'floating-vue'
 
 import UiIcon from '@/components/uikit/UiIcon.vue'
 
-defineProps({
-    label: {
-        type: String,
-        default: '',
-    },
-    selected: {
-        type: Boolean,
-        default: false,
-    },
-    disabled: {
-        type: Boolean,
-        default: false,
-    },
-    editable: {
-        type: Boolean,
-        default: false,
-    },
+interface IProps {
+  label?: string
+  selected?: boolean
+  disabled?: boolean
+  editable?: boolean
+}
+
+withDefaults(defineProps<IProps>(), {
+  label: '',
+  selected: false,
+  disabled: false,
+  editable: false,
 })
 
-const emit = defineEmits(['click', 'mouseOver', 'mouseOut'])
+const emit = defineEmits<{
+  (e: 'click'): void
+  (e: 'mouse-over'): void
+  (e: 'mouse-out'): void
+}>()
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .pf-c-menu__item:hover,
 .pf-c-menu__list-item--selected {
   background-color: var(--pf-c-menu__list-item--hover--BackgroundColor);

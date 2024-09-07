@@ -1,39 +1,39 @@
-import type { TimeTypeEnum } from '@/hooks/usePeriod'
+import type { TimeTypeEnum } from '@/helpers/periodHelper'
 
 export type Each = 'month' | 'week' | 'day' | 'hour' | 'minute'
 
 export interface RangeValue {
-    i?: number;
-    id: string;
-    month?: number;
-    year?: number;
+  i?: number
+  id: string
+  month?: number
+  year?: number
 }
 
 export interface CurrentValue {
-    from: null | string,
-    to: null | string,
-    dates: string[],
-    multiple: boolean,
-    type: string,
-    activeDates: string[],
-    date: string | null,
+  from: null | string
+  to: null | string
+  dates: string[]
+  multiple: boolean
+  type: string
+  activeDates: string[]
+  date: string | null
 }
 
 export interface ApplyPayload {
-    value: CurrentValue,
-    type: TimeTypeEnum,
-    last: number,
+  value: CurrentValue
+  type: TimeTypeEnum
+  last: number
 }
 
 export interface Value {
-    from: string
-    to: string
-    multiple: boolean
-    dates?: string[]
-    each?: Each
+  from: string
+  to: string
+  multiple: boolean
+  dates?: string[]
+  each?: Each
 }
 
 export interface Ranged {
-    from: string | null;
-    to: string | null;
+  from: string | null
+  to: string | null
 }

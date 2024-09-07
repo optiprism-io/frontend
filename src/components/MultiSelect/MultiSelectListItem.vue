@@ -29,7 +29,6 @@ class MultiSelectListItemFactory<T = any> {
             props: {
                 item: {
                     type: null as unknown as PropType<T | undefined>,
-                    default: undefined as unknown,
                     required: true,
                 },
                 selected: Boolean,

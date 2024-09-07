@@ -25,6 +25,8 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue'
 
+import { useI18n } from 'vue-i18n'
+
 import type { ApplyPayload } from '@/components/events/UserPropertyPopup.vue';
 import UserPropertyPopup from '@/components/events/UserPropertyPopup.vue'
 import UiCellTags from '@/components/uikit/cells/UiCellTags.vue'
@@ -34,14 +36,13 @@ import UiTable from '@/components/uikit/UiTable/UiTable.vue'
 import UiTablePressedCell from '@/components/uikit/UiTable/UiTablePressedCell.vue'
 import ToolsLayout from '@/layout/ToolsLayout.vue'
 
-import usei18n from '@/hooks/useI18n'
 import { useCommonStore } from '@/stores/common'
 import { useLexiconStore } from '@/stores/lexicon'
 
 import type { Property } from '@/api'
 import type { Action, Row } from '@/components/uikit/UiTable/UiTable'
 
-const { t } = usei18n()
+const { t } = useI18n()
 const lexiconStore = useLexiconStore()
 const commonStore = useCommonStore()
 

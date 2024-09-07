@@ -34,7 +34,7 @@
                   type="button"
                 >
                   <div class="pf-u-display-flex pf-u-align-items-center">
-                    <UiIcon :icon="'far fa-calendar-alt'" />
+                    <UiIcon icon="far fa-calendar-alt" />
                     &nbsp;
                     {{ calendarValueString }}
                   </div>
@@ -46,7 +46,7 @@
       </template>
       <template #after>
         <Select
-          grouped
+          :grouped="true"
           :items="itemsProperties"
           :width-auto="true"
           :multiple="true"
@@ -54,7 +54,7 @@
         >
           <UiButton
             class="pf-m-control"
-            :after-icon="'fas fa-caret-down'"
+            after-icon="fas fa-caret-down"
           >
             {{ columnsButtonText }}
           </UiButton>
@@ -74,30 +74,31 @@
 <script lang="ts" setup>
 import { computed, ref } from 'vue'
 
+import { useI18n } from 'vue-i18n'
+
 import LiveStreamEventPopup from '@/components/events/LiveStreamEventPopup.vue'
 import Select from '@/components/Select/Select.vue'
 import UiButton from '@/components/uikit/UiButton.vue'
 import UiDatePicker from '@/components/uikit/UiDatePicker.vue'
 import UiIcon from '@/components/uikit/UiIcon.vue'
 import UiTable from '@/components/uikit/UiTable/UiTable.vue'
-import type { UiToggleGroupItem } from '@/components/uikit/UiToggleGroup.vue'
-import UiToggleGroup from '@/components/uikit/UiToggleGroup.vue'
+import UiToggleGroup from '@/components/uikit/UiToggleGroup/UiToggleGroup.vue'
 
 import { shortPeriodDays } from '@/components/uikit/UiCalendar/UiCalendar.config'
 import { getStringDateByFormat } from '@/helpers/getStringDates'
 import useDataTable from '@/hooks/useDataTable'
-import usei18n from '@/hooks/useI18n'
 import useProperty from '@/hooks/useProperty'
 import { useCommonStore } from '@/stores/common'
 import { useEventsStore } from '@/stores/eventSegmentation/events'
 import { useLexiconStore } from '@/stores/lexicon'
-import { useLiveStreamStore, defaultColumns } from '@/stores/reports/liveStream'
+import { defaultColumns, useLiveStreamStore } from '@/stores/reports/liveStream'
 
 import type { ApplyPayload } from '@/components/uikit/UiCalendar/UiCalendar'
-import type { Cell, Action } from '@/components/uikit/UiTable/UiTable'
+import type { Action, Cell } from '@/components/uikit/UiTable/UiTable'
+import type { UiToggleGroupItem } from '@/components/uikit/UiToggleGroup/types'
 import type { PropertyRef } from '@/types/events'
 
-const { t } = usei18n()
+const { t } = useI18n()
 const liveStreamStore = useLiveStreamStore()
 const commonStore = useCommonStore()
 const lexiconStore = useLexiconStore()
@@ -117,7 +118,7 @@ const strings = {
 
 const itemsPeriod = computed(() => {
   return shortPeriodDays.map(
-    (key): UiToggleGroupItem => ({
+    (key): UiToggleGroupItem<string> => ({
       key,
       nameDisplay: key + t('common.calendar.dayShort'),
       value: key,
@@ -276,7 +277,7 @@ const onAction = (payload: Action) => {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .table-live-steam {
   --table-live-steam-cell-width: 200px;
 

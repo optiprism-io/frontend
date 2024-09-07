@@ -8,14 +8,13 @@
 </template>
 
 <script setup lang="ts">
-defineProps({
-    col: {
-        type: [String, Number],
-        default: 12,
-    },
-    colLg: {
-        type: [String, Number],
-        default: 6,
-    },
+interface IProps {
+  col?: string | number
+  colLg?: string | number
+}
+
+withDefaults(defineProps<IProps>(), {
+  col: 12,
+  colLg: 6,
 })
 </script>

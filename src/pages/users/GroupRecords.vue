@@ -28,7 +28,7 @@
               @select="onSelectPeriod"
             >
               <template #after>
-                <UiDatePickerWrappet
+                <UiDatePickerWrapper
                   :is-period-active="groupStore.isPeriodActive"
                   :from="groupStore.period.from"
                   :to="groupStore.period.to"
@@ -52,42 +52,45 @@
 </template>
 
 <script setup lang="ts">
-import { computed, inject, onMounted, onUnmounted, ref } from 'vue';
+import { computed, onMounted, onUnmounted, ref } from 'vue'
 
-import Segments from '@/components/events/Segments/Segments.vue';
-import PropertiesManagementPopup from '@/components/groups/PropertiesManagementPopup.vue';
-import UiCellToolMenu from '@/components/uikit/cells/UiCellToolMenu.vue';
-import UiCard from '@/components/uikit/UiCard/UiCard.vue';
-import UiCardContainer from '@/components/uikit/UiCard/UiCardContainer.vue';
-import type { DataPickerPeriod } from '@/components/uikit/UiDatePickerWrappet.vue';
-import UiDatePickerWrappet from '@/components/uikit/UiDatePickerWrappet.vue';
-import UiTable from '@/components/uikit/UiTable/UiTable.vue';
-import type { UiToggleGroupItem } from '@/components/uikit/UiToggleGroup.vue';
-import UiToggleGroup from '@/components/uikit/UiToggleGroup.vue';
-import ToolsLayout from '@/layout/ToolsLayout.vue';
+import { useI18n } from 'vue-i18n'
 
-import { shortPeriodDays } from '@/components/uikit/UiCalendar/UiCalendar.config';
-import { useGroupStore } from '@/stores/group/group';
-import { useSegmentsStore } from '@/stores/reports/segments';
+import Segments from '@/components/events/Segments/Segments.vue'
+import PropertiesManagementPopup from '@/components/groups/PropertiesManagementPopup.vue'
+import UiCellToolMenu from '@/components/uikit/cells/UiCellToolMenu.vue'
+import UiCard from '@/components/uikit/UiCard/UiCard.vue'
+import UiCardContainer from '@/components/uikit/UiCard/UiCardContainer.vue'
+import type { DataPickerPeriod } from '@/components/uikit/UiDatePickerWrapper.vue'
+import UiDatePickerWrapper from '@/components/uikit/UiDatePickerWrapper.vue'
+import UiTable from '@/components/uikit/UiTable/UiTable.vue'
+import UiToggleGroup from '@/components/uikit/UiToggleGroup/UiToggleGroup.vue'
+import ToolsLayout from '@/layout/ToolsLayout.vue'
 
-import type { GroupRecord } from '@/api';
-import type { Row, Action } from '@/components/uikit/UiTable/UiTable';
-import type { I18N } from '@/utils/i18n';
+import { shortPeriodDays } from '@/components/uikit/UiCalendar/UiCalendar.config'
+import { useGroupStore } from '@/stores/group/group'
+import { useSegmentsStore } from '@/stores/reports/segments'
 
-const i18n = inject('i18n') as I18N;
-const groupStore = useGroupStore();
-const segmentsStore = useSegmentsStore();
-const selectedItes = ref<GroupRecord | null>(null);
-const selectedItesIndex = ref<number>();
+import type { GroupRecord } from '@/api'
+import type { Action, Row } from '@/components/uikit/UiTable/UiTable'
+import type { UiToggleGroupItem } from '@/components/uikit/UiToggleGroup/types'
+
+const i18n = useI18n()
+const groupStore = useGroupStore()
+const segmentsStore = useSegmentsStore()
+const selectedItes = ref<GroupRecord | null>(null)
+const selectedItesIndex = ref<number>()
 
 const itemsPeriod = computed(() => {
-    return shortPeriodDays.map((key): UiToggleGroupItem => ({
-        key,
-        nameDisplay: key + i18n.$t('common.calendar.dayShort'),
-        value: key,
-        selected: groupStore.controlsPeriod === key,
-    }));
-});
+  return shortPeriodDays.map(
+    (key): UiToggleGroupItem<string> => ({
+      key,
+      nameDisplay: key + i18n.t('common.calendar.dayShort'),
+      value: key,
+      selected: groupStore.controlsPeriod === key,
+    })
+  )
+})
 
 const columnsPropertiesKeys = computed(() => {
     const properties = groupStore.items.map(item => {
@@ -101,7 +104,7 @@ const columns = computed(() => {
         const isAction = key === 'action';
         return {
             value: key,
-            title: isAction ? '' : key === 'id' ? i18n.$t(`groups.columns.${key}`) : key,
+            title: isAction ? '' : key === 'id' ? i18n.t(`groups.columns.${key}`) : key,
             default: isAction,
             type: isAction? 'action' : '',
             fitContent: key === 'id',
@@ -128,7 +131,7 @@ const items = computed(() => {
                 component: UiCellToolMenu,
                 items: [
                     {
-                        label: i18n.$t('common.edit'),
+                        label: i18n.t('common.edit'),
                         value: 'edit',
                     },
                 ],

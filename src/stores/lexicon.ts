@@ -1,9 +1,9 @@
 import { defineStore } from 'pinia'
+import { useI18n } from 'vue-i18n'
 
 import { EventType, PropertyType } from '@/api'
 import { apiClient } from '@/api/apiClient'
 import { errorHandler } from '@/helpers/errorHandlerHelper'
-import useI18n from '@/hooks/useI18n'
 import { PropertyTypeEnum, useCommonStore } from '@/stores/common'
 import { useEventsStore } from '@/stores/eventSegmentation/events'
 import { useProjectsStore } from '@/stores/projects/projects'
@@ -29,13 +29,9 @@ import type {
   PropertyRef,
   UserCustomProperty,
 } from '@/types/events'
-import type { $T, $TKeyExists } from '@/utils/i18n'
 
 type Lexicon = {
-  i18n: {
-    t: $T
-    keyExists: $TKeyExists
-  }
+  i18n: ReturnType<typeof useI18n>
   cohorts: Cohort[]
 
   events: Event[]

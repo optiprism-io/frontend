@@ -24,7 +24,7 @@
           @select="changeProperty"
         >
           <UiButton
-            :before-icon="'fas fa-plus-circle'"
+            before-icon="fas fa-plus-circle"
             class="pf-m-primary"
             type="button"
             @click="handleSelectProperty"
@@ -84,21 +84,21 @@ const props = withDefaults(defineProps<IProps>(), {
 })
 
 const emit = defineEmits<{
-  (e: 'removeBreakdown', index: number): void
-  (e: 'changeBreakdownProperty', breakdownIdx: number, propRef: PropertyRef): void
-  (e: 'handleSelectProperty'): void
+  (e: 'remove-breakdown', index: number): void
+  (e: 'change-breakdown-property', breakdownIdx: number, propRef: PropertyRef): void
+  (e: 'handle-select-property'): void
 }>()
 
 const removeBreakdown = (): void => {
-  emit('removeBreakdown', props.index)
+  emit('remove-breakdown', props.index)
 }
 
 const changeProperty = (propRef: PropertyRef): void => {
-  emit('changeBreakdownProperty', props.index, propRef)
+  emit('change-breakdown-property', props.index, propRef)
 }
 
 const handleSelectProperty = (): void => {
-  emit('handleSelectProperty')
+  emit('handle-select-property')
 }
 </script>
 

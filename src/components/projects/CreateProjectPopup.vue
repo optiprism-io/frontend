@@ -12,7 +12,6 @@
       for="project-name"
     >
       <UiInput
-        ref="input"
         v-model="projectName"
         :required="true"
         name="project-name"

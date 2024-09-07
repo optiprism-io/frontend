@@ -9,15 +9,15 @@
 
 import { computed, onMounted } from 'vue'
 
+import { useI18n } from 'vue-i18n'
 import { useRoute, RouterView } from 'vue-router'
 
 import UiTabs from '@/components/uikit/UiTabs.vue'
 
-import usei18n from '@/hooks/useI18n'
 import { pagesMap } from '@/router'
 import { useLexiconStore } from '@/stores/lexicon'
 
-const { t } = usei18n()
+const { t } = useI18n()
 const route = useRoute()
 const lexiconStore = useLexiconStore()
 

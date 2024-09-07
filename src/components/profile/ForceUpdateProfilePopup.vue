@@ -26,7 +26,7 @@
       <UiFormGroup
         v-if="forceEmail"
         :label="strings.setEmailText"
-        :for="'force-email'"
+        for="force-email"
         :required="true"
       >
         <UiInput
@@ -39,7 +39,7 @@
       <UiFormGroup
         v-if="forceEmail"
         :label="strings.confirmEmail"
-        :for="'confirm-email'"
+        for="confirm-email"
         :required="true"
       >
         <UiInput
@@ -54,7 +54,7 @@
       <UiFormGroup
         v-if="forcePass"
         :label="strings.setPassText"
-        :for="'force-password'"
+        for="force-password"
         :required="true"
       >
         <InputPassword
@@ -67,7 +67,7 @@
       <UiFormGroup
         v-if="forcePass"
         :label="strings.confirmPassword"
-        :for="'confirm-password'"
+        for="confirm-password"
         :required="true"
       >
         <InputPassword
@@ -86,6 +86,7 @@
 import { computed, ref } from 'vue'
 
 import { safeParse } from 'valibot'
+import { useI18n } from 'vue-i18n'
 
 import InputPassword from '@/components/login/InputPassword.vue'
 import UiForm from '@/components/uikit/UiForm.vue'
@@ -95,7 +96,6 @@ import UiInput from '@/components/uikit/UiInput.vue'
 import UiPopupWindow from '@/components/uikit/UiPopupWindow.vue'
 
 import { apiClient } from '@/api/apiClient'
-import usei18n from '@/hooks/useI18n'
 import { useMutation } from '@/hooks/useMutation'
 import {
   confirmEmail as confirmEmailScheme,
@@ -121,7 +121,7 @@ const emit = defineEmits<{
   (e: 'changed-project', project: Project): void
 }>()
 
-const { t } = usei18n()
+const { t } = useI18n()
 
 const strings = computed(() => {
   return {
@@ -258,7 +258,7 @@ const applyDisabled = computed(
 async function setFields() {
   if (applyDisabled.value) return
 
-  const promises: Array<() => Promise<void | undefined>> = []
+  const promises: (() => Promise<void | undefined>)[] = []
   if (props.forceEmail) promises.push(setEmail)
   if (props.forcePass) promises.push(setPassword)
   if (props.forceProject) promises.push(setProjectName)

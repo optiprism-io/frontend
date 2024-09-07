@@ -103,7 +103,7 @@
             <template v-else>
               <UiButton
                 class="pf-m-link"
-                :before-icon="'fas fa-plus-circle'"
+                before-icon="fas fa-plus-circle"
                 @click="onClickValue"
               >
                 {{ $t('events.select_value') }}
@@ -200,7 +200,7 @@
         @select="changeBetweenAdd"
       >
         <UiButton
-          :before-icon="'fas fa-arrow-right-to-bracket'"
+          before-icon="fas fa-arrow-right-to-bracket"
           @click="betweenAdd"
         />
       </Select>
@@ -216,6 +216,7 @@
 import { inject, computed, ref, defineAsyncComponent } from 'vue';
 
 import { Tooltip as VTooltip } from 'floating-vue'
+import { useI18n } from 'vue-i18n'
 
 import Filter from '@/components/events/Filter.vue';
 import OperationSelect from '@/components/events/OperationSelect.vue';
@@ -230,7 +231,6 @@ import { DidEventRelativeCountTypeEnum } from '@/api';
 import { conditions } from '@/configs/events/segmentCondition';
 import { conditions as conditionsMap, conditionsBetween } from '@/configs/events/segmentCondition';
 import { getStringDateByFormat } from '@/helpers/getStringDates';
-import usei18n from '@/hooks/useI18n';
 import { operationById } from '@/types';
 
 import type {
@@ -246,8 +246,16 @@ import type { Each, ApplyPayload } from '@/components/uikit/UiCalendar/UiCalenda
 import type { OperationId, Value } from '@/types';
 import type { PropertyRef, Condition as ConditionType } from '@/types/events';
 
+const props = withDefaults(defineProps<Props>(), {
+    showRemove: true,
+})
+
+const emit = defineEmits<{
+    (e: 'on-click-value', idx: number, indexParent: number): void;
+}>()
+
 const ConditionDidEvent = defineAsyncComponent(() => import('./ConditionDidEvent.vue'));
-const i18n = usei18n();
+const i18n = useI18n()
 
 type Item = {
     id: string,
@@ -273,14 +281,6 @@ interface ItemConditionType {
     description: string,
 }
 
-const emit = defineEmits<{
-    (e: 'on-click-value', idx: number, indexParent: number): void;
-}>();
-
-const props = withDefaults(defineProps<Props>(), {
-    showRemove: true,
-});
-
 const getConditionItem = (key: string): ItemConditionType => {
     const name = i18n.t(`events.condition.${key}`) as string;
     const hintKey = `events.condition.${key}_hint`;
@@ -291,7 +291,7 @@ const getConditionItem = (key: string): ItemConditionType => {
             name,
         },
         name,
-        description: i18n.keyExists(hintKey) ? i18n.t(hintKey) : '',
+        description: i18n.t(hintKey),
     }
 }
 
@@ -546,7 +546,7 @@ const onHideConditionBetweenAll = () => {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .condition {
     position: relative;
     .pf-c-action-list {
