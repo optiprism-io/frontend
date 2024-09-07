@@ -40,6 +40,7 @@ import {
   ReportType,
 } from '@/api'
 import { apiClient } from '@/api/apiClient'
+import { QUERY_VIEW } from '@/pages/reports/useFunnelView'
 import { pagesMap } from '@/router'
 import { useEventsStore } from '@/stores/eventSegmentation/events'
 import { useProjectsStore } from '@/stores/projects/projects'
@@ -58,6 +59,7 @@ import type {
   ReportQuery,
 } from '@/api'
 import type { Step } from '@/types/steps'
+import type { RouteLocationRaw } from 'vue-router'
 
 const props = defineProps<{
   report?: Report
@@ -84,7 +86,7 @@ const reportChartType = computed(() => report.value?.query?.chartType)
 const reportType = computed(() => report.value?.type ?? ReportType.EventSegmentation)
 const isEventsViews = computed(() => reportType.value === ReportType.EventSegmentation)
 
-const reportLink = computed(() => {
+const reportLink = computed<RouteLocationRaw | null>(() => {
   if (report.value) {
     return {
       name:
@@ -95,15 +97,15 @@ const reportLink = computed(() => {
         id: report.value?.id,
       },
       query: queryParams.value,
-    }
+    } satisfies RouteLocationRaw
   }
   return null
 })
 
 const queryParams = computed(() => {
-  if (!report.value || isString(report.value.query.chartType)) return null
+  if (!report.value || isString(report.value.query.chartType)) return undefined
   return {
-    view: report.value.query.chartType.type,
+    [QUERY_VIEW]: report.value.query.chartType.type,
   }
 })
 

@@ -7,6 +7,8 @@ import { FunnelConversionOverTimeChartTypeTypeEnum, FunnelStepsChartTypeTypeEnum
 import type { FunnelChartType } from '@/pages/reports/funnelViews'
 import type { LocationQueryValue } from 'vue-router'
 
+export const QUERY_VIEW = 'view'
+
 export function useFunnelView() {
   const route = useRoute()
   const router = useRouter()
@@ -16,7 +18,7 @@ export function useFunnelView() {
   )
   function onChangeView(view: FunnelChartType) {
     funnelViewId.value = view
-    router.push({ query: { view } })
+    router.push({ query: { [QUERY_VIEW]: view } })
   }
 
   function validateRouteQuery(
