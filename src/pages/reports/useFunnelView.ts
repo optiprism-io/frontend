@@ -14,11 +14,11 @@ export function useFunnelView() {
   const router = useRouter()
 
   const funnelViewId = ref<FunnelChartType>(
-    validateRouteQuery(route.query.view) || FunnelStepsChartTypeTypeEnum.Steps
+    validateRouteQuery(route.query[QUERY_VIEW]) || FunnelStepsChartTypeTypeEnum.Steps
   )
   function onChangeView(view: FunnelChartType) {
     funnelViewId.value = view
-    router.push({ query: { [QUERY_VIEW]: view } })
+    router.push({ query: { ...route.query, [QUERY_VIEW]: view } })
   }
 
   function validateRouteQuery(
