@@ -20,7 +20,7 @@
     "logout": "Log Out"
   },
   "common": {
-    "group":"Count uniques by :name",
+    "group":"Count uniques by {name}",
     "and": "And",
     "or": "Or",
     "addProperty": "Add property",
@@ -47,7 +47,7 @@
     "edit": "Edit",
     "save": "Save",
     "custom": "Custom",
-    "list_of": "List of :types",
+    "list_of": "List of {types}",
     "columns": "columns",
     "noData": "No data",
     "fillField": "Please fill in this field",
@@ -129,7 +129,7 @@
     "saved": "Report saved",
     "selectReport": "Select Report",
     "delete": "Delete report",
-    "deleteConfirm": "You definitely want to delete the report: :name?",
+    "deleteConfirm": "You definitely want to delete the report",
     "deleteDashboardConfirm": "Deleting is permanent. Doing so will not delete any related cards. Are you sure you want to delete?",
     "table": {
       "accName": "Event"
@@ -192,7 +192,7 @@
         "customEvents": "Custom events"
       },
       "popup": {
-        "title": "Event: :name",
+        "title": "Event: {name}",
         "tabs": {
           "event": "Event Properties",
           "custom": "Custom Properties",
@@ -204,7 +204,7 @@
     "customEvents": {
       "title": "Custom events",
       "deleteTitle": "Delete Custom Event",
-      "deleteContent": "Do you sure you want to delete :name?"
+      "deleteContent": "Do you sure you want to delete {name}?"
     },
     "add_custom_event": "Add custom event",
     "event_properties": "Event properties",
@@ -222,7 +222,7 @@
     "editProperty": "Edit property",
     "selectAggregate": "Select aggregate",
     "selectQuery": "Select Query",
-    "perGroupAggregateBy": "per :group, aggregate by",
+    "perGroupAggregateBy": "per {group}, aggregate by",
     "per": "per",
     "segments": {
       "segment": "Segment",
@@ -323,9 +323,6 @@
       "clear": "Clear holding constant"
     },
     "view": {
-      "funnelSteps": "Funnel Steps",
-      "conversionOverTime": "Conversion over time",
-      "timeToConvert": "Time to convert",
       "conversionCount": "Conversion count",
       "conversionRatio": "Conversion ratio",
       "dropOffCount": "Drop off count",
@@ -371,7 +368,7 @@
     "createReport": "Create report",
     "newDashboard": "New Dashboard",
     "delete": "Delete Dashboard",
-    "deleteConfirm": "You definitely want to delete the dashboard: :name?",
+    "deleteConfirm": "You definitely want to delete the dashboard",
     "addReport": "Add report",
     "untitledDashboard": "Untitled Dashboard",
     "changeReport": "Change report",

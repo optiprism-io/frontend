@@ -33,7 +33,7 @@
       <UiButton
         v-if="isShowDashboardContentAndControls"
         class="pf-m-link dashboards__nav-item dashboards__nav-item_new"
-        :before-icon="'fas fa-plus'"
+        before-icon="fas fa-plus"
         @click="setNew"
       >
         {{ $t('dashboards.createDashboard') }}
@@ -41,8 +41,8 @@
       <UiButton
         v-if="isShowDashboardContentAndControls"
         class="pf-m-link pf-m-danger"
-        :before-icon="'fas fa-times'"
-        @click="onDeleteDashboard"
+        before-icon="fas fa-times"
+        @click="togglePopup(true)"
       >
         {{ $t('dashboards.delete') }}
       </UiButton>
@@ -52,7 +52,7 @@
           class="pf-u-mr-md dashboards__add-report"
           :items="selectReportsList"
           :text-button="t('dashboards.addReport')"
-          :placement="'bottom-end'"
+          placement="bottom-end"
           :is-text-select="true"
           @on-select="addReport"
         />
@@ -67,7 +67,7 @@
       {{ t('dashboards.noDashboards') }}
       <UiButton
         class="pf-m-primary pf-u-ml-md"
-        :before-icon="'fas fa-plus'"
+        before-icon="fas fa-plus"
         @click="setNew"
       >
         {{ $t('dashboards.createDashboard') }}
@@ -104,7 +104,7 @@
                 :items="menuCardReport"
                 :has-icon-arrow-button="false"
                 :transparent="true"
-                :placement-menu="'bottom-end'"
+                placement-menu="bottom-end"
                 @select-value="
                   (paylaod: UiDropdownItem<string>) => selectReportDropdown(paylaod, item.i)
                 "
@@ -142,7 +142,7 @@
         class="pf-u-ml-auto pf-u-ml-md dashboards__add-report"
         :items="selectReportsList"
         :text-button="t('dashboards.addReport')"
-        :placement="'bottom-end'"
+        placement="bottom-end"
         :is-text-select="true"
         @on-select="addReport"
       />
@@ -169,12 +169,26 @@
       @on-select-report="onSelectReport"
       @cancel="closeDashboardReportsPopup"
     />
+
+    <UiPopupWindow
+      v-if="visiblePopup"
+      :title="$t('dashboards.delete')"
+      :apply-button="$t('common.apply')"
+      :cancel-button="$t('common.cancel')"
+      apply-button-class="pf-m-danger"
+      @cancel="togglePopup(false)"
+      @apply="onDeleteDashboard"
+    >
+      {{ $t('dashboards.deleteConfirm') }}: <b> {{ activeDashboard?.name }} </b>?
+    </UiPopupWindow>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, computed, onMounted, onUnmounted } from 'vue'
 
+import { useToggle } from '@vueuse/core'
+import { useI18n } from 'vue-i18n'
 import { useRoute, useRouter, RouterLink } from 'vue-router'
 import { GridLayout, GridItem } from 'vue3-drr-grid-layout'
 
@@ -187,13 +201,12 @@ import UiCard from '@/components/uikit/UiCard/UiCard.vue'
 import type { UiDropdownItem } from '@/components/uikit/UiDropdown.vue'
 import UiDropdown from '@/components/uikit/UiDropdown.vue'
 import UiInlineEdit from '@/components/uikit/UiInlineEdit.vue'
+import UiPopupWindow from '@/components/uikit/UiPopupWindow.vue'
 import UiSelect from '@/components/uikit/UiSelect.vue'
 import UiSpinner from '@/components/uikit/UiSpinner.vue'
 
 import { DashboardPanelTypeEnum } from '@/api'
 import { apiClient } from '@/api/apiClient'
-import useConfirm from '@/hooks/useConfirm'
-import usei18n from '@/hooks/useI18n'
 import { pagesMap } from '@/router'
 import { useDashboardsStore } from '@/stores/dashboards'
 import { useEventsStore } from '@/stores/eventSegmentation/events'
@@ -204,7 +217,7 @@ import { useReportsStore } from '@/stores/reports/reports'
 
 import type { DashboardPanel as DashboardPanelType } from '@/api'
 
-const { t } = usei18n()
+const { t } = useI18n()
 const route = useRoute()
 const router = useRouter()
 const dashboardsStore = useDashboardsStore()
@@ -214,9 +227,10 @@ const filterGroupsStore = useFilterGroupsStore()
 const eventsStore = useEventsStore()
 const projectsStore = useProjectsStore()
 
-const { confirm } = useConfirm()
 const isLoading = ref(true)
 const updateLoading = ref(false)
+
+const [visiblePopup, togglePopup] = useToggle()
 
 const ROW_HEIGHT = 56
 
@@ -384,16 +398,6 @@ const updateCreateDashboard = async (panels?: Layout[]) => {
 
 const onDeleteDashboard = async () => {
   if (activeDashboardId.value) {
-    await confirm(
-      t('dashboards.deleteConfirm', { name: `<b>${activeDashboard?.value?.name}</b>` || '' }),
-      {
-        applyButton: t('common.apply'),
-        cancelButton: t('common.cancel'),
-        title: t('dashboards.delete'),
-        applyButtonClass: 'pf-m-danger',
-      }
-    )
-
     await apiClient.dashboards.deleteDashboard(projectsStore.projectId, activeDashboardId.value)
     await getDashboardsList()
 
@@ -402,6 +406,8 @@ const onDeleteDashboard = async () => {
     } else {
       layout.value = []
     }
+
+    togglePopup(false)
   }
 }
 
@@ -514,9 +520,9 @@ onUnmounted(() => {
 })
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .dashboards {
-  .vue-grid-item {
+  ::v-deep(.vue-grid-item) {
     .pf-c-card__body {
       height: calc(100% - 36px);
       width: 100%;

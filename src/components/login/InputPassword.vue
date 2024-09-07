@@ -37,7 +37,10 @@ const props = withDefaults(defineProps<Props>(), {
   name: 'password',
 })
 
-const emit = defineEmits(['update:modelValue', 'input'])
+const emit = defineEmits<{
+  (e: 'input', value: string): void
+  (e: 'update:modelValue', value: typeof props['modelValue']): void
+}>()
 
 const curModelValue = useVModel(props, 'modelValue', emit)
 

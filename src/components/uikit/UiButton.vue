@@ -48,7 +48,7 @@ const props = withDefaults(defineProps<Props>(), {
 })
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .ui-button.pf-c-button.pf-m-secondary {
   --pf-c-button--m-secondary--BackgroundColor: #fff;
 }

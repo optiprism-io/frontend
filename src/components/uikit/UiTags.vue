@@ -24,7 +24,7 @@ interface Props {
 const props = defineProps<Props>()
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .ui-tags {
     &__item {
         position: relative;

@@ -97,7 +97,7 @@ const onAction = (payload: Action) => {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .ui-table-event-cell {
     &__action-list {
         opacity: 0;

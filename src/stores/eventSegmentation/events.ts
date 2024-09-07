@@ -1,18 +1,18 @@
 import { defineStore } from 'pinia'
 
 import {
+  EventType,
   PropertyType,
-  QueryAggregatePropertyTypeEnum,
+  QueryAggregate,
   QueryAggregatePropertyPerGroupTypeEnum,
+  QueryAggregatePropertyTypeEnum,
   QueryCountPerGroupTypeEnum,
   QueryFormulaTypeEnum,
-  EventType,
-  QueryAggregate,
-  QuerySimpleTypeEnum
+  QuerySimpleTypeEnum,
 } from '@/api'
 import { getLastNDaysRange } from '@/helpers/calendarHelper'
 import { getYYYYMMDD } from '@/helpers/getStringDates'
-import { usePeriod, TimeTypeEnum } from '@/hooks/usePeriod'
+import { getRequestTime, TimeTypeEnum } from '@/helpers/periodHelper'
 import { useLexiconStore } from '@/stores/lexicon'
 import { OperationId } from '@/types'
 
@@ -20,20 +20,21 @@ import { useBreakdownsStore } from '../reports/breakdowns'
 import { useFilterGroupsStore } from '../reports/filters'
 
 import type {
-  TimeUnit,
-  EventSegmentation,
-  EventRecordsListRequestTime,
+  BreakdownByProperty,
   EventChartType,
-  EventSegmentationEvent,
   EventFilterByProperty,
+  EventRecordsListRequestTime,
+  EventSegmentation,
+  EventSegmentationEvent,
+  EventSegmentationEventAllOfBreakdowns,
+  EventSegmentationEventAllOfQueries,
   QueryAggregateProperty,
   QueryAggregatePropertyPerGroup,
   QuerySimple,
-  BreakdownByProperty,
-  EventSegmentationEventAllOfQueries,
-  EventSegmentationEventAllOfBreakdowns} from '@/api';
-import type { Value } from '@/types';
-import type { EventRef, PropertyRef, EventQueryRef } from '@/types/events'
+  TimeUnit,
+} from '@/api'
+import type { Value } from '@/types'
+import type { EventQueryRef, EventRef, PropertyRef } from '@/types/events'
 
 export type ChartType = 'line' | 'pie' | 'column'
 
@@ -78,7 +79,7 @@ export type Events = {
     from: string
     to: string
     last: number
-    type: TimeTypeEnum,
+    type: TimeTypeEnum
   }
   compareTo: TimeUnit | string
   compareOffset: number
@@ -129,8 +130,6 @@ export const useEventsStore = defineStore('events', {
       return false
     },
     timeRequest(): EventRecordsListRequestTime {
-      const { getRequestTime } = usePeriod()
-
       return getRequestTime(
         this.period.type,
         this.controlsPeriod,
@@ -212,10 +211,12 @@ export const useEventsStore = defineStore('events', {
                         propertyType: query.queryRef.propRef.type,
                         propertyName: query.queryRef.propRef.name,
                         aggregate: query.queryRef.typeAggregate || QueryAggregate.Avg,
-                        aggregatePerGroup:
-                          query.queryRef.typeGroupAggregate || QueryAggregate.Avg,
+                        aggregatePerGroup: query.queryRef.typeGroupAggregate || QueryAggregate.Avg,
                       }
-                      if (query?.queryRef?.propRef?.group || query?.queryRef?.propRef?.group === 0) {
+                      if (
+                        query?.queryRef?.propRef?.group ||
+                        query?.queryRef?.propRef?.group === 0
+                      ) {
                         prop.group = query.queryRef.propRef.group
                       }
 
@@ -231,10 +232,13 @@ export const useEventsStore = defineStore('events', {
                         aggregate: query.queryRef.typeAggregate || QueryAggregate.Avg,
                       }
 
-                      if (query?.queryRef?.propRef?.group || query?.queryRef?.propRef?.group === 0) {
+                      if (
+                        query?.queryRef?.propRef?.group ||
+                        query?.queryRef?.propRef?.group === 0
+                      ) {
                         prop.group = query.queryRef.propRef.group
                       }
-                    
+
                       acc.push(prop)
                     }
                     break
@@ -282,7 +286,7 @@ export const useEventsStore = defineStore('events', {
                     type: 'property',
                     propertyName: item.propRef?.name || '',
                     propertyType: item.propRef?.type || 'event',
-                    operation: item.opId
+                    operation: item.opId,
                   }
 
                   if (item.propRef?.group || item.propRef?.group === 0) {

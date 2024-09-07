@@ -12,7 +12,7 @@
         <UiInput
           v-if="isOpen"
           v-model="tempValue"
-          :type="'string'"
+          type="string"
           :mount-focus="true"
           class="pf-u-p-0 pf-u-h-0"
           @blur="onBlur"
@@ -49,13 +49,13 @@ import UiButton from '@/components/uikit/UiButton.vue'
 import UiInput from '@/components/uikit/UiInput.vue'
 
 interface Props {
-    value: string
-    disabledButton?: boolean
+  value?: string
+  disabledButton?: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {
-    value: '',
-    disabledButton: true,
+  value: '',
+  disabledButton: true,
 })
 
 const emit = defineEmits<{
@@ -94,7 +94,7 @@ const onBlur = () => {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .ui-editable-text-popup {
     &.v-popper--theme-dropdown {
         .v-popper__inner {

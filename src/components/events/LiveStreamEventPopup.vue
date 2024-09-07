@@ -29,6 +29,7 @@
 import { computed, ref, onMounted } from 'vue'
 
 import { useDateFormat } from '@vueuse/core'
+import { useI18n } from 'vue-i18n'
 
 import UiPopupWindow from '@/components/uikit/UiPopupWindow.vue'
 import UiSpinner from '@/components/uikit/UiSpinner.vue'
@@ -37,14 +38,10 @@ import UiTabs from '@/components/uikit/UiTabs.vue'
 
 import { PropertyType } from '@/api'
 import { apiClient } from '@/api/apiClient'
-import usei18n from '@/hooks/useI18n'
 import { useProjectsStore } from '@/stores/projects/projects'
 
 import type { EventRecord, PropertyAndValue, Group } from '@/api'
 import type { Row } from '@/components/uikit/UiTable/UiTable'
-
-const projectsStore = useProjectsStore()
-const { t } = usei18n()
 
 const props = defineProps<{
   id: number
@@ -56,6 +53,9 @@ const emit = defineEmits<{
   (e: 'cancel'): void
   (e: 'apply'): void
 }>()
+
+const projectsStore = useProjectsStore()
+const { t } = useI18n()
 
 const strings = {
   eventNoProperties: t('common.eventNoProperties'),
@@ -70,7 +70,7 @@ const event = ref<EventRecord | null>(null)
 const properties = computed(() => event.value?.properties || [])
 
 type PropertiesMap = {
-  [key in PropertiesMapKey]?: Array<PropertyAndValue>
+  [key in PropertiesMapKey]?: PropertyAndValue[]
 }
 const propertiesMap = computed<PropertiesMap>(() => {
   const items: PropertiesMap = {}
@@ -173,7 +173,7 @@ onMounted(async () => {
 })
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .live-stream-event-popup {
   .pf-c-modal-box__body {
     min-height: 316px;

@@ -10,9 +10,7 @@ import { createPinia } from 'pinia'
 
 import App from '@/App.vue'
 
-import lang from '@/lang'
-import i18nPlugin from '@/plugins/i18n'
-import uikitPlugin from '@/plugins/uikit'
+import { i18n } from '@/plugins/i18n'
 import { router } from '@/router'
 
 /* =====================================MOCK_SERVER================================================ */
@@ -32,10 +30,8 @@ const app = createApp(App)
 
 app.use(router)
 app.use(pinia)
-app.use(uikitPlugin)
-app.use(i18nPlugin)
+app.use(i18n)
 
-app.config.globalProperties.loadDictionary(lang.en)
 app.mount('#app')
 
 app.config.errorHandler = (error, _instance, _info) => {

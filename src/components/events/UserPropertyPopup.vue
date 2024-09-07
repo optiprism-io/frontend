@@ -21,7 +21,9 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref } from 'vue'
+import { computed, ref } from 'vue';
+
+import { useI18n } from 'vue-i18n'
 
 import type { Item, ActionPayload } from '@/components/uikit/UiDescriptionList.vue'
 import UiDescriptionList from '@/components/uikit/UiDescriptionList.vue'
@@ -32,7 +34,6 @@ import {
   DisplayName,
   EventValuesConfigKeysEnum,
 } from '@/configs/events/eventValues'
-import useI18n from '@/hooks/useI18n'
 import { useCommonStore, PropertyTypeEnum } from '@/stores/common'
 
 import type { Property } from '@/api'
@@ -46,7 +47,6 @@ export type ApplyPayload = EventObject
 
 const commonStore = useCommonStore()
 
-const { t } = useI18n()
 
 type Props = {
   name?: string
@@ -63,6 +63,10 @@ const strings = computed(() => {
     close: t('common.close'),
   }
 })
+  name?: string,
+  loading?: boolean,
+  property: Property | null,
+}
 
 const props = withDefaults(defineProps<Props>(), {
   name: '',
@@ -73,6 +77,10 @@ const emit = defineEmits<{
   (e: 'apply', payload: ApplyPayload): void
   (e: 'on-action-event', payload: Action): void
 }>()
+
+const commonStore = useCommonStore();
+
+const i18n = useI18n()
 
 const activeTab = ref('property')
 

@@ -40,7 +40,7 @@
           @select="changeProperty"
         >
           <UiButton
-            :before-icon="'fas fa-plus-circle'"
+            before-icon="fas fa-plus-circle"
             class="pf-m-primary"
             type="button"
             @click="handleSelectProperty"
@@ -111,7 +111,7 @@
           </template>
           <template v-else>
             <UiButton
-              :before-icon="'fas fa-plus-circle'"
+              before-icon="fas fa-plus-circle"
               class="pf-m-link"
               @click="ocClickValue"
             >
@@ -156,13 +156,6 @@ import type { Value } from '@/types';
 import type { EventRef, PropertyRef, UserCustomProperty } from '@/types/events'
 import type { OrientationEnum} from '@/types/filters';
 
-const NotAllowedOperationIds = {
-  Exists: 'exists',
-  Empty: 'empty',
-  True: 'true',
-  False: 'false',
-} as const
-
 type Props = {
   eventRef?: EventRef
   eventRefs?: EventRef[]
@@ -176,14 +169,32 @@ type Props = {
   orientation?: OrientationEnum
 }
 
-const lexiconStore = useLexiconStore()
-
 const props = withDefaults(defineProps<Props>(), {
   eventRef: undefined,
   eventRefs: undefined,
   popperContainer: undefined,
   orientation: OrientationTypeEnum.VERTICAL,
 })
+
+const emit = defineEmits<{
+  (e: 'change-filter-property', filterIdx: number, propRef: PropertyRef): void
+  (e: 'remove-filter', index: number): void
+  (e: 'change-filter-operation', filterIdx: number, opId: OperationId): void
+  (e: 'add-filter-value', filterIdx: number, value: Value): void
+  (e: 'remove-filter-value', filterIdx: number, value: Value): void
+  (e: 'handle-select-property'): void
+  (e: 'change-all-values', filterIdx: number, values: Value[]): void
+  (e: 'on-click-value', filterIdx: number): void
+}>()
+
+const NotAllowedOperationIds = {
+  Exists: 'exists',
+  Empty: 'empty',
+  True: 'true',
+  False: 'false',
+} as const
+
+const lexiconStore = useLexiconStore()
 
 const elButtonMain = ref(null)
 const elButtonValues = ref(null)
@@ -193,17 +204,6 @@ const isHoveredButtonValues = useElementHover(elButtonValues)
 const isAnyButtonHovered = computed(() => {
   return isHoveredButtonMain.value || isHoveredButtonValues.value
 })
-
-const emit = defineEmits<{
-  (e: 'changeFilterProperty', filterIdx: number, propRef: PropertyRef): void
-  (e: 'removeFilter', index: number): void
-  (e: 'changeFilterOperation', filterIdx: number, opId: OperationId): void
-  (e: 'addFilterValue', filterIdx: number, value: Value): void
-  (e: 'removeFilterValue', filterIdx: number, value: Value): void
-  (e: 'handleSelectProperty'): void
-  (e: 'changeAllValues', filterIdx: number, values: Value[]): void
-  (e: 'on-click-value', filterIdx: number): void
-}>()
 
 const valueInput = ref('')
 
@@ -288,19 +288,19 @@ const filterItemValues = computed(() => {
 })
 
 const removeFilter = (): void => {
-  emit('removeFilter', props.index)
+  emit('remove-filter', props.index)
 }
 
 const changeProperty = (propRef: PropertyRef): void => {
-  emit('changeFilterProperty', props.index, propRef)
+  emit('change-filter-property', props.index, propRef)
 }
 
 const handleSelectProperty = (): void => {
-  emit('handleSelectProperty')
+  emit('handle-select-property')
 }
 
 const changeOperation = (opId: OperationId): void => {
-  emit('changeFilterOperation', props.index, opId)
+  emit('change-filter-operation', props.index, opId)
 }
 
 const ocClickValue = () => {
@@ -310,35 +310,35 @@ const ocClickValue = () => {
 const addValue = (value: Value): void => {
   if (value === null) {
     changeOperation(OperationId.Empty)
-    emit('changeAllValues', props.index, [])
+    emit('change-all-values', props.index, [])
     return
   }
 
   if (value === false) {
     changeOperation(OperationId.False)
-    emit('changeAllValues', props.index, [])
+    emit('change-all-values', props.index, [])
     return
   }
 
   if (value === true) {
     changeOperation(OperationId.True)
-    emit('changeAllValues', props.index, [])
+    emit('change-all-values', props.index, [])
     return
   }
 
-  emit('addFilterValue', props.index, value)
+  emit('add-filter-value', props.index, value)
 }
 
 const removeValue = (value: Value) => {
-  emit('removeFilterValue', props.index, value)
+  emit('remove-filter-value', props.index, value)
 }
 
 const removeValueButton = (value: Value) => {
-  emit('removeFilterValue', props.index, value)
+  emit('remove-filter-value', props.index, value)
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .filter {
   .pf-c-action-list {
     position: relative;

@@ -25,14 +25,16 @@
     :title="confirmPopupDeleteInfo.title"
     :content="confirmPopupDeleteInfo.content"
     :apply-button="$t('common.delete')"
-    :apply-button-class="'pf-m-danger'"
+    apply-button-class="pf-m-danger"
     @apply="applyDelete"
     @cancel="cancelDelete"
   />
 </template>
 
 <script setup lang="ts">
-import { ref, computed, inject, onMounted } from 'vue'
+import { ref, computed, onMounted } from 'vue'
+
+import { useI18n } from 'vue-i18n'
 
 import ConfirmPopup from '@/components/common/ConfirmPopup.vue'
 import UiCellTags from '@/components/uikit/cells/UiCellTags.vue'
@@ -52,7 +54,7 @@ import { useProjectsStore } from '@/stores/projects/projects'
 import type { CustomEvent } from '@/api'
 import type { Row, Action } from '@/components/uikit/UiTable/UiTable'
 
-const i18n = inject<any>('i18n')
+const i18n = useI18n()
 const lexiconStore = useLexiconStore()
 const eventsStore = useEventsStore()
 const commonStore = useCommonStore()
@@ -76,8 +78,8 @@ const confirmPopupDeleteInfo = computed(() => {
   }
 
   if (actionEvent.value) {
-    info.title = `${i18n.$t('events.customEvents.deleteTitle')}: ${actionEvent.value?.name}`
-    info.content = i18n.$t('events.customEvents.deleteContent', {
+    info.title = `${i18n.t('events.customEvents.deleteTitle')}: ${actionEvent.value?.name}`
+    info.content = i18n.t('events.customEvents.deleteContent', {
       name: `<b>${actionEvent.value?.name}</b>`,
     })
   }
@@ -91,7 +93,7 @@ const columns = computed(() => {
 
     return {
       value: key,
-      title: isAction ? '' : i18n.$t(`events.event_management.columns.${key}`),
+      title: isAction ? '' : i18n.t(`events.event_management.columns.${key}`),
       default: isAction,
       type: isAction ? 'action' : '',
     }
@@ -133,11 +135,11 @@ const items = computed(() => {
         component: UiCellToolMenu,
         items: [
           {
-            label: i18n.$t('common.edit'),
+            label: i18n.t('common.edit'),
             value: 'edit',
           },
           {
-            label: i18n.$t('common.delete'),
+            label: i18n.t('common.delete'),
             value: 'delete',
           },
         ],

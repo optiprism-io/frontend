@@ -1,23 +1,24 @@
 import {
-  EventType,
-  QuerySimpleTypeEnum,
   DidEventAggregatePropertyTypeEnum,
-  QueryAggregatePropertyPerGroupTypeEnum
+  EventType,
+  QueryAggregatePropertyPerGroupTypeEnum,
+  QuerySimpleTypeEnum,
 } from '@/api'
 
 import type {
+  CustomEvent,
   DataType,
   Event,
+  EventGroupedFiltersGroupsConditionEnum,
   PropertyType,
-  CustomEvent,
-  Value,
+  QueryAggregate,
+  QueryAggregatePerGroup,
   QueryCountPerGroupTypeEnum,
   QueryFormulaTypeEnum,
-  QueryAggregatePerGroup,
-  QueryAggregate,
-  EventGroupedFiltersGroupsConditionEnum} from '@/api';
+  Value,
+} from '@/api'
 import type { Each } from '@/components/uikit/UiCalendar/UiCalendar'
-import type { TimeTypeEnum } from '@/hooks/usePeriod'
+import type { TimeTypeEnum } from '@/helpers/periodHelper'
 import type { OperationId } from '@/types'
 
 type EventGroupedFiltersGroupsConditionEnumType = EventGroupedFiltersGroupsConditionEnum
@@ -55,30 +56,6 @@ export function eventRef(e: Event): EventRef {
 
 export function customEventRef(e: CustomEvent): EventRef {
   return <EventRef>{ type: EventType.Custom, id: e.id, name: e.name }
-}
-
-export interface EventProperty {
-  id: number
-  createdAt: Date
-  updatedAt?: Date
-  createdBy: number
-  updatedBy: number
-  projectId: number
-  events: number[]
-  isSystem: boolean
-  isGlobal: boolean
-  tags: string[]
-  name: string
-  displayName: string
-  description: string
-  status: EventStatus
-  type: DataType
-  db_col: any
-  isRequired: boolean
-  nullable: boolean
-  isArray: boolean
-  isDictionary: boolean
-  dictionaryType?: DataType
 }
 
 export interface EventCustomProperty {

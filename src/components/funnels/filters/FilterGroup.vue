@@ -48,7 +48,7 @@
       </Filter>
       <div class="pf-l-flex">
         <PropertySelect :is-open-mount="false" @select="addFilterToGroup">
-          <UiButton :is-link="true" :before-icon="'fas fa-plus'">
+          <UiButton :is-link="true" before-icon="fas fa-plus">
             {{ $t('common.addFilter') }}
           </UiButton>
         </PropertySelect>
@@ -58,7 +58,7 @@
               filterGroupsStore.isFiltersAdvanced
           "
           :is-link="true"
-          :before-icon="'fas fa-plus'"
+          before-icon="fas fa-plus"
           @click="filterGroupsStore.addFilterGroup"
         >
           {{ $t('filters.addGroup') }}
@@ -69,9 +69,10 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, inject } from 'vue'
+import { computed } from 'vue'
 
 import { Tooltip as VTooltip } from 'floating-vue'
+import { useI18n } from 'vue-i18n'
 
 import Filter from '@/components/events/Filter.vue'
 import PropertySelect from '@/components/events/PropertySelect.vue'
@@ -95,25 +96,23 @@ import type { UiSelectItemInterface } from '@/components/uikit/UiSelect/types'
 import type { FilterGroup } from '@/stores/reports/filters';
 import type { Value } from '@/types';
 import type { PropertyRef } from '@/types/events'
-import type { I18N } from '@/utils/i18n'
+
+interface IProps {
+  index: number
+}
+
+const props = defineProps<IProps>()
+
+const emit = defineEmits<{
+  (e: 'input'): void
+}>()
 
 const UiSelectMatch = UiSelectGeneric<EventGroupedFiltersGroupsConditionEnum>()
 
 const filterGroupsStore = useFilterGroupsStore()
 const stepsStore = useStepsStore()
 const filterHelpers = useFilter()
-const { $t } = inject('i18n') as I18N
-
-const props = defineProps({
-  index: {
-    type: Number,
-    required: true,
-  },
-})
-
-const emit = defineEmits<{
-  (e: 'input'): void
-}>()
+const { t } = useI18n()
 
 const showMatch = computed(() => filterGroupsStore.isFiltersAdvanced)
 
@@ -140,7 +139,7 @@ const conditionsItems = computed<UiSelectItemInterface<EventGroupedFiltersGroups
   return conditions.map(item => ({
     __type: 'item',
     id: item,
-    label: $t(`filters.conditions.${item}`),
+    label: t(`filters.conditions.${item}`),
     value: item,
   }))
 })

@@ -23,8 +23,6 @@ import type { Item } from '@/components/Select/SelectTypes'
 import type { OperationId } from '@/types'
 import type { PropertyRef } from '@/types/events'
 
-const lexiconStore = useLexiconStore()
-
 const props = defineProps<{
   propertyRef?: PropertyRef
   opItems?: Item<OperationId, null>[]
@@ -35,6 +33,8 @@ const props = defineProps<{
 const emit = defineEmits<{
   (e: 'select', opId: OperationId): void
 }>()
+
+const lexiconStore = useLexiconStore()
 
 const items = computed(() => {
   let ret: Item<OperationId, null>[] = []

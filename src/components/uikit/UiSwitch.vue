@@ -36,14 +36,17 @@ interface Props {
     reverse?: boolean
 }
 
-const emit = defineEmits(['update:modelValue', 'input']);
-
 const props = withDefaults(defineProps<Props>(), {
     modelValue: false,
     label: '',
     beforeLabel: '',
     reverse: false,
 });
+
+const emit = defineEmits<{
+  (e: 'input', value: boolean): void
+  (e: 'update:modelValue', value: typeof props['modelValue']): void
+}>()
 
 const updateValue = (e: Event) => {
     const target = e.target as HTMLInputElement
@@ -52,7 +55,7 @@ const updateValue = (e: Event) => {
 }
 </script>
 
-<style>
+<style lang="scss" scoped>
 .pf-c-switch.pf-c-switch-white {
     --pf-c-switch__input--checked__label--Color: var(--pf-global--Color--light-100);
 }

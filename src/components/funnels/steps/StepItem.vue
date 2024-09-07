@@ -72,44 +72,39 @@
 
 <script lang="ts" setup>
 import { watch, computed } from 'vue';
-import type { PropType} from 'vue';
 
 import { Tooltip as VTooltip } from 'floating-vue'
 
-import CommonIdentifier from '@/components/common/identifier/CommonIdentifier.vue';
-import EventSelector from '@/components/events/Events/EventSelector.vue';
-import Filter from '@/components/events/Filter.vue';
-import PropertySelect from '@/components/events/PropertySelect.vue';
-import UiActionList from '@/components/uikit/UiActionList/UiActionList.vue';
-import UiActionListItem from '@/components/uikit/UiActionList/UiActionListItem.vue';
+import CommonIdentifier from '@/components/common/identifier/CommonIdentifier.vue'
+import EventSelector from '@/components/events/Events/EventSelector.vue'
+import Filter from '@/components/events/Filter.vue'
+import PropertySelect from '@/components/events/PropertySelect.vue'
+import UiActionList from '@/components/uikit/UiActionList/UiActionList.vue'
+import UiActionListItem from '@/components/uikit/UiActionList/UiActionListItem.vue'
 import UiButton from '@/components/uikit/UiButton.vue'
 import UiIcon from '@/components/uikit/UiIcon.vue'
 
-import { useEventName } from '@/helpers/useEventName';
-import { useFilter } from '@/hooks/useFilter';
-import { useStepsStore } from '@/stores/funnels/steps';
-import { useLexiconStore } from '@/stores/lexicon';
-import { OperationId } from '@/types';
+import { useEventName } from '@/helpers/useEventName'
+import { useFilter } from '@/hooks/useFilter'
+import { useStepsStore } from '@/stores/funnels/steps'
+import { useLexiconStore } from '@/stores/lexicon'
+import { OperationId } from '@/types'
 
-import type { Value} from '@/types';
-import type {EventRef, PropertyRef} from '@/types/events';
-import type {Step} from '@/types/steps';
+import type { Value } from '@/types'
+import type { EventRef, PropertyRef } from '@/types/events'
+import type { Step } from '@/types/steps'
+
+interface IProps {
+  index: number;
+  step: Step;
+}
+
+const props = defineProps<IProps>()
 
 const stepsStore = useStepsStore();
 const lexiconStore = useLexiconStore();
 const eventName = useEventName();
 const { getValues } = useFilter();
-
-const props = defineProps({
-    index: {
-        type: Number,
-        required: true,
-    },
-    step: {
-        type: Object as PropType<Step>,
-        required: true,
-    }
-})
 
 const isShowAddFilter = computed(() => {
     return lexiconStore.propertiesLength;

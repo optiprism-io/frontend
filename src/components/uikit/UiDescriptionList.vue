@@ -49,24 +49,24 @@ type Props = {
     items: Item[]
 }
 
-const emit = defineEmits<{
-    (e: 'onInput', payload: ActionPayload): void
-}>()
-
 const props = withDefaults(defineProps<Props>(), {
     horizontal: undefined,
     compact: true
 })
 
+const emit = defineEmits<{
+    (e: 'on-input', payload: ActionPayload): void
+}>()
+
 const onInput = (payload: Event | string | boolean, key: string) => {
-    emit('onInput', {
+    emit('on-input', {
         key,
         value: typeof payload === 'object' && !Array.isArray(payload) ? String(payload) : payload,
     })
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .ui-description-list {
     .pf-c-description-list {
         &__group {

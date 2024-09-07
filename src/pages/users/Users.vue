@@ -33,6 +33,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 
+import { useI18n } from 'vue-i18n'
 import { useRoute, RouterView } from 'vue-router'
 
 import UiButton from '@/components/uikit/UiButton.vue'
@@ -40,7 +41,6 @@ import UiSelect from '@/components/uikit/UiSelect.vue'
 import UiTabs from '@/components/uikit/UiTabs.vue'
 
 import { useGroup } from '@/hooks/useGroup'
-import useI18n from '@/hooks/useI18n'
 import { pagesMap } from '@/router'
 import { useGroupStore } from '@/stores/group/group'
 import { useLexiconStore } from '@/stores/lexicon'

@@ -62,7 +62,11 @@ const props = withDefaults(defineProps<Props>(), {
   placeholder: '',
 })
 
-const emit = defineEmits(['update:isEditable', 'save', 'cancel'])
+const emit = defineEmits<{
+  (e: 'update:isEditable', value: typeof props['isEditable']): void
+  (e: 'save'): void
+  (e: 'cancel'): void
+}>()
 
 const curIsEditable = useVModel(props, 'isEditable', emit)
 </script>

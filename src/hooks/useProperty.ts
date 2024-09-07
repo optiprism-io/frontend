@@ -1,7 +1,8 @@
 import { computed } from 'vue'
 
+import { useI18n } from 'vue-i18n'
+
 import { PropertyType } from '@/api'
-import useI18n from '@/hooks/useI18n'
 import { useLexiconStore } from '@/stores/lexicon'
 
 import type { Property } from '@/api'

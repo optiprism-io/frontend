@@ -23,40 +23,38 @@
 <script lang="ts" setup>
 import { computed } from 'vue'
 
-import usei18n from '@/hooks/useI18n'
-import { TimeTypeEnum } from '@/hooks/usePeriod'
+import { useI18n } from 'vue-i18n'
 
-const { t } = usei18n()
-
-const emit = defineEmits<{
-    (e: 'on-select-tab', payload: TimeTypeEnum): void;
-}>();
+import { TimeTypeEnum } from '@/helpers/periodHelper'
 
 interface Props {
-    activeTab: string,
-    showEach?: boolean,
+  activeTab: string
+  showEach?: boolean
 }
 
-const props = defineProps<Props>();
+const props = defineProps<Props>()
+
+const emit = defineEmits<{
+  (e: 'on-select-tab', payload: TimeTypeEnum): void
+}>()
+
+const { t } = useI18n()
 
 const tabsMap = Object.values(TimeTypeEnum)
 
 const itemsTabs = computed(() => {
-    const items = props.showEach ? tabsMap : tabsMap.filter(item => item !== 'each')
+  const items = props.showEach ? tabsMap : tabsMap.filter(item => item !== 'each')
 
-    return items.map(item => {
-        return {
-            value: item,
-            name: t(`common.calendar.${ item}`),
-            active: props.activeTab === item,
-        }
-    });
-});
+  return items.map(item => {
+    return {
+      value: item,
+      name: t(`common.calendar.${item}`),
+      active: props.activeTab === item,
+    }
+  })
+})
 
 const onSelectTab = (value: TimeTypeEnum) => {
-    emit('on-select-tab', value);
+  emit('on-select-tab', value)
 }
 </script>
-
-<style lang="scss">
-</style>

@@ -29,29 +29,42 @@ module.exports = {
     },
   },
   rules: {
-    'vue/no-undef-components': 'error',
-    'vue/component-name-in-template-casing': 'error',
-    'vue/max-attributes-per-line': [
-      'warn',
-      {
-        singleline: {
-          max: 2,
-        },
-        multiline: {
-          max: 1,
-        },
-      },
-    ],
+    /* JAVASCRIPT */
     'no-multiple-empty-lines': ['error', { max: 1, maxBOF: 0, maxEOF: 0 }],
-    'no-console': ['warn', { allow: ['error'] }],
+    'no-console': ['error', { allow: ['error'] }],
     'no-debugger': 'error',
+
+    /* TYPESCRIPT */
     '@typescript-eslint/explicit-function-return-type': 'off',
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
     '@typescript-eslint/no-non-null-assertion': 'off',
     '@typescript-eslint/no-unused-vars': ['off', { argsIgnorePattern: '^_' }],
-    'vue/no-v-html': 'off',
+    '@typescript-eslint/array-type': 'error',
+
+    /* VUE */
     'vue/multi-word-component-names': 'off',
+    'vue/component-name-in-template-casing': 'error',
+    'vue/max-attributes-per-line': ['error', { singleline: { max: 2 }, multiline: { max: 1 } }],
+    'vue/component-tags-order': ['error', { order: ['template', 'script', 'style'] }],
+    'vue/padding-line-between-blocks': ['error', 'always'],
+    'vue/block-lang': ['error', { script: { lang: 'ts' }, style: { lang: 'scss' } }],
+    'vue/enforce-style-attribute': ['error', { allow: ['scoped'] }],
+    'vue/no-v-html': 'off',
+    'vue/custom-event-name-casing': ['error', 'kebab-case'],
+    'vue/define-macros-order': 'error',
+    'vue/define-props-declaration': 'error',
+    'vue/define-emits-declaration': 'error',
+    'vue/no-required-prop-with-default': 'error',
+    'vue/no-undef-components': 'error',
+    'vue/no-undef-properties': 'error',
+    'vue/no-unsupported-features': 'error',
+    'vue/no-unused-refs': 'error',
+    'vue/no-useless-v-bind': 'error',
+    'vue/prefer-separate-static-class': 'error',
+    'vue/prefer-true-attribute-shorthand': ['error', 'never'],
+
+    /* SORT IMPORTS */
 
     // * ## import sorting rules:
     // * https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/order.md

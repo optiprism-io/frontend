@@ -15,7 +15,7 @@
       <div class="pf-c-action-list">
         <div class="pf-c-action-list__item">
           <Select
-            grouped
+            :grouped="true"
             :items="eventItems"
             :selected="eventRef"
             :popper-container="props.popperContainer"
@@ -195,9 +195,6 @@ import type {
 import type { Value } from '@/types';
 import type { EventRef, PropertyRef, EventQueryRef } from '@/types/events'
 
-const eventsStore = useEventsStore()
-const { getValues } = usePropertyValues()
-
 type Props = {
   eventRef: EventRef
   event: Event
@@ -228,21 +225,23 @@ const props = withDefaults(defineProps<Props>(), {
 })
 
 const emit = defineEmits<{
-  (e: 'changeEvent', index: number, ref: EventRef): void
-  (e: 'removeEvent', index: number): void
-  (e: 'handleSelectProperty'): void
-  (e: 'addBreakdown', index: number): void
-  (e: 'changeBreakdownProperty', eventIdx: number, breakdownIdx: number, propRef: PropertyRef): void
-  (e: 'removeBreakdown', eventIdx: number, breakdownIdx: number): void
-  (e: 'removeQuery', eventIdx: number, queryInx: number): void
-  (e: 'addQuery', index: number): void
-  (e: 'changeQuery', eventIdx: number, queryIdx: number, queryRef: EventQueryRef): void
+  (e: 'change-event', index: number, ref: EventRef): void
+  (e: 'remove-event', index: number): void
+  (e: 'handle-select-property'): void
+  (e: 'add-breakdown', index: number): void
+  (e: 'change-breakdown-property', eventIdx: number, breakdownIdx: number, propRef: PropertyRef): void
+  (e: 'remove-breakdown', eventIdx: number, breakdownIdx: number): void
+  (e: 'remove-query', eventIdx: number, queryInx: number): void
+  (e: 'add-query', index: number): void
+  (e: 'change-query', eventIdx: number, queryIdx: number, queryRef: EventQueryRef): void
 
-  (e: 'setEvent', payload: EventPayload): void
+  (e: 'set-event', payload: EventPayload): void
   (e: 'action', payload: string): void
   (e: 'edit', payload: number): void
   (e: 'on-change'): void
 }>()
+const eventsStore = useEventsStore()
+const { getValues } = usePropertyValues()
 
 const { hoveredCustomEventDescription, hoveredCustomEventId, onHoverEvent } = useCustomEvent()
 const lexiconStore = useLexiconStore()
@@ -267,14 +266,14 @@ const isShowAddFilter = computed(() => {
 })
 
 const setEvent = (payload: Event) => {
-  emit('setEvent', {
+  emit('set-event', {
     index: props.index,
     event: payload,
   })
 }
 
 const handleSelectProperty = (): void => {
-  emit('handleSelectProperty')
+  emit('handle-select-property')
 }
 
 const changeEvent = (ref: EventRef): void => {
@@ -287,7 +286,7 @@ const changeEvent = (ref: EventRef): void => {
 }
 
 const removeEvent = (): void => {
-  emit('removeEvent', props.index)
+  emit('remove-event', props.index)
 }
 
 const removeFilter = (filterIdx: number): void => {
@@ -369,11 +368,11 @@ const addBreakdown = async (propRef: PropertyRef): Promise<void> => {
 }
 
 const changeBreakdownProperty = (breakdownIdx: number, propRef: PropertyRef): void => {
-  emit('changeBreakdownProperty', props.index, breakdownIdx, propRef)
+  emit('change-breakdown-property', props.index, breakdownIdx, propRef)
 }
 
 const removeBreakdown = (breakdownIdx: number): void => {
-  emit('removeBreakdown', props.index, breakdownIdx)
+  emit('remove-breakdown', props.index, breakdownIdx)
 }
 
 const getEventName = (ref: EventRef): string => {
@@ -387,7 +386,7 @@ const getEventName = (ref: EventRef): string => {
 }
 
 const removeQuery = (idx: number): void => {
-  emit('removeQuery', props.index, idx)
+  emit('remove-query', props.index, idx)
 }
 
 const addQuery = async (payload: EventQueryRef): Promise<void> => {
@@ -396,7 +395,7 @@ const addQuery = async (payload: EventQueryRef): Promise<void> => {
 }
 
 const changeQuery = (idx: number, ref: EventQueryRef) => {
-  emit('changeQuery', props.index, idx, ref)
+  emit('change-query', props.index, idx, ref)
 }
 </script>
 

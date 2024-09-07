@@ -17,11 +17,10 @@
       :lite-chart="true"
       :height-chart="props.heightChart || 240"
     />
-    <ChartStacked
-      v-else-if="reportSteps.length"
-      :data="normalizedReportSteps"
-      :height="(props.heightChart || 240) + 'px'"
-      :lite-chart="true"
+    <DashboardFunnelChart
+      v-else
+      :report-steps="reportSteps"
+      :report="report"
     />
   </div>
 </template>
@@ -29,10 +28,11 @@
 <script lang="ts" setup>
 import { computed, onMounted, ref, watch } from 'vue'
 
+import { isString } from 'lodash-es'
 import { RouterLink } from 'vue-router'
 
-import ChartStacked from '@/components/charts/ChartStacked.vue'
 import EventsViews from '@/components/events/EventsViews.vue'
+import DashboardFunnelChart from '@/components/funnels/view/DashboardFunnelChart.vue'
 
 import {
   EventGroupedFiltersGroupsConditionEnum,
@@ -40,8 +40,7 @@ import {
   ReportType,
 } from '@/api'
 import { apiClient } from '@/api/apiClient'
-import { type ChartStackedItem } from '@/components/charts/types'
-import { DEFAULT_SEPARATOR } from '@/constants'
+import { QUERY_VIEW } from '@/pages/reports/useFunnelView'
 import { pagesMap } from '@/router'
 import { useEventsStore } from '@/stores/eventSegmentation/events'
 import { useProjectsStore } from '@/stores/projects/projects'
@@ -57,20 +56,21 @@ import type {
   FunnelQuery,
   FunnelResponseStepsInner,
   Report,
+  ReportQuery,
 } from '@/api'
-import type { ChartType } from '@/stores/eventSegmentation/events'
 import type { Step } from '@/types/steps'
-
-const reportsStore = useReportsStore()
-const filterGroupsStore = useFilterGroupsStore()
-const eventsStore = useEventsStore()
-const projectsStore = useProjectsStore()
+import type { RouteLocationRaw } from 'vue-router'
 
 const props = defineProps<{
   report?: Report
   reportId?: number
   heightChart?: number
 }>()
+
+const reportsStore = useReportsStore()
+const filterGroupsStore = useFilterGroupsStore()
+const eventsStore = useEventsStore()
+const projectsStore = useProjectsStore()
 
 const loading = ref(false)
 const eventSegmentation = ref<DataTableResponse>()
@@ -80,35 +80,13 @@ const filterTimeInitState = ref<EventRecordsListRequestTime | null>(null)
 
 const filterTime = computed(() => eventsStore.timeRequest)
 const activeReport = computed(() => reportsStore.list.find(item => item.id === props.reportId))
-const report = computed(() => props.report || activeReport.value)
-const query = computed(() => report.value?.query)
-const reportChartType = computed(() => (report.value?.query?.chartType as ChartType) ?? 'line')
+const report = computed<Report | undefined>(() => props.report || activeReport.value)
+const query = computed<ReportQuery | undefined>(() => report.value?.query)
+const reportChartType = computed(() => report.value?.query?.chartType)
 const reportType = computed(() => report.value?.type ?? ReportType.EventSegmentation)
 const isEventsViews = computed(() => reportType.value === ReportType.EventSegmentation)
 
-const normalizedReportSteps = computed<ChartStackedItem[]>(() =>
-  reportSteps.value.map(step => {
-    return {
-      groupName: step.step,
-      elements: step.data.map(item => ({
-        columnName: item.groups.join(DEFAULT_SEPARATOR),
-        primary: {
-          value: item.total,
-          percentage: item.conversionRatio,
-          label: 'Total',
-          percentageLabel: 'Conversion Ratio',
-        },
-        secondary: {
-          value: item.droppedOff,
-          percentage: item.dropOffRatio,
-          label: 'Dropped Off',
-          percentageLabel: 'Dropped Off Ratio',
-        },
-      })),
-    }
-  }))
-
-const reportLink = computed(() => {
+const reportLink = computed<RouteLocationRaw | null>(() => {
   if (report.value) {
     return {
       name:
@@ -118,9 +96,17 @@ const reportLink = computed(() => {
       params: {
         id: report.value?.id,
       },
-    }
+      query: queryParams.value,
+    } satisfies RouteLocationRaw
   }
   return null
+})
+
+const queryParams = computed(() => {
+  if (!report.value || isString(report.value.query.chartType)) return undefined
+  return {
+    [QUERY_VIEW]: report.value.query.chartType.type,
+  }
 })
 
 const ifChangeAnyInFilterTime = computed(() => {

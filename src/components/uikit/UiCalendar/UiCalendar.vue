@@ -76,8 +76,9 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref, onMounted, watch, inject } from 'vue';
+import { computed, ref, onMounted, watch } from 'vue';
 
+import { useI18n } from 'vue-i18n'
 import { VirtualisedList } from 'vue-virtualised';
 
 import UiCalendarMonth from './UiCalendarMonth.vue';
@@ -85,36 +86,30 @@ import UiButton from '@/components/uikit/UiButton.vue'
 
 import type { RangeValue, CurrentValue, Value, Ranged } from './UiCalendar'
 
-const i18n = inject<any>('i18n')
-
 interface Props {
-    dates?: string[];
-    activeDates?: string[];
-    multiple: boolean;
-    max?: number;
-    count?: number;
-    switcher?: boolean;
-    switcherLabel?: string;
-    buttonText?: string;
-    buttonTextCancel?: string;
-    offset?: number;
-    showSelectYears?: boolean;
-    sidebarControl?: boolean;
-    allowFuture?: boolean;
-    showBottomControls?: boolean;
-    type?: string;
-    selectMode?: string;
-    disableFutureDates?: boolean;
-    firstDayOfWeek?: number;
-    disabledMultiple?: boolean;
-    value: Value;
-    fromSelectOnly?: boolean;
-    disableApply?: boolean;
+  dates?: string[];
+  activeDates?: string[];
+  multiple: boolean;
+  max?: number;
+  count?: number;
+  switcher?: boolean;
+  switcherLabel?: string;
+  buttonText?: string;
+  buttonTextCancel?: string;
+  offset?: number;
+  showSelectYears?: boolean;
+  sidebarControl?: boolean;
+  allowFuture?: boolean;
+  showBottomControls?: boolean;
+  type?: string;
+  selectMode?: string;
+  disableFutureDates?: boolean;
+  firstDayOfWeek?: number;
+  disabledMultiple?: boolean;
+  value: Value;
+  fromSelectOnly?: boolean;
+  disableApply?: boolean;
 }
-
-const weekDays = new Array(7).fill(0).map((_, i) => i18n.$t(`common.calendar.week_days.${i}`))
-const monthsNames = new Array(12).fill(0).map((_, i) => i18n.$t(`common.calendar.months.${i}`))
-const VIEWPORT_HEIGHT = 220;
 
 const props = withDefaults(defineProps<Props>(), {
     count: 2,
@@ -146,6 +141,12 @@ const emit = defineEmits<{
     (e: 'on-change', payload: CurrentValue): void;
     (e: 'set-multiple', payload: boolean): void;
 }>();
+
+const i18n = useI18n()
+
+const weekDays = new Array(7).fill(0).map((_, i) => i18n.t(`common.calendar.week_days.${i}`))
+const monthsNames = new Array(12).fill(0).map((_, i) => i18n.t(`common.calendar.months.${i}`))
+const VIEWPORT_HEIGHT = 220;
 
 const date = ref(new Date().getTime());
 const start = ref(-1);

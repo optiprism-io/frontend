@@ -103,17 +103,17 @@ const props = defineProps<{
     index: number;
 }>();
 
-const showControls = ref(false);
-
 const emit = defineEmits<{
-    (e: 'removeBreakdown', index: number): void;
-    (e: 'changeBreakdown', index: number, breakdown: Breakdown): void;
+    (e: 'remove-breakdown', index: number): void;
+    (e: 'change-breakdown', index: number, breakdown: Breakdown): void;
 }>();
+
+const showControls = ref(false);
 
 const lexiconStore = useLexiconStore();
 
 const removeBreakdown = (): void => {
-    emit('removeBreakdown', props.index);
+    emit('remove-breakdown', props.index);
 };
 
 const breakdownCohort = computed(
@@ -122,11 +122,11 @@ const breakdownCohort = computed(
 );
 
 const changeBreakdown = (breakdown: Breakdown): void => {
-    emit('changeBreakdown', props.index, breakdown);
+    emit('change-breakdown', props.index, breakdown);
 };
 
 const changeCohort = (id: number): void => {
-    emit('changeBreakdown', props.index, newBreakdownCohort(id));
+    emit('change-breakdown', props.index, newBreakdownCohort(id));
 };
 
 const breakdownName = (): string => {

@@ -26,23 +26,19 @@ import UiCardTitle from '@/components/uikit/UiCard/UiCardTitle.vue'
 import UiSwitch from '@/components/uikit/UiSwitch.vue'
 
 import { EventGroupedFiltersGroupsConditionEnum } from '@/api'
-import useConfirm from '@/hooks/useConfirm'
-import usei18n from '@/hooks/useI18n'
 import { useFilterGroupsStore } from '@/stores/reports/filters'
 
 export interface Props {
   isAllowAdvanced?: boolean
 }
 
-const filterGroupsStore = useFilterGroupsStore()
-const { t } = usei18n()
-const { confirm } = useConfirm()
+defineProps<Props>()
 
 const emit = defineEmits<{
   (e: 'on-change'): void
 }>()
 
-defineProps<Props>()
+const filterGroupsStore = useFilterGroupsStore()
 
 const isFiltersAdvanced = computed(() => filterGroupsStore.isFiltersAdvanced)
 
@@ -51,13 +47,6 @@ const onBeforeChangeFiltersType = async (e: Event) => {
     e.preventDefault()
 
     try {
-      await confirm(t('filters.resetText'), {
-        applyButton: t('common.apply'),
-        cancelButton: t('common.cancel'),
-        title: '',
-        applyButtonClass: 'pf-m-danger',
-      })
-
       filterGroupsStore.isFiltersAdvanced = false
       filterGroupsStore.filterGroups = [
         {

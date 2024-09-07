@@ -64,12 +64,6 @@ export const newBreakdownEventCommonProperty = (propertyId: number) =>
     propertyId: propertyId,
   }
 
-export const newBreakdownEventCommonCustomProperty = (propertyId: number) =>
-  <BreakdownEventCommonCustomProperty>{
-    type: 'EventCommonCustomProperty',
-    propertyId: propertyId,
-  }
-
 export const isBreakdownUserProperty = (breakdown: Breakdown) => breakdown.type === 'UserProperty'
 export const isBreakdownUserCustomProperty = (breakdown: Breakdown) =>
   breakdown.type === 'UserCustomProperty'
@@ -77,20 +71,7 @@ export const isBreakdownEventCommonProperty = (breakdown: Breakdown) =>
   breakdown.type === 'EventCommonProperty'
 export const isBreakdownEventCommonCustomProperty = (breakdown: Breakdown) =>
   breakdown.type === 'EventCommonCustomProperty'
-export const isBreakdownEventProperty = (breakdown: Breakdown) =>
-  breakdown.type === 'EventEventProperty'
-export const isBreakdownEventCustomProperty = (breakdown: Breakdown) =>
-  breakdown.type === 'EventCustomProperty'
 export const isBreakdownCohort = (breakdown: Breakdown) => breakdown.type === 'Cohort'
-
-export type BreakdownType =
-  | 'UserProperty'
-  | 'UserCustomProperty'
-  | 'EventCommonProperty'
-  | 'EventCommonCustomProperty'
-  | 'EventProperty'
-  | 'EventCustomProperty'
-  | 'Cohort'
 
 export type Breakdown =
   | BreakdownUserProperty

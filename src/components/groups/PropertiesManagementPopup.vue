@@ -14,7 +14,7 @@
         v-show="isLoadingSaveProperties"
         class="properties-management-popup__loading"
       >
-        <UiSpinner :size="'xl'" />
+        <UiSpinner size="xl" />
       </div>
       <UiTabs
         class="pf-u-mb-md"
@@ -51,7 +51,9 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref, onMounted, onUnmounted } from 'vue'
+import { computed, ref, onMounted, onUnmounted } from 'vue';
+
+import { useI18n } from 'vue-i18n'
 
 import type { ApplyPayload } from './PropertiesManagementLine.vue'
 import PropertiesManagementLine from './PropertiesManagementLine.vue'
@@ -60,7 +62,6 @@ import UiPopupWindow from '@/components/uikit/UiPopupWindow.vue'
 import UiSpinner from '@/components/uikit/UiSpinner.vue'
 import UiTabs from '@/components/uikit/UiTabs.vue'
 
-import useI18n from '@/hooks/useI18n'
 import { useGroupStore } from '@/stores/group/group'
 
 import type { Value, GroupRecord } from '@/api'
@@ -99,9 +100,12 @@ const strings = computed(() => {
 const props = defineProps<Props>()
 
 const emit = defineEmits<{
-  (e: 'apply'): void
-  (e: 'cancel'): void
+    (e: 'apply'): void
+    (e: 'cancel'): void
 }>()
+
+const groupStore = useGroupStore();
+const mapTabs = ['userProperties'];
 
 const activeTab = ref('userProperties')
 const isLoadingSaveProperties = ref(false)
@@ -214,25 +218,25 @@ onUnmounted(() => {
 })
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .properties-management-popup {
-  .pf-c-table {
-    margin-right: 80px;
-  }
-  &__content {
-    position: relative;
-  }
-  &__loading {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: rgba(#fff, 0.6);
-    z-index: 2;
-  }
+    .pf-c-table {
+        margin-right: 80px;
+    }
+    &__content {
+        position: relative;
+    }
+    &__loading {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: rgba(#fff, .6);
+        z-index: 2;
+    }
 }
 </style>

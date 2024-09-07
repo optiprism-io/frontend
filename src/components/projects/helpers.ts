@@ -1,4 +1,4 @@
-import i18n from '@/utils/i18n'
+import { i18n } from '@/plugins/i18n'
 
 type TimeoutTuple = [number, Period]
 
@@ -15,12 +15,12 @@ export const sessionPeriodOptions = [
   {
     value: Period.MINUTES,
     key: Period.MINUTES,
-    nameDisplay: i18n.t('common.timeUnits.minute'),
+    nameDisplay: i18n.global.t('common.timeUnits.minute'),
   },
   {
     value: Period.HOURS,
     key: Period.HOURS,
-    nameDisplay: i18n.t('common.timeUnits.hour'),
+    nameDisplay: i18n.global.t('common.timeUnits.hour'),
   },
 ]
 

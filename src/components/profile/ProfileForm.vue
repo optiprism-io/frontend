@@ -112,18 +112,15 @@ import { ref, watch } from 'vue'
 
 import { useVModel } from '@vueuse/core'
 import { cloneDeep } from 'lodash-es'
+import { useI18n } from 'vue-i18n'
 
 import UiFormError from '@/components/uikit/UiFormError.vue'
 import UiInlineEditSlot from '@/components/uikit/UiInlineEditSlot.vue'
 import UiInput from '@/components/uikit/UiInput.vue'
 import UiLabelAndSlot from '@/components/uikit/UiLabelAndSlot.vue'
 
-import usei18n from '@/hooks/useI18n'
-
 import type { UpdateProfileEmailRequest, UpdateProfileNameRequest } from '@/api'
 import type { ProfileEdit, ProfileErrors, UpdateProfilePasswordRequestExt } from '@/stores/profile/types'
-
-const { t } = usei18n()
 
 interface IProps {
   name?: string
@@ -148,6 +145,8 @@ const emit = defineEmits<{
   (e: 'input-pass-confirm'): void
   (e: 'update:isEdit', value: (typeof props)['isEdit']): void
 }>()
+
+const { t } = useI18n()
 
 const curIsEdit = useVModel(props, 'isEdit', emit)
 

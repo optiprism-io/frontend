@@ -38,7 +38,7 @@
           class="pf-c-select__menu-item-icon"
           @click="removeSelect"
         >
-          <UiIcon :icon="'fas fa-times'" />
+          <UiIcon icon="fas fa-times" />
         </span>
         <span
           v-else
@@ -76,7 +76,7 @@
                   v-if="item.selected"
                   class="pf-c-select__menu-item-icon"
                 >
-                  <UiIcon :icon="'fas fa-check'" />
+                  <UiIcon icon="fas fa-check" />
                 </span>
               </button>
             </li>
@@ -136,7 +136,7 @@ export default defineComponent({
     isToggle: { type: Boolean, default: true },
     w100: Boolean,
   },
-  emits: ['onSelect', 'onClear'],
+  emits: ['on-select', 'on-clear'],
   setup(props, { emit }) {
     const isOpen = ref(false)
 
@@ -176,12 +176,12 @@ export default defineComponent({
     }
 
     const onSelect = (item: UiSelectItem<Value>) => {
-      emit('onSelect', item.value)
+      emit('on-select', item.value)
     }
 
     const removeSelect = (e: Event) => {
       e.stopPropagation()
-      emit('onClear')
+      emit('on-clear')
     }
 
     return {
@@ -199,7 +199,7 @@ export default defineComponent({
 })
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .pf-c-select {
   --min-width: 10rem;
 

@@ -16,7 +16,8 @@ import {
   TimeLastTypeEnum,
   TimeWindowEachTypeEnum,
 } from '@/api'
-import { TimeTypeEnum } from '@/hooks/usePeriod'
+import { TimeTypeEnum } from '@/helpers/periodHelper'
+import { i18n } from '@/plugins/i18n'
 import { useEventsStore } from '@/stores/eventSegmentation/events'
 import { useStepsStore } from '@/stores/funnels/steps'
 import { useLexiconStore } from '@/stores/lexicon'
@@ -24,7 +25,6 @@ import { useBreakdownsStore } from '@/stores/reports/breakdowns'
 import { useFilterGroupsStore } from '@/stores/reports/filters'
 import { useReportsStore } from '@/stores/reports/reports'
 import { useSegmentsStore } from '@/stores/reports/segments'
-import i18n from '@/utils/i18n'
 
 import type {
   BreakdownByProperty,
@@ -50,6 +50,7 @@ import type {
   TimeBetween,
   TimeLast,
   TimeWindowEach,
+  Value,
 } from '@/api'
 import type { Each } from '@/components/uikit/UiCalendar/UiCalendar'
 import type {
@@ -244,7 +245,7 @@ const mapReportToSegments = async (items: EventSegmentationSegment[]): Promise<S
 
             const res: Condition = {
               action: {
-                name: i18n.t(`events.condition.${condition.type}`),
+                name: i18n.global.t(`events.condition.${condition.type}`),
                 id: condition.type || '',
               },
               filters: [],
@@ -311,7 +312,7 @@ const mapReportToSegments = async (items: EventSegmentationSegment[]): Promise<S
                     }
                   }
                   res.aggregate = {
-                    name: i18n.t(`events.aggregates.${condition.aggregate.type}`),
+                    name: i18n.global.t(`events.aggregates.${condition.aggregate.type}`),
                     id: condition.aggregate.type,
                   }
                 }

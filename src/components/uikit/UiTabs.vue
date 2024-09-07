@@ -75,5 +75,3 @@ const onSelect = (value: string) => {
   emit('on-select', value)
 }
 </script>
-
-<style lang="scss" scoped></style>

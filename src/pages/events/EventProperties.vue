@@ -16,7 +16,9 @@
 </template>
 
   <script setup lang="ts">
-  import { computed, inject, onMounted } from 'vue'
+  import { computed, onMounted } from 'vue'
+
+  import { useI18n } from 'vue-i18n'
 
   import UiCellTags from '@/components/uikit/cells/UiCellTags.vue'
   import UiCellToolMenu from '@/components/uikit/cells/UiCellToolMenu.vue'
@@ -31,7 +33,7 @@
   import type { Property } from '@/api'
   import type { Action, Row }  from '@/components/uikit/UiTable/UiTable'
 
-  const i18n = inject<any>('i18n')
+  const i18n = useI18n()
   const lexiconStore = useLexiconStore()
   const commonStore = useCommonStore()
 
@@ -41,7 +43,7 @@
 
           return {
               value: key,
-              title: isAction ? '' : i18n.$t(`events.event_management.columns.${key}`),
+              title: isAction ? '' : i18n.t(`events.event_management.columns.${key}`),
               default: isAction,
               type: isAction? 'action' : '',
           }
@@ -87,7 +89,7 @@
                   component: UiCellToolMenu,
                   items: [
                       {
-                          label: i18n.$t('events.editProperty'),
+                          label: i18n.t('events.editProperty'),
                           value: 'edit',
                       },
                   ],

@@ -31,9 +31,8 @@
             @on-edit="onEditNameReport"
           />
           <UiButton
-            v-if="isShowSaveReport"
             class="pf-m-link reports__nav-item reports__nav-item_new"
-            :before-icon="'fas fa-floppy-disk'"
+            before-icon="fas fa-floppy-disk"
             @click="onSaveReport"
           >
             {{ $t('reports.save') }}
@@ -41,8 +40,8 @@
           <UiButton
             v-if="itemsReports.length && reportsStore.reportId"
             class="pf-m-link pf-m-danger"
-            :before-icon="'fas fa-times'"
-            @click="onDeleteReport"
+            before-icon="fas fa-times"
+            @click="togglePopup(true)"
           >
             {{ $t('reports.delete') }}
           </UiButton>
@@ -66,52 +65,89 @@
         class="pf-l-flex__item pf-u-flex-1 pf-u-w-100 pf-u-min-height"
         style="--pf-u-min-height--MinHeight: 0"
       >
-        <RouterView :key="key" />
+        <RouterView
+          :funnel-view="funnelViewId"
+          :time-interval="timeInterval"
+          @change-view="onChangeView"
+          @select-time-interval="selectTimeInterval"
+        />
       </div>
     </div>
+
+    <UiPopupWindow
+      v-if="visiblePopup"
+      :title="$t('reports.delete')"
+      :apply-button="$t('common.apply')"
+      :cancel-button="$t('common.cancel')"
+      apply-button-class="pf-m-danger"
+      @cancel="togglePopup(false)"
+      @apply="onDeleteReport"
+    >
+      {{ t('reports.deleteConfirm') }}: <b> {{ reportsStore.activeReport?.name }} </b>?
+    </UiPopupWindow>
   </section>
 </template>
 
 <script lang="ts" setup>
 import { computed, onMounted, ref } from 'vue'
 
-import { storeToRefs } from 'pinia'
-import { useRoute, useRouter, RouterView } from 'vue-router'
+import { useToggle } from '@vueuse/core'
+import { useI18n } from 'vue-i18n'
+import { RouterView, useRoute, useRouter } from 'vue-router'
 
 import UiButton from '@/components/uikit/UiButton.vue'
 import UiInlineEdit from '@/components/uikit/UiInlineEdit.vue'
+import UiPopupWindow from '@/components/uikit/UiPopupWindow.vue'
 import UiSelect from '@/components/uikit/UiSelect.vue'
 import UiSpinner from '@/components/uikit/UiSpinner.vue'
 import UiSwitch from '@/components/uikit/UiSwitch.vue'
 import UiTabs from '@/components/uikit/UiTabs.vue'
 
-import { ReportType } from '@/api'
-import useConfirm from '@/hooks/useConfirm'
-import usei18n from '@/hooks/useI18n'
+import {
+  type EventSegmentation,
+  FunnelConversionOverTimeChartTypeTypeEnum,
+  type FunnelQuery,
+  FunnelQueryCountEnum,
+  FunnelStepsChartTypeTypeEnum,
+  type ReportQuery,
+  ReportType,
+} from '@/api'
+import { useFunnelView } from '@/pages/reports/useFunnelView'
+import { useTimeInterval } from '@/pages/reports/useTimeInterval'
 import { pagesMap } from '@/router'
 import { useCommonStore } from '@/stores/common'
 import { useEventsStore } from '@/stores/eventSegmentation/events'
+import { useStepsStore } from '@/stores/funnels/steps'
 import { useLexiconStore } from '@/stores/lexicon'
+import { useBreakdownsStore } from '@/stores/reports/breakdowns'
+import { useFilterGroupsStore } from '@/stores/reports/filters'
 import { useReportsStore } from '@/stores/reports/reports'
+import { useSegmentsStore } from '@/stores/reports/segments'
 import { reportToStores } from '@/utils/reportsMappings'
 
 import { REPORT_TABS } from './tabs'
 
-const { t } = usei18n()
+import type { EventChartType, FunnelConversionOverTimeChartType, FunnelQueryChartType } from '@/api'
+
+const { t } = useI18n()
 const route = useRoute()
 const router = useRouter()
 const eventsStore = useEventsStore()
 const reportsStore = useReportsStore()
 const commonStore = useCommonStore()
 const lexiconStore = useLexiconStore()
-const { confirm } = useConfirm()
+const breakdownsStore = useBreakdownsStore()
+const filterGroupsStore = useFilterGroupsStore()
+const segmentsStore = useSegmentsStore()
+const stepsStore = useStepsStore()
 
 const editableNameReport = ref(false)
 const reportName = ref('')
 const showSyncReports = ref(false)
-const key = ref(0)
 
-const { isChangedReport: isShowSaveReport } = storeToRefs(reportsStore)
+const [visiblePopup, togglePopup] = useToggle()
+const { funnelViewId, onChangeView } = useFunnelView()
+const { timeInterval, selectTimeInterval } = useTimeInterval()
 
 const items = computed(() =>
   REPORT_TABS.map(item => ({
@@ -131,7 +167,13 @@ const reportType = computed(() =>
 )
 
 const itemsReports = computed(() => {
-  return reportsStore.list.map(item => {
+  const CREATE_NEW_REPORT_ITEM = {
+    value: 0,
+    key: 0,
+    nameDisplay: 'Create New Report',
+  }
+
+  const existReports = reportsStore.list.map(item => {
     const id = Number(item.id)
     return {
       value: id,
@@ -139,54 +181,50 @@ const itemsReports = computed(() => {
       nameDisplay: item.name || '',
     }
   })
+
+  return [CREATE_NEW_REPORT_ITEM, ...existReports]
 })
 
-const untitledReportsList = computed(() => {
-  return reportsStore.list.filter(
-    item =>
-      `${item.name.split(' ')[0]}` + ' ' + `${item.name.split(' ')[1]}` ===
-      t('reports.untitledReport')
-  )
-})
+const untitledReportName = computed(() => {
+  let resName = t('reports.untitledReport')
+  let n = 0
 
-const untitledReportName = computed(
-  () => `${t('reports.untitledReport')} #${untitledReportsList.value.length + 1}`
-)
+  while (reportsStore.list.find(nw => nw.name === resName)) {
+    n = n + 1
+    const suffix = ' #' + n
+    resName = t('reports.untitledReport') + suffix
+  }
+
+  return resName
+})
 
 const onEditNameReport = (payload: boolean) => {
   editableNameReport.value = payload
 }
 
-const onDeleteReport = async () => {
-  try {
-    confirm(
-      t('reports.deleteConfirm', { name: `<b>${reportsStore?.activeReport?.name}</b>` || '' }),
-      {
-        applyButton: t('common.apply'),
-        cancelButton: t('common.cancel'),
-        title: t('reports.delete'),
-        applyButtonClass: 'pf-m-danger',
-      }
-    )
+async function onDeleteReport() {
+  if (!reportsStore.reportId) throw new Error('Report ID is not defined')
 
-    if (reportsStore.reportId !== null) {
-      await reportsStore.deleteReport(reportsStore.reportId)
-      reportsStore.reportId = null
-    }
+  await reportsStore.deleteReport(reportsStore.reportId)
+  reportsStore.reportId = null
 
-    await reportsStore.getList()
-    reportsStore.emptyReport()
-  } catch (error) {
-    reportsStore.loading = false
-  }
+  await reportsStore.getList()
+  reportsStore.emptyReport()
+  togglePopup(false)
 }
 
 const onEditReport = async () => {
-  await reportsStore.editReport(reportName.value || untitledReportName.value, reportType.value)
+  const query = getReportQuery(reportType.value)
+  await reportsStore.editReport(
+    reportName.value || untitledReportName.value,
+    reportType.value,
+    query
+  )
 }
 
 const onCreateReport = async () => {
-  await reportsStore.createReport(untitledReportName.value, reportType.value)
+  const query = getReportQuery(reportType.value)
+  await reportsStore.createReport(untitledReportName.value, reportType.value, query)
 
   await router.push({
     params: {
@@ -208,7 +246,6 @@ const onSaveReport = async () => {
   reportsStore.loading = true
   await onUpdateReport()
   await reportsStore.getList()
-  reportsStore.updateDump(reportType.value)
   reportsStore.loading = false
 }
 
@@ -221,14 +258,12 @@ const onSelectTab = (value: string) => {
   if (value === pagesMap.reportsEventSegmentation.name) {
     reportsStore.emptyReport()
   }
-  key.value++
 }
 
 const updateReport = async (id: number) => {
   reportsStore.loading = true
   await reportToStores(Number(id))
   reportName.value = reportsStore.activeReport?.name ?? t('reports.untitledReport')
-  reportsStore.updateDump(reportType.value)
   reportsStore.loading = false
 }
 
@@ -251,6 +286,77 @@ const initEventsAndProperties = async () => {
   ])
 }
 
+const chartTypeComputed = computed<FunnelQueryChartType | EventChartType>(() => {
+  if (reportType.value === ReportType.EventSegmentation) {
+    return eventsStore.chartType as EventChartType
+  }
+
+  if (reportType.value === ReportType.Funnel) {
+    if (funnelViewId.value === FunnelStepsChartTypeTypeEnum.Steps) {
+      return {
+        type: FunnelStepsChartTypeTypeEnum.Steps,
+      } satisfies FunnelQueryChartType
+    }
+    if (funnelViewId.value === FunnelConversionOverTimeChartTypeTypeEnum.ConversionOverTime) {
+      return {
+        type: FunnelConversionOverTimeChartTypeTypeEnum.ConversionOverTime,
+        intervalUnit: timeInterval.value,
+      } satisfies FunnelConversionOverTimeChartType
+    }
+    throw new Error('Unknown funnel view')
+  }
+
+  throw new Error('Unknown report type')
+})
+
+const getReportQuery = (type: ReportType): ReportQuery => {
+  const filters = filterGroupsStore.isSelectedAnyFilter ? filterGroupsStore.filters : undefined
+  const breakdowns = breakdownsStore.isSelectedAnyBreakdown
+    ? breakdownsStore.breakdownsItems
+    : undefined
+  const segments = segmentsStore.isSelectedAnySegments ? segmentsStore.segmentationItems : undefined
+
+  if (type === ReportType.EventSegmentation) {
+    const events = eventsStore?.propsForEventSegmentationResult?.events || []
+
+    /* TODO: fix "as EventSegmentation" -> "satisfies EventSegmentation" */
+    return {
+      type,
+      time: eventsStore.timeRequest,
+      group: eventsStore.group,
+      intervalUnit: eventsStore.controlsGroupBy,
+      chartType: chartTypeComputed.value,
+      analysis: { type: 'linear' },
+      events,
+      filters,
+      breakdowns,
+      segments,
+    } as EventSegmentation
+  } else {
+    /* TODO: fix "as FunnelQuery" -> "satisfies FunnelQuery" */
+    return {
+      type,
+      time: eventsStore.timeRequest,
+      group: eventsStore.group,
+      steps: stepsStore.getSteps,
+      timeWindow: {
+        n: stepsStore.size,
+        unit: stepsStore.unit,
+      },
+      chartType: chartTypeComputed.value,
+      count: FunnelQueryCountEnum.NonUnique,
+      holdingConstants: stepsStore.getHoldingProperties,
+      exclude: stepsStore.getExcluded,
+      filters,
+      breakdowns,
+      segments,
+      touch: {
+        type: 'first',
+      },
+    } as FunnelQuery
+  }
+}
+
 onMounted(async () => {
   reportsStore.loading = true
   eventsStore.initPeriod()
@@ -264,7 +370,7 @@ onMounted(async () => {
 })
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .pf-c-page {
   height: 100vh;
   &__main {

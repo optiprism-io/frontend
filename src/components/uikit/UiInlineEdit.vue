@@ -39,6 +39,7 @@
           type="text"
           :value="valueEdit"
           @input="updateValue"
+          @keyup.enter="onInput"
         >
       </div>
       <div class="pf-c-inline-edit__group pf-m-action-group pf-m-icon-group">
@@ -77,55 +78,55 @@
 import { ref } from 'vue'
 
 interface Props {
-    value: number | string
-    placeholderValue?: string
-    hideText?: boolean
-    hideControlEdit?: boolean
+  value?: number | string
+  placeholderValue?: string
+  hideText?: boolean
+  hideControlEdit?: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {
-    value: '',
-    placeholderValue: '',
-    hideText: false,
-    hideControlEdit: false
+  value: '',
+  placeholderValue: '',
+  hideText: false,
+  hideControlEdit: false,
 })
 
-const emit = defineEmits([
-    'on-input',
-    'on-edit',
-])
+const emit = defineEmits<{
+  (e: 'on-input', value: string): void
+  (e: 'on-edit', value: boolean): void
+}>()
 
 const valueEdit = ref<string | number>('')
 const isEditable = ref(false)
 const input = ref<HTMLCanvasElement | null>(null)
 
 const updateValue = (e: Event) => {
-    const target = e.target as HTMLInputElement
-    valueEdit.value = target.value
+  const target = e.target as HTMLInputElement
+  valueEdit.value = target.value
 }
 
 const setEditable = (payload: boolean) => {
-    const inputElement = input.value
-    emit('on-edit', payload);
-    valueEdit.value = props.value
-    isEditable.value = payload
-    setTimeout(() => {
-        if (payload && inputElement) {
-            inputElement.focus()
-        }
-    }, 300);
+  const inputElement = input.value
+  emit('on-edit', payload)
+  valueEdit.value = props.value
+  isEditable.value = payload
+  setTimeout(() => {
+    if (payload && inputElement) {
+      inputElement.focus()
+    }
+  }, 300)
 }
 
 const onInput = () => {
-    emit('on-input', valueEdit.value)
-    setEditable(false)
+  emit('on-input', valueEdit.value.toString())
+  setEditable(false)
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .pf-c-inline-edit {
-    &__value {
-        cursor: pointer;
-    }
+  &__value {
+    cursor: pointer;
+  }
 }
 </style>

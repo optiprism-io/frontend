@@ -87,7 +87,7 @@ interface Props {
     years: Year[];
     showSelectYears: boolean;
     allowFuture: boolean;
-    firstDayOfWeek: number;
+    firstDayOfWeek?: number;
     fromSelectOnly?: boolean,
 }
 
@@ -212,7 +212,7 @@ const mouseleaveItem = (date: string) => {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .ui-calendar-month {
     display: flex;
     position: relative;

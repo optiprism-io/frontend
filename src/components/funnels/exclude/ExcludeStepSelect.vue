@@ -2,7 +2,7 @@
   <EventSelector @select="excludeEvent">
     <UiButton
       :is-link="true"
-      :before-icon="'fas fa-plus'"
+      before-icon="fas fa-plus"
     >
       {{ $t('funnels.excludeSteps.add') }}
     </UiButton>

@@ -30,13 +30,13 @@ interface Props {
     errorMain?: string
 }
 
+const props = withDefaults(defineProps<Props>(), {
+    errorMain: '',
+})
+
 const emit = defineEmits<{
     (e: 'submit', event: Event): void,
 }>()
-
-const props = withDefaults(defineProps<Props>(), {
-    errorMain: '',
-});
 
 const errorMainItem = computed(() => {
     return {

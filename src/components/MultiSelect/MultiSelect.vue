@@ -33,16 +33,16 @@ export interface Item {
     name: string | boolean | number;
 }
 
-const emit = defineEmits<{
-    (e: 'select', item: any): void;
-    (e: 'deselect', item: any): void;
-    (e: 'search', payload: string): void;
-}>();
-
 const props = defineProps<{
     items: Item[];
     selected?: any;
     popperContainer?: string
+}>();
+
+const emit = defineEmits<{
+    (e: 'select', item: any): void;
+    (e: 'deselect', item: any): void;
+    (e: 'search', payload: string): void;
 }>();
 
 const searchRef = ref('');
@@ -72,7 +72,7 @@ const search = (payload: string) => {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .multi-select {
     &__content {
         max-width: 240px;

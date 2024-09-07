@@ -1,45 +1,16 @@
-export function formatDateTime(
-  startDate: string | Date,
-  hours?: number,
-  minutes?: number,
-  second?: number,
-  ms?: number
-) {
-  const initialDate = new Date(startDate)
-  return new Date(
-    Date.UTC(
-      initialDate.getFullYear(),
-      initialDate.getMonth(),
-      initialDate.getDate(),
-      hours,
-      minutes,
-      second,
-      ms
-    )
-  ).toJSON()
+import { dayjs } from '@/plugins/dayjs'
+
+export function getYYYYMMDD(date: Date): string {
+  return dayjs(date).format('YYYY-MM-DD')
 }
 
-export function getStringDate(item: string | number, names: string[], includeDate = true) {
-  if (isNaN(new Date(item).getTime())) {
-    return item
-  }
-  return `${includeDate ? new Date(item).getUTCDate() : ''} ${names[new Date(item).getUTCMonth()]} ${new Date(item).getUTCFullYear()}`
-}
-
+/* TODO: Change to dayjs */
 export function getShortStringDate(date: Date) {
   return `${date.getFullYear()}-${date.getMonth() < 9 ? `0${date.getMonth() + 1}` : date.getMonth() + 1}-${date.getDate() < 10 ? `0${date.getDate()}` : date.getDate()}`
 }
 
-export function getYYYYMMDD(date: Date) {
-  const mm = date.getMonth() + 1
-  const dd = date.getDate()
-  return [date.getFullYear(), (mm > 9 ? '' : '0') + mm, (dd > 9 ? '' : '0') + dd].join('-')
-}
-
-export function getStringDateByFormat(
-  date: string,
-  format: string,
-  months = {
+export function getStringDateByFormat(date: string, format: string) {
+  const months = {
     1: 'January',
     2: 'February',
     3: 'March',
@@ -52,16 +23,16 @@ export function getStringDateByFormat(
     10: 'October',
     11: 'November',
     12: 'December',
-  },
-  weekdays = { 1: 'Sun', 2: 'Mon', 3: 'Tues', 4: 'Wednes', 5: 'Thurs', 6: 'Fri', 7: 'Satur' }
-) {
-  const timestamp = new Date(date)
-
-  if (isNaN(timestamp.getTime())) {
-    return date
   }
-
-  let jsdate: Date
+  const weekdays = {
+    1: 'Sun',
+    2: 'Mon',
+    3: 'Tues',
+    4: 'Wednes',
+    5: 'Thurs',
+    6: 'Fri',
+    7: 'Satur',
+  }
   const weekdaysFront = [
     weekdays[7],
     weekdays[1],
@@ -85,6 +56,15 @@ export function getStringDateByFormat(
     months[11],
     months[12],
   ]
+
+  const timestamp = new Date(date)
+
+  if (isNaN(timestamp.getTime())) {
+    return date
+  }
+
+  let jsdate: Date
+
   format = format.replace(new RegExp('%', 'g'), '')
   const txtWords = weekdaysFront.concat(monthsFront)
   const formatChr = /\\?(.?)/gi

@@ -26,22 +26,24 @@
 <script lang="ts" setup>
 import { ref, onMounted } from 'vue'
 
+interface Props {
+  editable?: boolean
+  value: string
+  index?: number
+  mountFocus?: boolean
+}
+
+const props = defineProps<Props>()
+
+const emit = defineEmits<{
+  (e: 'input', value: string, index: number | undefined): void
+}>()
+
 const input = ref<HTMLCanvasElement | null>(null)
 const text = ref<HTMLCanvasElement | null>(null)
 const editing = ref(false)
 const editingValue = ref('')
 const editingInputWidth = ref(0)
-
-const emit = defineEmits(['input']);
-
-interface Props {
-    editable?: boolean
-    value: string
-    index?: number
-    mountFocus?: boolean
-}
-
-const props = defineProps<Props>()
 
 onMounted(() => {
     if (props.mountFocus) {
@@ -84,7 +86,7 @@ const blur = () => {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .ui-tag {
     min-height: 29px;
     min-width: 20px;
