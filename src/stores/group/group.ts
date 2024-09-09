@@ -7,6 +7,8 @@ import { getRequestTime, TimeTypeEnum } from '@/helpers/periodHelper'
 import { useProjectsStore } from '@/stores/projects/projects'
 import { useFilterGroupsStore } from '@/stores/reports/filters'
 
+import { useLexiconStore } from '../lexicon'
+
 import type {
   DataTableResponseColumnsInner,
   EventGroupedFiltersGroupsInnerFiltersInner,
@@ -30,6 +32,7 @@ export const defaultColumns = ['']
 export const useGroupStore = defineStore('group', () => {
   const projectsStore = useProjectsStore()
   const filterGroupsStore = useFilterGroupsStore()
+  const lexiconStore = useLexiconStore()
 
   const items = ref<GroupRecord[]>([])
   const activeColumns = ref<PropertyRef[]>([])
@@ -46,6 +49,14 @@ export const useGroupStore = defineStore('group', () => {
     type: TimeTypeEnum.Last,
     last: 30,
   })
+
+  const selectedGroup = computed(() => lexiconStore?.groups.find(item => +item.id === +group.value))
+
+  const propertiesGrouped = computed(() =>
+    selectedGroup.value?.name
+      ? lexiconStore.groupPropertiesMap[selectedGroup.value?.name] || []
+      : []
+  )
 
   const isPeriodActive = computed(
     () => Boolean(period.from) && Boolean(period.to) && controlsPeriod.value === 'calendar'
@@ -153,6 +164,8 @@ export const useGroupStore = defineStore('group', () => {
     isNoData,
     timeRequest,
     activeColumns,
+    selectedGroup,
+    propertiesGrouped,
 
     toggleColumns,
     getList,

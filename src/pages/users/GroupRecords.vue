@@ -206,20 +206,19 @@ const initEventsAndProperties = async () => {
     lexiconStore.getEvents(),
     lexiconStore.getEventProperties(),
     await lexiconStore.getGroups(),
-    lexiconStore.getGroupProperties(),
+    await lexiconStore.getGroupProperties(),
   ])
 }
 
 onMounted(async () => {
   await initEventsAndProperties()
   groupStore.activeColumns = ['id'].map(name => {
-    const userProperties = lexiconStore.groupPropertiesMap['user']
-    const userProperty = userProperties.find(item => item.name === name)
+    const propertyData = groupStore.propertiesGrouped.find(item => item.name === name)
 
     const property: PropertyRef = {
       name: name,
       type: PropertyType.Group,
-      group: userProperty?.groupId,
+      group: propertyData?.groupId,
     }
 
     return property

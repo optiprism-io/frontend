@@ -4,9 +4,7 @@
       class="pf-u-mb-md"
       :items="items"
     >
-      <template
-        #after
-      >
+      <template #after>
         <UiSelect
           v-if="selectedGroup?.name"
           class="pf-u-ml-lg"
@@ -31,7 +29,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, onMounted } from 'vue'
 
 import { useI18n } from 'vue-i18n'
 import { useRoute, RouterView } from 'vue-router'
@@ -48,18 +46,20 @@ import { useLexiconStore } from '@/stores/lexicon'
 const { t } = useI18n()
 const route = useRoute()
 const lexiconStore = useLexiconStore()
-const { selectGroups } = useGroup()
 const groupStore = useGroupStore()
+const { selectGroups } = useGroup()
 
 const strings = computed(() => {
   return {
-    usersTitle: t('users.users.title'),
-    usersProperties: t('users.users.properties'),
+    usersTitle: t('users.title'),
+    usersProperties: t('users.properties'),
   }
 })
 
-const selectedGroup = computed(() => lexiconStore.groups.find(item => item.id === groupStore.group))
-const selectedGroupByString = computed(() => `${t('common.group', { name: selectedGroup.value?.name })}`)
+const selectedGroup = computed(() => lexiconStore.groups.find(item => +item.id === +groupStore.group))
+const selectedGroupByString = computed(
+  () => `${t('common.group', { name: selectedGroup.value?.name })}`
+)
 
 const items = computed(() => [
   {
@@ -84,6 +84,10 @@ const onSelectGroup = (value: number) => {
   groupStore.group = value
   groupStore.getList()
 }
+
+onMounted(() => {
+  lexiconStore.getGroups()
+})
 </script>
 
 <style scoped lang="scss"></style>

@@ -1,11 +1,11 @@
 export default [
   {
     id: 0,
-    name: 'User',
+    name: 'user',
   },
   {
     id: 1,
-    name: 'App',
+    name: 'app',
   },
   {
     id: 2,
