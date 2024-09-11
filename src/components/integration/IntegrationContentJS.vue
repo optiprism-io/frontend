@@ -25,7 +25,7 @@ const props = withDefaults(defineProps<Props>(), {
 
 const code = computed(
   () => `<!-- place the code before the </head> tag -->
-<script type="text/javascript" src="https://demdxx.optiprism.io/tracker.js"><\/script>
+<script type="text/javascript" src="https://${window.location.host}/tracker.js"><\/script>
 <script>
   optiprism.configure({
     token: ${props.sdkToken},
