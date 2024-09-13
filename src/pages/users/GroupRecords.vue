@@ -60,7 +60,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, onUnmounted, ref } from 'vue'
+import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
 
 import { useI18n } from 'vue-i18n'
 
@@ -77,7 +77,7 @@ import ToolsLayout from '@/layout/ToolsLayout.vue'
 import { PropertyType } from '@/api'
 import { shortPeriodDays } from '@/components/uikit/UiCalendar/UiCalendar.config'
 import useDataTable from '@/hooks/useDataTable'
-import useProperty from '@/hooks/useProperty'
+import { getProperties } from '@/hooks/useProperty'
 import { useGroupStore, defaultColumns } from '@/stores/group/group'
 import { useLexiconStore } from '@/stores/lexicon'
 import { useSegmentsStore } from '@/stores/reports/segments'
@@ -90,7 +90,6 @@ const { t } = useI18n()
 const groupStore = useGroupStore()
 const segmentsStore = useSegmentsStore()
 const lexiconStore = useLexiconStore()
-const { usersProperties } = useProperty()
 
 const strings = computed(() => {
   return {
@@ -133,24 +132,29 @@ const columnsButtonText = computed(
 )
 
 const itemsProperties = computed(() => {
-  return usersProperties.value
-    ? [
-        {
-          name: usersProperties.value.name,
-          type: usersProperties.value.type,
-          items: usersProperties.value.items.map(groupItem => {
-            const activeProperty = groupStore.activeColumns.find(
-              col => col.name === groupItem.item.name
-            )
+  const group = lexiconStore.groups.find(item => +item.id === +groupStore.group)
+  const properties = group ? lexiconStore.groupPropertiesMap[group.name] : []
 
-            return {
-              ...groupItem,
-              selected: Boolean(activeProperty),
-            }
-          }),
-        },
-      ]
-    : []
+  if (properties && group) {
+    const property = getProperties(properties, group.name, PropertyType.Group, group.id)
+
+    return [
+      {
+        name: property.name,
+        type: 'group',
+        items: property.items.map((groupItem: { name: string }) => {
+          const activeProperty = groupStore.activeColumns.find(col => col.name === groupItem.name)
+
+          return {
+            ...groupItem,
+            selected: Boolean(activeProperty),
+          }
+        }),
+      },
+    ]
+  } else {
+    return []
+  }
 })
 
 const selectColumn = (payload: PropertyRef) => {
@@ -210,8 +214,7 @@ const initEventsAndProperties = async () => {
   ])
 }
 
-onMounted(async () => {
-  await initEventsAndProperties()
+const initPage = async () => {
   groupStore.activeColumns = ['id'].map(name => {
     const propertyData = groupStore.propertiesGrouped.find(item => item.name === name)
 
@@ -226,9 +229,21 @@ onMounted(async () => {
 
   segmentsStore.$reset()
   updateData()
+}
+
+onMounted(async () => {
+  await initEventsAndProperties()
+  initPage()
 })
 
 onUnmounted(() => {
   segmentsStore.$reset()
 })
+
+watch(
+  () => groupStore.group,
+  _ => {
+    initPage()
+  }
+)
 </script>

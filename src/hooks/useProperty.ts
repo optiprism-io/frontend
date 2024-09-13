@@ -11,7 +11,7 @@ import type { PropertyRef } from '@/types/events'
 
 export type PropertyItem = Item<PropertyRef, null>
 
-const getProperties = (items: Property[], name: string, type: PropertyType, group?: number) => {
+export const getProperties = (items: Property[], name: string, type: PropertyType, group?: number) => {
   return {
     name,
     items: items.reduce((acc: PropertyItem[], item) => {
@@ -42,7 +42,7 @@ const getProperties = (items: Property[], name: string, type: PropertyType, grou
   }
 }
 
-const userProperty = () => {
+const useProperty = () => {
   const lexiconStore = useLexiconStore()
   const { t } = useI18n()
 
@@ -124,4 +124,4 @@ const userProperty = () => {
   }
 }
 
-export default userProperty
+export default useProperty
