@@ -42,14 +42,6 @@ Since TypeScript cannot handle type information for `.vue` imports, they are shi
 yarn check:eslint && yarn check:vue-tsc
 ```
 
-### rud with docker
-
-```
-$ docker run -p 8080:8080 docker.io/optiprismio/demo:v0.1.10
-
-$ VITE_MOCK_API=true VITE_API_BASE_PATH=http://localhost:8080/api yarn start:dev
-```
-
 ### run with mocks:
 
 ```
@@ -70,7 +62,6 @@ VITE_API_BASE_PATH=http://localhost:8089/api yarn start:dev
 
 ```
 yarn build
-VITE_MOCK_API=true yarn build
 ```
 
 ### generate API client:

@@ -1,100 +1,174 @@
+import { ref, reactive, computed } from 'vue'
+
 import { defineStore } from 'pinia'
 
 import { apiClient } from '@/api/apiClient'
 import { getRequestTime, TimeTypeEnum } from '@/helpers/periodHelper'
 import { useProjectsStore } from '@/stores/projects/projects'
+import { useFilterGroupsStore } from '@/stores/reports/filters'
 
-import type { EventRecordsListRequestTime, GroupRecord, Value } from '@/api'
+import { useLexiconStore } from '../lexicon'
 
-export type Group = {
-  items: GroupRecord[]
-  loading: boolean
-  loadingOne: boolean
-  controlsPeriod: string | number
-  propertyPopup: boolean
-  period: {
-    from: string
-    to: string
-    last: number
-    type: TimeTypeEnum
-  }
+import type {
+  DataTableResponseColumnsInner,
+  EventGroupedFiltersGroupsInnerFiltersInner,
+  EventRecordsListRequestTime,
+  GroupRecord,
+  GroupRecordsListRequest,
+  PropertyRef as PropertyRefApi,
+  Value,
+} from '@/api'
+import type { PropertyRef } from '@/types/events'
+
+type PeriodState = {
+  from: string
+  to: string
+  last: number
+  type: TimeTypeEnum
 }
 
-export const useGroupStore = defineStore('group', {
-  state: (): Group => ({
-    items: [],
-    loading: false,
-    loadingOne: false,
-    controlsPeriod: '30',
-    period: {
-      from: '',
-      to: '',
-      type: TimeTypeEnum.Last,
-      last: 30,
-    },
-    propertyPopup: false,
-  }),
-  actions: {
-    async getList(noLoading?: boolean) {
-      if (!noLoading) {
-        this.loading = true
+export const defaultColumns = ['']
+
+export const useGroupStore = defineStore('group', () => {
+  const projectsStore = useProjectsStore()
+  const filterGroupsStore = useFilterGroupsStore()
+  const lexiconStore = useLexiconStore()
+
+  const items = ref<GroupRecord[]>([])
+  const activeColumns = ref<PropertyRef[]>([])
+  const columns = ref<DataTableResponseColumnsInner[]>([])
+  const loading = ref(false)
+  const loadingOne = ref(false)
+  const controlsPeriod = ref<string | number>('30')
+  const propertyPopup = ref(false)
+  const group = ref(0)
+
+  const period = reactive<PeriodState>({
+    from: '',
+    to: '',
+    type: TimeTypeEnum.Last,
+    last: 30,
+  })
+
+  const selectedGroup = computed(() => lexiconStore?.groups.find(item => +item.id === +group.value))
+
+  const propertiesGrouped = computed(() =>
+    selectedGroup.value?.name
+      ? lexiconStore.groupPropertiesMap[selectedGroup.value?.name] || []
+      : []
+  )
+
+  const isPeriodActive = computed(
+    () => Boolean(period.from) && Boolean(period.to) && controlsPeriod.value === 'calendar'
+  )
+  const isNoData = computed(() => !items.value.length && !loading.value)
+
+  const timeRequest = computed<EventRecordsListRequestTime>(() => {
+    return getRequestTime(period.type, controlsPeriod.value, period.from, period.to, period.last)
+  })
+
+  const getList = async (noLoading?: boolean) => {
+    if (!noLoading) {
+      loading.value = true
+    }
+
+    const properties = activeColumns.value.map(item => {
+      const property: PropertyRefApi = {
+        propertyName: item?.name || '',
+        propertyType: item?.type || '',
       }
-      const projectsStore = useProjectsStore()
-      try {
-        // TODO integrate Group Page
-        const res = await apiClient.groupRecords.groupRecordsList(projectsStore.projectId, {
-          time: this.timeRequest,
-          group: 0,
-        })
-        if (res?.data?.data) {
-          this.items = res.data.data
+
+      if (item.group || item.group === 0) {
+        property.group = item.group
+      }
+
+      return property
+    })
+
+    try {
+      const props: GroupRecordsListRequest = {
+        time: timeRequest.value,
+        group: group.value,
+      }
+
+      if (properties.length) {
+        props.properties = properties
+      }
+
+      if (filterGroupsStore.isSelectedAnyFilter) {
+        const filters = filterGroupsStore.filters.groups[0].filters.reduce(
+          (acc: EventGroupedFiltersGroupsInnerFiltersInner[], filter) => {
+            if ('value' in filter && filter.value?.length) {
+              acc.push(filter)
+            }
+
+            return acc
+          },
+          []
+        )
+
+        if (filters.length) {
+          props.filters = {
+            groupsCondition: 'and',
+            groups: [
+              {
+                filtersCondition: 'and',
+                filters,
+              },
+            ],
+          }
         }
-      } catch (e) {
-        console.error('error update event property')
       }
+
+      const res = await apiClient.groupRecords.groupRecordsList(projectsStore.projectId, props)
+      columns.value = res?.data?.columns?.length ? res.data?.columns : []
+    } catch (e) {
+      console.error('error update event property')
+    }
+    if (!noLoading) {
+      loading.value = false
+    }
+  }
+
+  const toggleColumns = (payload: PropertyRef[]) => {
+    activeColumns.value = payload
+  }
+
+  const update = async (id: number, properties: { [key: string]: Value }, noLoading: boolean) => {
+    if (!noLoading) {
+      loading.value = true
+    }
+    try {
+      await apiClient.groupRecords.updateGroupRecord(projectsStore.projectId, id, {
+        properties: properties,
+      })
+      await getList(noLoading || true)
+    } catch (e) {
       if (!noLoading) {
-        this.loading = false
+        loading.value = false
       }
-    },
-    async update(payload: {
-      id: number
-      properties: { [key: string]: Value }
-      noLoading?: boolean
-    }) {
-      const projectsStore = useProjectsStore()
-      if (!payload.noLoading) {
-        this.loading = true
-      }
-      try {
-        await apiClient.groupRecords.updateGroupRecord(projectsStore.projectId, payload.id, {
-          properties: payload.properties,
-        })
-        await this.getList(payload.noLoading || true)
-      } catch (e) {
-        if (!payload.noLoading) {
-          this.loading = false
-        }
-        console.error('error update event property')
-      }
-    },
-  },
-  getters: {
-    isPeriodActive(): boolean {
-      return (
-        Boolean(this.period.from) && Boolean(this.period.to) && this.controlsPeriod === 'calendar'
-      )
-    },
-    timeRequest(): EventRecordsListRequestTime {
-      return getRequestTime(
-        this.period.type,
-        this.controlsPeriod,
-        this.period.from,
-        this.period.to,
-        this.period.last
-      )
-    },
-    isNoData(): boolean {
-      return !this.items.length && !this.loading
-    },
-  },
+      console.error('error update event property')
+    }
+  }
+
+  return {
+    isPeriodActive,
+    items,
+    columns,
+    loading,
+    loadingOne,
+    controlsPeriod,
+    propertyPopup,
+    group,
+    period,
+    isNoData,
+    timeRequest,
+    activeColumns,
+    selectedGroup,
+    propertiesGrouped,
+
+    toggleColumns,
+    getList,
+    update,
+  }
 })

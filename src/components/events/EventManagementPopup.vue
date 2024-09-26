@@ -30,15 +30,6 @@
         :enable-placeholder="false"
         @on-action="onActionProperty"
       />
-      <!-- <UiTable
-        v-if="activeTab === 'userProperties'"
-        :compact="true"
-        :items="itemsUserProperties"
-        :columns="columnsProperties"
-        :show-toolbar="false"
-        :enable-placeholder="false"
-        @on-action="onActionUserProperty"
-      /> -->
       <DataEmptyPlaceholder v-if="noData" :content="noDataText" />
     </div>
   </UiPopupWindow>
@@ -89,7 +80,6 @@ const emit = defineEmits<{
   (e: 'cancel'): void
   (e: 'apply', payload: ApplyPayload): void
   (e: 'on-action-property', payload: Action): void
-  // (e: 'on-action-user-property', payload: ApplyPayload): void
 }>()
 
 const i18n = useI18n()

@@ -1,5 +1,8 @@
 <template>
-  <nav class="pf-c-nav pf-m-horizontal-subnav" aria-label="Local">
+  <nav
+    class="pf-c-nav pf-m-horizontal-subnav"
+    aria-label="Local"
+  >
     <ul class="pf-c-nav__list">
       <li
         v-for="item in items"
@@ -56,6 +59,12 @@ const configNav = [
     to: {
       name: pagesMap.eventsLiveStream.name,
     },
+  },
+  {
+    name: 'users.title',
+    to: {
+      name: pagesMap.usersGroupRecords
+    }
   },
 ]
 

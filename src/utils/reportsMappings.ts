@@ -50,7 +50,6 @@ import type {
   TimeBetween,
   TimeLast,
   TimeWindowEach,
-  Value,
 } from '@/api'
 import type { Each } from '@/components/uikit/UiCalendar/UiCalendar'
 import type {
@@ -205,8 +204,6 @@ const mapReportToFilterGroups = async (
       condition: item.filtersCondition,
       filters: item.filters
         ? item.filters.map((filter): Filter => {
-            const valuesList: Value[] = []
-
             return {
               propRef: {
                 /* TODO: fix typescript error */
@@ -226,7 +223,7 @@ const mapReportToFilterGroups = async (
               // eslint-disable-next-line @typescript-eslint/ban-ts-comment
               // @ts-ignore: Unreachable code error
               values: filter.value || [],
-              valuesList: valuesList as string[] | boolean[] | number[],
+              valuesList: [] as string[] | boolean[] | number[],
             }
           })
         : [],

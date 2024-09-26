@@ -1,42 +1,42 @@
 import { defineStore } from 'pinia'
 
 import {
-  EventType,
-  PropertyType,
-  SegmentConditionHasPropertyValueTypeEnum,
-  SegmentConditionDidEventTypeEnum,
-  SegmentConditionHadPropertyValueTypeEnum,
-  TimeBetweenTypeEnum,
-  TimeWindowEachTypeEnum,
-  TimeLastTypeEnum,
+  DidEventAggregatePropertyTypeEnum,
   DidEventCountTypeEnum,
   DidEventRelativeCountTypeEnum,
-  DidEventAggregatePropertyTypeEnum,
-  EventFilterByPropertyTypeEnum
+  EventFilterByPropertyTypeEnum,
+  EventType,
+  PropertyType,
+  SegmentConditionDidEventTypeEnum,
+  SegmentConditionHadPropertyValueTypeEnum,
+  SegmentConditionHasPropertyValueTypeEnum,
+  TimeBetweenTypeEnum,
+  TimeLastTypeEnum,
+  TimeWindowEachTypeEnum,
 } from '@/api'
 import { usePropertyValues } from '@/hooks/usePropertyValues'
 import { useLexiconStore } from '@/stores/lexicon'
 import { OperationId } from '@/types'
 
 import type {
+  DidEventAggregateProperty,
+  DidEventCount,
+  DidEventHistoricalCount,
+  DidEventRelativeCount,
   Event,
-  Property,
-  PropertyFilterOperation,
+  EventFilterByProperty,
   EventSegmentationSegment,
   EventSegmentationSegmentConditionsInner,
-  SegmentConditionHasPropertyValue,
+  Property,
+  PropertyFilterOperation,
+  QueryAggregate,
   SegmentConditionDidEvent,
+  SegmentConditionDidEventAllOfAggregate,
   SegmentConditionHadPropertyValue,
   SegmentConditionHadPropertyValueTime,
+  SegmentConditionHasPropertyValue,
   TimeUnit,
-  DidEventCount,
-  DidEventRelativeCount,
-  DidEventAggregateProperty,
-  DidEventHistoricalCount,
-  QueryAggregate,
-  EventFilterByProperty,
-  SegmentConditionDidEventAllOfAggregate
-} from '@/api';
+} from '@/api'
 import type {
   ChangeEventCondition,
   ChangeFilterOperation,
@@ -49,7 +49,7 @@ import type {
   PeriodConditionPayload,
   RemoveFilterCondition,
 } from '@/components/events/Segments/Segments'
-import type { Value } from '@/types';
+import type { Value } from '@/types'
 import type { Condition, ConditionFilter, PropertyRef } from '@/types/events'
 
 export interface Segment {
@@ -61,9 +61,7 @@ type SegmentsStore = {
   segments: Segment[]
 }
 
-const computedValueTime = (
-  item: Condition,
-): SegmentConditionHadPropertyValueTime => {
+const computedValueTime = (item: Condition): SegmentConditionHadPropertyValueTime => {
   if (item.period?.type === TimeBetweenTypeEnum.Between) {
     return {
       type: TimeBetweenTypeEnum.Between,
@@ -112,7 +110,7 @@ const computedValueAggregate = (
       }
 
       if (item.propRef.group || item.propRef.group === 0) {
-        aggregate.group = property.groupId;
+        aggregate.group = property.groupId
       }
 
       return aggregate
@@ -131,9 +129,7 @@ const computedValueAggregate = (
       time,
       eventName: eventItem.name,
       eventType:
-        item.compareEvent.ref.type === EventType.Regular ?
-          EventType.Custom :
-          EventType.Regular,
+        item.compareEvent.ref.type === EventType.Regular ? EventType.Custom : EventType.Regular,
     }
   }
 
@@ -514,9 +510,7 @@ export const useSegmentsStore = defineStore('segments', {
         const condition = segment.conditions[idx]
 
         if (condition?.propRef && condition.event) {
-          const valuesList = await getValues(condition.propRef, condition.event?.ref)
-
-          condition.valuesList = valuesList
+          condition.valuesList = await getValues(condition.propRef, condition.event?.ref)
         }
       }
     },

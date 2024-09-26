@@ -7,7 +7,7 @@
       'pf-u-flex-direction-row': props.isVertical,
     }"
   >
-    <ul class="pf-c-tabs__list">
+    <ul class="pf-c-tabs__list pf-u-visible-on-sm">
       <li
         v-for="item in props.items"
         :key="item.name"
@@ -40,7 +40,7 @@
         </component>
       </li>
     </ul>
-    <slot name="afterTabs" />
+    <slot name="after" />
   </div>
 </template>
 

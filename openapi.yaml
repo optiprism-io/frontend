@@ -1671,14 +1671,14 @@ paths:
           description: Group ID
           required: true
           schema:
-            type: string
+            type: integer
+            format: i64
         - name: id
           in: path
           description: Group Record ID
           required: true
           schema:
-            type: integer
-            format: i64
+            type: string
       responses:
         200:
           description: event
@@ -3923,13 +3923,10 @@ components:
       type: object
       description: property name and value
       properties:
-        properties:
-          type: object
-          properties:
-            propertyName:
-              type: string
-            value:
-              $ref: '#/components/schemas/Value'
+        propertyName:
+          type: string
+        value:
+          $ref: '#/components/schemas/Value'
     PropertyAndValue:
       type: object
       description: property name, type and value

@@ -23,7 +23,7 @@
     "group":"Count uniques by {name}",
     "and": "And",
     "or": "Or",
-    "addPropery": "Add property",
+    "addProperty": "Add property",
     "ok": "Ok",
     "types": {
       "string": "String",

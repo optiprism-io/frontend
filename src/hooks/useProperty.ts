@@ -11,7 +11,7 @@ import type { PropertyRef } from '@/types/events'
 
 export type PropertyItem = Item<PropertyRef, null>
 
-const getProperties = (items: Property[], name: string, type: PropertyType, group?: number) => {
+export const getProperties = (items: Property[], name: string, type: PropertyType, group?: number) => {
   return {
     name,
     items: items.reduce((acc: PropertyItem[], item) => {
@@ -42,18 +42,18 @@ const getProperties = (items: Property[], name: string, type: PropertyType, grou
   }
 }
 
-const userProperty = () => {
+const useProperty = () => {
   const lexiconStore = useLexiconStore()
   const { t } = useI18n()
 
-  const noDataPropertyes = computed(() => {
+  const noDataProperties = computed(() => {
     return !lexiconStore.propertiesLength
   })
 
   const groupedProperties = computed(() => {
     const ret: Group<PropertyItem[]>[] = []
 
-    if (noDataPropertyes.value) {
+    if (noDataProperties.value) {
       return [
         {
           name: '',
@@ -102,9 +102,26 @@ const userProperty = () => {
     return ret
   })
 
+  const usersProperties = computed<Group<PropertyItem[]> | null>(() => {
+    const groupIndex = lexiconStore.groups.findIndex(item => item.name === 'user')
+    const group = lexiconStore.groups[groupIndex]
+
+    if (group && lexiconStore.groupProperties.length) {
+      return getProperties(
+        lexiconStore.groupProperties[groupIndex],
+        group.name,
+        PropertyType.Group,
+        group.id
+      )
+    }
+
+    return null
+  })
+
   return {
     groupedProperties,
+    usersProperties,
   }
 }
 
-export default userProperty
+export default useProperty

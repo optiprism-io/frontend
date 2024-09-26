@@ -5,6 +5,10 @@ export function getYYYYMMDD(date: Date): string {
 }
 
 /* TODO: Change to dayjs */
+export function getShortStringDate(date: Date) {
+  return `${date.getFullYear()}-${date.getMonth() < 9 ? `0${date.getMonth() + 1}` : date.getMonth() + 1}-${date.getDate() < 10 ? `0${date.getDate()}` : date.getDate()}`
+}
+
 export function getStringDateByFormat(date: string, format: string) {
   const months = {
     1: 'January',
